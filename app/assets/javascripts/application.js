@@ -34,9 +34,9 @@
   var init_data = function() {
     var ul, li;
     ul = $("#characters");
-    $.getJSON('/data.json', {}, function(data) {
+    $.getJSON('/datas', {}, function(data) {
       $.each(data, function(i, d) {
-        li = $('<li class="listed-character"><div class="character">' + job_name_for_view(d.job) + '・' + d.name + '</div></li>');
+        li = $('<li class="listed-character"><div class="character">' + job_name_for_view(d.job_type) + '・' + d.title + '' + d.name + '</div></li>');
         ul.append(li);
       });
     });
