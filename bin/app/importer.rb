@@ -22,4 +22,6 @@ Arcana.transaction do
   end
 end
 
+Rails.cache.clear
+
 exit
