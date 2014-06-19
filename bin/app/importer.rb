@@ -17,6 +17,7 @@ Arcana.transaction do
     arcana.rarity = rarity.to_i
     arcana.job_type = job_type
     arcana.job_index = job_index.to_i
+    arcana.job_code = "#{job_type}#{job_index.to_i}"
     arcana.save!
   end
 end
