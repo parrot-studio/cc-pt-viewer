@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20140617063043) do
     t.integer  "rarity",     limit: 3,   null: false
     t.string   "job_type",   limit: 10,  null: false
     t.integer  "job_index",              null: false
-    t.string   "job_code",               null: false
+    t.string   "job_code",   limit: 20,  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
