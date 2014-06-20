@@ -36,24 +36,27 @@
       <div class="form-group">
         <label for="job">職業</label>
         <select id="job" class="form-control">
-          <option>-</option>
-          <option>戦</option>
-          <option>騎</option>
-          <option>僧</option>
-          <option>弓</option>
-          <option>魔</option>
+          <option value="">-</option>
+          <option value="F">戦</option>
+          <option value="K">騎</option>
+          <option value="P">僧</option>
+          <option value="A">弓</option>
+          <option value="M">魔</option>
         </select>
       </div>
       <div class="form-group">
-        <label for="rare">レア度</label>
-        <select id="rare" class="form-control">
-          <option>-</option>
-          <option>☆1</option>
-          <option>☆2</option>
-          <option>☆3</option>
-          <option>☆4</option>
-          <option>☆5</option>
+        <label for="rarity">レア度</label>
+        <select id="rarity" class="form-control">
+          <option value="">-</option>
+          <option value="1">☆1</option>
+          <option value="2">☆2</option>
+          <option value="3">☆3</option>
+          <option value="4">☆4</option>
+          <option value="5">☆5</option>
         </select>
+      </div>
+      <div class="form-group">
+        <button type="button" id="search" class="btn btn-info">絞り込み</button>
       </div>
     </form>
     <div>
@@ -61,3 +64,4 @@
     </div>
   </div>
 </div>
+<input type="hidden" id="data-ver" value="1">

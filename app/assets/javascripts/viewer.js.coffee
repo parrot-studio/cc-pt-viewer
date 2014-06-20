@@ -19,23 +19,18 @@ class Arcana
 class Viewer
 
   arcanas = {}
-  selected = false
+  allArcanas = []
+  selected = null
 
   constructor: ->
-    promise = loadArcanas()
-    promise.done (as) =>
+    promise = loadArcanas('/datas')
+    promise.done (as) ->
       for a in as
         arcanas[a.jobCode] = a
+      allArcanas = as
       renderTargets(as)
       renderMembers()
       initHandler()
-
-  loadArcanas = (query) ->
-    d = new $.Deferred
-    $.getJSON '/datas', query, (datas) ->
-      as = ((new Arcana(data)) for data in datas)
-      d.resolve(as)
-    d.promise()
 
   renderArcana = (a) ->
     if a
@@ -52,30 +47,65 @@ class Viewer
     @
 
   replaceArcana = (div, code) ->
-    a = arcanas[code]
     div.empty()
     div.append(renderArcana(arcanas[code]))
   @
 
-  renderMembers = =>
+  renderMembers = ->
     mems = $(".member")
     for mem in mems
       m = $(mem)
       replaceArcana(m, m.data("jobCode"))
     @
 
+  loadArcanas = (path, query) ->
+    query ?= {}
+    query.ver = $("#data-ver").val()
+
+    d = new $.Deferred
+    $.getJSON path, query, (datas) ->
+      as = ((new Arcana(data)) for data in datas)
+      d.resolve(as)
+    d.promise()
+
+  searchArcanas = (query) ->
+    loadArcanas('/search', query)
+
+  buildQuery = ->
+    job = $("#job").val()
+    rarity = $("#rarity").val()
+    return if (job == '' && rarity == '')
+
+    query = {}
+    query.job = job unless job == ''
+    query.rarity = rarity unless rarity == ''
+    query
+
+  search = ->
+    query = buildQuery()
+    if query
+      promise = searchArcanas(query)
+      promise.done (as) ->
+        renderTargets(as)
+    else
+      renderTargets(allArcanas)
+
   initHandler = =>
-    $(document).on 'click touch', 'li.listed-character', (e) =>
+    $(document).on 'click touch', 'li.listed-character', (e) ->
       code = $(e.target).data("jobCode")
       replaceArcana($("#selected-character"), code)
       selected = code
-      @
+      true
 
-    $("div.member").on 'click touch', (e) =>
+    $("div.member").on 'click touch', (e) ->
       return false unless selected?
       replaceArcana($(e.target), selected)
       $("#selected-character").empty()
       selected = null
-      @
+      true
+
+    $("#search").on 'click touch', (e) ->
+      search()
+      true
 
 $ -> (new Viewer())

@@ -22,6 +22,10 @@ class ViewerController < ApplicationController
     render :index
   end
 
+  def search
+    render json: []
+  end
+
   private
 
   def parse_pt_code(code)
