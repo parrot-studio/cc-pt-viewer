@@ -18,30 +18,28 @@ class Arcana
 
 class Viewer
 
-  constructor: ->
-    @arcanas = {}
-    @selected = false
+  arcanas = {}
+  selected = false
 
+  constructor: ->
     promise = loadArcanas()
     promise.done (as) =>
       for a in as
-        @arcanas[a.jobCode] = a
+        arcanas[a.jobCode] = a
       renderTargets(as)
-      renderMembers(@arcanas)
+      renderMembers()
       initHandler()
 
   loadArcanas = (query) ->
     d = new $.Deferred
     $.getJSON '/datas', query, (datas) ->
-      as = []
-      for data in datas
-        as.push (new Arcana(data))
+      as = ((new Arcana(data)) for data in datas)
       d.resolve(as)
     d.promise()
 
   renderArcana = (a) ->
     if a
-      '<div class="character">' + a.jobName + '・' + a.title + '' + a.name + '</div>'
+      '<div class="character" data-job-code="' + a.jobCode + '">' + a.jobName + '・' + a.title + '' + a.name + '</div>'
     else
       '<div class="character"></div>'
 
@@ -53,32 +51,31 @@ class Viewer
       ul.append(li)
     @
 
-  renderMembers = (ah) ->
+  replaceArcana = (div, code) ->
+    a = arcanas[code]
+    div.empty()
+    div.append(renderArcana(arcanas[code]))
+  @
+
+  renderMembers = =>
     mems = $(".member")
     for mem in mems
       m = $(mem)
-      code = m.data("jobCode")
-      block = renderArcana(ah[code])
-      m.empty()
-      m.append(block)
+      replaceArcana(m, m.data("jobCode"))
     @
 
   initHandler = =>
     $(document).on 'click touch', 'li.listed-character', (e) =>
-      sc = $("#selected-character")
-      sc.empty()
-      sc.append($(e.target).text())
-      @selected = true
+      code = $(e.target).data("jobCode")
+      replaceArcana($("#selected-character"), code)
+      selected = code
       @
 
     $("div.member").on 'click touch', (e) =>
-      return false unless @selected
-      d = $(e.target)
-      sc = $("#selected-character")
-      d.empty()
-      d.append sc.text()
-      sc.empty()
-      @selected = false
+      return false unless selected?
+      replaceArcana($(e.target), selected)
+      $("#selected-character").empty()
+      selected = null
       @
 
 $ -> (new Viewer())
