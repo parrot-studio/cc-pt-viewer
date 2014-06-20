@@ -11,40 +11,59 @@ class Arcana
     @name = data.name
     @title = data.title
     @rarity = data.rarity
-    @job_type = data.job_type
-    @job_index = data.job_index
-    @job_code = data.job_code
-    @job_name = JOB_NAME[@job_type]    
+    @jobType = data.job_type
+    @jobIndex = data.job_index
+    @jobCode = data.job_code
+    @jobName = JOB_NAME[@jobType]    
 
 class Viewer
 
   constructor: ->
-    @arcanas = []
+    @arcanas = {}
     @selected = false
 
-    promise = load_arcanas()
+    promise = loadArcanas()
     promise.done (as) =>
-      @arcanas = as
-      render_arcanas(@arcanas)
-      init_handler()
+      for a in as
+        @arcanas[a.jobCode] = a
+      renderTargets(as)
+      renderMembers(@arcanas)
+      initHandler()
 
-  load_arcanas = (query) ->
+  loadArcanas = (query) ->
     d = new $.Deferred
-    $.getJSON '/datas', query, (data) ->
+    $.getJSON '/datas', query, (datas) ->
       as = []
-      $.each data, (i, d) ->
-        as.push (new Arcana(d))
+      for data in datas
+        as.push (new Arcana(data))
       d.resolve(as)
     d.promise()
 
-  render_arcanas = (as) =>
-    ul = $("#characters")
+  renderArcana = (a) ->
+    if a
+      '<div class="character">' + a.jobName + '・' + a.title + '' + a.name + '</div>'
+    else
+      '<div class="character"></div>'
+
+  renderTargets = (as) ->
+    ul = $("#target-characters")
+    ul.empty()
     for a in as
-      li = $('<li class="listed-character"><div class="character">' + a.job_name + '・' + a.title + '' + a.name + '</div></li>')
+      li = '<li class="listed-character">' + renderArcana(a) + '</li>'
       ul.append(li)
     @
 
-  init_handler = =>
+  renderMembers = (ah) ->
+    mems = $(".member")
+    for mem in mems
+      m = $(mem)
+      code = m.data("jobCode")
+      block = renderArcana(ah[code])
+      m.empty()
+      m.append(block)
+    @
+
+  initHandler = =>
     $(document).on 'click touch', 'li.listed-character', (e) =>
       sc = $("#selected-character")
       sc.empty()
@@ -52,7 +71,7 @@ class Viewer
       @selected = true
       @
 
-    $("div.selected-character").on 'click touch', (e) =>
+    $("div.member").on 'click touch', (e) =>
       return false unless @selected
       d = $(e.target)
       sc = $("#selected-character")
