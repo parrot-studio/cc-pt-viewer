@@ -4,13 +4,8 @@ class ViewerController < ApplicationController
     @arcanas = {}
   end
 
-  def datas
-    cache_name = 'arcanas'
-    as = Rails.cache.read(cache_name)
-    if as.blank?
-      as = Arcana.order('job_type, rarity DESC, job_index DESC')
-      Rails.cache.write(cache_name, as)
-    end
+  def arcanas
+    as = search_arcanas
     render json: as
   end
 
@@ -20,10 +15,6 @@ class ViewerController < ApplicationController
     @arcanas = parse_pt_code(code)
     (redirect_to root_path; return) unless @arcanas
     render :index
-  end
-
-  def search
-    render json: []
   end
 
   private
@@ -41,8 +32,54 @@ class ViewerController < ApplicationController
       mem3: selector.call(m[4]),
       mem4: selector.call(m[5]),
       sub1: selector.call(m[6]),
-      sub2: selector.call(m[7]),
+      sub2: selector.call(m[7])
     }
+  end
+
+  def query_params
+    params.permit([:job, :rarity])
+  end
+
+  def all_arcanas
+    cache_name = 'arcanas_all'
+    as = Rails.cache.read(cache_name)
+    if as.blank?
+      as = Arcana.all
+      Rails.cache.write(cache_name, as.to_a)
+    end
+    as
+  end
+
+  def search_arcanas
+    org = query_params
+    return all_arcanas if org.blank?
+
+    job = [org[:job]].flatten.uniq.compact.select{|j| j.upcase!; Arcana::JOB_TYPES.include?(j)}
+    rarity = lambda do |q|
+      case q
+      when /\A(\d)U\z/
+        r = $1.to_i
+        Arcana::RARITYS.include?(r) ? (r..(Arcana::RARITYS.max)) : nil
+      when /\A\d\z/
+        r = q.to_i
+        Arcana::RARITYS.include?(r) ? [r] : nil
+      else
+        nil
+      end
+    end.call(org[:rarity])
+
+    query = {}
+    query[:job_type] = (job.size == 1 ? job.first : job) unless job.blank?
+    query[:rarity] = (rarity.size == 1 ? rarity.first : rarity) unless rarity.blank?
+    return [] if query.empty?
+
+    qkey = "arcanas_j:#{job.sort.join}_r:#{rarity.to_a.join}"
+    as = Rails.cache.read(qkey)
+    unless as
+      as = Arcana.where(query)
+      Rails.cache.write(qkey, as.to_a)
+    end
+    as
   end
 
 end

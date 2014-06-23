@@ -1,6 +1,6 @@
 class Arcana
 
-  JOB_NAME = 
+  JOB_NAME =
     F: '戦士'
     K: '騎士'
     A: '弓使い'
@@ -14,16 +14,17 @@ class Arcana
     @jobType = data.job_type
     @jobIndex = data.job_index
     @jobCode = data.job_code
-    @jobName = JOB_NAME[@jobType]    
+    @jobName = JOB_NAME[@jobType]
 
 class Viewer
 
   arcanas = {}
   allArcanas = []
   selected = null
+  data_path = '/arcanas'
 
   constructor: ->
-    promise = loadArcanas('/datas')
+    promise = loadArcanas(data_path)
     promise.done (as) ->
       for a in as
         arcanas[a.jobCode] = a
@@ -69,7 +70,7 @@ class Viewer
     d.promise()
 
   searchArcanas = (query) ->
-    loadArcanas('/search', query)
+    loadArcanas(data_path, query)
 
   buildQuery = ->
     job = $("#job").val()
