@@ -30,7 +30,7 @@ class Viewer
 
   arcanas = {}
   allArcanas = []
-  members = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2']
+  members = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'friend']
 
   constructor: ->
     promise = searchArcanas()

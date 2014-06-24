@@ -1,24 +1,41 @@
 <div class="row">
   <div class="col-md-12 col-sm-12">
     <h1>PTびゅーわー</h1>
-    <ul class="list-inline">
-      <%
-      members = {
-        mem1: 'Leader',
-        mem2: '2nd',
-        mem3: '3rd',
-        mem4: '4th',
-        sub1: 'Sub1',
-        sub2: 'Sub2'
-        }
-      members.each do |code, name|
-      %>
-      <li class="col-md-2 col-sm-2">
-        <div><%= name %></div>
-        <div class="member-character" id="member-character-<%= code %>" data-job-code="<%= @arcanas[code] %>"></div>
-      </li>
-      <% end %>
-    </ul>
+    <div class="col-md-12 col-sm-12">
+      <ul class="list-inline">
+        <%
+        members1 = {
+          mem1: 'Leader',
+          mem2: '2nd',
+          mem3: '3rd',
+          mem4: '4th',
+          friend: 'Frend'
+          }
+        members1.each do |code, name|
+        %>
+          <li class="col-md-2 col-sm-2">
+            <div><%= name %></div>
+            <div class="member-character" id="member-character-<%= code %>" data-job-code="<%= @arcanas[code] %>"></div>
+          </li>      
+        <% end %>
+      </ul>
+    </div>
+    <div class="col-md-12 col-sm-12">
+      <ul class="list-inline">
+        <%
+        members2 = {
+          sub1: 'Sub1',
+          sub2: 'Sub2'
+          }
+        members2.each do |code, name|
+        %>
+          <li class="col-md-2 col-sm-2">
+            <div><%= name %></div>
+            <div class="member-character" id="member-character-<%= code %>" data-job-code="<%= @arcanas[code] %>"></div>
+          </li>
+        <% end %> 
+      </ul>
+    </div>
   </div>
 </div>
 <div class="row">
@@ -67,7 +84,7 @@
 </div>
 <div class="row">
   <div class="col-md-12 col-sm-12">
-    <ul id="target-characters" class="list-inline"></ul>
+    <ul id="target-characters" class="col-md-12 col-sm-12 list-inline"></ul>
   </div>
 </div>
 <input type="hidden" id="data-ver" value="<%= data_version %>">

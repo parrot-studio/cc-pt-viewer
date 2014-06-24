@@ -21,7 +21,7 @@ class ViewerController < ApplicationController
 
   def parse_pt_code(code)
     part = "([#{Arcana::JOB_TYPES.join}]\\d+|N)"
-    parser = /\A(V\d+)#{part * 6}\z/
+    parser = /\A(V\d+)#{part * 7}\z/
     m = code.upcase.match(parser)
     return unless m
 
@@ -32,7 +32,8 @@ class ViewerController < ApplicationController
       mem3: selector.call(m[4]),
       mem4: selector.call(m[5]),
       sub1: selector.call(m[6]),
-      sub2: selector.call(m[7])
+      sub2: selector.call(m[7]),
+      friend: selector.call(m[8])
     }
   end
 
