@@ -100,7 +100,7 @@ class Viewer
 
     $("div.member").on 'click touch', (e) ->
       return false unless selected?
-      replaceArcana($(e.target), selected)
+      replaceArcana($(e.target).parent(), selected)
       $("#selected-character").empty()
       selected = null
       true
