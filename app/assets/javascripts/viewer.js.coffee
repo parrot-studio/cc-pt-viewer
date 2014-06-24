@@ -156,6 +156,7 @@ class Viewer
       code = create_pt_code()
       url = $("#app-path").val() + code
       $("#code").val(url)
+      $("#twitter-code").removeClass('disabled')
       true
 
 $ -> (new Viewer())
