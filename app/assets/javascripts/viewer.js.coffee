@@ -7,6 +7,13 @@ class Arcana
     M: '魔法使い'
     P: '僧侶'
 
+  CLASS_NAME = 
+    F: 'fighter'
+    K: 'knight'
+    A: 'archer'
+    M: 'magician'
+    P: 'priest'
+
   constructor: (data) ->
     @name = data.name
     @title = data.title
@@ -16,6 +23,8 @@ class Arcana
     @jobIndex = data.job_index
     @jobCode = data.job_code
     @jobName = JOB_NAME[@jobType]
+    @rarityStars = '☆☆☆☆☆'.slice(0, @rarity)  
+    @jobClass = CLASS_NAME[@jobType]
 
 class Viewer
 
@@ -35,31 +44,46 @@ class Viewer
 
   renderArcana = (a) ->
     if a
-      '<div class="character" data-job-code="' + a.jobCode + '">' + a.jobName + '・' + a.title + '' + a.name + '</div>'
+      div = "<div class='#{a.jobClass} member' data-job-code='#{a.jobCode}'>"
+      div += "#{a.rarityStars}(#{a.cost})<br>"
+      div += a.title + '<br>'
+      div += a.name
+      div += '</div>'
+      div
     else
-      '<div class="character"></div>'
+      "<div class='none member'></div>"
 
   renderArcanaSummary = (a) ->
     if a
-      '<div class="character-summary" data-job-code="' + a.jobCode + '">' + a.title + '<br>' + a.name + '</div>'
+      div = "<div class='#{a.jobClass} target' data-job-code='#{a.jobCode}'>"
+      div += "#{a.rarityStars}(#{a.cost})<br>"
+      div += a.title + '<br>'
+      div += a.name
+      div += '</div>'
+      div
     else
-      '<div class="character-summary"></div>'
+      "<div class='none target'></div>"
 
   renderTargets = (as) ->
     ul = $('#target-characters')
     ul.empty()
     for a in as
-      li = '<li class="listed-character col-md-2 col-sm-2">' + renderArcanaSummary(a) + '</li>'
+      li = $("<li class='listed-character col-md-2 col-sm-2'>#{renderArcanaSummary(a)}</li>")
+      li.hide()
       ul.append(li)
+      li.fadeIn('slow')
     @
 
   replaceArcana = (div, code) ->
     div.empty()
-    div.append(renderArcana(arcanas[code]))
+    a = $(renderArcana(arcanas[code]))
+    a.hide()
+    div.append(a)
+    a.fadeIn()
   @
 
   renderMembers = ->
-    mems = $(".member")
+    mems = $(".member-character")
     for mem in mems
       m = $(mem)
       replaceArcana(m, m.data("jobCode"))
@@ -97,8 +121,7 @@ class Viewer
 
   each_pt_members = (func) ->
     for m in members
-      parent = $('#selected-character-' + m)
-      func($(parent).children('div'))
+      func($("#member-character-#{m}").children('div'))
 
   create_pt_code = ->
     code = 'V' + $("#pt-ver").val()
@@ -116,7 +139,7 @@ class Viewer
       target.addClass('selected')
       true
 
-    $("div.member").on 'click touch', (e) ->
+    $("div.member-character").on 'click touch', (e) ->
       sel = $("#selected")
       code = sel.val()
       return false if code == ''
