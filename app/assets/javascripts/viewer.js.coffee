@@ -139,7 +139,7 @@ class Viewer
       target.addClass('selected')
       true
 
-    $("div.member").on 'click touch', (e) ->
+    $(document).on 'click touch', 'div.member', (e) ->
       sel = $("#selected")
       code = sel.val()
       return false if code == ''
