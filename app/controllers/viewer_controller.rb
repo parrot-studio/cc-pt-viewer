@@ -20,7 +20,7 @@ class ViewerController < ApplicationController
   private
 
   def parse_pt_code(code)
-    part = "([FKPMA]\\d+|N)"
+    part = "([#{Arcana::JOB_TYPES.join}]\\d+|N)"
     parser = /\A(V\d+)#{part * 6}\z/
     m = code.upcase.match(parser)
     return unless m

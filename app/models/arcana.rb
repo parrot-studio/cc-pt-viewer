@@ -1,8 +1,8 @@
 class Arcana < ActiveRecord::Base
   default_scope { order('job_type, rarity DESC, job_index DESC') }
 
-  JOB_TYPES = %w|F K P A M|.freeze
-  RARITYS = (1..5).freeze
+  JOB_TYPES = ServerSettings.jobs.split(' ').reject(&:blank?).uniq.compact.freeze
+  RARITYS = (1..(ServerSettings.rarity)).freeze
 
   validates :name,
     presence: true,
