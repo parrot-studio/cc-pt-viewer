@@ -154,7 +154,7 @@ class Viewer
 
     $("#create-code").on  'click touch', (e) ->
       code = create_pt_code()
-      url = $("#app-path").val() + 'pt/' + code
+      url = $("#app-path").val() + code
       $("#code").val(url)
       true
 
