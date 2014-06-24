@@ -2,30 +2,22 @@
   <div class="col-md-12 col-sm-12">
     <h1>PTびゅーわー</h1>
     <ul class="list-inline">
+      <%
+      members = {
+        mem1: 'Leader',
+        mem2: '2nd',
+        mem3: '3rd',
+        mem4: '4th',
+        sub1: 'Sub1',
+        sub2: 'Sub2'
+        }
+      members.each do |code, name|
+      %>
       <li class="col-md-2 col-sm-2">
-        <div>Leader</div>
-        <div class="member-character" id="member-character-mem1" data-job-code="<%= @arcanas[:mem1] %>"></div>
+        <div><%= name %></div>
+        <div class="member-character" id="member-character-<%= code %>" data-job-code="<%= @arcanas[code] %>"></div>
       </li>
-      <li class="col-md-2 col-sm-2">
-        <div>2nd</div>
-        <div class="member-character" id="member-character-mem2" data-job-code="<%= @arcanas[:mem2] %>"></div>
-      </li>
-      <li class="col-md-2 col-sm-2">
-        <div>3rd</div>
-        <div class="member-character" id="member-character-mem3" data-job-code="<%= @arcanas[:mem3] %>"></div>
-      </li>
-      <li class="col-md-2 col-sm-2">
-        <div>4th</div>
-        <div class="member-character" id="member-character-mem4" data-job-code="<%= @arcanas[:mem4] %>"></div>
-      </li>
-      <li class="col-md-2 col-sm-2">
-        <div>Sub1</div>
-        <div class="member-character" id="member-character-sub1" data-job-code="<%= @arcanas[:sub1] %>"></div>
-      </li>
-      <li class="col-md-2 col-sm-2">
-        <div>Sub2</div>
-        <div class="member-character" id="member-character-sub2" data-job-code="<%= @arcanas[:sub2] %>"></div>
-      </li>
+      <% end %>
     </ul>
   </div>
 </div>
