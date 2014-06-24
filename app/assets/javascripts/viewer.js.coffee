@@ -41,7 +41,7 @@ class Viewer
       '<div class="character"></div>'
 
   renderTargets = (as) ->
-    ul = $('iframe:first').contents().find('#target-characters')
+    ul = $('#target-characters')
     ul.empty()
     for a in as
       li = '<li class="listed-character">' + renderArcana(a) + '</li>'
@@ -107,9 +107,9 @@ class Viewer
   initHandler = =>
     $(document).on 'click touch', 'li.listed-character', (e) ->
       code = $(e.target).data("jobCode")
-      target = $(parent.document).find("#selected-character")
+      target = $("#selected-character")
       replaceArcana(target, code)
-      $(parent.document).find("#selected").val(code)
+      $("#selected").val(code)
       true
 
     $("div.member").on 'click touch', (e) ->

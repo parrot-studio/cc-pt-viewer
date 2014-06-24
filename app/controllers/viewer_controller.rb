@@ -4,10 +4,6 @@ class ViewerController < ApplicationController
     @arcanas = {}
   end
 
-  def list
-    render :list, layout: false
-  end
-
   def arcanas
     as = search_arcanas
     render json: as
