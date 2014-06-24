@@ -21,11 +21,10 @@ class Viewer
 
   arcanas = {}
   allArcanas = []
-  data_path = './arcanas'
   members = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2']
 
   constructor: ->
-    promise = loadArcanas(data_path)
+    promise = searchArcanas()
     promise.done (as) ->
       for a in as
         arcanas[a.jobCode] = a
@@ -40,11 +39,17 @@ class Viewer
     else
       '<div class="character"></div>'
 
+  renderArcanaSummary = (a) ->
+    if a
+      '<div class="character-summary" data-job-code="' + a.jobCode + '">' + a.title + '<br>' + a.name + '</div>'
+    else
+      '<div class="character-summary"></div>'
+
   renderTargets = (as) ->
     ul = $('#target-characters')
     ul.empty()
     for a in as
-      li = '<li class="listed-character">' + renderArcana(a) + '</li>'
+      li = '<li class="listed-character col-md-2 col-sm-2">' + renderArcanaSummary(a) + '</li>'
       ul.append(li)
     @
 
@@ -60,18 +65,16 @@ class Viewer
       replaceArcana(m, m.data("jobCode"))
     @
 
-  loadArcanas = (path, query) ->
+  searchArcanas = (query) ->
     query ?= {}
     query.ver = $("#data-ver").val()
+    path = $("#app-path").val() + 'arcanas'
 
     d = new $.Deferred
     $.getJSON path, query, (datas) ->
       as = ((new Arcana(data)) for data in datas)
       d.resolve(as)
     d.promise()
-
-  searchArcanas = (query) ->
-    loadArcanas(data_path, query)
 
   buildQuery = ->
     job = $("#job").val()
@@ -106,10 +109,11 @@ class Viewer
 
   initHandler = =>
     $(document).on 'click touch', 'li.listed-character', (e) ->
-      code = $(e.target).data("jobCode")
-      target = $("#selected-character")
-      replaceArcana(target, code)
+      target = $(e.target)
+      code = target.data("jobCode")
       $("#selected").val(code)
+      $(".selected").removeClass("selected")
+      target.addClass('selected')
       true
 
     $("div.member").on 'click touch', (e) ->
@@ -117,8 +121,8 @@ class Viewer
       code = sel.val()
       return false if code == ''
       replaceArcana($(e.target).parent(), code)
-      $("#selected-character").empty()
       sel.val('')
+      $(".selected").removeClass("selected")
       true
 
     $("#search").on 'click touch', (e) ->
@@ -127,7 +131,7 @@ class Viewer
 
     $("#create-code").on  'click touch', (e) ->
       code = create_pt_code()
-      url = $("#pt-path").val() + code
+      url = $("#app-path").val() + 'pt/' + code
       $("#code").val(url)
       true
 

@@ -1,6 +1,6 @@
 module ViewerHelper
 
-  def pt_path
+  def app_path
     ServerSettings.app_path
   end
 
