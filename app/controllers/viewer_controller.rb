@@ -44,7 +44,7 @@ class ViewerController < ApplicationController
     cache_name = 'arcanas_all'
     as = Rails.cache.read(cache_name)
     if as.blank?
-      as = Arcana.all
+      as = Arcana.order('id DESC')
       Rails.cache.write(cache_name, as.to_a)
     end
     as
@@ -76,7 +76,7 @@ class ViewerController < ApplicationController
     qkey = "arcanas_j:#{job.sort.join}_r:#{rarity.to_a.join}"
     as = Rails.cache.read(qkey)
     unless as
-      as = Arcana.where(query)
+      as = Arcana.where(query).order('job_type, rarity DESC, job_index DESC')
       Rails.cache.write(qkey, as.to_a)
     end
     as
