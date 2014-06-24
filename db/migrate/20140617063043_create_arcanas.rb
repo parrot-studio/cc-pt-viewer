@@ -4,6 +4,7 @@ class CreateArcanas < ActiveRecord::Migration
       t.string  :name,      null: false, limit: 100
       t.string  :title,                  limit: 200
       t.integer :rarity,    null: false, limit: 3
+      t.integer :cost,      null: false, limit: 4
       t.string  :job_type,  null: false, limit: 10
       t.integer :job_index, null: false
       t.string  :job_code,  null: false, limit: 20
@@ -11,6 +12,7 @@ class CreateArcanas < ActiveRecord::Migration
     end
     add_index :arcanas, :name
     add_index :arcanas, :rarity
+    add_index :arcanas, :cost
     add_index :arcanas, :job_type
     add_index :arcanas, :job_code
     add_index :arcanas, [:job_type, :job_index]

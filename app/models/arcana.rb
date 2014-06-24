@@ -12,6 +12,9 @@ class Arcana < ActiveRecord::Base
   validates :rarity,
     presence: true,
     inclusion: {in: RARITYS}
+  validates :cost,
+    presence: true,
+    numericality: {only_integer: true}
   validates :job_type,
     presence: true,
     inclusion: {in: JOB_TYPES}

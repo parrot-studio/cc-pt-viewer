@@ -11,6 +11,7 @@ class Arcana
     @name = data.name
     @title = data.title
     @rarity = data.rarity
+    @cost = data.cost
     @jobType = data.job_type
     @jobIndex = data.job_index
     @jobCode = data.job_code
