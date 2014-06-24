@@ -1,0 +1,13 @@
+arcanas: &arcanas
+  jobs: F K P A M
+  rarity: 5
+
+production:
+  app_path:
+  <<: *arcanas
+development:
+  app_path:
+  <<: *arcanas
+test:
+  app_path:
+  <<: *arcanas

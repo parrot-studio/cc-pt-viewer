@@ -38,7 +38,7 @@ gem 'spring',        group: :development
 # gem 'debugger', group: [:development, :test]
 
 # need for app
-#gem 'settingslogic'
+gem 'settingslogic'
 #gem 'dalli'
 gem 'bootstrap-sass'
 
