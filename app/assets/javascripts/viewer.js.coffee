@@ -98,7 +98,7 @@ class Viewer
       func($(parent).children('div'))
 
   create_pt_code = ->
-    code = 'V' + $("#data-ver").val()
+    code = 'V' + $("#pt-ver").val()
     each_pt_members (ptm)->
       c = ($(ptm).data("jobCode") || 'N')
       code = code + c

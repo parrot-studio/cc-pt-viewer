@@ -1,6 +1,8 @@
 arcanas: &arcanas
   jobs: F K P A M
   rarity: 5
+  data_version: 20140624
+  pt_version: 1
 
 production:
   app_path: "http://cc.parrot-studio.com/pt/"
