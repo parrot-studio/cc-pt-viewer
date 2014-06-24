@@ -3,11 +3,24 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @import "bootstrap";
 
-#characters {
-  overflow: auto;
+#target-characters {
+}
+
+#targets-frame {
+  margin: 0px;
+  height: 200px;
+}
+
+.member-character {
+}
+
+.listed-character {
+  width: 200px;
+  float: left;
+  padding: 4px;
 }
 
 .character {
-  min-height: 30px;
+  min-height: 200px;
   background-color: gray;
 }

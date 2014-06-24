@@ -1,37 +1,42 @@
 <h1>PTびゅーわー</h1>
 <div class="row">
-  <div class="col-md-6 col-sm-6">
-    <ul>
-      <li>
+  <div class="col-md-12 col-sm-12">
+    <ul class="list-inline">
+      <li class="member-character col-md-2 col-sm-2">
         <div>Leader</div>
         <div class="member" id="selected-character-mem1" data-job-code="<%= @arcanas[:mem1] %>"></div>
       </li>
-      <li>
+      <li class="member-character col-md-2 col-sm-2">
         <div>2nd</div>
         <div class="member" id="selected-character-mem2" data-job-code="<%= @arcanas[:mem2] %>"></div>
       </li>
-      <li>
+      <li class="member-character col-md-2 col-sm-2">
         <div>3rd</div>
         <div class="member" id="selected-character-mem3" data-job-code="<%= @arcanas[:mem3] %>"></div>
       </li>
-      <li>
+      <li class="member-character col-md-2 col-sm-2">
         <div>4th</div>
         <div class="member" id="selected-character-mem4" data-job-code="<%= @arcanas[:mem4] %>"></div>
       </li>
-      <li>
+      <li class="member-character col-md-2 col-sm-2">
         <div>Sub1</div>
         <div class="member" id="selected-character-sub1" data-job-code="<%= @arcanas[:sub1] %>"></div>
       </li>
-      <li>
+      <li class="member-character col-md-2 col-sm-2">
         <div>Sub2</div>
         <div class="member" id="selected-character-sub2" data-job-code="<%= @arcanas[:sub2] %>"></div>
       </li>
     </ul>
-    <hr>
-    <div id="selected-character">
-    </div>
   </div>
-  <div class="col-md-6 col-sm-6">
+</div>
+<div class="row">
+  <div class="col-md-12 col-sm-12">
+    <hr>
+    <div id="selected-character"></div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12 col-sm-12">
     <form class="form-inline" role="form">
       <div class="form-group">
         <label for="job">職業</label>
@@ -63,13 +68,16 @@
         <button type="button" id="search" class="btn btn-info">絞り込み</button>
       </div>
     </form>
-    <div>
-      <ul id="target-characters"></ul>
-    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12 col-sm-12">
+    <iframe id="targets-frame" class="col-md-12 col-sm-12" src="./list"></iframe>
   </div>
 </div>
 <input type="hidden" id="data-ver" value="<%= data_version %>">
 <input type="hidden" id="pt-ver" value="<%= pt_version %>">
+<input type="hidden" id="selected" value="">
 <div>
   <input type="hidden" id="pt-path" value="<%= pt_path %>">
   <input type="text" id="code" class="col-md-3 col-sm-3" value="">

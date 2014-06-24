@@ -21,8 +21,7 @@ class Viewer
 
   arcanas = {}
   allArcanas = []
-  selected = null
-  data_path = '/arcanas'
+  data_path = './arcanas'
   members = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2']
 
   constructor: ->
@@ -42,7 +41,7 @@ class Viewer
       '<div class="character"></div>'
 
   renderTargets = (as) ->
-    ul = $("#target-characters")
+    ul = $('iframe:first').contents().find('#target-characters')
     ul.empty()
     for a in as
       li = '<li class="listed-character">' + renderArcana(a) + '</li>'
@@ -108,15 +107,18 @@ class Viewer
   initHandler = =>
     $(document).on 'click touch', 'li.listed-character', (e) ->
       code = $(e.target).data("jobCode")
-      replaceArcana($("#selected-character"), code)
-      selected = code
+      target = $(parent.document).find("#selected-character")
+      replaceArcana(target, code)
+      $(parent.document).find("#selected").val(code)
       true
 
     $("div.member").on 'click touch', (e) ->
-      return false unless selected?
-      replaceArcana($(e.target).parent(), selected)
+      sel = $("#selected")
+      code = sel.val()
+      return false if code == ''
+      replaceArcana($(e.target).parent(), code)
       $("#selected-character").empty()
-      selected = null
+      sel.val('')
       true
 
     $("#search").on 'click touch', (e) ->
