@@ -3,11 +3,11 @@ arcanas: &arcanas
   rarity: 5
 
 production:
-  app_path:
+  app_path: "http://cc.parrot-studio.com/pt/"
   <<: *arcanas
 development:
-  app_path:
+  app_path: "http://localhost:3000/pt/"
   <<: *arcanas
 test:
-  app_path:
+  app_path: "http://localhost:3000/pt/"
   <<: *arcanas

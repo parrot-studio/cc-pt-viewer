@@ -22,6 +22,7 @@ class Viewer
   allArcanas = []
   selected = null
   data_path = '/arcanas'
+  members = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2']
 
   constructor: ->
     promise = loadArcanas(data_path)
@@ -91,6 +92,18 @@ class Viewer
     else
       renderTargets(allArcanas)
 
+  each_pt_members = (func) ->
+    for m in members
+      parent = $('#selected-character-' + m)
+      func($(parent).children('div'))
+
+  create_pt_code = ->
+    code = 'V' + $("#data-ver").val()
+    each_pt_members (ptm)->
+      c = ($(ptm).data("jobCode") || 'N')
+      code = code + c
+    code
+
   initHandler = =>
     $(document).on 'click touch', 'li.listed-character', (e) ->
       code = $(e.target).data("jobCode")
@@ -107,6 +120,12 @@ class Viewer
 
     $("#search").on 'click touch', (e) ->
       search()
+      true
+
+    $("#create-code").on  'click touch', (e) ->
+      code = create_pt_code()
+      url = $("#pt-path").val() + code
+      $("#code").val(url)
       true
 
 $ -> (new Viewer())
