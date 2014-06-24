@@ -131,7 +131,7 @@ class Viewer
     code
 
   initHandler = =>
-    $(document).on 'click touch', 'li.listed-character', (e) ->
+    $(document).on 'click touch', 'div.target', (e) ->
       target = $(e.target)
       code = target.data("jobCode")
       $("#selected").val(code)
@@ -139,7 +139,7 @@ class Viewer
       target.addClass('selected')
       true
 
-    $("div.member-character").on 'click touch', (e) ->
+    $("div.member").on 'click touch', (e) ->
       sel = $("#selected")
       code = sel.val()
       return false if code == ''
