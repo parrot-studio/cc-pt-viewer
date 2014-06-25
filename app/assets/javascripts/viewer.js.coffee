@@ -49,6 +49,7 @@ class Viewer
       div += a.title + '<br>'
       div += a.name
       div += '</div>'
+      div += '<button type="button" class="close close-member" aria-hidden="true">&times;</button>'
       div
     else
       "<div class='none member'></div>"
@@ -81,6 +82,9 @@ class Viewer
     div.append(a)
     a.fadeIn()
   @
+
+  clearArcana = (div) ->
+    replaceArcana(div)
 
   renderMembers = ->
     mems = $(".member-character")
@@ -135,7 +139,7 @@ class Viewer
     for m in mems
       c = $(m).data("jobCode")
       continue unless c == code
-      replaceArcana $(m).parent()
+      clearArcana($(m).parent())
       break
     @
 
@@ -168,5 +172,9 @@ class Viewer
       $("#code").val(url)
       $("#twitter-code").removeClass('disabled')
       true
+
+    $(document).on 'click touch', 'button.close-member', (e) ->
+      member = $(e.target).parent()
+      clearArcana(member)
 
 $ -> (new Viewer())

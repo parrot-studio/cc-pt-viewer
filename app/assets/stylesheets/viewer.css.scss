@@ -16,6 +16,12 @@
   padding: 0px;
 }
 
+.close-member {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+
 .selected {
   opacity: 0.7;
   border: 4px solid orange;
