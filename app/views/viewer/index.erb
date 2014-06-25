@@ -34,17 +34,13 @@
             <div class="member-character" id="member-character-<%= code %>" data-job-code="<%= @arcanas[code] %>"></div>
           </li>
         <% end %>
+        <li class="col-md-2 col-sm-2">
+          <button class="btn btn-primary btn-lg" id="share-members" data-toggle="modal" data-target="#share-modal">
+            この構成を共有する
+          </button>
+        </li>
       </ul>
     </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-12 col-sm-12">
-    <hr>
-    <input type="text" id="code" class="col-md-6 col-sm-6" value="">
-    <button type="button" id="create-code" class="btn btn-info">コード</button>
-    <button type="button" id="twitter-code" class="btn btn-info disabled">Twitterに投稿する</button>
-    <hr>
   </div>
 </div>
 <div class="row">
@@ -87,6 +83,28 @@
     <ul id="target-characters" class="col-md-12 col-sm-12 list-inline"></ul>
   </div>
 </div>
+
+<div class="modal fade" id="share-modal" tabindex="-1" role="dialog" aria-labelledby="share-modal-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="share-modal-label">構成を共有する</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <input type="text" id="code" class="form-control" value="">
+        </div>
+        <div class="form-group">
+          <button type="button" id="twitter-code" class="btn btn-info">Twitterに投稿する</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <input type="hidden" id="data-ver" value="<%= data_version %>">
 <input type="hidden" id="pt-ver" value="<%= pt_version %>">
 <input type="hidden" id="app-path" value="<%= app_path %>">

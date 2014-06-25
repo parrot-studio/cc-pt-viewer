@@ -169,15 +169,18 @@ class Viewer
       search()
       true
 
-    $("#create-code").on  'click touch', (e) ->
-      code = createMembersCode()
-      url = $("#app-path").val() + code
-      $("#code").val(url)
-      $("#twitter-code").removeClass('disabled')
-      true
-
     $(document).on 'click touch', 'button.close-member', (e) ->
       member = $(e.target).parent()
       clearArcana(member)
+
+    $("#share-modal").on 'show.bs.modal', (e) ->
+      code = createMembersCode()
+      url = $("#app-path").val() + code
+      $("#code").val(url)
+      true
+
+    $("#code").on 'click touch forcus', (e) ->
+      $(e.target).select()
+      true
 
 $ -> (new Viewer())
