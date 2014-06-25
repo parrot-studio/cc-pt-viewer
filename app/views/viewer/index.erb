@@ -9,13 +9,13 @@
           mem2: '2nd',
           mem3: '3rd',
           mem4: '4th',
-          friend: 'Frend'
+          friend: 'Friend'
           }
         members1.each do |code, name|
         %>
           <li class="col-md-2 col-sm-2">
-            <div><%= name %></div>
-            <div class="member-character" id="member-character-<%= code %>" data-job-code="<%= @arcanas[code] %>"></div>
+            <label for="member-character-<%= code %>"><%= name %></label>
+            <div class="member-character<%= ' friend' if code == :friend %>" id="member-character-<%= code %>" data-job-code="<%= @arcanas[code] %>"></div>
           </li>      
         <% end %>
       </ul>
@@ -30,10 +30,10 @@
         members2.each do |code, name|
         %>
           <li class="col-md-2 col-sm-2">
-            <div><%= name %></div>
+            <label for="member-character-<%= code %>"><%= name %></label>
             <div class="member-character" id="member-character-<%= code %>" data-job-code="<%= @arcanas[code] %>"></div>
           </li>
-        <% end %> 
+        <% end %>
       </ul>
     </div>
   </div>

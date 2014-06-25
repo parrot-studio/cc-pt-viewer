@@ -129,7 +129,7 @@ class Viewer
 
   createMembersCode = ->
     code = 'V' + $("#pt-ver").val()
-    eachMembers (ptm)->
+    eachMembers (ptm) ->
       c = ($(ptm).data("jobCode") || 'N')
       code = code + c
     code
@@ -137,10 +137,12 @@ class Viewer
   removeDuplicateMember = (code) ->
     mems = $(".member")
     for m in mems
-      c = $(m).data("jobCode")
+      mem = $(m)
+      parent = mem.parent()
+      continue if parent.hasClass('friend')
+      c = mem.data("jobCode")
       continue unless c == code
-      clearArcana($(m).parent())
-      break
+      clearArcana(parent)
     @
 
   initHandler = =>
@@ -156,8 +158,9 @@ class Viewer
       sel = $("#selected")
       code = sel.val()
       return false if code == ''
-      removeDuplicateMember(code)
-      replaceArcana($(e.target).parent(), code)
+      parent = $(e.target).parent()
+      removeDuplicateMember(code) unless parent.hasClass('friend')
+      replaceArcana(parent, code)
       sel.val('')
       $(".selected").removeClass("selected")
       true
