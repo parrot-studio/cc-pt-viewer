@@ -119,16 +119,25 @@ class Viewer
     else
       renderTargets(allArcanas)
 
-  each_pt_members = (func) ->
+  eachMembers = (func) ->
     for m in members
       func($("#member-character-#{m}").children('div'))
 
-  create_pt_code = ->
+  createMembersCode = ->
     code = 'V' + $("#pt-ver").val()
-    each_pt_members (ptm)->
+    eachMembers (ptm)->
       c = ($(ptm).data("jobCode") || 'N')
       code = code + c
     code
+
+  removeDuplicateMember = (code) ->
+    mems = $(".member")
+    for m in mems
+      c = $(m).data("jobCode")
+      continue unless c == code
+      replaceArcana $(m).parent()
+      break
+    @
 
   initHandler = =>
     $(document).on 'click touch', 'div.target', (e) ->
@@ -136,13 +145,14 @@ class Viewer
       code = target.data("jobCode")
       $("#selected").val(code)
       $(".selected").removeClass("selected")
-      target.addClass('selected')
+      target.addClass("selected")
       true
 
     $(document).on 'click touch', 'div.member', (e) ->
       sel = $("#selected")
       code = sel.val()
       return false if code == ''
+      removeDuplicateMember(code)
       replaceArcana($(e.target).parent(), code)
       sel.val('')
       $(".selected").removeClass("selected")
@@ -153,7 +163,7 @@ class Viewer
       true
 
     $("#create-code").on  'click touch', (e) ->
-      code = create_pt_code()
+      code = createMembersCode()
       url = $("#app-path").val() + code
       $("#code").val(url)
       $("#twitter-code").removeClass('disabled')
