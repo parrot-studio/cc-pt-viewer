@@ -34,53 +34,60 @@
             <div class="member-character" id="member-character-<%= code %>" data-job-code="<%= @arcanas[code] %>"></div>
           </li>
         <% end %>
-        <li class="col-md-2 col-sm-2">
-          <button class="btn btn-primary btn-lg" id="share-members" data-toggle="modal" data-target="#share-modal">
-            この構成を共有する
-          </button>
-        </li>
       </ul>
     </div>
   </div>
 </div>
 <div class="row">
   <div class="col-md-12 col-sm-12">
-    <form class="form-inline" role="form">
-      <div class="form-group">
-        <label for="job">職業</label>
-        <select id="job" class="form-control">
-          <option value="">-</option>
-          <option value="F">戦</option>
-          <option value="K">騎</option>
-          <option value="P">僧</option>
-          <option value="A">弓</option>
-          <option value="M">魔</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="rarity">レア度</label>
-        <select id="rarity" class="form-control">
-          <option value="">-</option>
-          <option value="1">☆</option>
-          <option value="1U">☆+</option>
-          <option value="2">☆☆</option>
-          <option value="2U">☆☆+</option>
-          <option value="3">☆☆☆</option>
-          <option value="3U">☆☆☆+</option>
-          <option value="4">☆☆☆☆</option>
-          <option value="4U">☆☆☆☆+</option>
-          <option value="5">☆☆☆☆☆</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <button type="button" id="search" class="btn btn-info">絞り込み</button>
-      </div>
-    </form>
+    <button class="btn btn-primary btn-lg act-btn col-md-2 col-sm-2" id="edit-members">
+      編成する
+    </button>
+    <button class="btn btn-info btn-lg act-btn col-md-2 col-sm-2" id="share-members" data-toggle="modal" data-target="#share-modal">
+      共有する
+    </button>
   </div>
 </div>
-<div class="row">
-  <div class="col-md-12 col-sm-12">
-    <ul id="target-characters" class="col-md-12 col-sm-12 list-inline"></ul>
+<div id="edit-area">
+  <div class="row">
+    <div class="col-md-12 col-sm-12">
+      <form class="form-inline" role="form">
+        <div class="form-group">
+          <label for="job">職業</label>
+          <select id="job" class="form-control">
+            <option value="">-</option>
+            <option value="F">戦</option>
+            <option value="K">騎</option>
+            <option value="P">僧</option>
+            <option value="A">弓</option>
+            <option value="M">魔</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="rarity">レア度</label>
+          <select id="rarity" class="form-control">
+            <option value="">-</option>
+            <option value="1">☆</option>
+            <option value="1U">☆+</option>
+            <option value="2">☆☆</option>
+            <option value="2U">☆☆+</option>
+            <option value="3">☆☆☆</option>
+            <option value="3U">☆☆☆+</option>
+            <option value="4">☆☆☆☆</option>
+            <option value="4U">☆☆☆☆+</option>
+            <option value="5">☆☆☆☆☆</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <button type="button" id="search" class="btn btn-info">絞り込み</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-sm-12">
+      <ul id="target-characters" class="col-md-12 col-sm-12 list-inline"></ul>
+    </div>
   </div>
 </div>
 

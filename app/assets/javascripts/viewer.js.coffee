@@ -31,8 +31,10 @@ class Viewer
   arcanas = {}
   allArcanas = []
   members = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'friend']
+  onEdit = true
 
   constructor: ->
+    toggleEditArea()
     promise = searchArcanas()
     promise.done (as) ->
       for a in as
@@ -145,6 +147,23 @@ class Viewer
       clearArcana(parent)
     @
 
+  toggleEditArea = ->
+    area = $("#edit-area")
+    btn = $("#edit-members")
+    close = $("button.close-member")
+
+    if onEdit
+      close.hide()
+      area.fadeOut()
+      btn.text("編成を開く")
+      onEdit = false
+    else
+      close.show()
+      area.fadeIn()
+      btn.text("編成を閉じる")
+      onEdit = true
+    @
+
   initHandler = =>
     $(document).on 'click touch', 'div.target', (e) ->
       target = $(e.target)
@@ -181,6 +200,10 @@ class Viewer
 
     $("#code").on 'click touch forcus', (e) ->
       $(e.target).select()
+      true
+
+    $("#edit-members").on  'click touch', (e) ->
+      toggleEditArea()
       true
 
 $ -> (new Viewer())
