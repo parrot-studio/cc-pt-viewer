@@ -14,6 +14,14 @@ class Arcana
     M: 'magician'
     P: 'priest'
 
+  WEAPON_NAME = 
+    S: '斬'
+    B: '打'
+    P: '突'
+    A: '弓'
+    M: '魔'
+    H: '聖'
+
   constructor: (data) ->
     @name = data.name
     @title = data.title
@@ -25,6 +33,9 @@ class Arcana
     @jobName = JOB_NAME[@jobType]
     @rarityStars = '☆☆☆☆☆'.slice(0, @rarity)  
     @jobClass = CLASS_NAME[@jobType]
+    @hometown = data.hometown
+    @weaponType = data.weapon_type
+    @weaponName = WEAPON_NAME[@weaponType]
 
 class Viewer
 
@@ -49,7 +60,8 @@ class Viewer
       div = "<div class='#{a.jobClass} member' data-job-code='#{a.jobCode}'>"
       div += "#{a.rarityStars}(#{a.cost})<br>"
       div += a.title + '<br>'
-      div += a.name
+      div += a.name + '<br>'
+      div += a.weaponName
       div += '</div>'
       div += '<button type="button" class="close close-member" aria-hidden="true">&times;</button>'
       div
