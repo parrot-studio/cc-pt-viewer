@@ -27,7 +27,7 @@ class Arcana < ActiveRecord::Base
   validates :job_index,
     presence: true,
     numericality: {only_integer: true}
-  validates :job_index,
+  validates :job_code,
     presence: true,
     length: {maximum: 20}
 

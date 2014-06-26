@@ -40,20 +40,13 @@ class Arcana
 class Viewer
 
   arcanas = {}
-  allArcanas = []
   members = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'friend']
-  onEdit = true
+  onEdit = false
 
   constructor: ->
-    toggleEditArea()
-    promise = searchArcanas()
-    promise.done (as) ->
-      for a in as
-        arcanas[a.jobCode] = a
-      allArcanas = as
-      renderTargets(as)
-      renderMembers()
-      initHandler()
+    $("#edit-area").hide()
+    initHandler()
+    renderMembers()
 
   renderArcana = (a) ->
     if a
@@ -101,10 +94,18 @@ class Viewer
     replaceArcana(div)
 
   renderMembers = ->
-    mems = $(".member-character")
-    for mem in mems
-      m = $(mem)
-      replaceArcana(m, m.data("jobCode"))
+    mems = ($(m) for m in $(".member-character"))  
+    cs = []
+    for m in mems
+      code = m.data("jobCode")
+      continue if code == ''
+      cs.push code
+
+    promise = searchArcanas({ptm: cs.join('/')})
+    promise.done (as) ->
+      for m in mems
+        replaceArcana(m, m.data("jobCode"))
+      $("button.close-member").hide() unless onEdit
     @
 
   searchArcanas = (query) ->
@@ -114,14 +115,18 @@ class Viewer
 
     d = new $.Deferred
     $.getJSON path, query, (datas) ->
-      as = ((new Arcana(data)) for data in datas)
+      as = []
+      for data in datas
+        a = new Arcana(data)
+        arcanas[a.jobCode] = a unless arcanas[a.jobCode]
+        as.push a
       d.resolve(as)
     d.promise()
 
   buildQuery = ->
     job = $("#job").val()
     rarity = $("#rarity").val()
-    return if (job == '' && rarity == '')
+    return {recently: true}  if (job == '' && rarity == '')
 
     query = {}
     query.job = job unless job == ''
@@ -135,7 +140,7 @@ class Viewer
       promise.done (as) ->
         renderTargets(as)
     else
-      renderTargets(allArcanas)
+      renderTargets([])
 
   eachMembers = (func) ->
     for m in members
@@ -174,10 +179,11 @@ class Viewer
       area.fadeIn()
       btn.text("編成を閉じる")
       onEdit = true
+      search()
     @
 
   initHandler = =>
-    $(document).on 'click touch', 'div.target', (e) ->
+    $("#edit-area").on 'click touch', 'div.target', (e) ->
       target = $(e.target)
       code = target.data("jobCode")
       $("#selected").val(code)
@@ -185,7 +191,7 @@ class Viewer
       target.addClass("selected")
       true
 
-    $(document).on 'click touch', 'div.member', (e) ->
+    $("#member-area").on 'click touch', 'div.member', (e) ->
       sel = $("#selected")
       code = sel.val()
       return false if code == ''
@@ -200,7 +206,7 @@ class Viewer
       search()
       true
 
-    $(document).on 'click touch', 'button.close-member', (e) ->
+    $("#member-area").on 'click touch', 'button.close-member', (e) ->
       member = $(e.target).parent()
       clearArcana(member)
 
@@ -214,7 +220,7 @@ class Viewer
       $(e.target).select()
       true
 
-    $("#edit-members").on  'click touch', (e) ->
+    $("#edit-members").on 'click touch', (e) ->
       toggleEditArea()
       true
 

@@ -38,14 +38,14 @@ class ViewerController < ApplicationController
   end
 
   def query_params
-    params.permit([:job, :rarity])
+    params.permit([:ptm, :job, :rarity, :recently])
   end
 
-  def all_arcanas
-    cache_name = 'arcanas_all'
+  def recently_arcanas
+    cache_name = 'arcanas_recently'
     as = Rails.cache.read(cache_name)
     if as.blank?
-      as = Arcana.order('id DESC')
+      as = Arcana.order('id DESC').limit(ServerSettings.recently.to_i)
       Rails.cache.write(cache_name, as.to_a)
     end
     as
@@ -53,7 +53,31 @@ class ViewerController < ApplicationController
 
   def search_arcanas
     org = query_params
-    return all_arcanas if org.blank?
+    return [] if org.blank?
+    return recently_arcanas if org[:recently]
+    return search_members(org[:ptm]) if org[:ptm]
+
+    query = build_query(org)
+    return [] if query.empty?
+
+    qkey = query.delete(:cache_key)
+    as = Rails.cache.read(qkey)
+    unless as
+      as = Arcana.where(query).order('job_type, rarity DESC, job_index DESC')
+      Rails.cache.write(qkey, as.to_a)
+    end
+    as
+  end
+
+  def search_members(ptm)
+    return [] if ptm.blank?
+    cs = ptm.split('/').uniq.compact
+    Arcana.where(:job_code => cs)
+  end
+
+  def build_query(org)
+    ptm = [org[:ptm]].flatten.uniq.compact
+    return {job_code: ptm} unless ptm.blank?
 
     job = [org[:job]].flatten.uniq.compact.select{|j| j.upcase!; Arcana::JOB_TYPES.include?(j)}
     rarity = lambda do |q|
@@ -72,15 +96,9 @@ class ViewerController < ApplicationController
     query = {}
     query[:job_type] = (job.size == 1 ? job.first : job) unless job.blank?
     query[:rarity] = (rarity.size == 1 ? rarity.first : rarity) unless rarity.blank?
-    return [] if query.empty?
 
-    qkey = "arcanas_j:#{job.sort.join}_r:#{rarity.to_a.join}"
-    as = Rails.cache.read(qkey)
-    unless as
-      as = Arcana.where(query).order('job_type, rarity DESC, job_index DESC')
-      Rails.cache.write(qkey, as.to_a)
-    end
-    as
+    query[:cache_key] = "arcanas_j:#{job.sort.join}_r:#{rarity.to_a.join}" unless query.empty?
+    query
   end
 
 end
