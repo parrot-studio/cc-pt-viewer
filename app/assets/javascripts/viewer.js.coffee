@@ -183,7 +183,7 @@ class Viewer
     @
 
   initHandler = =>
-    $("#edit-area").on 'click touch', 'div.target', (e) ->
+    $("#edit-area").on 'click', 'div.target', (e) ->
       target = $(e.target)
       code = target.data("jobCode")
       $("#selected").val(code)
@@ -191,7 +191,7 @@ class Viewer
       target.addClass("selected")
       true
 
-    $("#member-area").on 'click touch', 'div.member', (e) ->
+    $("#member-area").on 'click', 'div.member', (e) ->
       sel = $("#selected")
       code = sel.val()
       return false if code == ''
@@ -202,11 +202,11 @@ class Viewer
       $(".selected").removeClass("selected")
       true
 
-    $("#search").on 'click touch', (e) ->
+    $("#search").on 'click', (e) ->
       search()
       true
 
-    $("#member-area").on 'click touch', 'button.close-member', (e) ->
+    $("#member-area").on 'click', 'button.close-member', (e) ->
       member = $(e.target).parent()
       clearArcana(member)
 
@@ -216,11 +216,11 @@ class Viewer
       $("#code").val(url)
       true
 
-    $("#code").on 'click touch forcus', (e) ->
+    $("#code").on 'click forcus', (e) ->
       $(e.target).select()
       true
 
-    $("#edit-members").on 'click touch', (e) ->
+    $("#edit-members").on 'click', (e) ->
       toggleEditArea()
       true
 
