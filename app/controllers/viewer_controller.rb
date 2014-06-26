@@ -13,6 +13,7 @@ class ViewerController < ApplicationController
     code = params[:code]
     (redirect_to root_path; return) if code.blank?
     @arcanas = parse_pt_code(code)
+    @ptm = @arcanas.values.reject{|v| v == 'N'}.uniq.compact.join('/')
     (redirect_to root_path; return) unless @arcanas
     render :index
   end
@@ -76,8 +77,7 @@ class ViewerController < ApplicationController
   end
 
   def build_query(org)
-    ptm = [org[:ptm]].flatten.uniq.compact
-    return {job_code: ptm} unless ptm.blank?
+    return if org.blank?
 
     job = [org[:job]].flatten.uniq.compact.select{|j| j.upcase!; Arcana::JOB_TYPES.include?(j)}
     rarity = lambda do |q|

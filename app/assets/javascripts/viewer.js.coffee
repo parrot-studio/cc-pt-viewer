@@ -94,14 +94,14 @@ class Viewer
     replaceArcana(div)
 
   renderMembers = ->
+    ptm = $("#ptm").val()
     mems = ($(m) for m in $(".member-character"))  
-    cs = []
-    for m in mems
-      code = m.data("jobCode")
-      continue if code == ''
-      cs.push code
 
-    promise = searchArcanas({ptm: cs.join('/')})
+    if ptm == ''
+      clearArcana(m) for m in mems
+      return
+
+    promise = searchArcanas({ptm: ptm})
     promise.done (as) ->
       for m in mems
         replaceArcana(m, m.data("jobCode"))
