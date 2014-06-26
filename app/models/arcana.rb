@@ -14,6 +14,12 @@ class Arcana < ActiveRecord::Base
   validates :cost,
     presence: true,
     numericality: {only_integer: true}
+  validates :weapon_type,
+    presence: true,
+    length: {maximum: 10}
+  validates :hometown,
+    presence: true,
+    length: {maximum: 100}
   validates :job_type,
     presence: true,
     inclusion: {in: JOB_TYPES}

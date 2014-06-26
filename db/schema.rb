@@ -14,24 +14,31 @@
 ActiveRecord::Schema.define(version: 20140617063043) do
 
   create_table "arcanas", force: true do |t|
-    t.string   "name",       limit: 100, null: false
-    t.string   "title",      limit: 200
-    t.integer  "rarity",     limit: 3,   null: false
-    t.integer  "cost",                   null: false
-    t.string   "job_type",   limit: 10,  null: false
-    t.integer  "job_index",              null: false
-    t.string   "job_code",   limit: 20,  null: false
+    t.string   "name",        limit: 100, null: false
+    t.string   "title",       limit: 200
+    t.integer  "rarity",      limit: 3,   null: false
+    t.integer  "cost",                    null: false
+    t.string   "weapon_type", limit: 10,  null: false
+    t.string   "hometown",    limit: 100, null: false
+    t.string   "job_type",    limit: 10,  null: false
+    t.integer  "job_index",               null: false
+    t.string   "job_code",    limit: 20,  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "arcanas", ["cost"], name: "index_arcanas_on_cost", using: :btree
+  add_index "arcanas", ["hometown", "rarity"], name: "index_arcanas_on_hometown_and_rarity", using: :btree
+  add_index "arcanas", ["hometown"], name: "index_arcanas_on_hometown", using: :btree
   add_index "arcanas", ["job_code"], name: "index_arcanas_on_job_code", using: :btree
+  add_index "arcanas", ["job_type", "hometown"], name: "index_arcanas_on_job_type_and_hometown", using: :btree
   add_index "arcanas", ["job_type", "job_index"], name: "index_arcanas_on_job_type_and_job_index", using: :btree
   add_index "arcanas", ["job_type", "rarity", "job_index"], name: "index_arcanas_on_job_type_and_rarity_and_job_index", using: :btree
   add_index "arcanas", ["job_type", "rarity"], name: "index_arcanas_on_job_type_and_rarity", using: :btree
   add_index "arcanas", ["job_type"], name: "index_arcanas_on_job_type", using: :btree
   add_index "arcanas", ["name"], name: "index_arcanas_on_name", using: :btree
+  add_index "arcanas", ["rarity", "weapon_type"], name: "index_arcanas_on_rarity_and_weapon_type", using: :btree
   add_index "arcanas", ["rarity"], name: "index_arcanas_on_rarity", using: :btree
+  add_index "arcanas", ["weapon_type"], name: "index_arcanas_on_weapon_type", using: :btree
 
 end
