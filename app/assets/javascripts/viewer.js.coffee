@@ -46,7 +46,7 @@ class Viewer
   constructor: ->
     $("#edit-area").hide()
     initHandler()
-    renderMembers()
+    initMembers()
 
   renderArcana = (a) ->
     if a
@@ -93,7 +93,7 @@ class Viewer
   clearArcana = (div) ->
     replaceArcana(div)
 
-  renderMembers = ->
+  initMembers = ->
     ptm = $("#ptm").val()
     mems = ($(m) for m in $(".member-character"))  
 
