@@ -6,7 +6,7 @@ arcanas: &arcanas
   pt_version: 1
 
 production:
-  app_path: "http://app.parrot-studio.com/cc/"
+  app_path: "http://app.parrot-studio.com/ccpt/"
   <<: *arcanas
 development:
   app_path: "http://localhost:3000/"
