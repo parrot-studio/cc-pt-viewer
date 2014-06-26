@@ -1,6 +1,7 @@
 arcanas: &arcanas
   jobs: F K P A M
   rarity: 5
+  weapons: S B P A H M
   data_version: 20140624
   pt_version: 1
 
