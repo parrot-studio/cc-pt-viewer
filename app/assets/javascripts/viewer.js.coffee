@@ -50,7 +50,7 @@ class Viewer
 
   renderArcana = (a) ->
     if a
-      div = "<div class='#{a.jobClass} member' data-job-code='#{a.jobCode}'>"
+      div = "<div class='#{a.jobClass} member full-size' data-job-code='#{a.jobCode}'>"
       div += "#{a.rarityStars}(#{a.cost})<br>"
       div += a.title + '<br>'
       div += a.name + '<br>'
@@ -59,24 +59,24 @@ class Viewer
       div += '<button type="button" class="close close-member" aria-hidden="true">&times;</button>'
       div
     else
-      "<div class='none member'></div>"
+      "<div class='none member full-size'></div>"
 
-  renderArcanaSummary = (a) ->
+  renderArcanaSummary = (a, cl) ->
     if a
-      div = "<div class='#{a.jobClass} target' data-job-code='#{a.jobCode}'>"
+      div = "<div class='#{a.jobClass} #{cl} summary' data-job-code='#{a.jobCode}'>"
       div += "#{a.rarityStars}(#{a.cost})<br>"
       div += a.title + '<br>'
       div += a.name
       div += '</div>'
       div
     else
-      "<div class='none target'></div>"
+      "<div class='none #{cl} summary'></div>"
 
   renderTargets = (as) ->
     ul = $('#target-characters')
     ul.empty()
     for a in as
-      li = $("<li class='listed-character col-md-2 col-sm-2'>#{renderArcanaSummary(a)}</li>")
+      li = $("<li class='listed-character col-md-2 col-sm-2'>#{renderArcanaSummary(a, 'target')}</li>")
       li.hide()
       ul.append(li)
       li.fadeIn('slow')
