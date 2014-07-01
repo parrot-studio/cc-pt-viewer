@@ -270,7 +270,7 @@ class Viewer
     else
       "<div class='none #{cl} summary-size'></div>"
 
-  appendArcana = (div, ra) ->
+  replaceArcana = (div, ra) ->
     div.empty()
     a = $(ra)
     a.hide()
@@ -282,9 +282,9 @@ class Viewer
       code = div.children('div').data("jobCode")
       a = arcanas[code]
       if onEdit
-        appendArcana(div, renderSummarySizeArcana(a, 'member'))
+        replaceArcana(div, renderSummarySizeArcana(a, 'member'))
       else
-        appendArcana(div, renderFullSizeArcana(a))
+        replaceArcana(div, renderFullSizeArcana(a))
 
   replaceChoiceArea = (as) ->
     ul = $('#choice-characters')
@@ -325,7 +325,7 @@ class Viewer
         if data
           a = new Arcana(data)
           arcanas[a.jobCode] = a
-        appendArcana(div, renderFullSizeArcana(a))
+        replaceArcana(div, renderFullSizeArcana(a))
 
   buildQuery = ->
     job = $("#job").val()
@@ -362,6 +362,21 @@ class Viewer
     replaceMemberArea()
     @
 
+  clearMemberArcana = (div) ->
+    ra = renderSummarySizeArcana(null, 'member')
+    replaceArcana(div, ra)
+
+  removeDuplicateMember = (code) ->
+    mems = $(".member")
+    for m in mems
+      mem = $(m)
+      parent = mem.parent()
+      continue if parent.hasClass('friend')
+      c = mem.data("jobCode")
+      continue unless c == code
+      clearMemberArcana(parent)
+    @
+
   initHandler = ->
     $("#edit-area").hide()
 
@@ -373,11 +388,35 @@ class Viewer
       search()
       true
 
+    $("#edit-area").on 'click', 'div.choice', (e) ->
+      target = $(e.target)
+      code = target.data("jobCode")
+      $("#selected").val(code)
+      $(".selected").removeClass("selected")
+      target.addClass("selected")
+      true
+
+    $("#member-area").on 'click', 'div.member', (e) ->
+      sel = $("#selected")
+      code = sel.val()
+      return false if code == ''
+      parent = $(e.target).parent()
+      removeDuplicateMember(code) unless parent.hasClass('friend')
+      ra = renderSummarySizeArcana(arcanas[code], 'member')
+      replaceArcana(parent, ra)
+      sel.val('')
+      $(".selected").removeClass("selected")
+      true
+
+    $("#member-area").on 'click', 'button.close-member', (e) ->
+      member = $(e.target).parent()
+      clearMemberArcana(member)
+
   initMembers = ->
     ptm = $("#ptm").val()
     if ptm == ''
       eachMemberAreas (div) ->
-        appendArcana(div, renderFullSizeArcana())
+        replaceArcana(div, renderFullSizeArcana())
     else
       searchMembers(ptm)
     @
