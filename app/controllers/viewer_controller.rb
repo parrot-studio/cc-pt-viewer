@@ -1,7 +1,8 @@
 class ViewerController < ApplicationController
 
   def index
-    @ptm = params[:code]
+    code = params[:code]
+    @ptm = (!code.blank? && parse_pt_code(code)) ? code : ''
   end
 
   def arcanas
