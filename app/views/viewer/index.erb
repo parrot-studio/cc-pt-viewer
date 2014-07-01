@@ -28,9 +28,46 @@ members2 = {sub1: 'Sub1',sub2: 'Sub2'}
     </button>
   </div>
 </div>
+
 <div id="edit-area">
   <div class="row">
     <div class="col-md-12 col-sm-12">
+      <form class="form-inline" role="form">
+        <div class="form-group">
+          <label for="job">職業</label>
+          <select id="job" class="form-control">
+            <option value="">-</option>
+            <option value="F">戦</option>
+            <option value="K">騎</option>
+            <option value="P">僧</option>
+            <option value="A">弓</option>
+            <option value="M">魔</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="rarity">レア度</label>
+          <select id="rarity" class="form-control">
+            <option value="">-</option>
+            <option value="1">☆</option>
+            <option value="1U">☆+</option>
+            <option value="2">☆☆</option>
+            <option value="2U">☆☆+</option>
+            <option value="3">☆☆☆</option>
+            <option value="3U">☆☆☆+</option>
+            <option value="4">☆☆☆☆</option>
+            <option value="4U">☆☆☆☆+</option>
+            <option value="5">☆☆☆☆☆</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <button type="button" id="search" class="btn btn-info" data-loading-text="検索中...">絞り込み</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-sm-12">
+      <ul id="choice-characters" class="col-md-12 col-sm-12 list-inline"></ul>
     </div>
   </div>
 </div>

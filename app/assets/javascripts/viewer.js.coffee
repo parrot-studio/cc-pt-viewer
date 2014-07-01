@@ -263,7 +263,8 @@ class Viewer
       div += "#{a.rarityStars}(#{a.cost})<br>"
       div += a.title + '<br>'
       div += a.name
-      div += '<button type="button" class="close close-member" aria-hidden="true">&times;</button>'
+      if cl == 'member'
+        div += '<button type="button" class="close close-member" aria-hidden="true">&times;</button>'
       div += '</div>'
       div
     else
@@ -284,6 +285,16 @@ class Viewer
         appendArcana(div, renderSummarySizeArcana(a, 'member'))
       else
         appendArcana(div, renderFullSizeArcana(a))
+
+  replaceChoiceArea = (as) ->
+    ul = $('#choice-characters')
+    ul.empty()
+    for a in as
+      li = $("<li class='listed-character col-md-2 col-sm-2'>#{renderSummarySizeArcana(a, 'choice')}</li>")
+      li.hide()
+      ul.append(li)
+      li.fadeIn('slow')
+    @
 
   searchArcanas = (query) ->
     query ?= {}
@@ -316,6 +327,25 @@ class Viewer
           arcanas[a.jobCode] = a
         appendArcana(div, renderFullSizeArcana(a))
 
+  buildQuery = ->
+    job = $("#job").val()
+    rarity = $("#rarity").val()
+    return {recently: true}  if (job == '' && rarity == '')
+
+    query = {}
+    query.job = job unless job == ''
+    query.rarity = rarity unless rarity == ''
+    query
+
+  search = ->
+    query = buildQuery()
+    if query
+      promise = searchArcanas(query)
+      promise.done (as) ->
+        replaceChoiceArea(as)
+    else
+      replaceChoiceArea([])
+
   toggleEditMode = ->
     area = $("#edit-area")
     btn = $("#edit-members")
@@ -328,6 +358,7 @@ class Viewer
       onEdit = true
       btn.text("編成を閉じる")
       area.fadeIn()
+      search()
     replaceMemberArea()
     @
 
@@ -336,6 +367,10 @@ class Viewer
 
     $("#edit-members").on 'click', (e) ->
       toggleEditMode()
+      true
+
+    $("#search").on 'click', (e) ->
+      search()
       true
 
   initMembers = ->
