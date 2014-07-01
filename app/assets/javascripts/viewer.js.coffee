@@ -60,28 +60,35 @@ class Viewer
 
   renderFullSizeArcana = (a) ->
     if a
-      div = "<div class='#{a.jobClass} full-size' data-job-code='#{a.jobCode}'>"
-      div += "#{a.rarityStars}(#{a.cost})<br>"
+      div = "<div class='#{a.jobClass} full-size arcana' data-job-code='#{a.jobCode}'>"
+      div += "<div class='#{a.jobClass}-title'>#{a.rarityStars}</div>"
+      div += "<div class='arcana-body'>"
+      div += '<p>'
       div += a.title + '<br>'
       div += a.name + '<br>'
-      div += a.weaponName
+      div += a.weaponName + '<br>'
+      div += "cost:#{a.cost}"
+      div += '</p>'
+      div += '</div>'
       div += '</div>'
       div
     else
-      "<div class='none full-size'></div>"
+      "<div class='none full-size arcana'></div>"
 
   renderSummarySizeArcana = (a, cl) ->
     if a
-      div = "<div class='#{a.jobClass} #{cl} summary-size' data-job-code='#{a.jobCode}'>"
-      div += "#{a.rarityStars}(#{a.cost})<br>"
+      div = "<div class='#{a.jobClass} #{cl} summary-size arcana' data-job-code='#{a.jobCode}'>"
+      div += "<div class='#{a.jobClass}-title'>#{a.rarityStars} (#{a.cost})</div>"
+      div += '<div class="arcana-summary"><p><small>'
       div += a.title + '<br>'
       div += a.name
+      div += '</small></p></div>'
       if cl == 'member'
         div += '<button type="button" class="close close-member" aria-hidden="true">&times;</button>'
       div += '</div>'
       div
     else
-      "<div class='none #{cl} summary-size'></div>"
+      "<div class='none #{cl} summary-size arcana'></div>"
 
   replaceArcana = (div, ra) ->
     div.empty()
@@ -209,7 +216,7 @@ class Viewer
       true
 
     $("#edit-area").on 'click', 'div.choice', (e) ->
-      target = $(e.target)
+      target = $(e.target).parents(".choice")
       code = target.data("jobCode")
       $("#selected").val(code)
       $(".selected").removeClass("selected")
@@ -220,7 +227,7 @@ class Viewer
       sel = $("#selected")
       code = sel.val()
       return false if code == ''
-      parent = $(e.target).parent()
+      parent = $(e.target).parents('.member-character')
       removeDuplicateMember(code) unless parent.hasClass('friend')
       ra = renderSummarySizeArcana(arcanas[code], 'member')
       replaceArcana(parent, ra)
@@ -229,7 +236,7 @@ class Viewer
       true
 
     $("#member-area").on 'click', 'button.close-member', (e) ->
-      member = $(e.target).parent()
+      member = $(e.target).parents(".member-character")
       clearMemberArcana(member)
 
     $("#share-modal").on 'show.bs.modal', (e) ->
