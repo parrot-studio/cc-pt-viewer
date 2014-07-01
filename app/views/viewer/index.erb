@@ -1,96 +1,27 @@
+<%
+members1 = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', friend: 'Friend'}
+members2 = {sub1: 'Sub1',sub2: 'Sub2'}
+%>
 <div id="member-area">
   <div class="row">
-    <div class="col-md-12 col-sm-12">
-      <div>
-        <h1>PTびゅーわー</h1>
-      </div>
+    <% [members1, members2].each do |mems| %>
       <div class="col-md-12 col-sm-12">
         <ul class="list-inline">
-          <%
-          members1 = {
-            mem1: 'Leader',
-            mem2: '2nd',
-            mem3: '3rd',
-            mem4: '4th',
-            friend: 'Friend'
-            }
-          members1.each do |code, name|
-          %>
+          <% mems.each do |code, name| %>
             <li class="col-md-2 col-sm-2">
               <label for="member-character-<%= code %>"><%= name %></label>
-              <div class="member-character<%= ' friend' if code == :friend %>" id="member-character-<%= code %>" data-job-code="<%= @arcanas[code] %>"></div>
-            </li>      
-          <% end %>
-        </ul>
-      </div>
-      <div class="col-md-12 col-sm-12">
-        <ul class="list-inline">
-          <%
-          members2 = {
-            sub1: 'Sub1',
-            sub2: 'Sub2'
-            }
-          members2.each do |code, name|
-          %>
-            <li class="col-md-2 col-sm-2">
-              <label for="member-character-<%= code %>"><%= name %></label>
-              <div class="member-character" id="member-character-<%= code %>" data-job-code="<%= @arcanas[code] %>"></div>
+              <div class="member-character<%= ' friend' if code == :friend %>" id="member-character-<%= code %>"></div>
             </li>
           <% end %>
         </ul>
       </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12 col-sm-12">
-      <button class="btn btn-primary btn-lg act-btn col-md-2 col-sm-2" id="edit-members">
-        編成する
-      </button>
-      <button class="btn btn-info btn-lg act-btn col-md-2 col-sm-2" id="share-members" data-toggle="modal" data-target="#share-modal">
-        共有する
-      </button>
-    </div>
+    <% end %>
   </div>
 </div>
+
 <div id="edit-area">
   <div class="row">
     <div class="col-md-12 col-sm-12">
-      <form class="form-inline" role="form">
-        <div class="form-group">
-          <label for="job">職業</label>
-          <select id="job" class="form-control">
-            <option value="">-</option>
-            <option value="F">戦</option>
-            <option value="K">騎</option>
-            <option value="P">僧</option>
-            <option value="A">弓</option>
-            <option value="M">魔</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="rarity">レア度</label>
-          <select id="rarity" class="form-control">
-            <option value="">-</option>
-            <option value="1">☆</option>
-            <option value="1U">☆+</option>
-            <option value="2">☆☆</option>
-            <option value="2U">☆☆+</option>
-            <option value="3">☆☆☆</option>
-            <option value="3U">☆☆☆+</option>
-            <option value="4">☆☆☆☆</option>
-            <option value="4U">☆☆☆☆+</option>
-            <option value="5">☆☆☆☆☆</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <button type="button" id="search" class="btn btn-info" data-loading-text="検索中...">絞り込み</button>
-        </div>
-      </form>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12 col-sm-12">
-      <ul id="target-characters" class="col-md-12 col-sm-12 list-inline"></ul>
     </div>
   </div>
 </div>
@@ -103,10 +34,10 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <input type="text" id="code" class="form-control" value="">
+          <input type="text" id="ptm-code" class="form-control" value="">
         </div>
         <div class="form-group">
-          <button type="button" id="twitter-code" class="btn btn-info">Twitterに投稿する</button>
+          <button type="button" id="twitter-share" class="btn btn-info">Twitterに投稿する</button>
         </div>
       </div>
       <div class="modal-footer">

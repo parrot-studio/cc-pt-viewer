@@ -1,21 +1,17 @@
 class ViewerController < ApplicationController
 
   def index
-    @arcanas = {}
+    @ptm = params[:code]
   end
 
   def arcanas
     as = search_arcanas
-    render json: as
+    render json: (as || [])
   end
 
-  def pt
-    code = params[:code]
-    (redirect_to root_path; return) if code.blank?
-    @arcanas = parse_pt_code(code)
-    @ptm = @arcanas.values.reject{|v| v == 'N'}.uniq.compact.join('/')
-    (redirect_to root_path; return) unless @arcanas
-    render :index
+  def ptm
+    ret = search_members(params[:ptm])
+    render json: (ret || {})
   end
 
   private
@@ -39,7 +35,7 @@ class ViewerController < ApplicationController
   end
 
   def query_params
-    params.permit([:ptm, :job, :rarity, :recently])
+    params.permit([:job, :rarity, :recently])
   end
 
   def recently_arcanas
@@ -56,7 +52,6 @@ class ViewerController < ApplicationController
     org = query_params
     return [] if org.blank?
     return recently_arcanas if org[:recently]
-    return search_members(org[:ptm]) if org[:ptm]
 
     query = build_query(org)
     return [] if query.empty?
@@ -71,9 +66,21 @@ class ViewerController < ApplicationController
   end
 
   def search_members(ptm)
-    return [] if ptm.blank?
-    cs = ptm.split('/').uniq.compact
-    Arcana.where(:job_code => cs)
+    return {} if ptm.blank?
+    mems = parse_pt_code(ptm)
+    return {} unless mems
+
+    cs = mems.values.uniq.compact
+    return {} if cs.empty?
+    as = Arcana.where(:job_code => cs).index_by(&:job_code)
+
+    ret = {}
+    mems.each do |po, co|
+      a = as[co]
+      next unless a
+      ret[po] = as[co]
+    end
+    ret
   end
 
   def build_query(org)

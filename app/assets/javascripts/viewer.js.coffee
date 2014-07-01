@@ -7,14 +7,14 @@ class Arcana
     M: '魔法使い'
     P: '僧侶'
 
-  CLASS_NAME = 
+  CLASS_NAME =
     F: 'fighter'
     K: 'knight'
     A: 'archer'
     M: 'magician'
     P: 'priest'
 
-  WEAPON_NAME = 
+  WEAPON_NAME =
     S: '斬'
     B: '打'
     P: '突'
@@ -31,13 +31,13 @@ class Arcana
     @jobIndex = data.job_index
     @jobCode = data.job_code
     @jobName = JOB_NAME[@jobType]
-    @rarityStars = '☆☆☆☆☆'.slice(0, @rarity)  
+    @rarityStars = '☆☆☆☆☆'.slice(0, @rarity)
     @jobClass = CLASS_NAME[@jobType]
     @hometown = data.hometown
     @weaponType = data.weapon_type
     @weaponName = WEAPON_NAME[@weaponType]
 
-class Viewer
+class ViewerOld
 
   arcanas = {}
   members = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'friend']
@@ -95,7 +95,7 @@ class Viewer
 
   initMembers = ->
     ptm = $("#ptm").val()
-    mems = ($(m) for m in $(".member-character"))  
+    mems = ($(m) for m in $(".member-character"))
 
     if ptm == ''
       clearArcana(m) for m in mems
@@ -213,15 +213,94 @@ class Viewer
     $("#share-modal").on 'show.bs.modal', (e) ->
       code = createMembersCode()
       url = $("#app-path").val() + code
-      $("#code").val(url)
+      $("#ptm-code").val(url)
       true
 
-    $("#code").on 'click forcus', (e) ->
+    $("#ptm-code").on 'click forcus', (e) ->
       $(e.target).select()
       true
 
     $("#edit-members").on 'click', (e) ->
       toggleEditArea()
       true
+
+class Viewer
+
+  arcanas = {}
+  members = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'friend']
+  onEdit = false
+
+  constructor: ->
+    $("#edit-area").hide()
+    initHandler()
+    initMembers()
+
+  eachMembers = (func) ->
+    for m in members
+      func(m)
+
+  memberAreaFor = (m) ->
+    $("#member-character-#{m}")
+
+  eachMemberAreas = (func) ->
+    eachMembers (m) ->
+      func(memberAreaFor(m))
+
+  renderFullSizeArcana = (a) ->
+    if a
+      div = "<div class='#{a.jobClass} full-size' data-job-code='#{a.jobCode}'>"
+      div += "#{a.rarityStars}(#{a.cost})<br>"
+      div += a.title + '<br>'
+      div += a.name + '<br>'
+      div += a.weaponName
+      div += '</div>'
+      div
+    else
+      "<div class='none full-size'></div>"
+
+  searchArcanas = (query) ->
+    query ?= {}
+    query.ver = $("#data-ver").val()
+    path = $("#app-path").val() + 'arcanas'
+
+    d = new $.Deferred
+    $.getJSON path, query, (datas) ->
+      as = []
+      for data in datas
+        a = new Arcana(data)
+        arcanas[a.jobCode] = a unless arcanas[a.jobCode]
+        as.push a
+      d.resolve(as)
+    d.promise()
+
+  searchMembers = (ptm) ->
+    query = {}
+    query.ver = $("#data-ver").val()
+    query.ptm = ptm
+    path = $("#app-path").val() + 'ptm'
+
+    $.getJSON path, query, (datas) ->
+      eachMembers (m) ->
+        div = memberAreaFor(m)
+        data = datas[m]
+        a = null
+        if data
+          a = new Arcana(data)
+          arcanas[a.jobCode] = a unless arcanas[a.jobCode]
+        div.empty()
+        div.append(renderFullSizeArcana(a))
+
+  initHandler = ->
+
+  initMembers = ->
+    ptm = $("#ptm").val()
+    if ptm == ''
+      eachMemberAreas (div) ->
+        console.log div
+        div.empty()
+        div.append(renderFullSizeArcana())
+    else
+      searchMembers(ptm)
+    @
 
 $ -> (new Viewer())
