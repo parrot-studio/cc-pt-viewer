@@ -66,8 +66,17 @@ class Viewer
     eachMembers (m) ->
       func(memberAreaFor(m))
 
+  eachMemberOnlyAreas = (func) ->
+    eachMembers (m) ->
+      func(memberAreaFor(m)) unless m == 'friend'
+
   eachMemberCode = (func) ->
     eachMemberAreas (area) ->
+      c = area.children('div').data("jobCode")
+      func(c)
+
+  eachMemberOnlyCode = (func) ->
+    eachMemberOnlyAreas (area) ->
       c = area.children('div').data("jobCode")
       func(c)
 
@@ -212,20 +221,17 @@ class Viewer
 
   createMembersCode = ->
     code = 'V' + $("#pt-ver").val()
-    eachMemberAreas (area) ->
-      c = (area.children('div').data("jobCode") || 'N')
-      code = code + c
+    eachMemberCode (c) ->
+      code = code + (c || 'N')
     code
 
   calcCost = ->
     cost = 0
-    eachMemberCode (code) ->
+    eachMemberOnlyCode (code) ->
       a = arcanas[code]
       return unless a
       cost = cost + a.cost
-    span = $("#cost")
-    span.empty()
-    span.append(cost)
+    $("#cost").text(cost)
 
   initHandler = ->
     $("#edit-area").hide()
