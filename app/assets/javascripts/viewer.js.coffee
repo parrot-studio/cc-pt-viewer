@@ -227,11 +227,10 @@ class ViewerOld
 class Viewer
 
   arcanas = {}
-  members = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'friend']
+  members = ['mem1', 'mem2', 'mem3', 'mem4', 'friend', 'sub1', 'sub2']
   onEdit = false
 
   constructor: ->
-    $("#edit-area").hide()
     initHandler()
     initMembers()
 
@@ -257,6 +256,34 @@ class Viewer
       div
     else
       "<div class='none full-size'></div>"
+
+  renderSummarySizeArcana = (a, cl) ->
+    if a
+      div = "<div class='#{a.jobClass} #{cl} summary-size' data-job-code='#{a.jobCode}'>"
+      div += "#{a.rarityStars}(#{a.cost})<br>"
+      div += a.title + '<br>'
+      div += a.name
+      div += '<button type="button" class="close close-member" aria-hidden="true">&times;</button>'
+      div += '</div>'
+      div
+    else
+      "<div class='none #{cl} summary-size'></div>"
+
+  appendArcana = (div, ra) ->
+    div.empty()
+    a = $(ra)
+    a.hide()
+    div.append(a)
+    a.fadeIn()
+
+  replaceMemberArea = ->
+    eachMemberAreas (div) ->
+      code = div.children('div').data("jobCode")
+      a = arcanas[code]
+      if onEdit
+        appendArcana(div, renderSummarySizeArcana(a, 'member'))
+      else
+        appendArcana(div, renderFullSizeArcana(a))
 
   searchArcanas = (query) ->
     query ?= {}
@@ -286,19 +313,36 @@ class Viewer
         a = null
         if data
           a = new Arcana(data)
-          arcanas[a.jobCode] = a unless arcanas[a.jobCode]
-        div.empty()
-        div.append(renderFullSizeArcana(a))
+          arcanas[a.jobCode] = a
+        appendArcana(div, renderFullSizeArcana(a))
+
+  toggleEditMode = ->
+    area = $("#edit-area")
+    btn = $("#edit-members")
+
+    if onEdit
+      onEdit = false
+      btn.text("編成を開く")
+      area.fadeOut()
+    else
+      onEdit = true
+      btn.text("編成を閉じる")
+      area.fadeIn()
+    replaceMemberArea()
+    @
 
   initHandler = ->
+    $("#edit-area").hide()
+
+    $("#edit-members").on 'click', (e) ->
+      toggleEditMode()
+      true
 
   initMembers = ->
     ptm = $("#ptm").val()
     if ptm == ''
       eachMemberAreas (div) ->
-        console.log div
-        div.empty()
-        div.append(renderFullSizeArcana())
+        appendArcana(div, renderFullSizeArcana())
     else
       searchMembers(ptm)
     @
