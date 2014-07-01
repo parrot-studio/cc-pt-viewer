@@ -7,6 +7,13 @@ class Arcana
     M: '魔法使い'
     P: '僧侶'
 
+  JOB_NAME_SHORT =
+    F: '戦'
+    K: '騎'
+    A: '弓'
+    M: '魔'
+    P: '僧'
+
   CLASS_NAME =
     F: 'fighter'
     K: 'knight'
@@ -31,6 +38,7 @@ class Arcana
     @jobIndex = data.job_index
     @jobCode = data.job_code
     @jobName = JOB_NAME[@jobType]
+    @jobNameShort =JOB_NAME_SHORT[@jobType]
     @rarityStars = '☆☆☆☆☆'.slice(0, @rarity)
     @jobClass = CLASS_NAME[@jobType]
     @hometown = data.hometown
@@ -58,16 +66,20 @@ class Viewer
     eachMembers (m) ->
       func(memberAreaFor(m))
 
+  eachMemberCode = (func) ->
+    eachMemberAreas (area) ->
+      c = area.children('div').data("jobCode")
+      func(c)
+
   renderFullSizeArcana = (a) ->
     if a
       div = "<div class='#{a.jobClass} full-size arcana' data-job-code='#{a.jobCode}'>"
-      div += "<div class='#{a.jobClass}-title'>#{a.rarityStars}</div>"
+      div += "<div class='#{a.jobClass}-title arcana-title'>#{a.jobNameShort}:#{a.rarityStars} <span class='badge pull-right'>#{a.cost}</span></div>"
       div += "<div class='arcana-body'>"
       div += '<p>'
       div += a.title + '<br>'
       div += a.name + '<br>'
       div += a.weaponName + '<br>'
-      div += "cost:#{a.cost}"
       div += '</p>'
       div += '</div>'
       div += '</div>'
@@ -78,7 +90,7 @@ class Viewer
   renderSummarySizeArcana = (a, cl) ->
     if a
       div = "<div class='#{a.jobClass} #{cl} summary-size arcana' data-job-code='#{a.jobCode}'>"
-      div += "<div class='#{a.jobClass}-title'>#{a.rarityStars} (#{a.cost})</div>"
+      div += "<div class='#{a.jobClass}-title arcana-title'>#{a.jobNameShort}:#{a.rarityStars} <span class='badge badge-sm pull-right'>#{a.cost}</span></div>"
       div += '<div class="arcana-summary"><p><small>'
       div += a.title + '<br>'
       div += a.name
@@ -146,6 +158,7 @@ class Viewer
           a = new Arcana(data)
           arcanas[a.jobCode] = a
         replaceArcana(div, renderFullSizeArcana(a))
+        calcCost()
 
   buildQuery = ->
     job = $("#job").val()
@@ -204,6 +217,16 @@ class Viewer
       code = code + c
     code
 
+  calcCost = ->
+    cost = 0
+    eachMemberCode (code) ->
+      a = arcanas[code]
+      return unless a
+      cost = cost + a.cost
+    span = $("#cost")
+    span.empty()
+    span.append(cost)
+
   initHandler = ->
     $("#edit-area").hide()
 
@@ -233,11 +256,14 @@ class Viewer
       replaceArcana(parent, ra)
       sel.val('')
       $(".selected").removeClass("selected")
+      calcCost()
       true
 
     $("#member-area").on 'click', 'button.close-member', (e) ->
       member = $(e.target).parents(".member-character")
       clearMemberArcana(member)
+      calcCost()
+      true
 
     $("#share-modal").on 'show.bs.modal', (e) ->
       code = createMembersCode()
@@ -254,6 +280,7 @@ class Viewer
     if ptm == ''
       eachMemberAreas (div) ->
         replaceArcana(div, renderFullSizeArcana())
+      $("#cost").append('0')
     else
       searchMembers(ptm)
     @
