@@ -5,11 +5,11 @@ members2 = {sub1: 'Sub1',sub2: 'Sub2'}
 <div id="member-area">
   <div class="row">
     <% [members1, members2].each do |mems| %>
-      <div class="col-md-12 col-sm-12">
+      <div class="col-md-12 col-sm-12 member-list">
         <ul class="list-inline">
           <% mems.each do |code, name| %>
             <li class="col-md-2 col-sm-2">
-              <label for="member-character-<%= code %>"><%= name %></label>
+              <label for="member-character-<%= code %>" class="member-label"><%= name %></label>
               <div class="member-character<%= ' friend' if code == :friend %>" id="member-character-<%= code %>"></div>
             </li>
           <% end %>
@@ -18,6 +18,7 @@ members2 = {sub1: 'Sub1',sub2: 'Sub2'}
     <% end %>
   </div>
 </div>
+
 <div class="row">
   <div class="col-md-12 col-sm-12">
     <button class="btn btn-primary btn-lg act-btn col-md-2 col-sm-2" id="edit-members">

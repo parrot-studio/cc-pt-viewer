@@ -3,6 +3,21 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @import "bootstrap";
 
+body {
+  padding: 10px;
+}
+
+.header {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+footer {
+  padding-top: 10px;
+  margin-top: 10px;
+  border-top: 1px solid #e5e5e5;
+}
+
 .member-character {
   border: 2px solid gold;
   margin: 2px;
@@ -13,6 +28,14 @@
   height: 68px;
   margin-bottom: 2px;
   padding: 0px;
+}
+
+.member-list {
+  margin-bottom: 10px;
+}
+
+.member-label {
+  margin-left: 4px;
 }
 
 .full-size {

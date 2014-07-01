@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>チェンクロPTびゅーわー</title>
+    <title>チェンクロPTびゅーわー（仮）</title>
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -16,7 +16,19 @@
   </head>
   <body>
 
+    <div class="header">
+      <ul class="nav nav-pills pull-right">
+        <li><a href="#">使い方</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+      <h3 class="text-muted">チェンクロPTびゅーわー（仮）</h3>
+    </div>
+
     <%= yield %>
+
+    <footer>
+      <p>&copy; ぱろっと / @parrot_studio 2014</p>
+    </footer>
 
     <%= javascript_include_tag 'application' %>
   </body>
