@@ -227,7 +227,7 @@ class ViewerOld
 class Viewer
 
   arcanas = {}
-  members = ['mem1', 'mem2', 'mem3', 'mem4', 'friend', 'sub1', 'sub2']
+  members = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'friend']
   onEdit = false
 
   constructor: ->
@@ -377,6 +377,13 @@ class Viewer
       clearMemberArcana(parent)
     @
 
+  createMembersCode = ->
+    code = 'V' + $("#pt-ver").val()
+    eachMemberAreas (area) ->
+      c = (area.children('div').data("jobCode") || 'N')
+      code = code + c
+    code
+
   initHandler = ->
     $("#edit-area").hide()
 
@@ -411,6 +418,16 @@ class Viewer
     $("#member-area").on 'click', 'button.close-member', (e) ->
       member = $(e.target).parent()
       clearMemberArcana(member)
+
+    $("#share-modal").on 'show.bs.modal', (e) ->
+      code = createMembersCode()
+      url = $("#app-path").val() + code
+      $("#ptm-code").val(url)
+      true
+
+    $("#ptm-code").on 'click forcus', (e) ->
+      $(e.target).select()
+      true
 
   initMembers = ->
     ptm = $("#ptm").val()
