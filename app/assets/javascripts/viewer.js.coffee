@@ -139,6 +139,7 @@ class Viewer
     @
 
   searchArcanas = (query, path, callback) ->
+    $("#error").hide()
     query ?= {}
     query.ver = $("#data-ver").val()
     url = $("#app-path").val() + path
