@@ -253,11 +253,11 @@ class Viewer
 
     $("#edit-members").hammer().on 'touch', (e) ->
       toggleEditMode()
-      true
+      e.preventDefault()
 
     $("#search").hammer().on 'touch', (e) ->
       searchTargets()
-      true
+      e.preventDefault()
 
     $("#edit-area").hammer().on 'touch', 'div.choice', (e) ->
       target = $(e.target).parents(".choice")
@@ -265,7 +265,7 @@ class Viewer
       $("#selected").val(code)
       $(".selected").removeClass("selected")
       target.addClass("selected")
-      true
+      e.preventDefault()
 
     $("#member-area").hammer().on 'touch', 'div.member', (e) ->
       sel = $("#selected")
@@ -278,19 +278,19 @@ class Viewer
       sel.val('')
       $(".selected").removeClass("selected")
       calcCost()
-      true
+      e.preventDefault()
 
     $("#member-area").hammer().on 'touch', 'button.close-member', (e) ->
       member = $(e.target).parents(".member-character")
       clearMemberArcana(member)
       calcCost()
-      true
+      e.preventDefault()
 
     $("#share-modal").on 'show.bs.modal', (e) ->
       code = createMembersCode()
       url = $("#app-path").val() + code
       $("#ptm-code").val(url)
-      true
+      true # for modal
 
     $("#ptm-code").on 'click forcus', (e) ->
       $(e.target).select()
