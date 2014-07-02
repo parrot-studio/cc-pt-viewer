@@ -144,7 +144,7 @@ class Viewer
     path = $("#app-path").val() + 'arcanas'
     key = createQueryKey(query)
     rsl = cache[key]
-    return cached: rsl if rsl
+    return cached: (arcanas[code] for code in rsl) if rsl
 
     d = new $.Deferred
     $.getJSON path, query, (datas) ->
@@ -153,7 +153,7 @@ class Viewer
         a = new Arcana(data)
         arcanas[a.jobCode] = a unless arcanas[a.jobCode]
         as.push a
-      cache[key] = as
+      cache[key] = (a.jobCode for a in as)
       d.resolve(as)
     promise: d.promise()
 
