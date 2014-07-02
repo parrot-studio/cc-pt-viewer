@@ -147,7 +147,7 @@ class Viewer
     xhr.done (datas) ->
       callback(datas)
     xhr.fail ->
-      console.log("ERROR!!!!!!")
+      $("#error").show()
 
   searchMembers = (ptm) ->
     query = ptm: ptm
@@ -247,6 +247,7 @@ class Viewer
     $("#cost").text(cost)
 
   initHandler = ->
+    $("#error").hide()
     $("#edit-area").hide()
 
     $("#edit-members").on 'click', (e) ->

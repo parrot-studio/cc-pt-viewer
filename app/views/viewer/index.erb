@@ -1,9 +1,17 @@
 <%
 members1 = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', friend: 'Friend'}
-members2 = {sub1: 'Sub1',sub2: 'Sub2', cost: ''}
+members2 = {sub1: 'Sub1', sub2: 'Sub2', cost: ''}
 %>
 <div id="member-area">
   <div class="row">
+    <div class="col-md-12 col-sm-12">
+      <div class="alert alert-danger" id="error" role="alert">
+        <p>
+          <strong>データの取得に失敗しました。</strong>
+          <%= link_to 'リロードする', request.url, :class => 'alert-link' %>か、再度絞り込みを押してください。
+        </p>
+      </div>
+    </div>
     <% [members1, members2].each do |mems| %>
       <div class="col-md-12 col-sm-12 member-list">
         <ul class="list-inline">
