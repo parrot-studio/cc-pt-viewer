@@ -43,6 +43,7 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
     execjs (2.2.0)
+    hammerjs-rails (0.2.0)
     hike (1.2.3)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
@@ -156,6 +157,7 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-sass
   coffee-rails (~> 4.0.0)
+  hammerjs-rails
   i18n_generators
   jbuilder (~> 2.0)
   jquery-rails
