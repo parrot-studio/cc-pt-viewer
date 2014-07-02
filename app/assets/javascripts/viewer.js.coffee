@@ -138,24 +138,25 @@ class Viewer
       li.fadeIn('slow')
     @
 
-  searchArcanas = (query) ->
+  searchArcanas = (query, callback) ->
     query ?= {}
     query.ver = $("#data-ver").val()
     path = $("#app-path").val() + 'arcanas'
     key = createQueryKey(query)
     rsl = cache[key]
-    return cached: (arcanas[code] for code in rsl) if rsl
+    return (callback (arcanas[code] for code in rsl)) if rsl
 
-    d = new $.Deferred
-    $.getJSON path, query, (datas) ->
+    xhr = $.getJSON path, query
+    xhr.done (datas) ->
       as = []
       for data in datas
         a = new Arcana(data)
         arcanas[a.jobCode] = a unless arcanas[a.jobCode]
         as.push a
       cache[key] = (a.jobCode for a in as)
-      d.resolve(as)
-    promise: d.promise()
+      callback(as)
+    xhr.fail ->
+      console.log("ERROR!!!!!!")
 
   searchMembers = (ptm) ->
     query = {}
@@ -163,7 +164,8 @@ class Viewer
     query.ptm = ptm
     path = $("#app-path").val() + 'ptm'
 
-    $.getJSON path, query, (datas) ->
+    xhr = $.getJSON path, query
+    xhr.done (datas) ->
       eachMembers (m) ->
         div = memberAreaFor(m)
         data = datas[m]
@@ -173,6 +175,8 @@ class Viewer
           arcanas[a.jobCode] = a
         replaceArcana(div, renderFullSizeArcana(a))
         calcCost()
+    xhr.fail ->
+      console.log("ERROR!!!!!!")
 
   buildQuery = ->
     job = $("#job").val()
@@ -194,13 +198,8 @@ class Viewer
   search = ->
     query = buildQuery()
     if query
-      rsl = searchArcanas(query)
-      if rsl.cached
-        replaceChoiceArea(rsl.cached)
-      else
-        promise = rsl.promise
-        promise.done (as) ->
-          replaceChoiceArea(as)
+      searchArcanas query, (as) ->
+        replaceChoiceArea(as)
     else
       replaceChoiceArea([])
 
