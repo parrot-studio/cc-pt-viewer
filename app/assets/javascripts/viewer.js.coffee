@@ -138,34 +138,20 @@ class Viewer
       li.fadeIn('slow')
     @
 
-  searchArcanas = (query, callback) ->
+  searchArcanas = (query, path, callback) ->
     query ?= {}
     query.ver = $("#data-ver").val()
-    path = $("#app-path").val() + 'arcanas'
-    key = createQueryKey(query)
-    rsl = cache[key]
-    return (callback (arcanas[code] for code in rsl)) if rsl
+    url = $("#app-path").val() + path
 
-    xhr = $.getJSON path, query
+    xhr = $.getJSON url, query
     xhr.done (datas) ->
-      as = []
-      for data in datas
-        a = new Arcana(data)
-        arcanas[a.jobCode] = a unless arcanas[a.jobCode]
-        as.push a
-      cache[key] = (a.jobCode for a in as)
-      callback(as)
+      callback(datas)
     xhr.fail ->
       console.log("ERROR!!!!!!")
 
   searchMembers = (ptm) ->
-    query = {}
-    query.ver = $("#data-ver").val()
-    query.ptm = ptm
-    path = $("#app-path").val() + 'ptm'
-
-    xhr = $.getJSON path, query
-    xhr.done (datas) ->
+    query = ptm: ptm
+    searchArcanas query, 'ptm', (datas) ->
       eachMembers (m) ->
         div = memberAreaFor(m)
         data = datas[m]
@@ -175,8 +161,6 @@ class Viewer
           arcanas[a.jobCode] = a
         replaceArcana(div, renderFullSizeArcana(a))
         calcCost()
-    xhr.fail ->
-      console.log("ERROR!!!!!!")
 
   buildQuery = ->
     job = $("#job").val()
@@ -195,13 +179,27 @@ class Viewer
     key += "recently_" if query.recently
     key
 
-  search = ->
+  searchTargets = ->
     query = buildQuery()
-    if query
-      searchArcanas query, (as) ->
-        replaceChoiceArea(as)
-    else
+    unless query
       replaceChoiceArea([])
+      return
+
+    key = createQueryKey(query)
+    cached = cache[key]
+    if cached
+      as = (arcanas[code] for code in cached)
+      replaceChoiceArea as
+      return
+
+    searchArcanas query, 'arcanas', (datas) ->
+      as = []
+      for data in datas
+        a = new Arcana(data)
+        arcanas[a.jobCode] = a unless arcanas[a.jobCode]
+        as.push a
+      cache[key] = (a.jobCode for a in as)
+      replaceChoiceArea as
 
   toggleEditMode = ->
     area = $("#edit-area")
@@ -215,7 +213,7 @@ class Viewer
       onEdit = true
       btn.text("編成を閉じる")
       area.fadeIn()
-      search()
+      searchTargets()
     replaceMemberArea()
     @
 
@@ -256,7 +254,7 @@ class Viewer
       true
 
     $("#search").on 'click', (e) ->
-      search()
+      searchTargets()
       true
 
     $("#edit-area").on 'click', 'div.choice', (e) ->
