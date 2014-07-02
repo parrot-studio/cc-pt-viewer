@@ -251,15 +251,15 @@ class Viewer
     $("#error").hide()
     $("#edit-area").hide()
 
-    $("#edit-members").hammer().on 'touch', (e) ->
+    $("#edit-members").hammer().on 'tap', (e) ->
       toggleEditMode()
       e.preventDefault()
 
-    $("#search").hammer().on 'touch', (e) ->
+    $("#search").hammer().on 'tap', (e) ->
       searchTargets()
       e.preventDefault()
 
-    $("#edit-area").hammer().on 'touch', 'div.choice', (e) ->
+    $("#edit-area").hammer().on 'tap', 'div.choice', (e) ->
       target = $(e.target).parents(".choice")
       code = target.data("jobCode")
       $("#selected").val(code)
@@ -267,7 +267,7 @@ class Viewer
       target.addClass("selected")
       e.preventDefault()
 
-    $("#member-area").hammer().on 'touch', 'div.member', (e) ->
+    $("#member-area").hammer().on 'tap', 'div.member', (e) ->
       sel = $("#selected")
       code = sel.val()
       return false if code == ''
@@ -280,7 +280,7 @@ class Viewer
       calcCost()
       e.preventDefault()
 
-    $("#member-area").hammer().on 'touch', 'button.close-member', (e) ->
+    $("#member-area").hammer().on 'tap', 'button.close-member', (e) ->
       member = $(e.target).parents(".member-character")
       clearMemberArcana(member)
       calcCost()
