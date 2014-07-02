@@ -292,9 +292,9 @@ class Viewer
       $("#ptm-code").val(url)
       true
 
-    $("#ptm-code").hammer().on 'touch forcus', (e) ->
+    $("#ptm-code").on 'click forcus', (e) ->
       $(e.target).select()
-      true
+      e.preventDefault()
 
   initMembers = ->
     ptm = $("#ptm").val()
