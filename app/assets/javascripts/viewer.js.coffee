@@ -49,6 +49,7 @@ class Viewer
 
   arcanas = {}
   members = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'friend']
+  cache = {}
   onEdit = false
 
   constructor: ->
@@ -141,6 +142,9 @@ class Viewer
     query ?= {}
     query.ver = $("#data-ver").val()
     path = $("#app-path").val() + 'arcanas'
+    key = createQueryKey(query)
+    rsl = cache[key]
+    return cached: rsl if rsl
 
     d = new $.Deferred
     $.getJSON path, query, (datas) ->
@@ -149,8 +153,9 @@ class Viewer
         a = new Arcana(data)
         arcanas[a.jobCode] = a unless arcanas[a.jobCode]
         as.push a
+      cache[key] = as
       d.resolve(as)
-    d.promise()
+    promise: d.promise()
 
   searchMembers = (ptm) ->
     query = {}
@@ -179,12 +184,23 @@ class Viewer
     query.rarity = rarity unless rarity == ''
     query
 
+  createQueryKey = (query) ->
+    key = ""
+    key += "j#{query.job}_" if query.job
+    key += "r#{query.rarity}_" if query.rarity
+    key += "recently_" if query.recently
+    key
+
   search = ->
     query = buildQuery()
     if query
-      promise = searchArcanas(query)
-      promise.done (as) ->
-        replaceChoiceArea(as)
+      rsl = searchArcanas(query)
+      if rsl.cached
+        replaceChoiceArea(rsl.cached)
+      else
+        promise = rsl.promise
+        promise.done (as) ->
+          replaceChoiceArea(as)
     else
       replaceChoiceArea([])
 
