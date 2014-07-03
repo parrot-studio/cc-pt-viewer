@@ -11,6 +11,10 @@ class ServerSettings < Settingslogic
     split_types(self.weapons)
   end
 
+  def hometown_names
+    split_types(self.hometowns)
+  end
+
   private
 
   def split_types(str)

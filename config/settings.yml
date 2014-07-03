@@ -2,8 +2,9 @@ arcanas: &arcanas
   jobs: F K P A M
   rarity: 5
   weapons: S B P A H M
-  recently: 18
-  data_version: 20140624
+  recently: 12
+  hometowns: subcity church academy mountain oasis forest volcano ring demon event collaboration
+  data_version: 20140703
   pt_version: 1
 
 production:
