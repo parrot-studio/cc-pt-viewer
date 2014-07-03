@@ -36,7 +36,7 @@ class ViewerController < ApplicationController
   end
 
   def query_params
-    params.permit([:job, :rarity, :recently])
+    params.permit([:job, :rarity, :weapon, :recently])
   end
 
   def recently_arcanas
@@ -100,12 +100,14 @@ class ViewerController < ApplicationController
         nil
       end
     end.call(org[:rarity])
+    weapon = [org[:weapon]].flatten.uniq.compact.select{|j| j.upcase!; Arcana::WEAPON_TYPES.include?(j)}
 
     query = {}
     query[:job_type] = (job.size == 1 ? job.first : job) unless job.blank?
     query[:rarity] = (rarity.size == 1 ? rarity.first : rarity) unless rarity.blank?
+    query[:weapon_type] = (weapon.size == 1 ? weapon.first : weapon) unless weapon.blank?
 
-    query[:cache_key] = "arcanas_j:#{job.sort.join}_r:#{rarity.to_a.join}" unless query.empty?
+    query[:cache_key] = "arcanas_j:#{job.sort.join}_r:#{rarity.to_a.join}_w:#{weapon.sort.join}" unless query.empty?
     query
   end
 

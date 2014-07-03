@@ -171,17 +171,20 @@ class Viewer
   buildQuery = ->
     job = $("#job").val()
     rarity = $("#rarity").val()
-    return {recently: true}  if (job == '' && rarity == '')
+    weapon = $("#weapon").val()
+    return {recently: true}  if (job == '' && rarity == '' && weapon == '')
 
     query = {}
     query.job = job unless job == ''
     query.rarity = rarity unless rarity == ''
+    query.weapon = weapon unless weapon == ''
     query
 
   createQueryKey = (query) ->
     key = ""
     key += "j#{query.job}_" if query.job
     key += "r#{query.rarity}_" if query.rarity
+    key += "w#{query.weapon}_" if query.weapon
     key += "recently_" if query.recently
     key
 
@@ -193,6 +196,8 @@ class Viewer
       elem.push Arcana.jobNameFor(query.job)
     if query.rarity
       elem.push "★#{query.rarity.replace(/U/, '以上')}"
+    if query.weapon
+      elem.push Arcana.weaponNameFor(query.weapon)
     elem.join(' / ')
 
   searchTargets = ->
