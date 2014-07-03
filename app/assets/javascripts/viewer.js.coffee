@@ -314,6 +314,11 @@ class Viewer
       code = createMembersCode()
       url = $("#app-path").val() + code
       $("#ptm-code").val(url)
+
+      twitterUrl = "https://twitter.com/intent/tweet"
+      twitterUrl += "?text=#{encodeURIComponent('チェンクロパーティーシミュレーター ' + url)}"
+      twitterUrl += "&hashtags=ccpt"
+      $("#twitter-share").attr('href', twitterUrl)
       true # for modal
 
     $("#ptm-code").on 'click forcus', (e) ->
