@@ -5,7 +5,7 @@ members2 = {sub1: 'Sub1', sub2: 'Sub2', cost: ''}
 <div id="member-area">
   <div class="row">
     <div class="col-md-12 col-sm-12">
-      <div class="alert alert-danger" id="error" role="alert">
+      <div class="alert alert-danger invisible" id="error" role="alert">
         <p>
           <strong>データの取得に失敗しました。</strong>
           <%= link_to 'リロードする', request.url, :class => 'alert-link' %>か、再度絞り込みを押してください。
@@ -46,7 +46,7 @@ members2 = {sub1: 'Sub1', sub2: 'Sub2', cost: ''}
   </div>
 </div>
 
-<div id="edit-area">
+<div id="edit-area" class="invisible">
   <div class="row">
     <div class="col-md-12 col-sm-12">
       <form class="form-inline" role="form">

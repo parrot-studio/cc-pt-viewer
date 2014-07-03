@@ -249,7 +249,9 @@ class Viewer
 
   initHandler = ->
     $("#error").hide()
+    $("#error").removeClass("invisible")
     $("#edit-area").hide()
+    $("#edit-area").removeClass("invisible")
 
     $("#edit-members").hammer().on 'tap', (e) ->
       toggleEditMode()
