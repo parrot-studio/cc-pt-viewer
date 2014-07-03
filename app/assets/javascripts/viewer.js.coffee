@@ -38,18 +38,22 @@ class Arcana
     @jobIndex = data.job_index
     @jobCode = data.job_code
     @jobName = JOB_NAME[@jobType]
-    @jobNameShort =JOB_NAME_SHORT[@jobType]
-    @rarityStars = '☆☆☆☆☆'.slice(0, @rarity)
+    @jobNameShort = JOB_NAME_SHORT[@jobType]
+    @rarityStars = '★★★★★★'.slice(0, @rarity)
     @jobClass = CLASS_NAME[@jobType]
     @hometown = data.hometown
     @weaponType = data.weapon_type
     @weaponName = WEAPON_NAME[@weaponType]
 
+  @jobNameFor = (j) -> JOB_NAME[j]
+  @jobShortNameFor = (j) -> JOB_NAME_SHORT[j]
+  @weaponNameFor = (w) -> WEAPON_NAME[w]
+
 class Viewer
 
   arcanas = {}
   members = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'friend']
-  cache = {}
+  resultCache = {}
   onEdit = false
 
   constructor: ->
@@ -128,7 +132,7 @@ class Viewer
       else
         replaceArcana(div, renderFullSizeArcana(a))
 
-  replaceChoiceArea = (as) ->
+  replaceChoiceArea = (as, detail) ->
     ul = $('#choice-characters')
     ul.empty()
     for a in as
@@ -136,6 +140,7 @@ class Viewer
       li.hide()
       ul.append(li)
       li.fadeIn('slow')
+    $("#detail").text(detail)
     @
 
   searchArcanas = (query, path, callback) ->
@@ -180,17 +185,27 @@ class Viewer
     key += "recently_" if query.recently
     key
 
+  createQueryDetail = (query) ->
+    elem = []
+    if query.recently
+      elem.push '新着'
+    if query.job
+      elem.push Arcana.jobNameFor(query.job)
+    if query.rarity
+      elem.push "★#{query.rarity.replace(/U/, '以上')}"
+    elem.join(' / ')
+
   searchTargets = ->
     query = buildQuery()
     unless query
-      replaceChoiceArea([])
+      replaceChoiceArea([], '')
       return
 
     key = createQueryKey(query)
-    cached = cache[key]
+    cached = resultCache[key]
     if cached
-      as = (arcanas[code] for code in cached)
-      replaceChoiceArea as
+      as = (arcanas[code] for code in cached.codes)
+      replaceChoiceArea as, cached.detail
       return
 
     searchArcanas query, 'arcanas', (datas) ->
@@ -199,8 +214,10 @@ class Viewer
         a = new Arcana(data)
         arcanas[a.jobCode] = a unless arcanas[a.jobCode]
         as.push a
-      cache[key] = (a.jobCode for a in as)
-      replaceChoiceArea as
+      cs = (a.jobCode for a in as)
+      detail = createQueryDetail(query)
+      resultCache[key] = codes: cs, detail: detail
+      replaceChoiceArea as, detail
 
   toggleEditMode = ->
     area = $("#edit-area")
