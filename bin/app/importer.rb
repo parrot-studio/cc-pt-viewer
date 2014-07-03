@@ -11,7 +11,8 @@ Arcana.transaction do
     name, title, rarity, job_type, cost, wp, ht, job_index = line.chomp.split(',')
     next if name.blank?
 
-    arcana = Arcana.find_by_name(name) || Arcana.new
+    code = "#{job_type}#{job_index.to_i}"
+    arcana = Arcana.find_by_job_code(code) || Arcana.new
     arcana.name = name.gsub(/"""/, '"')
     arcana.title = title.gsub(/"""/, '"')
     arcana.rarity = rarity.to_i
@@ -20,7 +21,7 @@ Arcana.transaction do
     arcana.hometown = ht
     arcana.job_type = job_type
     arcana.job_index = job_index.to_i
-    arcana.job_code = "#{job_type}#{job_index.to_i}"
+    arcana.job_code = code
     arcana.save!
   end
 end

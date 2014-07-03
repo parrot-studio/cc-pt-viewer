@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 20140617063043) do
   add_index "arcanas", ["cost"], name: "index_arcanas_on_cost", using: :btree
   add_index "arcanas", ["hometown", "rarity"], name: "index_arcanas_on_hometown_and_rarity", using: :btree
   add_index "arcanas", ["hometown"], name: "index_arcanas_on_hometown", using: :btree
-  add_index "arcanas", ["job_code"], name: "index_arcanas_on_job_code", using: :btree
+  add_index "arcanas", ["job_code"], name: "index_arcanas_on_job_code", unique: true, using: :btree
   add_index "arcanas", ["job_type", "hometown"], name: "index_arcanas_on_job_type_and_hometown", using: :btree
   add_index "arcanas", ["job_type", "job_index"], name: "index_arcanas_on_job_type_and_job_index", using: :btree
   add_index "arcanas", ["job_type", "rarity", "job_index"], name: "index_arcanas_on_job_type_and_rarity_and_job_index", using: :btree
