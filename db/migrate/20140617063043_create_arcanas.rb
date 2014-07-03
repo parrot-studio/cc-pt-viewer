@@ -16,7 +16,7 @@ class CreateArcanas < ActiveRecord::Migration
     add_index :arcanas, :rarity
     add_index :arcanas, :cost
     add_index :arcanas, :job_type
-    add_index :arcanas, :job_code, :unique => true
+    add_index :arcanas, :job_code, unique: true
     add_index :arcanas, :weapon_type
     add_index :arcanas, :hometown
     add_index :arcanas, [:job_type, :job_index]
