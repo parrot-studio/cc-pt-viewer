@@ -2,6 +2,13 @@
 members1 = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', friend: 'Friend'}
 members2 = {sub1: 'Sub1', sub2: 'Sub2', cost: ''}
 %>
+<div class="header">
+  <ul class="nav nav-pills pull-right">
+    <li><a href="#" id="help" data-toggle="modal" data-target="#help-modal">使い方</a></li>
+  </ul>
+  <h3 class="text-muted">Get our light! <small>チェンクロパーティーシミュレーター</small></h3>
+</div>
+
 <div id="member-area">
   <div class="row">
     <div class="col-md-12 col-sm-12">
@@ -92,7 +99,7 @@ members2 = {sub1: 'Sub1', sub2: 'Sub2', cost: ''}
           <button type="button" id="search" class="btn btn-info" data-loading-text="検索中...">絞り込み</button>
         </div>
         <div class="form-group pull-right">
-          <button type="button" id="reset" class="btn btn-danger">構成をリセット</button>
+          <button type="button" id="reset" class="btn btn-danger">パーティーをリセット</button>
         </div>
       </form>
     </div>
@@ -109,14 +116,20 @@ members2 = {sub1: 'Sub1', sub2: 'Sub2', cost: ''}
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="share-modal-label">構成を共有する</h4>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="share-modal-label">パーティーを共有する</h4>
       </div>
       <div class="modal-body">
         <div class="form-group">
+          <label for="ptm-code">共有用URL</label>
           <input type="text" id="ptm-code" class="form-control" value="">
+          <span class="text-muted small">このURLでアクセスすると、組んだパーティーが表示されます。コピーして使ってください。</span>
         </div>
         <div class="form-group">
-          <a href="#" class="btn btn-primary" role="button" id="twitter-share">Twitterで共有する</a>
+          <p>
+            <a href="#" class="btn btn-primary" role="button" id="twitter-share">Twitterで共有する</a><br>
+            <span class="text-muted small">パーティーをTwitterに投稿できます。自由にコメントを追加できます。</span>
+          </p>
         </div>
       </div>
       <div class="modal-footer">
@@ -131,3 +144,5 @@ members2 = {sub1: 'Sub1', sub2: 'Sub2', cost: ''}
 <input type="hidden" id="app-path" value="<%= app_path %>">
 <input type="hidden" id="ptm" value="<%= @ptm %>">
 <input type="hidden" id="selected" value="">
+
+<%= render 'viewer/help' %>

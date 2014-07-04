@@ -15,24 +15,15 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
-
-    <div class="header">
-      <ul class="nav nav-pills pull-right">
-        <li><a href="#">使い方</a></li>
-        <li><a href="#">About</a></li>
-      </ul>
-      <h3 class="text-muted">Get our light! <small>チェンクロパーティーシミュレーター</small></h3>
-    </div>
-
     <%= yield %>
 
     <footer>
       <p class="small">
-        <strong>チェインクロニクル</strong> <%= link_to 'http://chronicle.sega-net.com/' %><br>
+        <strong>チェインクロニクル</strong> <%= link_to 'http://chronicle.sega-net.com/', 'http://chronicle.sega-net.com/' %><br>
         &copy; SEGA / &copy; SEGA Networks
       </p>
       <p class="text-muted text-right small">
-        作った人 : ぱろっと（<%= link_to '@parrot_studio', 'https://twitter.com/parrot_studio/', :target => '_blank' %>）
+        作った人 : ぱろっと（<%= link_to '@parrot_studio', 'https://twitter.com/parrot_studio/', :target => '_blank' %>） <%= link_to '更新履歴等', about_path %>
       </p>
     </footer>
 

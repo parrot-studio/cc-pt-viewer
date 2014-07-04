@@ -15,6 +15,9 @@ class ViewerController < ApplicationController
     render json: (ret || {})
   end
 
+  def about
+  end
+
   private
 
   def parse_pt_code(code)
