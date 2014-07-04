@@ -60,7 +60,7 @@ class ViewerController < ApplicationController
     qkey = query.delete(:cache_key)
     as = Rails.cache.read(qkey)
     unless as
-      as = Arcana.where(query).order('job_type, rarity DESC, job_index DESC')
+      as = Arcana.where(query).order('job_type, rarity DESC, cost DESC, job_index DESC')
       Rails.cache.write(qkey, as.to_a)
     end
     as
