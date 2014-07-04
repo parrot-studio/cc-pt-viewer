@@ -93,15 +93,17 @@ class Viewer
             #{a.jobNameShort}:#{a.rarityStars} <span class='badge pull-right'>#{a.cost}</span>
           </div>
           <div class='arcana-body'>
-            <p>
-              #{a.title}<br>
-              #{a.name}<br>
-              #{a.weaponName}
+            <p class='arcana-name'>
+                <span class='text-muted small'>#{a.title}</span><br>
+                <strong>#{a.name}</strong>
+            </p>
+            <p class='arcana-detail'>
             </p>
           </div>
           <div class='#{a.jobClass}-footer arcana-footer'>
             <p>
               <small>MAX Lv#{10 + a.rarity * 10}</small>
+              <span class='badge pull-right'>#{a.weaponName}</span>
             <p>
           </div>
         </div>
@@ -119,7 +121,8 @@ class Viewer
           <div class='arcana-summary'>
             <p>
               <small>
-                #{a.title}<br>#{a.name}
+                <span class='text-muted small'>#{a.title}</span><br>
+                <strong>#{a.name}</strong>
               </small>
             </p>
           </div>
