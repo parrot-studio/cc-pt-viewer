@@ -346,6 +346,7 @@ class Viewer
     $("#reset").on 'tap', (e) ->
       eachMemberAreas (area) ->
         replaceArcana(area, renderSummarySizeArcana('', 'member'))
+      $("#cost").text('0')
       e.preventDefault()
 
   initMembers = ->
@@ -353,7 +354,7 @@ class Viewer
     if ptm == ''
       eachMemberAreas (div) ->
         replaceArcana(div, renderFullSizeArcana())
-      $("#cost").append('0')
+      $("#cost").text('0')
     else
       searchMembers(ptm)
     @
