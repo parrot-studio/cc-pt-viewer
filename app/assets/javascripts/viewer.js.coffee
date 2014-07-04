@@ -343,7 +343,7 @@ class Viewer
       $(e.target).select()
       e.preventDefault()
 
-    $("#reset").on 'tap', (e) ->
+    $("#reset").hammer().on 'tap', (e) ->
       eachMemberAreas (area) ->
         replaceArcana(area, renderSummarySizeArcana('', 'member'))
       $("#cost").text('0')
