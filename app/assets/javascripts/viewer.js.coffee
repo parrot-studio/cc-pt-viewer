@@ -343,6 +343,11 @@ class Viewer
       $(e.target).select()
       e.preventDefault()
 
+    $("#reset").on 'tap', (e) ->
+      eachMemberAreas (area) ->
+        replaceArcana(area, renderSummarySizeArcana('', 'member'))
+      e.preventDefault()
+
   initMembers = ->
     ptm = $("#ptm").val()
     if ptm == ''
