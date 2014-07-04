@@ -87,28 +87,43 @@ class Viewer
 
   renderFullSizeArcana = (a) ->
     if a
-      div = "<div class='#{a.jobClass} full-size arcana' data-job-code='#{a.jobCode}'>"
-      div += "<div class='#{a.jobClass}-title arcana-title'>#{a.jobNameShort}:#{a.rarityStars} <span class='badge pull-right'>#{a.cost}</span></div>"
-      div += "<div class='arcana-body'>"
-      div += '<p>'
-      div += a.title + '<br>'
-      div += a.name + '<br>'
-      div += a.weaponName + '<br>'
-      div += '</p>'
-      div += '</div>'
-      div += '</div>'
-      div
+      "
+        <div class='#{a.jobClass} full-size arcana' data-job-code='#{a.jobCode}'>
+          <div class='#{a.jobClass}-title arcana-title'>
+            #{a.jobNameShort}:#{a.rarityStars} <span class='badge pull-right'>#{a.cost}</span>
+          </div>
+          <div class='arcana-body'>
+            <p>
+              #{a.title}<br>
+              #{a.name}<br>
+              #{a.weaponName}
+            </p>
+          </div>
+          <div class='#{a.jobClass}-footer arcana-footer'>
+            <p>
+              <small>MAX Lv#{10 + a.rarity * 10}</small>
+            <p>
+          </div>
+        </div>
+      "
     else
       "<div class='none full-size arcana'></div>"
 
   renderSummarySizeArcana = (a, cl) ->
     if a
-      div = "<div class='#{a.jobClass} #{cl} summary-size arcana' data-job-code='#{a.jobCode}'>"
-      div += "<div class='#{a.jobClass}-title arcana-title'>#{a.jobNameShort}:#{a.rarityStars} <span class='badge badge-sm pull-right'>#{a.cost}</span></div>"
-      div += '<div class="arcana-summary"><p><small>'
-      div += a.title + '<br>'
-      div += a.name
-      div += '</small></p></div>'
+      div = "
+        <div class='#{a.jobClass} #{cl} summary-size arcana' data-job-code='#{a.jobCode}'>
+          <div class='#{a.jobClass}-title arcana-title'>
+            #{a.jobNameShort}:#{a.rarityStars} <span class='badge badge-sm pull-right'>#{a.cost}</span>
+          </div>
+          <div class='arcana-summary'>
+            <p>
+              <small>
+                #{a.title}<br>#{a.name}
+              </small>
+            </p>
+          </div>
+      "
       if cl == 'member'
         div += '<button type="button" class="close close-member" aria-hidden="true">&times;</button>'
       div += '</div>'

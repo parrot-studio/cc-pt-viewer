@@ -42,14 +42,22 @@ footer {
 
 .arcana-title {
   padding: 2px;
+  height: 22px;
 }
 
 .arcana-body {
   padding: 6px;
+  height: 114px;
 }
 
 .arcana-summary {
   padding: 2px;
+  height: 50px;
+}
+
+.arcana-footer {
+  padding: 2px;
+  height: 20px;
 }
 
 .full-size {
@@ -79,11 +87,19 @@ footer {
   background-color: pink;
 }
 
+.fighter-footer {
+  background-color: pink;
+}
+
 .knight {
   border: 2px solid lightskyblue;
 }
 
 .knight-title {
+  background-color: lightskyblue;
+}
+
+.knight-footer {
   background-color: lightskyblue;
 }
 
@@ -95,6 +111,10 @@ footer {
   background-color: cornsilk;
 }
 
+.archer-footer {
+  background-color: cornsilk;
+}
+
 .magician {
   border: 2px solid mediumpurple;
 }
@@ -103,11 +123,19 @@ footer {
   background-color: mediumpurple;
 }
 
+.magician-footer {
+  background-color: mediumpurple;
+}
+
 .priest {
   border: 2px solid lightgreen;
 }
 
 .priest-title {
+  background-color: lightgreen;
+}
+
+.priest-footer {
   background-color: lightgreen;
 }
 
