@@ -16,6 +16,7 @@ default: &default
   username: chain
   password: chain
   host: localhost
+  collation: utf8_bin
 
 development:
   <<: *default

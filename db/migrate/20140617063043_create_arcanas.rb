@@ -2,7 +2,7 @@ class CreateArcanas < ActiveRecord::Migration
   def change
     create_table :arcanas do |t|
       t.string  :name,        null: false, limit: 100
-      t.string  :title,                  limit: 200
+      t.string  :title,                    limit: 200
       t.integer :rarity,      null: false, limit: 3
       t.integer :cost,        null: false, limit: 4
       t.string  :weapon_type, null: false, limit: 10

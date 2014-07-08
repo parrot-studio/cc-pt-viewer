@@ -6,6 +6,8 @@ class Arcana < ActiveRecord::Base
   HOMETOWN_NAMES = ServerSettings.hometown_names.freeze
   SOURCE_NAMES = ServerSettings.source_names.freeze
 
+  belongs_to :voice_actor
+
   validates :name,
     presence: true,
     length: {maximum: 100}
