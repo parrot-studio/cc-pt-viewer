@@ -44,6 +44,7 @@ class Arcana
     @hometown = data.hometown
     @weaponType = data.weapon_type
     @weaponName = WEAPON_NAME[@weaponType]
+    @voiceActor = data.voice_actor
 
   @jobNameFor = (j) -> JOB_NAME[j]
   @jobShortNameFor = (j) -> JOB_NAME_SHORT[j]
@@ -98,6 +99,7 @@ class Viewer
                 <strong>#{a.name}</strong>
             </p>
             <p class='arcana-detail'>
+              #{a.voiceActor}
             </p>
           </div>
           <div class='#{a.jobClass}-footer arcana-footer'>

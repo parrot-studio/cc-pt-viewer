@@ -1,5 +1,7 @@
 class Arcana < ActiveRecord::Base
 
+  default_scope { includes(:voice_actor) }
+
   JOB_TYPES = ServerSettings.job_types.freeze
   RARITYS = (1..(ServerSettings.rarity)).freeze
   WEAPON_TYPES = ServerSettings.weapon_types.freeze
@@ -38,5 +40,12 @@ class Arcana < ActiveRecord::Base
     presence: true,
     uniqueness: true,
     length: {maximum: 20}
+
+  def serialize
+    ret = self.attributes
+    ret['voice_actor'] = self.voice_actor.name
+    ret.delete('voice_actor_id')
+    ret
+  end
 
 end

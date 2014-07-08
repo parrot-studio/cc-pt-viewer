@@ -46,7 +46,7 @@ class ViewerController < ApplicationController
     cache_name = 'arcanas_recently'
     as = Rails.cache.read(cache_name)
     if as.blank?
-      as = Arcana.order('id DESC').limit(ServerSettings.recently.to_i)
+      as = Arcana.order('id DESC').limit(ServerSettings.recently.to_i).map(&:serialize)
       Rails.cache.write(cache_name, as.to_a)
     end
     as
@@ -63,7 +63,7 @@ class ViewerController < ApplicationController
     qkey = query.delete(:cache_key)
     as = Rails.cache.read(qkey)
     unless as
-      as = Arcana.where(query).order('job_type, rarity DESC, cost DESC, job_index DESC')
+      as = Arcana.where(query).order('job_type, rarity DESC, cost DESC, job_index DESC').map(&:serialize)
       Rails.cache.write(qkey, as.to_a)
     end
     as
@@ -82,7 +82,7 @@ class ViewerController < ApplicationController
     mems.each do |po, co|
       a = as[co]
       next unless a
-      ret[po] = as[co]
+      ret[po] = as[co].serialize
     end
     ret
   end
