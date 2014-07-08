@@ -7,10 +7,11 @@ end
 f = File.open(file, 'rt:Shift_JIS')
 Arcana.transaction do
   actors = VoiceActor.all.index_by(&:name)
+  illusts = Illustrator.all.index_by(&:name)
 
   f.readlines.each do |line|
     next if line.start_with?('#')
-    name, title, rarity, job_type, cost, wp, ht, so, vn, job_index = line.split(',').map(&:strip)
+    name, title, rarity, job_type, cost, wp, ht, so, vn, iname, job_index = line.split(',').map(&:strip)
     next if name.blank?
 
     code = "#{job_type}#{job_index.to_i}"
@@ -35,12 +36,26 @@ Arcana.transaction do
     end.call(vn)
     arcana.voice_actor = actor
 
+    illust = illusts[iname] || lambda do |name|
+      il = Illustrator.new
+      il.name = name
+      il.save!
+      illusts[name] = il
+      il
+    end.call(iname)
+    arcana.illustrator = illust
+
     arcana.save!
   end
 
   VoiceActor.all.each do |va|
     va.count = Arcana.where(voice_actor_id: va.id).count
     va.save!
+  end
+
+  Illustrator.all.each do |il|
+    il.count = Arcana.where(illustrator_id: il.id).count
+    il.save!
   end
 
 end

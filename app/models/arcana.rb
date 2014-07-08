@@ -1,6 +1,6 @@
 class Arcana < ActiveRecord::Base
 
-  default_scope { includes(:voice_actor) }
+  default_scope { includes([:voice_actor, :illustrator]) }
 
   JOB_TYPES = ServerSettings.job_types.freeze
   RARITYS = (1..(ServerSettings.rarity)).freeze
@@ -9,6 +9,7 @@ class Arcana < ActiveRecord::Base
   SOURCE_NAMES = ServerSettings.source_names.freeze
 
   belongs_to :voice_actor
+  belongs_to :illustrator
 
   validates :name,
     presence: true,
@@ -45,6 +46,8 @@ class Arcana < ActiveRecord::Base
     ret = self.attributes
     ret['voice_actor'] = self.voice_actor.name
     ret.delete('voice_actor_id')
+    ret['illustrator'] = self.illustrator.name
+    ret.delete('illustrator_id')
     ret
   end
 
