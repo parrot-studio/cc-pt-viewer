@@ -5,6 +5,7 @@ arcanas: &arcanas
   recently: 12
   hometowns: unknown guildtown holytown academy mountain oasis forest volcano demon collaboration
   sources: other guildtown holytown academy mountain oasis forest volcano ring demon event collaboration
+  growths: fast normal slow
   data_version: 20140703
   pt_version: 1
 

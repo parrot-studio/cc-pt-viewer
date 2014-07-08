@@ -29,6 +29,11 @@ class Arcana
     M: '魔'
     H: '聖'
 
+  GROWTH_TYPE =
+    fast:   '早熟'
+    normal: '普通'
+    slow:   '晩成'
+
   constructor: (data) ->
     @name = data.name
     @title = data.title
@@ -46,6 +51,8 @@ class Arcana
     @weaponName = WEAPON_NAME[@weaponType]
     @voiceActor = data.voice_actor
     @illustrator = data.illustrator
+    @growthType = data.growth_type
+    @growthTypeName = GROWTH_TYPE[@growthType]
 
   @jobNameFor = (j) -> JOB_NAME[j]
   @jobShortNameFor = (j) -> JOB_NAME_SHORT[j]
@@ -100,7 +107,7 @@ class Viewer
                 <strong>#{a.name}</strong>
             </p>
             <p class='arcana-detail'>
-              #{a.illustrator}<br>#{a.voiceActor}
+              #{a.illustrator}<br>#{a.voiceActor}<br>#{a.growthTypeName}
             </p>
           </div>
           <div class='#{a.jobClass}-footer arcana-footer'>

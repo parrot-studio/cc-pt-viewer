@@ -11,7 +11,7 @@ Arcana.transaction do
 
   f.readlines.each do |line|
     next if line.start_with?('#')
-    name, title, rarity, job_type, cost, wp, ht, so, vn, iname, job_index = line.split(',').map(&:strip)
+    name, title, rarity, job_type, cost, wp, ht, so, vn, iname, gt, job_index = line.split(',').map(&:strip)
     next if name.blank?
 
     code = "#{job_type}#{job_index.to_i}"
@@ -23,6 +23,7 @@ Arcana.transaction do
     arcana.weapon_type = wp
     arcana.hometown = ht
     arcana.source = so
+    arcana.growth_type = gt
     arcana.job_type = job_type
     arcana.job_index = job_index.to_i
     arcana.job_code = code

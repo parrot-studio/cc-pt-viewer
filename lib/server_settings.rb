@@ -19,6 +19,10 @@ class ServerSettings < Settingslogic
     split_types(self.sources)
   end
 
+  def growth_types
+    split_types(self.growths)
+  end
+
   private
 
   def split_types(str)
