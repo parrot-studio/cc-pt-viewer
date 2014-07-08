@@ -200,12 +200,16 @@ class Viewer
     job = $("#job").val()
     rarity = $("#rarity").val()
     weapon = $("#weapon").val()
-    return {recently: true}  if (job == '' && rarity == '' && weapon == '')
+    actor = $("#actor").val()
+    illst = $("#illustrator").val()
+    return {recently: true}  if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '')
 
     query = {}
     query.job = job unless job == ''
     query.rarity = rarity unless rarity == ''
     query.weapon = weapon unless weapon == ''
+    query.actor = actor unless actor == ''
+    query.illustrator = illst unless illst == ''
     query
 
   createQueryKey = (query) ->
@@ -213,6 +217,8 @@ class Viewer
     key += "j#{query.job}_" if query.job
     key += "r#{query.rarity}_" if query.rarity
     key += "w#{query.weapon}_" if query.weapon
+    key += "a#{query.actor}_" if query.actor
+    key += "i#{query.illustrator}_" if query.illustrator
     key += "recently_" if query.recently
     key
 
@@ -226,6 +232,10 @@ class Viewer
       elem.push "★#{query.rarity.replace(/U/, '以上')}"
     if query.weapon
       elem.push Arcana.weaponNameFor(query.weapon)
+    if query.actor
+      elem.push '声優 - ' + $("#actor :selected").text()
+    if query.illustrator
+      elem.push 'イラスト - ' + $("#illustrator :selected").text()
     elem.join(' / ')
 
   searchTargets = ->

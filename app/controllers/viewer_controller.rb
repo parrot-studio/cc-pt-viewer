@@ -3,6 +3,8 @@ class ViewerController < ApplicationController
   def index
     code = params[:code]
     @ptm = (!code.blank? && parse_pt_code(code)) ? code : ''
+    @actors = VoiceActor.order('count DESC, name')
+    @illusts = Illustrator.order(:name)
   end
 
   def arcanas
@@ -39,7 +41,7 @@ class ViewerController < ApplicationController
   end
 
   def query_params
-    params.permit([:job, :rarity, :weapon, :recently])
+    params.permit([:job, :rarity, :weapon, :recently, :actor, :illustrator])
   end
 
   def recently_arcanas
@@ -104,13 +106,24 @@ class ViewerController < ApplicationController
       end
     end.call(org[:rarity])
     weapon = [org[:weapon]].flatten.uniq.compact.select{|j| j.upcase!; Arcana::WEAPON_TYPES.include?(j)}
+    actor = [org[:actor]].flatten.uniq.compact
+    illust = [org[:illustrator]].flatten.uniq.compact
 
     query = {}
     query[:job_type] = (job.size == 1 ? job.first : job) unless job.blank?
     query[:rarity] = (rarity.size == 1 ? rarity.first : rarity) unless rarity.blank?
     query[:weapon_type] = (weapon.size == 1 ? weapon.first : weapon) unless weapon.blank?
+    query[:voice_actor_id] = (actor.size == 1 ? actor.first : actor) unless actor.blank?
+    query[:illustrator_id] = (illust.size == 1 ? illust.first : actor) unless illust.blank?
 
-    query[:cache_key] = "arcanas_j:#{job.sort.join}_r:#{rarity.to_a.join}_w:#{weapon.sort.join}" unless query.empty?
+    key = "arcanas"
+    key += "_j:#{job.sort.join}" if query[:job_type]
+    key += "_r:#{rarity.to_a.join}" if query[:rarity]
+    key += "_w:#{weapon.sort.join}" if query[:weapon_type]
+    key += "_a:#{actor.sort.join('/')}" if query[:voice_actor_id]
+    key += "_i:#{illust.sort.join('/')}" if query[:illustrator_id]
+
+    query[:cache_key] = key
     query
   end
 
