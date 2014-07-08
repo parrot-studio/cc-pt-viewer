@@ -34,6 +34,20 @@ class Arcana
     normal: '普通'
     slow:   '晩成'
 
+  SOURCE_NAME =
+    guildtown: '副都'
+    holytown: '聖都'
+    academy: '賢者の塔'
+    mountain: '迷宮山脈'
+    oasis: '湖都'
+    forest: '精霊島'
+    volcano: '九領'
+    ring: 'リング交換'
+    demon: '魔神戦'
+    event: '期間限定'
+    collaboration: 'コラボ限定'
+    other: 'その他'
+
   constructor: (data) ->
     @name = data.name
     @title = data.title
@@ -53,11 +67,14 @@ class Arcana
     @illustrator = data.illustrator
     @growthType = data.growth_type
     @growthTypeName = GROWTH_TYPE[@growthType]
+    @source = data.source
+    @sourceName = SOURCE_NAME[@source]
 
   @jobNameFor = (j) -> JOB_NAME[j]
   @jobShortNameFor = (j) -> JOB_NAME_SHORT[j]
   @weaponNameFor = (w) -> WEAPON_NAME[w]
   @growthTypeNameFor = (g) -> GROWTH_TYPE[g]
+  @sourceNameFor = (s) -> SOURCE_NAME[s]
 
 class Viewer
 
@@ -204,7 +221,8 @@ class Viewer
     actor = $("#actor").val()
     illst = $("#illustrator").val()
     growth = $("#growth").val()
-    return {recently: true}  if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '')
+    source = $("#source").val()
+    return {recently: true}  if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '' && source == '')
 
     query = {}
     query.job = job unless job == ''
@@ -213,6 +231,7 @@ class Viewer
     query.actor = actor unless actor == ''
     query.illustrator = illst unless illst == ''
     query.growth = growth unless growth == ''
+    query.source = source unless source == ''
     query
 
   createQueryKey = (query) ->
@@ -223,6 +242,7 @@ class Viewer
     key += "a#{query.actor}_" if query.actor
     key += "i#{query.illustrator}_" if query.illustrator
     key += "g#{query.growth}_" if query.growth
+    key += "s#{query.source}_" if query.source
     key += "recently_" if query.recently
     key
 
@@ -238,6 +258,8 @@ class Viewer
       elem.push Arcana.weaponNameFor(query.weapon)
     if query.growth
       elem.push Arcana.growthTypeNameFor(query.growth)
+    if query.source
+      elem.push Arcana.sourceNameFor(query.source)
     if query.actor
       elem.push '声優 - ' + $("#actor :selected").text()
     if query.illustrator
