@@ -4,6 +4,7 @@ class Arcana < ActiveRecord::Base
   RARITYS = (1..(ServerSettings.rarity)).freeze
   WEAPON_TYPES = ServerSettings.weapon_types.freeze
   HOMETOWN_NAMES = ServerSettings.hometown_names.freeze
+  SOURCE_NAMES = ServerSettings.source_names.freeze
 
   validates :name,
     presence: true,
@@ -22,6 +23,9 @@ class Arcana < ActiveRecord::Base
   validates :hometown,
     presence: true,
     inclusion: {in: HOMETOWN_NAMES}
+  validates :source,
+    presence: true,
+    inclusion: {in: SOURCE_NAMES}
   validates :job_type,
     presence: true,
     inclusion: {in: JOB_TYPES}

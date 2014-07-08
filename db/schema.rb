@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140617063043) do
+ActiveRecord::Schema.define(version: 20140708023651) do
 
   create_table "arcanas", force: true do |t|
     t.string   "name",        limit: 100, null: false
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20140617063043) do
     t.string   "job_code",    limit: 20,  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "source",      limit: 100, null: false
   end
 
   add_index "arcanas", ["cost"], name: "index_arcanas_on_cost", using: :btree
@@ -39,6 +40,7 @@ ActiveRecord::Schema.define(version: 20140617063043) do
   add_index "arcanas", ["name"], name: "index_arcanas_on_name", using: :btree
   add_index "arcanas", ["rarity", "weapon_type"], name: "index_arcanas_on_rarity_and_weapon_type", using: :btree
   add_index "arcanas", ["rarity"], name: "index_arcanas_on_rarity", using: :btree
+  add_index "arcanas", ["source"], name: "index_arcanas_on_source", using: :btree
   add_index "arcanas", ["weapon_type"], name: "index_arcanas_on_weapon_type", using: :btree
 
 end

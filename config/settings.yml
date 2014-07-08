@@ -3,7 +3,8 @@ arcanas: &arcanas
   rarity: 5
   weapons: S B P A H M
   recently: 12
-  hometowns: subcity church academy mountain oasis forest volcano ring demon event collaboration
+  hometowns: unknown guildtown holytown academy mountain oasis forest volcano demon collaboration
+  sources: other guildtown holytown academy mountain oasis forest volcano ring demon event collaboration
   data_version: 20140703
   pt_version: 1
 
