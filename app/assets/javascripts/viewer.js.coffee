@@ -57,6 +57,7 @@ class Arcana
   @jobNameFor = (j) -> JOB_NAME[j]
   @jobShortNameFor = (j) -> JOB_NAME_SHORT[j]
   @weaponNameFor = (w) -> WEAPON_NAME[w]
+  @growthTypeNameFor = (g) -> GROWTH_TYPE[g]
 
 class Viewer
 
@@ -202,7 +203,8 @@ class Viewer
     weapon = $("#weapon").val()
     actor = $("#actor").val()
     illst = $("#illustrator").val()
-    return {recently: true}  if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '')
+    growth = $("#growth").val()
+    return {recently: true}  if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '')
 
     query = {}
     query.job = job unless job == ''
@@ -210,6 +212,7 @@ class Viewer
     query.weapon = weapon unless weapon == ''
     query.actor = actor unless actor == ''
     query.illustrator = illst unless illst == ''
+    query.growth = growth unless growth == ''
     query
 
   createQueryKey = (query) ->
@@ -219,6 +222,7 @@ class Viewer
     key += "w#{query.weapon}_" if query.weapon
     key += "a#{query.actor}_" if query.actor
     key += "i#{query.illustrator}_" if query.illustrator
+    key += "g#{query.growth}_" if query.growth
     key += "recently_" if query.recently
     key
 
@@ -232,6 +236,8 @@ class Viewer
       elem.push "★#{query.rarity.replace(/U/, '以上')}"
     if query.weapon
       elem.push Arcana.weaponNameFor(query.weapon)
+    if query.growth
+      elem.push Arcana.growthTypeNameFor(query.growth)
     if query.actor
       elem.push '声優 - ' + $("#actor :selected").text()
     if query.illustrator
@@ -251,6 +257,7 @@ class Viewer
       replaceChoiceArea as, cached.detail
       return
 
+    detail = createQueryDetail(query)
     searchArcanas query, 'arcanas', (datas) ->
       as = []
       for data in datas
@@ -258,7 +265,6 @@ class Viewer
         arcanas[a.jobCode] = a unless arcanas[a.jobCode]
         as.push a
       cs = (a.jobCode for a in as)
-      detail = createQueryDetail(query)
       resultCache[key] = codes: cs, detail: detail
       replaceChoiceArea as, detail
 
