@@ -222,6 +222,9 @@ class Viewer
     $("#illustrator").val('')
     $("#growth").val('')
     $("#source").val('')
+
+    $("#additional-condition").hide()
+    $("#add-condition").show()
     @
 
   buildQuery = ->
@@ -302,7 +305,6 @@ class Viewer
 
   toggleEditMode = ->
     edit = $("#edit-area")
-    ctrl = $("#ctrl-area")
     member = $("#member-area")
     btn = $("#edit-members")
     title = $("#edit-title")
@@ -313,13 +315,11 @@ class Viewer
       member.removeClass("editing")
       title.hide()
       edit.fadeOut()
-      ctrl.fadeIn('fast')
     else
       onEdit = true
       btn.text("編集終了")
       member.addClass("editing")
       title.show()
-      ctrl.fadeOut('fast')
       edit.fadeIn()
       searchTargets()
     replaceMemberArea()
@@ -361,6 +361,7 @@ class Viewer
     $("#edit-area").removeClass("invisible")
     $("#edit-title").hide()
     $("#edit-title").removeClass("invisible")
+    $("#additional-condition").hide()
 
     $("#edit-members").hammer().on 'tap', (e) ->
       toggleEditMode()
@@ -421,6 +422,11 @@ class Viewer
     $("#search-clear").hammer().on 'tap', (e) ->
       resetQuery()
       e.preventDefault()
+
+    $("#add-condition").hammer().on 'tap', (e) ->
+       $("#add-condition").hide()
+       $("#additional-condition").fadeIn('fast')
+       e.preventDefault()
 
   initMembers = ->
     ptm = $("#ptm").val()
