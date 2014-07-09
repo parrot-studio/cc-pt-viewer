@@ -341,10 +341,11 @@ class Viewer
     @
 
   createMembersCode = ->
-    code = 'V' + $("#pt-ver").val()
+    header = 'V' + $("#pt-ver").val()
+    code = ''
     eachMemberCode (c) ->
-      code = code + (c || 'N')
-    code
+      code += (c || 'N')
+    if (/^N+$/).test(code) then '' else (header + code)
 
   calcCost = ->
     cost = 0
