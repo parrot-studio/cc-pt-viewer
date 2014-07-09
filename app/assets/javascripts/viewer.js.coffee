@@ -117,22 +117,24 @@ class Viewer
       "
         <div class='#{a.jobClass} full-size arcana' data-job-code='#{a.jobCode}'>
           <div class='#{a.jobClass}-title arcana-title'>
-            #{a.jobNameShort}:#{a.rarityStars} <span class='badge pull-right'>#{a.cost}</span>
+            #{a.jobNameShort} : #{a.rarityStars}
+            <span class='badge pull-right'>#{a.cost}</span>
           </div>
           <div class='arcana-body'>
             <p class='arcana-name'>
                 <span class='text-muted small'>#{a.title}</span><br>
                 <strong>#{a.name}</strong>
             </p>
-            <p class='arcana-detail'>
-              #{a.illustrator}<br>#{a.voiceActor}<br>#{a.growthTypeName}
-            </p>
+              <dl class='small text-muted'>
+                <dt>type</dt>
+                <dd>#{a.weaponName} / #{a.growthTypeName}</dd>
+                <dt>illust</dt>
+                <dd>#{a.illustrator}</dd>
+                <dt>voice</dt>
+                <dd>#{a.voiceActor}</dd>
+              </dl>
           </div>
           <div class='#{a.jobClass}-footer arcana-footer'>
-            <p>
-              <small>MAX Lv#{10 + a.rarity * 10}</small>
-              <span class='badge pull-right'>#{a.weaponName}</span>
-            <p>
           </div>
         </div>
       "
