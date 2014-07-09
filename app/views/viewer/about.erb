@@ -6,30 +6,92 @@
     <div class="well well-sm">
       <%= link_to '<< 戻る', root_path %>
     </div>
-    <h2>更新履歴</h2>
-    <dl class="dl-horizontal">
-      <dt>Ver.201407xx-beta</dt>
-      <dd>初公開版</dd>
-    </dl>
+    <div>
+      <h2>データ</h2>
+    </div>
+    <div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">データの確認ソース</h3>
+        </div>
+        <div class="panel-body">
+          <p>
+            ゲーム内で直に確認するのが最も確実ですが、<%= link_to 'Wiki', 'http://xn--eckfza0gxcvmna6c.gamerch.com/' %>の情報にほぼ依存しています。<br>
+            ただし、全て手でメンテしていますので、Wikiが修正されても自動で反映されるわけではありません。<br>
+            データにおかしなところがあれば <%= link_to '@parrot_studio', 'https://twitter.com/parrot_studio/', :target => '_blank' %> まで。
+          </p>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">アルカナ属性「入手先」について</h3>
+        </div>
+        <div class="panel-body">
+          <p>
+            ★4以上で酒場から出現するものについては問題ありませんが、<br>
+            それ以外のアルカナについては以下のように分類しています。
+          </p>
+          <ul>
+            <li>コラボ関連 => フェス限定やレイド報酬（ex:アカツキ）等にかかわらず「コラボ限定」</li>
+            <li>ユリアナ/ロロ等、コラボ以外のフェス限定 => 「期間限定」</li>
+            <li>★1-2 => ノーマルガチャ/フリークエストから出現だが、まとめて「その他」</li>
+            <li>★3 => 自身でプレイした時の記憶や、キャラの所属/ストーリー等から大雑把にどこかの「酒場」</li>
+            <li>魔神レイドの報酬となる魔神 => 「魔神戦」</li>
+            <li>魔神だが、レイドではない（ex:ザレン） => 「その他」</li>
+            <li>主人公/フィーナ => 「その他」</li>
+          </ul>
+          <p>
+            よって、分類として確実なのは「コラボ限定」「期間限定」「魔神戦」「★4以上の酒場」で、<br>
+            それ以外はあまりあてになりません。<br>
+            その他の検索条件での絞り込みをおすすめします。
+          </p>
+        </div>
+      </div>
+    </div>
     <hr>
-    <h2>今後の予定（は未定）</h2>
-    <ul>
-      <li>所属する酒場から絞り込み</li>
-      <li>アビリティ/スキルの登録（それによる検索等機能追加）</li>
-      <li>詳細表示</li>
-      <li>アルカナのレベルを登録可能に</li>
-      <li>最後に編集した構成を初期状態に</li>
-      <li>パーティー編成を（クッキーに）保存</li>
-      <li>全体のデザインをリッチに</li>
-      <li>声優/イラストレーターの登録</li>
-      <li>成長タイプの登録</li>
-      <li>etc...</li>
-    </ul>
-    <hr>
-    <h2>やらないこと</h2>
-    <ul>
-      <li>ゲームのUIレベルでは本来わからない情報（経験値タイプetc...）</li>
-      <li>公式にリリースがない情報の登録</li>
-    </ul>
+    <div>
+      <h2>システム</h2>
+    </div>
+    <div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">更新履歴</h3>
+        </div>
+        <div class="panel-body">
+          <dl class="dl-horizontal">
+            <dt>Ver.201407xx-beta</dt>
+            <dd>初公開版</dd>
+          </dl>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">今後の予定（は未定）</h3>
+        </div>
+        <div class="panel-body">
+          <ul>
+            <li>所属する酒場から絞り込み</li>
+            <li>アビリティ/スキルの登録（それによる検索等機能追加）</li>
+            <li>詳細表示</li>
+            <li>アルカナのレベルを登録可能に</li>
+            <li>最後に編集した構成を初期状態に</li>
+            <li>パーティー編成を（クッキーに）保存</li>
+            <li>全体のデザインをリッチに</li>
+            <li>etc...</li>
+          </ul>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">やらないこと</h3>
+        </div>
+        <div class="panel-body">
+          <ul>
+            <li>ゲームのUIレベルでは本来わからない情報（経験値タイプetc...）</li>
+            <li>公式にリリースがない情報の登録（データ解析情報等）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
