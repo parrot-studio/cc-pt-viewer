@@ -182,7 +182,7 @@ class Viewer
     ul = $('#choice-characters')
     ul.empty()
     for a in as
-      li = $("<li class='listed-character col-md-2 col-sm-2'>#{renderSummarySizeArcana(a, 'choice')}</li>")
+      li = $("<li class='listed-character col-md-4 col-sm-4'>#{renderSummarySizeArcana(a, 'choice')}</li>")
       li.hide()
       ul.append(li)
       li.fadeIn('slow')
@@ -236,14 +236,14 @@ class Viewer
 
   createQueryKey = (query) ->
     key = ""
+    key += "recently_" if query.recently
     key += "j#{query.job}_" if query.job
     key += "r#{query.rarity}_" if query.rarity
+    key += "s#{query.source}_" if query.source
     key += "w#{query.weapon}_" if query.weapon
+    key += "g#{query.growth}_" if query.growth
     key += "a#{query.actor}_" if query.actor
     key += "i#{query.illustrator}_" if query.illustrator
-    key += "g#{query.growth}_" if query.growth
-    key += "s#{query.source}_" if query.source
-    key += "recently_" if query.recently
     key
 
   createQueryDetail = (query) ->
@@ -254,12 +254,12 @@ class Viewer
       elem.push Arcana.jobNameFor(query.job)
     if query.rarity
       elem.push "★#{query.rarity.replace(/U/, '以上')}"
+    if query.source
+      elem.push Arcana.sourceNameFor(query.source)
     if query.weapon
       elem.push Arcana.weaponNameFor(query.weapon)
     if query.growth
       elem.push Arcana.growthTypeNameFor(query.growth)
-    if query.source
-      elem.push Arcana.sourceNameFor(query.source)
     if query.actor
       elem.push '声優 - ' + $("#actor :selected").text()
     if query.illustrator
@@ -291,17 +291,23 @@ class Viewer
       replaceChoiceArea as, detail
 
   toggleEditMode = ->
-    area = $("#edit-area")
+    edit = $("#edit-area")
+    ctrl = $("#ctrl-area")
+    member = $("#member-area")
     btn = $("#edit-members")
 
     if onEdit
       onEdit = false
-      btn.text("編成を開く")
-      area.fadeOut()
+      btn.text("編集する")
+      member.removeClass("editing")
+      edit.fadeOut()
+      ctrl.fadeIn('fast')
     else
       onEdit = true
-      btn.text("編成を閉じる")
-      area.fadeIn()
+      btn.text("編集終了")
+      member.addClass("editing")
+      ctrl.fadeOut('fast')
+      edit.fadeIn()
       searchTargets()
     replaceMemberArea()
     @
@@ -336,8 +342,8 @@ class Viewer
     $("#cost").text(cost)
 
   initHandler = ->
-    $("#error").hide()
-    $("#error").removeClass("invisible")
+    $("#error-area").hide()
+    $("#error-area").removeClass("invisible")
     $("#edit-area").hide()
     $("#edit-area").removeClass("invisible")
 
@@ -391,7 +397,7 @@ class Viewer
       $(e.target).select()
       e.preventDefault()
 
-    $("#reset").hammer().on 'tap', (e) ->
+    $("#reset-members").hammer().on 'tap', (e) ->
       eachMemberAreas (area) ->
         replaceArcana(area, renderSummarySizeArcana('', 'member'))
       $("#cost").text('0')

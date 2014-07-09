@@ -1,6 +1,6 @@
 <%
 members1 = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', friend: 'Friend'}
-members2 = {sub1: 'Sub1', sub2: 'Sub2', cost: ''}
+members2 = {sub1: 'Sub1', sub2: 'Sub2', cost: '', edit: '', share: ''}
 %>
 <div class="header">
   <ul class="nav nav-pills pull-right">
@@ -9,16 +9,21 @@ members2 = {sub1: 'Sub1', sub2: 'Sub2', cost: ''}
   <h3 class="text-muted">Get our light! <small>チェンクロパーティーシミュレーター</small></h3>
 </div>
 
-<div id="member-area">
+<div id="error-area" class="invisible">
   <div class="row">
     <div class="col-md-12 col-sm-12">
-      <div class="alert alert-danger invisible" id="error" role="alert">
+      <div class="alert alert-danger" role="alert">
         <p>
           <strong>データの取得に失敗しました。</strong>
           <%= link_to 'リロードする', request.url, :class => 'alert-link' %>か、再度絞り込みを押してください。
         </p>
       </div>
     </div>
+  </div>
+</div>
+
+<div id="member-area">
+  <div class="row">
     <% [members1, members2].each do |mems| %>
       <div class="col-md-12 col-sm-12 member-list">
         <ul class="list-inline">
@@ -29,6 +34,18 @@ members2 = {sub1: 'Sub1', sub2: 'Sub2', cost: ''}
                 <p class="text-center">
                   <label for="cost">Total Cost</label><br>
                   <span id="cost" class="cost"></span>
+                </p>
+              <% when :edit %>
+                <p class="text-center">
+                  <button class="btn btn-primary btn-lg act-btn" id="edit-members">
+                    編集する
+                  </button>
+                </p>
+              <% when :share %>
+                <p class="text-center">
+                  <button class="btn btn-info btn-lg act-btn" id="share-members" data-toggle="modal" data-target="#share-modal">
+                    共有する
+                  </button>
                 </p>
               <% else %>
                 <label for="member-character-<%= code %>" class="member-label"><%= name %></label>
@@ -42,152 +59,14 @@ members2 = {sub1: 'Sub1', sub2: 'Sub2', cost: ''}
   </div>
 </div>
 
-<div class="row">
-  <div class="col-md-12 col-sm-12">
-    <button class="btn btn-primary btn-lg act-btn col-md-2 col-sm-2" id="edit-members">
-      編成する
-    </button>
-    <button class="btn btn-info btn-lg act-btn col-md-2 col-sm-2" id="share-members" data-toggle="modal" data-target="#share-modal">
-      共有する
-    </button>
-  </div>
-</div>
+<%= render 'viewer/edit' %>
 
-<div id="edit-area" class="invisible">
-  <div class="row">
-    <div class="col-md-12 col-sm-12">
-      <form class="form-inline well" role="form">
-        <div class="form-group">
-          <label for="job">職業</label>
-          <select id="job" class="form-control">
-            <option value="">-</option>
-            <option value="F">戦</option>
-            <option value="K">騎</option>
-            <option value="P">僧</option>
-            <option value="A">弓</option>
-            <option value="M">魔</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="rarity">レア度</label>
-          <select id="rarity" class="form-control">
-            <option value="">-</option>
-            <option value="1">☆</option>
-            <option value="1U">☆+</option>
-            <option value="2">☆☆</option>
-            <option value="2U">☆☆+</option>
-            <option value="3">☆☆☆</option>
-            <option value="3U">☆☆☆+</option>
-            <option value="4">☆☆☆☆</option>
-            <option value="4U">☆☆☆☆+</option>
-            <option value="5">☆☆☆☆☆</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="weapon">武器タイプ</label>
-          <select id="weapon" class="form-control">
-            <option value="">-</option>
-            <option value="S">斬</option>
-            <option value="B">打</option>
-            <option value="P">突</option>
-            <option value="A">弓</option>
-            <option value="M">魔</option>
-            <option value="H">聖</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="growth">成長タイプ</label>
-          <select id="growth" class="form-control">
-            <option value="">-</option>
-            <option value="normal">通常</option>
-            <option value="fast">早熟</option>
-            <option value="slow">晩成</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="source">入手先</label>
-          <select id="source" class="form-control">
-            <option value="">-</option>
-            <option value="guildtown">副都・酒場</option>
-            <option value="holytown">聖都・酒場</option>
-            <option value="academy">賢者の塔・酒場</option>
-            <option value="mountain">迷宮山脈・酒場</option>
-            <option value="oasis">湖都・酒場</option>
-            <option value="forest">精霊島・酒場</option>
-            <option value="volcano">九領・酒場</option>
-            <option value="ring">リング交換</option>
-            <option value="demon">魔神戦</option>
-            <option value="event">期間限定</option>
-            <option value="collaboration">コラボ限定</option>
-            <option value="other">その他</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="actor">声優</label>
-          <select id="actor" class="form-control">
-            <option value="">-</option>
-            <% @actors.each do |act| %>
-              <option value="<%= act.id %>"><%= act.name %></option>
-            <% end %>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="illustrator">イラストレーター</label>
-          <select id="illustrator" class="form-control">
-            <option value="">-</option>
-            <% @illusts.each do |ill| %>
-              <option value="<%= ill.id %>"><%= ill.name %></option>
-            <% end %>
-          </select>
-        </div>
-        <div class="form-group">
-          <button type="button" id="search" class="btn btn-info" data-loading-text="検索中...">絞り込み</button>
-        </div>
-        <div class="form-group pull-right">
-          <button type="button" id="reset" class="btn btn-danger">パーティーをリセット</button>
-        </div>
-      </form>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12 col-sm-12">
-      <h4 class="text-muted">アルカナ：<span id="detail"></span></h4>
-      <ul id="choice-characters" class="col-md-12 col-sm-12 list-inline"></ul>
-    </div>
-  </div>
-</div>
+<%= render 'viewer/share' %>
 
-<div class="modal fade" id="share-modal" tabindex="-1" role="dialog" aria-labelledby="share-modal-label" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="share-modal-label">パーティーを共有する</h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="ptm-code">共有用URL</label>
-          <input type="text" id="ptm-code" class="form-control" value="">
-          <span class="text-muted small">このURLでアクセスすると、組んだパーティーが表示されます。コピーして使ってください。</span>
-        </div>
-        <div class="form-group">
-          <p>
-            <a href="#" class="btn btn-primary" role="button" id="twitter-share">Twitterで共有する</a><br>
-            <span class="text-muted small">パーティーをTwitterに投稿できます。自由にコメントを追加できます。</span>
-          </p>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render 'viewer/help' %>
 
 <input type="hidden" id="data-ver" value="<%= data_version %>">
 <input type="hidden" id="pt-ver" value="<%= pt_version %>">
 <input type="hidden" id="app-path" value="<%= app_path %>">
 <input type="hidden" id="ptm" value="<%= @ptm %>">
 <input type="hidden" id="selected" value="">
-
-<%= render 'viewer/help' %>
