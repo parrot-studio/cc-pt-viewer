@@ -214,6 +214,16 @@ class Viewer
         replaceArcana(div, renderFullSizeArcana(a))
         calcCost()
 
+  resetQuery = ->
+    $("#job").val('')
+    $("#rarity").val('')
+    $("#weapon").val('')
+    $("#actor").val('')
+    $("#illustrator").val('')
+    $("#growth").val('')
+    $("#source").val('')
+    @
+
   buildQuery = ->
     job = $("#job").val()
     rarity = $("#rarity").val()
@@ -406,6 +416,10 @@ class Viewer
       eachMemberAreas (area) ->
         replaceArcana(area, renderSummarySizeArcana('', 'member'))
       $("#cost").text('0')
+      e.preventDefault()
+
+    $("#search-clear").hammer().on 'tap', (e) ->
+      resetQuery()
       e.preventDefault()
 
   initMembers = ->
