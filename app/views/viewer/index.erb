@@ -6,7 +6,7 @@ members2 = {sub1: 'Sub1', sub2: 'Sub2', cost: '', edit: '', share: ''}
   <ul class="nav nav-pills pull-right">
     <li><a href="#" id="help" data-toggle="modal" data-target="#help-modal">使い方</a></li>
   </ul>
-  <h3 class="text-muted">Get our light! <small>チェンクロパーティーシミュレーター</small></h3>
+  <h1 class="text-muted">Get our light! <small>チェンクロパーティーシミュレーター</small></h1>
 </div>
 
 <div id="error-area" class="invisible">
@@ -23,6 +23,14 @@ members2 = {sub1: 'Sub1', sub2: 'Sub2', cost: '', edit: '', share: ''}
 </div>
 
 <div id="member-area">
+  <div class="row invisible" id="edit-title">
+    <div class="col-md-8 col-sm-8">
+      <h2>パーティー編集</h2>
+    </div>
+    <div class="col-md-4 col-sm-4">
+      <button type="button" id="reset-members" class="btn btn-danger pull-right">パーティーをリセット</button>
+    </div>
+  </div>
   <div class="row">
     <% [members1, members2].each do |mems| %>
       <div class="col-md-12 col-sm-12 member-list">
