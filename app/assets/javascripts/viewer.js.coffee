@@ -357,6 +357,14 @@ class Viewer
       cost = cost + a.cost
     $("#cost").text(cost)
 
+  selectArcana = (div) ->
+    code = div.data("jobCode")
+    return unless code
+    $("#selected").val(code)
+    $(".selected").removeClass("selected")
+    div.addClass("selected")
+    div
+
   initHandler = ->
     $("#error-area").hide()
     $("#error-area").removeClass("invisible")
@@ -376,23 +384,23 @@ class Viewer
 
     $("#edit-area").hammer().on 'tap', 'div.choice', (e) ->
       target = $(e.target).parents(".choice")
-      code = target.data("jobCode")
-      $("#selected").val(code)
-      $(".selected").removeClass("selected")
-      target.addClass("selected")
+      selectArcana(target)
       e.preventDefault()
 
     $("#member-area").hammer().on 'tap', 'div.member', (e) ->
       sel = $("#selected")
       code = sel.val()
-      return false if code == ''
-      parent = $(e.target).parents('.member-character')
-      removeDuplicateMember(code) unless parent.hasClass('friend')
-      ra = renderSummarySizeArcana(arcanas[code], 'member')
-      replaceArcana(parent, ra)
-      sel.val('')
-      $(".selected").removeClass("selected")
-      calcCost()
+      if code == ''
+        target = $(e.target).parents(".member")
+        selectArcana(target)
+      else
+        parent = $(e.target).parents('.member-character')
+        removeDuplicateMember(code) unless parent.hasClass('friend')
+        ra = renderSummarySizeArcana(arcanas[code], 'member')
+        replaceArcana(parent, ra)
+        sel.val('')
+        $(".selected").removeClass("selected")
+        calcCost()
       e.preventDefault()
 
     $("#member-area").hammer().on 'tap', 'button.close-member', (e) ->
