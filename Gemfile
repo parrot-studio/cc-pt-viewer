@@ -42,6 +42,7 @@ gem 'settingslogic'
 #gem 'dalli'
 gem 'bootstrap-sass'
 gem 'hammerjs-rails'
+gem 'jquery-ui-rails'
 
 group :development, :test do
   gem 'i18n_generators'

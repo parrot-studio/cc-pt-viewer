@@ -142,6 +142,22 @@ class Viewer
       "<div class='none full-size arcana'></div>"
 
   renderSummarySizeArcana = (a, cl) ->
+    dragparam =
+      connectToSortable: false
+      containment: false
+      helper: 'clone'
+      opacity: 0.7
+      zindex: 100000
+
+    dropparam =
+      drop: (e, ui) ->
+        code = ui.draggable.data('jobCode')
+        parent = $(e.target).parents('.member-character')
+        removeDuplicateMember(code) unless parent.hasClass('friend')
+        ra = renderSummarySizeArcana(arcanas[code], 'member')
+        replaceArcana(parent, ra)
+        e.preventDefault()
+
     if a
       div = "
         <div class='#{a.jobClass} #{cl} summary-size arcana' data-job-code='#{a.jobCode}'>
@@ -161,8 +177,15 @@ class Viewer
         div += '<button type="button" class="close close-member" aria-hidden="true">&times;</button>'
       div += '</div>'
       div
+
+      d = $(div)
+      d.draggable(dragparam)
     else
-      "<div class='none #{cl} summary-size arcana'></div>"
+      d = $("<div class='none #{cl} summary-size arcana'></div>")
+
+    if cl == 'member'
+      d.droppable(dropparam)
+    d
 
   replaceArcana = (div, ra) ->
     div.empty()
@@ -184,7 +207,8 @@ class Viewer
     ul = $('#choice-characters')
     ul.empty()
     for a in as
-      li = $("<li class='listed-character col-md-4 col-sm-4'>#{renderSummarySizeArcana(a, 'choice')}</li>")
+      li = $("<li class='listed-character col-md-4 col-sm-4'></li>")
+      li.html(renderSummarySizeArcana(a, 'choice'))
       li.hide()
       ul.append(li)
       li.fadeIn('slow')
@@ -382,28 +406,7 @@ class Viewer
       searchTargets()
       e.preventDefault()
 
-    $("#edit-area").hammer().on 'tap', 'div.choice', (e) ->
-      target = $(e.target).parents(".choice")
-      selectArcana(target)
-      e.preventDefault()
-
-    $("#member-area").hammer().on 'tap', 'div.member', (e) ->
-      sel = $("#selected")
-      code = sel.val()
-      if code == ''
-        target = $(e.target).parents(".member")
-        selectArcana(target)
-      else
-        parent = $(e.target).parents('.member-character')
-        removeDuplicateMember(code) unless parent.hasClass('friend')
-        ra = renderSummarySizeArcana(arcanas[code], 'member')
-        replaceArcana(parent, ra)
-        sel.val('')
-        $(".selected").removeClass("selected")
-        calcCost()
-      e.preventDefault()
-
-    $("#member-area").hammer().on 'tap', 'button.close-member', (e) ->
+    $("#member-area").on 'click', 'button.close-member', (e) ->
       member = $(e.target).parents(".member-character")
       clearMemberArcana(member)
       calcCost()
