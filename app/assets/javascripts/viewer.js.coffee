@@ -408,7 +408,7 @@ class Viewer
 
       twitterUrl = "https://twitter.com/intent/tweet"
       twitterUrl += "?text=#{encodeURIComponent('チェンクロパーティーシミュレーター ' + url)}"
-      twitterUrl += "&hashtags=ccpt"
+      twitterUrl += "&hashtags=ccpts"
       $("#twitter-share").attr('href', twitterUrl)
       true # for modal
 
