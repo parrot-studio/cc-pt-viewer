@@ -236,7 +236,7 @@ class Viewer
     ul = $('#choice-characters')
     ul.empty()
     for a in as
-      li = $("<li class='listed-character col-md-4 col-sm-4'></li>")
+      li = $("<li class='listed-character col-md-2 col-sm-2'></li>")
       li.html(renderSummarySizeArcana(a, 'choice'))
       li.hide()
       ul.append(li)
@@ -332,13 +332,13 @@ class Viewer
     if onEdit
       onEdit = false
       btn.text("編集する")
-      member.removeClass("editing")
+      member.removeClass("well well-sm")
       title.hide()
       edit.fadeOut()
     else
       onEdit = true
       btn.text("編集終了")
-      member.addClass("editing")
+      member.addClass("well well-sm")
       title.show()
       edit.fadeIn()
       searchTargets()
@@ -375,14 +375,6 @@ class Viewer
       cost = cost + a.cost
     $("#cost").text(cost)
 
-  selectArcana = (div) ->
-    code = div.data("jobCode")
-    return unless code
-    $("#selected").val(code)
-    $(".selected").removeClass("selected")
-    div.addClass("selected")
-    div
-
   initHandler = ->
     $("#error-area").hide()
     $("#error-area").removeClass("invisible")
@@ -409,6 +401,7 @@ class Viewer
 
     $("#search").hammer().on 'tap', (e) ->
       searchTargets()
+      $("#search-modal").modal('hide')
       e.preventDefault()
 
     $("#member-area").on 'click', 'button.close-member', (e) ->

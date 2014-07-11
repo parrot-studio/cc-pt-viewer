@@ -18,6 +18,10 @@ footer {
   border-top: 1px solid #e5e5e5;
 }
 
+#edit-area {
+  margin-top: 10px;
+}
+
 .member-character {
   padding: 0px;
 }
@@ -77,11 +81,6 @@ footer {
   position: absolute;
   top: 2px;
   right: 6px;
-}
-
-.selected {
-  opacity: 0.7;
-  background-color: gold;
 }
 
 .fighter {
@@ -155,8 +154,4 @@ footer {
 .cost {
  font-weight: bold;
  font-size: 60px;
-}
-
-.editing {
-  background-color: whitesmoke;
 }
