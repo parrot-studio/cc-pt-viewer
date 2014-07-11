@@ -76,9 +76,51 @@ class Arcana
   @growthTypeNameFor = (g) -> GROWTH_TYPE[g]
   @sourceNameFor = (s) -> SOURCE_NAME[s]
 
-class Viewer
+class Arcanas
 
   arcanas = {}
+  resultCache = {}
+
+  constructor: () ->
+
+  createQueryKey = (query) ->
+    key = ""
+    key += "recently_" if query.recently
+    key += "j#{query.job}_" if query.job
+    key += "r#{query.rarity}_" if query.rarity
+    key += "s#{query.source}_" if query.source
+    key += "w#{query.weapon}_" if query.weapon
+    key += "g#{query.growth}_" if query.growth
+    key += "a#{query.actor}_" if query.actor
+    key += "i#{query.illustrator}_" if query.illustrator
+    key
+
+  search: (query, url, callbacks) =>
+    key = createQueryKey(query)
+    cached = resultCache[key]
+    if cached
+      as = (arcanas[code] for code in cached)
+      callbacks.done(as)
+      return
+
+    xhr = $.getJSON url, query
+    xhr.done (datas) ->
+      as = []
+      for data in datas
+        a = new Arcana(data)
+        arcanas[a.jobCode] = a unless arcanas[a.jobCode]
+        as.push a
+      cs = (a.jobCode for a in as)
+      resultCache[key] = cs
+      callbacks.done(as)
+    xhr.fail ->
+      callbacks.fail()
+
+   forCode: (code) -> arcanas[code]
+
+class Viewer
+
+  arcanas = new Arcanas()
   members = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'friend']
   resultCache = {}
   onEdit = false
@@ -142,22 +184,6 @@ class Viewer
       "<div class='none full-size arcana'></div>"
 
   renderSummarySizeArcana = (a, cl) ->
-    dragparam =
-      connectToSortable: false
-      containment: false
-      helper: 'clone'
-      opacity: 0.7
-      zindex: 100000
-
-    dropparam =
-      drop: (e, ui) ->
-        code = ui.draggable.data('jobCode')
-        parent = $(e.target).parents('.member-character')
-        removeDuplicateMember(code) unless parent.hasClass('friend')
-        ra = renderSummarySizeArcana(arcanas[code], 'member')
-        replaceArcana(parent, ra)
-        e.preventDefault()
-
     if a
       div = "
         <div class='#{a.jobClass} #{cl} summary-size arcana' data-job-code='#{a.jobCode}'>
@@ -179,12 +205,15 @@ class Viewer
       div
 
       d = $(div)
-      d.draggable(dragparam)
+      d.draggable(
+        connectToSortable: false
+        containment: false
+        helper: 'clone'
+        opacity: 0.7
+        zindex: 100000
+      )
     else
       d = $("<div class='none #{cl} summary-size arcana'></div>")
-
-    if cl == 'member'
-      d.droppable(dropparam)
     d
 
   replaceArcana = (div, ra) ->
@@ -197,7 +226,7 @@ class Viewer
   replaceMemberArea = ->
     eachMemberAreas (div) ->
       code = div.children('div').data("jobCode")
-      a = arcanas[code]
+      a = arcanas.forCode(code)
       if onEdit
         replaceArcana(div, renderSummarySizeArcana(a, 'member'))
       else
@@ -220,25 +249,18 @@ class Viewer
     query ?= {}
     query.ver = $("#data-ver").val()
     url = $("#app-path").val() + path
+    callbacks =
+      done: (as) -> callback(as)
+      fail: $("#error").show()
 
-    xhr = $.getJSON url, query
-    xhr.done (datas) ->
-      callback(datas)
-    xhr.fail ->
-      $("#error").show()
+    arcanas.search(query, url, callbacks)
 
   searchMembers = (ptm) ->
     query = ptm: ptm
-    searchArcanas query, 'ptm', (datas) ->
-      eachMembers (m) ->
-        div = memberAreaFor(m)
-        data = datas[m]
-        a = null
-        if data
-          a = new Arcana(data)
-          arcanas[a.jobCode] = a
-        replaceArcana(div, renderFullSizeArcana(a))
-        calcCost()
+    searchArcanas query, 'ptm', (as) ->
+      eachMemberAreas (div) ->
+        replaceArcana div, renderFullSizeArcana(as.pop())
+      calcCost()
 
   resetQuery = ->
     $("#job").val('')
@@ -273,18 +295,6 @@ class Viewer
     query.source = source unless source == ''
     query
 
-  createQueryKey = (query) ->
-    key = ""
-    key += "recently_" if query.recently
-    key += "j#{query.job}_" if query.job
-    key += "r#{query.rarity}_" if query.rarity
-    key += "s#{query.source}_" if query.source
-    key += "w#{query.weapon}_" if query.weapon
-    key += "g#{query.growth}_" if query.growth
-    key += "a#{query.actor}_" if query.actor
-    key += "i#{query.illustrator}_" if query.illustrator
-    key
-
   createQueryDetail = (query) ->
     elem = []
     if query.recently
@@ -310,24 +320,8 @@ class Viewer
     unless query
       replaceChoiceArea([], '')
       return
-
-    key = createQueryKey(query)
-    cached = resultCache[key]
-    if cached
-      as = (arcanas[code] for code in cached.codes)
-      replaceChoiceArea as, cached.detail
-      return
-
-    detail = createQueryDetail(query)
-    searchArcanas query, 'arcanas', (datas) ->
-      as = []
-      for data in datas
-        a = new Arcana(data)
-        arcanas[a.jobCode] = a unless arcanas[a.jobCode]
-        as.push a
-      cs = (a.jobCode for a in as)
-      resultCache[key] = codes: cs, detail: detail
-      replaceChoiceArea as, detail
+    searchArcanas query, 'arcanas', (as) ->
+      replaceChoiceArea as, createQueryDetail(query)
 
   toggleEditMode = ->
     edit = $("#edit-area")
@@ -376,7 +370,7 @@ class Viewer
   calcCost = ->
     cost = 0
     eachMemberOnlyCode (code) ->
-      a = arcanas[code]
+      a = arcanas.forCode(code)
       return unless a
       cost = cost + a.cost
     $("#cost").text(cost)
@@ -397,6 +391,17 @@ class Viewer
     $("#edit-title").hide()
     $("#edit-title").removeClass("invisible")
     $("#additional-condition").hide()
+
+    $(".member-character").droppable(
+      drop: (e, ui) ->
+        code = ui.draggable.data('jobCode')
+        target = $(e.target)
+        removeDuplicateMember(code) unless target.hasClass('friend')
+        ra = renderSummarySizeArcana(arcanas.forCode(code), 'member')
+        replaceArcana(target, ra)
+        calcCost()
+        e.preventDefault()
+    )
 
     $("#edit-members").hammer().on 'tap', (e) ->
       toggleEditMode()
