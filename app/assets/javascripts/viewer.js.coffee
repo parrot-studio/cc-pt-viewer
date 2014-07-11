@@ -224,7 +224,7 @@ class Viewer
         containment: false
         helper: 'clone'
         opacity: 0.7
-        zindex: 100000
+        zIndex: 10000
       )
     else
       d = $("<div class='none #{cl} summary-size arcana'></div>")
