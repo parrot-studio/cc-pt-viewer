@@ -95,7 +95,7 @@ class Arcanas
     key += "i#{query.illustrator}_" if query.illustrator
     key
 
-  search: (query, url, callbacks) =>
+  search: (query, url, callbacks) ->
     key = createQueryKey(query)
     cached = resultCache[key]
     if cached
@@ -112,6 +112,20 @@ class Arcanas
         as.push a
       cs = (a.jobCode for a in as)
       resultCache[key] = cs
+      callbacks.done(as)
+    xhr.fail ->
+      callbacks.fail()
+
+  searchMembers: (query, url, callbacks) ->
+    xhr = $.getJSON url, query
+    xhr.done (datas) ->
+      as = {}
+      for mem, data of datas
+        continue unless data
+        a = new Arcana(data)
+        continue unless a
+        arcanas[a.jobCode] = a unless arcanas[a.jobCode]
+        as[mem] = a
       callbacks.done(as)
     xhr.fail ->
       callbacks.fail()
@@ -253,13 +267,16 @@ class Viewer
       done: (as) -> callback(as)
       fail: $("#error").show()
 
-    arcanas.search(query, url, callbacks)
+    if path == 'ptm'
+      arcanas.searchMembers(query, url, callbacks)
+    else
+      arcanas.search(query, url, callbacks)
 
   searchMembers = (ptm) ->
     query = ptm: ptm
     searchArcanas query, 'ptm', (as) ->
-      eachMemberAreas (div) ->
-        replaceArcana div, renderFullSizeArcana(as.pop())
+　　   eachMembers (mem) ->
+        replaceArcana memberAreaFor(mem), renderFullSizeArcana(as[mem])
       calcCost()
 
   resetQuery = ->
