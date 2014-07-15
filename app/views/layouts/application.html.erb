@@ -34,5 +34,8 @@
 
     <%= javascript_include_tag 'application' %>
     <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+    <% cache do %>
+      <%=raw analytics %>
+    <% end %>
   </body>
 </html>
