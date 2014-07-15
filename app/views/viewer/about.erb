@@ -1,0 +1,152 @@
+<div class="header">
+  <h1>Get our light! <small class="text-muted">チェンクロパーティーシミュレーター（β）</small></h1>
+</div>
+<div class="row">
+  <div class="col-md-12 col-sm-12">
+    <div class="well well-sm">
+      <%= link_to '<< 戻る', root_path %>
+    </div>
+    <a name="index"></a>
+    <div class="small">
+      <h4>目次</h4>
+      <ul>
+        <li><a href="#data">データ関連</a></li>
+        <ul>
+          <li><a href="#data-source">データの確認ソース</a></li>
+          <li><a href="#data-arcana-source">アルカナ属性「入手先」について</a></li>
+          <li><a href="#data-vita">Vita版（チェンクロV）について</a></li>
+        </ul>
+        <li><a href="#system">システム関連</a></li>
+        <ul>
+          <li><a href="#system-update-log">更新履歴</a></li>
+          <li><a href="#system-future">今後の予定</a></li>
+          <li><a href="#system-never">やらないこと</a></li>
+        </ul>
+      </ul>
+    </div>
+    <hr>
+    <a name="data"></a>
+    <div>
+      <h2>データ関連</h2>
+    </div>
+    <a name="data-source"></a>
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">データの確認ソース</h3>
+      </div>
+      <div class="panel-body">
+        <p>
+          大前提として、「チェインクロニクル」に関する全ての権利はSEGA / SEGA Networksにあります。
+        </p>
+        <p class="well well-sm">
+          チェインクロニクル <%= link_to 'http://chronicle.sega-net.com/', 'http://chronicle.sega-net.com/' %><br>
+          &copy; SEGA / &copy; SEGA Networks
+        </p>
+        <p>
+          それをふまえて、ゲーム内で直にデータを確認するのが最も確実ですが、<%= link_to 'Wiki', 'http://xn--eckfza0gxcvmna6c.gamerch.com/' %>の情報にほぼ依存しています。<br>
+          ただし、全て手でメンテしていますので、Wikiが修正されても自動で反映されるわけではありません。
+        </p>
+        <p>
+          データにおかしなところがあれば <%= link_to '@parrot_studio', 'https://twitter.com/parrot_studio/', :target => '_blank' %> まで。
+        </p>
+      </div>
+      <div class="panel-footer"><a href="#index">目次へ</a></div>
+    </div>
+    <a name="data-arcana-source"></a>
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">アルカナ属性「入手先」について</h3>
+      </div>
+      <div class="panel-body">
+        <p>
+          ★4以上で酒場から出現するものについては明確ですが、<br>
+          それ以外のアルカナについては以下のように分類しています。
+        </p>
+        <ul>
+          <li>コラボ関連 => フェス限定やレイド報酬（ex:アカツキ）等にかかわらず「コラボ限定」</li>
+          <li>ユリアナ/ロロ等、コラボ以外のフェス限定 => 「期間限定」</li>
+          <li>★1-2 => ノーマルガチャ/フリークエストから出現だが、まとめて「その他」</li>
+          <li>★3 => 自身でプレイした時の記憶や、キャラの所属/ストーリー等から判断し、大雑把にどこかの「酒場」</li>
+          <li>魔神レイドの報酬となる魔神 => 「魔神戦」</li>
+          <li>魔神だが、レイドではない（ex:ザレン） => 「その他」</li>
+          <li>魔神戦の関連キャラだが、魔神ではなく酒場にも追加されていない（ex:ハティ） => 「期間限定」
+          <li>主人公/フィーナ => 「その他」</li>
+        </ul>
+        <p>
+          よって、分類として確実なのは「コラボ限定」「期間限定」「魔神戦」「★4以上の酒場」で、<br>
+          それ以外はあまりあてになりません。<br>
+          その他の検索条件での絞り込みをおすすめします。
+        </p>
+      </div>
+      <div class="panel-footer"><a href="#index">目次へ</a></div>
+    </div>
+    <a name="data-vita"></a>
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">Vita版（チェンクロV）について</h3>
+      </div>
+      <div class="panel-body">
+        <p>
+          現時点では対応は未定です。<br>
+          データの構造や値がほぼ同一、つまり手間がかからなそうなら検討します。
+        </p>
+      </div>
+      <div class="panel-footer"><a href="#index">目次へ</a></div>
+    </div>
+    <hr>
+    <a name="system"></a>
+    <div>
+      <h2>システム関連</h2>
+    </div>
+    <a name="system-update-log"></a>
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">更新履歴</h3>
+      </div>
+      <div class="panel-body">
+        <dl class="dl-horizontal">
+          <dt>Ver.20140711-beta</dt>
+          <dd>ドラッグアンドドロップ形式の編集に修正</dd>
+          <dt>Ver.20140710-beta</dt>
+          <dd>初公開版</dd>
+        </dl>
+      </div>
+      <div class="panel-footer"><a href="#index">目次へ</a></div>
+    </div>
+    <a name="system-future"></a>
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">今後の予定（は未定）</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+          <li>アビリティ/スキルの登録（それによる検索等機能追加）</li>
+          <li>詳細表示</li>
+          <li>アルカナのレベルを登録可能に</li>
+          <li>最後に編集した構成を初期状態に</li>
+          <li>パーティー編成を（クッキーに）保存</li>
+          <li>全体のデザインをリッチに</li>
+          <li>etc...</li>
+        </ul>
+        <p>
+          その他、要望があれば <%= link_to '@parrot_studio', 'https://twitter.com/parrot_studio/', :target => '_blank' %> まで。<br>
+          ただし、全ての要望に対応することは不可能です。
+        </p>
+      </div>
+      <div class="panel-footer"><a href="#index">目次へ</a></div>
+    </div>
+    <a name="system-never"></a>
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">やらないこと</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+          <li>ゲームのUIレベルでは本来わからない情報（経験値タイプetc...）</li>
+          <li>公式にリリースがない情報の登録（データ解析情報等）</li>
+        </ul>
+      </div>
+      <div class="panel-footer"><a href="#index">目次へ</a></div>
+    </div>
+  </div>
+</div>

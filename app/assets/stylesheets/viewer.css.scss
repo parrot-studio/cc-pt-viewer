@@ -1,0 +1,157 @@
+// Place all the styles related to the viewer controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@import "bootstrap";
+
+body {
+  padding: 10px;
+}
+
+.header {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+footer {
+  padding-top: 10px;
+  margin-top: 10px;
+  border-top: 1px solid #e5e5e5;
+}
+
+#edit-area {
+  margin-top: 10px;
+}
+
+.member-character {
+  padding: 0px;
+}
+
+.listed-character {
+  margin-bottom: 2px;
+  padding: 0px;
+}
+
+.member-list {
+  margin-bottom: 10px;
+}
+
+.member-label {
+  margin-left: 4px;
+}
+
+.arcana {
+  border-radius: 4px;
+  margin: 2px;
+}
+
+.arcana-title {
+  padding: 2px;
+  height: 22px;
+}
+
+.arcana-body {
+  padding: 6px;
+  height: 194px;
+}
+
+.arcana-summary {
+  padding: 2px;
+  height: 46px;
+}
+
+.arcana-footer {
+  padding: 2px;
+  height: 20px;
+}
+
+.arcana-name {
+  padding-bottom: 1px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.full-size {
+  height: 240px;
+}
+
+.summary-size {
+  height: 70px;
+}
+
+.close-member {
+  position: absolute;
+  top: 2px;
+  right: 6px;
+}
+
+.fighter {
+  border: 2px solid pink;
+}
+
+.fighter-title {
+  background-color: pink;
+}
+
+.fighter-footer {
+  background-color: pink;
+}
+
+.knight {
+  border: 2px solid lightskyblue;
+}
+
+.knight-title {
+  background-color: lightskyblue;
+}
+
+.knight-footer {
+  background-color: lightskyblue;
+}
+
+.archer {
+  border: 2px solid lemonchiffon;
+}
+
+.archer-title {
+  background-color: lemonchiffon;
+}
+
+.archer-footer {
+  background-color: lemonchiffon;
+}
+
+.magician {
+  border: 2px solid mediumpurple;
+}
+
+.magician-title {
+  background-color: mediumpurple;
+}
+
+.magician-footer {
+  background-color: mediumpurple;
+}
+
+.priest {
+  border: 2px solid lightgreen;
+}
+
+.priest-title {
+  background-color: lightgreen;
+}
+
+.priest-footer {
+  background-color: lightgreen;
+}
+
+.none {
+  background-color: lightgray;
+}
+
+.act-btn {
+  margin-top: 20px;
+}
+
+.cost {
+ font-weight: bold;
+ font-size: 54px;
+}

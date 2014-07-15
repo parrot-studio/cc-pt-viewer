@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Get our light! - チェンクロパーティーシミュレーター</title>
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <%= favicon_link_tag %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <div class="container-fluid">
+
+      <%= yield %>
+
+      <footer>
+        <p class="small">
+          <strong>チェインクロニクル</strong> <%= link_to 'http://chronicle.sega-net.com/', 'http://chronicle.sega-net.com/' %><br>
+          &copy; SEGA / &copy; SEGA Networks
+        </p>
+        <p class="text-muted text-right small">
+          作った人 : ぱろっと（<%= link_to '@parrot_studio', 'https://twitter.com/parrot_studio/', :target => '_blank' %>） <%= link_to '更新履歴等', about_path %>
+        </p>
+      </footer>
+
+    </div>
+
+    <%= javascript_include_tag 'application' %>
+    <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+    <% cache do %>
+      <%=raw analytics %>
+    <% end %>
+  </body>
+</html>

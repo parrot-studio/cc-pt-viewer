@@ -1,0 +1,20 @@
+arcanas: &arcanas
+  jobs: F K P A M
+  rarity: 5
+  weapons: S B P A H M
+  recently: 12
+  hometowns: unknown guildtown holytown academy mountain oasis forest volcano demon collaboration
+  sources: other guildtown holytown academy mountain oasis forest volcano ring demon event collaboration
+  growths: fast normal slow
+  data_version: 20140710
+  pt_version: 1
+
+production:
+  app_path: "http://app.parrot-studio.com/ccpts/"
+  <<: *arcanas
+development:
+  app_path: "http://localhost:3000/"
+  <<: *arcanas
+test:
+  app_path: "http://localhost:3000/"
+  <<: *arcanas
