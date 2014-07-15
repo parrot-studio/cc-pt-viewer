@@ -25,13 +25,14 @@ members2 = {sub1: 'Sub1', sub2: 'Sub2', cost: '', edit: '', share: ''}
 <div class="alert alert-danger col-xs-12 hidden-sm hidden-md hidden-lg" role="alert">
   <p>
     現在β版のため、PC/タブレット（横画面）以外のデバイスでは正しく動作しません。<br>
+    未対応デバイスの場合、閲覧機能のみで編集はできません。<br>
     対応までお待ちください。
   </p>
 </div>
 
 <div id="member-area">
   <div class="row invisible" id="edit-title">
-    <div class="col-md-12 col-sm-12">
+    <div class="col-md-12 col-sm-12 hidden-xs">
       <h2>パーティー編集</h2>
     </div>
   </div>
@@ -40,7 +41,7 @@ members2 = {sub1: 'Sub1', sub2: 'Sub2', cost: '', edit: '', share: ''}
       <div class="col-md-12 col-sm-12 member-list">
         <ul class="list-inline">
           <% mems.each do |code, name| %>
-            <li class="col-md-2 col-sm-2">
+            <li class="col-xs-6 col-md-2 col-sm-2">
               <% case code %>
               <% when :cost %>
                 <p class="text-center">
@@ -48,13 +49,13 @@ members2 = {sub1: 'Sub1', sub2: 'Sub2', cost: '', edit: '', share: ''}
                   <span id="cost" class="cost"></span>
                 </p>
               <% when :edit %>
-                <p class="text-center">
+                <p class="text-center hidden-xs">
                   <button class="btn btn-primary btn-lg act-btn" id="edit-members">
                     編集する
                   </button>
                 </p>
               <% when :share %>
-                <p class="text-center">
+                <p class="text-center hidden-xs">
                   <button class="btn btn-info btn-lg act-btn" id="share-members" data-toggle="modal" data-target="#share-modal">
                     共有する
                   </button>
