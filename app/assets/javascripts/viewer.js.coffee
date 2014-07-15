@@ -172,7 +172,7 @@ class Viewer
     if a
       "
         <div class='#{a.jobClass} full-size arcana' data-job-code='#{a.jobCode}'>
-          <div class='#{a.jobClass}-title arcana-title'>
+          <div class='#{a.jobClass}-title arcana-title small'>
             #{a.jobNameShort} : #{a.rarityStars}
             <span class='badge pull-right'>#{a.cost}</span>
           </div>
@@ -201,7 +201,7 @@ class Viewer
     if a
       div = "
         <div class='#{a.jobClass} #{cl} summary-size arcana' data-job-code='#{a.jobCode}'>
-          <div class='#{a.jobClass}-title arcana-title'>
+          <div class='#{a.jobClass}-title arcana-title small'>
             #{a.jobNameShort}:#{a.rarityStars} <span class='badge badge-sm pull-right'>#{a.cost}</span>
           </div>
           <div class='arcana-summary'>
