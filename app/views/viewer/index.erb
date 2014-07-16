@@ -1,12 +1,11 @@
 <%
-members1 = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', friend: 'Friend'}
-members2 = {sub1: 'Sub1', sub2: 'Sub2', cost: '', edit: '', share: ''}
+members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', sub2: 'Sub2', friend: 'Friend', cost: '', edit: '', share: ''}
 %>
 <div class="header">
   <ul class="nav nav-pills pull-right">
     <li><a href="#" id="help" data-toggle="modal" data-target="#help-modal">使い方</a></li>
   </ul>
-  <h1>Get our light! <small class="text-muted">チェンクロパーティーシミュレーター（β）</small></h1>
+  <h1>Get our light! <small class="text-muted lead">チェンクロパーティーシミュレーター（β）</small></h1>
 </div>
 
 <div id="error-area" class="invisible">
@@ -35,38 +34,36 @@ members2 = {sub1: 'Sub1', sub2: 'Sub2', cost: '', edit: '', share: ''}
     </div>
   </div>
   <div class="row">
-    <% [members1, members2].each do |mems| %>
-      <div class="col-sm-12 col-md-12 col-sm-12 member-list">
-        <ul class="list-inline">
-          <% mems.each do |code, name| %>
-            <li class="col-xs-6 col-md-2 col-sm-2">
-              <% case code %>
-              <% when :cost %>
-                <p class="text-center">
-                  <label for="cost">Total Cost</label><br>
-                  <span id="cost" class="cost"></span>
-                </p>
-              <% when :edit %>
-                <p class="text-center hidden-xs">
-                  <button class="btn btn-primary btn-lg act-btn" id="edit-members">
-                    編集する
-                  </button>
-                </p>
-              <% when :share %>
-                <p class="text-center hidden-xs">
-                  <button class="btn btn-info btn-lg act-btn" id="share-members" data-toggle="modal" data-target="#share-modal">
-                    共有する
-                  </button>
-                </p>
-              <% else %>
-                <label for="member-character-<%= code %>" class="member-label"><%= name %></label>
-                <div class="member-character<%= ' friend' if code == :friend %>" id="member-character-<%= code %>"></div>
-              <% end %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+    <div class="col-xs-12 col-sm-12 col-md-12 member-list">
+      <ul class="list-inline">
+        <% members.each do |code, name| %>
+          <li class="col-xs-6 col-sm-3 col-md-2">
+            <% case code %>
+            <% when :cost %>
+              <p class="text-center">
+                <label for="cost">Total Cost</label><br>
+                <span id="cost" class="cost"></span>
+              </p>
+            <% when :edit %>
+              <p class="text-center hidden-xs">
+                <button class="btn btn-primary btn-lg act-btn" id="edit-members">
+                  編集する
+                </button>
+              </p>
+            <% when :share %>
+              <p class="text-center hidden-xs">
+                <button class="btn btn-info btn-lg act-btn" id="share-members" data-toggle="modal" data-target="#share-modal">
+                  共有する
+                </button>
+              </p>
+            <% else %>
+              <label for="member-character-<%= code %>" class="member-label"><%= name %></label>
+              <div class="member-character<%= ' friend' if code == :friend %>" id="member-character-<%= code %>"></div>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
   </div>
 </div>
 

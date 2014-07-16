@@ -250,7 +250,7 @@ class Viewer
     ul = $('#choice-characters')
     ul.empty()
     for a in as
-      li = $("<li class='listed-character col-md-2 col-sm-2'></li>")
+      li = $("<li class='listed-character col-sm-3 col-md-2'></li>")
       li.html(renderSummarySizeArcana(a, 'choice'))
       li.hide()
       ul.append(li)
