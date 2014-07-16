@@ -265,7 +265,7 @@ class Viewer
     url = $("#app-path").val() + path
     callbacks =
       done: (as) -> callback(as)
-      fail: $("#error").show()
+      fail: -> $("#error-area").show()
 
     if path == 'ptm'
       arcanas.searchMembers(query, url, callbacks)
@@ -275,7 +275,7 @@ class Viewer
   searchMembers = (ptm) ->
     query = ptm: ptm
     searchArcanas query, 'ptm', (as) ->
-　　   eachMembers (mem) ->
+      eachMembers (mem) ->
         replaceArcana memberAreaFor(mem), renderFullSizeArcana(as[mem])
       calcCost()
 
@@ -300,7 +300,7 @@ class Viewer
     illst = $("#illustrator").val()
     growth = $("#growth").val()
     source = $("#source").val()
-    return {recently: true}  if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '' && source == '')
+    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '' && source == '')
 
     query = {}
     query.job = job unless job == ''
