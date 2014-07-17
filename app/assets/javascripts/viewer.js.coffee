@@ -503,12 +503,8 @@ class Viewer
     if ptm == ''
       if isFirstAccess()
         $("#tutorial").show()
-        searchMembers(defaultMemberCode)
         finishTutorial()
-      else
-        eachMemberAreas (div) ->
-          replaceArcana(div, renderFullSizeArcana())
-        $("#cost").text('0')
+      searchMembers(defaultMemberCode)
     else
       searchMembers(ptm)
     @
