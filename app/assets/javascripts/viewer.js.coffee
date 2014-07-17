@@ -69,6 +69,11 @@ class Arcana
     @growthTypeName = GROWTH_TYPE[@growthType]
     @source = data.source
     @sourceName = SOURCE_NAME[@source]
+    @skillName = data.skill_name
+    @skillCategory = data.skill_category
+    @skillSubcategory = data.skill_subcategory
+    @skillExplanation = data.skill_explanation
+    @skillCost = data.skill_cost
 
   @jobNameFor = (j) -> JOB_NAME[j]
   @jobShortNameFor = (j) -> JOB_NAME_SHORT[j]
@@ -182,6 +187,8 @@ class Viewer
                 <strong>#{a.name}</strong>
             </p>
               <dl class='small text-muted'>
+                <dt>skill</dt>
+                <dd>#{a.skillName} (#{a.skillCost})</dd>
                 <dt>type</dt>
                 <dd>#{a.weaponName} / #{a.growthTypeName}</dd>
                 <dt>illust</dt>

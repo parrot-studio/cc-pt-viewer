@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140708063135) do
+ActiveRecord::Schema.define(version: 20140717024916) do
 
   create_table "arcanas", force: true do |t|
     t.string   "name",           limit: 100, null: false
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20140708063135) do
     t.integer  "voice_actor_id",             null: false
     t.integer  "illustrator_id",             null: false
     t.string   "growth_type",    limit: 20,  null: false
+    t.integer  "skill_id",                   null: false
   end
 
   add_index "arcanas", ["cost"], name: "index_arcanas_on_cost", using: :btree
@@ -45,6 +46,7 @@ ActiveRecord::Schema.define(version: 20140708063135) do
   add_index "arcanas", ["name"], name: "index_arcanas_on_name", using: :btree
   add_index "arcanas", ["rarity", "weapon_type"], name: "index_arcanas_on_rarity_and_weapon_type", using: :btree
   add_index "arcanas", ["rarity"], name: "index_arcanas_on_rarity", using: :btree
+  add_index "arcanas", ["skill_id"], name: "index_arcanas_on_skill_id", using: :btree
   add_index "arcanas", ["source"], name: "index_arcanas_on_source", using: :btree
   add_index "arcanas", ["voice_actor_id"], name: "index_arcanas_on_voice_actor_id", using: :btree
   add_index "arcanas", ["weapon_type"], name: "index_arcanas_on_weapon_type", using: :btree
@@ -57,6 +59,21 @@ ActiveRecord::Schema.define(version: 20140708063135) do
   end
 
   add_index "illustrators", ["name"], name: "index_illustrators_on_name", unique: true, using: :btree
+
+  create_table "skills", force: true do |t|
+    t.string   "name",        limit: 100, null: false
+    t.string   "category",    limit: 100, null: false
+    t.string   "subcategory", limit: 100, null: false
+    t.string   "explanation", limit: 500
+    t.integer  "cost",        limit: 3,   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "skills", ["category", "subcategory"], name: "index_skills_on_category_and_subcategory", using: :btree
+  add_index "skills", ["category"], name: "index_skills_on_category", using: :btree
+  add_index "skills", ["cost"], name: "index_skills_on_cost", using: :btree
+  add_index "skills", ["name"], name: "index_skills_on_name", unique: true, using: :btree
 
   create_table "voice_actors", force: true do |t|
     t.string   "name",       limit: 100,             null: false
