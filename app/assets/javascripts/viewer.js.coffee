@@ -137,6 +137,21 @@ class Arcanas
 
    forCode: (code) -> arcanas[code]
 
+class Cookie
+
+  $.cookie.json = true;
+  cookieKey = 'ccpts'
+  expireDate = 7
+
+  @set = (data) ->
+    $.cookie(cookieKey, (data || {}), {expires: expireDate})
+
+  @get = ->
+    $.cookie(cookieKey) || {}
+
+  @clear = ->
+    $.removeCookie(cookieKey)
+
 class Viewer
 
   arcanas = new Arcanas()

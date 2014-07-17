@@ -15,7 +15,7 @@
 //= require jquery-ui/draggable
 //= require jquery-ui/droppable
 //= require jquery.ui.touch-punch.min
-// require turbolinks
+//= require jquery.cookie
 //= require bootstrap
 //= require hammer
 //= require jquery.hammer
