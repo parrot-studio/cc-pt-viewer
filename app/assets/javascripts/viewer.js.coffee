@@ -304,11 +304,16 @@ class Viewer
     else
       arcanas.search(query, url, callbacks)
 
-  searchMembers = (ptm) ->
+  searchMembers = (ptm, edit) ->
     query = ptm: ptm
     searchArcanas query, 'ptm', (as) ->
       eachMembers (mem) ->
-        replaceArcana memberAreaFor(mem), renderFullSizeArcana(as[mem])
+        div = memberAreaFor(mem)
+        render = if edit
+          renderSummarySizeArcana(as[mem], 'member')
+        else
+          renderFullSizeArcana(as[mem])
+        replaceArcana div, render
       calcCost()
 
   resetQuery = ->
@@ -501,10 +506,11 @@ class Viewer
   initMembers = ->
     ptm = $("#ptm").val()
     if ptm == ''
+      toggleEditMode()
+      searchMembers(defaultMemberCode, onEdit)
       if isFirstAccess()
         $("#tutorial").show()
         finishTutorial()
-      searchMembers(defaultMemberCode)
     else
       searchMembers(ptm)
     @
