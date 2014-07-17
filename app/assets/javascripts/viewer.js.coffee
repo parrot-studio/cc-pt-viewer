@@ -167,6 +167,7 @@ class Viewer
   members = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'friend']
   resultCache = {}
   onEdit = false
+  defaultMemberCode = 'V1F36K7A1P2P24NN'
 
   constructor: ->
     initHandler()
@@ -423,6 +424,13 @@ class Viewer
       cost = cost + a.cost
     $("#cost").text(cost)
 
+  isFirstAccess = ->
+    cookie = Cookie.get()
+    if cookie['tutorial'] then false else true
+
+  finishTutorial = ->
+    Cookie.set({tutorial: true})
+
   initHandler = ->
     $("#error-area").hide()
     $("#error-area").removeClass("invisible")
@@ -430,6 +438,8 @@ class Viewer
     $("#edit-area").removeClass("invisible")
     $("#edit-title").hide()
     $("#edit-title").removeClass("invisible")
+    $("#tutorial").hide()
+    $("#tutorial").removeClass("invisible")
     $("#additional-condition").hide()
 
     $(".member-character").droppable(
@@ -491,9 +501,14 @@ class Viewer
   initMembers = ->
     ptm = $("#ptm").val()
     if ptm == ''
-      eachMemberAreas (div) ->
-        replaceArcana(div, renderFullSizeArcana())
-      $("#cost").text('0')
+      if isFirstAccess()
+        $("#tutorial").show()
+        searchMembers(defaultMemberCode)
+        finishTutorial()
+      else
+        eachMemberAreas (div) ->
+          replaceArcana(div, renderFullSizeArcana())
+        $("#cost").text('0')
     else
       searchMembers(ptm)
     @
