@@ -144,13 +144,22 @@ class Cookie
   expireDate = 7
 
   @set = (data) ->
-    $.cookie(cookieKey, (data || {}), {expires: expireDate})
+    d = $.extend(@get(), (data || {}));
+    $.cookie(cookieKey, d, {expires: expireDate})
 
   @get = ->
     $.cookie(cookieKey) || {}
 
   @clear = ->
     $.removeCookie(cookieKey)
+
+  @replace = (data) ->
+    $.cookie(cookieKey, (data || {}), {expires: expireDate})
+
+  @delete = (key) ->
+    c = @get()
+    delete c[key]
+    @replace(c)
 
 class Viewer
 
