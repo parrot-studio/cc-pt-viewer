@@ -42,7 +42,7 @@ class ViewerController < ApplicationController
 
   def query_params
     params.permit([:job, :rarity, :weapon, :recently,
-        :actor, :illustrator, :growth, :source])
+        :actor, :illustrator, :growth, :source, :addition])
   end
 
   def recently_arcanas
@@ -114,6 +114,8 @@ class ViewerController < ApplicationController
     actor = [org[:actor]].flatten.uniq.compact
     illust = [org[:illustrator]].flatten.uniq.compact
 
+    ex2 = true unless org[:addition].blank?
+
     query = {}
     query[:job_type] = (job.size == 1 ? job.first : job) unless job.blank?
     query[:rarity] = (rarity.size == 1 ? rarity.first : rarity) unless rarity.blank?
@@ -122,6 +124,7 @@ class ViewerController < ApplicationController
     query[:source] = (source.size == 1 ? source.first : source) unless source.blank?
     query[:voice_actor_id] = (actor.size == 1 ? actor.first : actor) unless actor.blank?
     query[:illustrator_id] = (illust.size == 1 ? illust.first : actor) unless illust.blank?
+    query[:addition] = '1' if ex2
 
     key = "arcanas"
     key += "_j:#{job.sort.join}" if query[:job_type]
@@ -131,6 +134,7 @@ class ViewerController < ApplicationController
     key += "_s:#{source.sort.join('/')}" if query[:source]
     key += "_a:#{actor.sort.join('/')}" if query[:voice_actor_id]
     key += "_i:#{illust.sort.join('/')}" if query[:illustrator_id]
+    key += "_ex2" if ex2
 
     query[:cache_key] = key
     query

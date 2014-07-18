@@ -98,6 +98,7 @@ class Arcanas
     key += "g#{query.growth}_" if query.growth
     key += "a#{query.actor}_" if query.actor
     key += "i#{query.illustrator}_" if query.illustrator
+    key += "ex2_" if query.addition
     key
 
   search: (query, url, callbacks) ->
@@ -324,6 +325,7 @@ class Viewer
     $("#illustrator").val('')
     $("#growth").val('')
     $("#source").val('')
+    $("#addition").attr('checked', false)
 
     $("#additional-condition").hide()
     $("#add-condition").show()
@@ -337,7 +339,8 @@ class Viewer
     illst = $("#illustrator").val()
     growth = $("#growth").val()
     source = $("#source").val()
-    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '' && source == '')
+    addition = if $("#addition").is(':checked') then '1' else ''
+    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '' && source == '' && addition == '')
 
     query = {}
     query.job = job unless job == ''
@@ -347,6 +350,7 @@ class Viewer
     query.illustrator = illst unless illst == ''
     query.growth = growth unless growth == ''
     query.source = source unless source == ''
+    query.addition = addition unless addition == ''
     query
 
   createQueryDetail = (query) ->
@@ -367,6 +371,8 @@ class Viewer
       elem.push '声優 - ' + $("#actor :selected").text()
     if query.illustrator
       elem.push 'イラスト - ' + $("#illustrator :selected").text()
+    if query.addition
+      elem.push '2部限定除外'
     elem.join(' / ')
 
   searchTargets = ->
