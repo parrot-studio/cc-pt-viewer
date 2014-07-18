@@ -23,6 +23,10 @@ class ServerSettings < Settingslogic
     split_types(self.growths)
   end
 
+  def addition_types
+    split_types(self.additions).map(&:to_s)
+  end
+
   private
 
   def split_types(str)

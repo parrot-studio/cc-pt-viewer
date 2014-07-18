@@ -26,11 +26,12 @@ Arcana.transaction do
     vname = datas[8]
     iname = datas[9]
     growth = datas[10]
-    sname = datas[11]
-    scate = datas[12]
-    ssubcate = datas[13]
-    scost = datas[14].to_i
-    job_index = datas[15].to_i
+    addition = datas[11].to_s
+    sname = datas[12]
+    scate = datas[13]
+    ssubcate = datas[14]
+    scost = datas[15].to_i
+    job_index = datas[16].to_i
     code = "#{job_type}#{job_index}"
 
     arcana = Arcana.find_by_job_code(code) || Arcana.new
@@ -42,6 +43,7 @@ Arcana.transaction do
     arcana.hometown = home
     arcana.source = source
     arcana.growth_type = growth
+    arcana.addition = addition
     arcana.job_type = job_type
     arcana.job_index = job_index
     arcana.job_code = code

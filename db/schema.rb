@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140717024916) do
+ActiveRecord::Schema.define(version: 20140718015634) do
 
   create_table "arcanas", force: true do |t|
     t.string   "name",           limit: 100, null: false
@@ -30,8 +30,10 @@ ActiveRecord::Schema.define(version: 20140717024916) do
     t.integer  "illustrator_id",             null: false
     t.string   "growth_type",    limit: 20,  null: false
     t.integer  "skill_id",                   null: false
+    t.string   "addition",       limit: 20,  null: false
   end
 
+  add_index "arcanas", ["addition"], name: "index_arcanas_on_addition", using: :btree
   add_index "arcanas", ["cost"], name: "index_arcanas_on_cost", using: :btree
   add_index "arcanas", ["growth_type"], name: "index_arcanas_on_growth_type", using: :btree
   add_index "arcanas", ["hometown", "rarity"], name: "index_arcanas_on_hometown_and_rarity", using: :btree
