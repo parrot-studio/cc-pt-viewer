@@ -48,6 +48,12 @@ class Arcana
     collaboration: 'コラボ限定'
     other: 'その他'
 
+  SKILL_TYPE =
+    attack: '攻撃'
+    heal: '回復'
+    'song/dance': '歌・舞'
+    other: '補助'
+
   constructor: (data) ->
     @name = data.name
     @title = data.title
@@ -80,6 +86,7 @@ class Arcana
   @weaponNameFor = (w) -> WEAPON_NAME[w]
   @growthTypeNameFor = (g) -> GROWTH_TYPE[g]
   @sourceNameFor = (s) -> SOURCE_NAME[s]
+  @skillTypeNameFor = (s) -> SKILL_TYPE[s]
 
 class Arcanas
 
@@ -365,14 +372,14 @@ class Viewer
       elem.push Arcana.jobNameFor(query.job)
     if query.rarity
       elem.push "★#{query.rarity.replace(/U/, '以上')}"
+    if query.skill
+      elem.push 'スキル - ' + Arcana.skillTypeNameFor(query.skill)
     if query.source
       elem.push Arcana.sourceNameFor(query.source)
     if query.weapon
       elem.push Arcana.weaponNameFor(query.weapon)
     if query.growth
       elem.push Arcana.growthTypeNameFor(query.growth)
-    if query.skill
-      elem.push query.skill
     if query.actor
       elem.push '声優 - ' + $("#actor :selected").text()
     if query.illustrator
