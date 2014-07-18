@@ -42,11 +42,58 @@ class Arcana
     oasis: '湖都'
     forest: '精霊島'
     volcano: '九領'
-    ring: 'リング交換'
+    ring: 'リング'
     demon: '魔神戦'
     event: '期間限定'
     collaboration: 'コラボ限定'
     other: 'その他'
+
+  SKILL_TABLE =
+    attack:
+      name: '攻撃'
+      types: ['one/short', 'one/line', 'one/combo', 'one/dash', 'one/rear',
+        'range/line', 'range/dash', 'range/forward', 'range/self', 'range/explosion',
+        'range/drop', 'range/random', 'range/all']
+      subname:
+        'one/short': '単体・目前'
+        'one/line': '単体・直線'
+        'one/combo': '単体・連続'
+        'one/dash': '単体・ダッシュ'
+        'one/rear': '単体・最後列'
+        'range/line': '範囲・直線'
+        'range/dash': '範囲・ダッシュ'
+        'range/forward': '範囲・前方'
+        'range/self': '範囲・自分中心'
+        'range/explosion': '範囲・自爆'
+        'range/drop': '範囲・落下物'
+        'range/random': '範囲・ランダム'
+        'range/all': '範囲・全体'
+    heal:
+      name: '回復'
+      types: ['all/instant', 'all/cycle', 'one/self', 'one/worst']
+      subname:
+        'all/instant': '全体・即時'
+        'all/cycle': '全体・オート'
+        'one/self': '単体・自分'
+        'one/worst': '単体・一番低い対象'
+    'song/dance':
+      name: '歌・舞'
+      types: ['buff', 'debuff']
+      subname:
+        buff: '味方上昇'
+        debuff: '敵状態異常'
+    other:
+      name: '補助'
+      types: ['buff/self', 'buff/all', 'buff/random',
+        'barrier', 'obstacle', 'invincible', 'element']
+      subname:
+        'buff/self': '自身能力UP'
+        'buff/all': '全体能力UP'
+        'buff/random': 'ランダムに一人能力UP'
+        barrier: 'バリアー'
+        obstacle: '障害物'
+        invincible: '無敵'
+        element: '属性付与'
 
   constructor: (data) ->
     @name = data.name
@@ -80,6 +127,9 @@ class Arcana
   @weaponNameFor = (w) -> WEAPON_NAME[w]
   @growthTypeNameFor = (g) -> GROWTH_TYPE[g]
   @sourceNameFor = (s) -> SOURCE_NAME[s]
+  @skillTypeNameFor = (s) -> SKILL_TABLE[s]?.name || ''
+  @skillSubtypesFor = (s) -> SKILL_TABLE[s]?.types || []
+  @skillSubnameFor = (skill, sub) -> SKILL_TABLE[skill]?.subname?[sub] || ''
 
 class Arcanas
 
@@ -96,6 +146,9 @@ class Arcanas
     key += "s#{query.source}_" if query.source
     key += "w#{query.weapon}_" if query.weapon
     key += "g#{query.growth}_" if query.growth
+    if query.skill
+      key += "sk#{query.skill}_"
+      key += "subsk#{query.skillsub}_" if query.skillsub
     key += "a#{query.actor}_" if query.actor
     key += "i#{query.illustrator}_" if query.illustrator
     key += "ex2_" if query.addition
@@ -325,6 +378,8 @@ class Viewer
     $("#illustrator").val('')
     $("#growth").val('')
     $("#source").val('')
+    $("#skill").val('')
+    $("#skill-sub").empty().append("<option value=''>-</option>")
     $("#addition").attr('checked', false)
 
     $("#additional-condition").hide()
@@ -339,8 +394,9 @@ class Viewer
     illst = $("#illustrator").val()
     growth = $("#growth").val()
     source = $("#source").val()
+    skill = $("#skill").val()
     addition = if $("#addition").is(':checked') then '1' else ''
-    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '' && source == '' && addition == '')
+    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '' && source == '' && addition == '' && skill == '')
 
     query = {}
     query.job = job unless job == ''
@@ -350,7 +406,12 @@ class Viewer
     query.illustrator = illst unless illst == ''
     query.growth = growth unless growth == ''
     query.source = source unless source == ''
+
     query.addition = addition unless addition == ''
+    unless skill == ''
+      query.skill = skill
+      skillsub = $("#skill-sub").val()
+      query.skillsub = skillsub unless skillsub == ''
     query
 
   createQueryDetail = (query) ->
@@ -361,6 +422,10 @@ class Viewer
       elem.push Arcana.jobNameFor(query.job)
     if query.rarity
       elem.push "★#{query.rarity.replace(/U/, '以上')}"
+    if query.skill
+      text = 'スキル - ' + Arcana.skillTypeNameFor(query.skill)
+      text += ('（' + Arcana.skillSubnameFor(query.skill, query.skillsub) + '）') if query.skillsub
+      elem.push text
     if query.source
       elem.push Arcana.sourceNameFor(query.source)
     if query.weapon
@@ -388,18 +453,21 @@ class Viewer
     member = $("#member-area")
     btn = $("#edit-members")
     title = $("#edit-title")
+    reset = $("#reset-members")
 
     if onEdit
       onEdit = false
       btn.text("編集する")
       member.removeClass("well well-sm")
       title.hide()
+      reset.hide()
       edit.fadeOut()
     else
       onEdit = true
       btn.text("編集終了")
       member.addClass("well well-sm")
       title.show()
+      reset.show()
       edit.fadeIn()
       searchTargets()
     replaceMemberArea()
@@ -443,6 +511,19 @@ class Viewer
     $("#tutorial").show()
     Cookie.set({tutorial: true})
 
+  createSkillOptions = ->
+    target = $("#skill-sub")
+    target.empty()
+    skill = $("#skill").val()
+    if skill == ''
+      target.append("<option value=''>-</option>")
+      return
+    types = Arcana.skillSubtypesFor(skill)
+    target.append("<option value=''>（全て）</option>")
+    for t in types
+      target.append("<option value='#{t}'>#{Arcana.skillSubnameFor(skill, t)}</option>")
+    @
+
   initHandler = ->
     $("#error-area").hide()
     $("#error-area").removeClass("invisible")
@@ -452,6 +533,8 @@ class Viewer
     $("#edit-title").removeClass("invisible")
     $("#tutorial").hide()
     $("#tutorial").removeClass("invisible")
+    $("#reset-members").hide()
+    $("#reset-members").removeClass("invisible")
     $("#additional-condition").hide()
 
     $(".member-character").droppable(
@@ -509,6 +592,10 @@ class Viewer
        $("#add-condition").hide()
        $("#additional-condition").fadeIn('fast')
        e.preventDefault()
+
+    $("#skill").on 'change', (e) ->
+      createSkillOptions()
+      e.preventDefault()
 
   initMembers = ->
     ptm = $("#ptm").val()

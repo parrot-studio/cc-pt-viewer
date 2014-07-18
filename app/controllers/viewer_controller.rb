@@ -41,8 +41,8 @@ class ViewerController < ApplicationController
   end
 
   def query_params
-    params.permit([:job, :rarity, :weapon, :recently,
-        :actor, :illustrator, :growth, :source, :addition])
+    params.permit([:job, :rarity, :weapon, :recently,:actor, :illustrator,
+        :growth, :source, :addition, :skill, :skillsub])
   end
 
   def recently_arcanas
@@ -66,8 +66,19 @@ class ViewerController < ApplicationController
     qkey = query.delete(:cache_key)
     as = Rails.cache.read(qkey)
     unless as
-      as = Arcana.where(query).order('job_type, rarity DESC, cost DESC, job_index DESC').map(&:serialize)
-      Rails.cache.write(qkey, as.to_a)
+      skill = query.delete(:skill)
+      skillsub = query.delete(:skillsub)
+      arel = if skill.blank?
+        Arcana.where(query)
+      else
+        a = Arcana.joins(:skill).where(query).where(Skill.arel_table[:category].in(skill))
+        a.where!(Skill.arel_table[:subcategory].in(skillsub)) unless skillsub.blank?
+        a
+      end
+      as = arel.order(
+        'arcanas.job_type, arcanas.rarity DESC, arcanas.cost DESC, arcanas.job_index DESC'
+      ).map(&:serialize)
+      Rails.cache.write(qkey, as)
     end
     as
   end
@@ -113,8 +124,9 @@ class ViewerController < ApplicationController
 
     actor = [org[:actor]].flatten.uniq.compact
     illust = [org[:illustrator]].flatten.uniq.compact
-
     ex2 = true unless org[:addition].blank?
+    skill = [org[:skill]].flatten.uniq.compact
+    skillsub = [org[:skillsub]].flatten.uniq.compact
 
     query = {}
     query[:job_type] = (job.size == 1 ? job.first : job) unless job.blank?
@@ -125,6 +137,8 @@ class ViewerController < ApplicationController
     query[:voice_actor_id] = (actor.size == 1 ? actor.first : actor) unless actor.blank?
     query[:illustrator_id] = (illust.size == 1 ? illust.first : actor) unless illust.blank?
     query[:addition] = '1' if ex2
+    query[:skill] = skill unless skill.blank?
+    query[:skillsub] = skillsub unless skillsub.blank?
 
     key = "arcanas"
     key += "_j:#{job.sort.join}" if query[:job_type]
@@ -134,6 +148,8 @@ class ViewerController < ApplicationController
     key += "_s:#{source.sort.join('/')}" if query[:source]
     key += "_a:#{actor.sort.join('/')}" if query[:voice_actor_id]
     key += "_i:#{illust.sort.join('/')}" if query[:illustrator_id]
+    key += "_sk:#{skill.sort.join('|')}" if query[:skill]
+    key += "_subsk:#{skillsub.sort.join('|')}" if query[:skillsub]
     key += "_ex2" if ex2
 
     query[:cache_key] = key
