@@ -8,6 +8,7 @@ class Arcana < ActiveRecord::Base
   HOMETOWN_NAMES = ServerSettings.hometown_names.freeze
   SOURCE_NAMES = ServerSettings.source_names.freeze
   GROWTH_TYPES = ServerSettings.growth_types.freeze
+  ADDITION_TYPES = ServerSettings.addition_types.freeze
 
   belongs_to :voice_actor
   belongs_to :illustrator
@@ -36,6 +37,9 @@ class Arcana < ActiveRecord::Base
   validates :growth_type,
     presence: true,
     inclusion: {in: GROWTH_TYPES}
+  validates :addition,
+    presence: true,
+    inclusion: {in: ADDITION_TYPES}
   validates :job_type,
     presence: true,
     inclusion: {in: JOB_TYPES}
