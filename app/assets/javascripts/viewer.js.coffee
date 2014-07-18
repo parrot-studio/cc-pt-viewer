@@ -433,7 +433,8 @@ class Viewer
     cookie = Cookie.get()
     if cookie['tutorial'] then false else true
 
-  finishTutorial = ->
+  showTutorial = ->
+    $("#tutorial").show()
     Cookie.set({tutorial: true})
 
   initHandler = ->
@@ -508,9 +509,7 @@ class Viewer
     if ptm == ''
       toggleEditMode()
       searchMembers(defaultMemberCode, onEdit)
-      if isFirstAccess()
-        $("#tutorial").show()
-        finishTutorial()
+      showTutorial() if isFirstAccess()
     else
       searchMembers(ptm)
     @
