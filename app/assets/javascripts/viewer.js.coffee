@@ -304,11 +304,16 @@ class Viewer
     else
       arcanas.search(query, url, callbacks)
 
-  searchMembers = (ptm) ->
+  searchMembers = (ptm, edit) ->
     query = ptm: ptm
     searchArcanas query, 'ptm', (as) ->
       eachMembers (mem) ->
-        replaceArcana memberAreaFor(mem), renderFullSizeArcana(as[mem])
+        div = memberAreaFor(mem)
+        render = if edit
+          renderSummarySizeArcana(as[mem], 'member')
+        else
+          renderFullSizeArcana(as[mem])
+        replaceArcana div, render
       calcCost()
 
   resetQuery = ->
@@ -428,7 +433,8 @@ class Viewer
     cookie = Cookie.get()
     if cookie['tutorial'] then false else true
 
-  finishTutorial = ->
+  showTutorial = ->
+    $("#tutorial").show()
     Cookie.set({tutorial: true})
 
   initHandler = ->
@@ -501,10 +507,9 @@ class Viewer
   initMembers = ->
     ptm = $("#ptm").val()
     if ptm == ''
-      if isFirstAccess()
-        $("#tutorial").show()
-        finishTutorial()
-      searchMembers(defaultMemberCode)
+      toggleEditMode()
+      searchMembers(defaultMemberCode, onEdit)
+      showTutorial() if isFirstAccess()
     else
       searchMembers(ptm)
     @
