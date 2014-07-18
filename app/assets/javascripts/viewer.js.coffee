@@ -55,7 +55,7 @@ class Arcana
         'range/line', 'range/dash', 'range/forward', 'range/self', 'range/explosion',
         'range/drop', 'range/random', 'range/all']
       subname:
-        'one/short': '単体・目の前'
+        'one/short': '単体・目前'
         'one/line': '単体・直線'
         'one/combo': '単体・連続'
         'one/dash': '単体・ダッシュ'
@@ -65,7 +65,7 @@ class Arcana
         'range/forward': '範囲・前方'
         'range/self': '範囲・自分中心'
         'range/explosion': '範囲・自爆'
-        'range/drop': '範囲・オブジェクト落下'
+        'range/drop': '範囲・落下物'
         'range/random': '範囲・ランダム'
         'range/all': '範囲・全体'
     heal:
