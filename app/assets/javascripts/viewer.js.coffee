@@ -146,7 +146,9 @@ class Arcanas
     key += "s#{query.source}_" if query.source
     key += "w#{query.weapon}_" if query.weapon
     key += "g#{query.growth}_" if query.growth
-    key += "sk#{query.skill}_" if query.skill
+    if query.skill
+      key += "sk#{query.skill}_"
+      key += "subsk#{query.skillsub}_" if query.skillsub
     key += "a#{query.actor}_" if query.actor
     key += "i#{query.illustrator}_" if query.illustrator
     key += "ex2_" if query.addition
@@ -403,8 +405,12 @@ class Viewer
     query.illustrator = illst unless illst == ''
     query.growth = growth unless growth == ''
     query.source = source unless source == ''
-    query.skill = skill unless skill == ''
+
     query.addition = addition unless addition == ''
+    unless skill == ''
+      query.skill = skill
+      skillsub = $("#skill-sub").val()
+      query.skillsub = skillsub unless skillsub == ''
     query
 
   createQueryDetail = (query) ->
@@ -416,7 +422,9 @@ class Viewer
     if query.rarity
       elem.push "★#{query.rarity.replace(/U/, '以上')}"
     if query.skill
-      elem.push 'スキル - ' + Arcana.skillTypeNameFor(query.skill)
+      text = 'スキル - ' + Arcana.skillTypeNameFor(query.skill)
+      text += ('（' + Arcana.skillSubnameFor(query.skill, query.skillsub) + '）') if query.skillsub
+      elem.push text
     if query.source
       elem.push Arcana.sourceNameFor(query.source)
     if query.weapon
@@ -444,18 +452,21 @@ class Viewer
     member = $("#member-area")
     btn = $("#edit-members")
     title = $("#edit-title")
+    reset = $("#reset-members")
 
     if onEdit
       onEdit = false
       btn.text("編集する")
       member.removeClass("well well-sm")
       title.hide()
+      reset.hide()
       edit.fadeOut()
     else
       onEdit = true
       btn.text("編集終了")
       member.addClass("well well-sm")
       title.show()
+      reset.show()
       edit.fadeIn()
       searchTargets()
     replaceMemberArea()
@@ -521,6 +532,8 @@ class Viewer
     $("#edit-title").removeClass("invisible")
     $("#tutorial").hide()
     $("#tutorial").removeClass("invisible")
+    $("#reset-members").hide()
+    $("#reset-members").removeClass("invisible")
     $("#additional-condition").hide()
 
     $(".member-character").droppable(
