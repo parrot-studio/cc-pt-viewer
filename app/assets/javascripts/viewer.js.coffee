@@ -96,6 +96,7 @@ class Arcanas
     key += "s#{query.source}_" if query.source
     key += "w#{query.weapon}_" if query.weapon
     key += "g#{query.growth}_" if query.growth
+    key += "sk#{query.skill}_" if query.skill
     key += "a#{query.actor}_" if query.actor
     key += "i#{query.illustrator}_" if query.illustrator
     key += "ex2_" if query.addition
@@ -325,6 +326,7 @@ class Viewer
     $("#illustrator").val('')
     $("#growth").val('')
     $("#source").val('')
+    $("#skill").val('')
     $("#addition").attr('checked', false)
 
     $("#additional-condition").hide()
@@ -339,8 +341,9 @@ class Viewer
     illst = $("#illustrator").val()
     growth = $("#growth").val()
     source = $("#source").val()
+    skill = $("#skill").val()
     addition = if $("#addition").is(':checked') then '1' else ''
-    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '' && source == '' && addition == '')
+    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '' && source == '' && addition == '' && skill == '')
 
     query = {}
     query.job = job unless job == ''
@@ -350,6 +353,7 @@ class Viewer
     query.illustrator = illst unless illst == ''
     query.growth = growth unless growth == ''
     query.source = source unless source == ''
+    query.skill = skill unless skill == ''
     query.addition = addition unless addition == ''
     query
 
@@ -367,6 +371,8 @@ class Viewer
       elem.push Arcana.weaponNameFor(query.weapon)
     if query.growth
       elem.push Arcana.growthTypeNameFor(query.growth)
+    if query.skill
+      elem.push query.skill
     if query.actor
       elem.push '声優 - ' + $("#actor :selected").text()
     if query.illustrator
