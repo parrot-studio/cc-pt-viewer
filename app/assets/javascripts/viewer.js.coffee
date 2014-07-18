@@ -379,6 +379,7 @@ class Viewer
     $("#growth").val('')
     $("#source").val('')
     $("#skill").val('')
+    $("#skill-sub").empty().append("<option value=''>-</option>")
     $("#addition").attr('checked', false)
 
     $("#additional-condition").hide()
