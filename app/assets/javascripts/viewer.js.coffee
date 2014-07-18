@@ -42,7 +42,7 @@ class Arcana
     oasis: '湖都'
     forest: '精霊島'
     volcano: '九領'
-    ring: 'リング交換'
+    ring: 'リング'
     demon: '魔神戦'
     event: '期間限定'
     collaboration: 'コラボ限定'
