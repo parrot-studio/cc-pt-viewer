@@ -1,6 +1,6 @@
 class Changelog
 
-  attr_accessor :ver, :body
+  attr_accessor :ver, :date, :body
 
   class << self
 
@@ -11,6 +11,7 @@ class Changelog
         ls.map do |l|
           log = self.new
           log.ver = l['ver']
+          log.date = l['date']
           log.body = l['body']
           log
         end
