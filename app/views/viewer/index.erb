@@ -1,5 +1,6 @@
 <%
 members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', sub2: 'Sub2', friend: 'Friend', cost: '', edit: '', share: ''}
+log = Changelog.latest
 %>
 <div class="header">
   <ul class="nav nav-pills pull-right">
@@ -85,6 +86,12 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
 </div>
 
 <div class="hidden-xs">
+  <% cache do %>
+    <div class="alert alert-info alert-dismissible col-xs-12 col-sm-12 col-md-12" role="alert">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <p>更新情報：<%= log.body %> (<%= log.date %>)</p>
+    </div>
+  <% end %>
   <%= render 'viewer/edit' %>
   <%= render 'viewer/share' %>
 </div>
