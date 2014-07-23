@@ -1,8 +1,8 @@
 arcanas: &arcanas
   jobs: F K P A M
   rarity: 5
-  weapons: S B P A H M
-  recently: 18
+  weapons: Sl Bl Pi Ar He Ma Pu
+  recently: 24
   hometowns: unknown guildtown holytown academy mountain oasis forest volcano demon collaboration forest-sea
   sources: other guildtown holytown academy mountain oasis forest volcano ring demon event collaboration forest-sea
   growths: fast normal slow
