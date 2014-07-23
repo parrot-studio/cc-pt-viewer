@@ -22,12 +22,13 @@ class Arcana
     P: 'priest'
 
   WEAPON_NAME =
-    S: '斬'
-    B: '打'
-    P: '突'
-    A: '弓'
-    M: '魔'
-    H: '聖'
+    Sl: '斬'
+    Bl: '打'
+    Pi: '突'
+    Ar: '弓'
+    Ma: '魔'
+    He: '聖'
+    Pu: '拳'
 
   GROWTH_TYPE =
     fast:   '早熟'
