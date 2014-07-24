@@ -1,6 +1,6 @@
 class Changelog
 
-  attr_accessor :ver, :date, :body
+  attr_accessor :version, :date, :body
 
   class << self
 
@@ -10,7 +10,7 @@ class Changelog
         ls = YAML.load(File.read(path))
         ls.map do |l|
           log = self.new
-          log.ver = l['ver']
+          log.version = l['ver']
           log.date = l['date']
           log.body = l['body']
           log
