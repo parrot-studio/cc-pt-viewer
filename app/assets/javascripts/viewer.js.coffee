@@ -216,6 +216,10 @@ class Cookie
     delete c[key]
     @replace(c)
 
+  @valueFor = (key) ->
+    c = @get()
+    c[key]
+
 class Viewer
 
   arcanas = new Arcanas()
@@ -505,8 +509,7 @@ class Viewer
     $("#cost").text(cost)
 
   isFirstAccess = ->
-    cookie = Cookie.get()
-    if cookie['tutorial'] then false else true
+    if Cookie.valueFor('tutorial') then false else true
 
   showTutorial = ->
     $("#tutorial").show()
