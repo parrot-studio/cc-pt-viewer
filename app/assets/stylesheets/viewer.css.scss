@@ -4,11 +4,20 @@
 
 body {
   padding: 10px;
+}
+
+#wallpaper {
+  z-index: -1;
+  background-color: white;
   background-image: url('../images/wallpaper.jpg');
-  background-position: right bottom;
-  background-attachment: fixed;
-  background-repeat:no-repeat;
   background-size: 30% auto;
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .header {
