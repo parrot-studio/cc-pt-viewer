@@ -4,6 +4,11 @@
 
 body {
   padding: 10px;
+  background-image: url('../images/wallpaper.jpg');
+  background-position: right bottom;
+  background-attachment: fixed;
+  background-repeat:no-repeat;
+  background-size: 30% auto;
 }
 
 .header {
@@ -51,11 +56,14 @@ footer {
 .arcana-body {
   padding: 6px;
   height: 194px;
+  background-color: white;
 }
 
 .arcana-summary {
   padding: 2px;
-  height: 46px;
+  height: 44px;
+  border-radius: 0px 0px 4px 4px;
+  background-color: white;
 }
 
 .arcana-footer {
@@ -151,6 +159,6 @@ footer {
 }
 
 .cost {
- font-weight: bold;
- font-size: 50px;
+  font-weight: bold;
+  font-size: 50px;
 }
