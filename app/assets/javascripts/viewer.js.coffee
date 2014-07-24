@@ -270,16 +270,17 @@ class Viewer
                 <span class='text-muted small'>#{a.title}</span><br>
                 <strong>#{a.name}</strong>
             </p>
-            <dl class='small text-muted'>
+            <dl class='small text-muted arcana-detail'>
               <dt>skill</dt>
               <dd>#{a.skillName} (#{a.skillCost})</dd>
               <dt>type</dt>
               <dd>#{a.weaponName} / #{a.growthTypeName}</dd>
-              <dt>illust</dt>
-              <dd>#{a.illustrator}</dd>
-              <dt>voice</dt>
-              <dd>#{a.voiceActor}</dd>
+              <dt>voice / illust</dt>
+              <dd>#{a.voiceActor} / #{a.illustrator}</dd>
             </dl>
+            <p class='text-center'>
+              <button type='button' class='btn btn-default btn-sm view-info' data-job-code='#{a.jobCode}'>Info</button>
+            </p>
           </div>
           <div class='#{a.jobClass}-footer arcana-footer'>
           </div>
@@ -621,6 +622,13 @@ class Viewer
     $("#skill").on 'change', (e) ->
       createSkillOptions()
       e.preventDefault()
+
+    $("#member-area").hammer().on 'tap', 'button.view-info', (e) ->
+      code = $(e.target).data('jobCode')
+      alert(code)
+      e.preventDefault()
+
+    @
 
   initMembers = ->
     ptm = $("#ptm").val()
