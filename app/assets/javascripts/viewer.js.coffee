@@ -270,16 +270,16 @@ class Viewer
                 <span class='text-muted small'>#{a.title}</span><br>
                 <strong>#{a.name}</strong>
             </p>
-              <dl class='small text-muted'>
-                <dt>skill</dt>
-                <dd>#{a.skillName} (#{a.skillCost})</dd>
-                <dt>type</dt>
-                <dd>#{a.weaponName} / #{a.growthTypeName}</dd>
-                <dt>illust</dt>
-                <dd>#{a.illustrator}</dd>
-                <dt>voice</dt>
-                <dd>#{a.voiceActor}</dd>
-              </dl>
+            <dl class='small text-muted'>
+              <dt>skill</dt>
+              <dd>#{a.skillName} (#{a.skillCost})</dd>
+              <dt>type</dt>
+              <dd>#{a.weaponName} / #{a.growthTypeName}</dd>
+              <dt>illust</dt>
+              <dd>#{a.illustrator}</dd>
+              <dt>voice</dt>
+              <dd>#{a.voiceActor}</dd>
+            </dl>
           </div>
           <div class='#{a.jobClass}-footer arcana-footer'>
           </div>
