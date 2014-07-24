@@ -1,10 +1,26 @@
-// Place all the styles related to the viewer controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-@import "bootstrap";
-
 body {
   padding: 10px;
+}
+
+#wallpaper {
+  z-index: -1;
+  background-color: white;
+  background-image: url('../images/wallpaper.jpg');
+  background-size: 30% auto;
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.modal-footer {
+  background-image: url('../images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: left bottom;
 }
 
 .header {
@@ -51,17 +67,20 @@ footer {
 
 .arcana-body {
   padding: 6px;
-  height: 194px;
+  height: 215px;
+  background-color: white;
 }
 
 .arcana-summary {
   padding: 2px;
-  height: 46px;
+  height: 44px;
+  border-radius: 0px 0px 4px 4px;
+  background-color: white;
 }
 
 .arcana-footer {
   padding: 2px;
-  height: 20px;
+  height: 10px;
 }
 
 .arcana-name {
@@ -70,7 +89,7 @@ footer {
 }
 
 .full-size {
-  height: 240px;
+  height: 250px;
 }
 
 .summary-size {
@@ -152,6 +171,6 @@ footer {
 }
 
 .cost {
- font-weight: bold;
- font-size: 50px;
+  font-weight: bold;
+  font-size: 50px;
 }
