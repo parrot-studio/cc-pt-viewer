@@ -16,6 +16,13 @@ body {
   bottom: 0;
 }
 
+.modal-footer {
+  background-image: url('../images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+}
+
 .header {
   margin-bottom: 20px;
   border-bottom: 1px solid #e5e5e5;
