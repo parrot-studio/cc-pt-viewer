@@ -127,24 +127,12 @@
       </div>
       <div class="panel-body">
         <dl class="dl-horizontal">
-          <dt>Ver.20140723-beta</dt>
-          <dd>「海風の港」で追加されたアルカナに対応</dd>
-          <dt>Ver.20140722-beta</dt>
-          <dd>「海風の港」のSSRを追加</dd>
-          <dt>Ver.20140718a-beta</dt>
-          <dd>スキル検索を追加</dd>
-          <dt>Ver.20140718-beta</dt>
-          <dd>2部への対応開始</dd>
-          <dt>Ver.20140717a-beta</dt>
-          <dd>初回アクセス時のチュートリアルを追加</dd>
-          <dt>Ver.20140717-beta</dt>
-          <dd>スキルの表示に暫定対応</dd>
-          <dt>Ver.20140716-beta</dt>
-          <dd>解像度に応じて横に並べる数を変更</dd>
-          <dt>Ver.20140715a-beta</dt>
-          <dd>スマフォ等の解像度でも閲覧だけ可能に</dd>
-          <dt>Ver.20140715-beta</dt>
-          <dd>初公開版</dd>
+          <% cache do %>
+            <% Changelog.logs.each do |l| %>
+              <dt>Ver.<%= l.version %></dt>
+              <dd><%= l.body %></dd>
+            <% end %>
+          <% end %>
         </dl>
       </div>
       <div class="panel-footer"><a href="#index">目次へ</a></div>
@@ -156,7 +144,7 @@
       </div>
       <div class="panel-body">
         <ul>
-          <li>アビリティ/スキルの登録（それによる検索等機能追加）</li>
+          <li>アビリティの登録（それによる検索等機能追加）</li>
           <li>詳細表示</li>
           <li>アルカナのレベルを登録可能に</li>
           <li>最後に編集した構成を初期状態に</li>

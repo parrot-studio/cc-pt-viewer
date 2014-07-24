@@ -216,6 +216,10 @@ class Cookie
     delete c[key]
     @replace(c)
 
+  @valueFor = (key) ->
+    c = @get()
+    c[key]
+
 class Viewer
 
   arcanas = new Arcanas()
@@ -505,12 +509,23 @@ class Viewer
     $("#cost").text(cost)
 
   isFirstAccess = ->
-    cookie = Cookie.get()
-    if cookie['tutorial'] then false else true
+    if Cookie.valueFor('tutorial') then false else true
 
   showTutorial = ->
     $("#tutorial").show()
     Cookie.set({tutorial: true})
+
+  isShowLatestInfo = ->
+    ver = $("#latest-info-ver").val()
+    return true if ver == ''
+    showed = Cookie.valueFor('latest-info')
+    return false unless showed
+    if ver == showed then true else false
+
+  showLatestInfo = ->
+    ver = $("#latest-info-ver").val()
+    $("#latest-info").show()
+    Cookie.set({'latest-info': ver})
 
   createSkillOptions = ->
     target = $("#skill-sub")
@@ -537,6 +552,15 @@ class Viewer
     $("#reset-members").hide()
     $("#reset-members").removeClass("invisible")
     $("#additional-condition").hide()
+
+    if isFirstAccess()
+      showTutorial()
+      $("#latest-info").hide()
+    else
+      if isShowLatestInfo()
+        $("#latest-info").hide()
+      else
+        showLatestInfo()
 
     $(".member-character").droppable(
       drop: (e, ui) ->
@@ -603,7 +627,6 @@ class Viewer
     if ptm == ''
       toggleEditMode()
       searchMembers(defaultMemberCode, onEdit)
-      showTutorial() if isFirstAccess()
     else
       searchMembers(ptm)
     @
