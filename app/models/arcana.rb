@@ -50,6 +50,21 @@ class Arcana < ActiveRecord::Base
     presence: true,
     uniqueness: true,
     length: {maximum: 20}
+  validates :max_atk,
+    allow_nil: true,
+    numericality: {only_integer: true}
+  validates :max_hp,
+    allow_nil: true,
+    numericality: {only_integer: true}
+  validates :limit_atk,
+    allow_nil: true,
+    numericality: {only_integer: true}
+  validates :limit_hp,
+    allow_nil: true,
+    numericality: {only_integer: true}
+  validates :job_detail,
+    allow_nil: true,
+    length: {maximum: 50}
 
   def serialize
     ret = self.attributes

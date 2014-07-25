@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140718015634) do
+ActiveRecord::Schema.define(version: 20140725065324) do
 
   create_table "arcanas", force: true do |t|
     t.string   "name",           limit: 100, null: false
@@ -31,6 +31,11 @@ ActiveRecord::Schema.define(version: 20140718015634) do
     t.string   "growth_type",    limit: 20,  null: false
     t.integer  "skill_id",                   null: false
     t.string   "addition",       limit: 20,  null: false
+    t.integer  "max_atk",        limit: 8
+    t.integer  "max_hp",         limit: 8
+    t.integer  "limit_atk",      limit: 8
+    t.integer  "limit_hp",       limit: 8
+    t.string   "job_detail",     limit: 50
   end
 
   add_index "arcanas", ["addition"], name: "index_arcanas_on_addition", using: :btree
@@ -45,6 +50,10 @@ ActiveRecord::Schema.define(version: 20140718015634) do
   add_index "arcanas", ["job_type", "rarity", "job_index"], name: "index_arcanas_on_job_type_and_rarity_and_job_index", using: :btree
   add_index "arcanas", ["job_type", "rarity"], name: "index_arcanas_on_job_type_and_rarity", using: :btree
   add_index "arcanas", ["job_type"], name: "index_arcanas_on_job_type", using: :btree
+  add_index "arcanas", ["limit_atk"], name: "index_arcanas_on_limit_atk", using: :btree
+  add_index "arcanas", ["limit_hp"], name: "index_arcanas_on_limit_hp", using: :btree
+  add_index "arcanas", ["max_atk"], name: "index_arcanas_on_max_atk", using: :btree
+  add_index "arcanas", ["max_hp"], name: "index_arcanas_on_max_hp", using: :btree
   add_index "arcanas", ["name"], name: "index_arcanas_on_name", using: :btree
   add_index "arcanas", ["rarity", "weapon_type"], name: "index_arcanas_on_rarity_and_weapon_type", using: :btree
   add_index "arcanas", ["rarity"], name: "index_arcanas_on_rarity", using: :btree
