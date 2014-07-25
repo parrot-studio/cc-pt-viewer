@@ -326,12 +326,41 @@ class Viewer
   renderArcanaDetail = (a) ->
     return '' unless a
     "
-      <div class='row'>
-        <div class='col-xs-12 col-sm-6 col-md-6'>
-          #{a.jobCode}
+      <div class='#{a.jobClass} arcana'>
+        <div class='#{a.jobClass}-title arcana-title small'>
+          #{a.jobName} : #{a.rarityStars}
+          <span class='badge pull-right'>#{a.cost}</span>
         </div>
-        <div class='col-xs-12 col-sm-6 col-md-6'>
-          #{a.name}
+        <div class='arcana-view-body'>
+          <h4 class='arcana-name' id='view-modal-label'>
+            <span class='text-muted'>#{a.title}</span>
+            <strong>#{a.name}</strong>
+          </h4>
+          <div class='row'>
+            <div class='col-xs-12 col-sm-6 col-md-6'>
+              <dl class='small arcana-view-detail'>
+                <dt>スキル</dt>
+                <dd>
+                  #{a.skillName} (#{a.skillCost})<br>
+                  （#{Arcana.skillTypeNameFor(a.skillCategory)} - #{Arcana.skillSubnameFor(a.skillCategory, a.skillSubcategory)}）
+                </dd>
+                <dt>武器タイプ</dt>
+                <dd>#{a.weaponName}</dd>
+                <dt>成長タイプ</dt>
+                <dd>#{a.growthTypeName}</dd>
+              </dl>
+            </div>
+            <div class='col-xs-12 col-sm-6 col-md-6'>
+              <dl class='small arcana-view-detail'>
+                <dt>声優</dt>
+                <dd>#{a.voiceActor}</dd>
+                <dt>イラストレーター</dt>
+                <dd>#{a.illustrator}</dd>
+                <dt>入手先</dt>
+                <dd>#{a.sourceName}</dd>
+              </dl>
+            </div>
+          </div>
         </div>
       </div>
     "
