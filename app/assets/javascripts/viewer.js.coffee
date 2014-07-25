@@ -673,8 +673,8 @@ class Viewer
       e.preventDefault()
       createSkillOptions()
 
-    $("#member-area").hammer().on 'tap', 'button.view-info', (e) ->
-      code = $(e.target).data('jobCode')
+    $("#view-modal").on 'show.bs.modal', (e) ->
+      code = $(e.relatedTarget).data('jobCode')
       createArcanaDetail(code)
       true # for modal
 
