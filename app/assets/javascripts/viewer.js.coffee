@@ -190,7 +190,7 @@ class Arcanas
     xhr.fail ->
       callbacks.fail()
 
-   forCode: (code) -> arcanas[code]
+  forCode: (code) -> arcanas[code]
 
 class Cookie
 
@@ -321,6 +321,19 @@ class Viewer
     else
       d = $("<div class='none #{cl} summary-size arcana'></div>")
     d
+
+  renderArcanaDetail = (a) ->
+    return '' unless a
+    "
+      <div class='row'>
+        <div class='col-xs-12 col-sm-6 col-md-6'>
+          #{a.jobCode}
+        </div>
+        <div class='col-xs-12 col-sm-6 col-md-6'>
+          #{a.name}
+        </div>
+      </div>
+    "
 
   replaceArcana = (div, ra) ->
     div.empty()
@@ -541,6 +554,18 @@ class Viewer
       target.append("<option value='#{t}'>#{Arcana.skillSubnameFor(skill, t)}</option>")
     @
 
+  showArcanaDetail = (code) ->
+    a = arcanas.forCode(code)
+    modal = $("#view-modal")
+    view = $("#view-detail")
+    title = $("#view-title")
+    view.empty()
+    view.append(renderArcanaDetail(a))
+    title.empty()
+    title.append("#{a.title} #{a.name}")
+    modal.modal('show')
+    @
+
   initHandler = ->
     $("#error-area").hide()
     $("#error-area").removeClass("invisible")
@@ -615,9 +640,9 @@ class Viewer
       e.preventDefault()
 
     $("#add-condition").hammer().on 'tap', (e) ->
-       $("#add-condition").hide()
-       $("#additional-condition").fadeIn('fast')
-       e.preventDefault()
+      $("#add-condition").hide()
+      $("#additional-condition").fadeIn('fast')
+      e.preventDefault()
 
     $("#skill").on 'change', (e) ->
       createSkillOptions()
@@ -625,7 +650,7 @@ class Viewer
 
     $("#member-area").hammer().on 'tap', 'button.view-info', (e) ->
       code = $(e.target).data('jobCode')
-      alert(code)
+      showArcanaDetail(code)
       e.preventDefault()
 
     @
