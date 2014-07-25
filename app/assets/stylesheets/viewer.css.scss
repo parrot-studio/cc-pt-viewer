@@ -78,6 +78,18 @@ footer {
   background-color: white;
 }
 
+.arcana-view-body {
+  padding: 6px;
+}
+
+.arcana-view-detail dt {
+  margin: 2px;
+}
+
+.arcana-view-detail dd {
+  margin: 2px;
+}
+
 .arcana-footer {
   padding: 2px;
   height: 10px;
@@ -86,6 +98,10 @@ footer {
 .arcana-name {
   padding-bottom: 1px;
   border-bottom: 1px solid #e5e5e5;
+}
+
+.arcana-detail {
+  margin: 0px 0px 6px 0px;
 }
 
 .full-size {

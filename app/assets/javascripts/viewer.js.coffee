@@ -36,13 +36,14 @@ class Arcana
     slow:   '晩成'
 
   SOURCE_NAME =
-    guildtown: '副都'
-    holytown: '聖都'
-    academy: '賢者の塔'
-    mountain: '迷宮山脈'
-    oasis: '湖都'
-    forest: '精霊島'
-    volcano: '九領'
+    guildtown: '副都・酒場'
+    holytown: '聖都・酒場'
+    academy: '賢者の塔・酒場'
+    mountain: '迷宮山脈・酒場'
+    oasis: '湖都・酒場'
+    forest: '精霊島・酒場'
+    volcano: '九領・酒場'
+    'forest-sea': '海風の港・酒場'
     ring: 'リング'
     demon: '魔神戦'
     event: '期間限定'
@@ -190,7 +191,7 @@ class Arcanas
     xhr.fail ->
       callbacks.fail()
 
-   forCode: (code) -> arcanas[code]
+  forCode: (code) -> arcanas[code]
 
 class Cookie
 
@@ -270,16 +271,17 @@ class Viewer
                 <span class='text-muted small'>#{a.title}</span><br>
                 <strong>#{a.name}</strong>
             </p>
-              <dl class='small text-muted'>
-                <dt>skill</dt>
-                <dd>#{a.skillName} (#{a.skillCost})</dd>
-                <dt>type</dt>
-                <dd>#{a.weaponName} / #{a.growthTypeName}</dd>
-                <dt>illust</dt>
-                <dd>#{a.illustrator}</dd>
-                <dt>voice</dt>
-                <dd>#{a.voiceActor}</dd>
-              </dl>
+            <dl class='small text-muted arcana-detail'>
+              <dt>skill</dt>
+              <dd>#{a.skillName} (#{a.skillCost})</dd>
+              <dt>type</dt>
+              <dd>#{a.weaponName} / #{a.growthTypeName}</dd>
+              <dt>voice / illust</dt>
+              <dd>#{a.voiceActor} / #{a.illustrator}</dd>
+            </dl>
+            <p class='text-center'>
+              <button type='button' class='btn btn-default btn-sm view-info' data-job-code='#{a.jobCode}' data-toggle='modal' data-target='#view-modal'>Info</button>
+            </p>
           </div>
           <div class='#{a.jobClass}-footer arcana-footer'>
           </div>
@@ -320,6 +322,48 @@ class Viewer
     else
       d = $("<div class='none #{cl} summary-size arcana'></div>")
     d
+
+  renderArcanaDetail = (a) ->
+    return '' unless a
+    "
+      <div class='#{a.jobClass} arcana'>
+        <div class='#{a.jobClass}-title arcana-title'>
+          #{a.jobName} : #{a.rarityStars}
+          <span class='badge pull-right'>#{a.cost}</span>
+        </div>
+        <div class='arcana-view-body'>
+          <h4 class='arcana-name' id='view-modal-label'>
+            <span class='text-muted'>#{a.title}</span>
+            <strong>#{a.name}</strong>
+          </h4>
+          <div class='row'>
+            <div class='col-xs-12 col-sm-6 col-md-6'>
+              <dl class='small arcana-view-detail'>
+                <dt>スキル</dt>
+                <dd>
+                  #{a.skillName} (#{a.skillCost})<br>
+                  （#{Arcana.skillTypeNameFor(a.skillCategory)} / #{Arcana.skillSubnameFor(a.skillCategory, a.skillSubcategory)}）
+                </dd>
+                <dt>武器タイプ</dt>
+                <dd>#{a.weaponName}</dd>
+                <dt>成長タイプ</dt>
+                <dd>#{a.growthTypeName}</dd>
+              </dl>
+            </div>
+            <div class='col-xs-12 col-sm-6 col-md-6'>
+              <dl class='small arcana-view-detail'>
+                <dt>声優</dt>
+                <dd>#{a.voiceActor}</dd>
+                <dt>イラストレーター</dt>
+                <dd>#{a.illustrator}</dd>
+                <dt>入手先</dt>
+                <dd>#{a.sourceName}</dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+    "
 
   replaceArcana = (div, ra) ->
     div.empty()
@@ -540,6 +584,13 @@ class Viewer
       target.append("<option value='#{t}'>#{Arcana.skillSubnameFor(skill, t)}</option>")
     @
 
+  createArcanaDetail = (code) ->
+    a = arcanas.forCode(code)
+    view = $("#view-detail")
+    view.empty()
+    view.append(renderArcanaDetail(a))
+    @
+
   initHandler = ->
     $("#error-area").hide()
     $("#error-area").removeClass("invisible")
@@ -564,29 +615,29 @@ class Viewer
 
     $(".member-character").droppable(
       drop: (e, ui) ->
+        e.preventDefault()
         code = ui.draggable.data('jobCode')
         target = $(e.target)
         removeDuplicateMember(code) unless target.hasClass('friend')
         ra = renderSummarySizeArcana(arcanas.forCode(code), 'member')
         replaceArcana(target, ra)
         calcCost()
-        e.preventDefault()
     )
 
     $("#edit-members").hammer().on 'tap', (e) ->
-      toggleEditMode()
       e.preventDefault()
+      toggleEditMode()
 
     $("#search").hammer().on 'tap', (e) ->
+      e.preventDefault()
       searchTargets()
       $("#search-modal").modal('hide')
-      e.preventDefault()
 
     $("#member-area").on 'click', 'button.close-member', (e) ->
+      e.preventDefault()
       member = $(e.target).parents(".member-character")
       clearMemberArcana(member)
       calcCost()
-      e.preventDefault()
 
     $("#share-modal").on 'show.bs.modal', (e) ->
       code = createMembersCode()
@@ -604,28 +655,35 @@ class Viewer
       e.preventDefault()
 
     $("#reset-members").hammer().on 'tap', (e) ->
+      e.preventDefault()
       eachMemberAreas (area) ->
         replaceArcana(area, renderSummarySizeArcana('', 'member'))
       $("#cost").text('0')
-      e.preventDefault()
 
     $("#search-clear").hammer().on 'tap', (e) ->
-      resetQuery()
       e.preventDefault()
+      resetQuery()
 
     $("#add-condition").hammer().on 'tap', (e) ->
-       $("#add-condition").hide()
-       $("#additional-condition").fadeIn('fast')
-       e.preventDefault()
+      e.preventDefault()
+      $("#add-condition").hide()
+      $("#additional-condition").fadeIn('fast')
 
     $("#skill").on 'change', (e) ->
-      createSkillOptions()
       e.preventDefault()
+      createSkillOptions()
+
+    $("#view-modal").on 'show.bs.modal', (e) ->
+      code = $(e.relatedTarget).data('jobCode')
+      createArcanaDetail(code)
+      true # for modal
+
+    @
 
   initMembers = ->
     ptm = $("#ptm").val()
     if ptm == ''
-      toggleEditMode()
+      toggleEditMode() if window.innerWidth >= 768
       searchMembers(defaultMemberCode, onEdit)
     else
       searchMembers(ptm)
