@@ -327,7 +327,7 @@ class Viewer
     return '' unless a
     "
       <div class='#{a.jobClass} arcana'>
-        <div class='#{a.jobClass}-title arcana-title small'>
+        <div class='#{a.jobClass}-title arcana-title'>
           #{a.jobName} : #{a.rarityStars}
           <span class='badge pull-right'>#{a.cost}</span>
         </div>
@@ -342,7 +342,7 @@ class Viewer
                 <dt>スキル</dt>
                 <dd>
                   #{a.skillName} (#{a.skillCost})<br>
-                  （#{Arcana.skillTypeNameFor(a.skillCategory)} - #{Arcana.skillSubnameFor(a.skillCategory, a.skillSubcategory)}）
+                  （#{Arcana.skillTypeNameFor(a.skillCategory)} / #{Arcana.skillSubnameFor(a.skillCategory, a.skillSubcategory)}）
                 </dd>
                 <dt>武器タイプ</dt>
                 <dd>#{a.weaponName}</dd>
