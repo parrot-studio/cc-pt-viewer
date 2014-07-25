@@ -280,7 +280,7 @@ class Viewer
               <dd>#{a.voiceActor} / #{a.illustrator}</dd>
             </dl>
             <p class='text-center'>
-              <button type='button' class='btn btn-default btn-sm view-info' data-job-code='#{a.jobCode}'>Info</button>
+              <button type='button' class='btn btn-default btn-sm view-info' data-job-code='#{a.jobCode}' data-toggle='modal' data-target='#view-modal'>Info</button>
             </p>
           </div>
           <div class='#{a.jobClass}-footer arcana-footer'>
@@ -584,7 +584,7 @@ class Viewer
       target.append("<option value='#{t}'>#{Arcana.skillSubnameFor(skill, t)}</option>")
     @
 
-  showArcanaDetail = (code) ->
+  createArcanaDetail = (code) ->
     a = arcanas.forCode(code)
     modal = $("#view-modal")
     view = $("#view-detail")
@@ -593,7 +593,6 @@ class Viewer
     view.append(renderArcanaDetail(a))
     title.empty()
     title.append("#{a.title} #{a.name}")
-    modal.modal('show')
     @
 
   initHandler = ->
@@ -680,8 +679,8 @@ class Viewer
 
     $("#member-area").hammer().on 'tap', 'button.view-info', (e) ->
       code = $(e.target).data('jobCode')
-      showArcanaDetail(code)
-      e.preventDefault()
+      createArcanaDetail(code)
+      true # for modal
 
     @
 
