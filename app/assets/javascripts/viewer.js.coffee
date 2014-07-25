@@ -586,13 +586,9 @@ class Viewer
 
   createArcanaDetail = (code) ->
     a = arcanas.forCode(code)
-    modal = $("#view-modal")
     view = $("#view-detail")
-    title = $("#view-title")
     view.empty()
     view.append(renderArcanaDetail(a))
-    title.empty()
-    title.append("#{a.title} #{a.name}")
     @
 
   initHandler = ->
