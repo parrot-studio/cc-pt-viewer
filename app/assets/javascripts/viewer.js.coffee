@@ -615,29 +615,29 @@ class Viewer
 
     $(".member-character").droppable(
       drop: (e, ui) ->
+        e.preventDefault()
         code = ui.draggable.data('jobCode')
         target = $(e.target)
         removeDuplicateMember(code) unless target.hasClass('friend')
         ra = renderSummarySizeArcana(arcanas.forCode(code), 'member')
         replaceArcana(target, ra)
         calcCost()
-        e.preventDefault()
     )
 
     $("#edit-members").hammer().on 'tap', (e) ->
-      toggleEditMode()
       e.preventDefault()
+      toggleEditMode()
 
     $("#search").hammer().on 'tap', (e) ->
+      e.preventDefault()
       searchTargets()
       $("#search-modal").modal('hide')
-      e.preventDefault()
 
     $("#member-area").on 'click', 'button.close-member', (e) ->
+      e.preventDefault()
       member = $(e.target).parents(".member-character")
       clearMemberArcana(member)
       calcCost()
-      e.preventDefault()
 
     $("#share-modal").on 'show.bs.modal', (e) ->
       code = createMembersCode()
@@ -655,23 +655,23 @@ class Viewer
       e.preventDefault()
 
     $("#reset-members").hammer().on 'tap', (e) ->
+      e.preventDefault()
       eachMemberAreas (area) ->
         replaceArcana(area, renderSummarySizeArcana('', 'member'))
       $("#cost").text('0')
-      e.preventDefault()
 
     $("#search-clear").hammer().on 'tap', (e) ->
-      resetQuery()
       e.preventDefault()
+      resetQuery()
 
     $("#add-condition").hammer().on 'tap', (e) ->
+      e.preventDefault()
       $("#add-condition").hide()
       $("#additional-condition").fadeIn('fast')
-      e.preventDefault()
 
     $("#skill").on 'change', (e) ->
-      createSkillOptions()
       e.preventDefault()
+      createSkillOptions()
 
     $("#member-area").hammer().on 'tap', 'button.view-info', (e) ->
       code = $(e.target).data('jobCode')
