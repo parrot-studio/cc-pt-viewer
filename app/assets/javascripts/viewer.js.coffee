@@ -123,6 +123,11 @@ class Arcana
     @skillSubcategory = data.skill_subcategory
     @skillExplanation = data.skill_explanation
     @skillCost = data.skill_cost
+    @jobDetail = data.job_detail
+    @maxAtk = (data.max_atk || '-')
+    @maxHp = (data.max_hp || '-')
+    @limitAtk = (data.limit_atk || '-')
+    @limitHp = (data.limit_hp || '-')
 
   @jobNameFor = (j) -> JOB_NAME[j]
   @jobShortNameFor = (j) -> JOB_NAME_SHORT[j]
@@ -339,15 +344,21 @@ class Viewer
           <div class='row'>
             <div class='col-xs-12 col-sm-6 col-md-6'>
               <dl class='small arcana-view-detail'>
+                <dt>職業</dt>
+                <dd>#{a.jobDetail}</dd>
+                <dt>ATK (Max/Limit)</dt>
+                <dd>#{a.maxAtk} / #{a.limitAtk}</dd>
+                <dt>HP (Max/Limit)</dt>
+                <dd>#{a.maxHp} / #{a.limitHp}</dd>
+                <dt>武器タイプ</dt>
+                <dd>#{a.weaponName}</dd>
+                <dt>成長タイプ</dt>
+                <dd>#{a.growthTypeName}</dd>
                 <dt>スキル</dt>
                 <dd>
                   #{a.skillName} (#{a.skillCost})<br>
                   （#{Arcana.skillTypeNameFor(a.skillCategory)} / #{Arcana.skillSubnameFor(a.skillCategory, a.skillSubcategory)}）
                 </dd>
-                <dt>武器タイプ</dt>
-                <dd>#{a.weaponName}</dd>
-                <dt>成長タイプ</dt>
-                <dd>#{a.growthTypeName}</dd>
               </dl>
             </div>
             <div class='col-xs-12 col-sm-6 col-md-6'>
