@@ -683,7 +683,7 @@ class Viewer
   initMembers = ->
     ptm = $("#ptm").val()
     if ptm == ''
-      toggleEditMode()
+      toggleEditMode() if window.innerWidth >= 768
       searchMembers(defaultMemberCode, onEdit)
     else
       searchMembers(ptm)
