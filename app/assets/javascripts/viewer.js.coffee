@@ -328,6 +328,9 @@ class Viewer
       d = $("<div class='none #{cl} summary-size arcana'></div>")
     d
 
+  renderSummarySizeMember = (a) ->
+    renderSummarySizeArcana(a, 'member')
+
   renderArcanaDetail = (a) ->
     return '' unless a
     "
@@ -376,11 +379,12 @@ class Viewer
       </div>
     "
 
-  replaceArcana = (div, ra) ->
+  replaceMemberArcana = (div, ra) ->
     div.empty()
     a = $(ra)
     a.hide()
     div.append(a)
+    a.attr('data-parent-id', div.attr('id'))
     a.fadeIn()
 
   replaceMemberArea = ->
@@ -388,9 +392,9 @@ class Viewer
       code = div.children('div').data("jobCode")
       a = arcanas.forCode(code)
       if onEdit
-        replaceArcana(div, renderSummarySizeArcana(a, 'member'))
+        replaceMemberArcana(div, renderSummarySizeMember(a))
       else
-        replaceArcana(div, renderFullSizeArcana(a))
+        replaceMemberArcana(div, renderFullSizeArcana(a))
 
   replaceChoiceArea = (as, detail) ->
     ul = $('#choice-characters')
@@ -424,10 +428,10 @@ class Viewer
       eachMembers (mem) ->
         div = memberAreaFor(mem)
         render = if edit
-          renderSummarySizeArcana(as[mem], 'member')
+          renderSummarySizeMember(as[mem])
         else
           renderFullSizeArcana(as[mem])
-        replaceArcana div, render
+        replaceMemberArcana div, render
       calcCost()
 
   resetQuery = ->
@@ -534,8 +538,7 @@ class Viewer
     @
 
   clearMemberArcana = (div) ->
-    ra = renderSummarySizeArcana(null, 'member')
-    replaceArcana(div, ra)
+    replaceMemberArcana(div, renderSummarySizeMember(null))
 
   removeDuplicateMember = (code) ->
     mems = $(".member")
@@ -627,11 +630,19 @@ class Viewer
     $(".member-character").droppable(
       drop: (e, ui) ->
         e.preventDefault()
-        code = ui.draggable.data('jobCode')
+        drag = ui.draggable
+        code = drag.data('jobCode')
         target = $(e.target)
-        removeDuplicateMember(code) unless target.hasClass('friend')
-        ra = renderSummarySizeArcana(arcanas.forCode(code), 'member')
-        replaceArcana(target, ra)
+
+        unless target.hasClass('friend')
+          removeDuplicateMember(code)
+          if drag.hasClass('member')
+            orgCode = target.children('div').data("jobCode")
+            replaceMemberArcana($("##{drag.data('parentId')}"),
+              renderSummarySizeMember(arcanas.forCode(orgCode)))
+
+        replaceMemberArcana(target,
+          renderSummarySizeMember(arcanas.forCode(code)))
         calcCost()
     )
 
@@ -668,7 +679,7 @@ class Viewer
     $("#reset-members").hammer().on 'tap', (e) ->
       e.preventDefault()
       eachMemberAreas (area) ->
-        replaceArcana(area, renderSummarySizeArcana('', 'member'))
+        clearMemberArcana(area)
       $("#cost").text('0')
 
     $("#search-clear").hammer().on 'tap', (e) ->
