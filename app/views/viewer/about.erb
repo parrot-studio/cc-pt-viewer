@@ -16,6 +16,7 @@
           <li><a href="#data-arcana-source">アルカナ属性「入手先」について</a></li>
           <li><a href="#data-arcana-2">「2部限定のアルカナ」について</a></li>
           <li><a href="#data-vita">Vita版（チェンクロV）について</a></li>
+          <li><a href="#data-atkhp">ATKとHPについて</a></li>
         </ul>
         <li><a href="#system">システム関連</a></li>
         <ul>
@@ -112,6 +113,33 @@
         <p>
           現時点では対応は未定です。<br>
           データの構造や値がほぼ同一、つまり手間がかからなそうなら検討します。
+        </p>
+      </div>
+      <div class="panel-footer"><a href="#index">目次へ</a></div>
+    </div>
+    <a name="data-atkhp"></a>
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">ATKとHPについて</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+          <li>"Max" ATK/HP => 限界突破なしでの最大値</li>
+          <li>"Limit" ATK/HP => 最大まで限界突破した状態での最大値</li>
+        </ul>
+        <p>
+          公式サイトでも説明があるように、本来MaxとLimitはレア度に応じて単純計算できるのですが、<br>
+          魔神・コラボのようなイベント限定はMaxが低くLimitが高い設定になっていますし、<br>
+          2部の義勇軍や騎士のフィーンドのように、そもそも限界突破ができないアルカナも存在します。
+        </p>
+        <p>
+          参考にした<%= link_to 'Wiki', 'http://xn--eckfza0gxcvmna6c.gamerch.com/' %>の情報を見る限り、<br>
+          2部のアルカナで計算式に従わないものがいたり、☆1-2で計算が合わないアルカナもいるのですが、<br>
+          その全てについてゲーム内で確認することはできません。
+        </p>
+        <p>
+          可能な限り追随はしますが、もし明らかな間違いがあれば <%= link_to '@parrot_studio', 'https://twitter.com/parrot_studio/', :target => '_blank' %> までお願いします。<br>
+          その際、スクリーンショットや参考サイト等を教えていただけると、確認しやすくなります。
         </p>
       </div>
       <div class="panel-footer"><a href="#index">目次へ</a></div>
