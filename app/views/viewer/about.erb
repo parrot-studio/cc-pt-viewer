@@ -16,6 +16,7 @@
           <li><a href="#data-arcana-source">アルカナ属性「入手先」について</a></li>
           <li><a href="#data-arcana-2">「2部限定のアルカナ」について</a></li>
           <li><a href="#data-vita">Vita版（チェンクロV）について</a></li>
+          <li><a href="#data-atkhp">ATKとHPについて</a></li>
         </ul>
         <li><a href="#system">システム関連</a></li>
         <ul>
@@ -68,6 +69,7 @@
           <li>ユリアナ/ロロ等、コラボ以外のフェス限定 => 「期間限定」</li>
           <li>★1-2 => ノーマルガチャ/フリークエストから出現だが、まとめて「その他」</li>
           <li>★3 => 自身でプレイした時の記憶や、キャラの所属/ストーリー等から判断し、大雑把にどこかの「酒場」</li>
+          <li>リング交換やリングガチャ限定 => 「リング」</li>
           <li>魔神レイドの報酬となる魔神 => 「魔神戦」</li>
           <li>魔神だが、レイドではない（ex:ザレン） => 「その他」</li>
           <li>魔神戦の関連キャラだが、魔神ではなく酒場にも追加されていない（ex:ハティ） => 「期間限定」
@@ -115,6 +117,33 @@
       </div>
       <div class="panel-footer"><a href="#index">目次へ</a></div>
     </div>
+    <a name="data-atkhp"></a>
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">ATKとHPについて</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+          <li>"Max" ATK/HP => 限界突破なしでの最大値</li>
+          <li>"Limit" ATK/HP => 最大まで限界突破した状態での最大値</li>
+        </ul>
+        <p>
+          公式サイトでも説明があるように、本来MaxとLimitはレア度に応じて単純計算できるのですが、<br>
+          魔神・コラボのようなイベント限定はMaxが低くLimitが高い設定になっていますし、<br>
+          2部の義勇軍や騎士のフィーンドのように、そもそも限界突破ができないアルカナも存在します。
+        </p>
+        <p>
+          参考にした<%= link_to 'Wiki', 'http://xn--eckfza0gxcvmna6c.gamerch.com/' %>の情報を見る限り、<br>
+          2部のアルカナで計算式に従わないものがいたり、☆1-2で計算が合わないアルカナもいるのですが、<br>
+          その全てについてゲーム内で確認することはできません。
+        </p>
+        <p>
+          可能な限り追随はしますが、もし明らかな間違いがあれば <%= link_to '@parrot_studio', 'https://twitter.com/parrot_studio/', :target => '_blank' %> までお願いします。<br>
+          その際、スクリーンショットや参考サイト等を教えていただけると、確認しやすくなります。
+        </p>
+      </div>
+      <div class="panel-footer"><a href="#index">目次へ</a></div>
+    </div>
     <hr>
     <a name="system"></a>
     <div>
@@ -145,11 +174,10 @@
       <div class="panel-body">
         <ul>
           <li>アビリティの登録（それによる検索等機能追加）</li>
-          <li>詳細表示</li>
           <li>アルカナのレベルを登録可能に</li>
           <li>最後に編集した構成を初期状態に</li>
           <li>パーティー編成を（クッキーに）保存</li>
-          <li>全体のデザインをリッチに</li>
+          <li>全体のデザインをもう少し整理</li>
           <li>etc...</li>
         </ul>
         <p>
@@ -166,7 +194,7 @@
       </div>
       <div class="panel-body">
         <ul>
-          <li>ゲームのUIレベルでは本来わからない情報（経験値タイプetc...）</li>
+          <li>ゲームのUIレベルでは本来わからない情報（経験値タイプ等）</li>
           <li>公式にリリースがない情報の登録（データ解析情報等）</li>
         </ul>
       </div>

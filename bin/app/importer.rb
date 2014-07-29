@@ -31,7 +31,12 @@ Arcana.transaction do
     scate = datas[13]
     ssubcate = datas[14]
     scost = datas[15].to_i
-    job_index = datas[16].to_i
+    matk = datas[16].to_i
+    mhp = datas[17].to_i
+    latk = datas[18].to_i
+    lhp = datas[19].to_i
+    job_detail = datas[20]
+    job_index = datas[21].to_i
     code = "#{job_type}#{job_index}"
 
     arcana = Arcana.find_by_job_code(code) || Arcana.new
@@ -47,6 +52,11 @@ Arcana.transaction do
     arcana.job_type = job_type
     arcana.job_index = job_index
     arcana.job_code = code
+    arcana.max_atk = (matk > 0 ? matk : nil)
+    arcana.max_hp = (mhp > 0 ? mhp : nil)
+    arcana.limit_atk = (latk > 0 ? latk : nil)
+    arcana.limit_hp = (lhp > 0 ? lhp : nil)
+    arcana.job_detail = job_detail
 
     actor = actors[vname] || lambda do |name|
       va = VoiceActor.new
