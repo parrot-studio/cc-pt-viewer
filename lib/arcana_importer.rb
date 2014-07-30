@@ -17,7 +17,18 @@ class ArcanaImporter
       each_table_lines(arcana_table_file) do |datas|
         import_arcana(datas)
       end
+
+      VoiceActor.all.each do |va|
+        va.count = Arcana.where(voice_actor_id: va.id).count
+        va.save!
+      end
+
+      Illustrator.all.each do |il|
+        il.count = Arcana.where(illustrator_id: il.id).count
+        il.save!
+      end
     end
+
     self
   end
 
