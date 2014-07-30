@@ -1,21 +1,101 @@
-file = ARGV[0]
-unless file
-  puts "usage: rails r importer.rb [file]"
-  exit
-end
+class ArcanaImporter
 
-f = File.open(file, 'rt:Shift_JIS')
-Arcana.transaction do
-  actors = VoiceActor.all.index_by(&:name)
-  illusts = Illustrator.all.index_by(&:name)
-  skills = Skill.all.index_by(&:name)
+  attr_writer :file_dir
 
-  f.readlines.each do |line|
-    next if line.start_with?('#')
+  class << self
 
-    datas = line.split(',').map(&:strip)
+    def execute(fdir: nil)
+      ai = self.new
+      ai.file_dir = fdir if fdir
+      ai.execute
+    end
+
+  end
+
+  def execute
+    Arcana.transaction do
+      each_table_lines(arcana_table_file) do |datas|
+        import_arcana(datas)
+      end
+
+      VoiceActor.all.each do |va|
+        va.count = Arcana.where(voice_actor_id: va.id).count
+        va.save!
+      end
+
+      Illustrator.all.each do |il|
+        il.count = Arcana.where(illustrator_id: il.id).count
+        il.save!
+      end
+    end
+
+    self
+  end
+
+  private
+
+  def db_file_dir
+    @file_dir ||= File.expand_path(File.join(Rails.root, 'db'))
+    @file_dir
+  end
+
+  def id_table_file
+    File.join(db_file_dir, 'id.csv')
+  end
+
+  def arcana_table_file
+    File.join(db_file_dir, 'arcanas.csv')
+  end
+
+  def each_table_lines(file)
+    raise "file not found => #{file}" unless File.exist?(file)
+    f = File.open(file, 'rt:Shift_JIS')
+    f.readlines.each do |line|
+      next if line.start_with?('#')
+      datas = line.split(',').map(&:strip)
+      next if datas.empty?
+      next if datas.all?(&:blank?)
+      yield(datas)
+    end
+    file
+  end
+
+  def id_table
+    @ids ||= lambda do
+      ret = {}
+      each_table_lines(id_table_file) do |datas|
+        name, job, index = datas
+        next if (name.blank? || job.blank? || index.blank?)
+        ret["#{job}#{index}"] = name
+      end
+      ret
+    end.call
+    @ids
+  end
+
+  def valid_arcana?(code, name)
+    id_table[code] == name ? true : false
+  end
+
+  def actors
+    @actors ||= VoiceActor.all.index_by(&:name)
+    @actors
+  end
+
+  def illusts
+    @illusts ||= Illustrator.all.index_by(&:name)
+    @illusts
+  end
+
+  def skills
+    @skills ||= Skill.all.index_by(&:name)
+    @skills
+  end
+
+  def import_arcana(datas)
     name = datas[0].gsub(/"""/, '"')
-    next if name.blank?
+    return if name.blank?
+
     title = datas[1].gsub(/"""/, '"')
     rarity = datas[2].to_i
     job_type = datas[3]
@@ -38,6 +118,8 @@ Arcana.transaction do
     job_detail = datas[20]
     job_index = datas[21].to_i
     code = "#{job_type}#{job_index}"
+
+    raise "invalid arcana => code:#{code} name:#{name}" unless valid_arcana?(code, name)
 
     arcana = Arcana.find_by_job_code(code) || Arcana.new
     arcana.name = name
@@ -90,20 +172,7 @@ Arcana.transaction do
     arcana.skill = skill
 
     arcana.save!
-  end
-
-  VoiceActor.all.each do |va|
-    va.count = Arcana.where(voice_actor_id: va.id).count
-    va.save!
-  end
-
-  Illustrator.all.each do |il|
-    il.count = Arcana.where(illustrator_id: il.id).count
-    il.save!
+    arcana
   end
 
 end
-
-Rails.cache.clear
-
-exit
