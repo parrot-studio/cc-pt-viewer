@@ -92,6 +92,11 @@ class ArcanaImporter
     @skills
   end
 
+  def abilities
+    @abilities ||= Ability.all.index_by(&:name)
+    @abilities
+  end
+
   def import_arcana(datas)
     name = datas[0].gsub(/"""/, '"')
     return if name.blank?
@@ -116,7 +121,13 @@ class ArcanaImporter
     latk = datas[18].to_i
     lhp = datas[19].to_i
     job_detail = datas[20]
-    job_index = datas[21].to_i
+    ability_name_1 = datas[21]
+    ability_cond_1 = datas[22]
+    ability_effect_1 = datas[23]
+    ability_name_2 = datas[24]
+    ability_cond_2 = datas[25]
+    ability_effect_2 = datas[26]
+    job_index = datas[27].to_i
     code = "#{job_type}#{job_index}"
 
     raise "invalid arcana => code:#{code} name:#{name}" unless valid_arcana?(code, name)
@@ -170,6 +181,29 @@ class ArcanaImporter
       sk
     end.call(sname, scate, ssubcate, scost)
     arcana.skill = skill
+
+    crate_ability = lambda do |name, cond, effect|
+      abi = Ability.new
+      abi.name = name
+      abi.condition_type = cond
+      abi.effect_type = effect
+      abi.explanation = ''
+      abi.save!
+      abilities[name] = abi
+      abi
+    end
+
+    unless ability_name_1.blank?
+      abi1 = abilities[ability_name_1]
+      abi1 ||= crate_ability.call(ability_name_1, ability_cond_1, ability_effect_1)
+      arcana.first_ability = abi1
+    end
+
+    unless ability_name_2.blank?
+      abi2 = abilities[ability_name_2]
+      abi2 ||= crate_ability.call(ability_name_2, ability_cond_2, ability_effect_2)
+      arcana.second_ability = abi2
+    end
 
     arcana.save!
     arcana
