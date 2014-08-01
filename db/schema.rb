@@ -11,35 +11,52 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140725065324) do
+ActiveRecord::Schema.define(version: 20140731061610) do
 
-  create_table "arcanas", force: true do |t|
+  create_table "abilities", force: true do |t|
     t.string   "name",           limit: 100, null: false
-    t.string   "title",          limit: 200
-    t.integer  "rarity",         limit: 3,   null: false
-    t.integer  "cost",                       null: false
-    t.string   "weapon_type",    limit: 10,  null: false
-    t.string   "hometown",       limit: 100, null: false
-    t.string   "job_type",       limit: 10,  null: false
-    t.integer  "job_index",                  null: false
-    t.string   "job_code",       limit: 20,  null: false
+    t.string   "condition_type", limit: 100, null: false
+    t.string   "effect_type",    limit: 100, null: false
+    t.string   "explanation",    limit: 500
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "source",         limit: 100, null: false
-    t.integer  "voice_actor_id",             null: false
-    t.integer  "illustrator_id",             null: false
-    t.string   "growth_type",    limit: 20,  null: false
-    t.integer  "skill_id",                   null: false
-    t.string   "addition",       limit: 20,  null: false
-    t.integer  "max_atk",        limit: 8
-    t.integer  "max_hp",         limit: 8
-    t.integer  "limit_atk",      limit: 8
-    t.integer  "limit_hp",       limit: 8
-    t.string   "job_detail",     limit: 50
+  end
+
+  add_index "abilities", ["condition_type", "effect_type"], name: "index_abilities_on_condition_type_and_effect_type", using: :btree
+  add_index "abilities", ["condition_type"], name: "index_abilities_on_condition_type", using: :btree
+  add_index "abilities", ["effect_type"], name: "index_abilities_on_effect_type", using: :btree
+  add_index "abilities", ["name"], name: "index_abilities_on_name", unique: true, using: :btree
+
+  create_table "arcanas", force: true do |t|
+    t.string   "name",              limit: 100, null: false
+    t.string   "title",             limit: 200
+    t.integer  "rarity",            limit: 3,   null: false
+    t.integer  "cost",                          null: false
+    t.string   "weapon_type",       limit: 10,  null: false
+    t.string   "hometown",          limit: 100, null: false
+    t.string   "job_type",          limit: 10,  null: false
+    t.integer  "job_index",                     null: false
+    t.string   "job_code",          limit: 20,  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "source",            limit: 100, null: false
+    t.integer  "voice_actor_id",                null: false
+    t.integer  "illustrator_id",                null: false
+    t.string   "growth_type",       limit: 20,  null: false
+    t.integer  "skill_id",                      null: false
+    t.string   "addition",          limit: 20,  null: false
+    t.integer  "max_atk",           limit: 8
+    t.integer  "max_hp",            limit: 8
+    t.integer  "limit_atk",         limit: 8
+    t.integer  "limit_hp",          limit: 8
+    t.string   "job_detail",        limit: 50
+    t.integer  "first_ability_id",              null: false
+    t.integer  "second_ability_id",             null: false
   end
 
   add_index "arcanas", ["addition"], name: "index_arcanas_on_addition", using: :btree
   add_index "arcanas", ["cost"], name: "index_arcanas_on_cost", using: :btree
+  add_index "arcanas", ["first_ability_id"], name: "index_arcanas_on_first_ability_id", using: :btree
   add_index "arcanas", ["growth_type"], name: "index_arcanas_on_growth_type", using: :btree
   add_index "arcanas", ["hometown", "rarity"], name: "index_arcanas_on_hometown_and_rarity", using: :btree
   add_index "arcanas", ["hometown"], name: "index_arcanas_on_hometown", using: :btree
@@ -57,6 +74,7 @@ ActiveRecord::Schema.define(version: 20140725065324) do
   add_index "arcanas", ["name"], name: "index_arcanas_on_name", using: :btree
   add_index "arcanas", ["rarity", "weapon_type"], name: "index_arcanas_on_rarity_and_weapon_type", using: :btree
   add_index "arcanas", ["rarity"], name: "index_arcanas_on_rarity", using: :btree
+  add_index "arcanas", ["second_ability_id"], name: "index_arcanas_on_second_ability_id", using: :btree
   add_index "arcanas", ["skill_id"], name: "index_arcanas_on_skill_id", using: :btree
   add_index "arcanas", ["source"], name: "index_arcanas_on_source", using: :btree
   add_index "arcanas", ["voice_actor_id"], name: "index_arcanas_on_voice_actor_id", using: :btree

@@ -92,6 +92,11 @@ class ArcanaImporter
     @skills
   end
 
+  def abilities
+    @abilities ||= Ability.all.index_by(&:name)
+    @abilities
+  end
+
   def import_arcana(datas)
     name = datas[0].gsub(/"""/, '"')
     return if name.blank?
@@ -111,12 +116,20 @@ class ArcanaImporter
     scate = datas[13]
     ssubcate = datas[14]
     scost = datas[15].to_i
-    matk = datas[16].to_i
-    mhp = datas[17].to_i
-    latk = datas[18].to_i
-    lhp = datas[19].to_i
-    job_detail = datas[20]
-    job_index = datas[21].to_i
+    name2 = datas[16]
+    raise "name invalid" unless name == name2
+    matk = datas[17].to_i
+    mhp = datas[18].to_i
+    latk = datas[19].to_i
+    lhp = datas[20].to_i
+    job_detail = datas[21]
+    ability_name_1 = datas[22]
+    ability_cond_1 = datas[23]
+    ability_effect_1 = datas[24]
+    ability_name_2 = datas[25]
+    ability_cond_2 = datas[26]
+    ability_effect_2 = datas[27]
+    job_index = datas[28].to_i
     code = "#{job_type}#{job_index}"
 
     raise "invalid arcana => code:#{code} name:#{name}" unless valid_arcana?(code, name)
@@ -158,9 +171,21 @@ class ArcanaImporter
     end.call(iname)
     arcana.illustrator = illust
 
-    skill = skills[sname] || lambda do |name, category, sub, cost|
-      sk = Skill.new
-      sk.name = name
+    skill = lambda do |name, category, sub, cost|
+      sk = skills[name]
+      if sk
+        check = lambda do
+          next false unless sk.category == category
+          next false unless sk.subcategory == sub
+          next false unless sk.cost == cost
+          true
+        end.call
+        puts "warning : skill data invalid => #{arcana.name} #{sk.inspect}" unless check
+      else
+        sk = Skill.new
+        sk.name = name
+      end
+
       sk.category = category
       sk.subcategory = sub
       sk.cost = cost
@@ -170,6 +195,38 @@ class ArcanaImporter
       sk
     end.call(sname, scate, ssubcate, scost)
     arcana.skill = skill
+
+    create_ability = lambda do |name, cond, effect|
+      abi = abilities[name]
+      if abi
+        check = lambda do
+          next false unless abi.condition_type == cond
+          next false unless abi.effect_type == effect
+          true
+        end.call
+        puts "warning : ability data invalid => #{arcana.name} #{abi.inspect}" unless check
+      else
+        abi = Ability.new
+        abi.name = name
+      end
+
+      abi.condition_type = cond
+      abi.effect_type = effect
+      abi.explanation = ''
+      abi.save!
+      abilities[name] = abi
+      abi
+    end
+
+    unless ability_name_1.blank?
+      abi1 = create_ability.call(ability_name_1, ability_cond_1, ability_effect_1)
+      arcana.first_ability = abi1
+    end
+
+    unless ability_name_2.blank?
+      abi2 = create_ability.call(ability_name_2, ability_cond_2, ability_effect_2)
+      arcana.second_ability = abi2
+    end
 
     arcana.save!
     arcana

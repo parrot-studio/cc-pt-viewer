@@ -1,6 +1,6 @@
 class Arcana < ActiveRecord::Base
 
-  default_scope { includes([:voice_actor, :illustrator, :skill]) }
+  default_scope { includes([:voice_actor, :illustrator, :skill, :first_ability, :second_ability]) }
 
   JOB_TYPES = ServerSettings.job_types.freeze
   RARITYS = (1..(ServerSettings.rarity)).freeze
@@ -13,6 +13,8 @@ class Arcana < ActiveRecord::Base
   belongs_to :voice_actor
   belongs_to :illustrator
   belongs_to :skill
+  belongs_to :first_ability,  class_name: "Ability"
+  belongs_to :second_ability, class_name: "Ability"
 
   validates :name,
     presence: true,
