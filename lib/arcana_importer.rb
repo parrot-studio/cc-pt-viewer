@@ -116,18 +116,20 @@ class ArcanaImporter
     scate = datas[13]
     ssubcate = datas[14]
     scost = datas[15].to_i
-    matk = datas[16].to_i
-    mhp = datas[17].to_i
-    latk = datas[18].to_i
-    lhp = datas[19].to_i
-    job_detail = datas[20]
-    ability_name_1 = datas[21]
-    ability_cond_1 = datas[22]
-    ability_effect_1 = datas[23]
-    ability_name_2 = datas[24]
-    ability_cond_2 = datas[25]
-    ability_effect_2 = datas[26]
-    job_index = datas[27].to_i
+    name2 = datas[16]
+    raise "name invalid" unless name == name2
+    matk = datas[17].to_i
+    mhp = datas[18].to_i
+    latk = datas[19].to_i
+    lhp = datas[20].to_i
+    job_detail = datas[21]
+    ability_name_1 = datas[22]
+    ability_cond_1 = datas[23]
+    ability_effect_1 = datas[24]
+    ability_name_2 = datas[25]
+    ability_cond_2 = datas[26]
+    ability_effect_2 = datas[27]
+    job_index = datas[28].to_i
     code = "#{job_type}#{job_index}"
 
     raise "invalid arcana => code:#{code} name:#{name}" unless valid_arcana?(code, name)
