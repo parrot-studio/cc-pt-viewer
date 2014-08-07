@@ -15,4 +15,12 @@ class Skill < ActiveRecord::Base
     presence: true,
     numericality: {only_integer: true}
 
+  def serialize
+    sk = self.attributes
+    sk.delete('id')
+    sk.delete('created_at')
+    sk.delete('updated_at')
+    sk
+  end
+
 end

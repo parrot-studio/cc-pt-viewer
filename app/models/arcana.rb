@@ -75,12 +75,9 @@ class Arcana < ActiveRecord::Base
     ret['illustrator'] = self.illustrator.name
     ret.delete('illustrator_id')
 
-    sk = self.skill
-    ret['skill_name'] = sk.name
-    ret['skill_category'] = sk.category
-    ret['skill_subcategory'] = sk.subcategory
-    ret['skill_explanation'] = sk.explanation
-    ret['skill_cost'] = sk.cost
+    sk = (self.skill ? self.skill.serialize : {})
+    ret['skill'] = sk
+    ret.delete('skill_id')
 
     ret
   end
