@@ -385,23 +385,23 @@ class Viewer
                 <dd>#{a.weaponName}</dd>
                 <dt>成長タイプ</dt>
                 <dd>#{a.growthTypeName}</dd>
+                <dt>声優</dt>
+                <dd>#{a.voiceActor}</dd>
+                <dt>イラストレーター</dt>
+                <dd>#{a.illustrator}</dd>
+              </dl>
+            </div>
+            <div class='col-xs-12 col-sm-6 col-md-6'>
+              <dl class='small arcana-view-detail'>
                 <dt>スキル</dt>
                 <dd>
                   #{a.skill.name} (#{a.skill.cost})<br>
                   （#{Skill.typeNameFor(a.skill.category)} / #{Skill.subnameFor(a.skill.category, a.skill.subcategory)}）
                 </dd>
-              </dl>
-            </div>
-            <div class='col-xs-12 col-sm-6 col-md-6'>
-              <dl class='small arcana-view-detail'>
                 <dt>アビリティ1</dt>
                 <dd>#{ab1}</dd>
                 <dt>アビリティ2</dt>
                 <dd>#{ab2}</dd>
-                <dt>声優</dt>
-                <dd>#{a.voiceActor}</dd>
-                <dt>イラストレーター</dt>
-                <dd>#{a.illustrator}</dd>
                 <dt>入手先</dt>
                 <dd>#{a.sourceName}</dd>
               </dl>
