@@ -79,6 +79,13 @@ class Arcana < ActiveRecord::Base
     ret['skill'] = sk
     ret.delete('skill_id')
 
+    fb = (self.first_ability ? self.first_ability.serialize : {})
+    ret['first_ability'] = fb
+    ret.delete('first_ability_id')
+    sb = (self.second_ability ? self.second_ability.serialize : {})
+    ret['second_ability'] = sb
+    ret.delete('second_ability_id')
+
     ret
   end
 

@@ -58,6 +58,14 @@ class Skill
   @subtypesFor = (s) -> SKILL_TABLE[s]?.types || []
   @subnameFor = (skill, sub) -> SKILL_TABLE[skill]?.subname?[sub] || ''
 
+class Ability
+
+  constructor: (data) ->
+    @name = data.name || ''
+    @conditionType = data.condition_type || ''
+    @effectType = data.effect_type || ''
+    @explanation = data.explanation || ''
+
 class Arcana
 
   JOB_NAME =
@@ -138,6 +146,8 @@ class Arcana
     @limitHp = (data.limit_hp || '-')
 
     @skill = new Skill(data.skill)
+    @firstAbility = new Skill(data.first_ability)
+    @secondAbility = new Skill(data.second_ability)
 
   @jobNameFor = (j) -> JOB_NAME[j]
   @jobShortNameFor = (j) -> JOB_NAME_SHORT[j]
@@ -340,6 +350,17 @@ class Viewer
 
   renderArcanaDetail = (a) ->
     return '' unless a
+
+    ab1 = if a.firstAbility.name == ''
+      "（なし）"
+    else
+      "#{a.firstAbility.name}"
+
+    ab2 = if a.secondAbility.name == ''
+      "（なし）"
+    else
+      "#{a.secondAbility.name}"
+
     "
       <div class='#{a.jobClass} arcana'>
         <div class='#{a.jobClass}-title arcana-title'>
@@ -373,6 +394,10 @@ class Viewer
             </div>
             <div class='col-xs-12 col-sm-6 col-md-6'>
               <dl class='small arcana-view-detail'>
+                <dt>アビリティ1</dt>
+                <dd>#{ab1}</dd>
+                <dt>アビリティ2</dt>
+                <dd>#{ab2}</dd>
                 <dt>声優</dt>
                 <dd>#{a.voiceActor}</dd>
                 <dt>イラストレーター</dt>

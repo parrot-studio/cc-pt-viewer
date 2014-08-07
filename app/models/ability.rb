@@ -12,4 +12,12 @@ class Ability < ActiveRecord::Base
   validates :explanation,
     length: {maximum: 500}
 
+  def serialize
+    ab = self.attributes
+    ab.delete('id')
+    ab.delete('created_at')
+    ab.delete('updated_at')
+    ab
+  end
+
 end
