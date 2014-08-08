@@ -1,3 +1,71 @@
+class Skill
+
+  SKILL_TABLE =
+    attack:
+      name: '攻撃'
+      types: ['one/short', 'one/line', 'one/combo', 'one/dash', 'one/rear',
+        'range/line', 'range/dash', 'range/forward', 'range/self', 'range/explosion',
+        'range/drop', 'range/random', 'range/all']
+      subname:
+        'one/short': '単体・目前'
+        'one/line': '単体・直線'
+        'one/combo': '単体・連続'
+        'one/dash': '単体・ダッシュ'
+        'one/rear': '単体・最後列'
+        'range/line': '範囲・直線'
+        'range/dash': '範囲・ダッシュ'
+        'range/forward': '範囲・前方'
+        'range/self': '範囲・自分中心'
+        'range/explosion': '範囲・自爆'
+        'range/drop': '範囲・落下物'
+        'range/random': '範囲・ランダム'
+        'range/all': '範囲・全体'
+    heal:
+      name: '回復'
+      types: ['all/instant', 'all/cycle', 'one/self', 'one/worst']
+      subname:
+        'all/instant': '全体・即時'
+        'all/cycle': '全体・オート'
+        'one/self': '単体・自分'
+        'one/worst': '単体・一番低い対象'
+    'song/dance':
+      name: '歌・舞'
+      types: ['buff', 'debuff']
+      subname:
+        buff: '味方上昇'
+        debuff: '敵状態異常'
+    other:
+      name: '補助'
+      types: ['buff/self', 'buff/all', 'buff/random',
+        'barrier', 'obstacle', 'invincible', 'element']
+      subname:
+        'buff/self': '自身能力UP'
+        'buff/all': '全体能力UP'
+        'buff/random': 'ランダムに一人能力UP'
+        barrier: 'バリアー'
+        obstacle: '障害物'
+        invincible: '無敵'
+        element: '属性付与'
+
+  constructor: (data) ->
+    @name = data.name || ''
+    @category = data.category || ''
+    @subcategory = data.subcategory || ''
+    @explanation = data.explanation || ''
+    @cost = data.cost || ''
+
+  @typeNameFor = (s) -> SKILL_TABLE[s]?.name || ''
+  @subtypesFor = (s) -> SKILL_TABLE[s]?.types || []
+  @subnameFor = (skill, sub) -> SKILL_TABLE[skill]?.subname?[sub] || ''
+
+class Ability
+
+  constructor: (data) ->
+    @name = data.name || ''
+    @conditionType = data.condition_type || ''
+    @effectType = data.effect_type || ''
+    @explanation = data.explanation || ''
+
 class Arcana
 
   JOB_NAME =
@@ -50,53 +118,6 @@ class Arcana
     collaboration: 'コラボ限定'
     other: 'その他'
 
-  SKILL_TABLE =
-    attack:
-      name: '攻撃'
-      types: ['one/short', 'one/line', 'one/combo', 'one/dash', 'one/rear',
-        'range/line', 'range/dash', 'range/forward', 'range/self', 'range/explosion',
-        'range/drop', 'range/random', 'range/all']
-      subname:
-        'one/short': '単体・目前'
-        'one/line': '単体・直線'
-        'one/combo': '単体・連続'
-        'one/dash': '単体・ダッシュ'
-        'one/rear': '単体・最後列'
-        'range/line': '範囲・直線'
-        'range/dash': '範囲・ダッシュ'
-        'range/forward': '範囲・前方'
-        'range/self': '範囲・自分中心'
-        'range/explosion': '範囲・自爆'
-        'range/drop': '範囲・落下物'
-        'range/random': '範囲・ランダム'
-        'range/all': '範囲・全体'
-    heal:
-      name: '回復'
-      types: ['all/instant', 'all/cycle', 'one/self', 'one/worst']
-      subname:
-        'all/instant': '全体・即時'
-        'all/cycle': '全体・オート'
-        'one/self': '単体・自分'
-        'one/worst': '単体・一番低い対象'
-    'song/dance':
-      name: '歌・舞'
-      types: ['buff', 'debuff']
-      subname:
-        buff: '味方上昇'
-        debuff: '敵状態異常'
-    other:
-      name: '補助'
-      types: ['buff/self', 'buff/all', 'buff/random',
-        'barrier', 'obstacle', 'invincible', 'element']
-      subname:
-        'buff/self': '自身能力UP'
-        'buff/all': '全体能力UP'
-        'buff/random': 'ランダムに一人能力UP'
-        barrier: 'バリアー'
-        obstacle: '障害物'
-        invincible: '無敵'
-        element: '属性付与'
-
   constructor: (data) ->
     @name = data.name
     @title = data.title
@@ -118,25 +139,21 @@ class Arcana
     @growthTypeName = GROWTH_TYPE[@growthType]
     @source = data.source
     @sourceName = SOURCE_NAME[@source]
-    @skillName = data.skill_name
-    @skillCategory = data.skill_category
-    @skillSubcategory = data.skill_subcategory
-    @skillExplanation = data.skill_explanation
-    @skillCost = data.skill_cost
     @jobDetail = data.job_detail
     @maxAtk = (data.max_atk || '-')
     @maxHp = (data.max_hp || '-')
     @limitAtk = (data.limit_atk || '-')
     @limitHp = (data.limit_hp || '-')
 
+    @skill = new Skill(data.skill)
+    @firstAbility = new Skill(data.first_ability)
+    @secondAbility = new Skill(data.second_ability)
+
   @jobNameFor = (j) -> JOB_NAME[j]
   @jobShortNameFor = (j) -> JOB_NAME_SHORT[j]
   @weaponNameFor = (w) -> WEAPON_NAME[w]
   @growthTypeNameFor = (g) -> GROWTH_TYPE[g]
   @sourceNameFor = (s) -> SOURCE_NAME[s]
-  @skillTypeNameFor = (s) -> SKILL_TABLE[s]?.name || ''
-  @skillSubtypesFor = (s) -> SKILL_TABLE[s]?.types || []
-  @skillSubnameFor = (skill, sub) -> SKILL_TABLE[skill]?.subname?[sub] || ''
 
 class Arcanas
 
@@ -278,7 +295,7 @@ class Viewer
             </p>
             <dl class='small text-muted arcana-detail'>
               <dt>skill</dt>
-              <dd>#{a.skillName} (#{a.skillCost})</dd>
+              <dd>#{a.skill.name} (#{a.skill.cost})</dd>
               <dt>type</dt>
               <dd>#{a.weaponName} / #{a.growthTypeName}</dd>
               <dt>voice / illust</dt>
@@ -333,6 +350,17 @@ class Viewer
 
   renderArcanaDetail = (a) ->
     return '' unless a
+
+    ab1 = if a.firstAbility.name == ''
+      "（なし）"
+    else
+      "#{a.firstAbility.name}"
+
+    ab2 = if a.secondAbility.name == ''
+      "（なし）"
+    else
+      "#{a.secondAbility.name}"
+
     "
       <div class='#{a.jobClass} arcana'>
         <div class='#{a.jobClass}-title arcana-title'>
@@ -357,19 +385,23 @@ class Viewer
                 <dd>#{a.weaponName}</dd>
                 <dt>成長タイプ</dt>
                 <dd>#{a.growthTypeName}</dd>
-                <dt>スキル</dt>
-                <dd>
-                  #{a.skillName} (#{a.skillCost})<br>
-                  （#{Arcana.skillTypeNameFor(a.skillCategory)} / #{Arcana.skillSubnameFor(a.skillCategory, a.skillSubcategory)}）
-                </dd>
-              </dl>
-            </div>
-            <div class='col-xs-12 col-sm-6 col-md-6'>
-              <dl class='small arcana-view-detail'>
                 <dt>声優</dt>
                 <dd>#{a.voiceActor}</dd>
                 <dt>イラストレーター</dt>
                 <dd>#{a.illustrator}</dd>
+              </dl>
+            </div>
+            <div class='col-xs-12 col-sm-6 col-md-6'>
+              <dl class='small arcana-view-detail'>
+                <dt>スキル</dt>
+                <dd>
+                  #{a.skill.name} (#{a.skill.cost})<br>
+                  （#{Skill.typeNameFor(a.skill.category)} / #{Skill.subnameFor(a.skill.category, a.skill.subcategory)}）
+                </dd>
+                <dt>アビリティ1</dt>
+                <dd>#{ab1}</dd>
+                <dt>アビリティ2</dt>
+                <dd>#{ab2}</dd>
                 <dt>入手先</dt>
                 <dd>#{a.sourceName}</dd>
               </dl>
@@ -487,8 +519,8 @@ class Viewer
     if query.rarity
       elem.push "★#{query.rarity.replace(/U/, '以上')}"
     if query.skill
-      text = 'スキル - ' + Arcana.skillTypeNameFor(query.skill)
-      text += ('（' + Arcana.skillSubnameFor(query.skill, query.skillsub) + '）') if query.skillsub
+      text = 'スキル - ' + Skill.typeNameFor(query.skill)
+      text += ('（' + Skill.subnameFor(query.skill, query.skillsub) + '）') if query.skillsub
       elem.push text
     if query.source
       elem.push Arcana.sourceNameFor(query.source)
@@ -592,10 +624,10 @@ class Viewer
     if skill == ''
       target.append("<option value=''>-</option>")
       return
-    types = Arcana.skillSubtypesFor(skill)
+    types = Skill.subtypesFor(skill)
     target.append("<option value=''>（全て）</option>")
     for t in types
-      target.append("<option value='#{t}'>#{Arcana.skillSubnameFor(skill, t)}</option>")
+      target.append("<option value='#{t}'>#{Skill.subnameFor(skill, t)}</option>")
     @
 
   createArcanaDetail = (code) ->
