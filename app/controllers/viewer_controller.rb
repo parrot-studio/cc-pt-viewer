@@ -118,7 +118,7 @@ class ViewerController < ApplicationController
     end.call(org[:rarity])
 
     job = [org[:job]].flatten.uniq.compact.select{|j| j.upcase!; Arcana::JOB_TYPES.include?(j)}
-    weapon = [org[:weapon]].flatten.uniq.compact.select{|j| j.upcase!; Arcana::WEAPON_TYPES.include?(j)}
+    weapon = [org[:weapon]].flatten.uniq.compact.select{|j| Arcana::WEAPON_TYPES.include?(j)}
     growth = [org[:growth]].flatten.uniq.compact.select{|g| g.downcase!; Arcana::GROWTH_TYPES.include?(g)}
     source = [org[:source]].flatten.uniq.compact.select{|s| s.downcase!; Arcana::SOURCE_NAMES.include?(s)}
 
