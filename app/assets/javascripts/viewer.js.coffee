@@ -48,15 +48,15 @@ class Skill
         element: '属性付与'
 
   constructor: (data) ->
-    @name = data.name || ''
+    @name = data.name || '？'
     @category = data.category || ''
     @subcategory = data.subcategory || ''
     @explanation = data.explanation || ''
-    @cost = data.cost || ''
+    @cost = data.cost || '？'
 
-  @typeNameFor = (s) -> SKILL_TABLE[s]?.name || ''
+  @typeNameFor = (s) -> SKILL_TABLE[s]?.name || '？'
   @subtypesFor = (s) -> SKILL_TABLE[s]?.types || []
-  @subnameFor = (skill, sub) -> SKILL_TABLE[skill]?.subname?[sub] || ''
+  @subnameFor = (skill, sub) -> SKILL_TABLE[skill]?.subname?[sub] || '？'
 
 class Ability
 
@@ -134,7 +134,9 @@ class Arcana
     @weaponType = data.weapon_type
     @weaponName = WEAPON_NAME[@weaponType]
     @voiceActor = data.voice_actor
+    @voiceActor = '？' if @voiceActor == ''
     @illustrator = data.illustrator
+    @illustrator = '？' if @illustrator == ''
     @growthType = data.growth_type
     @growthTypeName = GROWTH_TYPE[@growthType]
     @source = data.source
