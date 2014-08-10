@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140731061610) do
+ActiveRecord::Schema.define(version: 20140810145949) do
 
   create_table "abilities", force: true do |t|
     t.string   "name",           limit: 100, null: false
@@ -28,30 +28,30 @@ ActiveRecord::Schema.define(version: 20140731061610) do
   add_index "abilities", ["name"], name: "index_abilities_on_name", unique: true, using: :btree
 
   create_table "arcanas", force: true do |t|
-    t.string   "name",              limit: 100, null: false
+    t.string   "name",              limit: 100,             null: false
     t.string   "title",             limit: 200
-    t.integer  "rarity",            limit: 3,   null: false
-    t.integer  "cost",                          null: false
-    t.string   "weapon_type",       limit: 10,  null: false
-    t.string   "hometown",          limit: 100, null: false
-    t.string   "job_type",          limit: 10,  null: false
-    t.integer  "job_index",                     null: false
-    t.string   "job_code",          limit: 20,  null: false
+    t.integer  "rarity",            limit: 3,               null: false
+    t.integer  "cost",                                      null: false
+    t.string   "weapon_type",       limit: 10,              null: false
+    t.string   "hometown",          limit: 100,             null: false
+    t.string   "job_type",          limit: 10,              null: false
+    t.integer  "job_index",                                 null: false
+    t.string   "job_code",          limit: 20,              null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "source",            limit: 100, null: false
-    t.integer  "voice_actor_id",                null: false
-    t.integer  "illustrator_id",                null: false
-    t.string   "growth_type",       limit: 20,  null: false
-    t.integer  "skill_id",                      null: false
-    t.string   "addition",          limit: 20,  null: false
+    t.string   "source",            limit: 100,             null: false
+    t.integer  "voice_actor_id",                default: 0, null: false
+    t.integer  "illustrator_id",                default: 0, null: false
+    t.string   "growth_type",       limit: 20,              null: false
+    t.integer  "skill_id",                      default: 0, null: false
+    t.string   "addition",          limit: 20,              null: false
     t.integer  "max_atk",           limit: 8
     t.integer  "max_hp",            limit: 8
     t.integer  "limit_atk",         limit: 8
     t.integer  "limit_hp",          limit: 8
     t.string   "job_detail",        limit: 50
-    t.integer  "first_ability_id",              null: false
-    t.integer  "second_ability_id",             null: false
+    t.integer  "first_ability_id",              default: 0, null: false
+    t.integer  "second_ability_id",             default: 0, null: false
   end
 
   add_index "arcanas", ["addition"], name: "index_arcanas_on_addition", using: :btree
