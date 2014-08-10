@@ -153,48 +153,54 @@ class ArcanaImporter
     arcana.limit_hp = (lhp > 0 ? lhp : nil)
     arcana.job_detail = job_detail
 
-    actor = actors[vname] || lambda do |name|
-      va = VoiceActor.new
-      va.name = name
-      va.save!
-      actors[name] = va
-      va
-    end.call(vname)
-    arcana.voice_actor = actor
+    unless vname.blank?
+      actor = actors[vname] || lambda do |name|
+        va = VoiceActor.new
+        va.name = name
+        va.save!
+        actors[name] = va
+        va
+      end.call(vname)
+      arcana.voice_actor = actor
+    end
 
-    illust = illusts[iname] || lambda do |name|
-      il = Illustrator.new
-      il.name = name
-      il.save!
-      illusts[name] = il
-      il
-    end.call(iname)
-    arcana.illustrator = illust
+    unless iname.blank?
+      illust = illusts[iname] || lambda do |name|
+        il = Illustrator.new
+        il.name = name
+        il.save!
+        illusts[name] = il
+        il
+      end.call(iname)
+      arcana.illustrator = illust
+    end
 
-    skill = lambda do |name, category, sub, cost|
-      sk = skills[name]
-      if sk
-        check = lambda do
-          next false unless sk.category == category
-          next false unless sk.subcategory == sub
-          next false unless sk.cost == cost
-          true
-        end.call
-        puts "warning : skill data invalid => #{arcana.name} #{sk.inspect}" unless check
-      else
-        sk = Skill.new
-        sk.name = name
-      end
+    unless sname.blank?
+      skill = lambda do |name, category, sub, cost|
+        sk = skills[name]
+        if sk
+          check = lambda do
+            next false unless sk.category == category
+            next false unless sk.subcategory == sub
+            next false unless sk.cost == cost
+            true
+          end.call
+          puts "warning : skill data invalid => #{arcana.name} #{sk.inspect}" unless check
+        else
+          sk = Skill.new
+          sk.name = name
+        end
 
-      sk.category = category
-      sk.subcategory = sub
-      sk.cost = cost
-      sk.explanation = ''
-      sk.save!
-      skills[name] = sk
-      sk
-    end.call(sname, scate, ssubcate, scost)
-    arcana.skill = skill
+        sk.category = category
+        sk.subcategory = sub
+        sk.cost = cost
+        sk.explanation = ''
+        sk.save!
+        skills[name] = sk
+        sk
+      end.call(sname, scate, ssubcate, scost)
+      arcana.skill = skill
+    end
 
     create_ability = lambda do |name, cond, effect|
       abi = abilities[name]

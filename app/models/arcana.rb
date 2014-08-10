@@ -70,9 +70,11 @@ class Arcana < ActiveRecord::Base
 
   def serialize
     ret = self.attributes
-    ret['voice_actor'] = self.voice_actor.name
+    vname = self.voice_actor ? self.voice_actor.name : ''
+    ret['voice_actor'] = vname
     ret.delete('voice_actor_id')
-    ret['illustrator'] = self.illustrator.name
+    iname = self.illustrator ? self.illustrator.name : ''
+    ret['illustrator'] = iname
     ret.delete('illustrator_id')
 
     sk = (self.skill ? self.skill.serialize : {})
