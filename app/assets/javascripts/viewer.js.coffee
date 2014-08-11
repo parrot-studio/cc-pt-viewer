@@ -305,6 +305,8 @@ class Arcanas
     key += "a#{query.actor}_" if query.actor
     key += "i#{query.illustrator}_" if query.illustrator
     key += "ex2_" if query.addition
+    key += "abc#{query.abiritycond}_" if query.abiritycond
+    key += "abe#{query.abirityeffect}_" if query.abirityeffect
     key
 
   search: (query, url, callbacks) ->
@@ -608,6 +610,8 @@ class Viewer
     $("#skill").val('')
     $("#skill-sub").empty().append("<option value=''>-</option>")
     $("#addition").attr('checked', false)
+    $("#ability-condition").val('')
+    $("#ability-effect").val('')
 
     $("#additional-condition").hide()
     $("#add-condition").show()
@@ -623,7 +627,9 @@ class Viewer
     source = $("#source").val()
     skill = $("#skill").val()
     addition = if $("#addition").is(':checked') then '1' else ''
-    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '' && source == '' && addition == '' && skill == '')
+    abirityCond = $("#ability-condition").val()
+    abirityEffect = $("#ability-effect").val()
+    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '' && source == '' && addition == '' && skill == '' && abirityCond == '' && abirityEffect == '')
 
     query = {}
     query.job = job unless job == ''
@@ -633,6 +639,8 @@ class Viewer
     query.illustrator = illst unless illst == ''
     query.growth = growth unless growth == ''
     query.source = source unless source == ''
+    query.abiritycond = abirityCond unless abirityCond == ''
+    query.abirityeffect = abirityEffect unless abirityEffect == ''
 
     query.addition = addition unless addition == ''
     unless skill == ''
@@ -652,6 +660,9 @@ class Viewer
     if query.skill
       text = 'スキル - ' + Skill.typeNameFor(query.skill)
       text += ('（' + Skill.subnameFor(query.skill, query.skillsub) + '）') if query.skillsub
+      elem.push text
+    if query.abiritycond || query.abirityeffect
+      text = 'アビリティ - ' + Ability.conditionNameFor(query.abiritycond) + ' ' + Ability.effectNameFor(query.abirityeffect)
       elem.push text
     if query.source
       elem.push Arcana.sourceNameFor(query.source)
@@ -768,6 +779,22 @@ class Viewer
     view.append(renderArcanaDetail(a))
     @
 
+  createAbilityConditions = ->
+    target = $("#ability-condition")
+    target.empty()
+    target.append("<option value=''>-</option>")
+    for c in Ability.conditions()
+      target.append("<option value='#{c}'>#{Ability.conditionNameFor(c)}</option>")
+    @
+
+  createAbilityEffects = ->
+    target = $("#ability-effect")
+    target.empty()
+    target.append("<option value=''>-</option>")
+    for e in Ability.effects()
+      target.append("<option value='#{e}'>#{Ability.effectNameFor(e)}</option>")
+    @
+
   initHandler = ->
     $("#error-area").hide()
     $("#error-area").removeClass("invisible")
@@ -789,6 +816,9 @@ class Viewer
         $("#latest-info").hide()
       else
         showLatestInfo()
+
+    createAbilityConditions()
+    createAbilityEffects()
 
     $(".member-character").droppable(
       drop: (e, ui) ->
