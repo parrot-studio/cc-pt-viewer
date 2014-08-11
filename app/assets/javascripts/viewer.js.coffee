@@ -148,8 +148,8 @@ class Arcana
     @limitHp = (data.limit_hp || '-')
 
     @skill = new Skill(data.skill)
-    @firstAbility = new Skill(data.first_ability)
-    @secondAbility = new Skill(data.second_ability)
+    @firstAbility = new Ability(data.first_ability)
+    @secondAbility = new Ability(data.second_ability)
 
   @jobNameFor = (j) -> JOB_NAME[j]
   @jobShortNameFor = (j) -> JOB_NAME_SHORT[j]
