@@ -66,24 +66,7 @@ class ViewerController < ApplicationController
     qkey = query.delete(:cache_key)
     as = Rails.cache.read(qkey)
     unless as
-      skill = query.delete(:skill)
-      skillsub = query.delete(:skillsub)
-      abcond = query.delete(:abiritycond)
-      abeffect = query.delete(:abirityeffect)
-
-      arel = Arcana.where(query)
-
-      skills = skill_search(skill, skillsub)
-      arel.where!(:skill_id => skills) unless skills.blank?
-
-      abs = ability_search(abcond, abeffect)
-      unless abs.blank?
-        arel.where!(Arcana.where(:first_ability_id => abs).where(:second_ability_id => abs).where_values.reduce(:or))
-      end
-
-      as = arel.order(
-        'arcanas.job_type, arcanas.rarity DESC, arcanas.cost DESC, arcanas.job_index DESC'
-      ).map(&:serialize)
+      as = arcana_search_from_query(query).map(&:serialize)
       Rails.cache.write(qkey, as)
     end
     as
@@ -170,6 +153,33 @@ class ViewerController < ApplicationController
 
     query[:cache_key] = key
     query
+  end
+
+  def arcana_search_from_query(query)
+    return [] if query.blank?
+
+    skill = query.delete(:skill)
+    skillsub = query.delete(:skillsub)
+    abcond = query.delete(:abiritycond)
+    abeffect = query.delete(:abirityeffect)
+
+    arel = Arcana.where(query)
+
+    unless skill.blank?
+      skills = skill_search(skill, skillsub)
+      return [] if skills.blank?
+      arel.where!(:skill_id => skills)
+    end
+
+    unless (abcond.blank? && abeffect.blank?)
+      abs = ability_search(abcond, abeffect)
+      return [] if abs.blank?
+      arel.where!(Arcana.where(:first_ability_id => abs).where(:second_ability_id => abs).where_values.reduce(:or))
+    end
+
+    arel.order(
+      'arcanas.job_type, arcanas.rarity DESC, arcanas.cost DESC, arcanas.job_index DESC'
+    )
   end
 
   def skill_search(category, sub)
