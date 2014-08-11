@@ -481,13 +481,13 @@ class Viewer
     return '' unless a
 
     ab1 = if a.firstAbility.name == ''
-      "（なし）"
+      "なし"
     else
       fa = a.firstAbility
       "#{fa.name}<br>（#{Ability.conditionNameFor(fa.conditionType)} / #{Ability.effectNameFor(fa.effectType)}）"
 
     ab2 = if a.secondAbility.name == ''
-      "（なし）"
+      "なし"
     else
       sa = a.secondAbility
       "#{sa.name}<br>（#{Ability.conditionNameFor(sa.conditionType)} / #{Ability.effectNameFor(sa.effectType)}）"
