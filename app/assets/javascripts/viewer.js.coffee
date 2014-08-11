@@ -60,6 +60,131 @@ class Skill
 
 class Ability
 
+  CONDITION_TABLE =
+    any: 'いつでも'
+    attack: '攻撃時'
+    battle_end: '戦闘終了時'
+    battle_start: '戦闘開始時'
+    boss_wave: 'BOSS WAVE時'
+    critical: 'クリティカル時'
+    cycle: '一定間隔で'
+    dropout_member: '味方が脱落した時'
+    for_debuff: '敵が状態異常時'
+    heal: '回復時'
+    hp_downto: 'HPが一定以下の時'
+    hp_full: 'HPが満タンの時'
+    hp_upto: 'HPが一定以上の時'
+    in_debuff: '自分が状態異常時'
+    in_field: '特定のフィールドで'
+    in_move: '移動中'
+    in_sub: 'サブメンバーにいる時'
+    kill: '敵を倒した時'
+    killer: '特定の敵に対して'
+    mana_charged: 'マナが多いほど'
+    skill: 'スキル使用時'
+    union: '特定の職構成の時'
+    wave_start: '各WAVE開始時'
+
+  CONDITION_LIST = [
+    'any'
+    'hp_upto'
+    'hp_downto'
+    'hp_full'
+    'attack'
+    'critical'
+    'skill'
+    'kill'
+    'heal'
+    'in_move'
+    'killer'
+    'mana_charged'
+    'boss_wave'
+    'wave_start'
+    'cycle'
+    'for_debuff'
+    'in_debuff'
+    'dropout_member'
+    'battle_start'
+    'battle_end'
+    'in_field'
+    'union'
+    'in_sub'
+  ]
+
+  EFFECT_TABLE =
+    absorb: '与えたダメージを吸収'
+    ap_recover: 'APを回復'
+    areaup: '回復範囲増加'
+    atkup: '与えるダメージ上昇'
+    atkup_all: '全員の攻撃力上昇'
+    boost: '回復効果上昇'
+    buff: '自身のステータスUP'
+    buff_all: '全員のステータスUP'
+    buff_jobs: '特定の職がステータスUP'
+    combat: '接近戦可能'
+    critup: 'クリティカル率UP'
+    debuff: '状態異常付与'
+    defup: '受けるダメージ軽減'
+    defup_all: '全員のダメージ軽減'
+    element: '属性'
+    expup: '獲得経験値UP'
+    goldup: '獲得金額UP'
+    guard_debuff: '特定の状態異常無効'
+    guardup: '遠距離ダメージカットUP'
+    heal_all: '全員を回復'
+    heal_self: '自身を回復'
+    heal_worst: '一番ダメージが大きい対象を回復'
+    healup: '回復量UP'
+    invisible: '見えなくなる（遠距離無効）'
+    mana_boost: 'マナが出やすくなる（天運系）'
+    mana_charge: 'マナが追加される（素養系）'
+    mana_drop: 'マナを落とす'
+    pierce: '攻撃が貫通する'
+    slot_slow: 'マナスロットが遅くなる'
+    speedup: '移動速度UP'
+    speedup_all: '全員の移動速度UP'
+    treasure: '宝箱が出やすくなる'
+
+  EFFECT_LIST = [
+    'atkup'
+    'defup'
+    'guardup'
+    'speedup'
+    'critup'
+    'buff'
+    'guard_debuff'
+    'element'
+    'healup'
+    'areaup'
+    'boost'
+    'heal_self'
+    'heal_worst'
+    'heal_all'
+    'debuff'
+    'absorb'
+    'mana_drop'
+    'invisible'
+    'combat'
+    'pierce'
+    'atkup_all'
+    'defup_all'
+    'speedup_all'
+    'buff_all'
+    'buff_jobs'
+    'mana_charge'
+    'mana_boost'
+    'slot_slow'
+    'treasure'
+    'expup'
+    'goldup'
+    'ap_recover'
+  ]
+
+  @conditions = -> CONDITION_LIST
+  @conditionNameFor = (c) -> CONDITION_TABLE[c] || ''
+  @effects = -> EFFECT_LIST
+  @effectNameFor = (e) -> EFFECT_TABLE[e] || ''
+
   constructor: (data) ->
     @name = data.name || ''
     @conditionType = data.condition_type || ''
@@ -356,12 +481,14 @@ class Viewer
     ab1 = if a.firstAbility.name == ''
       "（なし）"
     else
-      "#{a.firstAbility.name}"
+      fa = a.firstAbility
+      "#{fa.name}<br>（#{Ability.conditionNameFor(fa.conditionType)} / #{Ability.effectNameFor(fa.effectType)}）"
 
     ab2 = if a.secondAbility.name == ''
       "（なし）"
     else
-      "#{a.secondAbility.name}"
+      sa = a.secondAbility
+      "#{sa.name}<br>（#{Ability.conditionNameFor(sa.conditionType)} / #{Ability.effectNameFor(sa.effectType)}）"
 
     "
       <div class='#{a.jobClass} arcana'>
