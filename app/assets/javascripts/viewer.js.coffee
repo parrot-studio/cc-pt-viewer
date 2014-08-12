@@ -127,7 +127,7 @@ class Ability
         'skill', 'kill', 'killer', 'mana_charged', 'boss_wave', 'wave_start',
         'for_debuff', 'in_debuff', 'dropout_member']
     atkup_all:
-      name: '全員の攻撃力上昇'
+      name: '全員の与えるダメージ上昇'
       conditions: ['any', 'in_sub']
     boost_heal:
       name: '回復効果上昇'
@@ -136,21 +136,21 @@ class Ability
       name: 'スキル効果上昇'
       conditions: []
     buff:
-      name: '自身のステータスUP'
+      name: '自身のステータス上昇'
       conditions: ['any', 'hp_upto', 'hp_downto', 'hp_full', 'attack',
         'kill', 'killer', 'boss_wave', 'wave_start', 'in_debuff',
         'dropout_member', 'in_field', 'union']
     buff_all:
-      name: '全員のステータスUP'
+      name: '全員のステータス上昇'
       conditions: ['any', 'in_sub']
     buff_jobs:
-      name: '特定の職がステータスUP'
+      name: '特定の職がステータス上昇'
       conditions: ['any', 'union']
     combat:
       name: '接近戦可能'
       conditions: []
     critup:
-      name: 'クリティカル率UP'
+      name: 'クリティカル率上昇'
       conditions: []
     debuff:
       name: '状態異常付与'
@@ -165,16 +165,16 @@ class Ability
       name: '属性'
       conditions: []
     expup:
-      name: '獲得経験値UP'
+      name: '獲得経験値上昇'
       conditions: []
     goldup:
-      name: '獲得金額UP'
+      name: '獲得金額上昇'
       conditions: []
     guard_debuff:
       name: '状態異常無効'
       conditions: []
     guardup:
-      name: '遠距離ダメージカットUP'
+      name: '遠距離ダメージカット上昇'
       conditions: []
     heal_all:
       name: '全員を回復'
@@ -186,10 +186,7 @@ class Ability
       name: '一番ダメージが大きい対象を回復'
       conditions: []
     healup:
-      name: '回復量UP'
-      conditions: []
-    healup:
-      name: '回復量UP'
+      name: '回復量上昇'
       conditions: []
     invisible:
       name: '見えなくなる（遠距離無効）'
@@ -210,13 +207,10 @@ class Ability
       name: 'マナスロットが遅くなる'
       conditions: []
     speedup:
-      name: '移動速度UP'
-      conditions: []
-    speedup:
-      name: '移動速度UP'
+      name: '移動速度上昇'
       conditions: []
     speedup_all:
-      name: '全員の移動速度UP'
+      name: '全員の移動速度上昇'
       conditions: []
     treasure:
       name: '宝箱が出やすくなる'
