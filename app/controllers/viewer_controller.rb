@@ -42,7 +42,7 @@ class ViewerController < ApplicationController
 
   def query_params
     params.permit([:job, :rarity, :weapon, :recently,:actor, :illustrator,
-        :growth, :source, :addition, :skill, :skillsub])
+        :growth, :source, :addition, :skill, :skillsub, :abiritycond, :abirityeffect])
   end
 
   def recently_arcanas
@@ -66,18 +66,7 @@ class ViewerController < ApplicationController
     qkey = query.delete(:cache_key)
     as = Rails.cache.read(qkey)
     unless as
-      skill = query.delete(:skill)
-      skillsub = query.delete(:skillsub)
-      arel = if skill.blank?
-        Arcana.where(query)
-      else
-        a = Arcana.joins(:skill).where(query).where(Skill.arel_table[:category].in(skill))
-        a.where!(Skill.arel_table[:subcategory].in(skillsub)) unless skillsub.blank?
-        a
-      end
-      as = arel.order(
-        'arcanas.job_type, arcanas.rarity DESC, arcanas.cost DESC, arcanas.job_index DESC'
-      ).map(&:serialize)
+      as = arcana_search_from_query(query).map(&:serialize)
       Rails.cache.write(qkey, as)
     end
     as
@@ -127,18 +116,26 @@ class ViewerController < ApplicationController
     ex2 = true unless org[:addition].blank?
     skill = [org[:skill]].flatten.uniq.compact
     skillsub = [org[:skillsub]].flatten.uniq.compact
+    abiritycond = [org[:abiritycond]].flatten.uniq.compact
+    abirityeffect = [org[:abirityeffect]].flatten.uniq.compact
+
+    compact = lambda do |cond|
+      cond.size == 1 ? cond.first : cond
+    end
 
     query = {}
-    query[:job_type] = (job.size == 1 ? job.first : job) unless job.blank?
-    query[:rarity] = (rarity.size == 1 ? rarity.first : rarity) unless rarity.blank?
-    query[:weapon_type] = (weapon.size == 1 ? weapon.first : weapon) unless weapon.blank?
-    query[:growth_type] = (growth.size == 1 ? growth.first : growth) unless growth.blank?
-    query[:source] = (source.size == 1 ? source.first : source) unless source.blank?
-    query[:voice_actor_id] = (actor.size == 1 ? actor.first : actor) unless actor.blank?
-    query[:illustrator_id] = (illust.size == 1 ? illust.first : actor) unless illust.blank?
+    query[:job_type] = compact.call(job) unless job.blank?
+    query[:rarity] = compact.call(rarity) unless rarity.blank?
+    query[:weapon_type] = compact.call(weapon) unless weapon.blank?
+    query[:growth_type] = compact.call(growth) unless growth.blank?
+    query[:source] = compact.call(source) unless source.blank?
+    query[:voice_actor_id] = compact.call(actor) unless actor.blank?
+    query[:illustrator_id] = compact.call(illust) unless illust.blank?
     query[:addition] = '1' if ex2
-    query[:skill] = skill unless skill.blank?
-    query[:skillsub] = skillsub unless skillsub.blank?
+    query[:skill] = compact.call(skill) unless skill.blank?
+    query[:skillsub] = compact.call(skillsub) unless skillsub.blank?
+    query[:abiritycond] = compact.call(abiritycond) unless abiritycond.blank?
+    query[:abirityeffect] = compact.call(abirityeffect) unless abirityeffect.blank?
 
     key = "arcanas"
     key += "_j:#{job.sort.join}" if query[:job_type]
@@ -151,9 +148,53 @@ class ViewerController < ApplicationController
     key += "_sk:#{skill.sort.join('|')}" if query[:skill]
     key += "_subsk:#{skillsub.sort.join('|')}" if query[:skillsub]
     key += "_ex2" if ex2
+    key += "_abc:#{abiritycond.sort.join('/')}" if query[:abiritycond]
+    key += "_abe:#{abirityeffect.sort.join('/')}" if query[:abirityeffect]
 
     query[:cache_key] = key
     query
+  end
+
+  def arcana_search_from_query(query)
+    return [] if query.blank?
+
+    skill = query.delete(:skill)
+    skillsub = query.delete(:skillsub)
+    abcond = query.delete(:abiritycond)
+    abeffect = query.delete(:abirityeffect)
+
+    arel = Arcana.where(query)
+
+    unless skill.blank?
+      skills = skill_search(skill, skillsub)
+      return [] if skills.blank?
+      arel.where!(:skill_id => skills)
+    end
+
+    unless (abcond.blank? && abeffect.blank?)
+      abs = ability_search(abcond, abeffect)
+      return [] if abs.blank?
+      arel.where!(Arcana.where(:first_ability_id => abs).where(:second_ability_id => abs).where_values.reduce(:or))
+    end
+
+    arel.order(
+      'arcanas.job_type, arcanas.rarity DESC, arcanas.cost DESC, arcanas.job_index DESC'
+    )
+  end
+
+  def skill_search(category, sub)
+    return [] if category.blank?
+    arel = Skill.where(:category => category)
+    arel.where!(:subcategory => sub) unless sub.blank?
+    arel.pluck(:id)
+  end
+
+  def ability_search(cond, effect)
+    return [] if (cond.blank? && effect.blank?)
+    arel = Ability.all
+    arel.where!(:condition_type => cond) unless cond.blank?
+    arel.where!(:effect_type => effect) unless effect.blank?
+    arel.pluck(:id)
   end
 
 end

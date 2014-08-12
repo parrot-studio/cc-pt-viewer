@@ -60,6 +60,204 @@ class Skill
 
 class Ability
 
+  CONDITION_TABLE =
+    any: 'いつでも'
+    attack: '攻撃時'
+    battle_end: '戦闘終了時'
+    battle_start: '戦闘開始時'
+    boss_wave: 'BOSS WAVE時'
+    critical: 'クリティカル時'
+    cycle: '一定間隔で'
+    dropout_member: '味方が脱落した時'
+    for_debuff: '敵が状態異常時'
+    heal: '回復時'
+    hp_downto: 'HPが一定以下の時'
+    hp_full: 'HPが満タンの時'
+    hp_upto: 'HPが一定以上の時'
+    in_debuff: '自分が状態異常時'
+    in_field: '特定のフィールドで'
+    in_move: '移動中'
+    in_sub: 'サブパーティーにいる時'
+    kill: '敵を倒した時'
+    killer: '特定の敵に対して'
+    mana_charged: 'マナが多いほど'
+    skill: 'スキル使用時'
+    union: '特定の職構成の時'
+    wave_start: '各WAVE開始時'
+
+  CONDITION_LIST = [
+    'any'
+    'hp_upto'
+    'hp_downto'
+    'hp_full'
+    'attack'
+    'critical'
+    'skill'
+    'kill'
+    'heal'
+    'in_move'
+    'killer'
+    'mana_charged'
+    'boss_wave'
+    'wave_start'
+    'cycle'
+    'for_debuff'
+    'in_debuff'
+    'dropout_member'
+    'battle_start'
+    'battle_end'
+    'in_field'
+    'union'
+    'in_sub'
+  ]
+
+  EFFECT_TABLE =
+    absorb:
+      name: '与えたダメージを吸収'
+      conditions: ['attack', 'critical']
+    ap_recover:
+      name: 'APを回復'
+      conditions: []
+    areaup:
+      name: '回復範囲増加'
+      conditions: []
+    atkup:
+      name: '与えるダメージ上昇'
+      conditions: ['any', 'hp_upto', 'hp_downto', 'hp_full', 'critical',
+        'skill', 'kill', 'killer', 'mana_charged', 'boss_wave', 'wave_start',
+        'for_debuff', 'in_debuff', 'dropout_member']
+    atkup_all:
+      name: '全員の与えるダメージ上昇'
+      conditions: ['any', 'in_sub']
+    boost_heal:
+      name: '回復効果上昇'
+      conditions: []
+    boost_skill:
+      name: 'スキル効果上昇'
+      conditions: []
+    buff:
+      name: '自身のステータス上昇'
+      conditions: ['any', 'hp_upto', 'hp_downto', 'hp_full', 'attack',
+        'kill', 'killer', 'boss_wave', 'wave_start', 'in_debuff',
+        'dropout_member', 'in_field', 'union']
+    buff_all:
+      name: '全員のステータス上昇'
+      conditions: ['any', 'in_sub']
+    buff_jobs:
+      name: '特定の職がステータス上昇'
+      conditions: ['any', 'union']
+    combat:
+      name: '接近戦可能'
+      conditions: []
+    critup:
+      name: 'クリティカル率上昇'
+      conditions: []
+    debuff:
+      name: '状態異常付与'
+      conditions: ['attack', 'critical', 'skill']
+    defup:
+      name: '受けるダメージ軽減'
+      conditions: ['any', 'hp_downto', 'boss_wave', 'wave_start', 'in_debuff']
+    defup_all:
+      name: '全員のダメージ軽減'
+      conditions: ['any', 'in_sub']
+    element:
+      name: '属性'
+      conditions: []
+    expup:
+      name: '獲得経験値上昇'
+      conditions: []
+    goldup:
+      name: '獲得金額上昇'
+      conditions: []
+    guard_debuff:
+      name: '状態異常無効'
+      conditions: []
+    guardup:
+      name: '遠距離ダメージカット上昇'
+      conditions: []
+    heal_all:
+      name: '全員を回復'
+      conditions: []
+    heal_self:
+      name: '自身を回復'
+      conditions: ['wave_start', 'cycle']
+    heal_worst:
+      name: '一番ダメージが大きい対象を回復'
+      conditions: []
+    healup:
+      name: '回復量上昇'
+      conditions: []
+    invisible:
+      name: '見えなくなる（遠距離無効）'
+      conditions: []
+    mana_boost:
+      name: 'スロットで複数マナが出やすい'
+      conditions: []
+    mana_charge:
+      name: 'マナを持って開始'
+      conditions: []
+    mana_drop:
+      name: 'マナを落とす'
+      conditions: []
+    pierce:
+      name: '貫通攻撃'
+      conditions: []
+    slot_slow:
+      name: 'マナスロットが遅くなる'
+      conditions: []
+    speedup:
+      name: '移動速度上昇'
+      conditions: []
+    speedup_all:
+      name: '全員の移動速度上昇'
+      conditions: []
+    treasure:
+      name: '宝箱が出やすくなる'
+      conditions: []
+
+  EFFECT_LIST = [
+    'atkup'
+    'defup'
+    'guardup'
+    'speedup'
+    'critup'
+    'buff'
+    'guard_debuff'
+    'element'
+    'healup'
+    'areaup'
+    'boost_heal'
+    'heal_self'
+    'heal_worst'
+    'heal_all'
+    'boost_skill'
+    'debuff'
+    'absorb'
+    'mana_drop'
+    'invisible'
+    'combat'
+    'pierce'
+    'atkup_all'
+    'defup_all'
+    'speedup_all'
+    'buff_all'
+    'buff_jobs'
+    'mana_charge'
+    'mana_boost'
+    'slot_slow'
+    'treasure'
+    'expup'
+    'goldup'
+    'ap_recover'
+  ]
+
+  @conditions = -> CONDITION_LIST
+  @conditionNameFor = (c) -> CONDITION_TABLE[c] || ''
+  @effects = -> EFFECT_LIST
+  @effectNameFor = (e) -> EFFECT_TABLE[e]?.name || ''
+  @conditionsFor = (e) -> EFFECT_TABLE[e]?.conditions || []
+
   constructor: (data) ->
     @name = data.name || ''
     @conditionType = data.condition_type || ''
@@ -148,8 +346,8 @@ class Arcana
     @limitHp = (data.limit_hp || '-')
 
     @skill = new Skill(data.skill)
-    @firstAbility = new Skill(data.first_ability)
-    @secondAbility = new Skill(data.second_ability)
+    @firstAbility = new Ability(data.first_ability)
+    @secondAbility = new Ability(data.second_ability)
 
   @jobNameFor = (j) -> JOB_NAME[j]
   @jobShortNameFor = (j) -> JOB_NAME_SHORT[j]
@@ -178,6 +376,8 @@ class Arcanas
     key += "a#{query.actor}_" if query.actor
     key += "i#{query.illustrator}_" if query.illustrator
     key += "ex2_" if query.addition
+    key += "abc#{query.abiritycond}_" if query.abiritycond
+    key += "abe#{query.abirityeffect}_" if query.abirityeffect
     key
 
   search: (query, url, callbacks) ->
@@ -354,14 +554,16 @@ class Viewer
     return '' unless a
 
     ab1 = if a.firstAbility.name == ''
-      "（なし）"
+      "なし"
     else
-      "#{a.firstAbility.name}"
+      fa = a.firstAbility
+      "#{fa.name}<br>（#{Ability.conditionNameFor(fa.conditionType)} / #{Ability.effectNameFor(fa.effectType)}）"
 
     ab2 = if a.secondAbility.name == ''
-      "（なし）"
+      "なし"
     else
-      "#{a.secondAbility.name}"
+      sa = a.secondAbility
+      "#{sa.name}<br>（#{Ability.conditionNameFor(sa.conditionType)} / #{Ability.effectNameFor(sa.effectType)}）"
 
     "
       <div class='#{a.jobClass} arcana'>
@@ -479,6 +681,8 @@ class Viewer
     $("#skill").val('')
     $("#skill-sub").empty().append("<option value=''>-</option>")
     $("#addition").attr('checked', false)
+    $("#ability-effect").val('')
+    $("#ability-condition").empty().append("<option value=''>-</option>")
 
     $("#additional-condition").hide()
     $("#add-condition").show()
@@ -494,7 +698,9 @@ class Viewer
     source = $("#source").val()
     skill = $("#skill").val()
     addition = if $("#addition").is(':checked') then '1' else ''
-    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '' && source == '' && addition == '' && skill == '')
+    abirityCond = $("#ability-condition").val()
+    abirityEffect = $("#ability-effect").val()
+    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '' && source == '' && addition == '' && skill == '' && abirityCond == '' && abirityEffect == '')
 
     query = {}
     query.job = job unless job == ''
@@ -504,6 +710,8 @@ class Viewer
     query.illustrator = illst unless illst == ''
     query.growth = growth unless growth == ''
     query.source = source unless source == ''
+    query.abiritycond = abirityCond unless abirityCond == ''
+    query.abirityeffect = abirityEffect unless abirityEffect == ''
 
     query.addition = addition unless addition == ''
     unless skill == ''
@@ -523,6 +731,9 @@ class Viewer
     if query.skill
       text = 'スキル - ' + Skill.typeNameFor(query.skill)
       text += ('（' + Skill.subnameFor(query.skill, query.skillsub) + '）') if query.skillsub
+      elem.push text
+    if query.abiritycond || query.abirityeffect
+      text = 'アビリティ - ' + Ability.conditionNameFor(query.abiritycond) + ' ' + Ability.effectNameFor(query.abirityeffect)
       elem.push text
     if query.source
       elem.push Arcana.sourceNameFor(query.source)
@@ -639,6 +850,27 @@ class Viewer
     view.append(renderArcanaDetail(a))
     @
 
+  createAbilityEffects = ->
+    target = $("#ability-effect")
+    target.empty()
+    target.append("<option value=''>-</option>")
+    for e in Ability.effects()
+      target.append("<option value='#{e}'>#{Ability.effectNameFor(e)}</option>")
+    @
+
+  createAbilityConditions = ->
+    target = $("#ability-condition")
+    target.empty()
+    abi = $("#ability-effect").val()
+    if abi == ''
+      target.append("<option value=''>-</option>")
+      return
+    conds = Ability.conditionsFor(abi)
+    target.append("<option value=''>（全て）</option>")
+    for c in conds
+      target.append("<option value='#{c}'>#{Ability.conditionNameFor(c)}</option>")
+    @
+
   initHandler = ->
     $("#error-area").hide()
     $("#error-area").removeClass("invisible")
@@ -660,6 +892,8 @@ class Viewer
         $("#latest-info").hide()
       else
         showLatestInfo()
+
+    createAbilityEffects()
 
     $(".member-character").droppable(
       drop: (e, ui) ->
@@ -728,6 +962,10 @@ class Viewer
     $("#skill").on 'change', (e) ->
       e.preventDefault()
       createSkillOptions()
+
+    $("#ability-effect").on 'change', (e) ->
+      e.preventDefault()
+      createAbilityConditions()
 
     $("#view-modal").on 'show.bs.modal', (e) ->
       code = $(e.relatedTarget).data('jobCode')
