@@ -77,7 +77,7 @@ class Ability
     in_debuff: '自分が状態異常時'
     in_field: '特定のフィールドで'
     in_move: '移動中'
-    in_sub: 'サブメンバーにいる時'
+    in_sub: 'サブパーティーにいる時'
     kill: '敵を倒した時'
     killer: '特定の敵に対して'
     mana_charged: 'マナが多いほど'
@@ -112,39 +112,115 @@ class Ability
   ]
 
   EFFECT_TABLE =
-    absorb: '与えたダメージを吸収'
-    ap_recover: 'APを回復'
-    areaup: '回復範囲増加'
-    atkup: '与えるダメージ上昇'
-    atkup_all: '全員の攻撃力上昇'
-    boost_heal: '回復効果上昇'
-    boost_skill: 'スキル効果上昇'
-    buff: '自身のステータスUP'
-    buff_all: '全員のステータスUP'
-    buff_jobs: '特定の職がステータスUP'
-    combat: '接近戦可能'
-    critup: 'クリティカル率UP'
-    debuff: '状態異常付与'
-    defup: '受けるダメージ軽減'
-    defup_all: '全員のダメージ軽減'
-    element: '属性'
-    expup: '獲得経験値UP'
-    goldup: '獲得金額UP'
-    guard_debuff: '特定の状態異常無効'
-    guardup: '遠距離ダメージカットUP'
-    heal_all: '全員を回復'
-    heal_self: '自身を回復'
-    heal_worst: '一番ダメージが大きい対象を回復'
-    healup: '回復量UP'
-    invisible: '見えなくなる（遠距離無効）'
-    mana_boost: 'スロットで複数マナが出やすくなる'
-    mana_charge: 'マナが追加される'
-    mana_drop: 'マナを落とす'
-    pierce: '攻撃が貫通する'
-    slot_slow: 'マナスロットが遅くなる'
-    speedup: '移動速度UP'
-    speedup_all: '全員の移動速度UP'
-    treasure: '宝箱が出やすくなる'
+    absorb:
+      name: '与えたダメージを吸収'
+      conditions: ['attack', 'critical']
+    ap_recover:
+      name: 'APを回復'
+      conditions: []
+    areaup:
+      name: '回復範囲増加'
+      conditions: []
+    atkup:
+      name: '与えるダメージ上昇'
+      conditions: ['any', 'hp_upto', 'hp_downto', 'hp_full', 'critical',
+        'skill', 'kill', 'killer', 'mana_charged', 'boss_wave', 'wave_start',
+        'for_debuff', 'in_debuff', 'dropout_member']
+    atkup_all:
+      name: '全員の攻撃力上昇'
+      conditions: ['any', 'in_sub']
+    boost_heal:
+      name: '回復効果上昇'
+      conditions: []
+    boost_skill:
+      name: 'スキル効果上昇'
+      conditions: []
+    buff:
+      name: '自身のステータスUP'
+      conditions: ['any', 'hp_upto', 'hp_downto', 'hp_full', 'attack',
+        'kill', 'killer', 'boss_wave', 'wave_start', 'in_debuff',
+        'dropout_member', 'in_field', 'union']
+    buff_all:
+      name: '全員のステータスUP'
+      conditions: ['any', 'in_sub']
+    buff_jobs:
+      name: '特定の職がステータスUP'
+      conditions: ['any', 'union']
+    combat:
+      name: '接近戦可能'
+      conditions: []
+    critup:
+      name: 'クリティカル率UP'
+      conditions: []
+    debuff:
+      name: '状態異常付与'
+      conditions: ['attack', 'critical', 'skill']
+    defup:
+      name: '受けるダメージ軽減'
+      conditions: ['any', 'hp_downto', 'boss_wave', 'wave_start', 'in_debuff']
+    defup_all:
+      name: '全員のダメージ軽減'
+      conditions: ['any', 'in_sub']
+    element:
+      name: '属性'
+      conditions: []
+    expup:
+      name: '獲得経験値UP'
+      conditions: []
+    goldup:
+      name: '獲得金額UP'
+      conditions: []
+    guard_debuff:
+      name: '状態異常無効'
+      conditions: []
+    guardup:
+      name: '遠距離ダメージカットUP'
+      conditions: []
+    heal_all:
+      name: '全員を回復'
+      conditions: []
+    heal_self:
+      name: '自身を回復'
+      conditions: ['wave_start', 'cycle']
+    heal_worst:
+      name: '一番ダメージが大きい対象を回復'
+      conditions: []
+    healup:
+      name: '回復量UP'
+      conditions: []
+    healup:
+      name: '回復量UP'
+      conditions: []
+    invisible:
+      name: '見えなくなる（遠距離無効）'
+      conditions: []
+    mana_boost:
+      name: 'スロットで複数マナが出やすい'
+      conditions: []
+    mana_charge:
+      name: 'マナを持って開始'
+      conditions: []
+    mana_drop:
+      name: 'マナを落とす'
+      conditions: []
+    pierce:
+      name: '貫通攻撃'
+      conditions: []
+    slot_slow:
+      name: 'マナスロットが遅くなる'
+      conditions: []
+    speedup:
+      name: '移動速度UP'
+      conditions: []
+    speedup:
+      name: '移動速度UP'
+      conditions: []
+    speedup_all:
+      name: '全員の移動速度UP'
+      conditions: []
+    treasure:
+      name: '宝箱が出やすくなる'
+      conditions: []
 
   EFFECT_LIST = [
     'atkup'
@@ -185,7 +261,8 @@ class Ability
   @conditions = -> CONDITION_LIST
   @conditionNameFor = (c) -> CONDITION_TABLE[c] || ''
   @effects = -> EFFECT_LIST
-  @effectNameFor = (e) -> EFFECT_TABLE[e] || ''
+  @effectNameFor = (e) -> EFFECT_TABLE[e]?.name || ''
+  @conditionsFor = (e) -> EFFECT_TABLE[e]?.conditions || []
 
   constructor: (data) ->
     @name = data.name || ''
@@ -779,20 +856,25 @@ class Viewer
     view.append(renderArcanaDetail(a))
     @
 
-  createAbilityConditions = ->
-    target = $("#ability-condition")
-    target.empty()
-    target.append("<option value=''>-</option>")
-    for c in Ability.conditions()
-      target.append("<option value='#{c}'>#{Ability.conditionNameFor(c)}</option>")
-    @
-
   createAbilityEffects = ->
     target = $("#ability-effect")
     target.empty()
     target.append("<option value=''>-</option>")
     for e in Ability.effects()
       target.append("<option value='#{e}'>#{Ability.effectNameFor(e)}</option>")
+    @
+
+  createAbilityConditions = ->
+    target = $("#ability-condition")
+    target.empty()
+    abi = $("#ability-effect").val()
+    if abi == ''
+      target.append("<option value=''>-</option>")
+      return
+    conds = Ability.conditionsFor(abi)
+    target.append("<option value=''>（全て）</option>")
+    for c in conds
+      target.append("<option value='#{c}'>#{Ability.conditionNameFor(c)}</option>")
     @
 
   initHandler = ->
@@ -817,7 +899,6 @@ class Viewer
       else
         showLatestInfo()
 
-    createAbilityConditions()
     createAbilityEffects()
 
     $(".member-character").droppable(
@@ -887,6 +968,10 @@ class Viewer
     $("#skill").on 'change', (e) ->
       e.preventDefault()
       createSkillOptions()
+
+    $("#ability-effect").on 'change', (e) ->
+      e.preventDefault()
+      createAbilityConditions()
 
     $("#view-modal").on 'show.bs.modal', (e) ->
       code = $(e.relatedTarget).data('jobCode')
