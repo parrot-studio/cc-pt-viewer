@@ -681,8 +681,8 @@ class Viewer
     $("#skill").val('')
     $("#skill-sub").empty().append("<option value=''>-</option>")
     $("#addition").attr('checked', false)
-    $("#ability-condition").val('')
     $("#ability-effect").val('')
+    $("#ability-condition").empty().append("<option value=''>-</option>")
 
     $("#additional-condition").hide()
     $("#add-condition").show()
