@@ -4,6 +4,22 @@ class Changelog
 
   class << self
 
+    def all
+      logs
+    end
+
+    def latest
+      @latest ||= logs.first
+      @latest
+    end
+
+    def summary(n)
+      return logs if n.to_i < 1
+      logs.take(n)
+    end
+
+    private
+
     def logs
       @logs ||= lambda do
         path = File.join(Rails.root, 'config', 'changelogs.yml')
@@ -17,11 +33,6 @@ class Changelog
         end
       end.call
       @logs
-    end
-
-    def latest
-      @latest ||= logs.first
-      @latest
     end
 
   end

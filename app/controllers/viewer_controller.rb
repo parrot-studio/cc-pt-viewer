@@ -20,6 +20,9 @@ class ViewerController < ApplicationController
   def about
   end
 
+  def changelogs
+  end
+
   private
 
   def parse_pt_code(code)

@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-xs-12 col-md-12 col-sm-12">
+    <div class="well well-sm">
+      <%= link_to '<< 戻る', root_path %>
+    </div>
+    <div class="col-xs-12 col-md-12 col-sm-12">
+      <h2>更新履歴</h2>
+      <hr>
+      <dl>
+        <% cache do %>
+          <% Changelog.all.each do |l| %>
+            <dt>Ver.<%= l.version %></dt>
+            <dd><%= l.body %></dd>
+          <% end %>
+        <% end %>
+      </dl>
+    </div>
+  </div>
+</div>

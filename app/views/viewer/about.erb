@@ -1,6 +1,3 @@
-<div class="header">
-  <h1>Get our light! <small class="text-muted">チェンクロパーティーシミュレーター（β）</small></h1>
-</div>
 <div class="row">
   <div class="col-xs-12 col-md-12 col-sm-12">
     <div class="well well-sm">
@@ -224,12 +221,15 @@
       <div class="panel-body">
         <dl class="dl-horizontal">
           <% cache do %>
-            <% Changelog.logs.each do |l| %>
+            <% Changelog.summary(6).each do |l| %>
               <dt>Ver.<%= l.version %></dt>
               <dd><%= l.body %></dd>
             <% end %>
           <% end %>
         </dl>
+        <p class="pull-right">
+          <%= link_to '過去の更新履歴へ', changelogs_path %>
+        </p>
       </div>
       <div class="panel-footer"><a href="#index">目次へ</a></div>
     </div>
@@ -240,7 +240,7 @@
       </div>
       <div class="panel-body">
         <ul>
-          <li>アビリティの登録（それによる検索等機能追加）</li>
+          <li>アビリティの詳細化（一つで二つ以上の効果に対応）</li>
           <li>アルカナのレベルを登録可能に</li>
           <li>最後に編集した構成を初期状態に</li>
           <li>パーティー編成を（クッキーに）保存</li>
