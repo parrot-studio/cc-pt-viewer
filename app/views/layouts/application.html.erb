@@ -19,6 +19,15 @@
     <div id="wallpaper"></div>
     <div class="container">
 
+      <div class="header">
+        <% if controller.action_name == 'index' %>
+          <ul class="nav nav-pills pull-right">
+            <li><a href="#" id="help" data-toggle="modal" data-target="#help-modal">使い方</a></li>
+          </ul>
+        <% end %>
+        <h1>Get our light! <small class="text-muted lead">チェンクロパーティーシミュレーター（β）</small></h1>
+      </div>
+
       <%= yield %>
 
       <footer>
