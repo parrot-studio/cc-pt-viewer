@@ -499,8 +499,8 @@ class Viewer
             <dl class='small text-muted arcana-detail'>
               <dt>skill</dt>
               <dd>#{a.skill.name} (#{a.skill.cost})</dd>
-              <dt>type</dt>
-              <dd>#{a.weaponName} / #{a.growthTypeName}</dd>
+              <dt>ability</dt>
+              <dd>#{if a.firstAbility.name != '' then a.firstAbility.name else 'なし'}#{if a.secondAbility.name != '' then (' / ' + a.secondAbility.name) else ''}</dd>
               <dt>voice / illust</dt>
               <dd>#{a.voiceActor} / #{a.illustrator}</dd>
             </dl>
