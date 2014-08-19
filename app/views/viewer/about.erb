@@ -221,7 +221,7 @@
       <div class="panel-body">
         <dl class="dl-horizontal">
           <% cache do %>
-            <% Changelog.logs.each do |l| %>
+            <% Changelog.summary(6).each do |l| %>
               <dt>Ver.<%= l.version %></dt>
               <dd><%= l.body %></dd>
             <% end %>
