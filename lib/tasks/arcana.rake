@@ -4,6 +4,7 @@ namespace :arcana do
   task :import => :environment do
     ArcanaImporter.execute
     Rails.cache.clear
+    ServerSettings.update_data_version!
   end
 
 end
