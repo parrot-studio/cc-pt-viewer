@@ -35,7 +35,7 @@ class ArcanaImporter
   private
 
   def db_file_dir
-    @file_dir ||= File.expand_path(File.join(Rails.root, 'db'))
+    @file_dir ||= Rails.root.join('db')
     @file_dir
   end
 
