@@ -7,7 +7,6 @@ arcanas: &arcanas
   sources: other guildtown holytown academy mountain oasis forest volcano ring demon event collaboration forest-sea
   growths: fast normal slow
   additions: 1 2
-  data_version: 20140825
   pt_version: 1
 
 production:
