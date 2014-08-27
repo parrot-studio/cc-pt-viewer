@@ -375,7 +375,6 @@ class Arcanas
       key += "subsk#{query.skillsub}_" if query.skillsub
     key += "a#{query.actor}_" if query.actor
     key += "i#{query.illustrator}_" if query.illustrator
-    key += "ex2_" if query.addition
     key += "abc#{query.abiritycond}_" if query.abiritycond
     key += "abe#{query.abirityeffect}_" if query.abirityeffect
     key
@@ -679,7 +678,6 @@ class Viewer
     $("#source").val('')
     $("#skill").val('')
     $("#skill-sub").empty().append("<option value=''>-</option>")
-    $("#addition").attr('checked', false)
     $("#ability-effect").val('')
     $("#ability-condition").empty().append("<option value=''>-</option>")
 
@@ -696,10 +694,9 @@ class Viewer
     growth = $("#growth").val()
     source = $("#source").val()
     skill = $("#skill").val()
-    addition = if $("#addition").is(':checked') then '1' else ''
     abirityCond = $("#ability-condition").val()
     abirityEffect = $("#ability-effect").val()
-    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '' && source == '' && addition == '' && skill == '' && abirityCond == '' && abirityEffect == '')
+    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '' && source == '' && skill == '' && abirityCond == '' && abirityEffect == '')
 
     query = {}
     query.job = job unless job == ''
@@ -712,7 +709,6 @@ class Viewer
     query.abiritycond = abirityCond unless abirityCond == ''
     query.abirityeffect = abirityEffect unless abirityEffect == ''
 
-    query.addition = addition unless addition == ''
     unless skill == ''
       query.skill = skill
       skillsub = $("#skill-sub").val()
@@ -744,8 +740,6 @@ class Viewer
       elem.push '声優 - ' + $("#actor :selected").text()
     if query.illustrator
       elem.push 'イラスト - ' + $("#illustrator :selected").text()
-    if query.addition
-      elem.push '2部限定除外'
     elem.join(' / ')
 
   searchTargets = ->
