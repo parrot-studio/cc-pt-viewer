@@ -116,7 +116,6 @@ class ViewerController < ApplicationController
 
     actor = [org[:actor]].flatten.uniq.compact
     illust = [org[:illustrator]].flatten.uniq.compact
-    ex2 = true unless org[:addition].blank?
     skill = [org[:skill]].flatten.uniq.compact
     skillsub = [org[:skillsub]].flatten.uniq.compact
     abiritycond = [org[:abiritycond]].flatten.uniq.compact
@@ -134,7 +133,6 @@ class ViewerController < ApplicationController
     query[:source] = compact.call(source) unless source.blank?
     query[:voice_actor_id] = compact.call(actor) unless actor.blank?
     query[:illustrator_id] = compact.call(illust) unless illust.blank?
-    query[:addition] = '1' if ex2
     query[:skill] = compact.call(skill) unless skill.blank?
     query[:skillsub] = compact.call(skillsub) unless skillsub.blank?
     query[:abiritycond] = compact.call(abiritycond) unless abiritycond.blank?
@@ -150,7 +148,6 @@ class ViewerController < ApplicationController
     key += "_i:#{illust.sort.join('/')}" if query[:illustrator_id]
     key += "_sk:#{skill.sort.join('|')}" if query[:skill]
     key += "_subsk:#{skillsub.sort.join('|')}" if query[:skillsub]
-    key += "_ex2" if ex2
     key += "_abc:#{abiritycond.sort.join('/')}" if query[:abiritycond]
     key += "_abe:#{abirityeffect.sort.join('/')}" if query[:abirityeffect]
 
