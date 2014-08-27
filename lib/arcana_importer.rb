@@ -123,12 +123,16 @@ class ArcanaImporter
     lhp = datas[19].to_i
     job_detail = datas[20]
     ability_name_1 = datas[21]
-    ability_cond_1 = datas[22]
-    ability_effect_1 = datas[23]
-    ability_name_2 = datas[24]
-    ability_cond_2 = datas[25]
-    ability_effect_2 = datas[26]
-    job_index = datas[27].to_i
+    ability_cond_1_1 = datas[22]
+    ability_effect_1_1 = datas[23]
+    ability_cond_1_2 = datas[24]
+    ability_effect_1_2 = datas[25]
+    ability_name_2 = datas[26]
+    ability_cond_2_1 = datas[27]
+    ability_effect_2_1 = datas[28]
+    ability_cond_2_2 = datas[29]
+    ability_effect_2_2 = datas[30]
+    job_index = datas[31].to_i
     code = "#{job_type}#{job_index}"
 
     raise "invalid arcana => code:#{code} name:#{name}" unless valid_arcana?(code, name)
@@ -200,12 +204,14 @@ class ArcanaImporter
       arcana.skill = skill
     end
 
-    create_ability = lambda do |name, cond, effect|
+    create_ability = lambda do |name, cond1, effect1, cond2, effect2|
       abi = abilities[name]
       if abi
         check = lambda do
-          next false unless abi.condition_type == cond
-          next false unless abi.effect_type == effect
+          next false unless abi.condition_type == cond1
+          next false unless abi.effect_type == effect1
+          next false unless abi.condition_type_second.to_s == cond2
+          next false unless abi.effect_type_second.to_s == effect2
           true
         end.call
         puts "warning : ability data invalid => #{arcana.name} #{abi.inspect}" unless check
@@ -214,8 +220,10 @@ class ArcanaImporter
         abi.name = name
       end
 
-      abi.condition_type = cond
-      abi.effect_type = effect
+      abi.condition_type = cond1
+      abi.effect_type = effect1
+      abi.condition_type_second = (cond2.blank? ? nil : cond2)
+      abi.effect_type_second = (effect2.blank? ? nil : effect2)
       abi.explanation = ''
       abi.save!
       abilities[name] = abi
@@ -223,12 +231,16 @@ class ArcanaImporter
     end
 
     unless ability_name_1.blank?
-      abi1 = create_ability.call(ability_name_1, ability_cond_1, ability_effect_1)
+      abi1 = create_ability.call(ability_name_1,
+        ability_cond_1_1, ability_effect_1_1,
+        ability_cond_1_2, ability_effect_1_2)
       arcana.first_ability = abi1
     end
 
     unless ability_name_2.blank?
-      abi2 = create_ability.call(ability_name_2, ability_cond_2, ability_effect_2)
+      abi2 = create_ability.call(ability_name_2,
+        ability_cond_2_1, ability_effect_2_1,
+      ability_cond_2_2, ability_effect_2_2)
       arcana.second_ability = abi2
     end
 
