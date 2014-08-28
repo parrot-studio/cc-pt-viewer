@@ -132,9 +132,6 @@ class Ability
     boost_heal:
       name: '回復効果上昇'
       conditions: []
-    boost_skill:
-      name: 'スキル効果上昇'
-      conditions: []
     buff:
       name: '自身のステータス上昇'
       conditions: ['any', 'hp_upto', 'hp_downto', 'hp_full', 'attack',
@@ -171,7 +168,7 @@ class Ability
       name: '獲得金額上昇'
       conditions: []
     guard_debuff:
-      name: '状態異常無効'
+      name: '特定の状態異常無効'
       conditions: []
     guardup:
       name: '遠距離ダメージカット上昇'
@@ -231,7 +228,6 @@ class Ability
     'heal_self'
     'heal_worst'
     'heal_all'
-    'boost_skill'
     'debuff'
     'absorb'
     'mana_drop'
@@ -262,6 +258,8 @@ class Ability
     @name = data.name || ''
     @conditionType = data.condition_type || ''
     @effectType = data.effect_type || ''
+    @conditionTypeSecond = data.condition_type_second || ''
+    @effectTypeSecond = data.effect_type_second || ''
     @explanation = data.explanation || ''
 
 class Arcana
@@ -548,20 +546,21 @@ class Viewer
   renderSummarySizeMember = (a) ->
     renderSummarySizeArcana(a, 'member')
 
+  renderAbility = (ab) ->
+    return "なし" if ab.name == ''
+
+    render = "
+      #{ab.name}
+      <ul class='small text-muted list-unstyled ability-detail'>
+        <li>#{Ability.conditionNameFor(ab.conditionType)} / #{Ability.effectNameFor(ab.effectType)}</li>
+    "
+    unless ab.conditionTypeSecond == ''
+      render += "  <li>#{Ability.conditionNameFor(ab.conditionTypeSecond)} / #{Ability.effectNameFor(ab.effectTypeSecond)}</li>"
+    render += "</ul>"
+    render
+
   renderArcanaDetail = (a) ->
     return '' unless a
-
-    ab1 = if a.firstAbility.name == ''
-      "なし"
-    else
-      fa = a.firstAbility
-      "#{fa.name}<br>（#{Ability.conditionNameFor(fa.conditionType)} / #{Ability.effectNameFor(fa.effectType)}）"
-
-    ab2 = if a.secondAbility.name == ''
-      "なし"
-    else
-      sa = a.secondAbility
-      "#{sa.name}<br>（#{Ability.conditionNameFor(sa.conditionType)} / #{Ability.effectNameFor(sa.effectType)}）"
 
     "
       <div class='#{a.jobClass} arcana'>
@@ -601,9 +600,9 @@ class Viewer
                   （#{Skill.typeNameFor(a.skill.category)} / #{Skill.subnameFor(a.skill.category, a.skill.subcategory)}）
                 </dd>
                 <dt>アビリティ1</dt>
-                <dd>#{ab1}</dd>
+                <dd>#{renderAbility(a.firstAbility)}</dd>
                 <dt>アビリティ2</dt>
-                <dd>#{ab2}</dd>
+                <dd>#{renderAbility(a.secondAbility)}</dd>
                 <dt>入手先</dt>
                 <dd>#{a.sourceName}</dd>
               </dl>
