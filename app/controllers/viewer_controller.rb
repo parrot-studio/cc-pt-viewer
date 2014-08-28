@@ -193,15 +193,19 @@ class ViewerController < ApplicationController
     return [] if (cond.blank? && effect.blank?)
     arel = Ability.all
 
-    unless cond.blank?
+    case
+    when !cond.blank? && !effect.blank?
       arel.where!(
-        Ability.where(:condition_type => cond).where(:condition_type_second => cond).where_values.reduce(:or)
+        '(condition_type = ? AND effect_type = ?) OR (condition_type_second = ? AND effect_type_second = ?)',
+        cond, effect, cond, effect
       )
-    end
-
-    unless effect.blank?
+    when cond.blank?
       arel.where!(
         Ability.where(:effect_type => effect).where(:effect_type_second => effect).where_values.reduce(:or)
+      )
+    when effect.blank?
+      arel.where!(
+        Ability.where(:condition_type => cond).where(:condition_type_second => cond).where_values.reduce(:or)
       )
     end
 
