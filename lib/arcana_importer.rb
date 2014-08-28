@@ -122,16 +122,16 @@ class ArcanaImporter
     latk = datas[18].to_i
     lhp = datas[19].to_i
     job_detail = datas[20]
-    ability_name_1 = datas[21]
-    ability_cond_1_1 = datas[22]
-    ability_effect_1_1 = datas[23]
-    ability_cond_1_2 = datas[24]
-    ability_effect_1_2 = datas[25]
-    ability_name_2 = datas[26]
-    ability_cond_2_1 = datas[27]
-    ability_effect_2_1 = datas[28]
-    ability_cond_2_2 = datas[29]
-    ability_effect_2_2 = datas[30]
+    ability_name_f = datas[21]
+    ability_cond_f1 = datas[22]
+    ability_effect_f1 = datas[23]
+    ability_cond_f2 = datas[24]
+    ability_effect_f2 = datas[25]
+    ability_name_s = datas[26]
+    ability_cond_s1 = datas[27]
+    ability_effect_s1 = datas[28]
+    ability_cond_s2 = datas[29]
+    ability_effect_s2 = datas[30]
     job_index = datas[31].to_i
     code = "#{job_type}#{job_index}"
 
@@ -230,17 +230,17 @@ class ArcanaImporter
       abi
     end
 
-    unless ability_name_1.blank?
-      abi1 = create_ability.call(ability_name_1,
-        ability_cond_1_1, ability_effect_1_1,
-        ability_cond_1_2, ability_effect_1_2)
+    unless ability_name_f.blank?
+      abi1 = create_ability.call(ability_name_f,
+        ability_cond_f1, ability_effect_f1,
+        ability_cond_f2, ability_effect_f2)
       arcana.first_ability = abi1
     end
 
-    unless ability_name_2.blank?
-      abi2 = create_ability.call(ability_name_2,
-        ability_cond_2_1, ability_effect_2_1,
-      ability_cond_2_2, ability_effect_2_2)
+    unless ability_name_s.blank?
+      abi2 = create_ability.call(ability_name_s,
+        ability_cond_s1, ability_effect_s1,
+        ability_cond_s2, ability_effect_s2)
       arcana.second_ability = abi2
     end
 
