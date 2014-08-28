@@ -192,8 +192,19 @@ class ViewerController < ApplicationController
   def ability_search(cond, effect)
     return [] if (cond.blank? && effect.blank?)
     arel = Ability.all
-    arel.where!(:condition_type => cond) unless cond.blank?
-    arel.where!(:effect_type => effect) unless effect.blank?
+
+    unless cond.blank?
+      arel.where!(
+        Ability.where(:condition_type => cond).where(:condition_type_second => cond).where_values.reduce(:or)
+      )
+    end
+
+    unless effect.blank?
+      arel.where!(
+        Ability.where(:effect_type => effect).where(:effect_type_second => effect).where_values.reduce(:or)
+      )
+    end
+
     arel.pluck(:id)
   end
 

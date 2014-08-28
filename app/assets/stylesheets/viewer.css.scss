@@ -2,6 +2,16 @@ body {
   padding: 10px;
 }
 
+dt {
+  margin-top: 4px;
+  margin-bottom: 2px;
+}
+dd {
+  margin-top: 2px;
+  margin-bottom: 4px;
+  text-indent: 0.5em;
+}
+
 #wallpaper {
   z-index: -1;
   background-color: white;
@@ -80,14 +90,6 @@ footer {
 
 .arcana-view-body {
   padding: 6px;
-}
-
-.arcana-view-detail dt {
-  margin: 2px;
-}
-
-.arcana-view-detail dd {
-  margin: 2px;
 }
 
 .arcana-footer {
@@ -189,4 +191,8 @@ footer {
 .cost {
   font-weight: bold;
   font-size: 50px;
+}
+
+.ability-detail {
+  margin-left: 1em;
 }

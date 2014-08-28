@@ -11,20 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140827021700) do
+ActiveRecord::Schema.define(version: 20140827082658) do
 
   create_table "abilities", force: true do |t|
-    t.string   "name",           limit: 100, null: false
-    t.string   "condition_type", limit: 100, null: false
-    t.string   "effect_type",    limit: 100, null: false
-    t.string   "explanation",    limit: 500
+    t.string   "name",                  limit: 100, null: false
+    t.string   "condition_type",        limit: 100, null: false
+    t.string   "effect_type",           limit: 100, null: false
+    t.string   "explanation",           limit: 500
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "condition_type_second", limit: 100
+    t.string   "effect_type_second",    limit: 100
   end
 
   add_index "abilities", ["condition_type", "effect_type"], name: "index_abilities_on_condition_type_and_effect_type", using: :btree
   add_index "abilities", ["condition_type"], name: "index_abilities_on_condition_type", using: :btree
+  add_index "abilities", ["condition_type_second", "effect_type_second"], name: "index_abilities_on_condition_type_second_and_effect_type_second", using: :btree
+  add_index "abilities", ["condition_type_second"], name: "index_abilities_on_condition_type_second", using: :btree
   add_index "abilities", ["effect_type"], name: "index_abilities_on_effect_type", using: :btree
+  add_index "abilities", ["effect_type_second"], name: "index_abilities_on_effect_type_second", using: :btree
   add_index "abilities", ["name"], name: "index_abilities_on_name", unique: true, using: :btree
 
   create_table "arcanas", force: true do |t|
