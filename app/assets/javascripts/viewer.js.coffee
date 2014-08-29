@@ -497,7 +497,7 @@ class Viewer
             </p>
             <dl class='small text-muted arcana-detail'>
               <dt>ATK / HP</dt>
-              <dd>#{a.maxAtk} / #{a.maxHp} ( #{a.limitAtk} / #{a.limitHp} )</dd>
+              <dd> #{a.maxAtk} / #{a.maxHp}#{unless a.limitAtk == '-' then '<br>( ' + a.limitAtk + ' / ' + a.limitHp + ' )' else '' }</dd>
               <dt>Skill</dt>
               <dd>#{a.skill.name} (#{a.skill.cost})</dd>
               <dt>Ability</dt>
