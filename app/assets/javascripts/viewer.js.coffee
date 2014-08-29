@@ -496,12 +496,12 @@ class Viewer
                 <button type='button' class='btn btn-default btn-xs view-info pull-right' data-job-code='#{a.jobCode}' data-toggle='modal' data-target='#view-modal'>Info</button>
             </p>
             <dl class='small text-muted arcana-detail'>
-              <dt>skill</dt>
+              <dt>ATK / HP</dt>
+              <dd>#{a.maxAtk} / #{a.maxHp}</dd>
+              <dt>Skill</dt>
               <dd>#{a.skill.name} (#{a.skill.cost})</dd>
-              <dt>ability</dt>
+              <dt>Ability</dt>
               <dd>#{if a.firstAbility.name != '' then a.firstAbility.name else 'なし'}#{if a.secondAbility.name != '' then (' / ' + a.secondAbility.name) else ''}</dd>
-              <dt>voice / illust</dt>
-              <dd>#{a.voiceActor} / #{a.illustrator}</dd>
             </dl>
           </div>
           <div class='#{a.jobClass}-footer arcana-footer'>
@@ -580,10 +580,10 @@ class Viewer
               <dl class='small arcana-view-detail'>
                 <dt>職業</dt>
                 <dd>#{a.jobDetail}</dd>
-                <dt>ATK (Max/Limit)</dt>
-                <dd>#{a.maxAtk} / #{a.limitAtk}</dd>
-                <dt>HP (Max/Limit)</dt>
-                <dd>#{a.maxHp} / #{a.limitHp}</dd>
+                <dt>最大 ATK / HP</dt>
+                <dd>#{a.maxAtk} / #{a.maxHp}</dd>
+                <dt>限界 ATK / HP</dt>
+                <dd>#{a.limitAtk} / #{a.limitHp}</dd>
                 <dt>武器タイプ</dt>
                 <dd>#{a.weaponName}</dd>
                 <dt>成長タイプ</dt>
