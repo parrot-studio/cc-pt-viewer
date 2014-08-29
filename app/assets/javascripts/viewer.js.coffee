@@ -293,6 +293,8 @@ class Arcana
     Ma: '魔'
     He: '聖'
     Pu: '拳'
+    Gu: '銃'
+    Sh: '狙'
 
   GROWTH_TYPE =
     fast:   '早熟'
