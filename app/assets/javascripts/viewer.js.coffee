@@ -538,8 +538,18 @@ class Viewer
               <small>
                 <span class='text-muted small'>#{a.title}</span><br>
                 <strong>#{a.name}</strong>
+                </small>
+                <button type='button' class='btn btn-default btn-xs view-info pull-right' data-job-code='#{a.jobCode}' data-toggle='modal' data-target='#view-modal'>Info</button>
+                </small>
+            </p>
+            <p>
+              <small>
+                <ul class='small text-muted list-unstyled'>
+                  <li>ATK/HP:#{a.maxAtk}/#{a.maxHp}</li>
+                  <li>#{a.skill.name} (#{a.skill.cost})</li>
+                  <li>#{if a.firstAbility.name != '' then a.firstAbility.name else 'なし'}#{if a.secondAbility.name != '' then (' / ' + a.secondAbility.name) else ''}</li>
+                </ul>
               </small>
-              <button type='button' class='btn btn-default btn-xs view-info pull-right' data-job-code='#{a.jobCode}' data-toggle='modal' data-target='#view-modal'>Info</button>
             </p>
           </div>
       "
@@ -786,7 +796,7 @@ class Viewer
       reset.show()
       edit.fadeIn()
       searchTargets()
-    replaceMemberArea()
+    #replaceMemberArea()
     @
 
   clearMemberArcana = (div) ->
