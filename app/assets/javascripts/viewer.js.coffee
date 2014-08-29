@@ -159,7 +159,7 @@ class Ability
       name: '全員のダメージ軽減'
       conditions: ['any', 'in_sub']
     element:
-      name: '属性'
+      name: '属性攻撃'
       conditions: []
     expup:
       name: '獲得経験値上昇'
@@ -554,10 +554,10 @@ class Viewer
     render = "
       #{ab.name}
       <ul class='small text-muted list-unstyled ability-detail'>
-        <li>#{Ability.conditionNameFor(ab.conditionType)} / #{Ability.effectNameFor(ab.effectType)}</li>
+        <li>#{Ability.conditionNameFor(ab.conditionType)} - #{Ability.effectNameFor(ab.effectType)}</li>
     "
     unless ab.conditionTypeSecond == ''
-      render += "  <li>#{Ability.conditionNameFor(ab.conditionTypeSecond)} / #{Ability.effectNameFor(ab.effectTypeSecond)}</li>"
+      render += "  <li>#{Ability.conditionNameFor(ab.conditionTypeSecond)} - #{Ability.effectNameFor(ab.effectTypeSecond)}</li>"
     render += "</ul>"
     render
 
@@ -580,10 +580,8 @@ class Viewer
               <dl class='small arcana-view-detail'>
                 <dt>職業</dt>
                 <dd>#{a.jobDetail}</dd>
-                <dt>最大 ATK / HP</dt>
-                <dd>#{a.maxAtk} / #{a.maxHp}</dd>
-                <dt>限界 ATK / HP</dt>
-                <dd>#{a.limitAtk} / #{a.limitHp}</dd>
+                <dt>ATK / HP</dt>
+                <dd> #{a.maxAtk} / #{a.maxHp}<br>( #{a.limitAtk} / #{a.limitHp} )</dd>
                 <dt>武器タイプ</dt>
                 <dd>#{a.weaponName}</dd>
                 <dt>成長タイプ</dt>
@@ -599,7 +597,7 @@ class Viewer
                 <dt>スキル</dt>
                 <dd>
                   #{a.skill.name} (#{a.skill.cost})<br>
-                  （#{Skill.typeNameFor(a.skill.category)} / #{Skill.subnameFor(a.skill.category, a.skill.subcategory)}）
+                  （#{Skill.typeNameFor(a.skill.category)} - #{Skill.subnameFor(a.skill.category, a.skill.subcategory)}）
                 </dd>
                 <dt>アビリティ1</dt>
                 <dd>#{renderAbility(a.firstAbility)}</dd>
