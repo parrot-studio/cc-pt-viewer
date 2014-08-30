@@ -312,6 +312,7 @@ class Arcana
     'forest-sea': '海風の港・酒場'
     ring: 'リング'
     demon: '魔神戦'
+    score: '戦の年代記'
     event: '期間限定'
     collaboration: 'コラボ限定'
     other: 'その他'
