@@ -4,7 +4,7 @@ arcanas: &arcanas
   weapons: Sl Bl Pi Ar He Ma Pu Gu Sh
   recently: 12
   hometowns: unknown guildtown holytown academy mountain oasis forest volcano demon collaboration forest-sea
-  sources: other guildtown holytown academy mountain oasis forest volcano ring demon event collaboration forest-sea
+  sources: other guildtown holytown academy mountain oasis forest volcano ring demon event collaboration forest-sea score
   growths: fast normal slow
   pt_version: 1
 
