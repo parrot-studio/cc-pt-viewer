@@ -69,6 +69,7 @@ class Ability
     critical: 'クリティカル時'
     cycle: '一定間隔で'
     dropout_member: '味方が脱落した時'
+    dropout_self: '自身が脱落した時'
     for_debuff: '敵が状態異常時'
     heal: '回復時'
     hp_downto: 'HPが一定以下の時'
@@ -104,6 +105,7 @@ class Ability
     'for_debuff'
     'in_debuff'
     'dropout_member'
+    'dropout_self'
     'battle_start'
     'battle_end'
     'in_field'
@@ -139,7 +141,7 @@ class Ability
         'dropout_member', 'in_field', 'union']
     buff_all:
       name: '全員のステータス上昇'
-      conditions: ['any', 'in_sub']
+      conditions: ['any', 'in_sub', 'dropout_self']
     buff_jobs:
       name: '特定の職がステータス上昇'
       conditions: ['any', 'union']
@@ -175,7 +177,7 @@ class Ability
       conditions: []
     heal_all:
       name: '全員を回復'
-      conditions: []
+      conditions: ['wave_start', 'dropout_self']
     heal_self:
       name: '自身を回復'
       conditions: ['wave_start', 'cycle']
