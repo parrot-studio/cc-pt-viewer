@@ -314,6 +314,7 @@ class Arcana
     forest: '精霊島・酒場'
     volcano: '九領・酒場'
     'forest-sea': '海風の港・酒場'
+    dawnsea: '夜明けの大海・酒場'
     ring: 'リング'
     demon: '魔神戦'
     score: '戦の年代記'
