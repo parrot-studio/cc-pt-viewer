@@ -459,11 +459,59 @@ class Cookie
     c = @get()
     c[key]
 
+class Pager
+
+  defaultPageSize = 8
+
+  constructor: (list, psize) ->
+    @all = list || []
+    @size = @all.length
+    @pageSize = (psize || defaultPageSize)
+    @maxPage = if @size > 0
+      Math.ceil(list.length / @pageSize)
+    else
+      1
+    @page = 1
+
+  get: ->
+    head = (@page - 1) * @pageSize
+    tail = (@page * @pageSize) - 1
+    if tail >= @all.length
+      tail = @all.length - 1
+    @all[head..tail]
+
+  nextPage: ->
+    @page += 1
+    if @page > @maxPage
+      @page = @maxPage
+    @page
+
+  prevPage: ->
+    @page -= 1
+    if @page < 0
+      @page = 1
+    @page
+
+  hasNextPage: ->
+    if @page < @maxPage then true else false
+
+  hasPrevPage: ->
+    if @page > 1 then true else false
+
+  jumpPage: (p) ->
+    @page = p
+    if @page > @maxPage
+      @page = @maxPage
+    if @page < 0
+      @page = 1
+    @page
+
 class Viewer
 
   arcanas = new Arcanas()
   members = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'friend']
   resultCache = {}
+  pager = null
   onEdit = false
   defaultMemberCode = 'V1F36K7A1P2P24NN'
 
@@ -637,6 +685,32 @@ class Viewer
       </div>
     "
 
+  renderPager = ->
+    pager ||= new Pager([])
+    ul = $('#pagination-area')
+    ul.empty()
+
+    prev = $('<li><a href="#" id="pager-prev">&larr;</a></li>')
+    unless pager.hasPrevPage()
+      prev.addClass('disabled')
+    ul.append(prev)
+
+    for p in [1 .. pager.maxPage]
+      pa = $('<li><a href="#">' + p + '</a></li>')
+      if p == pager.page
+        pa.addClass('active')
+      ul.append(pa)
+
+    next = $('<li><a href="#" id="pager-next">&rarr;</a></li>')
+    unless pager.hasNextPage()
+      next.addClass('disabled')
+    ul.append(next)
+
+    count = $('#result-count')
+    count.empty()
+    count.append(pager.size + '件')
+    @
+
   replaceMemberArcana = (div, ra) ->
     div.empty()
     a = $(ra)
@@ -654,16 +728,17 @@ class Viewer
       else
         replaceMemberArcana(div, renderFullSizeArcana(a))
 
-  replaceChoiceArea = (as, detail) ->
+  replaceChoiceArea = ->
+    as = pager?.get() || []
     ul = $('#choice-characters')
     ul.empty()
     for a in as
-      li = $("<li class='listed-character col-sm-4 col-md-3'></li>")
+      li = $("<li class='listed-character col-sm-3 col-md-2'></li>")
       li.html(renderSummarySizeArcana(a, 'choice'))
       li.hide()
       ul.append(li)
       li.fadeIn('slow')
-    $("#detail").html(detail)
+    renderPager()
     @
 
   searchArcanas = (query, path, callback) ->
@@ -764,7 +839,7 @@ class Viewer
       elem.push '声優 - ' + $("#actor :selected").text()
     if query.illustrator
       elem.push 'イラスト - ' + $("#illustrator :selected").text()
-    ul = '<ul class="list-unstyled small">'
+    ul = '<ul class="list-inline small">'
     for e in elem
       ul += "<li>#{e}</li>"
     ul += '</ul>'
@@ -773,10 +848,14 @@ class Viewer
   searchTargets = ->
     query = buildQuery()
     unless query
-      replaceChoiceArea([], '')
+      $("#detail").text('')
+      pager = new Pager([])
+      replaceChoiceArea()
       return
     searchArcanas query, 'arcanas', (as) ->
-      replaceChoiceArea as, createQueryDetail(query)
+      $("#detail").html(createQueryDetail(query))
+      pager = new Pager(as)
+      replaceChoiceArea()
 
   toggleEditMode = ->
     edit = $("#edit-area")

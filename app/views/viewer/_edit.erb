@@ -1,20 +1,30 @@
 <div id="edit-area" class="invisible">
   <div class="row">
-    <div class="col-sm-9 col-md-8">
-      <span class="help-block small">アルカナをドラッグ -> 上のパーティーエリアでドロップ</span>
-      <ul id="choice-characters" class="list-inline"></ul>
+    <div class="col-md-12 col-sm-12">
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+          <p class="navbar-brand text-muted"><span id="detail"></span><span id="result-count"></span></p>
+        </div>
+        <div class="collapse navbar-collapse">
+          <form class="navbar-form navbar-left" role="search">
+            <button type="button" id="search-moadal" data-toggle="modal" data-target="#search-modal" class="btn btn-info">
+              検索する
+            </button>
+          </form>
+        </div>
+      </nav>
     </div>
-    <div class="col-sm-3 col-md-4">
-      <div class="well">
-        <p>
-          <button type="button" id="search-moadal" data-toggle="modal" data-target="#search-modal" class="btn btn-info">
-            検索する
-          </button>
-        </p>
-        <p class="text-muted">
-          【検索条件】
-          <span id="detail"></span>
-        </p>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div>
+        <span class="help-block small">アルカナをドラッグ -> 上のパーティーエリアでドロップ</span>
+        <ul id="choice-characters" class="list-inline"></ul>
+      </div>
+      <p class="clearfix"></p>
+      <div class="text-center">
+        <ul class="pagination pagination-sm" id="pagination-area"></ul>
       </div>
     </div>
   </div>
