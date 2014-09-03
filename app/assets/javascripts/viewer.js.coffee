@@ -73,6 +73,7 @@ class Ability
     for_debuff: '敵が状態異常時'
     heal: '回復時'
     hp_downto: 'HPが一定以下の時'
+    hp_downto_more: 'HPがより低下した時'
     hp_full: 'HPが満タンの時'
     hp_upto: 'HPが一定以上の時'
     in_debuff: '自分が状態異常時'
@@ -90,6 +91,7 @@ class Ability
     'any'
     'hp_upto'
     'hp_downto'
+    'hp_downto_more'
     'hp_full'
     'attack'
     'critical'
@@ -125,9 +127,9 @@ class Ability
       conditions: []
     atkup:
       name: '与えるダメージ上昇'
-      conditions: ['any', 'hp_upto', 'hp_downto', 'hp_full', 'critical',
-        'skill', 'kill', 'killer', 'mana_charged', 'boss_wave', 'wave_start',
-        'for_debuff', 'in_debuff', 'dropout_member']
+      conditions: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more', 'hp_full',
+        'critical', 'skill', 'kill', 'killer', 'mana_charged', 'boss_wave',
+        'wave_start', 'for_debuff', 'in_debuff', 'dropout_member']
     atkup_all:
       name: '全員の与えるダメージ上昇'
       conditions: ['any', 'in_sub']
