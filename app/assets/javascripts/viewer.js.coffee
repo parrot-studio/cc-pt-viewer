@@ -499,7 +499,7 @@ class Pager
     if @page > 1 then true else false
 
   jumpPage: (p) ->
-    @page = p
+    @page = parseInt(p)
     if @page > @maxPage
       @page = @maxPage
     if @page < 0
@@ -690,19 +690,38 @@ class Viewer
     ul = $('#pagination-area')
     ul.empty()
 
-    prev = $('<li><a href="#" id="pager-prev">&larr;</a></li>')
-    unless pager.hasPrevPage()
+    # TODO prevとnextは出しっぱなしに
+    # TODO ページを送る部分はfunctionに切り出し
+    prev = $('<li><span id="pager-prev">&larr;</span></li>')
+    if pager.hasPrevPage()
+      prev.hammer().on 'tap', (e) ->
+        e.preventDefault()
+        if pager?.hasPrevPage()
+          pager?.prevPage()
+          replaceChoiceArea()
+    else
       prev.addClass('disabled')
     ul.append(prev)
 
     for p in [1 .. pager.maxPage]
-      pa = $('<li><a href="#">' + p + '</a></li>')
+      pa = $("<li><span data-page='#{p}'>#{p}</span></li>")
       if p == pager.page
         pa.addClass('active')
+      else
+        pa.hammer().on 'tap', (e) ->
+          page = $(e.target).children('span').data('page')
+          pager?.jumpPage(page)
+          replaceChoiceArea()
       ul.append(pa)
 
-    next = $('<li><a href="#" id="pager-next">&rarr;</a></li>')
-    unless pager.hasNextPage()
+    next = $('<li><span id="pager-next">&rarr;</span></li>')
+    if pager.hasNextPage()
+      next.hammer().on 'tap', (e) ->
+        e.preventDefault()
+        if pager?.hasNextPage()
+          pager?.nextPage()
+          replaceChoiceArea()
+    else
       next.addClass('disabled')
     ul.append(next)
 
