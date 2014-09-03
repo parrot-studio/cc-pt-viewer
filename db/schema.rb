@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140827082658) do
+ActiveRecord::Schema.define(version: 20140903023438) do
 
   create_table "abilities", force: true do |t|
     t.string   "name",                  limit: 100, null: false
@@ -38,7 +38,6 @@ ActiveRecord::Schema.define(version: 20140827082658) do
     t.integer  "rarity",            limit: 3,               null: false
     t.integer  "cost",                                      null: false
     t.string   "weapon_type",       limit: 10,              null: false
-    t.string   "hometown",          limit: 100,             null: false
     t.string   "job_type",          limit: 10,              null: false
     t.integer  "job_index",                                 null: false
     t.string   "job_code",          limit: 20,              null: false
@@ -61,11 +60,8 @@ ActiveRecord::Schema.define(version: 20140827082658) do
   add_index "arcanas", ["cost"], name: "index_arcanas_on_cost", using: :btree
   add_index "arcanas", ["first_ability_id"], name: "index_arcanas_on_first_ability_id", using: :btree
   add_index "arcanas", ["growth_type"], name: "index_arcanas_on_growth_type", using: :btree
-  add_index "arcanas", ["hometown", "rarity"], name: "index_arcanas_on_hometown_and_rarity", using: :btree
-  add_index "arcanas", ["hometown"], name: "index_arcanas_on_hometown", using: :btree
   add_index "arcanas", ["illustrator_id"], name: "index_arcanas_on_illustrator_id", using: :btree
   add_index "arcanas", ["job_code"], name: "index_arcanas_on_job_code", unique: true, using: :btree
-  add_index "arcanas", ["job_type", "hometown"], name: "index_arcanas_on_job_type_and_hometown", using: :btree
   add_index "arcanas", ["job_type", "job_index"], name: "index_arcanas_on_job_type_and_job_index", using: :btree
   add_index "arcanas", ["job_type", "rarity", "job_index"], name: "index_arcanas_on_job_type_and_rarity_and_job_index", using: :btree
   add_index "arcanas", ["job_type", "rarity"], name: "index_arcanas_on_job_type_and_rarity", using: :btree
