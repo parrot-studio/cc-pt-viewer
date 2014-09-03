@@ -658,12 +658,12 @@ class Viewer
     ul = $('#choice-characters')
     ul.empty()
     for a in as
-      li = $("<li class='listed-character col-sm-3 col-md-2'></li>")
+      li = $("<li class='listed-character col-sm-4 col-md-3'></li>")
       li.html(renderSummarySizeArcana(a, 'choice'))
       li.hide()
       ul.append(li)
       li.fadeIn('slow')
-    $("#detail").text(detail)
+    $("#detail").html(detail)
     @
 
   searchArcanas = (query, path, callback) ->
@@ -742,7 +742,7 @@ class Viewer
   createQueryDetail = (query) ->
     elem = []
     if query.recently
-      elem.push '新着'
+      elem.push '最新'
     if query.job
       elem.push Arcana.jobNameFor(query.job)
     if query.rarity
@@ -755,16 +755,20 @@ class Viewer
       text = 'アビリティ - ' + Ability.conditionNameFor(query.abiritycond) + ' ' + Ability.effectNameFor(query.abirityeffect)
       elem.push text
     if query.source
-      elem.push Arcana.sourceNameFor(query.source)
+      elem.push '入手先 - ' + Arcana.sourceNameFor(query.source)
     if query.weapon
-      elem.push Arcana.weaponNameFor(query.weapon)
+      elem.push '武器タイプ - ' + Arcana.weaponNameFor(query.weapon)
     if query.growth
-      elem.push Arcana.growthTypeNameFor(query.growth)
+      elem.push '成長タイプ - ' + Arcana.growthTypeNameFor(query.growth)
     if query.actor
       elem.push '声優 - ' + $("#actor :selected").text()
     if query.illustrator
       elem.push 'イラスト - ' + $("#illustrator :selected").text()
-    elem.join(' / ')
+    ul = '<ul class="list-unstyled small">'
+    for e in elem
+      ul += "<li>#{e}</li>"
+    ul += '</ul>'
+    ul
 
   searchTargets = ->
     query = buildQuery()
