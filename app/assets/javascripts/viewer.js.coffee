@@ -5,7 +5,7 @@ class Skill
       name: '攻撃'
       types: ['one/short', 'one/line', 'one/combo', 'one/dash', 'one/rear',
         'range/line', 'range/dash', 'range/forward', 'range/self', 'range/explosion',
-        'range/drop', 'range/random', 'range/all']
+        'range/drop', 'range/jump', 'range/random', 'range/all']
       subname:
         'one/short': '単体・目前'
         'one/line': '単体・直線'
@@ -18,6 +18,7 @@ class Skill
         'range/self': '範囲・自分中心'
         'range/explosion': '範囲・自爆'
         'range/drop': '範囲・落下物'
+        'range/jump': '範囲・ジャンプ'
         'range/random': '範囲・ランダム'
         'range/all': '範囲・全体'
     heal:
@@ -73,9 +74,11 @@ class Ability
     for_debuff: '敵が状態異常時'
     heal: '回復時'
     hp_downto: 'HPが一定以下の時'
-    hp_downto_more: 'HPがより低下した時'
+    hp_downto_more: 'HPがより低い時'
     hp_full: 'HPが満タンの時'
     hp_upto: 'HPが一定以上の時'
+    hp_upto_more: 'HPがより高い時'
+    in_combo: '攻撃を一定回数当てた時'
     in_debuff: '自分が状態異常時'
     in_field: '特定のフィールドで'
     in_move: '移動中'
@@ -96,6 +99,7 @@ class Ability
     'attack'
     'critical'
     'skill'
+    'in_combo'
     'kill'
     'heal'
     'in_move'
@@ -127,9 +131,9 @@ class Ability
       conditions: []
     atkup:
       name: '与えるダメージ上昇'
-      conditions: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more', 'hp_full',
-        'critical', 'skill', 'kill', 'killer', 'mana_charged', 'boss_wave',
-        'wave_start', 'for_debuff', 'in_debuff', 'dropout_member']
+      conditions: ['any', 'hp_upto', 'hp_upto_more', 'hp_downto', 'hp_downto_more',
+        'hp_full', 'critical', 'skill', 'kill', 'killer', 'mana_charged',
+        'boss_wave', 'wave_start', 'for_debuff', 'in_debuff', 'dropout_member']
     atkup_all:
       name: '全員の与えるダメージ上昇'
       conditions: ['any', 'in_sub']
@@ -139,7 +143,7 @@ class Ability
     buff:
       name: '自身のステータス上昇'
       conditions: ['any', 'hp_upto', 'hp_downto', 'hp_full', 'attack',
-        'kill', 'killer', 'boss_wave', 'wave_start', 'in_debuff',
+        'in_combo', 'kill', 'killer', 'boss_wave', 'wave_start', 'in_debuff',
         'dropout_member', 'in_field', 'union']
     buff_all:
       name: '全員のステータス上昇'
@@ -203,7 +207,7 @@ class Ability
       conditions: []
     pierce:
       name: '貫通攻撃'
-      conditions: []
+      conditions: ['attack', 'kill']
     slot_slow:
       name: 'マナスロットが遅くなる'
       conditions: []
