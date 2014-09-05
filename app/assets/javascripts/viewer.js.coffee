@@ -600,7 +600,7 @@ class Viewer
             <p>
               <small>
                 <ul class='small text-muted list-unstyled'>
-                  <li>ATK/HP:#{a.maxAtk}/#{a.maxHp}</li>
+                  <li>#{a.maxAtk} / #{a.maxHp}</li>
                   <li>#{a.skill.name} (#{a.skill.cost})</li>
                   <li>#{if a.firstAbility.name != '' then a.firstAbility.name else 'なし'}#{if a.secondAbility.name != '' then (' / ' + a.secondAbility.name) else ''}</li>
                 </ul>
@@ -721,7 +721,8 @@ class Viewer
 
     count = $('#pager-count')
     count.empty()
-    count.append("#{pager.head() + 1} - #{pager.tail() + 1} / #{pager.size}件")
+    if pager.size > 0
+      count.append("（#{pager.head() + 1} - #{pager.tail() + 1} / #{pager.size}件）")
     @
 
   replaceMemberArcana = (div, ra) ->
@@ -852,11 +853,7 @@ class Viewer
       elem.push '声優 - ' + $("#actor :selected").text()
     if query.illustrator
       elem.push 'イラスト - ' + $("#illustrator :selected").text()
-    ul = '<ul class="list-inline small">'
-    for e in elem
-      ul += "<li>#{e}</li>"
-    ul += '</ul>'
-    ul
+    elem.join(' / ')
 
   searchTargets = ->
     query = buildQuery()
@@ -866,7 +863,7 @@ class Viewer
       replaceChoiceArea()
       return
     searchArcanas query, 'arcanas', (as) ->
-      $("#detail").html(createQueryDetail(query))
+      $("#detail").text(createQueryDetail(query))
       pager = new Pager(as)
       replaceChoiceArea()
 
@@ -892,7 +889,7 @@ class Viewer
       reset.show()
       edit.fadeIn()
       searchTargets()
-    #replaceMemberArea()
+    replaceMemberArea()
     @
 
   clearMemberArcana = (div) ->
