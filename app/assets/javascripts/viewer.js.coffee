@@ -63,7 +63,7 @@ class Ability
 
   CONDITION_TABLE =
     any: 'いつでも'
-    attack: '攻撃時'
+    attack: '通常攻撃時'
     battle_end: '戦闘終了時'
     battle_start: '戦闘開始時'
     boss_wave: 'BOSS WAVE時'
@@ -132,8 +132,9 @@ class Ability
     atkup:
       name: '与えるダメージ上昇'
       conditions: ['any', 'hp_upto', 'hp_upto_more', 'hp_downto', 'hp_downto_more',
-        'hp_full', 'critical', 'skill', 'kill', 'killer', 'mana_charged',
-        'boss_wave', 'wave_start', 'for_debuff', 'in_debuff', 'dropout_member']
+        'hp_full', 'attack', 'critical', 'skill', 'in_combo', 'kill', 'killer',
+        'mana_charged', 'boss_wave', 'wave_start', 'for_debuff', 'in_debuff',
+        'dropout_member']
     atkup_all:
       name: '全員の与えるダメージ上昇'
       conditions: ['any', 'in_sub']
@@ -166,6 +167,9 @@ class Ability
     defup_all:
       name: '全員のダメージ軽減'
       conditions: ['any', 'in_sub']
+    delayoff:
+      name: '攻撃間隔が早くなる'
+      conditions: []
     element:
       name: '属性攻撃'
       conditions: []
@@ -213,7 +217,7 @@ class Ability
       conditions: []
     speedup:
       name: '移動速度上昇'
-      conditions: []
+      conditions: ['any', 'in_combo']
     speedup_all:
       name: '全員の移動速度上昇'
       conditions: []
@@ -227,6 +231,7 @@ class Ability
     'guardup'
     'speedup'
     'critup'
+    'delayoff'
     'buff'
     'guard_debuff'
     'element'
