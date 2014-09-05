@@ -1,9 +1,29 @@
 <div id="edit-area" class="invisible">
   <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div>
+        <span class="help-block small">アルカナをドラッグ -> 上のパーティーエリアでドロップ</span>
+      </div>
+      <div>
+        <ul id="choice-characters" class="list-inline"></ul>
+      </div>
+      <div class="text-center">
+        <span id="pager-count" class="text-muted small"></span>
+      </div>
+      <div class="text-center">
+        <ul class="pagination pagination-sm" id="pagination-area">
+          <li id="pager-prev"><span>&larr;</span></li>
+          <li id="pager-next"><span>&rarr;</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
     <div class="col-md-12 col-sm-12">
       <nav class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
-          <p class="navbar-brand text-muted"><span id="detail"></span><span id="result-count"></span></p>
+          <p class="navbar-brand text-muted"><span id="detail"></span></p>
         </div>
         <div class="collapse navbar-collapse">
           <form class="navbar-form navbar-left" role="search">
@@ -13,19 +33,6 @@
           </form>
         </div>
       </nav>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-sm-12 col-md-12">
-      <div class="text-center">
-        <ul class="pagination pagination-sm" id="pagination-area"></ul>
-      </div>
-      <div>
-        <span class="help-block small">アルカナをドラッグ -> 上のパーティーエリアでドロップ</span>
-        <ul id="choice-characters" class="list-inline"></ul>
-      </div>
-      <p class="clearfix"></p>
     </div>
   </div>
 </div>

@@ -473,12 +473,19 @@ class Pager
       1
     @page = 1
 
+  head: ->
+    (@page - 1) * @pageSize
+
+  tail: ->
+    t = (@page * @pageSize) - 1
+    if t >= @all.length
+      t = @all.length - 1
+    t
+
   get: ->
-    head = (@page - 1) * @pageSize
-    tail = (@page * @pageSize) - 1
-    if tail >= @all.length
-      tail = @all.length - 1
-    @all[head..tail]
+    h = @head()
+    t = @tail()
+    @all[h .. t]
 
   nextPage: ->
     @page += 1
@@ -687,24 +694,17 @@ class Viewer
 
   renderPager = ->
     pager ||= new Pager([])
-    ul = $('#pagination-area')
-    ul.empty()
+    prev = $('#pager-prev')
+    next = $('#pager-next')
+    $('.each-page').remove()
 
-    # TODO prevとnextは出しっぱなしに
-    # TODO ページを送る部分はfunctionに切り出し
-    prev = $('<li><span id="pager-prev">&larr;</span></li>')
     if pager.hasPrevPage()
-      prev.hammer().on 'tap', (e) ->
-        e.preventDefault()
-        if pager?.hasPrevPage()
-          pager?.prevPage()
-          replaceChoiceArea()
+      prev.removeClass('disabled')
     else
       prev.addClass('disabled')
-    ul.append(prev)
 
     for p in [1 .. pager.maxPage]
-      pa = $("<li><span data-page='#{p}'>#{p}</span></li>")
+      pa = $("<li><span class='each-page' data-page='#{p}'>#{p}</span></li>")
       if p == pager.page
         pa.addClass('active')
       else
@@ -712,22 +712,16 @@ class Viewer
           page = $(e.target).children('span').data('page')
           pager?.jumpPage(page)
           replaceChoiceArea()
-      ul.append(pa)
+      next.before(pa)
 
-    next = $('<li><span id="pager-next">&rarr;</span></li>')
     if pager.hasNextPage()
-      next.hammer().on 'tap', (e) ->
-        e.preventDefault()
-        if pager?.hasNextPage()
-          pager?.nextPage()
-          replaceChoiceArea()
+      next.removeClass('disabled')
     else
       next.addClass('disabled')
-    ul.append(next)
 
-    count = $('#result-count')
+    count = $('#pager-count')
     count.empty()
-    count.append(pager.size + '件')
+    count.append("#{pager.head() + 1} - #{pager.tail() + 1} / #{pager.size}件")
     @
 
   replaceMemberArcana = (div, ra) ->
@@ -990,6 +984,18 @@ class Viewer
       target.append("<option value='#{c}'>#{Ability.conditionNameFor(c)}</option>")
     @
 
+  prevChoicePage = ->
+    if pager?.hasPrevPage()
+      pager.prevPage()
+      replaceChoiceArea()
+    @
+
+  nextChoicePage = ->
+    if pager?.hasNextPage()
+      pager.nextPage()
+      replaceChoiceArea()
+    @
+
   initHandler = ->
     $("#error-area").hide()
     $("#error-area").removeClass("invisible")
@@ -1090,6 +1096,14 @@ class Viewer
       code = $(e.relatedTarget).data('jobCode')
       createArcanaDetail(code)
       true # for modal
+
+    $("#pager-prev").hammer().on 'tap', (e) ->
+      e.preventDefault()
+      prevChoicePage()
+
+    $("#pager-next").hammer().on 'tap', (e) ->
+      e.preventDefault()
+      nextChoicePage()
 
     @
 
