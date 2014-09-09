@@ -1102,16 +1102,6 @@ class Viewer
       e.preventDefault()
       nextChoicePage()
 
-    $('#swipe-area').hammer().on 'swipeleft', (e) ->
-      e.preventDefault()
-      return unless onEdit
-      prevChoicePage()
-
-    $('#swipe-area').hammer().on 'swiperight', (e) ->
-      e.preventDefault()
-      return unless onEdit
-      nextChoicePage()
-
     @
 
   initMembers = ->
