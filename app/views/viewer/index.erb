@@ -52,18 +52,14 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
       <button class="btn btn-danger pull-right" id="reset-members">
         パーティーをリセット
       </button>
-      <h2>パーティー編集</h2>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-      <p class="text-right cost">
-        <label for="cost">Total Cost</label> : <span id="cost" ></span>
-      <p>
+      <h3>パーティー編集</h3>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 member-list">
+      <p class="text-right cost">
+        <label for="cost">Total Cost</label> : <span id="cost" ></span>
+      <p>
       <ul class="list-inline">
         <% members.each do |code, name| %>
           <li class="col-xs-6 col-sm-3 col-md-3">
