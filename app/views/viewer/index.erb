@@ -15,10 +15,18 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
   </div>
 </div>
 
-<div class="alert alert-danger col-xs-12 hidden-sm hidden-md hidden-lg" role="alert">
-  <p>
-    PC/タブレット以外のデバイスでは、閲覧のみで編集はできません。
-  </p>
+<div class="row">
+  <div class="col-sm-12 col-md-12">
+    <button class="btn btn-primary hidden-xs act-btn" id="edit-members">
+      編集する
+    </button>
+    <button class="btn btn-info act-btn" id="share-members" data-toggle="modal" data-target="#share-modal">
+      共有する
+    </button>
+    <button class="btn btn-link act-btn" id="help" data-toggle="modal" data-target="#help-modal">
+      使い方
+    </button>
+  </div>
 </div>
 
 <div class="hidden-xs">
@@ -46,26 +54,19 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
   <% end %>
 </div>
 
-<div class="row">
-  <div class="col-sm-12 col-md-12">
-    <button class="btn btn-primary hidden-xs" id="edit-members">
-      編集する
-    </button>
-    <button class="btn btn-info" id="share-members" data-toggle="modal" data-target="#share-modal">
-      共有する
-    </button>
-    <button class="btn btn-link" id="help" data-toggle="modal" data-target="#help-modal">
-      使い方
-    </button>
-    <button class="btn btn-danger pull-right" id="reset-members">
-      パーティーをリセット
-    </button>
-  </div>
+<div class="alert alert-danger col-xs-12 hidden-sm hidden-md hidden-lg" role="alert">
+  <p>
+    PC/タブレット以外のデバイスでは、閲覧のみで編集はできません。
+  </p>
 </div>
+
 <div id="member-area">
   <div class="row invisible" id="edit-title">
-    <div class="col-sm-12 col-md-12 hidden-xs">
-      <h3>パーティー編集</h3>
+    <div class="col-md-12 col-sm-12 hidden-xs">
+      <button class="btn btn-danger pull-right" id="reset-members">
+        パーティーをリセット
+      </button>
+      <h2>パーティー編集</h2>
     </div>
   </div>
   <div class="row">
@@ -92,8 +93,8 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
 
 <div class="hidden-xs">
   <%= render 'viewer/edit' %>
-  <%= render 'viewer/share' %>
 </div>
+<%= render 'viewer/share' %>
 <%= render 'viewer/help' %>
 <%= render 'viewer/view' %>
 
