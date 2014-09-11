@@ -526,6 +526,9 @@ class Viewer
     initHandler()
     initMembers()
 
+  isPhoneDevice = ->
+    if window.innerWidth < 768 then true else false
+
   eachMembers = (func) ->
     for m in members
       func(m)
@@ -1107,7 +1110,7 @@ class Viewer
   initMembers = ->
     ptm = $("#ptm").val()
     if ptm == ''
-      toggleEditMode() if window.innerWidth >= 768
+      toggleEditMode() unless isPhoneDevice()
       searchMembers(defaultMemberCode, onEdit)
     else
       searchMembers(ptm)
