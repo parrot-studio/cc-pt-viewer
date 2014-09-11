@@ -1,5 +1,5 @@
 <%
-members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', sub2: 'Sub2', friend: 'Friend', info: ''}
+members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', sub2: 'Sub2', friend: 'Friend', cost: ''}
 %>
 
 <div id="error-area" class="invisible">
@@ -32,7 +32,7 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
       <li>好みのパーティーが組めたら、「共有する」ボタンからみんなと共有しましょう！</li>
     </ol>
     <p>
-      もっと詳しい使い方は、右上の「使い方」から確認してください。
+      もっと詳しい使い方は、「使い方」から確認してください。
     </p>
   </div>
 
@@ -46,38 +46,39 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
   <% end %>
 </div>
 
+<div class="row">
+  <div class="col-sm-12 col-md-12">
+    <button class="btn btn-primary hidden-xs" id="edit-members">
+      編集する
+    </button>
+    <button class="btn btn-info" id="share-members" data-toggle="modal" data-target="#share-modal">
+      共有する
+    </button>
+    <button class="btn btn-link" id="help" data-toggle="modal" data-target="#help-modal">
+      使い方
+    </button>
+    <button class="btn btn-danger pull-right" id="reset-members">
+      パーティーをリセット
+    </button>
+  </div>
+</div>
 <div id="member-area">
   <div class="row invisible" id="edit-title">
     <div class="col-sm-12 col-md-12 hidden-xs">
-      <button class="btn btn-danger pull-right" id="reset-members">
-        パーティーをリセット
-      </button>
       <h3>パーティー編集</h3>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 member-list">
-      <p class="text-right cost">
-        <label for="cost">Total Cost</label> : <span id="cost" ></span>
-      <p>
       <ul class="list-inline">
         <% members.each do |code, name| %>
           <li class="col-xs-6 col-sm-3 col-md-3">
             <% case code %>
-            <% when :info %>
-              <div>
-                <label for="buttons" class="member-label"> </label>
-                <p class="text-center hidden-xs">
-                  <button class="btn btn-primary btn-lg" id="edit-members">
-                    編集する
-                  </button>
-                </p>
-                <p class="text-center hidden-xs">
-                  <button class="btn btn-info btn-lg act-btn" id="share-members" data-toggle="modal" data-target="#share-modal">
-                    共有する
-                  </button>
-                </p>
-              </div>
+            <% when :cost %>
+              <p class="text-center">
+                <label for="cost">Total Cost</label><br>
+                <span id="cost" class="cost"></span>
+              </p>
             <% else %>
               <label for="member-character-<%= code %>" class="member-label"><%= name %></label>
               <div class="member-character<%= ' friend' if code == :friend %>" id="member-character-<%= code %>"></div>
