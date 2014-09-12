@@ -574,7 +574,7 @@ class Viewer
               <dt>Skill</dt>
               <dd>#{a.skill.name} (#{a.skill.cost})</dd>
               <dt>Ability</dt>
-              <dd>#{if a.firstAbility.name != '' then a.firstAbility.name else 'なし'}#{if a.secondAbility.name != '' then (' / ' + a.secondAbility.name) else ''}</dd>
+              <dd>#{if a.firstAbility.name != '' then a.firstAbility.name else 'なし'}#{if a.secondAbility.name != '' then ('<br> / ' + a.secondAbility.name) else ''}</dd>
             </dl>
           </div>
           <div class='#{a.jobClass}-footer arcana-footer'>
@@ -602,7 +602,7 @@ class Viewer
             </p>
             <p>
               <small>
-                <ul class='small text-muted list-unstyled'>
+                <ul class='small text-muted list-unstyled summary-detail'>
                   <li>#{a.maxAtk} / #{a.maxHp}</li>
                   <li>#{a.skill.name} (#{a.skill.cost})</li>
                   <li>#{if a.firstAbility.name != '' then a.firstAbility.name else 'なし'}#{if a.secondAbility.name != '' then ('<br>' + a.secondAbility.name) else ''}</li>
