@@ -596,9 +596,8 @@ class Viewer
               <small>
                 <span class='text-muted small'>#{a.title}</span><br>
                 <strong>#{a.name}</strong>
-                </small>
                 <button type='button' class='btn btn-default btn-xs view-info pull-right' data-job-code='#{a.jobCode}' data-toggle='modal' data-target='#view-modal'>Info</button>
-                </small>
+              </small>
             </p>
             <p>
               <small>
