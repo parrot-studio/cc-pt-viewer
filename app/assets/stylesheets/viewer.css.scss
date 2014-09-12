@@ -6,6 +6,7 @@ dt {
   margin-top: 4px;
   margin-bottom: 2px;
 }
+
 dd {
   margin-top: 2px;
   margin-bottom: 4px;
@@ -83,7 +84,7 @@ footer {
 
 .arcana-summary {
   padding: 2px;
-  height: 44px;
+  height: 108px;
   border-radius: 0px 0px 4px 4px;
   background-color: white;
 }
@@ -111,7 +112,11 @@ footer {
 }
 
 .summary-size {
-  height: 70px;
+  height: 134px;
+}
+
+.summary-detail {
+  margin-left: 0.5em;
 }
 
 .close-member {
@@ -185,7 +190,7 @@ footer {
 }
 
 .act-btn {
-  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 .cost {

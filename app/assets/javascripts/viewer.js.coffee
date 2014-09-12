@@ -459,17 +459,75 @@ class Cookie
     c = @get()
     c[key]
 
+class Pager
+
+  defaultPageSize = 8
+
+  constructor: (list, psize) ->
+    @all = list || []
+    @size = @all.length
+    @pageSize = (psize || defaultPageSize)
+    @maxPage = if @size > 0
+      Math.ceil(list.length / @pageSize)
+    else
+      1
+    @page = 1
+
+  head: ->
+    (@page - 1) * @pageSize
+
+  tail: ->
+    t = (@page * @pageSize) - 1
+    if t >= @all.length
+      t = @all.length - 1
+    t
+
+  get: ->
+    h = @head()
+    t = @tail()
+    @all[h .. t]
+
+  nextPage: ->
+    @page += 1
+    if @page > @maxPage
+      @page = @maxPage
+    @page
+
+  prevPage: ->
+    @page -= 1
+    if @page < 0
+      @page = 1
+    @page
+
+  hasNextPage: ->
+    if @page < @maxPage then true else false
+
+  hasPrevPage: ->
+    if @page > 1 then true else false
+
+  jumpPage: (p) ->
+    @page = parseInt(p)
+    if @page > @maxPage
+      @page = @maxPage
+    if @page < 0
+      @page = 1
+    @page
+
 class Viewer
 
   arcanas = new Arcanas()
   members = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'friend']
   resultCache = {}
+  pager = null
   onEdit = false
   defaultMemberCode = 'V1F36K7A1P2P24NN'
 
   constructor: ->
     initHandler()
     initMembers()
+
+  isPhoneDevice = ->
+    if window.innerWidth < 768 then true else false
 
   eachMembers = (func) ->
     for m in members
@@ -516,7 +574,7 @@ class Viewer
               <dt>Skill</dt>
               <dd>#{a.skill.name} (#{a.skill.cost})</dd>
               <dt>Ability</dt>
-              <dd>#{if a.firstAbility.name != '' then a.firstAbility.name else 'なし'}#{if a.secondAbility.name != '' then (' / ' + a.secondAbility.name) else ''}</dd>
+              <dd>#{if a.firstAbility.name != '' then a.firstAbility.name else 'なし'}#{if a.secondAbility.name != '' then ('<br> / ' + a.secondAbility.name) else ''}</dd>
             </dl>
           </div>
           <div class='#{a.jobClass}-footer arcana-footer'>
@@ -538,8 +596,18 @@ class Viewer
               <small>
                 <span class='text-muted small'>#{a.title}</span><br>
                 <strong>#{a.name}</strong>
+                </small>
+                <button type='button' class='btn btn-default btn-xs view-info pull-right' data-job-code='#{a.jobCode}' data-toggle='modal' data-target='#view-modal'>Info</button>
+                </small>
+            </p>
+            <p>
+              <small>
+                <ul class='small text-muted list-unstyled summary-detail'>
+                  <li>#{a.maxAtk} / #{a.maxHp}</li>
+                  <li>#{a.skill.name} (#{a.skill.cost})</li>
+                  <li>#{if a.firstAbility.name != '' then a.firstAbility.name else 'なし'}#{if a.secondAbility.name != '' then ('<br>' + a.secondAbility.name) else ''}</li>
+                </ul>
               </small>
-              <button type='button' class='btn btn-default btn-xs view-info pull-right' data-job-code='#{a.jobCode}' data-toggle='modal' data-target='#view-modal'>Info</button>
             </p>
           </div>
       "
@@ -627,6 +695,39 @@ class Viewer
       </div>
     "
 
+  renderPager = ->
+    pager ||= new Pager([])
+    prev = $('#pager-prev')
+    next = $('#pager-next')
+    $('.each-page').remove()
+
+    if pager.hasPrevPage()
+      prev.removeClass('disabled')
+    else
+      prev.addClass('disabled')
+
+    for p in [1 .. pager.maxPage]
+      pa = $("<li><span class='each-page' data-page='#{p}'>#{p}</span></li>")
+      if p == pager.page
+        pa.addClass('active')
+      else
+        pa.hammer().on 'tap', (e) ->
+          page = $(e.target).children('span').data('page')
+          pager?.jumpPage(page)
+          replaceChoiceArea()
+      next.before(pa)
+
+    if pager.hasNextPage()
+      next.removeClass('disabled')
+    else
+      next.addClass('disabled')
+
+    count = $('#pager-count')
+    count.empty()
+    if pager.size > 0
+      count.append("（#{pager.head() + 1} - #{pager.tail() + 1} / #{pager.size}件）")
+    @
+
   replaceMemberArcana = (div, ra) ->
     div.empty()
     a = $(ra)
@@ -644,16 +745,17 @@ class Viewer
       else
         replaceMemberArcana(div, renderFullSizeArcana(a))
 
-  replaceChoiceArea = (as, detail) ->
+  replaceChoiceArea = ->
+    as = pager?.get() || []
     ul = $('#choice-characters')
     ul.empty()
     for a in as
-      li = $("<li class='listed-character col-sm-3 col-md-2'></li>")
+      li = $("<li class='listed-character col-sm-3 col-md-3'></li>")
       li.html(renderSummarySizeArcana(a, 'choice'))
       li.hide()
       ul.append(li)
       li.fadeIn('slow')
-    $("#detail").text(detail)
+    renderPager()
     @
 
   searchArcanas = (query, path, callback) ->
@@ -732,7 +834,7 @@ class Viewer
   createQueryDetail = (query) ->
     elem = []
     if query.recently
-      elem.push '新着'
+      elem.push '最新'
     if query.job
       elem.push Arcana.jobNameFor(query.job)
     if query.rarity
@@ -745,11 +847,11 @@ class Viewer
       text = 'アビリティ - ' + Ability.conditionNameFor(query.abiritycond) + ' ' + Ability.effectNameFor(query.abirityeffect)
       elem.push text
     if query.source
-      elem.push Arcana.sourceNameFor(query.source)
+      elem.push '入手先 - ' + Arcana.sourceNameFor(query.source)
     if query.weapon
-      elem.push Arcana.weaponNameFor(query.weapon)
+      elem.push '武器タイプ - ' + Arcana.weaponNameFor(query.weapon)
     if query.growth
-      elem.push Arcana.growthTypeNameFor(query.growth)
+      elem.push '成長タイプ - ' + Arcana.growthTypeNameFor(query.growth)
     if query.actor
       elem.push '声優 - ' + $("#actor :selected").text()
     if query.illustrator
@@ -759,10 +861,14 @@ class Viewer
   searchTargets = ->
     query = buildQuery()
     unless query
-      replaceChoiceArea([], '')
+      $("#detail").text('')
+      pager = new Pager([])
+      replaceChoiceArea()
       return
     searchArcanas query, 'arcanas', (as) ->
-      replaceChoiceArea as, createQueryDetail(query)
+      $("#detail").text(createQueryDetail(query))
+      pager = new Pager(as)
+      replaceChoiceArea()
 
   toggleEditMode = ->
     edit = $("#edit-area")
@@ -785,7 +891,6 @@ class Viewer
       title.show()
       reset.show()
       edit.fadeIn()
-      searchTargets()
     replaceMemberArea()
     @
 
@@ -876,6 +981,18 @@ class Viewer
     target.append("<option value=''>（全て）</option>")
     for c in conds
       target.append("<option value='#{c}'>#{Ability.conditionNameFor(c)}</option>")
+    @
+
+  prevChoicePage = ->
+    if pager?.hasPrevPage()
+      pager.prevPage()
+      replaceChoiceArea()
+    @
+
+  nextChoicePage = ->
+    if pager?.hasNextPage()
+      pager.nextPage()
+      replaceChoiceArea()
     @
 
   initHandler = ->
@@ -979,12 +1096,21 @@ class Viewer
       createArcanaDetail(code)
       true # for modal
 
+    $("#pager-prev").hammer().on 'tap', (e) ->
+      e.preventDefault()
+      prevChoicePage()
+
+    $("#pager-next").hammer().on 'tap', (e) ->
+      e.preventDefault()
+      nextChoicePage()
+
     @
 
   initMembers = ->
     ptm = $("#ptm").val()
+    searchTargets()
     if ptm == ''
-      toggleEditMode() if window.innerWidth >= 768
+      toggleEditMode() unless isPhoneDevice()
       searchMembers(defaultMemberCode, onEdit)
     else
       searchMembers(ptm)

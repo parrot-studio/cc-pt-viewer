@@ -1,5 +1,5 @@
 <%
-members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', sub2: 'Sub2', friend: 'Friend', cost: '', edit: '', share: ''}
+members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', sub2: 'Sub2', friend: 'Friend', cost: ''}
 %>
 
 <div id="error-area" class="invisible">
@@ -15,10 +15,18 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
   </div>
 </div>
 
-<div class="alert alert-danger col-xs-12 hidden-sm hidden-md hidden-lg" role="alert">
-  <p>
-    現在β版のため、PC/タブレット（横画面）以外のデバイスでは、閲覧のみで編集はできません。
-  </p>
+<div class="row">
+  <div class="col-sm-12 col-md-12">
+    <button class="btn btn-primary hidden-xs act-btn" id="edit-members">
+      編集する
+    </button>
+    <button class="btn btn-info act-btn" id="share-members" data-toggle="modal" data-target="#share-modal">
+      共有する
+    </button>
+    <button class="btn btn-link act-btn" id="help" data-toggle="modal" data-target="#help-modal">
+      使い方
+    </button>
+  </div>
 </div>
 
 <div class="hidden-xs">
@@ -32,7 +40,7 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
       <li>好みのパーティーが組めたら、「共有する」ボタンからみんなと共有しましょう！</li>
     </ol>
     <p>
-      もっと詳しい使い方は、右上の「使い方」から確認してください。
+      もっと詳しい使い方は、「使い方」から確認してください。
     </p>
   </div>
 
@@ -44,6 +52,12 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
     </div>
     <input type="hidden" id="latest-info-ver" value="<%= log.version %>">
   <% end %>
+</div>
+
+<div class="alert alert-danger col-xs-12 hidden-sm hidden-md hidden-lg" role="alert">
+  <p>
+    PC/タブレット以外のデバイスでは、閲覧のみで編集はできません。
+  </p>
 </div>
 
 <div id="member-area">
@@ -59,24 +73,12 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
     <div class="col-xs-12 col-sm-12 col-md-12 member-list">
       <ul class="list-inline">
         <% members.each do |code, name| %>
-          <li class="col-xs-6 col-sm-3 col-md-2">
+          <li class="col-xs-6 col-sm-3 col-md-3">
             <% case code %>
             <% when :cost %>
               <p class="text-center">
                 <label for="cost">Total Cost</label><br>
                 <span id="cost" class="cost"></span>
-              </p>
-            <% when :edit %>
-              <p class="text-center hidden-xs">
-                <button class="btn btn-primary btn-lg act-btn" id="edit-members">
-                  編集する
-                </button>
-              </p>
-            <% when :share %>
-              <p class="text-center hidden-xs">
-                <button class="btn btn-info btn-lg act-btn" id="share-members" data-toggle="modal" data-target="#share-modal">
-                  共有する
-                </button>
               </p>
             <% else %>
               <label for="member-character-<%= code %>" class="member-label"><%= name %></label>
@@ -91,8 +93,8 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
 
 <div class="hidden-xs">
   <%= render 'viewer/edit' %>
-  <%= render 'viewer/share' %>
 </div>
+<%= render 'viewer/share' %>
 <%= render 'viewer/help' %>
 <%= render 'viewer/view' %>
 
