@@ -891,7 +891,6 @@ class Viewer
       title.show()
       reset.show()
       edit.fadeIn()
-      searchTargets()
     replaceMemberArea()
     @
 
@@ -1109,6 +1108,7 @@ class Viewer
 
   initMembers = ->
     ptm = $("#ptm").val()
+    searchTargets()
     if ptm == ''
       toggleEditMode() unless isPhoneDevice()
       searchMembers(defaultMemberCode, onEdit)
