@@ -605,7 +605,7 @@ class Viewer
                 <ul class='small text-muted list-unstyled'>
                   <li>#{a.maxAtk} / #{a.maxHp}</li>
                   <li>#{a.skill.name} (#{a.skill.cost})</li>
-                  <li>#{if a.firstAbility.name != '' then a.firstAbility.name else 'なし'}#{if a.secondAbility.name != '' then (' / ' + a.secondAbility.name) else ''}</li>
+                  <li>#{if a.firstAbility.name != '' then a.firstAbility.name else 'なし'}#{if a.secondAbility.name != '' then ('<br>' + a.secondAbility.name) else ''}</li>
                 </ul>
               </small>
             </p>
