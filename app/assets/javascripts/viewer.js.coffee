@@ -3,7 +3,7 @@ class Skill
   SKILL_TABLE =
     attack:
       name: '攻撃'
-      types: ['one/short', 'one/line', 'one/combo', 'one/dash', 'one/rear',
+      types: ['one/short', 'one/line', 'one/combo', 'one/dash', 'one/rear', 'one/jump',
         'range/line', 'range/dash', 'range/forward', 'range/self', 'range/explosion',
         'range/drop', 'range/jump', 'range/random', 'range/all']
       subname:
@@ -12,6 +12,7 @@ class Skill
         'one/combo': '単体・連続'
         'one/dash': '単体・ダッシュ'
         'one/rear': '単体・最後列'
+        'one/jump': '単体・ジャンプ'
         'range/line': '範囲・直線'
         'range/dash': '範囲・ダッシュ'
         'range/forward': '範囲・前方'
