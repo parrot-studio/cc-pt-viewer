@@ -213,6 +213,9 @@ class Ability
     pierce:
       name: '貫通攻撃'
       conditions: ['attack', 'kill']
+    registup:
+      name: '魔法ダメージ軽減'
+      conditions: []
     slot_slow:
       name: 'マナスロットが遅くなる'
       conditions: []
@@ -232,6 +235,7 @@ class Ability
     'guardup'
     'speedup'
     'critup'
+    'registup'
     'delayoff'
     'buff'
     'guard_debuff'
