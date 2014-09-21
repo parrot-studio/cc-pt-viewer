@@ -110,28 +110,30 @@ class ArcanaImporter
     vname = datas[7]
     iname = datas[8]
     growth = datas[9]
-    sname = datas[10]
-    scate = datas[11]
-    ssubcate = datas[12]
-    scost = datas[13].to_i
-    name2 = datas[14]
+    skill_name = datas[10]
+    skill_cate = datas[11]
+    skill_subcate = datas[12]
+    skill_cost = datas[13].to_i
+    skill_subeffect1 = datas[14]
+    skill_subeffect2 = datas[15]
+    name2 = datas[16]
     raise "name invalid" unless name == name2
-    matk = datas[15].to_i
-    mhp = datas[16].to_i
-    latk = datas[17].to_i
-    lhp = datas[18].to_i
-    job_detail = datas[19]
-    ability_name_f = datas[20]
-    ability_cond_f1 = datas[21]
-    ability_effect_f1 = datas[22]
-    ability_cond_f2 = datas[23]
-    ability_effect_f2 = datas[24]
-    ability_name_s = datas[25]
-    ability_cond_s1 = datas[26]
-    ability_effect_s1 = datas[27]
-    ability_cond_s2 = datas[28]
-    ability_effect_s2 = datas[29]
-    job_index = datas[30].to_i
+    matk = datas[17].to_i
+    mhp = datas[18].to_i
+    latk = datas[19].to_i
+    lhp = datas[20].to_i
+    job_detail = datas[21]
+    ability_name_f = datas[22]
+    ability_cond_f1 = datas[23]
+    ability_effect_f1 = datas[24]
+    ability_cond_f2 = datas[25]
+    ability_effect_f2 = datas[26]
+    ability_name_s = datas[27]
+    ability_cond_s1 = datas[28]
+    ability_effect_s1 = datas[29]
+    ability_cond_s2 = datas[30]
+    ability_effect_s2 = datas[31]
+    job_index = datas[32].to_i
     code = "#{job_type}#{job_index}"
 
     raise "invalid arcana => code:#{code} name:#{name}" unless valid_arcana?(code, name)
@@ -175,13 +177,15 @@ class ArcanaImporter
       arcana.illustrator = illust
     end
 
-    unless sname.blank?
-      skill = lambda do |name, category, sub, cost|
+    unless skill_name.blank?
+      skill = lambda do |name, category, sub, cost, subeffect1, subeffect2|
         sk = skills[name]
         if sk
           check = lambda do
             next false unless sk.category == category
             next false unless sk.subcategory == sub
+            next false unless sk.subeffect1.to_s == subeffect1.to_s
+            next false unless sk.subeffect2.to_s == subeffect2.to_s
             next false unless sk.cost == cost
             true
           end.call
@@ -195,10 +199,12 @@ class ArcanaImporter
         sk.subcategory = sub
         sk.cost = cost
         sk.explanation = ''
+        sk.subeffect1 = (subeffect1.blank? ? nil : subeffect1)
+        sk.subeffect2 = (subeffect2.blank? ? nil : subeffect2)
         sk.save!
         skills[name] = sk
         sk
-      end.call(sname, scate, ssubcate, scost)
+      end.call(skill_name, skill_cate, skill_subcate, skill_cost, skill_subeffect1, skill_subeffect2)
       arcana.skill = skill
     end
 

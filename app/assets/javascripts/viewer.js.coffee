@@ -36,18 +36,80 @@ class Skill
       subname:
         buff: '味方上昇'
         debuff: '敵状態異常'
-    other:
-      name: '補助'
-      types: ['buff/self', 'buff/all', 'buff/random',
-        'barrier', 'obstacle', 'invincible', 'element']
+    buff:
+      name: '能力UP'
+      types: ['self', 'all', 'random']
       subname:
-        'buff/self': '自身能力UP'
-        'buff/all': '全体能力UP'
-        'buff/random': 'ランダムに一人能力UP'
-        barrier: 'バリアー'
-        obstacle: '障害物'
+        self: '自身'
+        all: '全体'
+        random: 'ランダム'
+    barrier:
+      name: 'バリア'
+      types: ['self', 'all']
+      subname:
+        self: '自身'
+        all: '全体'
+    obstacle:
+      name: '障害物設置'
+      types: ['one']
+      subname:
+        one: '一つ'
+
+  EFFECT_TABLE =
+    attack:
+      types: ['fire', 'ice', 'push', 'down', 'blind', 'slow', 'poison',
+        'freeze', 'curse', 'charge', 'shield_break']
+      effectname:
+        blind: '暗闇追加'
+        charge: '溜め'
+        curse: '呪い追加'
+        down: 'ダウン追加'
+        fire: '火属性'
+        freeze: '凍結追加'
+        ice: '氷属性'
+        poison: '毒追加'
+        push: '弾き飛ばし'
+        shield_break: '盾破壊'
+        slow: 'スロウ追加'
+    heal:
+      types: ['poison', 'blind', 'slow', 'freeze',
+        'seal', 'weaken', 'atkup', 'defup']
+      effectname:
+        atkup: '与えるダメージ上昇'
+        blind: '暗闇解除'
+        defup: '受けるダメージ軽減'
+        freeze: '凍結解除'
+        poison: '毒解除'
+        seal: '封印解除'
+        slow: 'スロウ解除'
+        weaken: '衰弱解除'
+    'song/dance':
+      types: ['fire', 'ice', 'element', 'blind', 'freeze', 'guard_debuff',
+        'debuff_blind', 'debuff_slow']
+      effectname:
+        blind: '暗闇耐性'
+        debuff_blind: '暗闇付与'
+        debuff_slow: 'スロウ付与'
+        element: '属性軽減'
+        fire: '炎属性軽減'
+        freeze: '凍結耐性'
+        guard_debuff: '状態異常耐性'
+        ice: '氷属性軽減'
+    buff:
+      types: ['delayoff']
+      effectname:
+        delayoff: '攻撃間隔短縮'
+    barrier:
+      types: ['ice', 'element', 'blind', 'debuff', 'invincible']
+      effectname:
+        blind: '暗闇耐性'
+        debuff: '状態異常耐性'
+        element: '属性軽減'
+        ice: '氷軽減'
         invincible: '無敵'
-        element: '属性付与'
+    obstacle:
+      types: []
+      effectname: {}
 
   constructor: (data) ->
     @name = data.name || '？'
@@ -55,10 +117,25 @@ class Skill
     @subcategory = data.subcategory || ''
     @explanation = data.explanation || ''
     @cost = data.cost || '？'
+    @subeffect1 = data.subeffect1 || ''
+    @subeffect2 = data.subeffect2 || ''
+
+  hasEffect: ->
+    return true unless @subeffect1 == ''
+    return true unless @subeffect2 == ''
+    false
+
+  effects: ->
+    ret = []
+    ret.push(@subeffect1) unless @subeffect1 == ''
+    ret.push(@subeffect2) unless @subeffect2 == ''
+    ret
 
   @typeNameFor = (s) -> SKILL_TABLE[s]?.name || '？'
   @subtypesFor = (s) -> SKILL_TABLE[s]?.types || []
   @subnameFor = (skill, sub) -> SKILL_TABLE[skill]?.subname?[sub] || '？'
+  @effectTypesFor = (s) -> EFFECT_TABLE[s]?.types || []
+  @effectNameFor = (s, e) -> EFFECT_TABLE[s]?.effectname?[e] || ''
 
 class Ability
 
@@ -635,12 +712,25 @@ class Viewer
   renderSummarySizeMember = (a) ->
     renderSummarySizeArcana(a, 'member')
 
+  renderSkill = (sk) ->
+    render = "
+    #{sk.name} (#{sk.cost})<br>
+    <ul class='small list-unstyled ability-detail'>
+      <li>#{Skill.typeNameFor(sk.category)} - #{Skill.subnameFor(sk.category, sk.subcategory)}</li>"
+
+    if sk.hasEffect()
+      for e in sk.effects()
+        render += "<li>+ #{Skill.effectNameFor(sk.category, e)}</li>"
+
+    render += "</ul>"
+    render
+
   renderAbility = (ab) ->
     return "なし" if ab.name == ''
 
     render = "
       #{ab.name}
-      <ul class='small text-muted list-unstyled ability-detail'>
+      <ul class='small list-unstyled ability-detail'>
         <li>#{Ability.conditionNameFor(ab.conditionType)} - #{Ability.effectNameFor(ab.effectType)}</li>
     "
     unless ab.conditionTypeSecond == ''
@@ -682,10 +772,7 @@ class Viewer
             <div class='col-xs-12 col-sm-6 col-md-6'>
               <dl class='small arcana-view-detail'>
                 <dt>スキル</dt>
-                <dd>
-                  #{a.skill.name} (#{a.skill.cost})<br>
-                  （#{Skill.typeNameFor(a.skill.category)} - #{Skill.subnameFor(a.skill.category, a.skill.subcategory)}）
-                </dd>
+                <dd>#{renderSkill(a.skill)}</dd>
                 <dt>アビリティ1</dt>
                 <dd>#{renderAbility(a.firstAbility)}</dd>
                 <dt>アビリティ2</dt>

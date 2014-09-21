@@ -14,6 +14,10 @@ class Skill < ActiveRecord::Base
   validates :cost,
     presence: true,
     numericality: {only_integer: true}
+  validates :subeffect1,
+    length: {maximum: 100}
+  validates :subeffect2,
+    length: {maximum: 100}
 
   def serialize
     sk = self.attributes
