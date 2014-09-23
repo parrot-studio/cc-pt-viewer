@@ -70,7 +70,7 @@
           </div>
           <div class="form-group">
             <div class="col-sm-6 col-md-6">
-              <label for="skill">スキル種別</label>
+              <label for="skill">スキル・効果</label>
               <select id="skill" class="form-control">
                 <option value="">-</option>
                 <option value="attack">攻撃</option>
@@ -82,10 +82,31 @@
               </select>
             </div>
             <div class="col-sm-6 col-md-6">
-              <label for="skill-sub">スキル種別・詳細</label>
-              <select id="skill-sub" class="form-control">
+              <label for="skill-cost">スキル・マナ</label>
+              <select id="skill-cost" class="form-control">
                 <option value="">-</option>
+                <option value="3">3</option>
+                <option value="3D">3以下</option>
+                <option value="2">2</option>
+                <option value="2D">2以下</option>
+                <option value="1">1</option>
               </select>
+            </div>
+          </div>
+          <div id="skill-add">
+            <div class="form-group">
+              <div class="col-sm-6 col-md-6">
+                <label for="skill-sub">スキル・対象範囲</label>
+                <select id="skill-sub" class="form-control">
+                  <option value="">-</option>
+                </select>
+              </div>
+              <div class="col-sm-6 col-md-6">
+                <label for="skill-effect">スキル・追加効果</label>
+                <select id="skill-effect" class="form-control">
+                  <option value="">-</option>
+                </select>
+              </div>
             </div>
           </div>
           <div class="form-group">

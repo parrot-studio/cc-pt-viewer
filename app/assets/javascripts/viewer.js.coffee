@@ -51,9 +51,8 @@ class Skill
         all: '全体'
     obstacle:
       name: '障害物設置'
-      types: ['one']
-      subname:
-        one: '一つ'
+      types: []
+      subname: {}
 
   EFFECT_TABLE =
     attack:
@@ -467,9 +466,11 @@ class Arcanas
     key += "s#{query.source}_" if query.source
     key += "w#{query.weapon}_" if query.weapon
     key += "g#{query.growth}_" if query.growth
-    if query.skill
-      key += "sk#{query.skill}_"
+    if query.skill || query.skillcost
+      key += "sk#{query.skill}_" if query.skill
+      key += "skco#{query.skillcost}_" if query.skillcost
       key += "subsk#{query.skillsub}_" if query.skillsub
+      key += "subef#{query.skilleffect}_" if query.skilleffect
     key += "a#{query.actor}_" if query.actor
     key += "i#{query.illustrator}_" if query.illustrator
     key += "abc#{query.abiritycond}_" if query.abiritycond
@@ -884,11 +885,14 @@ class Viewer
     $("#growth").val('')
     $("#source").val('')
     $("#skill").val('')
+    $("#skill-cost").val('')
     $("#skill-sub").empty().append("<option value=''>-</option>")
+    $("#skill-effect").empty().append("<option value=''>-</option>")
     $("#ability-effect").val('')
     $("#ability-condition").empty().append("<option value=''>-</option>")
 
     $("#additional-condition").hide()
+    $("#skill-add").hide()
     $("#add-condition").show()
     @
 
@@ -901,9 +905,10 @@ class Viewer
     growth = $("#growth").val()
     source = $("#source").val()
     skill = $("#skill").val()
+    skillcost = $("#skill-cost").val()
     abirityCond = $("#ability-condition").val()
     abirityEffect = $("#ability-effect").val()
-    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '' && source == '' && skill == '' && abirityCond == '' && abirityEffect == '')
+    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '' && source == '' && skill == '' && skillcost == '' && abirityCond == '' && abirityEffect == '')
 
     query = {}
     query.job = job unless job == ''
@@ -916,10 +921,13 @@ class Viewer
     query.abiritycond = abirityCond unless abirityCond == ''
     query.abirityeffect = abirityEffect unless abirityEffect == ''
 
-    unless skill == ''
-      query.skill = skill
+    unless (skill == '' && skillcost == '')
+      query.skill = skill unless skill == ''
+      query.skillcost = skillcost unless skillcost == ''
       skillsub = $("#skill-sub").val()
       query.skillsub = skillsub unless skillsub == ''
+      skilleffect = $("#skill-effect").val()
+      query.skilleffect = skilleffect unless skilleffect == ''
     query
 
   createQueryDetail = (query) ->
@@ -930,9 +938,17 @@ class Viewer
       elem.push Arcana.jobNameFor(query.job)
     if query.rarity
       elem.push "★#{query.rarity.replace(/U/, '以上')}"
-    if query.skill
-      text = 'スキル - ' + Skill.typeNameFor(query.skill)
-      text += ('（' + Skill.subnameFor(query.skill, query.skillsub) + '）') if query.skillsub
+    if query.skill || query.skillcost
+      text = 'スキル - '
+      text += Skill.typeNameFor(query.skill) if query.skill
+      text += " マナ#{query.skillcost.replace(/D/, '以下')}" if query.skillcost
+      if query.skillsub || query.skilleffect
+        text += '（'
+        ss = []
+        ss.push Skill.subnameFor(query.skill, query.skillsub) if query.skillsub
+        ss.push Skill.effectNameFor(query.skill, query.skilleffect) if query.skilleffect
+        text += ss.join(' + ')
+        text += '）'
       elem.push text
     if query.abiritycond || query.abirityeffect
       text = 'アビリティ - ' + Ability.conditionNameFor(query.abiritycond) + ' ' + Ability.effectNameFor(query.abirityeffect)
@@ -1034,16 +1050,30 @@ class Viewer
     Cookie.set({'latest-info': ver})
 
   createSkillOptions = ->
-    target = $("#skill-sub")
-    target.empty()
+    sub = $("#skill-sub")
+    sub.empty()
+    effect = $("#skill-effect")
+    effect.empty()
+    add = $("#skill-add")
+
     skill = $("#skill").val()
     if skill == ''
-      target.append("<option value=''>-</option>")
+      sub.append("<option value=''>-</option>")
+      effect.append("<option value=''>-</option>")
+      add.hide()
       return
-    types = Skill.subtypesFor(skill)
-    target.append("<option value=''>（全て）</option>")
-    for t in types
-      target.append("<option value='#{t}'>#{Skill.subnameFor(skill, t)}</option>")
+
+    subtypes = Skill.subtypesFor(skill)
+    sub.append("<option value=''>（全て）</option>")
+    for t in subtypes
+      sub.append("<option value='#{t}'>#{Skill.subnameFor(skill, t)}</option>")
+
+    effecttypes = Skill.effectTypesFor(skill)
+    effect.append("<option value=''>（全て）</option>")
+    for t in effecttypes
+      effect.append("<option value='#{t}'>#{Skill.effectNameFor(skill, t)}</option>")
+
+    add.show()
     @
 
   createArcanaDetail = (code) ->
@@ -1098,6 +1128,7 @@ class Viewer
     $("#reset-members").hide()
     $("#reset-members").removeClass("invisible")
     $("#additional-condition").hide()
+    $("#skill-add").hide()
 
     if isFirstAccess()
       showTutorial()

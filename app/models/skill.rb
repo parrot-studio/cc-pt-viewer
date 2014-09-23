@@ -1,5 +1,7 @@
 class Skill < ActiveRecord::Base
 
+  COSTS = (1..3).to_a
+
   validates :name,
     presence: true,
     length: {maximum: 100}

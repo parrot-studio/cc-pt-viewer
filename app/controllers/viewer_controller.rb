@@ -45,7 +45,8 @@ class ViewerController < ApplicationController
 
   def query_params
     params.permit([:job, :rarity, :weapon, :recently,:actor, :illustrator,
-        :growth, :source, :addition, :skill, :skillsub, :abiritycond, :abirityeffect])
+        :growth, :source, :addition, :skill, :skillcost, :skillsub,
+        :skilleffect, :abiritycond, :abirityeffect])
   end
 
   def recently_arcanas
@@ -109,6 +110,19 @@ class ViewerController < ApplicationController
       end
     end.call(org[:rarity])
 
+    skillcost = lambda do |q|
+      case q
+      when /\A(\d)D\z/
+        r = $1.to_i
+        Skill::COSTS.include?(r) ? (1..r) : nil
+      when /\A\d\z/
+        r = q.to_i
+        Skill::COSTS.include?(r) ? [r] : nil
+      else
+        nil
+      end
+    end.call(org[:skillcost])
+
     job = [org[:job]].flatten.uniq.compact.select{|j| j.upcase!; Arcana::JOB_TYPES.include?(j)}
     weapon = [org[:weapon]].flatten.uniq.compact.select{|j| Arcana::WEAPON_TYPES.include?(j)}
     growth = [org[:growth]].flatten.uniq.compact.select{|g| g.downcase!; Arcana::GROWTH_TYPES.include?(g)}
@@ -118,6 +132,7 @@ class ViewerController < ApplicationController
     illust = [org[:illustrator]].flatten.uniq.compact
     skill = [org[:skill]].flatten.uniq.compact
     skillsub = [org[:skillsub]].flatten.uniq.compact
+    skilleffect = [org[:skilleffect]].flatten.uniq.compact
     abiritycond = [org[:abiritycond]].flatten.uniq.compact
     abirityeffect = [org[:abirityeffect]].flatten.uniq.compact
 
@@ -134,7 +149,9 @@ class ViewerController < ApplicationController
     query[:voice_actor_id] = compact.call(actor) unless actor.blank?
     query[:illustrator_id] = compact.call(illust) unless illust.blank?
     query[:skill] = compact.call(skill) unless skill.blank?
+    query[:skillcost] = compact.call(skillcost) unless skillcost.blank?
     query[:skillsub] = compact.call(skillsub) unless skillsub.blank?
+    query[:skilleffect] = compact.call(skilleffect) unless skilleffect.blank?
     query[:abiritycond] = compact.call(abiritycond) unless abiritycond.blank?
     query[:abirityeffect] = compact.call(abirityeffect) unless abirityeffect.blank?
 
@@ -147,7 +164,9 @@ class ViewerController < ApplicationController
     key += "_a:#{actor.sort.join('/')}" if query[:voice_actor_id]
     key += "_i:#{illust.sort.join('/')}" if query[:illustrator_id]
     key += "_sk:#{skill.sort.join('|')}" if query[:skill]
-    key += "_subsk:#{skillsub.sort.join('|')}" if query[:skillsub]
+    key += "_skco:#{skillcost.to_a.join('|')}" if query[:skillcost]
+    key += "_sksub:#{skillsub.sort.join('|')}" if query[:skillsub]
+    key += "_skef:#{skilleffect.sort.join('|')}" if query[:skilleffect]
     key += "_abc:#{abiritycond.sort.join('/')}" if query[:abiritycond]
     key += "_abe:#{abirityeffect.sort.join('/')}" if query[:abirityeffect]
 
@@ -159,14 +178,16 @@ class ViewerController < ApplicationController
     return [] if query.blank?
 
     skill = query.delete(:skill)
+    skillcost = query.delete(:skillcost)
     skillsub = query.delete(:skillsub)
+    skilleffect = query.delete(:skilleffect)
     abcond = query.delete(:abiritycond)
     abeffect = query.delete(:abirityeffect)
 
     arel = Arcana.where(query)
 
-    unless skill.blank?
-      skills = skill_search(skill, skillsub)
+    unless (skill.blank? && skillcost.blank?)
+      skills = skill_search(skill, skillcost, skillsub, skilleffect)
       return [] if skills.blank?
       arel.where!(:skill_id => skills)
     end
@@ -182,10 +203,15 @@ class ViewerController < ApplicationController
     )
   end
 
-  def skill_search(category, sub)
-    return [] if category.blank?
-    arel = Skill.where(:category => category)
+  def skill_search(category, cost, sub, ef)
+    return [] if (category.blank? && cost.blank?)
+    arel = Skill.all
+    arel.where!(:category => category) unless category.blank?
+    arel.where!(:cost => cost) unless cost.blank?
     arel.where!(:subcategory => sub) unless sub.blank?
+    unless ef.blank?
+      arel.where!(Skill.where(:subeffect1 => ef).where(:subeffect2 => ef).where_values.reduce(:or))
+    end
     arel.pluck(:id)
   end
 
