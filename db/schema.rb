@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140919025005) do
+ActiveRecord::Schema.define(version: 20140924073703) do
 
   create_table "abilities", force: true do |t|
     t.string   "name",                  limit: 100, null: false
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20140919025005) do
     t.string   "job_detail",        limit: 50
     t.integer  "first_ability_id",              default: 0, null: false
     t.integer  "second_ability_id",             default: 0, null: false
+    t.string   "source_category",   limit: 100,             null: false
   end
 
   add_index "arcanas", ["cost"], name: "index_arcanas_on_cost", using: :btree
@@ -76,6 +77,8 @@ ActiveRecord::Schema.define(version: 20140919025005) do
   add_index "arcanas", ["second_ability_id"], name: "index_arcanas_on_second_ability_id", using: :btree
   add_index "arcanas", ["skill_id"], name: "index_arcanas_on_skill_id", using: :btree
   add_index "arcanas", ["source"], name: "index_arcanas_on_source", using: :btree
+  add_index "arcanas", ["source_category", "source"], name: "index_arcanas_on_source_category_and_source", using: :btree
+  add_index "arcanas", ["source_category"], name: "index_arcanas_on_source_category", using: :btree
   add_index "arcanas", ["voice_actor_id"], name: "index_arcanas_on_voice_actor_id", using: :btree
   add_index "arcanas", ["weapon_type"], name: "index_arcanas_on_weapon_type", using: :btree
 

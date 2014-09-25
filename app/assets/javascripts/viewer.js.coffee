@@ -215,6 +215,9 @@ class Ability
     atkup_all:
       name: '全員の与えるダメージ上昇'
       conditions: ['any', 'in_sub']
+    blind:
+      name: '暗闇付与'
+      conditions: ['attack', 'skill']
     boost_heal:
       name: '回復効果上昇'
       conditions: []
@@ -235,8 +238,6 @@ class Ability
     critup:
       name: 'クリティカル率上昇'
       conditions: []
-    debuff:
-      name: '状態異常付与'
       conditions: ['attack', 'critical', 'skill']
     defup:
       name: '受けるダメージ軽減'
@@ -247,17 +248,50 @@ class Ability
     delayoff:
       name: '攻撃間隔が早くなる'
       conditions: []
-    element:
-      name: '属性攻撃'
-      conditions: []
+    down:
+      name: 'ダウン付与'
+      conditions: ['attack', 'critical', 'skill']
     expup:
       name: '獲得経験値上昇'
       conditions: []
+    fire:
+      name: '火属性'
+      conditions: []
+    freeze:
+      name: '凍結付与'
+      conditions: ['attack', 'critical', 'skill']
     goldup:
       name: '獲得金額上昇'
       conditions: []
+    guard_all:
+      name: '全ての状態異常を防ぐ'
+      conditions: []
+    guard_blind:
+      name: '暗闇を防ぐ'
+      conditions: []
     guard_debuff:
-      name: '特定の状態異常無効'
+      name: '複数の状態異常を防ぐ'
+      conditions: []
+    guard_down:
+      name: 'ダウンを防ぐ'
+      conditions: []
+    guard_freeze:
+      name: '凍結を防ぐ'
+      conditions: []
+    guard_poison:
+      name: '毒を防ぐ'
+      conditions: []
+    guard_push:
+      name: '弾き飛ばしを防ぐ'
+      conditions: []
+    guard_seal:
+      name: '封印を防ぐ'
+      conditions: []
+    guard_slow:
+      name: 'スロウを防ぐ'
+      conditions: []
+    guard_undead:
+      name: '白骨化を防ぐ'
       conditions: []
     guardup:
       name: '遠距離ダメージカット上昇'
@@ -274,6 +308,9 @@ class Ability
     healup:
       name: '回復量上昇'
       conditions: []
+    ice:
+      name: '氷属性'
+      conditions: []
     invisible:
       name: '見えなくなる（遠距離無効）'
       conditions: []
@@ -289,12 +326,21 @@ class Ability
     pierce:
       name: '貫通攻撃'
       conditions: ['attack', 'kill']
+    poison:
+      name: '毒付与'
+      conditions: ['attack', 'skill']
+    push:
+      name: '弾き飛ばし付与'
+      conditions: ['critical', 'skill']
     registup:
       name: '魔法ダメージ軽減'
       conditions: []
     slot_slow:
       name: 'マナスロットが遅くなる'
       conditions: []
+    slow:
+      name: 'スロウ付与'
+      conditions: ['attack', 'critical', 'skill']
     speedup:
       name: '移動速度上昇'
       conditions: ['any', 'in_combo']
@@ -314,20 +360,35 @@ class Ability
     'registup'
     'delayoff'
     'buff'
-    'guard_debuff'
-    'element'
+    'fire'
+    'ice'
+    'mana_drop'
+    'pierce'
+    'absorb'
+    'combat'
+    'invisible'
     'healup'
     'areaup'
     'boost_heal'
     'heal_self'
     'heal_worst'
     'heal_all'
-    'debuff'
-    'absorb'
-    'mana_drop'
-    'invisible'
-    'combat'
-    'pierce'
+    'slow'
+    'blind'
+    'down'
+    'poison'
+    'freeze'
+    'push'
+    'guard_all'
+    'guard_slow'
+    'guard_blind'
+    'guard_down'
+    'guard_poison'
+    'guard_freeze'
+    'guard_push'
+    'guard_seal'
+    'guard_undead'
+    'guard_debuff'
     'atkup_all'
     'defup_all'
     'speedup_all'
@@ -395,22 +456,54 @@ class Arcana
     normal: '普通'
     slow:   '晩成'
 
-  SOURCE_NAME =
-    guildtown: '副都・酒場'
-    holytown: '聖都・酒場'
-    academy: '賢者の塔・酒場'
-    mountain: '迷宮山脈・酒場'
-    oasis: '湖都・酒場'
-    forest: '精霊島・酒場'
-    volcano: '九領・酒場'
-    'forest-sea': '海風の港・酒場'
-    dawnsea: '夜明けの大海・酒場'
-    ring: 'リング'
-    demon: '魔神戦'
-    score: '戦の年代記'
-    event: '期間限定'
-    collaboration: 'コラボ限定'
-    other: 'その他'
+  SOURCE_TABLE =
+    first:
+      name: '1部'
+      types: ['guildtown', 'holytown', 'academy', 'mountain',
+        'oasis', 'forest', 'volcano', 'other']
+      details:
+        'guildtown': '副都・酒場'
+        'holytown': '聖都・酒場'
+        'academy': '賢者の塔・酒場'
+        'mountain': '迷宮山脈・酒場'
+        'oasis': '湖都・酒場'
+        'forest': '精霊島・酒場'
+        'volcano': '九領・酒場'
+        'other': 'その他'
+    second:
+      name: '2部'
+      types: ['forest-sea', 'dawnsea', 'other']
+      details:
+        'forest-sea': '海風の港・酒場'
+        'dawnsea': '夜明けの大海・酒場'
+        'other': 'その他'
+    ring:
+      name: 'リング系'
+      types: ['trade', 'random']
+      details:
+         'trade': '交換'
+         'random': 'ガチャ'
+    event:
+      name: 'イベント限定'
+      types: ['festival', 'demon', 'score', 'other']
+      details:
+        'festival': 'フェス'
+        'demon': '魔神戦'
+        'score': '戦の年代記'
+        'other': 'その他'
+    collaboration:
+      name: 'コラボ限定'
+      types: ['shiningblade', 'maoyu', 'trefle', 'mediafactory',
+        'loghorizon', 'bakidou', 'atelier-twilight', 'other']
+      details:
+        'shiningblade': 'シャイニング・ブレイド'
+        'maoyu': 'まおゆう'
+        'trefle': 'Trefle'
+        'mediafactory': 'メディアファクトリー'
+        'loghorizon': 'ログ・ホライズン'
+        'bakidou': '刃牙道'
+        'atelier-twilight': 'アトリエ・黄昏シリーズ'
+        'other': 'その他'
 
   constructor: (data) ->
     @name = data.name
@@ -433,8 +526,8 @@ class Arcana
     @illustrator = '？' if @illustrator == ''
     @growthType = data.growth_type
     @growthTypeName = GROWTH_TYPE[@growthType]
+    @sourceCategory = data.source_category
     @source = data.source
-    @sourceName = SOURCE_NAME[@source]
     @jobDetail = data.job_detail
     @maxAtk = (data.max_atk || '-')
     @maxHp = (data.max_hp || '-')
@@ -449,7 +542,9 @@ class Arcana
   @jobShortNameFor = (j) -> JOB_NAME_SHORT[j]
   @weaponNameFor = (w) -> WEAPON_NAME[w]
   @growthTypeNameFor = (g) -> GROWTH_TYPE[g]
-  @sourceNameFor = (s) -> SOURCE_NAME[s]
+  @sourceCategoryNameFor = (c) -> SOURCE_TABLE[c]?.name || ''
+  @sourceTypesFor = (c) -> SOURCE_TABLE[c]?.types || []
+  @sourceNameFor = (c, s) -> SOURCE_TABLE[c]?.details?[s] || ''
 
 class Arcanas
 
@@ -463,7 +558,9 @@ class Arcanas
     key += "recently_" if query.recently
     key += "j#{query.job}_" if query.job
     key += "r#{query.rarity}_" if query.rarity
-    key += "s#{query.source}_" if query.source
+    if query.sourcecategory
+      key += "soc#{query.sourcecategory}_"
+      key += "so#{query.source}_" if query.source
     key += "w#{query.weapon}_" if query.weapon
     key += "g#{query.growth}_" if query.growth
     if query.skill || query.skillcost
@@ -779,7 +876,7 @@ class Viewer
                 <dt>アビリティ2</dt>
                 <dd>#{renderAbility(a.secondAbility)}</dd>
                 <dt>入手先</dt>
-                <dd>#{a.sourceName}</dd>
+                <dd>#{Arcana.sourceCategoryNameFor(a.sourceCategory)} - #{Arcana.sourceNameFor(a.sourceCategory, a.source)}</dd>
               </dl>
             </div>
           </div>
@@ -883,7 +980,8 @@ class Viewer
     $("#actor").val('')
     $("#illustrator").val('')
     $("#growth").val('')
-    $("#source").val('')
+    $("#source-category").val('')
+    $("#source").empty().append("<option value=''>-</option>")
     $("#skill").val('')
     $("#skill-cost").val('')
     $("#skill-sub").empty().append("<option value=''>-</option>")
@@ -903,12 +1001,13 @@ class Viewer
     actor = $("#actor").val()
     illst = $("#illustrator").val()
     growth = $("#growth").val()
+    sourcecategory = $("#source-category").val()
     source = $("#source").val()
     skill = $("#skill").val()
     skillcost = $("#skill-cost").val()
     abirityCond = $("#ability-condition").val()
     abirityEffect = $("#ability-effect").val()
-    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '' && source == '' && skill == '' && skillcost == '' && abirityCond == '' && abirityEffect == '')
+    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '' && sourcecategory == '' && skill == '' && skillcost == '' && abirityCond == '' && abirityEffect == '')
 
     query = {}
     query.job = job unless job == ''
@@ -917,7 +1016,9 @@ class Viewer
     query.actor = actor unless actor == ''
     query.illustrator = illst unless illst == ''
     query.growth = growth unless growth == ''
-    query.source = source unless source == ''
+    unless sourcecategory == ''
+      query.sourcecategory = sourcecategory
+      query.source = source unless source == ''
     query.abiritycond = abirityCond unless abirityCond == ''
     query.abirityeffect = abirityEffect unless abirityEffect == ''
 
@@ -953,8 +1054,10 @@ class Viewer
     if query.abiritycond || query.abirityeffect
       text = 'アビリティ - ' + Ability.conditionNameFor(query.abiritycond) + ' ' + Ability.effectNameFor(query.abirityeffect)
       elem.push text
-    if query.source
-      elem.push '入手先 - ' + Arcana.sourceNameFor(query.source)
+    if query.sourcecategory
+      text = '入手先 - ' + Arcana.sourceCategoryNameFor(query.sourcecategory)
+      text += ' ' + Arcana.sourceNameFor(query.sourcecategory, query.source) if query.source
+      elem.push text
     if query.weapon
       elem.push '武器タイプ - ' + Arcana.weaponNameFor(query.weapon)
     if query.growth
@@ -1074,6 +1177,21 @@ class Viewer
       effect.append("<option value='#{t}'>#{Skill.effectNameFor(skill, t)}</option>")
 
     add.show()
+    @
+
+  createSourceOptions = ->
+    cate = $("#source-category").val()
+    sources = $("#source")
+    sources.empty()
+
+    if cate == ''
+      sources.append("<option value=''>-</option>")
+      return
+
+    types = Arcana.sourceTypesFor(cate)
+    sources.append("<option value=''>（全て）</option>")
+    for t in types
+      sources.append("<option value='#{t}'>#{Arcana.sourceNameFor(cate, t)}</option>")
     @
 
   createArcanaDetail = (code) ->
@@ -1212,6 +1330,10 @@ class Viewer
     $("#ability-effect").on 'change', (e) ->
       e.preventDefault()
       createAbilityConditions()
+
+    $("#source-category").on 'change', (e) ->
+      e.preventDefault()
+      createSourceOptions()
 
     $("#view-modal").on 'show.bs.modal', (e) ->
       code = $(e.relatedTarget).data('jobCode')
