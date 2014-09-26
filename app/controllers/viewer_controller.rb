@@ -17,6 +17,11 @@ class ViewerController < ApplicationController
     render json: (ret || {})
   end
 
+  def codes
+    as = specified_arcanas(params[:codes])
+    render json: (as || [])
+  end
+
   def about
   end
 
@@ -44,9 +49,9 @@ class ViewerController < ApplicationController
   end
 
   def query_params
-    params.permit([:job, :rarity, :weapon, :recently,:actor, :illustrator,
-        :growth, :source, :sourcecategory,:addition, :skill, :skillcost,
-        :skillsub, :skilleffect, :abiritycond, :abirityeffect])
+    params.permit(:recently, :job, :rarity, :weapon, :actor, :illustrator,
+      :growth, :source, :sourcecategory,:addition, :skill, :skillcost,
+      :skillsub, :skilleffect, :abiritycond, :abirityeffect)
   end
 
   def recently_arcanas
@@ -92,6 +97,13 @@ class ViewerController < ApplicationController
       ret[po] = as[co].serialize
     end
     ret
+  end
+
+  def specified_arcanas(codes)
+    return [] if codes.blank?
+    cs = codes.split('/')
+    return [] if cs.blank?
+    Arcana.where(:job_code => cs).map(&:serialize)
   end
 
   def build_query(org)

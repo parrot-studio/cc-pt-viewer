@@ -481,8 +481,8 @@ class Arcana
       name: 'リング系'
       types: ['trade', 'random']
       details:
-         'trade': '交換'
-         'random': 'ガチャ'
+        'trade': '交換'
+        'random': 'ガチャ'
     event:
       name: 'イベント限定'
       types: ['festival', 'demon', 'score', 'other']
@@ -609,6 +609,18 @@ class Arcanas
     xhr.fail ->
       callbacks.fail()
 
+  searchCodes: (query, url, callbacks) ->
+    xhr = $.getJSON url, query
+    xhr.done (datas) ->
+      as = []
+      for data in datas
+        a = new Arcana(data)
+        arcanas[a.jobCode] = a unless arcanas[a.jobCode]
+        as.push a
+      callbacks.done(as)
+    xhr.fail ->
+      callbacks.fail()
+
   forCode: (code) -> arcanas[code]
 
 class Cookie
@@ -697,12 +709,14 @@ class Viewer
 
   arcanas = new Arcanas()
   members = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'friend']
-  resultCache = {}
   pager = null
   onEdit = false
   defaultMemberCode = 'V1F36K7A1P2P24NN'
+  usedList = []
+  usedListSizeMax = 16
 
   constructor: ->
+    initUsedArcana()
     initHandler()
     initMembers()
 
@@ -958,6 +972,8 @@ class Viewer
 
     if path == 'ptm'
       arcanas.searchMembers(query, url, callbacks)
+    else if path == 'codes'
+      arcanas.searchCodes(query, url, callbacks)
     else
       arcanas.search(query, url, callbacks)
 
@@ -1079,6 +1095,32 @@ class Viewer
       $("#detail").text(createQueryDetail(query))
       pager = new Pager(as)
       replaceChoiceArea()
+
+  replaceChoiceAreaForUsed = ->
+    as = []
+    for a in usedList
+      as.push arcanas.forCode(a)
+    $("#detail").text('最近使ったアルカナ')
+    pager = new Pager(as)
+    replaceChoiceArea()
+
+  searchUsedArcanas = ->
+    if usedList.length <= 0
+      replaceChoiceAreaForUsed()
+      return
+
+    targets = []
+    for a in usedList
+      continue if arcanas.forCode(a)
+      targets.push a
+
+    if targets.length <= 0
+      replaceChoiceAreaForUsed()
+      return
+
+    query = {'codes': targets.join('/')}
+    searchArcanas query, 'codes', (as) ->
+      replaceChoiceAreaForUsed()
 
   toggleEditMode = ->
     edit = $("#edit-area")
@@ -1234,6 +1276,29 @@ class Viewer
       replaceChoiceArea()
     @
 
+  initUsedArcana = ->
+    usedList = []
+    list = Cookie.valueFor('used-arcana')
+    return unless list
+    try
+      usedList = list.split('/')
+    catch
+      usedList = []
+    @
+
+  addUsedArcana = (code) ->
+    return if (code in usedList)
+    usedList.push code
+    if usedList.length > usedListSizeMax
+      usedList.shift()
+    Cookie.set({'used-arcana': usedList.join('/')})
+    @
+
+  clearUsedArcana = ->
+    usedList = []
+    Cookie.delete('used-arcana')
+    @
+
   initHandler = ->
     $("#error-area").hide()
     $("#error-area").removeClass("invisible")
@@ -1276,6 +1341,7 @@ class Viewer
         replaceMemberArcana(target,
           renderSummarySizeMember(arcanas.forCode(code)))
         calcCost()
+        addUsedArcana(code)
     )
 
     $("#edit-members").hammer().on 'tap', (e) ->
@@ -1347,6 +1413,16 @@ class Viewer
     $("#pager-next").hammer().on 'tap', (e) ->
       e.preventDefault()
       nextChoicePage()
+
+    $("#used-list").hammer().on 'tap', (e) ->
+      e.preventDefault()
+      searchUsedArcanas()
+
+    $("#clear-used").hammer().on 'tap', (e) ->
+      e.preventDefault()
+      if window.confirm('アルカナの使用履歴を消去します。よろしいですか？')
+        clearUsedArcana()
+        window.alert('アルカナの使用履歴を消去しました。')
 
     @
 
