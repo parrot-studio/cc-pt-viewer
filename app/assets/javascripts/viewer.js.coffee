@@ -148,7 +148,7 @@ class Ability
     cycle: '一定間隔で'
     dropout_member: '味方が脱落した時'
     dropout_self: '自身が脱落した時'
-    for_debuff: '敵が状態異常時'
+    for_debuff: '敵が状態異常の時'
     heal: '回復時'
     hp_downto: 'HPが一定以下の時'
     hp_downto_more: 'HPがより低い時'
@@ -166,6 +166,7 @@ class Ability
     skill: 'スキル使用時'
     union: '特定の職構成の時'
     wave_start: '各WAVE開始時'
+    unknown: '（不明）'
 
   CONDITION_LIST = [
     'any'
@@ -214,7 +215,7 @@ class Ability
         'dropout_member']
     atkup_all:
       name: '全員の与えるダメージ上昇'
-      conditions: ['any', 'in_sub']
+      conditions: ['any', 'in_sub', 'wave_start']
     blind:
       name: '暗闇付与'
       conditions: ['attack', 'skill']
@@ -224,8 +225,8 @@ class Ability
     buff:
       name: '自身のステータス上昇'
       conditions: ['any', 'hp_upto', 'hp_downto', 'hp_full', 'attack',
-        'in_combo', 'kill', 'killer', 'boss_wave', 'wave_start', 'in_debuff',
-        'dropout_member', 'in_field', 'union']
+        'in_combo', 'kill', 'killer', 'boss_wave', 'wave_start',
+        'for_debuff', 'in_debuff', 'dropout_member', 'in_field', 'union']
     buff_all:
       name: '全員のステータス上昇'
       conditions: ['any', 'in_sub', 'dropout_self']
@@ -346,9 +347,12 @@ class Ability
       conditions: ['any', 'in_combo']
     speedup_all:
       name: '全員の移動速度上昇'
-      conditions: []
+      conditions: ['any', 'wave_start']
     treasure:
       name: '宝箱が出やすくなる'
+      conditions: []
+    unknown:
+      name: '（不明）'
       conditions: []
 
   EFFECT_LIST = [
