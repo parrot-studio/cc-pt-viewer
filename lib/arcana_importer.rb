@@ -110,7 +110,7 @@ class ArcanaImporter
     source = datas[7]
     vname = datas[8]
     iname = datas[9]
-    growth = datas[10]
+    union = datas[10]
     skill_name = datas[11]
     skill_cate = datas[12]
     skill_subcate = datas[13]
@@ -147,7 +147,7 @@ class ArcanaImporter
     arcana.weapon_type = weapon
     arcana.source_category = source_category
     arcana.source = source
-    arcana.growth_type = growth
+    arcana.union = (union.blank? ? 'unknown' : union)
     arcana.job_type = job_type
     arcana.job_index = job_index
     arcana.job_code = code

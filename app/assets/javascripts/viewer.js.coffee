@@ -455,10 +455,20 @@ class Arcana
     Gu: '銃'
     Sh: '狙'
 
-  GROWTH_TYPE =
-    fast:   '早熟'
-    normal: '普通'
-    slow:   '晩成'
+  UNION_TYPE =
+    unknown: '（調査中）'
+    guildtown: '副都'
+    holytown: '聖都'
+    academy: '賢者の塔'
+    mountain: '迷宮山脈'
+    oasis: '湖都'
+    forest: '精霊島'
+    volcano: '九領'
+    'forest-sea': '海風の港'
+    dawnsea: '大海'
+    volunteers: '義勇軍'
+    demon: '魔神'
+    others: '旅人'
 
   SOURCE_TABLE =
     first:
@@ -528,8 +538,7 @@ class Arcana
     @voiceActor = '？' if @voiceActor == ''
     @illustrator = data.illustrator
     @illustrator = '？' if @illustrator == ''
-    @growthType = data.growth_type
-    @growthTypeName = GROWTH_TYPE[@growthType]
+    @union = data.union
     @sourceCategory = data.source_category
     @source = data.source
     @jobDetail = data.job_detail
@@ -545,7 +554,7 @@ class Arcana
   @jobNameFor = (j) -> JOB_NAME[j]
   @jobShortNameFor = (j) -> JOB_NAME_SHORT[j]
   @weaponNameFor = (w) -> WEAPON_NAME[w]
-  @growthTypeNameFor = (g) -> GROWTH_TYPE[g]
+  @unionNameFor = (u) -> UNION_TYPE[u]
   @sourceCategoryNameFor = (c) -> SOURCE_TABLE[c]?.name || ''
   @sourceTypesFor = (c) -> SOURCE_TABLE[c]?.types || []
   @sourceNameFor = (c, s) -> SOURCE_TABLE[c]?.details?[s] || ''
@@ -566,7 +575,7 @@ class Arcanas
       key += "soc#{query.sourcecategory}_"
       key += "so#{query.source}_" if query.source
     key += "w#{query.weapon}_" if query.weapon
-    key += "g#{query.growth}_" if query.growth
+    key += "u#{query.union}_" if query.union
     if query.skill || query.skillcost
       key += "sk#{query.skill}_" if query.skill
       key += "skco#{query.skillcost}_" if query.skillcost
@@ -877,8 +886,8 @@ class Viewer
                 <dd> #{a.maxAtk} / #{a.maxHp}<br>( #{a.limitAtk} / #{a.limitHp} )</dd>
                 <dt>武器タイプ</dt>
                 <dd>#{a.weaponName}</dd>
-                <dt>成長タイプ</dt>
-                <dd>#{a.growthTypeName}</dd>
+                <dt>所属</dt>
+                <dd>#{Arcana.unionNameFor(a.union)}</dd>
                 <dt>声優</dt>
                 <dd>#{a.voiceActor}</dd>
                 <dt>イラストレーター</dt>
@@ -999,7 +1008,7 @@ class Viewer
     $("#weapon").val('')
     $("#actor").val('')
     $("#illustrator").val('')
-    $("#growth").val('')
+    $("#union").val('')
     $("#source-category").val('')
     $("#source").empty().append("<option value=''>-</option>")
     $("#skill").val('')
@@ -1020,14 +1029,14 @@ class Viewer
     weapon = $("#weapon").val()
     actor = $("#actor").val()
     illst = $("#illustrator").val()
-    growth = $("#growth").val()
+    union = $("#union").val()
     sourcecategory = $("#source-category").val()
     source = $("#source").val()
     skill = $("#skill").val()
     skillcost = $("#skill-cost").val()
     abirityCond = $("#ability-condition").val()
     abirityEffect = $("#ability-effect").val()
-    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && growth == '' && sourcecategory == '' && skill == '' && skillcost == '' && abirityCond == '' && abirityEffect == '')
+    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && union == '' && sourcecategory == '' && skill == '' && skillcost == '' && abirityCond == '' && abirityEffect == '')
 
     query = {}
     query.job = job unless job == ''
@@ -1035,7 +1044,7 @@ class Viewer
     query.weapon = weapon unless weapon == ''
     query.actor = actor unless actor == ''
     query.illustrator = illst unless illst == ''
-    query.growth = growth unless growth == ''
+    query.union = union unless union == ''
     unless sourcecategory == ''
       query.sourcecategory = sourcecategory
       query.source = source unless source == ''
@@ -1078,10 +1087,10 @@ class Viewer
       text = '入手先 - ' + Arcana.sourceCategoryNameFor(query.sourcecategory)
       text += ' ' + Arcana.sourceNameFor(query.sourcecategory, query.source) if query.source
       elem.push text
+    if query.union
+      elem.push '所属 - ' + Arcana.unionNameFor(query.union)
     if query.weapon
       elem.push '武器タイプ - ' + Arcana.weaponNameFor(query.weapon)
-    if query.growth
-      elem.push '成長タイプ - ' + Arcana.growthTypeNameFor(query.growth)
     if query.actor
       elem.push '声優 - ' + $("#actor :selected").text()
     if query.illustrator

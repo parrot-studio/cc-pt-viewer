@@ -3,7 +3,6 @@ arcanas: &arcanas
   rarity: 5
   weapons: Sl Bl Pi Ar He Ma Pu Gu Sh
   recently: 24
-  growths: fast normal slow
   pt_version: 1
 
 production:

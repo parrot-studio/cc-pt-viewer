@@ -11,10 +11,6 @@ class ServerSettings < Settingslogic
     split_types(self.weapons)
   end
 
-  def growth_types
-    split_types(self.growths)
-  end
-
   def addition_types
     split_types(self.additions).map(&:to_s)
   end

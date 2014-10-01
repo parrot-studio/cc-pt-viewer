@@ -50,7 +50,7 @@ class ViewerController < ApplicationController
 
   def query_params
     params.permit(:recently, :job, :rarity, :weapon, :actor, :illustrator,
-      :growth, :source, :sourcecategory,:addition, :skill, :skillcost,
+      :union, :source, :sourcecategory,:addition, :skill, :skillcost,
       :skillsub, :skilleffect, :abiritycond, :abirityeffect)
   end
 
@@ -137,8 +137,8 @@ class ViewerController < ApplicationController
 
     job = [org[:job]].flatten.uniq.compact.select{|j| j.upcase!; Arcana::JOB_TYPES.include?(j)}
     weapon = [org[:weapon]].flatten.uniq.compact.select{|j| Arcana::WEAPON_TYPES.include?(j)}
-    growth = [org[:growth]].flatten.uniq.compact.select{|g| g.downcase!; Arcana::GROWTH_TYPES.include?(g)}
 
+    union = [org[:union]].flatten.uniq.compact
     sourcecategory = [org[:sourcecategory]].flatten.uniq.compact
     source = [org[:source]].flatten.uniq.compact
     actor = [org[:actor]].flatten.uniq.compact
@@ -157,7 +157,7 @@ class ViewerController < ApplicationController
     query[:job_type] = compact.call(job) unless job.blank?
     query[:rarity] = compact.call(rarity) unless rarity.blank?
     query[:weapon_type] = compact.call(weapon) unless weapon.blank?
-    query[:growth_type] = compact.call(growth) unless growth.blank?
+    query[:union] = compact.call(union) unless union.blank?
     query[:source_category] = compact.call(sourcecategory) unless sourcecategory.blank?
     query[:source] = compact.call(source) unless source.blank?
     query[:voice_actor_id] = compact.call(actor) unless actor.blank?
@@ -173,7 +173,7 @@ class ViewerController < ApplicationController
     key += "_j:#{job.sort.join}" if query[:job_type]
     key += "_r:#{rarity.to_a.join}" if query[:rarity]
     key += "_w:#{weapon.sort.join}" if query[:weapon_type]
-    key += "_g:#{growth.sort.join('/')}" if query[:growth_type]
+    key += "_u:#{union.sort.join('/')}" if query[:union]
     key += "_soc:#{sourcecategory.sort.join('/')}" if query[:source_category]
     key += "_so:#{source.sort.join('/')}" if query[:source]
     key += "_a:#{actor.sort.join('/')}" if query[:voice_actor_id]

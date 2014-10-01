@@ -5,7 +5,6 @@ class Arcana < ActiveRecord::Base
   JOB_TYPES = ServerSettings.job_types.freeze
   RARITYS = (1..(ServerSettings.rarity)).freeze
   WEAPON_TYPES = ServerSettings.weapon_types.freeze
-  GROWTH_TYPES = ServerSettings.growth_types.freeze
 
   belongs_to :voice_actor
   belongs_to :illustrator
@@ -33,9 +32,9 @@ class Arcana < ActiveRecord::Base
   validates :source,
     presence: true,
     length: {maximum: 100}
-  validates :growth_type,
+  validates :union,
     presence: true,
-    inclusion: {in: GROWTH_TYPES}
+    length: {maximum: 100}
   validates :job_type,
     presence: true,
     inclusion: {in: JOB_TYPES}
