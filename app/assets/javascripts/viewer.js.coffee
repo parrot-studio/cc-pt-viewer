@@ -148,7 +148,12 @@ class Ability
     cycle: '一定間隔で'
     dropout_member: '味方が脱落した時'
     dropout_self: '自身が脱落した時'
-    for_debuff: '敵が状態異常の時'
+    for_blind: '敵が暗闇の時'
+    for_curse: '敵が呪いの時'
+    for_down: '敵がダウン中'
+    for_poison: '敵が毒の時'
+    for_slow: '敵がスロウの時'
+    for_weaken: '敵が衰弱の時'
     heal: '回復時'
     hp_downto: 'HPが一定以下の時'
     hp_downto_more: 'HPがより低い時'
@@ -186,7 +191,12 @@ class Ability
     'boss_wave'
     'wave_start'
     'cycle'
-    'for_debuff'
+    'for_blind'
+    'for_slow'
+    'for_poison'
+    'for_down'
+    'for_curse'
+    'for_weaken'
     'in_debuff'
     'dropout_member'
     'dropout_self'
@@ -211,8 +221,8 @@ class Ability
       name: '与えるダメージ上昇'
       conditions: ['any', 'hp_upto', 'hp_upto_more', 'hp_downto', 'hp_downto_more',
         'hp_full', 'attack', 'critical', 'skill', 'in_combo', 'kill', 'killer',
-        'mana_charged', 'boss_wave', 'wave_start', 'for_debuff', 'in_debuff',
-        'dropout_member']
+        'mana_charged', 'boss_wave', 'wave_start', 'for_blind', 'for_slow',
+        'for_poison', 'for_down', 'for_curse', 'for_weaken', 'in_debuff', 'dropout_member']
     atkup_all:
       name: '全員の与えるダメージ上昇'
       conditions: ['any', 'in_sub', 'wave_start']
@@ -222,11 +232,14 @@ class Ability
     boost_heal:
       name: '回復効果上昇'
       conditions: []
+    boost_skill:
+      name: 'スキル効果上昇'
+      conditions: []
     buff:
       name: '自身のステータス上昇'
-      conditions: ['any', 'hp_upto', 'hp_downto', 'hp_full', 'attack',
+      conditions: ['any', 'hp_upto', 'hp_downto', 'hp_full',
         'in_combo', 'kill', 'killer', 'boss_wave', 'wave_start',
-        'for_debuff', 'in_debuff', 'dropout_member', 'in_field', 'union']
+        'for_slow', 'in_debuff', 'dropout_member', 'in_field', 'union']
     buff_all:
       name: '全員のステータス上昇'
       conditions: ['any', 'in_sub', 'dropout_self']
@@ -239,7 +252,6 @@ class Ability
     critup:
       name: 'クリティカル率上昇'
       conditions: []
-      conditions: ['attack', 'critical', 'skill']
     defup:
       name: '受けるダメージ軽減'
       conditions: ['any', 'hp_downto', 'boss_wave', 'wave_start', 'in_debuff']
@@ -270,9 +282,6 @@ class Ability
     guard_blind:
       name: '暗闇を防ぐ'
       conditions: []
-    guard_debuff:
-      name: '複数の状態異常を防ぐ'
-      conditions: []
     guard_down:
       name: 'ダウンを防ぐ'
       conditions: []
@@ -293,6 +302,9 @@ class Ability
       conditions: []
     guard_undead:
       name: '白骨化を防ぐ'
+      conditions: []
+    guard_weaken:
+      name: '衰弱を防ぐ'
       conditions: []
     guardup:
       name: '遠距離ダメージカット上昇'
@@ -344,7 +356,7 @@ class Ability
       conditions: ['attack', 'critical', 'skill']
     speedup:
       name: '移動速度上昇'
-      conditions: ['any', 'in_combo']
+      conditions: ['any', 'hp_upto', 'in_combo', 'wave_start']
     speedup_all:
       name: '全員の移動速度上昇'
       conditions: ['any', 'wave_start']
@@ -391,13 +403,14 @@ class Ability
     'guard_freeze'
     'guard_push'
     'guard_seal'
+    'guard_weaken'
     'guard_undead'
-    'guard_debuff'
     'atkup_all'
     'defup_all'
     'speedup_all'
     'buff_all'
     'buff_jobs'
+    'boost_skill'
     'mana_charge'
     'mana_boost'
     'slot_slow'
@@ -415,11 +428,14 @@ class Ability
 
   constructor: (data) ->
     @name = data.name || ''
-    @conditionType = data.condition_type || ''
-    @effectType = data.effect_type || ''
-    @conditionTypeSecond = data.condition_type_second || ''
-    @effectTypeSecond = data.effect_type_second || ''
     @explanation = data.explanation || ''
+    @effects = []
+    if data.effects
+      for e in data.effects
+        d =
+          conditionType: e.condition_type
+          effectType: e.effect_type
+        @effects.push d
 
 class Arcana
 
@@ -853,13 +869,9 @@ class Viewer
   renderAbility = (ab) ->
     return "なし" if ab.name == ''
 
-    render = "
-      #{ab.name}
-      <ul class='small list-unstyled ability-detail'>
-        <li>#{Ability.conditionNameFor(ab.conditionType)} - #{Ability.effectNameFor(ab.effectType)}</li>
-    "
-    unless ab.conditionTypeSecond == ''
-      render += "  <li>#{Ability.conditionNameFor(ab.conditionTypeSecond)} - #{Ability.effectNameFor(ab.effectTypeSecond)}</li>"
+    render = "#{ab.name}<ul class='small list-unstyled ability-detail'>"
+    for e in ab.effects
+      render += "<li>#{Ability.conditionNameFor(e.conditionType)} - #{Ability.effectNameFor(e.effectType)}</li>"
     render += "</ul>"
     render
 

@@ -14,6 +14,8 @@ class ArcanaImporter
 
   def execute
     Arcana.transaction do
+      build_ability
+
       each_table_lines(arcana_table_file) do |datas|
         import_arcana(datas)
       end
@@ -45,6 +47,10 @@ class ArcanaImporter
 
   def arcana_table_file
     File.join(db_file_dir, 'arcanas.csv')
+  end
+
+  def ability_table_file
+    File.join(db_file_dir, 'ability.csv')
   end
 
   def each_table_lines(file)
@@ -93,8 +99,56 @@ class ArcanaImporter
   end
 
   def abilities
-    @abilities ||= Ability.all.index_by(&:name)
-    @abilities
+    @abilities || {}
+  end
+
+  def build_ability
+    abs = Ability.all.index_by(&:name)
+
+    effects = AbilityEffect.all.inject({}) do |h, e|
+      h["#{e.condition_type}|#{e.effect_type}"] = e
+      h
+    end
+
+    each_table_lines(ability_table_file) do  |datas|
+      3.times{ datas.shift } # name, job, index
+      name = datas.shift
+      next if name.blank?
+
+      abi = abs[name]
+      unless abi
+        abi = Ability.new
+        abi.name = name
+        abi.explanation = ''
+        abs[name] = abi
+      end
+
+      effs = []
+      keys = []
+      loop do
+        break if datas.blank?
+        cond = datas.shift
+        eff = datas.shift
+        break if cond.blank? || eff.blank?
+
+        key = "#{cond}|#{eff}"
+        ae = effects[key]
+        unless ae
+          ae = AbilityEffect.new
+          ae.condition_type = cond
+          ae.effect_type = eff
+          effects[key] = ae
+        end
+        effs << ae
+        keys << key
+      end
+
+      orgs = abi.ability_effects.map{|e| "#{e.condition_type}|#{e.effect_type}"}.sort
+      abi.ability_effects = effs
+      puts "warning : ability data invalid => #{abi.name} #{effs.inspect}" unless orgs == keys.sort
+    end
+
+    @abilities = abs
   end
 
   def import_arcana(datas)
@@ -125,16 +179,8 @@ class ArcanaImporter
     lhp = datas[21].to_i
     job_detail = datas[22]
     ability_name_f = datas[23]
-    ability_cond_f1 = datas[24]
-    ability_effect_f1 = datas[25]
-    ability_cond_f2 = datas[26]
-    ability_effect_f2 = datas[27]
-    ability_name_s = datas[28]
-    ability_cond_s1 = datas[29]
-    ability_effect_s1 = datas[30]
-    ability_cond_s2 = datas[31]
-    ability_effect_s2 = datas[32]
-    job_index = datas[33].to_i
+    ability_name_s = datas[24]
+    job_index = datas[25].to_i
     code = "#{job_type}#{job_index}"
 
     raise "invalid arcana => code:#{code} name:#{name}" unless valid_arcana?(code, name)
@@ -210,43 +256,15 @@ class ArcanaImporter
       arcana.skill = skill
     end
 
-    create_ability = lambda do |name, cond1, effect1, cond2, effect2|
-      abi = abilities[name]
-      if abi
-        check = lambda do
-          next false unless abi.condition_type == cond1
-          next false unless abi.effect_type == effect1
-          next false unless abi.condition_type_second.to_s == cond2
-          next false unless abi.effect_type_second.to_s == effect2
-          true
-        end.call
-        puts "warning : ability data invalid => #{arcana.name} #{abi.inspect}" unless check
-      else
-        abi = Ability.new
-        abi.name = name
-      end
-
-      abi.condition_type = cond1
-      abi.effect_type = effect1
-      abi.condition_type_second = (cond2.blank? ? nil : cond2)
-      abi.effect_type_second = (effect2.blank? ? nil : effect2)
-      abi.explanation = ''
-      abi.save!
-      abilities[name] = abi
-      abi
-    end
-
     unless ability_name_f.blank?
-      abi1 = create_ability.call(ability_name_f,
-        ability_cond_f1, ability_effect_f1,
-        ability_cond_f2, ability_effect_f2)
+      abi1 = abilities[ability_name_f]
+      raise "ability not found => #{ability_name_f}" unless abi1
       arcana.first_ability = abi1
     end
 
     unless ability_name_s.blank?
-      abi2 = create_ability.call(ability_name_s,
-        ability_cond_s1, ability_effect_s1,
-        ability_cond_s2, ability_effect_s2)
+      abi2 = abilities[ability_name_s]
+      raise "ability not found => #{ability_name_s}" unless abi2
       arcana.second_ability = abi2
     end
 

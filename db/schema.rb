@@ -11,26 +11,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140930045354) do
+ActiveRecord::Schema.define(version: 20141002053409) do
 
   create_table "abilities", force: true do |t|
-    t.string   "name",                  limit: 100, null: false
-    t.string   "condition_type",        limit: 100, null: false
-    t.string   "effect_type",           limit: 100, null: false
-    t.string   "explanation",           limit: 500
+    t.string   "name",        limit: 100, null: false
+    t.string   "explanation", limit: 500
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "condition_type_second", limit: 100
-    t.string   "effect_type_second",    limit: 100
   end
 
-  add_index "abilities", ["condition_type", "effect_type"], name: "index_abilities_on_condition_type_and_effect_type", using: :btree
-  add_index "abilities", ["condition_type"], name: "index_abilities_on_condition_type", using: :btree
-  add_index "abilities", ["condition_type_second", "effect_type_second"], name: "index_abilities_on_condition_type_second_and_effect_type_second", using: :btree
-  add_index "abilities", ["condition_type_second"], name: "index_abilities_on_condition_type_second", using: :btree
-  add_index "abilities", ["effect_type"], name: "index_abilities_on_effect_type", using: :btree
-  add_index "abilities", ["effect_type_second"], name: "index_abilities_on_effect_type_second", using: :btree
   add_index "abilities", ["name"], name: "index_abilities_on_name", unique: true, using: :btree
+
+  create_table "ability_effects", force: true do |t|
+    t.string   "condition_type", limit: 100, null: false
+    t.string   "effect_type",    limit: 100, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ability_effects", ["condition_type", "effect_type"], name: "index_ability_effects_on_condition_type_and_effect_type", using: :btree
+  add_index "ability_effects", ["condition_type"], name: "index_ability_effects_on_condition_type", using: :btree
+  add_index "ability_effects", ["effect_type"], name: "index_ability_effects_on_effect_type", using: :btree
+
+  create_table "ability_relations", force: true do |t|
+    t.integer  "ability_id",        null: false
+    t.integer  "ability_effect_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "arcanas", force: true do |t|
     t.string   "name",              limit: 100,             null: false
