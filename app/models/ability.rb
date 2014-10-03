@@ -16,7 +16,7 @@ class Ability < ActiveRecord::Base
     ab.delete('id')
     ab.delete('created_at')
     ab.delete('updated_at')
-    ab['effects'] = self.ability_effects.map(&:serialize) || []
+    ab['effects'] = self.ability_effects.map(&:serialize).sort_by{|e| e['condition_type']} || []
     ab
   end
 

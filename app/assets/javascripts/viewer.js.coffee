@@ -176,6 +176,7 @@ class Ability
   CONDITION_LIST = [
     'any'
     'hp_upto'
+    'hp_upto_more'
     'hp_downto'
     'hp_downto_more'
     'hp_full'
@@ -214,15 +215,22 @@ class Ability
     ap_recover:
       name: 'APを回復'
       conditions: []
+    areadown:
+      name: '回復範囲減少'
+      conditions: []
     areaup:
       name: '回復範囲増加'
       conditions: []
+    atkdown:
+      name: '与えるダメージ減少'
+      conditions: ['hp_upto', 'hp_downto']
     atkup:
       name: '与えるダメージ上昇'
-      conditions: ['any', 'hp_upto', 'hp_upto_more', 'hp_downto', 'hp_downto_more',
-        'hp_full', 'attack', 'critical', 'skill', 'in_combo', 'kill', 'killer',
-        'mana_charged', 'boss_wave', 'wave_start', 'for_blind', 'for_slow',
-        'for_poison', 'for_down', 'for_curse', 'for_weaken', 'in_debuff', 'dropout_member']
+      conditions: ['any', 'hp_upto', 'hp_upto_more', 'hp_downto',
+        'hp_downto_more', 'hp_full', 'attack', 'critical', 'skill', 'in_combo',
+        'kill', 'killer', 'in_field', 'mana_charged', 'boss_wave', 'wave_start',
+        'for_blind', 'for_slow', 'for_poison', 'for_down', 'for_curse',
+        'for_weaken', 'in_debuff', 'dropout_member', 'union']
     atkup_all:
       name: '全員の与えるダメージ上昇'
       conditions: ['any', 'in_sub', 'wave_start']
@@ -235,11 +243,6 @@ class Ability
     boost_skill:
       name: 'スキル効果上昇'
       conditions: []
-    buff:
-      name: '自身のステータス上昇'
-      conditions: ['any', 'hp_upto', 'hp_downto', 'hp_full',
-        'in_combo', 'kill', 'killer', 'boss_wave', 'wave_start',
-        'for_slow', 'in_debuff', 'dropout_member', 'in_field', 'union']
     buff_all:
       name: '全員のステータス上昇'
       conditions: ['any', 'in_sub', 'dropout_self']
@@ -252,9 +255,14 @@ class Ability
     critup:
       name: 'クリティカル率上昇'
       conditions: []
+    defdown:
+      name: '受けるダメージ増加'
+      conditions: ['any', 'kill', 'wavestart']
     defup:
       name: '受けるダメージ軽減'
-      conditions: ['any', 'hp_downto', 'boss_wave', 'wave_start', 'in_debuff']
+      conditions: ['any', 'hp_upto', 'hp_downto', 'kill', 'killer', 'in_field',
+        'boss_wave', 'wave_start', 'for_slow', 'in_debuff',
+        'dropout_member', 'union']
     defup_all:
       name: '全員のダメージ軽減'
       conditions: ['any', 'in_sub']
@@ -336,6 +344,9 @@ class Ability
     mana_drop:
       name: 'マナを落とす'
       conditions: []
+    maxhpup:
+      name: '最大HP増加'
+      conditions: []
     pierce:
       name: '貫通攻撃'
       conditions: ['attack', 'kill']
@@ -356,7 +367,8 @@ class Ability
       conditions: ['attack', 'critical', 'skill']
     speedup:
       name: '移動速度上昇'
-      conditions: ['any', 'hp_upto', 'in_combo', 'wave_start']
+      conditions: ['any', 'hp_upto', 'hp_downto', 'hp_full', 'in_combo',
+        'kill', 'in_field', 'boss_wave', 'wave_start']
     speedup_all:
       name: '全員の移動速度上昇'
       conditions: ['any', 'wave_start']
@@ -375,7 +387,7 @@ class Ability
     'critup'
     'registup'
     'delayoff'
-    'buff'
+    'maxhpup'
     'fire'
     'ice'
     'mana_drop'
@@ -385,7 +397,6 @@ class Ability
     'invisible'
     'healup'
     'areaup'
-    'boost_heal'
     'heal_self'
     'heal_worst'
     'heal_all'
@@ -418,6 +429,9 @@ class Ability
     'expup'
     'goldup'
     'ap_recover'
+    'atkdown'
+    'defdown'
+    'areadown'
   ]
 
   @conditions = -> CONDITION_LIST
@@ -890,7 +904,7 @@ class Viewer
             <strong>#{a.name}</strong>
           </h4>
           <div class='row'>
-            <div class='col-xs-12 col-sm-6 col-md-6'>
+            <div class='col-xs-12 col-sm-4 col-md-4'>
               <dl class='small arcana-view-detail'>
                 <dt>職業</dt>
                 <dd>#{a.jobDetail}</dd>
@@ -904,9 +918,11 @@ class Viewer
                 <dd>#{a.voiceActor}</dd>
                 <dt>イラストレーター</dt>
                 <dd>#{a.illustrator}</dd>
+                <dt>入手先</dt>
+                <dd>#{Arcana.sourceCategoryNameFor(a.sourceCategory)} - #{Arcana.sourceNameFor(a.sourceCategory, a.source)}</dd>
               </dl>
             </div>
-            <div class='col-xs-12 col-sm-6 col-md-6'>
+            <div class='col-xs-12 col-sm-8 col-md-8'>
               <dl class='small arcana-view-detail'>
                 <dt>スキル</dt>
                 <dd>#{renderSkill(a.skill)}</dd>
@@ -914,8 +930,6 @@ class Viewer
                 <dd>#{renderAbility(a.firstAbility)}</dd>
                 <dt>アビリティ2</dt>
                 <dd>#{renderAbility(a.secondAbility)}</dd>
-                <dt>入手先</dt>
-                <dd>#{Arcana.sourceCategoryNameFor(a.sourceCategory)} - #{Arcana.sourceNameFor(a.sourceCategory, a.source)}</dd>
               </dl>
             </div>
           </div>
