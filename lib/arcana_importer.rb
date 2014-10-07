@@ -15,6 +15,7 @@ class ArcanaImporter
   def execute
     Arcana.transaction do
       build_ability
+      build_chain_ability
 
       each_table_lines(arcana_table_file) do |datas|
         import_arcana(datas)
@@ -51,6 +52,10 @@ class ArcanaImporter
 
   def ability_table_file
     File.join(db_file_dir, 'ability.csv')
+  end
+
+  def chain_ability_table_file
+    File.join(db_file_dir, 'chain_ability.csv')
   end
 
   def each_table_lines(file)
@@ -102,15 +107,18 @@ class ArcanaImporter
     @abilities || {}
   end
 
+  def chain_abilities
+    @chain_abilities || {}
+  end
+
   def build_ability
     abs = Ability.all.index_by(&:name)
-
     effects = AbilityEffect.all.inject({}) do |h, e|
       h["#{e.condition_type}|#{e.effect_type}"] = e
       h
     end
 
-    each_table_lines(ability_table_file) do  |datas|
+    each_table_lines(ability_table_file) do |datas|
       3.times{ datas.shift } # name, job, index
       name = datas.shift
       next if name.blank?
@@ -129,7 +137,8 @@ class ArcanaImporter
         break if datas.blank?
         cond = datas.shift
         eff = datas.shift
-        break if cond.blank? || eff.blank?
+        break if cond.blank? && eff.blank?
+        raise "ability data invalid => #{abi.name} / cond:#{cond} effect:#{eff}" if cond.blank? || eff.blank?
 
         key = "#{cond}|#{eff}"
         ae = effects[key]
@@ -145,10 +154,59 @@ class ArcanaImporter
 
       orgs = abi.ability_effects.map{|e| "#{e.condition_type}|#{e.effect_type}"}.sort
       abi.ability_effects = effs
-      puts "warning : ability data invalid => #{abi.name} #{effs.inspect}" unless orgs == keys.sort
+      puts "warning : ability data invalid => #{abi.name} #{orgs.inspect} -> #{effs.inspect}" unless orgs == keys.sort
     end
 
     @abilities = abs
+  end
+
+  def build_chain_ability
+    abs = ChainAbility.all.index_by(&:name)
+    effects = ChainAbilityEffect.all.inject({}) do |h, e|
+      h["#{e.condition_type}|#{e.effect_type}"] = e
+      h
+    end
+
+    each_table_lines(chain_ability_table_file) do |datas|
+      3.times{ datas.shift } # name, job, index
+      name = datas.shift
+      next if name.blank?
+
+      abi = abs[name]
+      unless abi
+        abi = ChainAbility.new
+        abi.name = name
+        abi.explanation = ''
+        abs[name] = abi
+      end
+
+      effs = []
+      keys = []
+      loop do
+        break if datas.blank?
+        cond = datas.shift
+        eff = datas.shift
+        break if cond.blank? && eff.blank?
+        raise "chain_ability data invalid => #{abi.name} / cond:#{cond} effect:#{eff}" if cond.blank? || eff.blank?
+
+        key = "#{cond}|#{eff}"
+        ae = effects[key]
+        unless ae
+          ae = ChainAbilityEffect.new
+          ae.condition_type = cond
+          ae.effect_type = eff
+          effects[key] = ae
+        end
+        effs << ae
+        keys << key
+      end
+
+      orgs = abi.chain_ability_effects.map{|e| "#{e.condition_type}|#{e.effect_type}"}.sort
+      abi.chain_ability_effects = effs
+      puts "warning : chain_ability data invalid => #{abi.name} #{orgs.inspect} -> #{effs.inspect}" unless orgs == keys.sort
+    end
+
+    @chain_abilities = abs
   end
 
   def import_arcana(datas)
@@ -180,7 +238,8 @@ class ArcanaImporter
     job_detail = datas[22]
     ability_name_f = datas[23]
     ability_name_s = datas[24]
-    job_index = datas[25].to_i
+    chain_ability_name = datas[25]
+    job_index = datas[26].to_i
     code = "#{job_type}#{job_index}"
 
     raise "invalid arcana => code:#{code} name:#{name}" unless valid_arcana?(code, name)
@@ -266,6 +325,12 @@ class ArcanaImporter
       abi2 = abilities[ability_name_s]
       raise "ability not found => #{ability_name_s}" unless abi2
       arcana.second_ability = abi2
+    end
+
+    unless chain_ability_name.blank?
+      ca = chain_abilities[chain_ability_name]
+      raise "chain_ability not found => #{chain_ability_name}" unless ca
+      arcana.chain_ability = ca
     end
 
     arcana.save!

@@ -51,17 +51,14 @@ class ViewerController < ApplicationController
   def query_params
     params.permit(:recently, :job, :rarity, :weapon, :actor, :illustrator,
       :union, :source, :sourcecategory,:addition, :skill, :skillcost,
-      :skillsub, :skilleffect, :abiritycond, :abirityeffect)
+      :skillsub, :skilleffect, :abilitycond, :abilityeffect,
+      :chainabilitycond, :chainabilityeffect)
   end
 
   def recently_arcanas
-    cache_name = 'arcanas_recently'
-    as = Rails.cache.read(cache_name)
-    if as.blank?
-      as = Arcana.order('id DESC').limit(ServerSettings.recently.to_i).map(&:serialize)
-      Rails.cache.write(cache_name, as.to_a)
+    with_cache('arcanas_recently') do
+      Arcana.order('id DESC').limit(ServerSettings.recently.to_i).map(&:serialize)
     end
-    as
   end
 
   def search_arcanas
@@ -73,12 +70,9 @@ class ViewerController < ApplicationController
     return [] if query.empty?
 
     qkey = query.delete(:cache_key)
-    as = Rails.cache.read(qkey)
-    unless as
-      as = arcana_search_from_query(query).map(&:serialize)
-      Rails.cache.write(qkey, as)
+    with_cache(qkey) do
+      arcana_search_from_query(query).map(&:serialize)
     end
-    as
   end
 
   def search_members(ptm)
@@ -146,8 +140,10 @@ class ViewerController < ApplicationController
     skill = [org[:skill]].flatten.uniq.compact
     skillsub = [org[:skillsub]].flatten.uniq.compact
     skilleffect = [org[:skilleffect]].flatten.uniq.compact
-    abiritycond = [org[:abiritycond]].flatten.uniq.compact
-    abirityeffect = [org[:abirityeffect]].flatten.uniq.compact
+    abilitycond = [org[:abilitycond]].flatten.uniq.compact
+    abilityeffect = [org[:abilityeffect]].flatten.uniq.compact
+    chainabilitycond = [org[:chainabilitycond]].flatten.uniq.compact
+    chainabilityeffect = [org[:chainabilityeffect]].flatten.uniq.compact
 
     compact = lambda do |cond|
       cond.size == 1 ? cond.first : cond
@@ -166,8 +162,10 @@ class ViewerController < ApplicationController
     query[:skillcost] = compact.call(skillcost) unless skillcost.blank?
     query[:skillsub] = compact.call(skillsub) unless skillsub.blank?
     query[:skilleffect] = compact.call(skilleffect) unless skilleffect.blank?
-    query[:abiritycond] = compact.call(abiritycond) unless abiritycond.blank?
-    query[:abirityeffect] = compact.call(abirityeffect) unless abirityeffect.blank?
+    query[:abilitycond] = compact.call(abilitycond) unless abilitycond.blank?
+    query[:abilityeffect] = compact.call(abilityeffect) unless abilityeffect.blank?
+    query[:chainabilitycond] = compact.call(chainabilitycond) unless chainabilitycond.blank?
+    query[:chainabilityeffect] = compact.call(chainabilityeffect) unless chainabilityeffect.blank?
 
     key = "arcanas"
     key += "_j:#{job.sort.join}" if query[:job_type]
@@ -182,8 +180,10 @@ class ViewerController < ApplicationController
     key += "_skco:#{skillcost.to_a.join('|')}" if query[:skillcost]
     key += "_sksub:#{skillsub.sort.join('|')}" if query[:skillsub]
     key += "_skef:#{skilleffect.sort.join('|')}" if query[:skilleffect]
-    key += "_abc:#{abiritycond.sort.join('/')}" if query[:abiritycond]
-    key += "_abe:#{abirityeffect.sort.join('/')}" if query[:abirityeffect]
+    key += "_abc:#{abilitycond.sort.join('/')}" if query[:abilitycond]
+    key += "_abe:#{abilityeffect.sort.join('/')}" if query[:abilityeffect]
+    key += "_cabc:#{chainabilitycond.sort.join('/')}" if query[:chainabilitycond]
+    key += "_cabe:#{chainabilityeffect.sort.join('/')}" if query[:chainabilityeffect]
 
     query[:cache_key] = key
     query
@@ -196,8 +196,10 @@ class ViewerController < ApplicationController
     skillcost = query.delete(:skillcost)
     skillsub = query.delete(:skillsub)
     skilleffect = query.delete(:skilleffect)
-    abcond = query.delete(:abiritycond)
-    abeffect = query.delete(:abirityeffect)
+    abcond = query.delete(:abilitycond)
+    abeffect = query.delete(:abilityeffect)
+    cabcond = query.delete(:chainabilitycond)
+    cabeffect = query.delete(:chainabilityeffect)
 
     arel = Arcana.where(query)
 
@@ -211,6 +213,12 @@ class ViewerController < ApplicationController
       abs = ability_search(abcond, abeffect)
       return [] if abs.blank?
       arel.where!(Arcana.where(:first_ability_id => abs).where(:second_ability_id => abs).where_values.reduce(:or))
+    end
+
+    unless (cabcond.blank? && cabeffect.blank?)
+      abs = chain_ability_search(cabcond, cabeffect)
+      return [] if abs.blank?
+      arel.where!(:chain_ability_id => abs)
     end
 
     arel.order(
@@ -237,6 +245,29 @@ class ViewerController < ApplicationController
     es.where!(:condition_type => cond) unless cond.blank?
     es.where!(:effect_type => effect) unless effect.blank?
     es.map(&:abilities).flatten.map(&:id).uniq
+  end
+
+  def chain_ability_search(cond, effect)
+    return [] if (cond.blank? && effect.blank?)
+
+    es = ChainAbilityEffect.all
+    es.where!(:condition_type => cond) unless cond.blank?
+    es.where!(:effect_type => effect) unless effect.blank?
+    es.map(&:chain_abilities).flatten.map(&:id).uniq
+  end
+
+  def with_cache(name, &b)
+    return unless (name && b)
+    return b.call unless ServerSettings.cache
+
+    data = Rails.cache.read(name)
+    return data if data
+
+    ret = b.call
+    return unless ret
+    Rails.cache.write(name, ret)
+
+    ret
   end
 
 end

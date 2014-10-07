@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141002053409) do
+ActiveRecord::Schema.define(version: 20141006080710) do
 
   create_table "abilities", force: true do |t|
     t.string   "name",        limit: 100, null: false
@@ -40,6 +40,10 @@ ActiveRecord::Schema.define(version: 20141002053409) do
     t.datetime "updated_at"
   end
 
+  add_index "ability_relations", ["ability_effect_id"], name: "index_ability_relations_on_ability_effect_id", using: :btree
+  add_index "ability_relations", ["ability_id", "ability_effect_id"], name: "index_ability_relations_on_ability_id_and_ability_effect_id", using: :btree
+  add_index "ability_relations", ["ability_id"], name: "index_ability_relations_on_ability_id", using: :btree
+
   create_table "arcanas", force: true do |t|
     t.string   "name",              limit: 100,             null: false
     t.string   "title",             limit: 200
@@ -64,8 +68,10 @@ ActiveRecord::Schema.define(version: 20141002053409) do
     t.integer  "first_ability_id",              default: 0, null: false
     t.integer  "second_ability_id",             default: 0, null: false
     t.string   "source_category",   limit: 100,             null: false
+    t.integer  "chain_ability_id",              default: 0, null: false
   end
 
+  add_index "arcanas", ["chain_ability_id"], name: "index_arcanas_on_chain_ability_id", using: :btree
   add_index "arcanas", ["cost"], name: "index_arcanas_on_cost", using: :btree
   add_index "arcanas", ["first_ability_id"], name: "index_arcanas_on_first_ability_id", using: :btree
   add_index "arcanas", ["illustrator_id"], name: "index_arcanas_on_illustrator_id", using: :btree
@@ -89,6 +95,37 @@ ActiveRecord::Schema.define(version: 20141002053409) do
   add_index "arcanas", ["union"], name: "index_arcanas_on_union", using: :btree
   add_index "arcanas", ["voice_actor_id"], name: "index_arcanas_on_voice_actor_id", using: :btree
   add_index "arcanas", ["weapon_type"], name: "index_arcanas_on_weapon_type", using: :btree
+
+  create_table "chain_abilities", force: true do |t|
+    t.string   "name",        limit: 100, null: false
+    t.string   "explanation", limit: 500
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "chain_abilities", ["name"], name: "index_chain_abilities_on_name", unique: true, using: :btree
+
+  create_table "chain_ability_effects", force: true do |t|
+    t.string   "condition_type", limit: 100, null: false
+    t.string   "effect_type",    limit: 100, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "chain_ability_effects", ["condition_type", "effect_type"], name: "index_chain_ability_effects_on_condition_type_and_effect_type", using: :btree
+  add_index "chain_ability_effects", ["condition_type"], name: "index_chain_ability_effects_on_condition_type", using: :btree
+  add_index "chain_ability_effects", ["effect_type"], name: "index_chain_ability_effects_on_effect_type", using: :btree
+
+  create_table "chain_ability_relations", force: true do |t|
+    t.integer  "chain_ability_id",        null: false
+    t.integer  "chain_ability_effect_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "chain_ability_relations", ["chain_ability_effect_id"], name: "index_chain_ability_relations_on_chain_ability_effect_id", using: :btree
+  add_index "chain_ability_relations", ["chain_ability_id", "chain_ability_effect_id"], name: "chain_ability_relations_index", using: :btree
+  add_index "chain_ability_relations", ["chain_ability_id"], name: "index_chain_ability_relations_on_chain_ability_id", using: :btree
 
   create_table "illustrators", force: true do |t|
     t.string   "name",       limit: 100,             null: false

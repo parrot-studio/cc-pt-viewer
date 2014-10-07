@@ -212,18 +212,22 @@ class Ability
     absorb:
       name: '与えたダメージを吸収'
       conditions: ['attack', 'critical']
+      chains: ['attack', 'critical']
     ap_recover:
       name: 'APを回復'
       conditions: []
     areadown:
       name: '回復範囲減少'
       conditions: []
+      chains: []
     areaup:
       name: '回復範囲増加'
       conditions: []
+      chains: []
     atkdown:
       name: '与えるダメージ減少'
       conditions: ['hp_upto', 'hp_downto']
+      chains: []
     atkup:
       name: '与えるダメージ上昇'
       conditions: ['any', 'hp_upto', 'hp_upto_more', 'hp_downto',
@@ -231,12 +235,17 @@ class Ability
         'kill', 'killer', 'in_field', 'mana_charged', 'boss_wave', 'wave_start',
         'for_blind', 'for_slow', 'for_poison', 'for_down', 'for_curse',
         'for_weaken', 'in_debuff', 'dropout_member', 'union']
+      chains: ['any', 'hp_upto', 'hp_downto', 'attack', 'critical', 'skill',
+        'killer', 'in_field', 'boss_wave', 'for_blind', 'for_slow', 'for_poison',
+        'for_down', 'for_curse', 'for_weaken', 'in_debuff', 'dropout_member']
     atkup_all:
       name: '全員の与えるダメージ上昇'
       conditions: ['any', 'in_sub', 'wave_start']
+      chains: []
     blind:
       name: '暗闇付与'
       conditions: ['attack', 'skill']
+      chains: ['attack', 'skill']
     boost_heal:
       name: '回復効果上昇'
       conditions: []
@@ -246,68 +255,91 @@ class Ability
     buff_all:
       name: '全員のステータス上昇'
       conditions: ['any', 'in_sub', 'dropout_self']
+      chains: []
     buff_jobs:
       name: '特定の職がステータス上昇'
       conditions: ['any', 'union']
     combat:
       name: '接近戦可能'
       conditions: []
+      chains: []
     critup:
       name: 'クリティカル率上昇'
       conditions: []
     defdown:
       name: '受けるダメージ増加'
       conditions: ['any', 'kill', 'wavestart']
+      chains: []
     defup:
       name: '受けるダメージ軽減'
       conditions: ['any', 'hp_upto', 'hp_downto', 'kill', 'killer', 'in_field',
         'boss_wave', 'wave_start', 'for_slow', 'in_debuff',
         'dropout_member', 'union']
+      chains: ['any', 'hp_upto', 'hp_downto', 'killer', 'in_field', 'boss_wave']
     defup_all:
       name: '全員のダメージ軽減'
       conditions: ['any', 'in_sub']
+      chains: []
     delayoff:
       name: '攻撃間隔が早くなる'
       conditions: []
     down:
       name: 'ダウン付与'
       conditions: ['attack', 'critical', 'skill']
+      chains: ['attack', 'critical']
     expup:
       name: '獲得経験値上昇'
       conditions: []
+      chains: []
     fire:
       name: '火属性'
       conditions: []
     freeze:
       name: '凍結付与'
       conditions: ['attack', 'critical', 'skill']
+      chains: []
     goldup:
       name: '獲得金額上昇'
       conditions: []
+      chains: []
     guard_all:
       name: '全ての状態異常を防ぐ'
       conditions: []
     guard_blind:
       name: '暗闇を防ぐ'
       conditions: []
+      chains: []
     guard_down:
       name: 'ダウンを防ぐ'
       conditions: []
+      chains: []
+    guard_fire:
+      name: '火属性を軽減する'
+      conditions: []
+      chains: []
     guard_freeze:
       name: '凍結を防ぐ'
       conditions: []
+      chains: []
+    guard_ice:
+      name: '氷属性を軽減する'
+      conditions: []
+      chains: []
     guard_poison:
       name: '毒を防ぐ'
       conditions: []
+      chains: []
     guard_push:
       name: '弾き飛ばしを防ぐ'
       conditions: []
     guard_seal:
       name: '封印を防ぐ'
       conditions: []
+      chains: []
     guard_slow:
       name: 'スロウを防ぐ'
       conditions: []
+      chains: []
     guard_undead:
       name: '白骨化を防ぐ'
       conditions: []
@@ -317,18 +349,23 @@ class Ability
     guardup:
       name: '遠距離ダメージカット上昇'
       conditions: []
+      chains: []
     heal_all:
       name: '全員を回復'
       conditions: ['wave_start', 'dropout_self']
+      chains: []
     heal_self:
       name: '自身を回復'
       conditions: ['wave_start', 'cycle']
+      chains: ['wave_start', 'cycle']
     heal_worst:
       name: '一番ダメージが大きい対象を回復'
       conditions: []
+      chains: []
     healup:
       name: '回復量上昇'
       conditions: []
+      chains: []
     ice:
       name: '氷属性'
       conditions: []
@@ -341,6 +378,7 @@ class Ability
     mana_charge:
       name: 'マナを持って開始'
       conditions: []
+      chains: []
     mana_drop:
       name: 'マナを落とす'
       conditions: []
@@ -350,9 +388,11 @@ class Ability
     pierce:
       name: '貫通攻撃'
       conditions: ['attack', 'kill']
+      chains: []
     poison:
       name: '毒付与'
       conditions: ['attack', 'skill']
+      chains: ['attack', 'skill']
     push:
       name: '弾き飛ばし付与'
       conditions: ['critical', 'skill']
@@ -365,19 +405,23 @@ class Ability
     slow:
       name: 'スロウ付与'
       conditions: ['attack', 'critical', 'skill']
+      chains: ['attack', 'critical']
     speedup:
       name: '移動速度上昇'
       conditions: ['any', 'hp_upto', 'hp_downto', 'hp_full', 'in_combo',
         'kill', 'in_field', 'boss_wave', 'wave_start']
+      chains: ['any', 'hp_downto', 'in_field', 'boss_wave']
     speedup_all:
       name: '全員の移動速度上昇'
       conditions: ['any', 'wave_start']
     treasure:
       name: '宝箱が出やすくなる'
       conditions: []
+      chains: []
     unknown:
       name: '（不明）'
       conditions: []
+      chains: []
 
   EFFECT_LIST = [
     'atkup'
@@ -434,11 +478,52 @@ class Ability
     'areadown'
   ]
 
+  EFFECT_LIST_FOR_CHAIN = [
+    'atkup'
+    'defup'
+    'guardup'
+    'speedup'
+    'pierce'
+    'absorb'
+    'combat'
+    'healup'
+    'areaup'
+    'heal_self'
+    'heal_worst'
+    'heal_all'
+    'slow'
+    'blind'
+    'down'
+    'poison'
+    'freeze'
+    'guard_fire'
+    'guard_ice'
+    'guard_slow'
+    'guard_blind'
+    'guard_down'
+    'guard_poison'
+    'guard_freeze'
+    'guard_seal'
+    'atkup_all'
+    'defup_all'
+    'buff_all'
+    'mana_charge'
+    'mana_boost'
+    'treasure'
+    'expup'
+    'goldup'
+    'atkdown'
+    'defdown'
+    'areadown'
+  ]
+
   @conditions = -> CONDITION_LIST
   @conditionNameFor = (c) -> CONDITION_TABLE[c] || ''
   @effects = -> EFFECT_LIST
+  @chainEffects = -> EFFECT_LIST_FOR_CHAIN
   @effectNameFor = (e) -> EFFECT_TABLE[e]?.name || ''
   @conditionsFor = (e) -> EFFECT_TABLE[e]?.conditions || []
+  @chainConditionsFor = (e) -> EFFECT_TABLE[e]?.chains || []
 
   constructor: (data) ->
     @name = data.name || ''
@@ -580,6 +665,7 @@ class Arcana
     @skill = new Skill(data.skill)
     @firstAbility = new Ability(data.first_ability)
     @secondAbility = new Ability(data.second_ability)
+    @chainAbility = new Ability(data.chain_ability)
 
   @jobNameFor = (j) -> JOB_NAME[j]
   @jobShortNameFor = (j) -> JOB_NAME_SHORT[j]
@@ -613,8 +699,10 @@ class Arcanas
       key += "subef#{query.skilleffect}_" if query.skilleffect
     key += "a#{query.actor}_" if query.actor
     key += "i#{query.illustrator}_" if query.illustrator
-    key += "abc#{query.abiritycond}_" if query.abiritycond
-    key += "abe#{query.abirityeffect}_" if query.abirityeffect
+    key += "abc#{query.abilitycond}_" if query.abilitycond
+    key += "abe#{query.abilityeffect}_" if query.abilityeffect
+    key += "cabc#{query.chainabilitycond}_" if query.chainabilitycond
+    key += "cabe#{query.chainabilityeffect}_" if query.chainabilityeffect
     key
 
   search: (query, url, callbacks) ->
@@ -930,6 +1018,8 @@ class Viewer
                 <dd>#{renderAbility(a.firstAbility)}</dd>
                 <dt>アビリティ2</dt>
                 <dd>#{renderAbility(a.secondAbility)}</dd>
+                <dt>絆アビリティ</dt>
+                <dd>#{renderAbility(a.chainAbility)}</dd>
               </dl>
             </div>
           </div>
@@ -1043,6 +1133,8 @@ class Viewer
     $("#skill-effect").empty().append("<option value=''>-</option>")
     $("#ability-effect").val('')
     $("#ability-condition").empty().append("<option value=''>-</option>")
+    $("#chain-ability-effect").val('')
+    $("#chain-ability-condition").empty().append("<option value=''>-</option>")
 
     $("#additional-condition").hide()
     $("#skill-add").hide()
@@ -1060,9 +1152,11 @@ class Viewer
     source = $("#source").val()
     skill = $("#skill").val()
     skillcost = $("#skill-cost").val()
-    abirityCond = $("#ability-condition").val()
-    abirityEffect = $("#ability-effect").val()
-    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && union == '' && sourcecategory == '' && skill == '' && skillcost == '' && abirityCond == '' && abirityEffect == '')
+    abilityCond = $("#ability-condition").val()
+    abilityEffect = $("#ability-effect").val()
+    chainAbilityCond = $("#chain-ability-condition").val()
+    chainAbilityEffect = $("#chain-ability-effect").val()
+    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && union == '' && sourcecategory == '' && skill == '' && skillcost == '' && abilityCond == '' && abilityEffect == '' && chainAbilityCond == '' && chainAbilityEffect == '')
 
     query = {}
     query.job = job unless job == ''
@@ -1074,8 +1168,10 @@ class Viewer
     unless sourcecategory == ''
       query.sourcecategory = sourcecategory
       query.source = source unless source == ''
-    query.abiritycond = abirityCond unless abirityCond == ''
-    query.abirityeffect = abirityEffect unless abirityEffect == ''
+    query.abilitycond = abilityCond unless abilityCond == ''
+    query.abilityeffect = abilityEffect unless abilityEffect == ''
+    query.chainabilitycond = chainAbilityCond unless chainAbilityCond == ''
+    query.chainabilityeffect = chainAbilityEffect unless chainAbilityEffect == ''
 
     unless (skill == '' && skillcost == '')
       query.skill = skill unless skill == ''
@@ -1106,8 +1202,11 @@ class Viewer
         text += ss.join(' + ')
         text += '）'
       elem.push text
-    if query.abiritycond || query.abirityeffect
-      text = 'アビリティ - ' + Ability.conditionNameFor(query.abiritycond) + ' ' + Ability.effectNameFor(query.abirityeffect)
+    if query.abilitycond || query.abilityeffect
+      text = 'アビリティ - ' + Ability.conditionNameFor(query.abilitycond) + ' ' + Ability.effectNameFor(query.abilityeffect)
+      elem.push text
+    if query.chainabilitycond || query.chainabilityeffect
+      text = '絆アビリティ - ' + Ability.conditionNameFor(query.chainabilitycond) + ' ' + Ability.effectNameFor(query.chainabilityeffect)
       elem.push text
     if query.sourcecategory
       text = '入手先 - ' + Arcana.sourceCategoryNameFor(query.sourcecategory)
@@ -1290,6 +1389,14 @@ class Viewer
       target.append("<option value='#{e}'>#{Ability.effectNameFor(e)}</option>")
     @
 
+  createChainAbilityEffects = ->
+    target = $("#chain-ability-effect")
+    target.empty()
+    target.append("<option value=''>-</option>")
+    for e in Ability.chainEffects()
+      target.append("<option value='#{e}'>#{Ability.effectNameFor(e)}</option>")
+    @
+
   createAbilityConditions = ->
     target = $("#ability-condition")
     target.empty()
@@ -1298,6 +1405,19 @@ class Viewer
       target.append("<option value=''>-</option>")
       return
     conds = Ability.conditionsFor(abi)
+    target.append("<option value=''>（全て）</option>")
+    for c in conds
+      target.append("<option value='#{c}'>#{Ability.conditionNameFor(c)}</option>")
+    @
+
+  createChainAbilityConditions = ->
+    target = $("#chain-ability-condition")
+    target.empty()
+    abi = $("#chain-ability-effect").val()
+    if abi == ''
+      target.append("<option value=''>-</option>")
+      return
+    conds = Ability.chainConditionsFor(abi)
     target.append("<option value=''>（全て）</option>")
     for c in conds
       target.append("<option value='#{c}'>#{Ability.conditionNameFor(c)}</option>")
@@ -1362,6 +1482,7 @@ class Viewer
         showLatestInfo()
 
     createAbilityEffects()
+    createChainAbilityEffects()
 
     $(".member-character").droppable(
       drop: (e, ui) ->
@@ -1435,6 +1556,10 @@ class Viewer
     $("#ability-effect").on 'change', (e) ->
       e.preventDefault()
       createAbilityConditions()
+
+    $("#chain-ability-effect").on 'change', (e) ->
+      e.preventDefault()
+      createChainAbilityConditions()
 
     $("#source-category").on 'change', (e) ->
       e.preventDefault()

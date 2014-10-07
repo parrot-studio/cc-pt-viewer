@@ -1,6 +1,7 @@
 class Arcana < ActiveRecord::Base
 
-  default_scope { includes([:voice_actor, :illustrator, :skill, :first_ability, :second_ability]) }
+  default_scope { includes([:voice_actor, :illustrator, :skill,
+        :first_ability, :second_ability, :chain_ability]) }
 
   JOB_TYPES = ServerSettings.job_types.freeze
   RARITYS = (1..(ServerSettings.rarity)).freeze
@@ -11,6 +12,7 @@ class Arcana < ActiveRecord::Base
   belongs_to :skill
   belongs_to :first_ability,  class_name: "Ability"
   belongs_to :second_ability, class_name: "Ability"
+  belongs_to :chain_ability
 
   validates :name,
     presence: true,
@@ -74,12 +76,15 @@ class Arcana < ActiveRecord::Base
     ret['skill'] = sk
     ret.delete('skill_id')
 
-    fb = (self.first_ability ? self.first_ability.serialize : {})
-    ret['first_ability'] = fb
+    fa = (self.first_ability ? self.first_ability.serialize : {})
+    ret['first_ability'] = fa
     ret.delete('first_ability_id')
-    sb = (self.second_ability ? self.second_ability.serialize : {})
-    ret['second_ability'] = sb
+    sa = (self.second_ability ? self.second_ability.serialize : {})
+    ret['second_ability'] = sa
     ret.delete('second_ability_id')
+    ca = (self.chain_ability ? self.chain_ability.serialize : {})
+    ret['chain_ability'] = ca
+    ret.delete('chain_ability_id')
 
     ret
   end

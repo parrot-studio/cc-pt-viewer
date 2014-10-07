@@ -7,10 +7,13 @@ arcanas: &arcanas
 
 production:
   app_path: "http://app.parrot-studio.com/ccpts/"
+  cache: true
   <<: *arcanas
 development:
   app_path: "http://localhost:3000/"
+  cache: false
   <<: *arcanas
 test:
   app_path: "http://localhost:3000/"
+  cache: false
   <<: *arcanas
