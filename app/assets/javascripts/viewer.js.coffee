@@ -667,6 +667,8 @@ class Arcana
     @secondAbility = new Ability(data.second_ability)
     @chainAbility = new Ability(data.chain_ability)
 
+    @chainArcana = null
+
   @jobNameFor = (j) -> JOB_NAME[j]
   @jobShortNameFor = (j) -> JOB_NAME_SHORT[j]
   @weaponNameFor = (w) -> WEAPON_NAME[w]
@@ -838,8 +840,9 @@ class Pager
 
 class Viewer
 
+  members = {}
   arcanas = new Arcanas()
-  members = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'friend']
+  memberKeys = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'friend']
   pager = null
   onEdit = false
   defaultMemberCode = 'V1F36K7A1P2P24NN'
@@ -854,30 +857,32 @@ class Viewer
   isPhoneDevice = ->
     if window.innerWidth < 768 then true else false
 
-  eachMembers = (func) ->
-    for m in members
+  eachMemberKey = (func) ->
+    for m in memberKeys
       func(m)
+
+  eachMember = (func) ->
+    eachMemberKey (k) ->
+      func(members[k])
+
+  eachMemberOnly = (func) ->
+    eachMemberKey (k) ->
+      func(members[k]) unless k == 'friend'
+
+  memberFor = (k) ->
+    members[k]
+
+  setMember = (k, a) ->
+    members[k] = a
+
+  removeMember = (k) ->
+    members[k] = null
 
   memberAreaFor = (m) ->
     $("#member-character-#{m}")
 
-  eachMemberAreas = (func) ->
-    eachMembers (m) ->
-      func(memberAreaFor(m))
-
-  eachMemberOnlyAreas = (func) ->
-    eachMembers (m) ->
-      func(memberAreaFor(m)) unless m == 'friend'
-
-  eachMemberCode = (func) ->
-    eachMemberAreas (area) ->
-      c = area.children('div').data("jobCode")
-      func(c)
-
-  eachMemberOnlyCode = (func) ->
-    eachMemberOnlyAreas (area) ->
-      c = area.children('div').data("jobCode")
-      func(c)
+  memberKeyFromArea = (div) ->
+    div.attr('id').replace('member-character-', '')
 
   renderFullSizeArcana = (a) ->
     if a
@@ -895,11 +900,18 @@ class Viewer
             </p>
             <dl class='small text-muted arcana-detail'>
               <dt>ATK / HP</dt>
-              <dd> #{a.maxAtk} / #{a.maxHp}#{unless a.limitAtk == '-' then '<br>( ' + a.limitAtk + ' / ' + a.limitHp + ' )' else '' }</dd>
+              <dd> #{a.maxAtk} (#{a.limitAtk}) / #{a.maxHp} (#{a.limitHp})</dd>
               <dt>Skill</dt>
               <dd>#{a.skill.name} (#{a.skill.cost})</dd>
               <dt>Ability</dt>
-              <dd>#{if a.firstAbility.name != '' then a.firstAbility.name else 'なし'}#{if a.secondAbility.name != '' then ('<br> / ' + a.secondAbility.name) else ''}</dd>
+              <dd>
+                <ul class='list-unstyled'>
+                  <li>#{if a.firstAbility.name != '' then a.firstAbility.name else 'なし'}</li>
+                  <li>#{if a.secondAbility.name != '' then a.secondAbility.name else 'なし'}</li>
+                </ul>
+              </dd>
+              <dt class='chain-ability-name'>ChainAbility</dt>
+              <dd>#{renderChainAbirity(a, 'member')}</dd>
             </dl>
           </div>
           <div class='#{a.jobClass}-footer arcana-footer'>
@@ -908,6 +920,17 @@ class Viewer
       "
     else
       "<div class='none full-size arcana'></div>"
+
+  renderChainAbirity = (a, cl) ->
+    return '' unless a
+
+    if cl == 'member'
+      if a.chainArcana
+        # TODO 絆アビリティ表示
+      else
+        "（#{a.chainAbility.name}）"
+    else
+      a.chainAbility.name
 
   renderSummarySizeArcana = (a, cl) ->
     if a
@@ -919,9 +942,9 @@ class Viewer
           <div class='arcana-summary'>
             <p>
               <small>
+                <button type='button' class='btn btn-default btn-xs view-info pull-right' data-job-code='#{a.jobCode}' data-toggle='modal' data-target='#view-modal'>Info</button>
                 <span class='text-muted small'>#{a.title}</span><br>
                 <strong>#{a.name}</strong>
-                <button type='button' class='btn btn-default btn-xs view-info pull-right' data-job-code='#{a.jobCode}' data-toggle='modal' data-target='#view-modal'>Info</button>
               </small>
             </p>
             <p>
@@ -929,7 +952,8 @@ class Viewer
                 <ul class='small text-muted list-unstyled summary-detail'>
                   <li>#{a.maxAtk} / #{a.maxHp}</li>
                   <li>#{a.skill.name} (#{a.skill.cost})</li>
-                  <li>#{if a.firstAbility.name != '' then a.firstAbility.name else 'なし'}#{if a.secondAbility.name != '' then ('<br>' + a.secondAbility.name) else ''}</li>
+                  <li>#{if a.firstAbility.name != '' then a.firstAbility.name else 'なし'}<br>#{if a.secondAbility.name != '' then a.secondAbility.name else 'なし'}</li>
+                  <li class='chain-ability-name'>#{renderChainAbirity(a, cl)}</li>
                 </ul>
               </small>
             </p>
@@ -1065,13 +1089,13 @@ class Viewer
     a = $(ra)
     a.hide()
     div.append(a)
-    a.attr('data-parent-id', div.attr('id'))
+    a.attr('data-parent-key', memberKeyFromArea(div))
     a.fadeIn()
 
   replaceMemberArea = ->
-    eachMemberAreas (div) ->
-      code = div.children('div').data("jobCode")
-      a = arcanas.forCode(code)
+    eachMemberKey (k) ->
+      div = memberAreaFor(k)
+      a = memberFor(k)
       if onEdit
         replaceMemberArcana(div, renderSummarySizeMember(a))
       else
@@ -1109,13 +1133,14 @@ class Viewer
   searchMembers = (ptm, edit) ->
     query = ptm: ptm
     searchArcanas query, 'ptm', (as) ->
-      eachMembers (mem) ->
-        div = memberAreaFor(mem)
+      eachMemberKey (k) ->
+        a = as[k]
+        setMember(k, a)
         render = if edit
-          renderSummarySizeMember(as[mem])
+          renderSummarySizeMember(a)
         else
-          renderFullSizeArcana(as[mem])
-        replaceMemberArcana div, render
+          renderFullSizeArcana(a)
+        replaceMemberArcana memberAreaFor(k), render
       calcCost()
 
   resetQuery = ->
@@ -1284,33 +1309,31 @@ class Viewer
     replaceMemberArea()
     @
 
-  clearMemberArcana = (div) ->
-    replaceMemberArcana(div, renderSummarySizeMember(null))
+  clearMemberArcana = (key) ->
+    removeMember(key)
+    replaceMemberArcana(memberAreaFor(key), renderSummarySizeMember(null))
 
-  removeDuplicateMember = (code) ->
-    mems = $(".member")
-    for m in mems
-      mem = $(m)
-      parent = mem.parent()
-      continue if parent.hasClass('friend')
-      c = mem.data("jobCode")
-      continue unless c == code
-      clearMemberArcana(parent)
+  removeDuplicateMember = (target) ->
+    eachMemberKey (k) ->
+      return if k == 'friend'
+      a = memberFor(k)
+      return unless a
+      return unless a.name == target.name
+      clearMemberArcana(k)
     @
 
   createMembersCode = ->
     header = 'V' + $("#pt-ver").val()
     code = ''
-    eachMemberCode (c) ->
-      code += (c || 'N')
+    eachMember (a) ->
+      code += (if a then a.jobCode else 'N')
     if (/^N+$/).test(code) then '' else (header + code)
 
   calcCost = ->
     cost = 0
-    eachMemberOnlyCode (code) ->
-      a = arcanas.forCode(code)
-      return unless a
-      cost = cost + a.cost
+    eachMemberOnly (a) ->
+      if a
+        cost += a.cost
     $("#cost").text(cost)
 
   isFirstAccess = ->
@@ -1489,17 +1512,21 @@ class Viewer
         e.preventDefault()
         drag = ui.draggable
         code = drag.data('jobCode')
+        a = arcanas.forCode(code)
         target = $(e.target)
+        key = memberKeyFromArea(target)
 
         unless target.hasClass('friend')
-          removeDuplicateMember(code)
+          removeDuplicateMember(a)
           if drag.hasClass('member')
-            orgCode = target.children('div').data("jobCode")
-            replaceMemberArcana($("##{drag.data('parentId')}"),
-              renderSummarySizeMember(arcanas.forCode(orgCode)))
+            mem = memberFor(key)
+            orgKey = drag.data('parentKey')
+            setMember(orgKey, mem)
+            replaceMemberArcana(memberAreaFor(orgKey),
+              renderSummarySizeMember(mem))
 
-        replaceMemberArcana(target,
-          renderSummarySizeMember(arcanas.forCode(code)))
+        setMember(key, a)
+        replaceMemberArcana(target, renderSummarySizeMember(a))
         calcCost()
         addUsedArcana(code)
     )
@@ -1515,8 +1542,9 @@ class Viewer
 
     $("#member-area").on 'click', 'button.close-member', (e) ->
       e.preventDefault()
-      member = $(e.target).parents(".member-character")
-      clearMemberArcana(member)
+      target = $(e.target).parents(".member-character")
+      key = memberKeyFromArea(target)
+      clearMemberArcana(key)
       calcCost()
 
     $("#share-modal").on 'show.bs.modal', (e) ->
@@ -1536,8 +1564,8 @@ class Viewer
 
     $("#reset-members").hammer().on 'tap', (e) ->
       e.preventDefault()
-      eachMemberAreas (area) ->
-        clearMemberArcana(area)
+      eachMemberKey (k) ->
+        clearMemberArcana(k)
       $("#cost").text('0')
 
     $("#search-clear").hammer().on 'tap', (e) ->
