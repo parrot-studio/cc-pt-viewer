@@ -240,7 +240,7 @@ class Ability
         'for_down', 'for_curse', 'for_weaken', 'in_debuff', 'dropout_member']
     atkup_all:
       name: '全員の与えるダメージ上昇'
-      conditions: ['any', 'in_sub', 'wave_start']
+      conditions: ['any', 'in_sub', 'wave_start', 'dropout_self']
       chains: []
     blind:
       name: '暗闇付与'
@@ -309,6 +309,10 @@ class Ability
       name: '暗闇を防ぐ'
       conditions: []
       chains: []
+    guard_curse:
+      name: '呪いを防ぐ'
+      conditions: []
+      chains: []
     guard_down:
       name: 'ダウンを防ぐ'
       conditions: []
@@ -375,13 +379,14 @@ class Ability
     mana_boost:
       name: 'スロットで複数マナが出やすい'
       conditions: []
+      chains: []
     mana_charge:
       name: 'マナを持って開始'
       conditions: []
       chains: []
     mana_drop:
       name: 'マナを落とす'
-      conditions: []
+      conditions: ['kill', 'dropout_self']
     maxhpup:
       name: '最大HP増加'
       conditions: []
@@ -459,6 +464,7 @@ class Ability
     'guard_push'
     'guard_seal'
     'guard_weaken'
+    'guard_curse'
     'guard_undead'
     'atkup_all'
     'defup_all'
@@ -623,7 +629,7 @@ class Arcana
     collaboration:
       name: 'コラボ限定'
       types: ['shiningblade', 'maoyu', 'trefle', 'mediafactory',
-        'loghorizon', 'bakidou', 'atelier-twilight', 'other']
+        'loghorizon', 'bakidou', 'atelier-twilight', 'monokuma', 'other']
       details:
         'shiningblade': 'シャイニング・ブレイド'
         'maoyu': 'まおゆう'
@@ -632,6 +638,7 @@ class Arcana
         'loghorizon': 'ログ・ホライズン'
         'bakidou': '刃牙道'
         'atelier-twilight': 'アトリエ・黄昏シリーズ'
+        'monokuma': '絶対絶望少女'
         'other': 'その他'
 
   constructor: (data) ->
@@ -639,6 +646,7 @@ class Arcana
     @title = data.title
     @rarity = data.rarity
     @cost = data.cost
+    @chainCost = data.chain_cost
     @jobType = data.job_type
     @jobIndex = data.job_index
     @jobCode = data.job_code

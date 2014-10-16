@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141006080710) do
+ActiveRecord::Schema.define(version: 20141009061023) do
 
   create_table "abilities", force: true do |t|
     t.string   "name",        limit: 100, null: false
@@ -69,9 +69,11 @@ ActiveRecord::Schema.define(version: 20141006080710) do
     t.integer  "second_ability_id",             default: 0, null: false
     t.string   "source_category",   limit: 100,             null: false
     t.integer  "chain_ability_id",              default: 0, null: false
+    t.integer  "chain_cost",                    default: 0, null: false
   end
 
   add_index "arcanas", ["chain_ability_id"], name: "index_arcanas_on_chain_ability_id", using: :btree
+  add_index "arcanas", ["chain_cost"], name: "index_arcanas_on_chain_cost", using: :btree
   add_index "arcanas", ["cost"], name: "index_arcanas_on_cost", using: :btree
   add_index "arcanas", ["first_ability_id"], name: "index_arcanas_on_first_ability_id", using: :btree
   add_index "arcanas", ["illustrator_id"], name: "index_arcanas_on_illustrator_id", using: :btree

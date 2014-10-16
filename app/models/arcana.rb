@@ -25,6 +25,9 @@ class Arcana < ActiveRecord::Base
   validates :cost,
     presence: true,
     numericality: {only_integer: true}
+  validates :chain_cost,
+    presence: true,
+    numericality: {only_integer: true}
   validates :weapon_type,
     presence: true,
     inclusion: {in: WEAPON_TYPES}
