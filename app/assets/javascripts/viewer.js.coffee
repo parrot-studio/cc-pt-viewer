@@ -242,6 +242,9 @@ class Ability
       name: '全員の与えるダメージ上昇'
       conditions: ['any', 'in_sub', 'wave_start', 'dropout_self']
       chains: []
+    atkup_random:
+      name: '誰か一人の与えるダメージ上昇'
+      conditions: []
     blind:
       name: '暗闇付与'
       conditions: ['attack', 'skill']
@@ -467,6 +470,7 @@ class Ability
     'guard_curse'
     'guard_undead'
     'atkup_all'
+    'atkup_random'
     'defup_all'
     'speedup_all'
     'buff_all'
