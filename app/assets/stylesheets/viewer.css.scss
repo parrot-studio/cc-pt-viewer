@@ -111,6 +111,11 @@ footer {
   border-top: 1px solid #e5e5e5;
 }
 
+.chained-ability {
+  font-weight: bold;
+  color: #d33;
+}
+
 .full-size {
   height: 270px;
 }
@@ -127,6 +132,14 @@ footer {
   position: absolute;
   top: 2px;
   right: 6px;
+  font-size: 2.0em;
+}
+
+.close-chain {
+  position: absolute;
+  top: 152px;
+  right: 12px;
+  font-size: 2.4em;
 }
 
 .fighter {
@@ -204,4 +217,8 @@ footer {
 
 .ability-detail {
   margin-left: 1em;
+}
+
+.help li {
+  margin-bottom: 0.5em;
 }
