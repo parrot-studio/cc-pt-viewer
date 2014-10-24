@@ -1201,7 +1201,7 @@ class Viewer
     else
       arcanas.search(query, url, callbacks)
 
-  searchMembers = (ptm, edit) ->
+  buildMembersArea = (ptm, edit) ->
     query = ptm: ptm
     searchArcanas query, 'ptm', (as) ->
       eachMemberKey (k) ->
@@ -1216,6 +1216,25 @@ class Viewer
           renderFullSizeArcana(mb)
         renderMemberArcana memberAreaFor(k), render
       calcCost()
+
+  searchMembersFromCode = (ptm) ->
+    query = ptm: ptm
+    searchArcanas query, 'ptm', (as) ->
+      list = []
+      codes = {}
+      eachMemberKey (k) ->
+        mb = as[k]
+        if mb && !codes[mb.arcana.jobCode]
+          list.push mb
+          codes[mb.arcana.jobCode] = mb
+
+        mc = as[k + 'c']
+        if mc && !codes[mc.arcana.jobCode]
+          list.push mc
+          codes[mc.arcana.jobCode] = mc
+
+      pager = new Pager(list)
+      replaceChoiceArea()
 
   resetQuery = ->
     $("#job").val('')
@@ -1255,7 +1274,6 @@ class Viewer
     abilityEffect = $("#ability-effect").val()
     chainAbilityCond = $("#chain-ability-condition").val()
     chainAbilityEffect = $("#chain-ability-effect").val()
-    return {recently: true} if (job == '' && rarity == '' && weapon == '' && actor == '' && illst == '' && union == '' && sourcecategory == '' && skill == '' && skillcost == '' && abilityCond == '' && abilityEffect == '' && chainAbilityCond == '' && chainAbilityEffect == '')
 
     query = {}
     query.job = job unless job == ''
@@ -1279,6 +1297,10 @@ class Viewer
       query.skillsub = skillsub unless skillsub == ''
       skilleffect = $("#skill-effect").val()
       query.skilleffect = skilleffect unless skilleffect == ''
+
+    if Object.keys(query).length <= 0
+      query.recently = true
+
     query
 
   createQueryDetail = (query) ->
@@ -1321,8 +1343,8 @@ class Viewer
       elem.push 'イラスト - ' + $("#illustrator :selected").text()
     elem.join(' / ')
 
-  searchTargets = ->
-    query = buildQuery()
+  searchTargets = (q) ->
+    query = q || buildQuery()
     unless query
       $("#detail").text('')
       pager = new Pager([])
@@ -1332,6 +1354,9 @@ class Viewer
       $("#detail").text(createQueryDetail(query))
       pager = new Pager(as)
       replaceChoiceArea()
+
+  searchRecentlyTargets = ->
+    searchTargets({recently: true})
 
   replaceChoiceAreaForUsed = ->
     as = []
@@ -1380,6 +1405,7 @@ class Viewer
       title.show()
       reset.show()
       edit.fadeIn()
+      storeLastMembers()
     reloadMemberAreas()
     @
 
@@ -1568,6 +1594,20 @@ class Viewer
     Cookie.delete('used-arcana')
     @
 
+  storeLastMembers = ->
+    code = createMembersCode()
+    Cookie.set({'last-members': code})
+
+  searchLastMembers = ->
+    code = Cookie.valueFor('last-members') || ''
+    if code == ''
+      code = defaultMemberCode
+    $("#detail").text('最後に作ったパーティーメンバー')
+    searchMembersFromCode(code)
+
+  clearLastMembers = ->
+    Cookie.delete('last-members')
+
   handleDropedArcana = (target, drag) ->
     code = drag.data('jobCode')
     key = memberKeyFromArea(target)
@@ -1637,6 +1677,7 @@ class Viewer
     setMember(key, m)
     renderMemberArcana(memberAreaFor(key), renderSummarySizeMember(m))
     calcCost()
+    storeLastMembers()
     @
 
   initHandler = ->
@@ -1763,10 +1804,19 @@ class Viewer
       e.preventDefault()
       searchUsedArcanas()
 
+    $("#default-list").hammer().on 'tap', (e) ->
+      e.preventDefault()
+      searchRecentlyTargets()
+
+    $("#last-members").hammer().on 'tap', (e) ->
+      e.preventDefault()
+      searchLastMembers()
+
     $("#clear-used").hammer().on 'tap', (e) ->
       e.preventDefault()
       if window.confirm('アルカナの使用履歴を消去します。よろしいですか？')
         clearUsedArcana()
+        clearLastMembers()
         window.alert('アルカナの使用履歴を消去しました。')
 
     $("#select-btn-chain").hammer().on 'tap', (e) ->
@@ -1793,12 +1843,12 @@ class Viewer
 
   initMembers = ->
     ptm = $("#ptm").val()
-    searchTargets()
+    searchRecentlyTargets()
     if ptm == ''
       toggleEditMode() unless isPhoneDevice()
-      searchMembers(defaultMemberCode, onEdit)
+      buildMembersArea(defaultMemberCode, onEdit)
     else
-      searchMembers(ptm)
+      buildMembersArea(ptm)
     @
 
 $ -> (new Viewer())

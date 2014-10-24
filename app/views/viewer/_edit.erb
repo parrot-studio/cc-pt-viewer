@@ -11,8 +11,20 @@
       </div>
       <div id="search-area">
         <div class="bg-info small text-muted">
-          <button type="button" id="used-list" class="btn btn-link pull-right">最近使ったアルカナ</button>
-          <button type="button" id="search-moadal" data-toggle="modal" data-target="#search-modal" class="btn btn-info">
+          <div class="btn-group pull-right">
+            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+              履歴呼び出し <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a data-target="#" id="default-list">最新のアルカナ</a></li>
+              <li class="divider"></li>
+              <li><a data-target="#" id="used-list">最近使ったアルカナ</a></li>
+              <li><a data-target="#" id="last-members">最後に作ったパーティーメンバー</a></li>
+              <li class="divider"></li>
+              <li><a data-target="#" id="clear-used">（使用履歴のクリア）</a></li>
+            </ul>
+          </div>
+          <button type="button" id="search-moadal" data-toggle="modal" data-target="#search-modal" class="btn btn-primary">
             検索する
           </button>
           表示中：<span id="detail"></span> <span id="pager-count"></span>
@@ -46,8 +58,8 @@
         <form class="form-horizontal well" role="form">
           <div class="form-group">
             <div class="col-sm-12 col-md-12">
-              <button type="button" id="search" class="btn btn-primary" data-loading-text="検索中...">検索</button>
-              <button type="button" id="search-clear" class="btn btn-default pull-right">条件をクリア</button>
+              <button type="button" id="search" class="btn btn-primary" data-loading-text="検索中...">検索する</button>
+              <button type="button" id="search-clear" class="btn btn-default pull-right">条件をクリアする</button>
               <span class="help-block small">条件をクリアして検索すると、最近登録されたアルカナが検索されます。</span>
             </div>
           </div>
