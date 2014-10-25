@@ -168,6 +168,7 @@ class Ability
     kill: '敵を倒した時'
     killer: '特定の敵に対して'
     mana_charged: 'マナが多いほど'
+    mana_lost: 'マナが少ないほど'
     skill: 'スキル使用時'
     union: '特定の職構成の時'
     wave_start: '各WAVE開始時'
@@ -189,6 +190,7 @@ class Ability
     'in_move'
     'killer'
     'mana_charged'
+    'mana_lost'
     'boss_wave'
     'wave_start'
     'cycle'
@@ -231,11 +233,11 @@ class Ability
     atkup:
       name: '与えるダメージ上昇'
       conditions: ['any', 'hp_upto', 'hp_upto_more', 'hp_downto',
-        'hp_downto_more', 'hp_full', 'attack', 'critical', 'skill', 'in_combo',
+        'hp_downto_more', 'hp_full', 'attack', 'critical', 'in_combo',
         'kill', 'killer', 'in_field', 'mana_charged', 'boss_wave', 'wave_start',
         'for_blind', 'for_slow', 'for_poison', 'for_down', 'for_curse',
         'for_weaken', 'in_debuff', 'dropout_member', 'union']
-      chains: ['any', 'hp_upto', 'hp_downto', 'attack', 'critical', 'skill',
+      chains: ['any', 'hp_upto', 'hp_downto', 'attack', 'critical',
         'killer', 'in_field', 'boss_wave', 'for_blind', 'for_slow', 'for_poison',
         'for_down', 'for_curse', 'for_weaken', 'in_debuff', 'dropout_member']
     atkup_all:
@@ -407,6 +409,10 @@ class Ability
     registup:
       name: '魔法ダメージ軽減'
       conditions: []
+    skill_atkup:
+      name: '必殺技威力上昇'
+      conditions: ['any', 'mana_lost']
+      chain:[]
     slot_slow:
       name: 'マナスロットが遅くなる'
       conditions: []
@@ -433,6 +439,7 @@ class Ability
 
   EFFECT_LIST = [
     'atkup'
+    'skill_atkup'
     'defup'
     'guardup'
     'speedup'
@@ -490,6 +497,7 @@ class Ability
 
   EFFECT_LIST_FOR_CHAIN = [
     'atkup'
+    'skill_atkup'
     'defup'
     'guardup'
     'speedup'
