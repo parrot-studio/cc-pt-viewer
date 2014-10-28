@@ -1,9 +1,5 @@
 module ViewerHelper
 
-  def app_path
-    ServerSettings.app_path
-  end
-
   def data_version
     ServerSettings.data_version
   end
