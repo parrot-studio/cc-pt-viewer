@@ -1703,6 +1703,7 @@ class Viewer
     $("#skill-add").hide()
     $("#help-area").hide()
     $("#help-area").removeClass("invisible")
+    $("#help-text").hide()
 
     if isFirstAccess()
       showTutorial()
@@ -1846,6 +1847,11 @@ class Viewer
       code = $('#select-droped-code').val()
       replaceMemberArea(key, code, swapKey)
       $('#select-modal').modal('hide')
+
+    $("#help-text-btn").hammer().on 'tap', (e) ->
+      e.preventDefault()
+      $("#help-text").show()
+      $("#help-text-btn").hide()
 
     @
 
