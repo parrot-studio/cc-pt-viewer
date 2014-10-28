@@ -14,7 +14,7 @@ Description
 
 Site
 ---------------
-http://app.parrot-studio.com/ccpts/
+http://ccpts.parrot-studio.com/
 
 License
 ---------------
