@@ -1,4 +1,4 @@
-<div id="edit-area" class="invisible">
+<div id="edit-area">
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <div id="help-area" class="invisible">
@@ -16,10 +16,12 @@
               履歴呼び出し <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
+              <li role="presentation" class="dropdown-header">検索</li>
               <li><a data-target="#" id="default-list">最新のアルカナ</a></li>
-              <li class="divider"></li>
               <li><a data-target="#" id="used-list">最近使ったアルカナ</a></li>
-              <li><a data-target="#" id="last-members">最後に作ったパーティーメンバー</a></li>
+              <li class="divider"></li>
+              <li role="presentation" class="dropdown-header">パーティー</li>
+              <li><a data-target="#" id="last-members">最後に作ったパーティー構成</a></li>
               <li class="divider"></li>
               <li><a data-target="#" id="clear-used">（使用履歴のクリア）</a></li>
             </ul>

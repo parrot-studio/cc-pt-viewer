@@ -889,10 +889,10 @@ class Viewer
   arcanas = new Arcanas()
   memberKeys = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'friend']
   pager = null
-  onEdit = false
+  onEdit = true
   defaultMemberCode = 'V2F82F85K51NA38NP28NP24NNNNN'
   usedList = []
-  usedListSizeMax = 16
+  usedListSizeMax = 24
 
   constructor: ->
     initUsedArcana()
@@ -1209,7 +1209,7 @@ class Viewer
     else
       arcanas.search(query, url, callbacks)
 
-  buildMembersArea = (ptm, edit) ->
+  buildMembersArea = (ptm) ->
     query = ptm: ptm
     searchArcanas query, 'ptm', (as) ->
       eachMemberKey (k) ->
@@ -1218,7 +1218,7 @@ class Viewer
         if mb && mc
           mb.chainArcana = mc.arcana
         setMember(k, mb)
-        render = if edit
+        render = if onEdit
           renderSummarySizeMember(mb)
         else
           renderFullSizeArcana(mb)
@@ -1397,23 +1397,19 @@ class Viewer
     member = $("#member-area")
     btn = $("#edit-members")
     title = $("#edit-title")
-    reset = $("#reset-members")
 
     if onEdit
       onEdit = false
       btn.text("編集する")
       member.removeClass("well well-sm")
       title.hide()
-      reset.hide()
       edit.fadeOut()
     else
       onEdit = true
       btn.text("編集終了")
       member.addClass("well well-sm")
       title.show()
-      reset.show()
       edit.fadeIn()
-      storeLastMembers()
     reloadMemberAreas()
     @
 
@@ -1610,8 +1606,7 @@ class Viewer
     code = Cookie.valueFor('last-members') || ''
     if code == ''
       code = defaultMemberCode
-    $("#detail").text('最後に作ったパーティーメンバー')
-    searchMembersFromCode(code)
+    buildMembersArea(code)
 
   clearLastMembers = ->
     Cookie.delete('last-members')
@@ -1691,14 +1686,8 @@ class Viewer
   initHandler = ->
     $("#error-area").hide()
     $("#error-area").removeClass("invisible")
-    $("#edit-area").hide()
-    $("#edit-area").removeClass("invisible")
-    $("#edit-title").hide()
-    $("#edit-title").removeClass("invisible")
     $("#tutorial").hide()
     $("#tutorial").removeClass("invisible")
-    $("#reset-members").hide()
-    $("#reset-members").removeClass("invisible")
     $("#additional-condition").hide()
     $("#skill-add").hide()
     $("#help-area").hide()
@@ -1857,11 +1846,12 @@ class Viewer
 
   initMembers = ->
     ptm = $("#ptm").val()
-    searchRecentlyTargets()
+    searchRecentlyTargets() unless isPhoneDevice()
     if ptm == ''
-      toggleEditMode() unless isPhoneDevice()
-      buildMembersArea(defaultMemberCode, onEdit)
+      toggleEditMode() if isPhoneDevice()
+      buildMembersArea(defaultMemberCode)
     else
+      toggleEditMode()
       buildMembersArea(ptm)
     @
 
