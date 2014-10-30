@@ -1195,12 +1195,17 @@ class Viewer
 
   searchArcanas = (query, path, callback) ->
     $("#error").hide()
+    $("#loading-modal").modal('show')
     query ?= {}
     query.ver = $("#data-ver").val()
     url = $("#app-path").val() + path
     callbacks =
-      done: (as) -> callback(as)
-      fail: -> $("#error-area").show()
+      done: (as) ->
+        callback(as)
+        $("#loading-modal").modal('hide')
+      fail: ->
+        $("#loading-modal").modal('hide')
+        $("#error-area").show()
 
     if path == 'ptm'
       arcanas.searchMembers(query, url, callbacks)
