@@ -244,6 +244,9 @@ class Ability
       name: '全員の与えるダメージ上昇'
       conditions: ['any', 'in_sub', 'wave_start', 'dropout_self']
       chains: []
+    atkup_for_job_best:
+      name: '特定の職で残りHPが高い対象の与えるダメージ上昇'
+      conditions: []
     atkup_random:
       name: '誰か一人の与えるダメージ上昇'
       conditions: []
@@ -285,6 +288,9 @@ class Ability
       name: '全員のダメージ軽減'
       conditions: ['any', 'in_sub']
       chains: []
+    defup_for_job_worst:
+      name: '特定の職で残りHPが低い対象のダメージ軽減'
+      conditions: []
     delayoff:
       name: '攻撃間隔が早くなる'
       conditions: []
@@ -378,6 +384,9 @@ class Ability
     ice:
       name: '氷属性'
       conditions: []
+    invincible:
+      name: '無敵になる'
+      conditions: []
     invisible:
       name: '見えなくなる（遠距離無効）'
       conditions: []
@@ -447,6 +456,8 @@ class Ability
     'registup'
     'delayoff'
     'maxhpup'
+    'atkup_for_job_best'
+    'defup_for_job_worst'
     'fire'
     'ice'
     'mana_drop'
@@ -454,6 +465,7 @@ class Ability
     'absorb'
     'combat'
     'invisible'
+    'invincible'
     'healup'
     'areaup'
     'heal_self'
