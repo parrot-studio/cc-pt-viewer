@@ -65,5 +65,10 @@
     <% cache do %>
       <%=raw analytics %>
     <% end %>
+    <% if show_ads? %>
+      <hr />
+      <%=raw amazon %>
+      <%=raw adsense %>
+    <% end %>
   </body>
 </html>
