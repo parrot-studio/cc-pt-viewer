@@ -92,7 +92,7 @@ class ViewerController < ApplicationController
 
   def query_params
     params.permit(:recently, :job, :rarity, :weapon, :actor, :illustrator,
-      :union, :source, :sourcecategory,:addition, :skill, :skillcost,
+      :union, :source, :sourcecategory, :skill, :skillcost,
       :skillsub, :skilleffect, :abilitycond, :abilityeffect,
       :chainabilitycond, :chainabilityeffect)
   end

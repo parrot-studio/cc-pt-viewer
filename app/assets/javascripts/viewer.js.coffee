@@ -398,6 +398,9 @@ class Ability
       name: 'マナを持って開始'
       conditions: []
       chains: []
+    mana_cost_down:
+      name: 'スキルでの消費マナ低下'
+      conditions: []
     mana_drop:
       name: 'マナを落とす'
       conditions: ['kill', 'dropout_self']
@@ -458,6 +461,7 @@ class Ability
     'maxhpup'
     'atkup_for_job_best'
     'defup_for_job_worst'
+    'mana_cost_down'
     'fire'
     'ice'
     'mana_drop'
