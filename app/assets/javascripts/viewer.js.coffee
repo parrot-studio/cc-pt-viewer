@@ -146,6 +146,7 @@ class Ability
     boss_wave: 'BOSS WAVE時'
     critical: 'クリティカル時'
     cycle: '一定間隔で'
+    defend: '攻撃を受けた時'
     dropout_member: '味方が脱落した時'
     dropout_self: '自身が脱落した時'
     for_blind: '敵が暗闇の時'
@@ -184,6 +185,7 @@ class Ability
     'attack'
     'critical'
     'skill'
+    'defend'
     'in_combo'
     'kill'
     'heal'
@@ -271,6 +273,9 @@ class Ability
       name: '接近戦可能'
       conditions: []
       chains: []
+    counterattack:
+      name: 'カウンター攻撃'
+      conditions: []
     critup:
       name: 'クリティカル率上昇'
       conditions: []
@@ -467,6 +472,7 @@ class Ability
     'mana_drop'
     'pierce'
     'absorb'
+    'counterattack'
     'combat'
     'invisible'
     'invincible'
