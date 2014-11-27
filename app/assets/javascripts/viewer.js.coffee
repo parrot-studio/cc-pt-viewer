@@ -165,6 +165,7 @@ class Ability
     in_debuff: '自分が状態異常時'
     in_field: '特定のフィールドで'
     in_move: '移動中'
+    in_pierce: '貫通した時'
     in_sub: 'サブパーティーにいる時'
     kill: '敵を倒した時'
     killer: '特定の敵に対して'
@@ -187,6 +188,7 @@ class Ability
     'skill'
     'defend'
     'in_combo'
+    'in_pierce'
     'kill'
     'heal'
     'in_move'
@@ -235,7 +237,7 @@ class Ability
     atkup:
       name: '与えるダメージ上昇'
       conditions: ['any', 'hp_upto', 'hp_upto_more', 'hp_downto',
-        'hp_downto_more', 'hp_full', 'attack', 'critical', 'in_combo',
+        'hp_downto_more', 'hp_full', 'attack', 'critical', 'in_combo', 'in_pierce',
         'kill', 'killer', 'in_field', 'mana_charged', 'boss_wave', 'wave_start',
         'for_blind', 'for_slow', 'for_poison', 'for_down', 'for_curse',
         'for_weaken', 'in_debuff', 'dropout_member', 'union']
