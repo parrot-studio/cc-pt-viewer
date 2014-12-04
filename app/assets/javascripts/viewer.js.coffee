@@ -234,7 +234,7 @@ class Ability
       chains: []
     atkdown:
       name: '与えるダメージ減少'
-      conditions: ['hp_upto', 'hp_downto']
+      conditions: []
       chains: []
     atkup:
       name: '与えるダメージ上昇'
