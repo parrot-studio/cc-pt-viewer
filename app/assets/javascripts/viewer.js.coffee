@@ -4,8 +4,8 @@ class Skill
     attack:
       name: '攻撃'
       types: ['one/short', 'one/line', 'one/combo', 'one/dash', 'one/rear',
-        'one/jump', 'one/random', 'range/line', 'range/dash',
-        'range/forward', 'range/self', 'range/explosion',
+        'one/jump', 'one/random', 'one/combination', 'range/line',
+        'range/dash', 'range/forward', 'range/self', 'range/explosion',
         'range/drop', 'range/jump', 'range/random', 'range/all']
       subname:
         'one/short': '単体・目前'
@@ -15,6 +15,7 @@ class Skill
         'one/rear': '単体・最後列'
         'one/jump': '単体・ジャンプ'
         'one/random': '単体・ランダム'
+        'one/combination': '単体・コンビネーション'
         'range/line': '範囲・直線'
         'range/dash': '範囲・ダッシュ'
         'range/forward': '範囲・前方'
@@ -283,6 +284,7 @@ class Ability
     critup:
       name: 'クリティカル率上昇'
       conditions: []
+      chains: []
     defdown:
       name: '受けるダメージ増加'
       conditions: ['any', 'kill', 'wavestart']
@@ -297,6 +299,9 @@ class Ability
       name: '全員のダメージ軽減'
       conditions: ['any', 'in_sub']
       chains: []
+    defup_for_job_best:
+      name: '特定の職で残りHPが高い対象のダメージ軽減'
+      conditions: []
     defup_for_job_worst:
       name: '特定の職で残りHPが低い対象のダメージ軽減'
       conditions: []
@@ -381,7 +386,7 @@ class Ability
     heal_self:
       name: '自身を回復'
       conditions: ['wave_start', 'cycle']
-      chains: ['wave_start', 'cycle']
+      chains: ['wave_start', 'cycle', 'dropout_self']
     heal_worst:
       name: '一番ダメージが大きい対象を回復'
       conditions: []
@@ -469,6 +474,7 @@ class Ability
     'delayoff'
     'maxhpup'
     'atkup_for_job_best'
+    'defup_for_job_best'
     'defup_for_job_worst'
     'mana_cost_down'
     'fire'
@@ -677,6 +683,7 @@ class Arcana
         'bakidou': '刃牙道'
         'atelier-twilight': 'アトリエ・黄昏シリーズ'
         'monokuma': '絶対絶望少女'
+        'falcom-sen2': '閃の軌跡II'
         'other': 'その他'
 
   constructor: (data) ->
