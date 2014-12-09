@@ -147,6 +147,7 @@ class Ability
     battle_end: '戦闘終了時'
     battle_start: '戦闘開始時'
     boss_wave: 'BOSS WAVE時'
+    counter: 'カウンター発生時'
     critical: 'クリティカル時'
     cycle: '一定間隔で'
     defend: '攻撃を受けた時'
@@ -164,16 +165,21 @@ class Ability
     hp_full: 'HPが満タンの時'
     hp_upto: 'HPが一定以上の時'
     hp_upto_more: 'HPがより高い時'
+    in_base_area: '自陣にいる時'
     in_combo: '攻撃を一定回数当てた時'
     in_debuff: '自分が状態異常時'
+    in_emeny_area: '敵陣にいる時'
     in_field: '特定のフィールドで'
+    in_front: '仲間より前にいる時'
     in_move: '移動中'
     in_pierce: '貫通した時'
     in_sub: 'サブパーティーにいる時'
     kill: '敵を倒した時'
     killer: '特定の敵に対して'
+    link: '複数で一緒に攻撃した時'
     mana_charged: 'マナが多いほど'
     mana_lost: 'マナが少ないほど'
+    others_skill: '味方がスキルを使った時'
     skill: 'スキル使用時'
     union: '特定の職構成の時'
     wave_start: '各WAVE開始時'
@@ -190,12 +196,17 @@ class Ability
     'critical'
     'skill'
     'defend'
+    'counter'
     'in_combo'
     'in_pierce'
     'kill'
     'heal'
     'in_move'
     'killer'
+    'in_front'
+    'in_base_area'
+    'in_emeny_area'
+    'others_skill'
     'mana_charged'
     'mana_lost'
     'boss_wave'
@@ -241,9 +252,10 @@ class Ability
       name: '与えるダメージ上昇'
       conditions: ['any', 'hp_upto', 'hp_upto_more', 'hp_downto',
         'hp_downto_more', 'hp_full', 'attack', 'critical', 'in_combo', 'in_pierce',
-        'kill', 'killer', 'in_field', 'mana_charged', 'boss_wave', 'wave_start',
-        'for_blind', 'for_slow', 'for_poison', 'for_down', 'for_curse',
-        'for_weaken', 'in_debuff', 'dropout_member', 'union']
+        'kill', 'killer', 'in_front', 'in_emeny_area', 'others_skill', 'link',
+        'mana_charged', 'boss_wave', 'wave_start', 'for_blind', 'for_slow',
+        'for_poison', 'for_down', 'for_curse', 'for_weaken',
+        'in_debuff', 'in_field', 'dropout_member', 'union']
       chains: ['any', 'hp_upto', 'hp_downto', 'attack', 'critical',
         'killer', 'in_field', 'boss_wave', 'for_blind', 'for_slow', 'for_poison',
         'for_down', 'for_curse', 'for_weaken', 'in_debuff', 'dropout_member']
@@ -287,14 +299,15 @@ class Ability
       chains: []
     defdown:
       name: '受けるダメージ増加'
-      conditions: ['any', 'kill', 'wavestart']
+      conditions: ['any', 'kill', 'in_front', 'wavestart']
       chains: []
     defup:
       name: '受けるダメージ軽減'
-      conditions: ['any', 'hp_upto', 'hp_downto', 'kill', 'killer', 'in_field',
-        'boss_wave', 'wave_start', 'for_slow', 'in_debuff',
-        'dropout_member', 'union']
-      chains: ['any', 'hp_upto', 'hp_downto', 'killer', 'in_field', 'boss_wave']
+      conditions: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more',
+        'in_combo', 'kill', 'killer', 'in_field', 'boss_wave', 'wave_start',
+        'for_slow', 'in_debuff', 'dropout_member', 'union']
+      chains: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more',
+        'killer', 'in_field', 'boss_wave']
     defup_all:
       name: '全員のダメージ軽減'
       conditions: ['any', 'in_sub']
@@ -310,7 +323,7 @@ class Ability
       conditions: []
     down:
       name: 'ダウン付与'
-      conditions: ['attack', 'critical', 'skill']
+      conditions: ['attack', 'critical', 'skill', 'counter']
       chains: ['attack', 'critical']
     expup:
       name: '獲得経験値上昇'
@@ -385,8 +398,9 @@ class Ability
       chains: []
     heal_self:
       name: '自身を回復'
-      conditions: ['wave_start', 'cycle']
-      chains: ['wave_start', 'cycle', 'dropout_self']
+      conditions: ['wave_start', 'cycle', 'in_base_area', 'others_skill',
+        'union', 'dropout_self']
+      chains: ['wave_start', 'cycle']
     heal_worst:
       name: '一番ダメージが大きい対象を回復'
       conditions: []
@@ -437,7 +451,7 @@ class Ability
       conditions: []
     skill_atkup:
       name: '必殺技威力上昇'
-      conditions: ['any', 'mana_lost']
+      conditions: ['any', 'mana_lost', 'others_skill']
       chain:[]
     slot_slow:
       name: 'マナスロットが遅くなる'
@@ -448,12 +462,13 @@ class Ability
       chains: ['attack', 'critical']
     speedup:
       name: '移動速度上昇'
-      conditions: ['any', 'hp_upto', 'hp_downto', 'hp_full', 'in_combo',
-        'kill', 'in_field', 'boss_wave', 'wave_start']
-      chains: ['any', 'hp_downto', 'in_field', 'boss_wave']
+      conditions: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more', 'hp_full',
+        'in_combo', 'kill', 'in_field', 'in_debuff',
+        'boss_wave', 'wave_start', 'union']
+      chains: ['any', 'hp_upto', 'hp_downto', 'in_field', 'boss_wave']
     speedup_all:
       name: '全員の移動速度上昇'
-      conditions: ['any', 'wave_start']
+      conditions: ['any', 'wave_start', 'in_sub']
     treasure:
       name: '宝箱が出やすくなる'
       conditions: []
@@ -631,6 +646,7 @@ class Arcana
     volcano: '九領'
     'forest-sea': '海風の港'
     dawnsea: '大海'
+    beasts: 'ケ者'
     volunteers: '義勇軍'
     demon: '魔神'
     others: '旅人'
@@ -655,6 +671,7 @@ class Arcana
       details:
         'forest-sea': '海風の港・酒場'
         'dawnsea': '夜明けの大海・酒場'
+        'beasts': 'ケ者・酒場'
         'other': 'その他'
     ring:
       name: 'リング系'
