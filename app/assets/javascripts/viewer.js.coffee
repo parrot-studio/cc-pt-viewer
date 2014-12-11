@@ -87,11 +87,12 @@ class Skill
         weaken: '衰弱解除'
     'song/dance':
       types: ['fire', 'ice', 'element', 'blind', 'freeze', 'guard_debuff',
-        'debuff_blind', 'debuff_slow']
+        'debuff_blind', 'debuff_slow', 'debuff_poison']
       effectname:
         blind: '暗闇耐性'
         debuff_blind: '暗闇付与'
         debuff_slow: 'スロウ付与'
+        debuff_poison: '毒付与'
         element: '属性軽減'
         fire: '炎属性軽減'
         freeze: '凍結耐性'
