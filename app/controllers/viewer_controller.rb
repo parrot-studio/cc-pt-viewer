@@ -2,9 +2,22 @@ class ViewerController < ApplicationController
 
   def index
     code = params[:code]
-    @ptm = (!code.blank? && parse_pt_code(code)) ? code : ''
-    @actors = VoiceActor.order('count DESC, name')
-    @illusts = Illustrator.order(:name)
+    mems = parse_pt_code(code)
+    @ptm = mems ? code : ''
+    @uri = root_path(only_path: false)
+    @title = ''
+    unless @ptm.blank?
+      @uri = URI.join(@uri, @ptm).to_s
+      @title = create_member_title(mems)
+    end
+
+    @actors = with_cache('actors') do
+      VoiceActor.order('count DESC, name').to_a
+    end
+
+    @illusts = with_cache('illusts') do
+      Illustrator.order(:name).to_a
+    end
   end
 
   def arcanas
@@ -31,6 +44,7 @@ class ViewerController < ApplicationController
   private
 
   def parse_pt_code(code)
+    return if code.blank?
     parser = /\AV(\d+)(.+)\z/
     m = code.upcase.match(parser)
     return unless m
@@ -48,6 +62,7 @@ class ViewerController < ApplicationController
   end
 
   def parse_pt_code_not_chained(code)
+    return if code.blank?
     part = "([#{Arcana::JOB_TYPES.join}]\\d+|N)"
     parser = /\A#{part * 7}\z/
     m = code.upcase.match(parser)
@@ -66,6 +81,7 @@ class ViewerController < ApplicationController
   end
 
   def parse_pt_code_with_chain(code)
+    return if code.blank?
     part = "([#{Arcana::JOB_TYPES.join}]\\d+|N)"
     parser = /\A#{part * 14}\z/
     m = code.upcase.match(parser)
@@ -88,6 +104,22 @@ class ViewerController < ApplicationController
       friend: selector.call(m[13]),
       friendc: selector.call(m[14])
     }
+  end
+
+  def create_member_title(mems)
+   keys = [:mem1, :mem2, :mem3, :mem4, :sub1, :sub2, :friend]
+   names = []
+   keys.each do |k|
+     c = mems[k]
+     next if c.blank?
+     names << Arcana.find_by_job_code(c).name
+   end
+
+   title = names.join(', ')
+   if title.size > 30
+     title = title[0, 27] + '...'
+   end
+   title
   end
 
   def query_params
