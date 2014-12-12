@@ -668,7 +668,7 @@ class Arcana
         'other': 'その他'
     second:
       name: '2部'
-      types: ['forest-sea', 'dawnsea', 'other']
+      types: ['forest-sea', 'dawnsea', 'beasts', 'other']
       details:
         'forest-sea': '海風の港・酒場'
         'dawnsea': '夜明けの大海・酒場'
@@ -691,7 +691,8 @@ class Arcana
     collaboration:
       name: 'コラボ限定'
       types: ['shiningblade', 'maoyu', 'trefle', 'mediafactory',
-        'loghorizon', 'bakidou', 'atelier-twilight', 'monokuma', 'other']
+        'loghorizon', 'bakidou', 'atelier-twilight', 'monokuma',
+        'falcom-sen2', 'other']
       details:
         'shiningblade': 'シャイニング・ブレイド'
         'maoyu': 'まおゆう'
@@ -741,6 +742,7 @@ class Arcana
   @jobShortNameFor = (j) -> JOB_NAME_SHORT[j]
   @weaponNameFor = (w) -> WEAPON_NAME[w]
   @unionNameFor = (u) -> UNION_TYPE[u]
+  @unions = -> UNION_TYPE
   @sourceCategoryNameFor = (c) -> SOURCE_TABLE[c]?.name || ''
   @sourceTypesFor = (c) -> SOURCE_TABLE[c]?.types || []
   @sourceNameFor = (c, s) -> SOURCE_TABLE[c]?.details?[s] || ''
@@ -1528,6 +1530,16 @@ class Viewer
     $("#latest-info").show()
     Cookie.set({'latest-info': ver})
 
+  createUnionList = ->
+    li = $('#union')
+    li.empty()
+    li.append("<option value=''>-</option>")
+
+    for u, n of Arcana.unions()
+      continue if u == 'unknown'
+      li.append("<option value='#{u}'>#{n}</option>")
+    @
+
   createSkillOptions = ->
     sub = $("#skill-sub")
     sub.empty()
@@ -1759,6 +1771,7 @@ class Viewer
       else
         showLatestInfo()
 
+    createUnionList()
     createAbilityEffects()
     createChainAbilityEffects()
 
