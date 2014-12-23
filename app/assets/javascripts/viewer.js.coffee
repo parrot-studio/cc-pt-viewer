@@ -103,11 +103,12 @@ class Skill
       effectname:
         delayoff: '攻撃間隔短縮'
     barrier:
-      types: ['ice', 'element', 'blind', 'debuff', 'invincible']
+      types: ['ice', 'element', 'blind', 'freeze' ,'debuff', 'invincible']
       effectname:
         blind: '暗闇耐性'
         debuff: '状態異常耐性'
         element: '属性軽減'
+        freeze: '凍結耐性'
         ice: '氷軽減'
         invincible: '無敵'
     obstacle:
@@ -116,22 +117,23 @@ class Skill
 
   constructor: (data) ->
     @name = data.name || '？'
-    @category = data.category || ''
-    @subcategory = data.subcategory || ''
     @explanation = data.explanation || ''
     @cost = data.cost || '？'
-    @subeffect1 = data.subeffect1 || ''
-    @subeffect2 = data.subeffect2 || ''
+    @effects = []
+    if data.effects
+      for e in data.effects
+        d =
+          category: e.category
+          subcategory: e.subcategory
+          subeffect1: e.subeffect1 || ''
+          subeffect2: e.subeffect2 || ''
+        @effects.push d
 
-  hasEffect: ->
-    return true unless @subeffect1 == ''
-    return true unless @subeffect2 == ''
-    false
-
-  effects: ->
+  @subeffectForEffect: (ef) ->
+    return [] unless ef
     ret = []
-    ret.push(@subeffect1) unless @subeffect1 == ''
-    ret.push(@subeffect2) unless @subeffect2 == ''
+    ret.push(ef.subeffect1) unless ef.subeffect1 == ''
+    ret.push(ef.subeffect2) unless ef.subeffect2 == ''
     ret
 
   @typeNameFor = (s) -> SKILL_TABLE[s]?.name || '？'
@@ -1018,13 +1020,15 @@ class Viewer
   renderSkill = (sk) ->
     render = "
     #{sk.name} (#{sk.cost})<br>
-    <ul class='small list-unstyled ability-detail'>
-      <li>#{Skill.typeNameFor(sk.category)} - #{Skill.subnameFor(sk.category, sk.subcategory)}</li>"
-
-    if sk.hasEffect()
-      for e in sk.effects()
-        render += "<li>+ #{Skill.effectNameFor(sk.category, e)}</li>"
-
+    <ul class='small list-unstyled ability-detail'>"
+    for ef, i in sk.effects
+      render += "<li>#{if i > 0 then '=> ' else '' }#{Skill.typeNameFor(ef.category)} - #{Skill.subnameFor(ef.category, ef.subcategory)}"
+      if Skill.subeffectForEffect(ef).length > 0
+        li = []
+        for e in Skill.subeffectForEffect(ef)
+          li.push Skill.effectNameFor(ef.category, e)
+        render += " ( + #{li.join(' / ')} )"
+      render += '</li>'
     render += "</ul>"
     render
 

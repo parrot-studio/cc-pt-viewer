@@ -302,14 +302,18 @@ class ViewerController < ApplicationController
 
   def skill_search(category, cost, sub, ef)
     return [] if (category.blank? && cost.blank?)
-    arel = Skill.all
+
+    arel = SkillEffect.all
     arel.where!(:category => category) unless category.blank?
-    arel.where!(:cost => cost) unless cost.blank?
     arel.where!(:subcategory => sub) unless sub.blank?
-    unless ef.blank?
-      arel.where!(Skill.where(:subeffect1 => ef).where(:subeffect2 => ef).where_values.reduce(:or))
+    unless cost.blank?
+      arel = arel.joins(:skill).where(:skills => {:cost => cost})
     end
-    arel.pluck(:id)
+    unless ef.blank?
+      arel.where!(SkillEffect.where(:subeffect1 => ef).where(:subeffect2 => ef).where_values.reduce(:or))
+    end
+
+    arel.pluck(:skill_id)
   end
 
   def ability_search(cond, effect)

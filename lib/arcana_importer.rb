@@ -14,6 +14,7 @@ class ArcanaImporter
 
   def execute
     Arcana.transaction do
+      build_skill
       build_ability
       build_chain_ability
 
@@ -23,12 +24,22 @@ class ArcanaImporter
 
       VoiceActor.all.each do |va|
         va.count = Arcana.where(voice_actor_id: va.id).count
-        va.save!
+        if va.count > 0
+          va.save!
+        else
+          puts "warning : VoiceActor count 0 => #{va.name}"
+          va.destroy
+        end
       end
 
       Illustrator.all.each do |il|
         il.count = Arcana.where(illustrator_id: il.id).count
-        il.save!
+        if il.count > 0
+          il.save!
+        else
+          puts "warning : Illustrator count 0 => #{il.name}"
+          il.destroy
+        end
       end
     end
 
@@ -48,6 +59,10 @@ class ArcanaImporter
 
   def arcana_table_file
     File.join(db_file_dir, 'arcanas.csv')
+  end
+
+  def skill_table_file
+    File.join(db_file_dir, 'skill.csv')
   end
 
   def ability_table_file
@@ -99,8 +114,7 @@ class ArcanaImporter
   end
 
   def skills
-    @skills ||= Skill.all.index_by(&:name)
-    @skills
+    @skills || {}
   end
 
   def abilities
@@ -109,6 +123,62 @@ class ArcanaImporter
 
   def chain_abilities
     @chain_abilities || {}
+  end
+
+  def build_skill
+    skills = Skill.all.index_by(&:name)
+
+    each_table_lines(skill_table_file) do |datas|
+      3.times{ datas.shift } # name, job, index
+      name = datas.shift
+      cost = datas.shift
+      next if (name.blank? || cost.blank?)
+
+      sk = skills[name]
+      unless sk
+        sk = Skill.new
+        sk.name = name
+        skills[name] = sk
+      end
+      sk.cost = cost.to_i
+      sk.explanation = ''
+
+      efs = sk.skill_effects.index_by(&:order)
+      es = []
+      ord = 1
+      loop do
+        break if datas.blank?
+        cate = datas.shift
+        scate = datas.shift
+        se1 = datas.shift
+        se2 = datas.shift
+        break if cate.blank? && scate.blank?
+        raise "skill data invalid => #{sk.name} / category:#{cate} subcategory:#{scate}" if cate.blank? || scate.blank?
+
+        ef = efs[ord] || SkillEffect.new
+        check = lambda do
+          next false unless ef.category == cate
+          next false unless ef.subcategory == scate
+          next false unless ef.subeffect1.to_s == se1.to_s
+          next false unless ef.subeffect2.to_s == se2.to_s
+          true
+        end.call
+        puts "warning : skill data invalid => #{sk.name} #{ef.inspect}" unless check
+
+        ef.order = ord
+        ef.category = cate
+        ef.subcategory = scate
+        ef.subeffect1 = se1
+        ef.subeffect2 = se2
+        es << ef
+        ord += 1
+      end
+      sk.skill_effects = es
+      sk.skill_effects.each(&:save!)
+      sk.save!
+    end
+
+    @skills = skills
   end
 
   def build_ability
@@ -225,22 +295,17 @@ class ArcanaImporter
     iname = datas[10]
     union = datas[11]
     skill_name = datas[12]
-    skill_cate = datas[13]
-    skill_subcate = datas[14]
-    skill_cost = datas[15].to_i
-    skill_subeffect1 = datas[16]
-    skill_subeffect2 = datas[17]
-    name2 = datas[18]
+    name2 = datas[13]
     raise "name invalid" unless name == name2
-    matk = datas[19].to_i
-    mhp = datas[20].to_i
-    latk = datas[21].to_i
-    lhp = datas[22].to_i
-    job_detail = datas[23]
-    ability_name_f = datas[24]
-    ability_name_s = datas[25]
-    chain_ability_name = datas[26]
-    job_index = datas[27].to_i
+    matk = datas[14].to_i
+    mhp = datas[15].to_i
+    latk = datas[16].to_i
+    lhp = datas[17].to_i
+    job_detail = datas[18]
+    ability_name_f = datas[19]
+    ability_name_s = datas[20]
+    chain_ability_name = datas[21]
+    job_index = datas[22].to_i
     code = "#{job_type}#{job_index}"
 
     raise "invalid arcana => code:#{code} name:#{name}" unless valid_arcana?(code, name)
@@ -287,34 +352,9 @@ class ArcanaImporter
     end
 
     unless skill_name.blank?
-      skill = lambda do |name, category, sub, cost, subeffect1, subeffect2|
-        sk = skills[name]
-        if sk
-          check = lambda do
-            next false unless sk.category == category
-            next false unless sk.subcategory == sub
-            next false unless sk.subeffect1.to_s == subeffect1.to_s
-            next false unless sk.subeffect2.to_s == subeffect2.to_s
-            next false unless sk.cost == cost
-            true
-          end.call
-          puts "warning : skill data invalid => #{arcana.name} #{sk.inspect}" unless check
-        else
-          sk = Skill.new
-          sk.name = name
-        end
-
-        sk.category = category
-        sk.subcategory = sub
-        sk.cost = cost
-        sk.explanation = ''
-        sk.subeffect1 = (subeffect1.blank? ? nil : subeffect1)
-        sk.subeffect2 = (subeffect2.blank? ? nil : subeffect2)
-        sk.save!
-        skills[name] = sk
-        sk
-      end.call(skill_name, skill_cate, skill_subcate, skill_cost, skill_subeffect1, skill_subeffect2)
-      arcana.skill = skill
+      sk = skills[skill_name]
+      raise "skill not found => #{skill_name}" unless sk
+      arcana.skill = sk
     end
 
     unless ability_name_f.blank?

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141009061023) do
+ActiveRecord::Schema.define(version: 20141219071408) do
 
   create_table "abilities", force: true do |t|
     t.string   "name",        limit: 100, null: false
@@ -138,24 +138,34 @@ ActiveRecord::Schema.define(version: 20141009061023) do
 
   add_index "illustrators", ["name"], name: "index_illustrators_on_name", unique: true, using: :btree
 
-  create_table "skills", force: true do |t|
-    t.string   "name",        limit: 100, null: false
+  create_table "skill_effects", force: true do |t|
+    t.integer  "skill_id",                null: false
+    t.integer  "order",                   null: false
     t.string   "category",    limit: 100, null: false
     t.string   "subcategory", limit: 100, null: false
+    t.string   "subeffect1",  limit: 100
+    t.string   "subeffect2",  limit: 100
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "skill_effects", ["category", "subcategory"], name: "index_skill_effects_on_category_and_subcategory", using: :btree
+  add_index "skill_effects", ["category"], name: "index_skill_effects_on_category", using: :btree
+  add_index "skill_effects", ["skill_id"], name: "index_skill_effects_on_skill_id", using: :btree
+  add_index "skill_effects", ["subcategory"], name: "index_skill_effects_on_subcategory", using: :btree
+  add_index "skill_effects", ["subeffect1"], name: "index_skill_effects_on_subeffect1", using: :btree
+  add_index "skill_effects", ["subeffect2"], name: "index_skill_effects_on_subeffect2", using: :btree
+
+  create_table "skills", force: true do |t|
+    t.string   "name",        limit: 100, null: false
     t.string   "explanation", limit: 500
     t.integer  "cost",        limit: 3,   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "subeffect1",  limit: 100
-    t.string   "subeffect2",  limit: 100
   end
 
-  add_index "skills", ["category", "subcategory"], name: "index_skills_on_category_and_subcategory", using: :btree
-  add_index "skills", ["category"], name: "index_skills_on_category", using: :btree
   add_index "skills", ["cost"], name: "index_skills_on_cost", using: :btree
   add_index "skills", ["name"], name: "index_skills_on_name", unique: true, using: :btree
-  add_index "skills", ["subeffect1"], name: "index_skills_on_subeffect1", using: :btree
-  add_index "skills", ["subeffect2"], name: "index_skills_on_subeffect2", using: :btree
 
   create_table "voice_actors", force: true do |t|
     t.string   "name",       limit: 100,             null: false
