@@ -984,10 +984,12 @@ class Viewer
   memberKeyFromArea = (div) ->
     div.attr('id').replace('member-character-', '')
 
-  renderArcanaCost = (m) ->
+  renderArcanaCost = (m, cl) ->
     render = "#{m.arcana.cost}"
     if m.chainArcana
       render += " + #{m.chainArcana.chainCost}"
+    else if cl == 'choice' || cl == 'detail'
+      render += " ( #{m.arcana.chainCost} )"
     render
 
   renderChainAbility = (m, cl) ->
@@ -1087,7 +1089,7 @@ class Viewer
       div = "
         <div class='#{a.jobClass} #{cl} summary-size arcana' data-job-code='#{a.jobCode}'>
           <div class='#{a.jobClass}-title arcana-title small'>
-            #{a.jobNameShort}:#{a.rarityStars} <span class='badge badge-sm pull-right'>#{renderArcanaCost(m)}</span>
+            #{a.jobNameShort}:#{a.rarityStars} <span class='badge badge-sm pull-right'>#{renderArcanaCost(m, cl)}</span>
           </div>
           <div class='arcana-summary'>
             <p>
@@ -1144,7 +1146,7 @@ class Viewer
       <div class='#{a.jobClass} arcana'>
         <div class='#{a.jobClass}-title arcana-title'>
           #{a.jobName} : #{a.rarityStars}
-          <span class='badge pull-right'>#{renderArcanaCost(m)}</span>
+          <span class='badge pull-right'>#{renderArcanaCost(m, 'detail')}</span>
         </div>
         <div class='arcana-view-body'>
           <h4 class='arcana-name' id='view-modal-label'>
