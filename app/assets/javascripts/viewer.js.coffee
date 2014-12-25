@@ -802,6 +802,8 @@ class Arcanas
     key += "abe#{query.abilityeffect}_" if query.abilityeffect
     key += "cabc#{query.chainabilitycond}_" if query.chainabilitycond
     key += "cabe#{query.chainabilityeffect}_" if query.chainabilityeffect
+    key += "arco#{query.arcanacost}_" if query.arcanacost
+    key += "chco#{query.chaincost}_" if query.chaincost
     key
 
   search: (query, url, callbacks) ->
@@ -1325,6 +1327,8 @@ class Viewer
     $("#ability-condition").empty().append("<option value=''>-</option>")
     $("#chain-ability-effect").val('')
     $("#chain-ability-condition").empty().append("<option value=''>-</option>")
+    $("#arcana-cost").val('')
+    $("#chain-cost").val('')
 
     $("#additional-condition").hide()
     $("#skill-add").hide()
@@ -1346,6 +1350,8 @@ class Viewer
     abilityEffect = $("#ability-effect").val()
     chainAbilityCond = $("#chain-ability-condition").val()
     chainAbilityEffect = $("#chain-ability-effect").val()
+    arcanacost = $("#arcana-cost").val()
+    chaincost = $("#chain-cost").val()
 
     query = {}
     query.job = job unless job == ''
@@ -1361,6 +1367,8 @@ class Viewer
     query.abilityeffect = abilityEffect unless abilityEffect == ''
     query.chainabilitycond = chainAbilityCond unless chainAbilityCond == ''
     query.chainabilityeffect = chainAbilityEffect unless chainAbilityEffect == ''
+    query.arcanacost = arcanacost unless arcanacost == ''
+    query.chaincost = chaincost unless chaincost == ''
 
     unless (skill == '' && skillcost == '')
       query.skill = skill unless skill == ''
@@ -1383,6 +1391,14 @@ class Viewer
       elem.push Arcana.jobNameFor(query.job)
     if query.rarity
       elem.push "★#{query.rarity.replace(/U/, '以上')}"
+    if query.arcanacost
+      elem.push "コスト#{query.arcanacost.replace(/D/, '以下')}"
+    if query.chaincost
+      elem.push "絆コスト#{query.chaincost.replace(/D/, '以下')}"
+    if query.union
+      elem.push '所属 - ' + Arcana.unionNameFor(query.union)
+    if query.weapon
+      elem.push '武器タイプ - ' + Arcana.weaponNameFor(query.weapon)
     if query.skill || query.skillcost
       text = 'スキル - '
       text += Skill.typeNameFor(query.skill) if query.skill
@@ -1405,10 +1421,6 @@ class Viewer
       text = '入手先 - ' + Arcana.sourceCategoryNameFor(query.sourcecategory)
       text += ' ' + Arcana.sourceNameFor(query.sourcecategory, query.source) if query.source
       elem.push text
-    if query.union
-      elem.push '所属 - ' + Arcana.unionNameFor(query.union)
-    if query.weapon
-      elem.push '武器タイプ - ' + Arcana.weaponNameFor(query.weapon)
     if query.actor
       elem.push '声優 - ' + $("#actor :selected").text()
     if query.illustrator

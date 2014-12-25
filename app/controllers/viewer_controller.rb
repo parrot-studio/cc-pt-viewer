@@ -4,7 +4,7 @@ class ViewerController < ApplicationController
     code = params[:code]
     mems = parse_pt_code(code)
     @ptm = mems ? code : ''
-    @uri = root_path(only_path: false)
+    @uri = root_url
     @title = ''
     unless @ptm.blank?
       @uri = URI.join(@uri, @ptm).to_s
@@ -107,26 +107,21 @@ class ViewerController < ApplicationController
   end
 
   def create_member_title(mems)
-   keys = [:mem1, :mem2, :mem3, :mem4, :sub1, :sub2, :friend]
-   names = []
-   keys.each do |k|
-     c = mems[k]
-     next if c.blank?
-     names << Arcana.find_by_job_code(c).name
-   end
-
-   title = names.join(', ')
-   if title.size > 30
-     title = title[0, 27] + '...'
-   end
-   title
+    keys = [:mem1, :mem2, :mem3, :mem4, :sub1, :sub2, :friend]
+    names = []
+    keys.each do |k|
+      c = mems[k]
+      next if c.blank?
+      names << Arcana.find_by_job_code(c).name
+    end
+    names.join(', ')
   end
 
   def query_params
     params.permit(:recently, :job, :rarity, :weapon, :actor, :illustrator,
       :union, :source, :sourcecategory, :skill, :skillcost,
       :skillsub, :skilleffect, :abilitycond, :abilityeffect,
-      :chainabilitycond, :chainabilityeffect)
+      :chainabilitycond, :chainabilityeffect, :arcanacost, :chaincost)
   end
 
   def recently_arcanas
@@ -203,6 +198,23 @@ class ViewerController < ApplicationController
       end
     end.call(org[:skillcost])
 
+    cost_cond = lambda do |c|
+      case c
+      when /\A(\d+)-(\d+)\z/
+        s, e = [$1.to_i, $2.to_i].sort
+        s = 0 if s < 0
+        (s..e)
+      when /\A(\d+)D\z/
+        (0..($1.to_i))
+      when /\A\d+\z/
+        [c.to_i]
+      else
+        nil
+      end
+    end
+    arcanacost = cost_cond.call(org[:arcanacost])
+    chaincost = cost_cond.call(org[:chaincost])
+
     job = [org[:job]].flatten.uniq.compact.select{|j| j.upcase!; Arcana::JOB_TYPES.include?(j)}
     weapon = [org[:weapon]].flatten.uniq.compact.select{|j| Arcana::WEAPON_TYPES.include?(j)}
 
@@ -240,6 +252,8 @@ class ViewerController < ApplicationController
     query[:abilityeffect] = compact.call(abilityeffect) unless abilityeffect.blank?
     query[:chainabilitycond] = compact.call(chainabilitycond) unless chainabilitycond.blank?
     query[:chainabilityeffect] = compact.call(chainabilityeffect) unless chainabilityeffect.blank?
+    query[:cost] = compact.call(arcanacost) unless arcanacost.blank?
+    query[:chain_cost] = compact.call(chaincost) unless chaincost.blank?
 
     key = "arcanas"
     key += "_j:#{job.sort.join}" if query[:job_type]
@@ -258,6 +272,8 @@ class ViewerController < ApplicationController
     key += "_abe:#{abilityeffect.sort.join('/')}" if query[:abilityeffect]
     key += "_cabc:#{chainabilitycond.sort.join('/')}" if query[:chainabilitycond]
     key += "_cabe:#{chainabilityeffect.sort.join('/')}" if query[:chainabilityeffect]
+    key += "_arco:#{arcanacost.sort.join('/')}" if query[:cost]
+    key += "_chco:#{chaincost.sort.join('/')}" if query[:chain_cost]
 
     query[:cache_key] = key
     query

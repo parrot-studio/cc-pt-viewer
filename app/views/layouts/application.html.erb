@@ -9,7 +9,7 @@
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv="Pragma" content="no-cache">
     <meta property="og:site_name" content="Get our light! - チェンクロパーティーシミュレーター" />
-    <meta property="og:title" content="<%= "#{@title} : " unless @title.blank? %>Get our light! - チェンクロパーティーシミュレーター" />
+    <meta property="og:title" content="<%= "#{truncate(@title, length: 30)} : " unless @title.blank? %>Get our light! - チェンクロパーティーシミュレーター" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="<%= image_url("ccpts.png") %>" />
     <meta property="og:url" content="<%= @uri %>" />
@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary">
     <link rel="canonical" href="<%= @uri %>" />
     <link itemprop="author" href="https://twitter.com/parrot_studio" />
-    <title><%= "#{@title} : " unless @title.blank? %>Get our light! - チェンクロパーティーシミュレーター</title>
+    <title><%= "#{truncate(@title, length: 30)} : " unless @title.blank? %>Get our light! - チェンクロパーティーシミュレーター</title>
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
