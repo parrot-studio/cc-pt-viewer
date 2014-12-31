@@ -162,6 +162,7 @@ class Ability
     for_poison: '敵が毒の時'
     for_slow: '敵がスロウの時'
     for_weaken: '敵が衰弱の時'
+    guard: 'ガードした時'
     heal: '回復時'
     hp_downto: 'HPが一定以下の時'
     hp_downto_more: 'HPがより低い時'
@@ -199,6 +200,7 @@ class Ability
     'critical'
     'skill'
     'defend'
+    'guard'
     'counter'
     'in_combo'
     'in_pierce'
@@ -255,7 +257,7 @@ class Ability
       name: '与えるダメージ上昇'
       conditions: ['any', 'hp_upto', 'hp_upto_more', 'hp_downto',
         'hp_downto_more', 'hp_full', 'attack', 'critical', 'in_combo', 'in_pierce',
-        'kill', 'killer', 'in_front', 'in_emeny_area', 'others_skill', 'link',
+        'guard', 'kill', 'killer', 'in_front', 'in_emeny_area', 'others_skill', 'link',
         'mana_charged', 'boss_wave', 'wave_start', 'for_blind', 'for_slow',
         'for_poison', 'for_down', 'for_curse', 'for_weaken',
         'in_debuff', 'in_field', 'dropout_member', 'union']
@@ -466,7 +468,7 @@ class Ability
     speedup:
       name: '移動速度上昇'
       conditions: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more', 'hp_full',
-        'in_combo', 'kill', 'in_field', 'in_debuff',
+        'guard', 'in_combo', 'kill', 'in_field', 'in_debuff',
         'boss_wave', 'wave_start', 'union']
       chains: ['any', 'hp_upto', 'hp_downto', 'in_field', 'boss_wave']
     speedup_all:
