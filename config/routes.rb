@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   get  'about'   => 'viewer#about'
   get  'changelogs' => 'viewer#changelogs'
   get  ':code'   => 'viewer#index'
+
 end

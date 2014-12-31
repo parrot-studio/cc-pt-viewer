@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20141219071408) do
 
-  create_table "abilities", force: true do |t|
+  create_table "abilities", force: :cascade do |t|
     t.string   "name",        limit: 100, null: false
     t.string   "explanation", limit: 500
     t.datetime "created_at"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20141219071408) do
 
   add_index "abilities", ["name"], name: "index_abilities_on_name", unique: true, using: :btree
 
-  create_table "ability_effects", force: true do |t|
+  create_table "ability_effects", force: :cascade do |t|
     t.string   "condition_type", limit: 100, null: false
     t.string   "effect_type",    limit: 100, null: false
     t.datetime "created_at"
@@ -33,9 +33,9 @@ ActiveRecord::Schema.define(version: 20141219071408) do
   add_index "ability_effects", ["condition_type"], name: "index_ability_effects_on_condition_type", using: :btree
   add_index "ability_effects", ["effect_type"], name: "index_ability_effects_on_effect_type", using: :btree
 
-  create_table "ability_relations", force: true do |t|
-    t.integer  "ability_id",        null: false
-    t.integer  "ability_effect_id", null: false
+  create_table "ability_relations", force: :cascade do |t|
+    t.integer  "ability_id",        limit: 4, null: false
+    t.integer  "ability_effect_id", limit: 4, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -44,32 +44,32 @@ ActiveRecord::Schema.define(version: 20141219071408) do
   add_index "ability_relations", ["ability_id", "ability_effect_id"], name: "index_ability_relations_on_ability_id_and_ability_effect_id", using: :btree
   add_index "ability_relations", ["ability_id"], name: "index_ability_relations_on_ability_id", using: :btree
 
-  create_table "arcanas", force: true do |t|
+  create_table "arcanas", force: :cascade do |t|
     t.string   "name",              limit: 100,             null: false
     t.string   "title",             limit: 200
     t.integer  "rarity",            limit: 3,               null: false
-    t.integer  "cost",                                      null: false
+    t.integer  "cost",              limit: 4,               null: false
     t.string   "weapon_type",       limit: 10,              null: false
     t.string   "job_type",          limit: 10,              null: false
-    t.integer  "job_index",                                 null: false
+    t.integer  "job_index",         limit: 4,               null: false
     t.string   "job_code",          limit: 20,              null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "source",            limit: 100,             null: false
-    t.integer  "voice_actor_id",                default: 0, null: false
-    t.integer  "illustrator_id",                default: 0, null: false
+    t.integer  "voice_actor_id",    limit: 4,   default: 0, null: false
+    t.integer  "illustrator_id",    limit: 4,   default: 0, null: false
     t.string   "union",             limit: 100,             null: false
-    t.integer  "skill_id",                      default: 0, null: false
+    t.integer  "skill_id",          limit: 4,   default: 0, null: false
     t.integer  "max_atk",           limit: 8
     t.integer  "max_hp",            limit: 8
     t.integer  "limit_atk",         limit: 8
     t.integer  "limit_hp",          limit: 8
     t.string   "job_detail",        limit: 50
-    t.integer  "first_ability_id",              default: 0, null: false
-    t.integer  "second_ability_id",             default: 0, null: false
+    t.integer  "first_ability_id",  limit: 4,   default: 0, null: false
+    t.integer  "second_ability_id", limit: 4,   default: 0, null: false
     t.string   "source_category",   limit: 100,             null: false
-    t.integer  "chain_ability_id",              default: 0, null: false
-    t.integer  "chain_cost",                    default: 0, null: false
+    t.integer  "chain_ability_id",  limit: 4,   default: 0, null: false
+    t.integer  "chain_cost",        limit: 4,   default: 0, null: false
   end
 
   add_index "arcanas", ["chain_ability_id"], name: "index_arcanas_on_chain_ability_id", using: :btree
@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(version: 20141219071408) do
   add_index "arcanas", ["voice_actor_id"], name: "index_arcanas_on_voice_actor_id", using: :btree
   add_index "arcanas", ["weapon_type"], name: "index_arcanas_on_weapon_type", using: :btree
 
-  create_table "chain_abilities", force: true do |t|
+  create_table "chain_abilities", force: :cascade do |t|
     t.string   "name",        limit: 100, null: false
     t.string   "explanation", limit: 500
     t.datetime "created_at"
@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(version: 20141219071408) do
 
   add_index "chain_abilities", ["name"], name: "index_chain_abilities_on_name", unique: true, using: :btree
 
-  create_table "chain_ability_effects", force: true do |t|
+  create_table "chain_ability_effects", force: :cascade do |t|
     t.string   "condition_type", limit: 100, null: false
     t.string   "effect_type",    limit: 100, null: false
     t.datetime "created_at"
@@ -118,9 +118,9 @@ ActiveRecord::Schema.define(version: 20141219071408) do
   add_index "chain_ability_effects", ["condition_type"], name: "index_chain_ability_effects_on_condition_type", using: :btree
   add_index "chain_ability_effects", ["effect_type"], name: "index_chain_ability_effects_on_effect_type", using: :btree
 
-  create_table "chain_ability_relations", force: true do |t|
-    t.integer  "chain_ability_id",        null: false
-    t.integer  "chain_ability_effect_id", null: false
+  create_table "chain_ability_relations", force: :cascade do |t|
+    t.integer  "chain_ability_id",        limit: 4, null: false
+    t.integer  "chain_ability_effect_id", limit: 4, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -129,18 +129,18 @@ ActiveRecord::Schema.define(version: 20141219071408) do
   add_index "chain_ability_relations", ["chain_ability_id", "chain_ability_effect_id"], name: "chain_ability_relations_index", using: :btree
   add_index "chain_ability_relations", ["chain_ability_id"], name: "index_chain_ability_relations_on_chain_ability_id", using: :btree
 
-  create_table "illustrators", force: true do |t|
+  create_table "illustrators", force: :cascade do |t|
     t.string   "name",       limit: 100,             null: false
-    t.integer  "count",                  default: 0, null: false
+    t.integer  "count",      limit: 4,   default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "illustrators", ["name"], name: "index_illustrators_on_name", unique: true, using: :btree
 
-  create_table "skill_effects", force: true do |t|
-    t.integer  "skill_id",                null: false
-    t.integer  "order",                   null: false
+  create_table "skill_effects", force: :cascade do |t|
+    t.integer  "skill_id",    limit: 4,   null: false
+    t.integer  "order",       limit: 4,   null: false
     t.string   "category",    limit: 100, null: false
     t.string   "subcategory", limit: 100, null: false
     t.string   "subeffect1",  limit: 100
@@ -156,7 +156,7 @@ ActiveRecord::Schema.define(version: 20141219071408) do
   add_index "skill_effects", ["subeffect1"], name: "index_skill_effects_on_subeffect1", using: :btree
   add_index "skill_effects", ["subeffect2"], name: "index_skill_effects_on_subeffect2", using: :btree
 
-  create_table "skills", force: true do |t|
+  create_table "skills", force: :cascade do |t|
     t.string   "name",        limit: 100, null: false
     t.string   "explanation", limit: 500
     t.integer  "cost",        limit: 3,   null: false
@@ -167,9 +167,9 @@ ActiveRecord::Schema.define(version: 20141219071408) do
   add_index "skills", ["cost"], name: "index_skills_on_cost", using: :btree
   add_index "skills", ["name"], name: "index_skills_on_name", unique: true, using: :btree
 
-  create_table "voice_actors", force: true do |t|
+  create_table "voice_actors", force: :cascade do |t|
     t.string   "name",       limit: 100,             null: false
-    t.integer  "count",                  default: 0, null: false
+    t.integer  "count",      limit: 4,   default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
