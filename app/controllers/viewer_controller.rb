@@ -11,13 +11,15 @@ class ViewerController < ApplicationController
       @title = create_member_title(mems)
     end
 
-    @actors = with_cache('actors') do
-      VoiceActor.order('count DESC, name').to_a
-    end
+    @actors = actors
+    @illustrators = illustrators
+    @mode = 'ptedit'
+  end
 
-    @illusts = with_cache('illusts') do
-      Illustrator.order(:name).to_a
-    end
+  def database
+    @actors = actors
+    @illustrators = illustrators
+    @mode = 'database'
   end
 
   def arcanas
@@ -42,6 +44,18 @@ class ViewerController < ApplicationController
   end
 
   private
+
+  def actors
+    with_cache('actors') do
+      VoiceActor.order('count DESC, name').to_a
+    end
+  end
+
+  def illustrators
+    with_cache('illustrators') do
+      Illustrator.order(:name).to_a
+    end
+  end
 
   def parse_pt_code(code)
     return if code.blank?

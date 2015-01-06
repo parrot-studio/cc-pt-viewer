@@ -948,18 +948,46 @@ class Viewer
   arcanas = new Arcanas()
   memberKeys = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'friend']
   pager = null
+  pagerSize = null
   onEdit = true
   defaultMemberCode = 'V2F82F85K51NA38NP28NP24NNNNN'
   usedList = []
   usedListSizeMax = 24
+  mode = null
 
   constructor: ->
-    initUsedArcana()
-    initHandler()
-    initMembers()
+    mode = $("#mode").val()
+
+    if mode == 'database'
+      initDatabaseHandler()
+      searchRecentlyTargets()
+      pagerSize = (if isPhoneDevice() then 10 else 25)
+    else
+      pagerSize = 8
+      initEditHandler()
+
+      ptm = $("#ptm").val() || ''
+      toggleEditMode() unless ptm is ''
+
+      if isPhoneDevice()
+        if ptm is ''
+          # TODO redirect to DB mode
+          toggleEditMode()
+          buildMembersArea(defaultMemberCode)
+        else
+          buildMembersArea(ptm)
+      else
+        initUsedArcana()
+        searchRecentlyTargets()
+        ptm = defaultMemberCode if ptm is ''
+        buildMembersArea(ptm)
 
   isPhoneDevice = ->
     if window.innerWidth < 768 then true else false
+
+  createPager = (list, size) ->
+    s = size || pagerSize
+    new Pager(list, s)
 
   eachMemberKey = (func) ->
     for m in memberKeys
@@ -992,7 +1020,7 @@ class Viewer
     render = "#{m.arcana.cost}"
     if m.chainArcana
       render += " + #{m.chainArcana.chainCost}"
-    else if cl == 'choice' || cl == 'detail'
+    else if cl == 'choice' || cl == 'detail' || cl == 'table'
       render += " ( #{m.arcana.chainCost} )"
     render
 
@@ -1193,8 +1221,60 @@ class Viewer
       </div>
     "
 
+  renderTableHeader = ->
+    tr = "
+      <tr>
+        <th><br></th>
+        <th>職</th>
+        <th>★</th>
+    "
+    unless isPhoneDevice()
+      tr += "
+        <th>コスト</th>
+        <th>武器</th>
+        <th>最大ATK</th>
+        <th>最大HP</th>
+        <th>限界ATK</th>
+        <th>限界HP</th>
+        <th>所属</th>
+      "
+    tr += "</tr>"
+    tr
+
+  renderTableArcana = (m) ->
+    return unless m
+    a = m.arcana
+
+    tr = "
+      <tr>
+        <td class='arcana-header '>
+          <div class='#{a.jobClass}'>
+    "
+    if isPhoneDevice()
+      tr += "<span class='badge badge-sm pull-right'>#{renderArcanaCost(m, 'table')}</span>"
+    tr += "
+            <span class='text-muted small'>#{a.title}</span><br>
+            <a href='#' class='view-info' data-job-code='#{a.jobCode}' data-toggle='modal' data-target='#view-modal'>#{a.name}</button>
+          </div>
+        </td>
+        <td>#{a.jobNameShort}</td>
+        <td>★#{a.rarity}</td>
+    "
+    unless isPhoneDevice()
+      tr += "
+        <td>#{renderArcanaCost(m, 'table')}</td>
+        <td>#{a.weaponName}</td>
+        <td>#{a.maxAtk}</td>
+        <td>#{a.maxHp}</td>
+        <td>#{a.limitAtk}</td>
+        <td>#{a.limitHp}</td>
+        <td>#{Arcana.unionNameFor(a.union)}</td>
+      "
+    tr += "</tr>"
+    tr
+
   renderPager = ->
-    pager ||= new Pager([])
+    pager ||= createPager([])
     prev = $('#pager-prev')
     next = $('#pager-next')
     $('.each-page').remove()
@@ -1204,15 +1284,47 @@ class Viewer
     else
       prev.addClass('disabled')
 
-    for p in [1 .. pager.maxPage]
+    if isPhoneDevice()
+      $('#pagination-area').addClass('pagination-sm')
+      body = 3
+      edge = 1
+    else
+      body = 5
+      edge = 2
+
+    list = if pager.maxPage <= (body + edge * 2 + 2)
+      [1 .. pager.maxPage]
+    else
+      switch
+        when pager.page <= (edge + (body+1)/2)
+          li = [1 .. (body + edge)]
+          li.push '..'
+          li = li.concat [(pager.maxPage - edge + 1) .. pager.maxPage]
+          li
+        when pager.page >= (pager.maxPage - (edge + (body+1)/2) + 1)
+          li = [1 .. edge]
+          li.push '..'
+          li = li.concat [(pager.maxPage-(body + edge)+1) .. pager.maxPage]
+          li
+        else
+          li = [1 .. edge]
+          li.push '..'
+          li = li.concat [(pager.page - edge) .. (pager.page + edge)]
+          li.push '..'
+          li = li.concat [(pager.maxPage - edge + 1) .. pager.maxPage]
+          li
+
+    for p in list
       pa = $("<li><span class='each-page' data-page='#{p}'>#{p}</span></li>")
-      if p == pager.page
+      if p is '..'
+        pa.addClass('disable')
+      else if p == pager.page
         pa.addClass('active')
       else
         pa.hammer().on 'tap', (e) ->
           page = $(e.target).children('span').data('page')
           pager?.jumpPage(page)
-          replaceChoiceArea()
+          replaceTargetArea()
       next.before(pa)
 
     if pager.hasNextPage()
@@ -1243,16 +1355,34 @@ class Viewer
       else
         renderMemberArcana(div, renderFullSizeArcana(m))
 
+  replaceTargetArea = ->
+    if mode == 'database'
+      replaceTableArea()
+    else
+      replaceChoiceArea()
+
   replaceChoiceArea = ->
     as = pager?.get() || []
     ul = $('#choice-characters')
     ul.empty()
     for a in as
-      li = $("<li class='listed-character col-sm-3 col-md-3'></li>")
+      li = $("<li class='listed-character col-sm-3 col-md-3 col-xs-6'></li>")
       li.html(renderSummarySizeArcana(a, 'choice'))
       li.hide()
       ul.append(li)
       li.fadeIn('slow')
+    renderPager()
+    @
+
+  replaceTableArea = ->
+    as = pager?.get() || []
+    tbody = $('#table-body')
+    tbody.empty()
+    tbody.append(renderTableHeader())
+
+    for a in as
+      tr = renderTableArcana(a)
+      tbody.append(tr)
     renderPager()
     @
 
@@ -1309,7 +1439,7 @@ class Viewer
           list.push mc
           codes[mc.arcana.jobCode] = mc
 
-      pager = new Pager(list)
+      pager = createPager(list)
       replaceChoiceArea()
 
   resetQuery = ->
@@ -1433,13 +1563,13 @@ class Viewer
     query = q || buildQuery()
     unless query
       $("#detail").text('')
-      pager = new Pager([])
-      replaceChoiceArea()
+      pager = createPager([])
+      replaceTargetArea()
       return
     searchArcanas query, 'arcanas', (as) ->
       $("#detail").text(createQueryDetail(query))
-      pager = new Pager(as)
-      replaceChoiceArea()
+      pager = createPager(as)
+      replaceTargetArea()
 
   searchRecentlyTargets = ->
     searchTargets({recently: true})
@@ -1449,7 +1579,7 @@ class Viewer
     for c in usedList
       as.push arcanas.forCode(c)
     $("#detail").text('最近使ったアルカナ')
-    pager = new Pager(as)
+    pager = createPager(as)
     replaceChoiceArea()
 
   searchUsedArcanas = ->
@@ -1651,16 +1781,16 @@ class Viewer
       target.append("<option value='#{c}'>#{Ability.conditionNameFor(c)}</option>")
     @
 
-  prevChoicePage = ->
+  prevTargetPage = ->
     if pager?.hasPrevPage()
       pager.prevPage()
-      replaceChoiceArea()
+      replaceTargetArea()
     @
 
-  nextChoicePage = ->
+  nextTargetPage = ->
     if pager?.hasNextPage()
       pager.nextPage()
-      replaceChoiceArea()
+      replaceTargetArea()
     @
 
   initUsedArcana = ->
@@ -1771,13 +1901,66 @@ class Viewer
     storeLastMembers()
     @
 
-  initHandler = ->
+  commonHandler = ->
     $("#error-area").hide()
     $("#error-area").removeClass("invisible")
-    $("#tutorial").hide()
-    $("#tutorial").removeClass("invisible")
     $("#additional-condition").hide()
     $("#skill-add").hide()
+
+    createUnionList()
+    createAbilityEffects()
+    createChainAbilityEffects()
+
+    $("#search").hammer().on 'tap', (e) ->
+      e.preventDefault()
+      searchTargets()
+      $("#search-modal").modal('hide')
+
+    $("#search-clear").hammer().on 'tap', (e) ->
+      e.preventDefault()
+      resetQuery()
+
+    $("#add-condition").hammer().on 'tap', (e) ->
+      e.preventDefault()
+      $("#add-condition").hide()
+      $("#additional-condition").fadeIn('fast')
+
+    $("#skill").on 'change', (e) ->
+      e.preventDefault()
+      createSkillOptions()
+
+    $("#ability-effect").on 'change', (e) ->
+      e.preventDefault()
+      createAbilityConditions()
+
+    $("#chain-ability-effect").on 'change', (e) ->
+      e.preventDefault()
+      createChainAbilityConditions()
+
+    $("#source-category").on 'change', (e) ->
+      e.preventDefault()
+      createSourceOptions()
+
+    $("#view-modal").on 'show.bs.modal', (e) ->
+      code = $(e.relatedTarget).data('jobCode')
+      createArcanaDetail(code)
+      true # for modal
+
+    $("#pager-prev").hammer().on 'tap', (e) ->
+      e.preventDefault()
+      prevTargetPage()
+
+    $("#pager-next").hammer().on 'tap', (e) ->
+      e.preventDefault()
+      nextTargetPage()
+
+    @
+
+  initEditHandler = ->
+    commonHandler()
+
+    $("#tutorial").hide()
+    $("#tutorial").removeClass("invisible")
     $("#help-area").hide()
     $("#help-area").removeClass("invisible")
     $("#help-text").hide()
@@ -1791,10 +1974,6 @@ class Viewer
       else
         showLatestInfo()
 
-    createUnionList()
-    createAbilityEffects()
-    createChainAbilityEffects()
-
     $(".member-character").droppable(
       drop: (e, ui) ->
         e.preventDefault()
@@ -1804,11 +1983,6 @@ class Viewer
     $("#edit-members").hammer().on 'tap', (e) ->
       e.preventDefault()
       toggleEditMode()
-
-    $("#search").hammer().on 'tap', (e) ->
-      e.preventDefault()
-      searchTargets()
-      $("#search-modal").modal('hide')
 
     $("#member-area").on 'click', 'button.close-member', (e) ->
       e.preventDefault()
@@ -1848,44 +2022,6 @@ class Viewer
       eachMemberKey (k) ->
         clearMemberArcana(k)
       $("#cost").text('0')
-
-    $("#search-clear").hammer().on 'tap', (e) ->
-      e.preventDefault()
-      resetQuery()
-
-    $("#add-condition").hammer().on 'tap', (e) ->
-      e.preventDefault()
-      $("#add-condition").hide()
-      $("#additional-condition").fadeIn('fast')
-
-    $("#skill").on 'change', (e) ->
-      e.preventDefault()
-      createSkillOptions()
-
-    $("#ability-effect").on 'change', (e) ->
-      e.preventDefault()
-      createAbilityConditions()
-
-    $("#chain-ability-effect").on 'change', (e) ->
-      e.preventDefault()
-      createChainAbilityConditions()
-
-    $("#source-category").on 'change', (e) ->
-      e.preventDefault()
-      createSourceOptions()
-
-    $("#view-modal").on 'show.bs.modal', (e) ->
-      code = $(e.relatedTarget).data('jobCode')
-      createArcanaDetail(code)
-      true # for modal
-
-    $("#pager-prev").hammer().on 'tap', (e) ->
-      e.preventDefault()
-      prevChoicePage()
-
-    $("#pager-next").hammer().on 'tap', (e) ->
-      e.preventDefault()
-      nextChoicePage()
 
     $("#used-list").hammer().on 'tap', (e) ->
       e.preventDefault()
@@ -1933,15 +2069,9 @@ class Viewer
 
     @
 
-  initMembers = ->
-    ptm = $("#ptm").val()
-    searchRecentlyTargets() unless isPhoneDevice()
-    if ptm == ''
-      toggleEditMode() if isPhoneDevice()
-      buildMembersArea(defaultMemberCode)
-    else
-      toggleEditMode()
-      buildMembersArea(ptm)
+  initDatabaseHandler = ->
+    commonHandler()
+
     @
 
 $ -> (new Viewer())

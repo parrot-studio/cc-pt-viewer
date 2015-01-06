@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   root 'viewer#index'
+  get  'db'      => 'viewer#database'
   get  'arcanas' => 'viewer#arcanas'
   get  'ptm'     => 'viewer#ptm'
   get  'codes'   => 'viewer#codes'

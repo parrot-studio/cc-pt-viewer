@@ -2,22 +2,9 @@
 members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', sub2: 'Sub2', friend: 'Friend', cost: ''}
 %>
 
-<div id="error-area" class="invisible">
-  <div class="row">
-    <div class="col-xs-12 col-md-12 col-sm-12">
-      <div class="alert alert-danger" role="alert">
-        <p>
-          <strong>データの取得に失敗しました。</strong>
-          <%= link_to 'リロードする', request.url, :class => 'alert-link' %>か、もう一度検索してください。
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row">
+<div class="row hidden-xs">
   <div class="col-sm-12 col-md-12">
-    <button class="btn btn-primary hidden-xs act-btn" id="edit-members">
+    <button class="btn btn-primary act-btn" id="edit-members">
       編集終了
     </button>
     <button class="btn btn-info act-btn" id="share-members" data-toggle="modal" data-target="#share-modal">
@@ -93,13 +80,10 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
 
 <div class="hidden-xs">
   <%= render 'viewer/edit' %>
+  <%= render 'viewer/condition' %>
   <%= render 'viewer/select' %>
 </div>
-<%= render 'viewer/share' %>
 <%= render 'viewer/help' %>
-<%= render 'viewer/view' %>
+<%= render 'viewer/share' %>
 
-<input type="hidden" id="data-ver" value="<%= data_version %>">
-<input type="hidden" id="pt-ver" value="<%= pt_version %>">
-<input type="hidden" id="app-path" value="<%= root_url %>">
 <input type="hidden" id="ptm" value="<%= @ptm %>">

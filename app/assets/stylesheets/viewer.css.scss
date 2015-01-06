@@ -226,3 +226,43 @@ footer {
 .help li {
   margin-bottom: 0.5em;
 }
+
+#arcana-table {
+  tr {
+    background-color: white;
+  }
+
+  th, td {
+    text-align: center;
+  }
+
+  td.arcana-header {
+    text-align: left;
+    padding: 0px;
+  }
+
+  .fighter {
+    border: 4px solid pink;
+    padding: 4px;
+  }
+
+  .knight {
+    border: 4px solid lightskyblue;
+    padding: 4px;
+  }
+
+  .archer {
+    border: 4px solid lemonchiffon;
+    padding: 4px;
+  }
+
+  .magician {
+    border: 4px solid mediumpurple;
+    padding: 4px;
+  }
+
+  .priest {
+    border: 4px solid lightgreen;
+    padding: 4px;
+  }
+}

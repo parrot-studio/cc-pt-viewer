@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-sm-12 col-md-12">
+    <button type="button" id="search-moadal" data-toggle="modal" data-target="#search-modal" class="btn btn-primary">
+      検索する
+    </button>
+    <a class="btn btn-default pull-right" href="<%= root_path %>" role="button">（仮）パーティー編集モード</a>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12 col-md-12">
+    <nav class="text-center">
+      <ul class="pagination" id="pagination-area">
+        <li id="pager-prev"><span>&larr;</span></li>
+        <li id="pager-next"><span>&rarr;</span></li>
+      </ul>
+    </nav>
+    <div class="well well-sm small text-muted">
+      <span id="detail"></span> <span id="pager-count"></span>
+    </div>
+    <div class="table-responsive">
+      <table id="arcana-table" class="table table-bordered table-condensed">
+        <tbody id="table-body">
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%= render 'viewer/condition' %>
