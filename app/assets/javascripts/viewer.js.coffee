@@ -2082,4 +2082,6 @@ class Viewer
 
     @
 
-$ -> (new Viewer())
+$ ->
+  FastClick.attach(document.body)
+  new Viewer()
