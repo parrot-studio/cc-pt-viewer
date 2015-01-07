@@ -17,6 +17,5 @@
 //= require jquery.ui.touch-punch.min
 //= require jquery.cookie
 //= require bootstrap
-//= require hammer
-//= require jquery.hammer
+//= require fastclick
 //= require_tree .

@@ -45,7 +45,6 @@ end
 # need for app
 gem 'settingslogic'
 gem 'bootstrap-sass'
-gem 'hammerjs-rails'
 gem 'jquery-ui-rails'
 
 # pry

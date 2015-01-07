@@ -63,7 +63,6 @@ GEM
     execjs (2.2.2)
     globalid (0.3.0)
       activesupport (>= 4.1.0)
-    hammerjs-rails (0.3.0)
     hike (1.2.3)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
@@ -199,7 +198,6 @@ DEPENDENCIES
   bootstrap-sass
   byebug
   coffee-rails (~> 4.1.0)
-  hammerjs-rails
   i18n_generators
   jbuilder (~> 2.0)
   jquery-rails

@@ -956,13 +956,13 @@ class Viewer
   mode = null
 
   constructor: ->
-    mode = $("#mode").val()
+    mode = $("#mode").val() || ''
 
-    if mode == 'database'
+    if mode is 'database'
       initDatabaseHandler()
       searchRecentlyTargets()
       pagerSize = (if isPhoneDevice() then 10 else 25)
-    else
+    else if mode is 'ptedit'
       pagerSize = 8
       initEditHandler()
 
@@ -981,6 +981,8 @@ class Viewer
         searchRecentlyTargets()
         ptm = defaultMemberCode if ptm is ''
         buildMembersArea(ptm)
+    else
+      commonHandler()
 
   isPhoneDevice = ->
     if window.innerWidth < 768 then true else false
@@ -1321,8 +1323,9 @@ class Viewer
       else if p == pager.page
         pa.addClass('active')
       else
-        pa.hammer().on 'tap', (e) ->
-          page = $(e.target).children('span').data('page')
+        pa.on 'click', (e) ->
+          e.preventDefault()
+          page = $(e.target).data('page')
           pager?.jumpPage(page)
           replaceTargetArea()
       next.before(pa)
@@ -1904,6 +1907,11 @@ class Viewer
   commonHandler = ->
     $("#error-area").hide()
     $("#error-area").removeClass("invisible")
+    $("#amazon").hide() if isPhoneDevice()
+
+  searchHandler = ->
+    commonHandler()
+
     $("#additional-condition").hide()
     $("#skill-add").hide()
 
@@ -1911,16 +1919,16 @@ class Viewer
     createAbilityEffects()
     createChainAbilityEffects()
 
-    $("#search").hammer().on 'tap', (e) ->
+    $("#search").on 'click', (e) ->
       e.preventDefault()
       searchTargets()
       $("#search-modal").modal('hide')
 
-    $("#search-clear").hammer().on 'tap', (e) ->
+    $("#search-clear").on 'click', (e) ->
       e.preventDefault()
       resetQuery()
 
-    $("#add-condition").hammer().on 'tap', (e) ->
+    $("#add-condition").on 'click', (e) ->
       e.preventDefault()
       $("#add-condition").hide()
       $("#additional-condition").fadeIn('fast')
@@ -1946,18 +1954,18 @@ class Viewer
       createArcanaDetail(code)
       true # for modal
 
-    $("#pager-prev").hammer().on 'tap', (e) ->
+    $("#pager-prev").on 'click', (e) ->
       e.preventDefault()
       prevTargetPage()
 
-    $("#pager-next").hammer().on 'tap', (e) ->
+    $("#pager-next").on 'click', (e) ->
       e.preventDefault()
       nextTargetPage()
 
     @
 
   initEditHandler = ->
-    commonHandler()
+    searchHandler()
 
     $("#tutorial").hide()
     $("#tutorial").removeClass("invisible")
@@ -1980,7 +1988,7 @@ class Viewer
         handleDropedArcana($(e.target), ui.draggable)
     )
 
-    $("#edit-members").hammer().on 'tap', (e) ->
+    $("#edit-members").on 'click', (e) ->
       e.preventDefault()
       toggleEditMode()
 
@@ -2017,32 +2025,32 @@ class Viewer
       $(e.target).select()
       e.preventDefault()
 
-    $("#reset-members").hammer().on 'tap', (e) ->
+    $("#reset-members").on 'click', (e) ->
       e.preventDefault()
       eachMemberKey (k) ->
         clearMemberArcana(k)
       $("#cost").text('0')
 
-    $("#used-list").hammer().on 'tap', (e) ->
+    $("#used-list").on 'click', (e) ->
       e.preventDefault()
       searchUsedArcanas()
 
-    $("#default-list").hammer().on 'tap', (e) ->
+    $("#default-list").on 'click', (e) ->
       e.preventDefault()
       searchRecentlyTargets()
 
-    $("#last-members").hammer().on 'tap', (e) ->
+    $("#last-members").on 'click', (e) ->
       e.preventDefault()
       searchLastMembers()
 
-    $("#clear-used").hammer().on 'tap', (e) ->
+    $("#clear-used").on 'click', (e) ->
       e.preventDefault()
       if window.confirm('アルカナの使用履歴を消去します。よろしいですか？')
         clearUsedArcana()
         clearLastMembers()
         window.alert('アルカナの使用履歴を消去しました。')
 
-    $("#select-btn-chain").hammer().on 'tap', (e) ->
+    $("#select-btn-chain").on 'click', (e) ->
       e.preventDefault()
       key = $('#select-position-key').val()
       code = $('#select-droped-code').val()
@@ -2054,7 +2062,7 @@ class Viewer
       setMemberArcana(key, mem)
       $('#select-modal').modal('hide')
 
-    $("#select-btn-replace").hammer().on 'tap', (e) ->
+    $("#select-btn-replace").on 'click', (e) ->
       e.preventDefault()
       key = $('#select-position-key').val()
       swapKey = $('#select-swap-position-key').val()
@@ -2062,7 +2070,7 @@ class Viewer
       replaceMemberArea(key, code, swapKey)
       $('#select-modal').modal('hide')
 
-    $("#help-text-btn").hammer().on 'tap', (e) ->
+    $("#help-text-btn").on 'click', (e) ->
       e.preventDefault()
       $("#help-text").show()
       $("#help-text-btn").hide()
@@ -2070,7 +2078,7 @@ class Viewer
     @
 
   initDatabaseHandler = ->
-    commonHandler()
+    searchHandler()
 
     @
 
