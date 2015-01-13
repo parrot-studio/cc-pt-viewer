@@ -340,7 +340,8 @@ class ViewerController < ApplicationController
       arel = arel.joins(:skill).where(:skills => {:cost => cost})
     end
     unless ef.blank?
-      arel.where!(SkillEffect.where(:subeffect1 => ef).where(:subeffect2 => ef).where_values.reduce(:or))
+      efs = [ef].flatten.uniq.compact
+      arel.where!(SkillEffect.where(:subeffect1 => efs).where(:subeffect2 => efs).where_values.reduce(:or))
     end
 
     arel.pluck(:skill_id)
