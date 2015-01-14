@@ -60,7 +60,7 @@ class Skill
   EFFECT_TABLE =
     attack:
       types: ['fire', 'ice', 'push', 'down', 'blind', 'slow', 'poison',
-        'freeze', 'curse', 'charge', 'shield_break']
+        'freeze', 'curse', 'charge', 'shield_break', 'pain']
       effectname:
         blind: '暗闇追加'
         charge: '溜め'
@@ -73,6 +73,7 @@ class Skill
         push: '弾き飛ばし'
         shield_break: '盾破壊'
         slow: 'スロウ追加'
+        pain: '自分もダメージ'
     heal:
       types: ['poison', 'blind', 'slow', 'freeze',
         'seal', 'weaken', 'atkup', 'defup']
@@ -175,6 +176,7 @@ class Ability
     in_emeny_area: '敵陣にいる時'
     in_field: '特定のフィールドで'
     in_front: '仲間より前にいる時'
+    in_head: '先頭にいる時'
     in_move: '移動中'
     in_pierce: '貫通した時'
     in_sub: 'サブパーティーにいる時'
@@ -209,6 +211,7 @@ class Ability
     'in_move'
     'killer'
     'in_front'
+    'in_head'
     'in_base_area'
     'in_emeny_area'
     'others_skill'
@@ -257,9 +260,9 @@ class Ability
       name: '与えるダメージ上昇'
       conditions: ['any', 'hp_upto', 'hp_upto_more', 'hp_downto',
         'hp_downto_more', 'hp_full', 'attack', 'critical', 'in_combo', 'in_pierce',
-        'guard', 'kill', 'killer', 'in_front', 'in_emeny_area', 'others_skill', 'link',
-        'mana_charged', 'boss_wave', 'wave_start', 'for_blind', 'for_slow',
-        'for_poison', 'for_down', 'for_curse', 'for_weaken',
+        'guard', 'kill', 'killer', 'in_front', 'in_head', 'in_emeny_area',
+        'others_skill', 'link', 'mana_charged', 'boss_wave', 'wave_start',
+        'for_blind', 'for_slow', 'for_poison', 'for_down', 'for_curse', 'for_weaken',
         'in_debuff', 'in_field', 'dropout_member', 'union']
       chains: ['any', 'hp_upto', 'hp_downto', 'attack', 'critical',
         'killer', 'in_field', 'boss_wave', 'for_blind', 'for_slow', 'for_poison',
@@ -281,6 +284,7 @@ class Ability
     boost_heal:
       name: '回復効果上昇'
       conditions: []
+      chains: []
     boost_skill:
       name: 'スキル効果上昇'
       conditions: []
@@ -300,11 +304,11 @@ class Ability
       conditions: []
     critup:
       name: 'クリティカル率上昇'
-      conditions: []
+      conditions: ['attack', 'wave_start']
       chains: []
     defdown:
       name: '受けるダメージ増加'
-      conditions: ['any', 'kill', 'in_front', 'wavestart']
+      conditions: ['any', 'kill', 'in_front', 'in_head', 'wave_start']
       chains: []
     defup:
       name: '受けるダメージ軽減'
@@ -390,6 +394,7 @@ class Ability
     guard_undead:
       name: '白骨化を防ぐ'
       conditions: []
+      chains: []
     guard_weaken:
       name: '衰弱を防ぐ'
       conditions: []
@@ -442,7 +447,7 @@ class Ability
       conditions: []
     pierce:
       name: '貫通攻撃'
-      conditions: ['attack', 'kill']
+      conditions: ['attack', 'skill', 'kill']
       chains: []
     poison:
       name: '毒付与'
