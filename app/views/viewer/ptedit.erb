@@ -7,7 +7,7 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
     <button class="btn btn-primary act-btn" id="edit-members">
       編集終了
     </button>
-    <button class="btn btn-info act-btn" id="share-members" data-toggle="modal" data-target="#share-modal">
+    <button class="btn btn-info act-btn" id="share-members" data-toggle="modal" data-target="#share-ptm-modal">
       共有する
     </button>
     <button class="btn btn-link act-btn" id="help" data-toggle="modal" data-target="#help-modal">
@@ -84,6 +84,6 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
   <%= render 'viewer/select' %>
 </div>
 <%= render 'viewer/help' %>
-<%= render 'viewer/share' %>
+<%= render 'viewer/share_ptm' %>
 
 <input type="hidden" id="ptm" value="<%= @ptm %>">

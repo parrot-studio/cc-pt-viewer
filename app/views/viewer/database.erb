@@ -1,7 +1,16 @@
+<div class="alert alert-danger col-xs-12 col-sm-12 col-md-12" role="alert">
+  <p>
+    データベースモードは開発中のα版です。仕様やデザインは今後変更されます。
+  </p>
+</div>
+
 <div class="row">
   <div class="col-sm-12 col-md-12">
-    <button type="button" id="search-moadal" data-toggle="modal" data-target="#search-modal" class="btn btn-primary">
+    <button type="button" class="btn btn-primary" id="search-modal-btn" data-toggle="modal" data-target="#search-modal" >
       検索する
+    </button>
+    <button type="button" class="btn btn-info" id="share-query" data-toggle="modal" data-target="#share-query-modal">
+      共有する
     </button>
     <a class="btn btn-default pull-right" href="<%= root_path %>" role="button">（仮）パーティー編集モード</a>
   </div>
@@ -28,3 +37,4 @@
 </div>
 
 <%= render 'viewer/condition' %>
+<%= render 'viewer/share_query' %>

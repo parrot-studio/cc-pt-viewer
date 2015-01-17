@@ -954,18 +954,27 @@ class Viewer
   pager = null
   pagerSize = null
   onEdit = true
+  recentlySize = 24
   defaultMemberCode = 'V2F82F85K51NA38NP28NP24NNNNN'
   usedList = []
   usedListSizeMax = 24
   mode = null
+  lastQuery = null
 
   constructor: ->
     mode = $("#mode").val() || ''
 
     if mode is 'database'
+      pagerSize = (if isPhoneDevice() then 8 else 16)
+      recentlySize = (if isPhoneDevice() then 16 else 32)
       initDatabaseHandler()
-      searchRecentlyTargets()
-      pagerSize = (if isPhoneDevice() then 10 else 25)
+
+      query = parseQuery()
+      if Object.keys(query).length <= 0
+        searchRecentlyTargets()
+      else
+        searchTargets(query)
+        setConditions(query)
     else if mode is 'ptedit'
       pagerSize = 8
       initEditHandler()
@@ -1407,12 +1416,13 @@ class Viewer
         $("#loading-modal").modal('hide')
         $("#error-area").show()
 
-    if path == 'ptm'
-      arcanas.searchMembers(query, url, callbacks)
-    else if path == 'codes'
-      arcanas.searchCodes(query, url, callbacks)
-    else
-      arcanas.search(query, url, callbacks)
+    switch path
+      when 'ptm'
+        arcanas.searchMembers(query, url, callbacks)
+      when 'codes'
+        arcanas.searchCodes(query, url, callbacks)
+      else
+        arcanas.search(query, url, callbacks)
 
   buildMembersArea = (ptm) ->
     query = ptm: ptm
@@ -1518,9 +1528,141 @@ class Viewer
       query.skilleffect = skilleffect unless skilleffect == ''
 
     if Object.keys(query).length <= 0
-      query.recently = true
+      query.recently = recentlySize
 
     query
+
+  setConditions = (query) ->
+    return unless query
+    resetQuery()
+
+    if query.job
+      $("#job").val(query.job)
+    if query.rarity
+      $("#rarity").val(query.rarity)
+    if query.weapon
+      $("#weapon").val(query.weapon)
+    if query.union
+      $("#union").val(query.union)
+    if query.arcanacost
+      $("#arcana-cost").val(query.arcanacost)
+    if query.chaincost
+      $("#chain-cost").val(query.chaincost)
+
+    add = false
+    if query.actor
+      $("#actor").val(query.actor)
+      add = true
+    if query.actorname
+      id = getSelectboxValue(query.actorname)
+      $("#actor").val(id)
+      add = true
+    if query.illustrator
+      $("#illustrator").val(query.illustrator)
+      add = true
+    if query.illustratorname
+      id = getSelectboxValue(query.illustratorname)
+      $("#illustrator").val(id)
+      add = true
+    if query.sourcecategory
+      add = true
+      $("#source-category").val(query.sourcecategory)
+      createSourceOptions()
+      if query.source
+        $("#source").val(query.source)
+    if query.skillcost
+      add = true
+      $("#skill-cost").val(query.skillcost)
+    if query.skill
+      add = true
+      $("#skill").val(query.skill)
+      createSkillOptions()
+      $("#skill-add").show()
+      if query.skillsub
+        $("#skill-sub").val(query.skillsub)
+      if query.skilleffect
+        $("#skill-effect").val(query.skilleffect)
+    if query.abilityeffect
+      add = true
+      $("#ability-effect").val(query.abilityeffect)
+      createAbilityConditions()
+      if query.abilitycond
+        $("#ability-condition").val(query.abilitycond)
+    if query.chainabilityeffect
+      add = true
+      $("#chain-ability-effect").val(query.chainabilityeffect)
+      createChainAbilityConditions()
+      if query.chainabilitycond
+        $("#chain-ability-condition").val(query.chainabilitycond)
+
+    if add
+      $("#additional-condition").show()
+      $("#add-condition").hide()
+    @
+
+  parseQuery = (q) ->
+    q ?= (location.search.replace(/(^\?)/,'') || '')
+    return {} if q is ''
+
+    ret = {}
+    recently = false
+    r = /\+/g
+    for qs in q.split("&")
+      [n, v] = qs.split("=")
+      val = decodeURIComponent(v).replace(r, ' ')
+      switch n
+        when 'ver'
+          continue
+        when 'recently'
+          recently = true
+          break
+        when 'illustratorname'
+          ret['illustrator'] = getSelectboxValue('illustrator', val)
+        when 'actorname'
+          ret['actor'] = getSelectboxValue('actor', val)
+        else
+          ret[n] = val
+    return {} if recently
+    ret
+
+  encodeQuery = (q) ->
+    return {} unless q
+
+    ret = {}
+    recently = false
+    for n, v of q
+      switch n
+        when 'ver'
+          continue
+        when 'recently'
+          recently = true
+          break
+        when 'illustrator'
+          ret['illustratorname'] = getSelectboxText('illustrator', v)
+        when 'actor'
+          ret['actorname'] = getSelectboxText('actor', v)
+        else
+          ret[n] = v
+    return '' if recently
+    $.param ret
+
+  getSelectboxText = (sname, v) ->
+    ret = null
+    $("##{sname} option").each ->
+      val = $(this).val()
+      return unless val is v
+      ret = $(this).text()
+      false
+    ret
+
+  getSelectboxValue = (sname, v) ->
+    ret = null
+    $("##{sname} option").each ->
+      text = $(this).text()
+      return unless text is v
+      ret = $(this).val()
+      false
+    ret
 
   createQueryDetail = (query) ->
     elem = []
@@ -1561,9 +1703,9 @@ class Viewer
       text += ' ' + Arcana.sourceNameFor(query.sourcecategory, query.source) if query.source
       elem.push text
     if query.actor
-      elem.push '声優 - ' + $("#actor :selected").text()
+      elem.push '声優 - ' + getSelectboxText('actor', query.actor)
     if query.illustrator
-      elem.push 'イラスト - ' + $("#illustrator :selected").text()
+      elem.push 'イラスト - ' + getSelectboxText('illustrator', query.illustrator)
     elem.join(' / ')
 
   searchTargets = (q) ->
@@ -1573,13 +1715,14 @@ class Viewer
       pager = createPager([])
       replaceTargetArea()
       return
+    lastQuery = query
     searchArcanas query, 'arcanas', (as) ->
       $("#detail").text(createQueryDetail(query))
       pager = createPager(as)
       replaceTargetArea()
 
   searchRecentlyTargets = ->
-    searchTargets({recently: true})
+    searchTargets({recently: recentlySize})
 
   replaceChoiceAreaForUsed = ->
     as = []
@@ -2014,7 +2157,7 @@ class Viewer
         setMemberArcana(key, mem)
       false
 
-    $("#share-modal").on 'show.bs.modal', (e) ->
+    $("#share-ptm-modal").on 'show.bs.modal', (e) ->
       code = createMembersCode()
       url = $("#app-path").val() + code
       $("#ptm-code").val(url)
@@ -2083,6 +2226,24 @@ class Viewer
 
   initDatabaseHandler = ->
     searchHandler()
+
+    $("#share-query-modal").on 'show.bs.modal', (e) ->
+      query = lastQuery || {}
+      qs = encodeQuery(query) || ''
+
+      url = "#{$("#app-path").val()}db"
+      url += "?#{qs}" unless qs is ''
+      $("#query-url").val(url)
+
+      twitterUrl = "https://twitter.com/intent/tweet"
+      twitterUrl += "?text=#{encodeURIComponent('チェンクロパーティーシミュレーター ' + url)}"
+      twitterUrl += "&hashtags=ccpts"
+      $("#twitter-share").attr('href', twitterUrl)
+      true # for modal
+
+    $("#query-url").on 'click forcus', (e) ->
+      $(e.target).select()
+      e.preventDefault()
 
     @
 

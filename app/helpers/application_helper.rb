@@ -7,7 +7,7 @@ module ApplicationHelper
   end
 
   def show_ads?
-    action_name == 'index' ? false : true
+    action_name == 'ptedit' ? false : true
   end
 
   def adsense
