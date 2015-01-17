@@ -288,10 +288,6 @@ class Ability
     boost_skill:
       name: 'スキル効果上昇'
       conditions: []
-    buff_all:
-      name: '全員のステータス上昇'
-      conditions: ['any', 'in_sub', 'dropout_self']
-      chains: []
     buff_jobs:
       name: '特定の職がステータス上昇'
       conditions: ['any', 'union']
@@ -309,6 +305,10 @@ class Ability
     defdown:
       name: '受けるダメージ増加'
       conditions: ['any', 'kill', 'in_front', 'in_head', 'wave_start']
+      chains: []
+    defdown_all:
+      name: '全員の受けるダメージ増加'
+      conditions: []
       chains: []
     defup:
       name: '受けるダメージ軽減'
@@ -478,7 +478,7 @@ class Ability
       chains: ['any', 'hp_upto', 'hp_downto', 'in_field', 'boss_wave']
     speedup_all:
       name: '全員の移動速度上昇'
-      conditions: ['any', 'wave_start', 'in_sub']
+      conditions: ['any', 'wave_start', 'in_sub', 'dropout_self']
     treasure:
       name: '宝箱が出やすくなる'
       conditions: []
@@ -537,7 +537,7 @@ class Ability
     'atkup_random'
     'defup_all'
     'speedup_all'
-    'buff_all'
+    'defdown_all'
     'buff_jobs'
     'boost_skill'
     'mana_charge'
