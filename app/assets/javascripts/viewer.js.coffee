@@ -1290,8 +1290,8 @@ class Viewer
 
   renderPager = ->
     pager ||= createPager([])
-    prev = $('#pager-prev')
-    next = $('#pager-next')
+    prev = $('.pager-prev')
+    next = $('.pager-next')
     $('.each-page').remove()
 
     if pager.hasPrevPage()
@@ -1300,7 +1300,7 @@ class Viewer
       prev.addClass('disabled')
 
     if isPhoneDevice()
-      $('#pagination-area').addClass('pagination-sm')
+      $('.pagination').addClass('pagination-sm')
       body = 3
       edge = 1
     else
@@ -1330,17 +1330,13 @@ class Viewer
           li
 
     for p in list
-      pa = $("<li><span class='each-page' data-page='#{p}'>#{p}</span></li>")
+      pa = $("<li class='each-page'><span data-page='#{p}'>#{p}</span></li>")
       if p is '..'
         pa.addClass('disable')
       else if p == pager.page
         pa.addClass('active')
       else
-        pa.on 'click', (e) ->
-          e.preventDefault()
-          page = $(e.target).data('page')
-          pager?.jumpPage(page)
-          replaceTargetArea()
+        pa.children('span').addClass('jump-page')
       next.before(pa)
 
     if pager.hasNextPage()
@@ -2101,13 +2097,19 @@ class Viewer
       createArcanaDetail(code)
       true # for modal
 
-    $("#pager-prev").on 'click', (e) ->
+    $(".pager-prev").on 'click', (e) ->
       e.preventDefault()
       prevTargetPage()
 
-    $("#pager-next").on 'click', (e) ->
+    $(".pager-next").on 'click', (e) ->
       e.preventDefault()
       nextTargetPage()
+
+    $(".pagination").on 'click', 'span.jump-page', (e) ->
+        e.preventDefault()
+        page = $(e.target).data('page')
+        pager?.jumpPage(page)
+        replaceTargetArea()
 
     @
 
