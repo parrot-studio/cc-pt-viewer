@@ -2062,12 +2062,12 @@ class Viewer
     createAbilityEffects()
     createChainAbilityEffects()
 
-    $("#search").on 'click', (e) ->
+    $(".search").on 'click', (e) ->
       e.preventDefault()
       searchTargets()
       $("#search-modal").modal('hide')
 
-    $("#search-clear").on 'click', (e) ->
+    $(".search-clear").on 'click', (e) ->
       e.preventDefault()
       resetQuery()
 
