@@ -1091,6 +1091,8 @@ class Viewer
     render
 
   renderFullSizeArcana = (m) ->
+    return renderSummarySizeArcana(m, 'full') if isPhoneDevice()
+
     if m
       a = m.arcana
 
@@ -1162,7 +1164,7 @@ class Viewer
         div += '<button type="button" class="close close-member" aria-hidden="true">&times;</button>'
       div += '</div>'
       div
-      return div if cl == 'chain'
+      return div if (cl is 'chain' || cl is 'full')
 
       d = $(div)
       d.draggable(
