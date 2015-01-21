@@ -1,7 +1,11 @@
-<div class="alert alert-danger col-xs-12 col-sm-12 col-md-12" role="alert">
-  <p>
-    データベースモードは開発中のα版です。仕様やデザインは今後変更されます。
-  </p>
+<div class="row">
+  <div class="alert alert-warning alert-dismissible col-xs-12 col-sm-12 col-md-12" role="alert">
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <p>
+      「データベースモード」はβ版です。<br>
+      仕様やデザインは今後変更される可能性があります。
+    </p>
+  </div>
 </div>
 
 <div class="row">
@@ -12,7 +16,6 @@
     <button type="button" class="btn btn-info" id="share-query" data-toggle="modal" data-target="#share-query-modal">
       共有する
     </button>
-    <a class="btn btn-default pull-right" href="<%= root_path %>" role="button">（仮）パーティー編集モード</a>
   </div>
 </div>
 
@@ -25,13 +28,16 @@
       </ul>
     </nav>
     <div class="well well-sm small text-muted">
-      <span id="detail"></span> <span id="pager-count"></span>
+      <span id="detail-u" class="search-detail"></span> <span id="pager-count-u" class="pager-count"></span>
     </div>
     <div class="table-responsive">
       <table id="arcana-table" class="table table-bordered table-condensed">
         <tbody id="table-body">
         </tbody>
       </table>
+    </div>
+    <div class="well well-sm small text-muted">
+      <span id="detail-d" class="search-detail"></span> <span id="pager-count-d" class="pager-count"></span>
     </div>
     <nav class="text-center">
       <ul class="pagination" id="pagination-area-d">

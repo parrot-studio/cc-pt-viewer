@@ -41,10 +41,16 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
   <% end %>
 </div>
 
-<div class="alert alert-danger col-xs-12 hidden-sm hidden-md hidden-lg" role="alert">
-  <p>
-    PC/タブレット以外のデバイスでは、閲覧のみで編集はできません。
-  </p>
+<div class="hidden-sm hidden-md hidden-lg">
+  <div class="alert alert-danger col-xs-12" role="alert">
+    <p>
+      PC/タブレット以外のデバイスでは、パーティーの閲覧のみで編集はできません。<br>
+      アルカナの検索等は「<a class="alert-link" href="<%= db_path %>">データベースモード（β版）</a>」でご利用いただけます。
+    </p>
+    <p class="pull-right">
+      <a class="btn btn-default" href="<%= db_path %>" role="button">データベースモード</a>
+    </p>
+  </div>
 </div>
 
 <div id="member-area" class="well well-sm">

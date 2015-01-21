@@ -6,10 +6,6 @@ module ApplicationHelper
     File.read(path)
   end
 
-  def show_ads?
-    action_name == 'ptedit' ? false : true
-  end
-
   def adsense
     path = Rails.root.join('tmp', 'adsense.txt')
     return '' unless File.exist?(path)

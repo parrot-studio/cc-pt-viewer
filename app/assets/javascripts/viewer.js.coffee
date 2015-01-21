@@ -1014,7 +1014,7 @@ class Viewer
 
   eachMemberOnly = (func) ->
     eachMemberKey (k) ->
-      func(members[k]) unless k == 'friend'
+      func(members[k]) unless k is 'friend'
 
   memberFor = (k) ->
     members[k]
@@ -1035,23 +1035,23 @@ class Viewer
     render = "#{m.arcana.cost}"
     if m.chainArcana
       render += " + #{m.chainArcana.chainCost}"
-    else if cl == 'choice' || cl == 'detail' || cl == 'table'
+    else if (cl is 'choice' || cl is 'detail' || cl is 'table')
       render += " ( #{m.arcana.chainCost} )"
     render
 
   renderChainAbility = (m, cl) ->
     return '' unless m
 
-    if cl == 'member' || cl == 'chain' || cl == 'full'
+    if (cl is 'member' || cl is 'chain' || cl is 'full')
       c = m.chainArcana
       if c
         render = ''
-        render += if cl == 'member'
+        render += if cl is 'member'
           "
             <button type='button' class='close close-chain'>&times;</button>
             <a href='#' data-job-code='#{c.jobCode}' data-toggle='modal' data-target='#view-modal'>#{c.name}</a>
           "
-        else if cl == 'full'
+        else if cl is 'full'
           "<a href='#' data-job-code='#{c.jobCode}' data-toggle='modal' data-target='#view-modal'>#{c.name}</a>"
         else
           "<span class='chained-ability'>#{c.name}</span>"
@@ -1160,7 +1160,7 @@ class Viewer
             </p>
           </div>
       "
-      if cl == 'member'
+      if cl is 'member'
         div += '<button type="button" class="close close-member" aria-hidden="true">&times;</button>'
       div += '</div>'
       div
@@ -1346,7 +1346,7 @@ class Viewer
     else
       next.addClass('disabled')
 
-    count = $('#pager-count')
+    count = $('.pager-count')
     count.empty()
     if pager.size > 0
       count.append("（#{pager.head() + 1} - #{pager.tail() + 1} / #{pager.size}件）")
@@ -1370,7 +1370,7 @@ class Viewer
         renderMemberArcana(div, renderFullSizeArcana(m))
 
   replaceTargetArea = ->
-    if mode == 'database'
+    if mode is 'database'
       replaceTableArea()
     else
       replaceChoiceArea()
@@ -1709,13 +1709,13 @@ class Viewer
   searchTargets = (q) ->
     query = q || buildQuery()
     unless query
-      $("#detail").text('')
+      $(".search-detail").text('')
       pager = createPager([])
       replaceTargetArea()
       return
     lastQuery = query
     searchArcanas query, 'arcanas', (as) ->
-      $("#detail").text(createQueryDetail(query))
+      $(".search-detail").text(createQueryDetail(query))
       pager = createPager(as)
       replaceTargetArea()
 
@@ -1726,7 +1726,7 @@ class Viewer
     as = []
     for c in usedList
       as.push arcanas.forCode(c)
-    $("#detail").text('最近使ったアルカナ')
+    $(".search-detail").text('最近使ったアルカナ')
     pager = createPager(as)
     replaceChoiceArea()
 
@@ -1778,7 +1778,7 @@ class Viewer
     name2 = target.chainArcana?.name
 
     eachMemberKey (k) ->
-      return if k == 'friend'
+      return if k is 'friend'
       m = memberFor(k)
       return unless m
 
@@ -1834,7 +1834,7 @@ class Viewer
     li.append("<option value=''>-</option>")
 
     for u, n of Arcana.unions()
-      continue if u == 'unknown'
+      continue if u is 'unknown'
       li.append("<option value='#{u}'>#{n}</option>")
     @
 
@@ -2032,9 +2032,9 @@ class Viewer
     m = arcanas.forCode(code)
     if fromMember
       m.chainArcana = (memberFor(swapPos)).chainArcana
-    removeDuplicateMember(m) unless pos == 'friend'
+    removeDuplicateMember(m) unless pos is 'friend'
 
-    if (! fromMember) || pos == 'friend'
+    if (! fromMember) || pos is 'friend'
       setMemberArcana(pos, m)
       return
 
@@ -2052,7 +2052,12 @@ class Viewer
   commonHandler = ->
     $("#error-area").hide()
     $("#error-area").removeClass("invisible")
-    $("#amazon").hide() if isPhoneDevice()
+    $("#topnav").hide()
+    $("#topnav").removeClass("invisible")
+    if isPhoneDevice()
+      $("#amazon").hide()
+    else
+      $("#topnav").show()
 
   searchHandler = ->
     commonHandler()
@@ -2108,10 +2113,10 @@ class Viewer
       nextTargetPage()
 
     $(".pagination").on 'click', 'span.jump-page', (e) ->
-        e.preventDefault()
-        page = $(e.target).data('page')
-        pager?.jumpPage(page)
-        replaceTargetArea()
+      e.preventDefault()
+      page = $(e.target).data('page')
+      pager?.jumpPage(page)
+      replaceTargetArea()
 
     @
 
@@ -2209,7 +2214,7 @@ class Viewer
       if mem
         m = arcanas.forCode(code)
         mem.chainArcana = m.arcana
-      removeDuplicateMember(mem) unless key == 'friend'
+      removeDuplicateMember(mem) unless key is 'friend'
       setMemberArcana(key, mem)
       $('#select-modal').modal('hide')
 
@@ -2237,7 +2242,10 @@ class Viewer
 
       url = "#{$("#app-path").val()}db"
       url += "?#{qs}" unless qs is ''
-      $("#query-url").val(url)
+      if isPhoneDevice()
+        $("#share-url-form").hide()
+      else
+        $("#query-url").val(url)
 
       twitterUrl = "https://twitter.com/intent/tweet"
       twitterUrl += "?text=#{encodeURIComponent('チェンクロパーティーシミュレーター ' + url)}"
