@@ -3,20 +3,6 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
 %>
 
 <div class="row hidden-xs">
-  <div class="col-sm-12 col-md-12">
-    <button class="btn btn-primary act-btn" id="edit-members">
-      編集終了
-    </button>
-    <button class="btn btn-info act-btn" id="share-members" data-toggle="modal" data-target="#share-ptm-modal">
-      共有する
-    </button>
-    <button class="btn btn-link act-btn" id="help" data-toggle="modal" data-target="#help-modal">
-      使い方
-    </button>
-  </div>
-</div>
-
-<div class="hidden-xs">
   <div class="alert alert-success alert-dismissible col-sm-12 col-md-12 invisible small" id="tutorial" role="alert">
     <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times; Close</span><span class="sr-only">Close</span></button>
     <h4>簡単な使い方</h4>
@@ -33,7 +19,7 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
 
   <% cache do %>
     <% log = Changelog.latest %>
-    <div class="alert alert-info alert-dismissible col-xs-12 col-sm-12 col-md-12" id="latest-info" role="alert">
+    <div class="alert alert-info alert-dismissible col-xs-12 col-sm-12 col-md-12 invisible" id="latest-info" role="alert">
       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
       <p>更新情報：<%= log.body %> (<%= log.date %>)</p>
     </div>
@@ -41,7 +27,7 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
   <% end %>
 </div>
 
-<div class="hidden-sm hidden-md hidden-lg">
+<div class="row hidden-sm hidden-md hidden-lg">
   <div class="alert alert-danger col-xs-12" role="alert">
     <p>
       PC/タブレット以外のデバイスでは、パーティーの閲覧のみで編集はできません。<br>
@@ -50,6 +36,20 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
     <p class="pull-right">
       <a class="btn btn-default" href="<%= db_path %>" role="button">データベースモード</a>
     </p>
+  </div>
+</div>
+
+<div class="row hidden-xs">
+  <div class="col-sm-12 col-md-12">
+    <button class="btn btn-primary act-btn" id="edit-members">
+      編集終了
+    </button>
+    <button class="btn btn-info act-btn" id="share-members" data-toggle="modal" data-target="#share-ptm-modal">
+      共有する
+    </button>
+    <button class="btn btn-link act-btn" id="help" data-toggle="modal" data-target="#help-modal">
+      使い方
+    </button>
   </div>
 </div>
 

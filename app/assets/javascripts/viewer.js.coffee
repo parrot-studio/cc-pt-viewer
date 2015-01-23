@@ -1811,7 +1811,7 @@ class Viewer
       cost += m.chainedCost() if m
     $("#cost").text(cost)
 
-  isFirstAccess = ->
+  isShowTutorial = ->
     if Cookie.valueFor('tutorial') then false else true
 
   showTutorial = ->
@@ -1820,10 +1820,10 @@ class Viewer
 
   isShowLatestInfo = ->
     ver = $("#latest-info-ver").val()
-    return true if ver == ''
+    return false if ver == ''
     showed = Cookie.valueFor('latest-info')
-    return false unless showed
-    if ver == showed then true else false
+    return true unless showed
+    if ver == showed then false else true
 
   showLatestInfo = ->
     ver = $("#latest-info-ver").val()
@@ -2064,6 +2064,8 @@ class Viewer
   searchHandler = ->
     commonHandler()
 
+    $("#latest-info").hide()
+    $("#latest-info").removeClass("invisible")
     $("#additional-condition").hide()
     $("#skill-add").hide()
 
@@ -2131,14 +2133,10 @@ class Viewer
     $("#help-area").removeClass("invisible")
     $("#help-text").hide()
 
-    if isFirstAccess()
+    if isShowTutorial()
       showTutorial()
-      $("#latest-info").hide()
-    else
-      if isShowLatestInfo()
-        $("#latest-info").hide()
-      else
-        showLatestInfo()
+    else if isShowLatestInfo()
+      showLatestInfo()
 
     $(".member-character").droppable(
       drop: (e, ui) ->
@@ -2237,6 +2235,19 @@ class Viewer
 
   initDatabaseHandler = ->
     searchHandler()
+
+    # TODO remove ----------------------------
+    $("#database-warning").hide()
+    $("#database-warning").removeClass("invisible")
+
+    unless Cookie.valueFor('database-warning')
+      $("#database-warning").show()
+
+    $("#database-warning").on 'close.bs.alert', (e) ->
+      Cookie.set({'database-warning': true})
+    # ----------------------------
+
+    showLatestInfo() if isShowLatestInfo()
 
     $("#share-query-modal").on 'show.bs.modal', (e) ->
       query = lastQuery || {}

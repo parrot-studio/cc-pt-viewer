@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="alert alert-warning alert-dismissible col-xs-12 col-sm-12 col-md-12" role="alert">
+  <div class="alert alert-warning alert-dismissible col-xs-12 col-sm-12 col-md-12 invisible" role="alert" id="database-warning">
     <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
     <p>
       「データベースモード」はβ版です。<br>
@@ -7,6 +7,17 @@
     </p>
   </div>
 </div>
+
+<% cache do %>
+  <% log = Changelog.latest %>
+  <div class="row">
+    <div class="alert alert-info alert-dismissible col-xs-12 col-sm-12 col-md-12 invisible" id="latest-info" role="alert">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <p>更新情報：<%= log.body %> (<%= log.date %>)</p>
+    </div>
+    <input type="hidden" id="latest-info-ver" value="<%= log.version %>">
+  </div>
+<% end %>
 
 <div class="row">
   <div class="col-sm-12 col-md-12">
