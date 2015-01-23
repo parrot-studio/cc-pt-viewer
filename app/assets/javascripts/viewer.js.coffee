@@ -179,6 +179,7 @@ class Ability
     in_head: '先頭にいる時'
     in_move: '移動中'
     in_pierce: '貫通した時'
+    in_rear: '仲間より後ろにいる時'
     in_sub: 'サブパーティーにいる時'
     kill: '敵を倒した時'
     killer: '特定の敵に対して'
@@ -212,6 +213,7 @@ class Ability
     'killer'
     'in_front'
     'in_head'
+    'in_rear'
     'in_base_area'
     'in_emeny_area'
     'others_skill'
@@ -408,8 +410,8 @@ class Ability
       chains: []
     heal_self:
       name: '自身を回復'
-      conditions: ['wave_start', 'cycle', 'in_base_area', 'others_skill',
-        'union', 'dropout_self']
+      conditions: ['wave_start', 'cycle', 'in_rear', 'in_base_area',
+        'others_skill', 'union', 'dropout_self']
       chains: ['wave_start', 'cycle']
     heal_worst:
       name: '一番ダメージが大きい対象を回復'

@@ -8,7 +8,7 @@ Description
 
 個人的には初めて、PCだけでなくタブレットやスマートフォンでの閲覧性も考慮しています。
 
-- Ruby2.1
+- Ruby2.2
 - Rails4.2
 - MariaDB
 
