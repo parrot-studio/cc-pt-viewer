@@ -27,6 +27,18 @@
     <button type="button" class="btn btn-info" id="share-query" data-toggle="modal" data-target="#share-query-modal">
       共有する
     </button>
+    <div class="btn-group pull-right" id="search-menu">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        履歴呼び出し <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a data-target="#" id="default-list">最新のアルカナ</a></li>
+        <li class="divider"></li>
+        <li role="presentation" class="dropdown-header" id="search-log-header">検索履歴</li>
+        <li class="divider"></li>
+        <li><a data-target="#" id="clear-used">（検索履歴のクリア）</a></li>
+      </ul>
+    </div>
   </div>
 </div>
 

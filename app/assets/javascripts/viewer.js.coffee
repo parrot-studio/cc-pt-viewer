@@ -962,6 +962,8 @@ class Viewer
   usedListSizeMax = 24
   mode = null
   lastQuery = null
+  querys = []
+  queryLogSize = 5
 
   constructor: ->
     mode = $("#mode").val() || ''
@@ -982,20 +984,13 @@ class Viewer
       initEditHandler()
 
       ptm = $("#ptm").val() || ''
-      toggleEditMode() unless ptm is ''
-
       if isPhoneDevice()
-        if ptm is ''
-          # TODO redirect to DB mode
-          toggleEditMode()
-          buildMembersArea(defaultMemberCode)
-        else
-          buildMembersArea(ptm)
+        toggleEditMode()
       else
-        initUsedArcana()
+        toggleEditMode() unless ptm is ''
         searchRecentlyTargets()
-        ptm = defaultMemberCode if ptm is ''
-        buildMembersArea(ptm)
+      ptm = defaultMemberCode if ptm is ''
+      buildMembersArea(ptm)
     else
       commonHandler()
 
@@ -1646,6 +1641,10 @@ class Viewer
     return '' if recently
     $.param ret
 
+  isQueryForRecently = (q) ->
+    return false unless q
+    if q.recently then true else false
+
   getSelectboxText = (sname, v) ->
     ret = null
     $("##{sname} option").each ->
@@ -1665,6 +1664,7 @@ class Viewer
     ret
 
   createQueryDetail = (query) ->
+    return '' unless query
     elem = []
     if query.recently
       elem.push '最新'
@@ -1708,6 +1708,58 @@ class Viewer
       elem.push 'イラスト - ' + getSelectboxText('illustrator', query.illustrator)
     elem.join(' / ')
 
+  addQueryLog = (q) ->
+    lastQuery = q
+    return if isQueryForRecently(q)
+    nl = [q]
+    eq = encodeQuery(q)
+    cs = [eq]
+    for oq in querys
+      break if nl.length == queryLogSize
+      continue if (eq is encodeQuery(oq))
+      nl.push oq
+      cs.push encodeQuery(oq)
+    querys = nl
+    Cookie.set({'query-log': cs})
+    q
+
+  initQueryLog = ->
+    querys = []
+    cs = Cookie.valueFor('query-log')
+    return unless cs
+
+    try
+      for c in cs
+        q = parseQuery(c)
+        querys.push(q) if q
+      renderQueryLog()
+    catch
+      querys = []
+    @
+
+  clearQueryLog = ->
+    lastQuery = null
+    querys = []
+    Cookie.delete('query-log')
+    renderQueryLog()
+
+  renderQueryLog = ->
+    $(".search-log").remove()
+    return if querys.length < 1
+
+    base = $("#search-log-header")
+    limit = if isPhoneDevice() then 20 else 30
+
+    for i in [queryLogSize..1]
+      q = querys[i-1]
+      continue unless q
+      detail = createQueryDetail(q)
+      if detail.length > limit
+        detail = detail.slice(0, limit-3) + '...'
+      li = "<li><a data-target='#' data-order='#{i}' class='search-log'>#{detail}</a></li>"
+      base.after(li)
+    @
+
   searchTargets = (q) ->
     query = q || buildQuery()
     unless query
@@ -1715,7 +1767,8 @@ class Viewer
       pager = createPager([])
       replaceTargetArea()
       return
-    lastQuery = query
+    addQueryLog(query)
+    renderQueryLog()
     searchArcanas query, 'arcanas', (as) ->
       $(".search-detail").text(createQueryDetail(query))
       pager = createPager(as)
@@ -2073,6 +2126,9 @@ class Viewer
     createAbilityEffects()
     createChainAbilityEffects()
 
+    initUsedArcana()
+    initQueryLog()
+
     $(".search").on 'click', (e) ->
       e.preventDefault()
       searchTargets()
@@ -2122,6 +2178,24 @@ class Viewer
       pager?.jumpPage(page)
       replaceTargetArea()
 
+    $("#default-list").on 'click', (e) ->
+      e.preventDefault()
+      searchRecentlyTargets()
+
+    $("#clear-used").on 'click', (e) ->
+      e.preventDefault()
+      if window.confirm('アルカナの使用履歴と検索履歴を消去します。よろしいですか？')
+        clearUsedArcana()
+        clearLastMembers()
+        clearQueryLog()
+        window.alert('アルカナの使用履歴と検索履歴を消去しました。')
+
+    $("#search-menu").on 'click', 'a.search-log', (e) ->
+      e.preventDefault()
+      n = parseInt($(e.target).data('order'))
+      if n > 0
+        query = querys[n-1]
+        searchTargets(query) if query
     @
 
   initEditHandler = ->
@@ -2191,20 +2265,9 @@ class Viewer
       e.preventDefault()
       searchUsedArcanas()
 
-    $("#default-list").on 'click', (e) ->
-      e.preventDefault()
-      searchRecentlyTargets()
-
     $("#last-members").on 'click', (e) ->
       e.preventDefault()
       searchLastMembers()
-
-    $("#clear-used").on 'click', (e) ->
-      e.preventDefault()
-      if window.confirm('アルカナの使用履歴を消去します。よろしいですか？')
-        clearUsedArcana()
-        clearLastMembers()
-        window.alert('アルカナの使用履歴を消去しました。')
 
     $("#select-btn-chain").on 'click', (e) ->
       e.preventDefault()
