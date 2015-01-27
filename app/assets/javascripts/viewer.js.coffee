@@ -870,7 +870,7 @@ class Cookie
 
   $.cookie.json = true;
   cookieKey = 'ccpts'
-  expireDate = 7
+  expireDate = 21
 
   @set = (data) ->
     d = $.extend(@get(), (data || {}));
@@ -958,12 +958,11 @@ class Viewer
   onEdit = true
   recentlySize = 24
   defaultMemberCode = 'V2F82F85K51NA38NP28NP24NNNNN'
-  usedList = []
-  usedListSizeMax = 24
   mode = null
   lastQuery = null
   querys = []
   queryLogSize = 5
+  favs = {}
 
   constructor: ->
     mode = $("#mode").val() || ''
@@ -1027,6 +1026,13 @@ class Viewer
 
   memberKeyFromArea = (div) ->
     div.attr('id').replace('member-character-', '')
+
+  collectFavriteList = ->
+    fl = []
+    for code, state of favs
+      fl.push code if state
+    fl.sort()
+    fl
 
   renderArcanaCost = (m, cl) ->
     render = "#{m.arcana.cost}"
@@ -1200,6 +1206,11 @@ class Viewer
             <strong>#{a.name}</strong>
           </h4>
           <div class='row'>
+            <div class='col-xs-12 hidden-sm hidden-md hidden-lg'>
+              <p class='pull-right'>
+                <input type='checkbox' class='fav' data-job-code='#{a.jobCode}'>
+              </p>
+            </div>
             <div class='col-xs-12 col-sm-4 col-md-4'>
               <dl class='small arcana-view-detail'>
                 <dt>職業</dt>
@@ -1229,6 +1240,11 @@ class Viewer
                 <dt>絆アビリティ</dt>
                 <dd>#{renderAbility(a.chainAbility)}</dd>
               </dl>
+            </div>
+            <div class='hidden-xs col-sm-12 col-md-12'>
+              <p class='pull-right'>
+                <input type='checkbox' class='fav' data-job-code='#{a.jobCode}'>
+              </p>
             </div>
           </div>
         </div>
@@ -1347,6 +1363,8 @@ class Viewer
     count.empty()
     if pager.size > 0
       count.append("（#{pager.head() + 1} - #{pager.tail() + 1} / #{pager.size}件）")
+    else
+      count.append("（0件）")
     @
 
   renderMemberArcana = (div, ra) ->
@@ -1396,6 +1414,14 @@ class Viewer
       tbody.append(tr)
     renderPager()
     @
+
+  replaceTargetAreaForFavorite = ->
+    as = []
+    for c in collectFavriteList()
+      as.push arcanas.forCode(c)
+    $(".search-detail").text('お気に入り')
+    pager = createPager(as)
+    replaceTargetArea()
 
   searchArcanas = (query, path, callback) ->
     $("#error").hide()
@@ -1725,10 +1751,10 @@ class Viewer
 
   initQueryLog = ->
     querys = []
-    cs = Cookie.valueFor('query-log')
-    return unless cs
-
     try
+      cs = Cookie.valueFor('query-log')
+      return unless cs
+
       for c in cs
         q = parseQuery(c)
         querys.push(q) if q
@@ -1777,31 +1803,24 @@ class Viewer
   searchRecentlyTargets = ->
     searchTargets({recently: recentlySize})
 
-  replaceChoiceAreaForUsed = ->
-    as = []
-    for c in usedList
-      as.push arcanas.forCode(c)
-    $(".search-detail").text('最近使ったアルカナ')
-    pager = createPager(as)
-    replaceChoiceArea()
-
-  searchUsedArcanas = ->
-    if usedList.length <= 0
-      replaceChoiceAreaForUsed()
+  searchFavoriteArcanas = ->
+    fl = collectFavriteList()
+    if fl.length <= 0
+      replaceTargetAreaForFavorite()
       return
 
     targets = []
-    for c in usedList
+    for c in fl
       continue if arcanas.forCode(c)
       targets.push c
 
     if targets.length <= 0
-      replaceChoiceAreaForUsed()
+      replaceTargetAreaForFavorite()
       return
 
     query = {'codes': targets.join('/')}
     searchArcanas query, 'codes', (as) ->
-      replaceChoiceAreaForUsed()
+      replaceTargetAreaForFavorite()
 
   toggleEditMode = ->
     edit = $("#edit-area")
@@ -1940,6 +1959,16 @@ class Viewer
     view = $("#view-detail")
     view.empty()
     view.append(renderArcanaDetail(m))
+
+    $(".fav").bootstrapSwitch({
+      state: favs[code]
+      size: 'mini'
+      onColor: 'success'
+      labelText: 'お気に入り'
+      onSwitchChange: (e, state) ->
+        target = $(e.target)
+        toggleFavoriteArcana(target.data('jobCode'), state)
+    })
     @
 
   createAbilityEffects = ->
@@ -1996,27 +2025,31 @@ class Viewer
       replaceTargetArea()
     @
 
-  initUsedArcana = ->
-    usedList = []
-    list = Cookie.valueFor('used-arcana')
-    return unless list
+  toggleFavoriteArcana = (code, state) ->
+    favs[code] = state
+    storeFavoriteArcana()
+    @
+
+  initFavoriteArcana = ->
+    favs = {}
+
     try
-      usedList = list.split('/')
+      list = Cookie.valueFor('fav-arcana')
+      return unless list
+      for code in list.split('/')
+        favs[code] = true
     catch
-      usedList = []
+      favs = {}
     @
 
-  addUsedArcana = (code) ->
-    return if (code in usedList)
-    usedList.push code
-    if usedList.length > usedListSizeMax
-      usedList.shift()
-    Cookie.set({'used-arcana': usedList.join('/')})
+  storeFavoriteArcana = ->
+    fl = collectFavriteList()
+    Cookie.set({'fav-arcana': fl.join('/')})
     @
 
-  clearUsedArcana = ->
-    usedList = []
-    Cookie.delete('used-arcana')
+  clearFavoriteArcana = ->
+    favs = {}
+    Cookie.delete('fav-arcana')
     @
 
   storeLastMembers = ->
@@ -2079,7 +2112,6 @@ class Viewer
       $('#select-modal').modal('show')
     else
       replaceMemberArea(key, code, swapKey)
-    addUsedArcana(code)
     @
 
   replaceMemberArea = (pos, code, swapPos) ->
@@ -2126,7 +2158,7 @@ class Viewer
     createAbilityEffects()
     createChainAbilityEffects()
 
-    initUsedArcana()
+    initFavoriteArcana()
     initQueryLog()
 
     $(".search").on 'click', (e) ->
@@ -2182,13 +2214,25 @@ class Viewer
       e.preventDefault()
       searchRecentlyTargets()
 
-    $("#clear-used").on 'click', (e) ->
+    $("#clear-fav").on 'click', (e) ->
       e.preventDefault()
-      if window.confirm('アルカナの使用履歴と検索履歴を消去します。よろしいですか？')
-        clearUsedArcana()
+      if window.confirm('お気に入りを消去します。よろしいですか？')
+        clearFavoriteArcana()
+        window.alert('お気に入りを消去しました。')
+
+    $("#clear-log").on 'click', (e) ->
+      e.preventDefault()
+      if window.confirm('検索履歴を消去します。よろしいですか？')
+        clearQueryLog()
+        window.alert('検索履歴を消去しました。')
+
+    $("#clear-all").on 'click', (e) ->
+      e.preventDefault()
+      if window.confirm('全ての履歴（お気に入り/検索）を消去します。よろしいですか？')
+        clearFavoriteArcana()
         clearLastMembers()
         clearQueryLog()
-        window.alert('アルカナの使用履歴と検索履歴を消去しました。')
+        window.alert('全ての履歴を消去しました。')
 
     $("#search-menu").on 'click', 'a.search-log', (e) ->
       e.preventDefault()
@@ -2196,6 +2240,11 @@ class Viewer
       if n > 0
         query = querys[n-1]
         searchTargets(query) if query
+
+    $("#favorite-list").on 'click', (e) ->
+      e.preventDefault()
+      searchFavoriteArcanas()
+
     @
 
   initEditHandler = ->
@@ -2260,10 +2309,6 @@ class Viewer
       eachMemberKey (k) ->
         clearMemberArcana(k)
       $("#cost").text('0')
-
-    $("#used-list").on 'click', (e) ->
-      e.preventDefault()
-      searchUsedArcanas()
 
     $("#last-members").on 'click', (e) ->
       e.preventDefault()
