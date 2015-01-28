@@ -74,6 +74,7 @@
           <% if main_view? %>
             <%= render 'viewer/clear_button' %>
             <%= render 'viewer/view' %>
+            <%= render 'viewer/link' %>
 
             <input type="hidden" id="mode" value="<%= @mode %>">
             <input type="hidden" id="data-ver" value="<%= data_version %>">

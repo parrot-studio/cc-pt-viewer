@@ -715,6 +715,8 @@ class Arcana
         'falcom-sen2': '閃の軌跡II'
         'other': 'その他'
 
+  WIKI_URL = 'http://xn--eckfza0gxcvmna6c.gamerch.com/'
+
   constructor: (data) ->
     @name = data.name
     @title = data.title
@@ -747,6 +749,21 @@ class Arcana
     @firstAbility = new Ability(data.first_ability)
     @secondAbility = new Ability(data.second_ability)
     @chainAbility = new Ability(data.chain_ability)
+
+    @wikiName = (
+      if @title is '（調査中）'
+        ''
+      else if @jobCode is 'F82'
+        "主人公（第2部）"
+      else
+        "#{@title}#{@name}"
+    )
+    @wikiUrl = (
+      if @wikiName is ''
+        WIKI_URL
+      else
+        WIKI_URL + encodeURIComponent(@wikiName)
+    )
 
   @jobNameFor = (j) -> JOB_NAME[j]
   @jobShortNameFor = (j) -> JOB_NAME_SHORT[j]
@@ -1241,8 +1258,11 @@ class Viewer
                 <dd>#{renderAbility(a.chainAbility)}</dd>
               </dl>
             </div>
-            <div class='hidden-xs col-sm-12 col-md-12'>
-              <p class='pull-right'>
+            <div class='col-xs-12 col-sm-12 col-md-12'>
+              <p class='pull-left'>
+                <button type='button' class='btn btn-default btn-sm wiki-link' data-job-code='#{a.jobCode}'>Wikiで確認</button>
+              </p>
+              <p class='pull-right hidden-xs'>
                 <input type='checkbox' class='fav' data-job-code='#{a.jobCode}'>
               </p>
             </div>
@@ -2244,6 +2264,29 @@ class Viewer
     $("#favorite-list").on 'click', (e) ->
       e.preventDefault()
       searchFavoriteArcanas()
+
+    $("#view-modal").on 'click', 'button.wiki-link', (e) ->
+      e.preventDefault()
+      code = $(e.target).data('jobCode')
+      m = arcanas.forCode(code)
+      return false unless m
+
+      a = m.arcana
+      lt = if a.wikiName is ''
+        "Wikiで最新情報を確認する"
+      else
+        "Wikiで #{a.wikiName} を確認する"
+
+      $("#outside-link-text").text(lt)
+      $("#outside-link").attr('href', a.wikiUrl)
+      $("#outside-site-name").text("チェインクロニクル攻略Wiki")
+
+      $("#view-modal").modal('hide')
+      $("#link-modal").modal('show')
+
+    $("#outside-link").on 'click', (e) ->
+      $("#link-modal").modal('hide')
+      true
 
     @
 

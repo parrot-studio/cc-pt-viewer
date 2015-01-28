@@ -284,31 +284,31 @@ class ArcanaImporter
     return if name.blank?
 
     title = datas[1].gsub(/"""/, '"')
-    rarity = datas[2].to_i
-    job_type = datas[3]
-    cost = datas[4].to_i
-    chain_cost = datas[5].to_i
-    weapon = datas[6]
-    source_category = datas[7]
-    source = datas[8]
-    vname = datas[9]
-    iname = datas[10]
-    union = datas[11]
-    skill_name = datas[12]
-    name2 = datas[13]
-    raise "name invalid" unless name == name2
-    matk = datas[14].to_i
-    mhp = datas[15].to_i
-    latk = datas[16].to_i
-    lhp = datas[17].to_i
-    job_detail = datas[18]
-    ability_name_f = datas[19]
-    ability_name_s = datas[20]
-    chain_ability_name = datas[21]
-    job_index = datas[22].to_i
+    job_type = datas[2]
+    job_index = datas[3].to_i
     code = "#{job_type}#{job_index}"
-
     raise "invalid arcana => code:#{code} name:#{name}" unless valid_arcana?(code, name)
+
+    rarity = datas[4].to_i
+    cost = datas[5].to_i
+    chain_cost = datas[6].to_i
+    weapon = datas[7]
+    source_category = datas[8]
+    source = datas[9]
+    vname = datas[10]
+    iname = datas[11]
+    union = datas[12]
+    skill_name = datas[13]
+    name2 = datas[14]
+    raise "name invalid" unless name == name2
+    matk = datas[15].to_i
+    mhp = datas[16].to_i
+    latk = datas[17].to_i
+    lhp = datas[18].to_i
+    job_detail = datas[19]
+    ability_name_f = datas[20]
+    ability_name_s = datas[21]
+    chain_ability_name = datas[22]
 
     arcana = Arcana.find_by_job_code(code) || Arcana.new
     arcana.name = name
