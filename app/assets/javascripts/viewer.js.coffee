@@ -1845,18 +1845,23 @@ class Viewer
   toggleEditMode = ->
     edit = $("#edit-area")
     member = $("#member-area")
-    btn = $("#edit-members")
+    btnText = $("#edit-state")
+    btnIcon = $("#edit-icon")
     title = $("#edit-title")
 
     if onEdit
       onEdit = false
-      btn.text("編集する")
+      btnText.text("編集する")
+      btnIcon.removeClass("glyphicon-check")
+      btnIcon.addClass("glyphicon-edit")
       member.removeClass("well well-sm")
       title.hide()
       edit.fadeOut()
     else
       onEdit = true
-      btn.text("編集終了")
+      btnText.text("編集終了")
+      btnIcon.removeClass("glyphicon-edit")
+      btnIcon.addClass("glyphicon-check")
       member.addClass("well well-sm")
       title.show()
       edit.fadeIn()

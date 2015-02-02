@@ -12,22 +12,19 @@
       <div id="search-area">
         <div class="bg-info small text-muted">
           <div class="btn-group pull-right" id="search-menu">
-            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-              履歴呼び出し <span class="caret"></span>
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> 履歴 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
-              <li role="presentation" class="dropdown-header">検索</li>
-              <li><a data-target="#" id="default-list">最新のアルカナ</a></li>
-              <li><a data-target="#" id="favorite-list">お気に入り</a></li>
+              <li><a data-target="#" id="default-list"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> 最新のアルカナ</a></li>
+              <li><a data-target="#" id="favorite-list"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> お気に入り</a></li>
+              <li><a data-target="#" id="last-members"><span class="glyphicon glyphicon-export" aria-hidden="true"></span> 最後に作ったパーティー構成</a></li>
               <li class="divider"></li>
               <li role="presentation" class="dropdown-header" id="search-log-header">検索履歴</li>
-              <li class="divider"></li>
-              <li role="presentation" class="dropdown-header">パーティー</li>
-              <li><a data-target="#" id="last-members">最後に作ったパーティー構成</a></li>
             </ul>
           </div>
           <button type="button" id="search-modal-btn" data-toggle="modal" data-target="#search-modal" class="btn btn-primary">
-            検索する
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 検索
           </button>
           表示中：<span id="detail" class="search-detail"></span> <span id="pager-count" class="pager-count"></span>
         </div>
