@@ -97,19 +97,19 @@
         </p>
       </footer>
 
+      <% if show_ads? %>
+        <div id="ads">
+          <hr />
+          <%=raw amazon %>
+          <%=raw adsense %>
+        </div>
+      <% end %>
     </div>
 
     <%= javascript_include_tag 'application' %>
     <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
     <% cache do %>
       <%=raw analytics %>
-    <% end %>
-    <% if show_ads? %>
-      <hr />
-      <div id="amazon">
-        <%=raw amazon %>
-      </div>
-      <%=raw adsense %>
     <% end %>
   </body>
 </html>

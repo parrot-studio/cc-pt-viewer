@@ -2167,7 +2167,7 @@ class Viewer
     $("#topnav").hide()
     $("#topnav").removeClass("invisible")
     if isPhoneDevice()
-      $("#amazon").hide()
+      $("#ads").hide()
     else
       $("#topnav").show()
 
