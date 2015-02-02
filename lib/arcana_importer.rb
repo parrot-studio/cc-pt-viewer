@@ -283,12 +283,12 @@ class ArcanaImporter
     name = datas[0].gsub(/"""/, '"')
     return if name.blank?
 
-    title = datas[1].gsub(/"""/, '"')
-    job_type = datas[2]
-    job_index = datas[3].to_i
+    job_type = datas[1]
+    job_index = datas[2].to_i
     code = "#{job_type}#{job_index}"
     raise "invalid arcana => code:#{code} name:#{name}" unless valid_arcana?(code, name)
 
+    title = datas[3].gsub(/"""/, '"')
     rarity = datas[4].to_i
     cost = datas[5].to_i
     chain_cost = datas[6].to_i
