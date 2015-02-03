@@ -2264,7 +2264,9 @@ class Viewer
       n = parseInt($(e.target).data('order'))
       if n > 0
         query = querys[n-1]
-        searchTargets(query) if query
+        if query
+          searchTargets(query)
+          setConditions(query)
 
     $("#favorite-list").on 'click', (e) ->
       e.preventDefault()
