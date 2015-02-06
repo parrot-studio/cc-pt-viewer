@@ -16,6 +16,7 @@
 //= require jquery-ui/droppable
 //= require jquery.ui.touch-punch.min
 //= require jquery.cookie
+//= require jquery.touchSwipe.min
 //= require bootstrap-sprockets
 //= require bootstrap-switch.min
 //= require fastclick

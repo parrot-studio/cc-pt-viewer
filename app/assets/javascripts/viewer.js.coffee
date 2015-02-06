@@ -1295,7 +1295,7 @@ class Viewer
 
   renderTableHeader = ->
     tr = "
-      <tr id='arcana-table'>
+      <tr>
         <th class='sortable' data-col-name='name'>名前
           <button class='btn btn-default btn-xs sortable' type='button'>
             <span class='glyphicon glyphicon-sort' aria-hidden='true'></span>
@@ -2534,6 +2534,16 @@ class Viewer
     $("#query-url").on 'click forcus', (e) ->
       $(e.target).select()
       e.preventDefault()
+
+    if isPhoneDevice()
+      $("#arcana-table").swipe (
+        swipeLeft: (e) ->
+          prevTargetPage()
+          e.preventDefault()
+        swipeRight: (e) ->
+          nextTargetPage()
+          e.preventDefault()
+      )
 
     @
 
