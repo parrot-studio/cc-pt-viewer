@@ -885,12 +885,12 @@ class Arcanas
 
 class Cookie
 
-  $.cookie.json = true;
+  $.cookie.json = true
   cookieKey = 'ccpts'
   expireDate = 21
 
   @set = (data) ->
-    d = $.extend(@get(), (data || {}));
+    d = $.extend(@get(), (data || {}))
     $.cookie(cookieKey, d, {expires: expireDate})
 
   @get = ->
@@ -965,6 +965,26 @@ class Pager
       @page = 1
     @page
 
+  sort: (col, order) ->
+    order ||= 'desc'
+    @all.sort (am, bm) ->
+      a = am.arcana
+      b = bm.arcana
+      return 0 if a.jobCode is b.jobCode
+
+      av = a[col]
+      av = 0 if av is '-'
+      bv = b[col]
+      bv = 0 if bv is '-'
+
+      if av is bv
+        0
+      else if av < bv
+        if order is 'desc' then 1 else -1
+      else
+        if order is 'desc' then -1 else 1
+    @all
+
 class Viewer
 
   members = {}
@@ -980,6 +1000,8 @@ class Viewer
   querys = []
   queryLogSize = 5
   favs = {}
+  sortOrderDefault = {name: 'asc'}
+  sortOrder = {}
 
   constructor: ->
     mode = $("#mode").val() || ''
@@ -1273,19 +1295,43 @@ class Viewer
 
   renderTableHeader = ->
     tr = "
-      <tr>
-        <th><br></th>
+      <tr id='arcana-table'>
+        <th class='sortable' data-col-name='name'>名前
+          <button class='btn btn-default btn-xs sortable' type='button'>
+            <span class='glyphicon glyphicon-sort' aria-hidden='true'></span>
+          </button>
+        </th>
         <th>職</th>
         <th>★</th>
     "
     unless isPhoneDevice()
       tr += "
-        <th>コスト</th>
+        <th class='sortable' data-col-name='cost'>コスト
+          <button class='btn btn-default btn-xs sortable' type='button'>
+            <span class='glyphicon glyphicon-sort' aria-hidden='true'></span>
+          </button>
+        </th>
         <th>武器</th>
-        <th>最大ATK</th>
-        <th>最大HP</th>
-        <th>限界ATK</th>
-        <th>限界HP</th>
+        <th class='sortable' data-col-name='maxAtk'>最大ATK
+          <button class='btn btn-default btn-xs sortable' type='button'>
+            <span class='glyphicon glyphicon-sort' aria-hidden='true'></span>
+          </button>
+        </th>
+        <th class='sortable' data-col-name='maxHp'>最大HP
+          <button class='btn btn-default btn-xs sortable' type='button'>
+            <span class='glyphicon glyphicon-sort' aria-hidden='true'></span>
+          </button>
+        </th>
+        <th class='sortable' data-col-name='limitAtk'>限界ATK
+          <button class='btn btn-default btn-xs sortable' type='button'>
+            <span class='glyphicon glyphicon-sort' aria-hidden='true'></span>
+          </button>
+        </th>
+        <th class='sortable' data-col-name='limitHp'>限界HP
+          <button class='btn btn-default btn-xs sortable' type='button'>
+            <span class='glyphicon glyphicon-sort' aria-hidden='true'></span>
+          </button>
+        </th>
         <th>所属</th>
       "
     tr += "</tr>"
@@ -1395,6 +1441,30 @@ class Viewer
     a.attr('data-parent-key', memberKeyFromArea(div))
     a.fadeIn()
 
+  renderOrderState = ->
+    $(".sortable").map ->
+      col = $(this)
+      name = col.data('colName')
+      order = sortOrder[name] || ''
+      span = col.children('button').children('span')
+
+      switch order
+        when 'desc'
+          span.removeClass('glyphicon-sort')
+          span.removeClass('glyphicon-sort-by-attributes')
+          span.addClass('glyphicon-sort-by-attributes-alt')
+          span.addClass('active')
+        when 'asc'
+          span.removeClass('glyphicon-sort')
+          span.removeClass('glyphicon-sort-by-attributes-alt')
+          span.addClass('glyphicon-sort-by-attributes')
+          span.addClass('active')
+        else
+          span.removeClass('glyphicon-sort-by-attributes-alt')
+          span.removeClass('glyphicon-sort-by-attributes')
+          span.removeClass('active')
+          span.addClass('glyphicon-sort')
+
   reloadMemberAreas = ->
     eachMemberKey (k) ->
       div = memberAreaFor(k)
@@ -1433,6 +1503,7 @@ class Viewer
       tr = renderTableArcana(a)
       tbody.append(tr)
     renderPager()
+    renderOrderState()
     @
 
   replaceTargetAreaForFavorite = ->
@@ -1818,6 +1889,7 @@ class Viewer
     searchArcanas query, 'arcanas', (as) ->
       $(".search-detail").text(createQueryDetail(query))
       pager = createPager(as)
+      resetSortOrder()
       replaceTargetArea()
 
   searchRecentlyTargets = ->
@@ -2161,6 +2233,29 @@ class Viewer
     storeLastMembers()
     @
 
+  resetSortOrder = ->
+    sortOrder = {}
+    @
+
+  updateSortOrder = (col, order) ->
+    resetSortOrder()
+    sortOrder[col] = order
+    @
+
+  reverseOrder = (order) ->
+    switch order
+      when 'asc' then 'desc'
+      when 'desc' then 'asc'
+      else null
+
+  sortTargets = (col, ord) ->
+    order = ord || reverseOrder(sortOrder[col]) || sortOrderDefault[col] || 'desc'
+    pager?.sort(col, order)
+    replaceTargetArea()
+    updateSortOrder(col, order)
+    renderOrderState()
+    @
+
   commonHandler = ->
     $("#error-area").hide()
     $("#error-area").removeClass("invisible")
@@ -2286,7 +2381,7 @@ class Viewer
 
       $("#outside-link-text").text(lt)
       $("#outside-link").attr('href', a.wikiUrl)
-      $("#outside-site-name").text("チェインクロニクル攻略Wiki")
+      $("#outside-site-name").text("チェインクロニクル攻略・交流Wiki")
 
       $("#view-modal").modal('hide')
       $("#link-modal").modal('show')
@@ -2294,6 +2389,18 @@ class Viewer
     $("#outside-link").on 'click', (e) ->
       $("#link-modal").modal('hide')
       true
+
+    $("#arcana-table").on 'click', 'th.sortable', (e) ->
+      e.preventDefault()
+      target = $(e.target)
+      col = target.data('colName') || ''
+      sortTargets(col) unless col is ''
+
+    $("#arcana-table").on 'click', 'button.sortable', (e) ->
+      target = $(e.target).parents('th')
+      col = target.data('colName') || ''
+      sortTargets(col) unless col is ''
+      false
 
     @
 

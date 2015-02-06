@@ -236,6 +236,23 @@ footer {
     text-align: center;
   }
 
+  th {
+    white-space: nowrap;
+  }
+
+  th.sortable {
+    button {
+      margin-left: 2px;
+    }
+
+    span.glyphicon {
+      font-size: 8px;
+    }
+    span.active {
+      color: red;
+    }
+  }
+
   td.arcana-header {
     text-align: left;
     padding: 0px;
