@@ -104,7 +104,7 @@ class Skill
       effectname:
         delayoff: '攻撃間隔短縮'
     barrier:
-      types: ['ice', 'element', 'blind', 'freeze' ,'debuff', 'invincible']
+      types: ['ice', 'element', 'blind', 'freeze', 'slow', 'weaken', 'debuff', 'invincible']
       effectname:
         blind: '暗闇耐性'
         debuff: '状態異常耐性'
@@ -112,6 +112,8 @@ class Skill
         freeze: '凍結耐性'
         ice: '氷軽減'
         invincible: '無敵'
+        slow: 'スロウ耐性'
+        weaken: '衰弱耐性'
     obstacle:
       types: []
       effectname: {}
@@ -306,6 +308,9 @@ class Ability
       name: 'クリティカル率上昇'
       conditions: ['attack', 'wave_start']
       chains: []
+    critup_all:
+      name: '全員のクリティカル率上昇'
+      conditions: []
     defdown:
       name: '受けるダメージ増加'
       conditions: ['any', 'kill', 'in_front', 'in_head', 'wave_start']
@@ -541,6 +546,7 @@ class Ability
     'atkup_random'
     'defup_all'
     'speedup_all'
+    'critup_all'
     'buff_jobs'
     'boost_skill'
     'mana_charge'
