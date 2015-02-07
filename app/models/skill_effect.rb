@@ -14,6 +14,8 @@ class SkillEffect < ActiveRecord::Base
     length: {maximum: 100}
   validates :subeffect2,
     length: {maximum: 100}
+  validates :subeffect3,
+    length: {maximum: 100}
 
   def serialize
     se = self.attributes

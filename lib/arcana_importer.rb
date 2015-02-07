@@ -152,6 +152,7 @@ class ArcanaImporter
         scate = datas.shift
         se1 = datas.shift
         se2 = datas.shift
+        se3 = datas.shift
         break if cate.blank? && scate.blank?
         raise "skill data invalid => #{sk.name} / category:#{cate} subcategory:#{scate}" if cate.blank? || scate.blank?
 
@@ -161,6 +162,7 @@ class ArcanaImporter
           next false unless ef.subcategory == scate
           next false unless ef.subeffect1.to_s == se1.to_s
           next false unless ef.subeffect2.to_s == se2.to_s
+          next false unless ef.subeffect3.to_s == se3.to_s
           true
         end.call
         puts "warning : skill data invalid => #{sk.name} #{ef.inspect}" unless check
@@ -170,6 +172,7 @@ class ArcanaImporter
         ef.subcategory = scate
         ef.subeffect1 = se1
         ef.subeffect2 = se2
+        ef.subeffect3 = se3
         es << ef
         ord += 1
       end

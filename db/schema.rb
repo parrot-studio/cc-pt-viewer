@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141219071408) do
+ActiveRecord::Schema.define(version: 20150207073959) do
 
   create_table "abilities", force: :cascade do |t|
     t.string   "name",        limit: 100, null: false
@@ -147,6 +147,7 @@ ActiveRecord::Schema.define(version: 20141219071408) do
     t.string   "subeffect2",  limit: 100
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "subeffect3",  limit: 100
   end
 
   add_index "skill_effects", ["category", "subcategory"], name: "index_skill_effects_on_category_and_subcategory", using: :btree
@@ -155,6 +156,7 @@ ActiveRecord::Schema.define(version: 20141219071408) do
   add_index "skill_effects", ["subcategory"], name: "index_skill_effects_on_subcategory", using: :btree
   add_index "skill_effects", ["subeffect1"], name: "index_skill_effects_on_subeffect1", using: :btree
   add_index "skill_effects", ["subeffect2"], name: "index_skill_effects_on_subeffect2", using: :btree
+  add_index "skill_effects", ["subeffect3"], name: "index_skill_effects_on_subeffect3", using: :btree
 
   create_table "skills", force: :cascade do |t|
     t.string   "name",        limit: 100, null: false

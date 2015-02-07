@@ -128,6 +128,7 @@ class Skill
           subcategory: e.subcategory
           subeffect1: e.subeffect1 || ''
           subeffect2: e.subeffect2 || ''
+          subeffect3: e.subeffect3 || ''
         @effects.push d
 
   @subeffectForEffect: (ef) ->
@@ -135,6 +136,7 @@ class Skill
     ret = []
     ret.push(ef.subeffect1) unless ef.subeffect1 == ''
     ret.push(ef.subeffect2) unless ef.subeffect2 == ''
+    ret.push(ef.subeffect3) unless ef.subeffect3 == ''
     ret
 
   @typeNameFor = (s) -> SKILL_TABLE[s]?.name || '？'
