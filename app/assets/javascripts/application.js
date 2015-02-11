@@ -11,13 +11,12 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery_ujs
-//= require jquery-ui/draggable
-//= require jquery-ui/droppable
-//= require jquery.ui.touch-punch.min
-//= require jquery.cookie
-//= require jquery.touchSwipe.min
-//= require bootstrap-sprockets
-//= require bootstrap-switch.min
+//= require jquery-ujs
+//= require jquery-ui
+//= require jqueryui-touch-punch
+//= require jquery-cookie
+//= require jquery-touchswipe
+//= require bootstrap-sass-official/assets/javascripts/bootstrap-sprockets
+//= require bootstrap-switch
 //= require fastclick
 //= require_tree .
