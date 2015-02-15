@@ -301,14 +301,14 @@ class ArcanaImporter
     vname = datas[10]
     iname = datas[11]
     union = datas[12]
-    skill_name = datas[13]
-    name2 = datas[14]
+    job_detail = datas[13]
+    matk = datas[14].to_i
+    mhp = datas[15].to_i
+    latk = datas[16].to_i
+    lhp = datas[17].to_i
+    name2 = datas[18]
     raise "name invalid" unless name == name2
-    matk = datas[15].to_i
-    mhp = datas[16].to_i
-    latk = datas[17].to_i
-    lhp = datas[18].to_i
-    job_detail = datas[19]
+    skill_name = datas[19]
     ability_name_f = datas[20]
     ability_name_s = datas[21]
     chain_ability_name = datas[22]

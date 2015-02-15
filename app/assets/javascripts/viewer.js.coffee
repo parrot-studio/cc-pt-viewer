@@ -60,7 +60,7 @@ class Skill
   EFFECT_TABLE =
     attack:
       types: ['fire', 'ice', 'push', 'down', 'blind', 'slow', 'poison',
-        'freeze', 'curse', 'charge', 'shield_break', 'pain']
+        'freeze', 'curse', 'charge', 'shield_break', 'heal_all', 'pain']
       effectname:
         blind: '暗闇追加'
         charge: '溜め'
@@ -68,6 +68,7 @@ class Skill
         down: 'ダウン追加'
         fire: '火属性'
         freeze: '凍結追加'
+        heal_all: '全員を回復'
         ice: '氷属性'
         poison: '毒追加'
         push: '弾き飛ばし'
@@ -245,7 +246,7 @@ class Ability
   EFFECT_TABLE =
     absorb:
       name: '与えたダメージを吸収'
-      conditions: ['attack', 'critical']
+      conditions: ['attack', 'critical', 'skill']
       chains: ['attack', 'critical']
     ap_recover:
       name: 'APを回復'
@@ -279,6 +280,9 @@ class Ability
       chains: []
     atkup_for_job_best:
       name: '特定の職で残りHPが高い対象の与えるダメージ上昇'
+      conditions: []
+    atkup_for_job_near:
+      name: '特定の職で一番近い対象の与えるダメージ上昇'
       conditions: []
     atkup_random:
       name: '誰か一人の与えるダメージ上昇'
@@ -321,8 +325,8 @@ class Ability
       chains: []
     defup:
       name: '受けるダメージ軽減'
-      conditions: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more',
-        'in_combo', 'kill', 'killer', 'in_field', 'boss_wave', 'wave_start',
+      conditions: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more', 'in_combo',
+        'guard', 'kill', 'killer', 'in_field', 'boss_wave', 'wave_start',
         'for_slow', 'in_debuff', 'dropout_member', 'union']
       chains: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more',
         'killer', 'in_field', 'boss_wave']
@@ -470,7 +474,7 @@ class Ability
       conditions: []
     skill_atkup:
       name: '必殺技威力上昇'
-      conditions: ['any', 'mana_lost', 'others_skill']
+      conditions: ['any', 'mana_lost', 'others_skill', 'guard']
       chain:[]
     slot_slow:
       name: 'マナスロットが遅くなる'
@@ -508,6 +512,7 @@ class Ability
     'delayoff'
     'maxhpup'
     'atkup_for_job_best'
+    'atkup_for_job_near'
     'defup_for_job_best'
     'defup_for_job_worst'
     'mana_cost_down'
@@ -2460,7 +2465,7 @@ class Viewer
       $("#ptm-code").val(url)
 
       twitterUrl = "https://twitter.com/intent/tweet"
-      twitterUrl += "?text=#{encodeURIComponent('チェンクロパーティーシミュレーター ' + url)}"
+      twitterUrl += "?text=#{encodeURIComponent('チェンクロ パーティーシミュレーター ' + url)}"
       twitterUrl += "&hashtags=ccpts"
       $("#twitter-share").attr('href', twitterUrl)
       true # for modal
@@ -2534,7 +2539,7 @@ class Viewer
         $("#query-url").val(url)
 
       twitterUrl = "https://twitter.com/intent/tweet"
-      twitterUrl += "?text=#{encodeURIComponent('チェンクロパーティーシミュレーター ' + url)}"
+      twitterUrl += "?text=#{encodeURIComponent('チェンクロ パーティーシミュレーター ' + url)}"
       twitterUrl += "&hashtags=ccpts"
       $("#twitter-share").attr('href', twitterUrl)
       true # for modal
