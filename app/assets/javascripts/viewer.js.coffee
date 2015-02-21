@@ -1528,7 +1528,7 @@ class Viewer
     replaceTargetArea()
 
   searchArcanas = (query, path, callback) ->
-    $("#error").hide()
+    $("#error-area").hide()
     $("#loading-modal").modal('show')
     query ?= {}
     query.ver = $("#data-ver").val()
