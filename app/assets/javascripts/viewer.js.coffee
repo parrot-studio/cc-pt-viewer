@@ -179,6 +179,7 @@ class Ability
     in_combo: '攻撃を一定回数当てた時'
     in_debuff: '自分が状態異常時'
     in_emeny_area: '敵陣にいる時'
+    in_emeny_back: '敵陣の奥にいる時'
     in_field: '特定のフィールドで'
     in_front: '仲間より前にいる時'
     in_head: '先頭にいる時'
@@ -221,6 +222,7 @@ class Ability
     'in_rear'
     'in_base_area'
     'in_emeny_area'
+    'in_emeny_back'
     'others_skill'
     'mana_charged'
     'mana_lost'
@@ -267,7 +269,7 @@ class Ability
       name: '与えるダメージ上昇'
       conditions: ['any', 'hp_upto', 'hp_upto_more', 'hp_downto',
         'hp_downto_more', 'hp_full', 'attack', 'critical', 'in_combo', 'in_pierce',
-        'guard', 'kill', 'killer', 'in_front', 'in_head', 'in_emeny_area',
+        'guard', 'kill', 'killer', 'in_front', 'in_head', 'in_emeny_area', 'in_emeny_back',
         'others_skill', 'link', 'mana_charged', 'boss_wave', 'wave_start',
         'for_blind', 'for_slow', 'for_poison', 'for_down', 'for_curse', 'for_weaken',
         'in_debuff', 'in_field', 'dropout_member', 'union']
