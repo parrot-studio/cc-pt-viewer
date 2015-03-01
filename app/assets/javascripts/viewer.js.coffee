@@ -101,9 +101,16 @@ class Skill
         guard_debuff: '状態異常耐性'
         ice: '氷属性軽減'
     buff:
-      types: ['delayoff']
+      types: ['atkup', 'defup', 'speedup', 'fire', 'ice', 'delayoff', 'atkdown', 'defdown']
       effectname:
+        atkup: '攻撃UP'
+        atkdown: '攻撃DOWN'
+        defup: '防御UP'
+        defdown: '防御DOWN'
         delayoff: '攻撃間隔短縮'
+        fire: '炎属性付与'
+        ice: '氷属性付与'
+        speedup: '移動速度UP'
     barrier:
       types: ['ice', 'element', 'blind', 'freeze', 'slow', 'weaken', 'debuff', 'invincible']
       effectname:
