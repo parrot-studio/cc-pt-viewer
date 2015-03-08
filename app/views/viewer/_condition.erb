@@ -98,6 +98,25 @@
               </select>
             </div>
           </div>
+          <div class="form-group">
+            <div class="col-sm-6 col-md-6">
+              <label for="source">入手先</label>
+              <select id="source-category" class="form-control">
+                <option value="">-</option>
+                <option value="first">1部</option>
+                <option value="second">2部</option>
+                <option value="ring">リング系</option>
+                <option value="event">イベント限定</option>
+                <option value="collaboration">コラボ限定</option>
+              </select>
+            </div>
+            <div class="col-sm-6 col-md-6">
+              <label for="source">入手先・詳細</label>
+              <select id="source" class="form-control">
+                <option value="">-</option>
+              </select>
+            </div>
+          </div>
           <div id="additional-condition">
             <div class="form-group">
               <div class="col-sm-6 col-md-6">
@@ -109,7 +128,7 @@
                   <option value="song/dance">歌・舞</option>
                   <option value="buff">能力UP</option>
                   <option value="barrier">バリア</option>
-                  <option value="obstacle">障害物設置</option>
+                  <option value="area">設置/領域</option>
                 </select>
               </div>
               <div class="col-sm-6 col-md-6">
@@ -170,25 +189,6 @@
             </div>
             <div class="form-group">
               <div class="col-sm-6 col-md-6">
-                <label for="source">入手先</label>
-                <select id="source-category" class="form-control">
-                  <option value="">-</option>
-                  <option value="first">1部</option>
-                  <option value="second">2部</option>
-                  <option value="ring">リング系</option>
-                  <option value="event">イベント限定</option>
-                  <option value="collaboration">コラボ限定</option>
-                </select>
-              </div>
-              <div class="col-sm-6 col-md-6">
-                <label for="source">入手先・詳細</label>
-                <select id="source" class="form-control">
-                  <option value="">-</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="col-sm-6 col-md-6">
                 <label for="actor">声優</label>
                 <select id="actor" class="form-control">
                   <option value="">-</option>
@@ -208,6 +208,7 @@
               </div>
             </div>
           </div>
+          <button type="button" class="btn btn-link" id="add-condition">もっと細かい条件を指定する</button>
           <div class="form-group">
             <div class="col-sm-12 col-md-12">
               <button type="button" id="search-d" class="search btn btn-primary" data-loading-text="検索中...">
@@ -218,7 +219,6 @@
               </button>
             </div>
           </div>
-          <button type="button" class="btn btn-link" id="add-condition">もっと細かい条件を指定する</button>
         </form>
       </div>
       <div class="modal-footer">

@@ -23,14 +23,16 @@ class Skill
         'range/explosion': '範囲・自爆'
         'range/drop': '範囲・落下物'
         'range/jump': '範囲・ジャンプ'
+        'range/blast': '範囲・爆発'
         'range/random': '範囲・ランダム'
         'range/all': '範囲・全体'
     heal:
       name: '回復'
-      types: ['all/instant', 'all/cycle', 'one/self', 'one/worst']
+      types: ['all/instant', 'all/cycle', 'all/reaction', 'one/self', 'one/worst']
       subname:
         'all/instant': '全体・即時'
         'all/cycle': '全体・オート'
+        'all/reaction': '全体・ダメージ反応'
         'one/self': '単体・自分'
         'one/worst': '単体・一番低い対象'
     'song/dance':
@@ -52,10 +54,15 @@ class Skill
       subname:
         self: '自身'
         all: '全体'
-    obstacle:
-      name: '障害物設置'
-      types: []
-      subname: {}
+    area:
+      name: '設置/領域'
+      types: ['obstacle', 'continual', 'bomb', 'atkup', 'defdown']
+      subname:
+        obstacle: '障害物'
+        continual: '継続ダメージ'
+        bomb: '爆弾'
+        atkup: '与えるダメージ上昇'
+        defdown: '受けるダメージ増加'
 
   EFFECT_TABLE =
     attack:
@@ -122,9 +129,13 @@ class Skill
         invincible: '無敵'
         slow: 'スロウ耐性'
         weaken: '衰弱耐性'
-    obstacle:
-      types: []
-      effectname: {}
+    area:
+      types: ['fire', 'poison', 'slow', 'blind']
+      effectname:
+        fire: '炎属性'
+        poison: '毒付与'
+        slow: 'スロウ付与'
+        blind: '暗闇付与'
 
   constructor: (data) ->
     @name = data.name || '？'
@@ -158,6 +169,9 @@ class Skill
 class Ability
 
   CONDITION_TABLE =
+    add_blind: '暗闇を与えた時'
+    add_poison: '毒を与えた時'
+    add_slow: 'スロウを与えた時'
     any: 'いつでも'
     attack: '通常攻撃時'
     battle_end: '戦闘終了時'
@@ -169,6 +183,7 @@ class Ability
     defend: '攻撃を受けた時'
     dropout_member: '味方が脱落した時'
     dropout_self: '自身が脱落した時'
+    enemys_debuff: '敵に状態異常が多いほど'
     for_blind: '敵が暗闇の時'
     for_curse: '敵が呪いの時'
     for_down: '敵がダウン中'
@@ -184,7 +199,11 @@ class Ability
     hp_upto_more: 'HPがより高い時'
     in_base_area: '自陣にいる時'
     in_combo: '攻撃を一定回数当てた時'
-    in_debuff: '自分が状態異常時'
+    in_poison: '自分が毒状態の時'
+    in_slow: '自分がスロウ状態の時'
+    in_blind: '自分が暗闇状態の時'
+    in_seal: '自分が封印状態の時'
+    in_debuff: '自分が状態異常の時'
     in_emeny_area: '敵陣にいる時'
     in_emeny_back: '敵陣の奥にいる時'
     in_field: '特定のフィールドで'
@@ -195,10 +214,12 @@ class Ability
     in_rear: '仲間より後ろにいる時'
     in_sub: 'サブパーティーにいる時'
     kill: '敵を倒した時'
+    kill_debuff: '状態異常の敵を倒した時'
     killer: '特定の敵に対して'
     link: '複数で一緒に攻撃した時'
     mana_charged: 'マナが多いほど'
     mana_lost: 'マナが少ないほど'
+    members_debuff: '味方に状態異常が多いほど'
     others_skill: '味方がスキルを使った時'
     skill: 'スキル使用時'
     union: '特定の職構成の時'
@@ -221,6 +242,7 @@ class Ability
     'in_combo'
     'in_pierce'
     'kill'
+    'kill_debuff'
     'heal'
     'in_move'
     'killer'
@@ -242,7 +264,14 @@ class Ability
     'for_down'
     'for_curse'
     'for_weaken'
+    'in_poison'
+    'in_slow'
+    'in_blind'
+    'in_seal'
     'in_debuff'
+    'add_poison'
+    'add_blind'
+    'add_slow'
     'dropout_member'
     'dropout_self'
     'battle_start'
@@ -272,17 +301,23 @@ class Ability
       name: '与えるダメージ減少'
       conditions: []
       chains: []
+    atkdown_enemy:
+      name: '敵の攻撃力低下'
+      conditions: []
+      chains: []
     atkup:
       name: '与えるダメージ上昇'
       conditions: ['any', 'hp_upto', 'hp_upto_more', 'hp_downto',
         'hp_downto_more', 'hp_full', 'attack', 'critical', 'in_combo', 'in_pierce',
-        'guard', 'kill', 'killer', 'in_front', 'in_head', 'in_emeny_area', 'in_emeny_back',
+        'guard', 'kill', 'killer', 'kill_debuff',
+        'in_front', 'in_head', 'in_emeny_area', 'in_emeny_back',
         'others_skill', 'link', 'mana_charged', 'boss_wave', 'wave_start',
         'for_blind', 'for_slow', 'for_poison', 'for_down', 'for_curse', 'for_weaken',
-        'in_debuff', 'in_field', 'dropout_member', 'union']
+        'in_poison', 'in_debuff', 'in_field', 'dropout_member', 'union']
       chains: ['any', 'hp_upto', 'hp_downto', 'attack', 'critical',
         'killer', 'in_field', 'boss_wave', 'for_blind', 'for_slow', 'for_poison',
-        'for_down', 'for_curse', 'for_weaken', 'in_debuff', 'dropout_member']
+        'for_down', 'for_curse', 'for_weaken', 'in_poison',
+        'in_slow', 'in_blind', 'in_debuff', 'dropout_member']
     atkup_all:
       name: '全員の与えるダメージ上昇'
       conditions: ['any', 'in_sub', 'wave_start', 'dropout_self']
@@ -332,11 +367,15 @@ class Ability
       name: '全員の受けるダメージ増加'
       conditions: []
       chains: []
+    defdown_enemy:
+      name: '敵の防御力低下'
+      conditions: []
+      chains: []
     defup:
       name: '受けるダメージ軽減'
       conditions: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more', 'in_combo',
         'guard', 'kill', 'killer', 'in_field', 'boss_wave', 'wave_start',
-        'for_slow', 'in_debuff', 'dropout_member', 'union']
+        'for_slow', 'in_blind', 'in_debuff', 'dropout_member', 'union']
       chains: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more',
         'killer', 'in_field', 'boss_wave']
     defup_all:
@@ -352,6 +391,11 @@ class Ability
     delayoff:
       name: '攻撃間隔が早くなる'
       conditions: []
+      chains: []
+    delayup:
+      name: '攻撃間隔が遅くなる'
+      conditions: []
+      chains: []
     down:
       name: 'ダウン付与'
       conditions: ['attack', 'critical', 'skill', 'counter']
@@ -431,10 +475,14 @@ class Ability
     heal_self:
       name: '自身を回復'
       conditions: ['wave_start', 'cycle', 'in_rear', 'in_base_area',
-        'others_skill', 'union', 'dropout_self']
+        'others_skill', 'union', 'dropout_self', 'members_debuff']
       chains: ['wave_start', 'cycle']
     heal_worst:
       name: '一番ダメージが大きい対象を回復'
+      conditions: []
+      chains: []
+    heal_worst_jobs:
+      name: '特定の職で一番ダメージが大きい対象を回復'
       conditions: []
       chains: []
     healup:
@@ -475,6 +523,10 @@ class Ability
       name: '毒付与'
       conditions: ['attack', 'skill']
       chains: ['attack', 'skill']
+    poison_atkup:
+      name: '毒ダメージ上昇'
+      conditions: []
+      chains: []
     push:
       name: '弾き飛ばし付与'
       conditions: ['critical', 'skill']
@@ -495,7 +547,7 @@ class Ability
     speedup:
       name: '移動速度上昇'
       conditions: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more', 'hp_full',
-        'guard', 'in_combo', 'kill', 'in_field', 'in_debuff',
+        'guard', 'in_combo', 'kill', 'in_field', 'in_slow', 'in_debuff',
         'boss_wave', 'wave_start', 'union']
       chains: ['any', 'hp_upto', 'hp_downto', 'in_field', 'boss_wave']
     speedup_all:
@@ -519,11 +571,15 @@ class Ability
     'critup'
     'registup'
     'delayoff'
+    'delayup'
     'maxhpup'
     'atkup_for_job_best'
     'atkup_for_job_near'
     'defup_for_job_best'
     'defup_for_job_worst'
+    'atkdown_enemy'
+    'defdown_enemy'
+    'poison_atkup'
     'mana_cost_down'
     'fire'
     'ice'
@@ -539,6 +595,7 @@ class Ability
     'heal_self'
     'heal_worst'
     'heal_all'
+    'heal_worst_jobs'
     'slow'
     'blind'
     'down'
@@ -680,6 +737,7 @@ class Arcana
     'forest-sea': '海風の港'
     dawnsea: '大海'
     beasts: 'ケ者'
+    criminal: '罪の大陸'
     volunteers: '義勇軍'
     demon: '魔神'
     others: '旅人'
@@ -700,11 +758,12 @@ class Arcana
         'other': 'その他'
     second:
       name: '2部'
-      types: ['forest-sea', 'dawnsea', 'beasts', 'other']
+      types: ['forest-sea', 'dawnsea', 'beasts', 'criminal', 'other']
       details:
         'forest-sea': '海風の港・酒場'
         'dawnsea': '夜明けの大海・酒場'
         'beasts': 'ケ者・酒場'
+        'criminal': '罪の大陸・酒場'
         'other': 'その他'
     ring:
       name: 'リング系'
@@ -1682,6 +1741,11 @@ class Viewer
       $("#arcana-cost").val(query.arcanacost)
     if query.chaincost
       $("#chain-cost").val(query.chaincost)
+    if query.sourcecategory
+      $("#source-category").val(query.sourcecategory)
+      createSourceOptions()
+      if query.source
+        $("#source").val(query.source)
 
     add = false
     if query.actor
@@ -1698,12 +1762,6 @@ class Viewer
       id = getSelectboxValue(query.illustratorname)
       $("#illustrator").val(id)
       add = true
-    if query.sourcecategory
-      add = true
-      $("#source-category").val(query.sourcecategory)
-      createSourceOptions()
-      if query.source
-        $("#source").val(query.source)
     if query.skillcost
       add = true
       $("#skill-cost").val(query.skillcost)
