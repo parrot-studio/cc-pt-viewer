@@ -19,4 +19,5 @@
 //= require bootstrap-sass-official/assets/javascripts/bootstrap-sprockets
 //= require bootstrap-switch
 //= require fastclick
+//= require_tree ./classes
 //= require_tree .

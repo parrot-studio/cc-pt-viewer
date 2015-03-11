@@ -1,1075 +1,6 @@
-class Skill
-
-  SKILL_TABLE =
-    attack:
-      name: '攻撃'
-      types: ['one/short', 'one/line', 'one/combo', 'one/dash', 'one/rear',
-        'one/jump', 'one/random', 'one/combination', 'range/line',
-        'range/dash', 'range/forward', 'range/self', 'range/explosion',
-        'range/drop', 'range/jump', 'range/random', 'range/all']
-      subname:
-        'one/short': '単体・目前'
-        'one/line': '単体・直線'
-        'one/combo': '単体・連続'
-        'one/dash': '単体・ダッシュ'
-        'one/rear': '単体・最後列'
-        'one/jump': '単体・ジャンプ'
-        'one/random': '単体・ランダム'
-        'one/combination': '単体・コンビネーション'
-        'range/line': '範囲・直線'
-        'range/dash': '範囲・ダッシュ'
-        'range/forward': '範囲・前方'
-        'range/self': '範囲・自分中心'
-        'range/explosion': '範囲・自爆'
-        'range/drop': '範囲・落下物'
-        'range/jump': '範囲・ジャンプ'
-        'range/blast': '範囲・爆発'
-        'range/random': '範囲・ランダム'
-        'range/all': '範囲・全体'
-    heal:
-      name: '回復'
-      types: ['all/instant', 'all/cycle', 'all/reaction', 'one/self', 'one/worst']
-      subname:
-        'all/instant': '全体・即時'
-        'all/cycle': '全体・オート'
-        'all/reaction': '全体・ダメージ反応'
-        'one/self': '単体・自分'
-        'one/worst': '単体・一番低い対象'
-    'song/dance':
-      name: '歌・舞'
-      types: ['buff', 'debuff']
-      subname:
-        buff: '味方上昇'
-        debuff: '敵状態異常'
-    buff:
-      name: '能力UP'
-      types: ['self', 'all', 'random']
-      subname:
-        self: '自身'
-        all: '全体'
-        random: 'ランダム'
-    barrier:
-      name: 'バリア'
-      types: ['self', 'all']
-      subname:
-        self: '自身'
-        all: '全体'
-    area:
-      name: '設置/領域'
-      types: ['obstacle', 'continual', 'bomb', 'atkup', 'defdown']
-      subname:
-        obstacle: '障害物'
-        continual: '継続ダメージ'
-        bomb: '爆弾'
-        atkup: '与えるダメージ上昇'
-        defdown: '受けるダメージ増加'
-
-  EFFECT_TABLE =
-    attack:
-      types: ['fire', 'ice', 'push', 'down', 'blind', 'slow', 'poison',
-        'freeze', 'curse', 'charge', 'shield_break', 'heal_all', 'pain']
-      effectname:
-        blind: '暗闇追加'
-        charge: '溜め'
-        curse: '呪い追加'
-        down: 'ダウン追加'
-        fire: '火属性'
-        freeze: '凍結追加'
-        heal_all: '全員を回復'
-        ice: '氷属性'
-        poison: '毒追加'
-        push: '弾き飛ばし'
-        shield_break: '盾破壊'
-        slow: 'スロウ追加'
-        pain: '自分もダメージ'
-    heal:
-      types: ['poison', 'blind', 'slow', 'freeze',
-        'seal', 'weaken', 'atkup', 'defup']
-      effectname:
-        atkup: '与えるダメージ上昇'
-        blind: '暗闇解除'
-        defup: '受けるダメージ軽減'
-        freeze: '凍結解除'
-        poison: '毒解除'
-        seal: '封印解除'
-        slow: 'スロウ解除'
-        weaken: '衰弱解除'
-    'song/dance':
-      types: ['fire', 'ice', 'element', 'blind', 'freeze', 'guard_debuff',
-        'debuff_blind', 'debuff_slow', 'debuff_poison']
-      effectname:
-        blind: '暗闇耐性'
-        debuff_blind: '暗闇付与'
-        debuff_slow: 'スロウ付与'
-        debuff_poison: '毒付与'
-        element: '属性軽減'
-        fire: '炎属性軽減'
-        freeze: '凍結耐性'
-        guard_debuff: '状態異常耐性'
-        ice: '氷属性軽減'
-    buff:
-      types: ['atkup', 'defup', 'speedup', 'fire', 'ice', 'delayoff', 'atkdown', 'defdown']
-      effectname:
-        atkup: '攻撃UP'
-        atkdown: '攻撃DOWN'
-        defup: '防御UP'
-        defdown: '防御DOWN'
-        delayoff: '攻撃間隔短縮'
-        fire: '炎属性付与'
-        ice: '氷属性付与'
-        speedup: '移動速度UP'
-    barrier:
-      types: ['ice', 'element', 'blind', 'freeze', 'slow', 'weaken', 'debuff', 'invincible']
-      effectname:
-        blind: '暗闇耐性'
-        debuff: '状態異常耐性'
-        element: '属性軽減'
-        freeze: '凍結耐性'
-        ice: '氷軽減'
-        invincible: '無敵'
-        slow: 'スロウ耐性'
-        weaken: '衰弱耐性'
-    area:
-      types: ['fire', 'poison', 'slow', 'blind']
-      effectname:
-        fire: '炎属性'
-        poison: '毒付与'
-        slow: 'スロウ付与'
-        blind: '暗闇付与'
-
-  constructor: (data) ->
-    @name = data.name || '？'
-    @explanation = data.explanation || ''
-    @cost = data.cost || '？'
-    @effects = []
-    if data.effects
-      for e in data.effects
-        d =
-          category: e.category
-          subcategory: e.subcategory
-          subeffect1: e.subeffect1 || ''
-          subeffect2: e.subeffect2 || ''
-          subeffect3: e.subeffect3 || ''
-        @effects.push d
-
-  @subeffectForEffect: (ef) ->
-    return [] unless ef
-    ret = []
-    ret.push(ef.subeffect1) unless ef.subeffect1 == ''
-    ret.push(ef.subeffect2) unless ef.subeffect2 == ''
-    ret.push(ef.subeffect3) unless ef.subeffect3 == ''
-    ret
-
-  @typeNameFor = (s) -> SKILL_TABLE[s]?.name || '？'
-  @subtypesFor = (s) -> SKILL_TABLE[s]?.types || []
-  @subnameFor = (skill, sub) -> SKILL_TABLE[skill]?.subname?[sub] || '？'
-  @effectTypesFor = (s) -> EFFECT_TABLE[s]?.types || []
-  @effectNameFor = (s, e) -> EFFECT_TABLE[s]?.effectname?[e] || ''
-
-class Ability
-
-  CONDITION_TABLE =
-    add_blind: '暗闇を与えた時'
-    add_poison: '毒を与えた時'
-    add_slow: 'スロウを与えた時'
-    any: 'いつでも'
-    attack: '通常攻撃時'
-    battle_end: '戦闘終了時'
-    battle_start: '戦闘開始時'
-    boss_wave: 'BOSS WAVE時'
-    counter: 'カウンター発生時'
-    critical: 'クリティカル時'
-    cycle: '一定間隔で'
-    defend: '攻撃を受けた時'
-    dropout_member: '味方が脱落した時'
-    dropout_self: '自身が脱落した時'
-    enemys_debuff: '敵に状態異常が多いほど'
-    for_blind: '敵が暗闇の時'
-    for_curse: '敵が呪いの時'
-    for_down: '敵がダウン中'
-    for_poison: '敵が毒の時'
-    for_slow: '敵がスロウの時'
-    for_weaken: '敵が衰弱の時'
-    guard: 'ガードした時'
-    heal: '回復時'
-    hp_downto: 'HPが一定以下の時'
-    hp_downto_more: 'HPがより低い時'
-    hp_full: 'HPが満タンの時'
-    hp_upto: 'HPが一定以上の時'
-    hp_upto_more: 'HPがより高い時'
-    in_base_area: '自陣にいる時'
-    in_combo: '攻撃を一定回数当てた時'
-    in_poison: '自分が毒状態の時'
-    in_slow: '自分がスロウ状態の時'
-    in_blind: '自分が暗闇状態の時'
-    in_seal: '自分が封印状態の時'
-    in_debuff: '自分が状態異常の時'
-    in_emeny_area: '敵陣にいる時'
-    in_emeny_back: '敵陣の奥にいる時'
-    in_field: '特定のフィールドで'
-    in_front: '仲間より前にいる時'
-    in_head: '先頭にいる時'
-    in_move: '移動中'
-    in_pierce: '貫通した時'
-    in_rear: '仲間より後ろにいる時'
-    in_sub: 'サブパーティーにいる時'
-    kill: '敵を倒した時'
-    kill_debuff: '状態異常の敵を倒した時'
-    killer: '特定の敵に対して'
-    link: '複数で一緒に攻撃した時'
-    mana_charged: 'マナが多いほど'
-    mana_lost: 'マナが少ないほど'
-    members_debuff: '味方に状態異常が多いほど'
-    others_skill: '味方がスキルを使った時'
-    skill: 'スキル使用時'
-    union: '特定の職構成の時'
-    wave_start: '各WAVE開始時'
-    unknown: '（不明）'
-
-  CONDITION_LIST = [
-    'any'
-    'hp_upto'
-    'hp_upto_more'
-    'hp_downto'
-    'hp_downto_more'
-    'hp_full'
-    'attack'
-    'critical'
-    'skill'
-    'defend'
-    'guard'
-    'counter'
-    'in_combo'
-    'in_pierce'
-    'kill'
-    'kill_debuff'
-    'heal'
-    'in_move'
-    'killer'
-    'in_front'
-    'in_head'
-    'in_rear'
-    'in_base_area'
-    'in_emeny_area'
-    'in_emeny_back'
-    'others_skill'
-    'mana_charged'
-    'mana_lost'
-    'boss_wave'
-    'wave_start'
-    'cycle'
-    'for_blind'
-    'for_slow'
-    'for_poison'
-    'for_down'
-    'for_curse'
-    'for_weaken'
-    'in_poison'
-    'in_slow'
-    'in_blind'
-    'in_seal'
-    'in_debuff'
-    'add_poison'
-    'add_blind'
-    'add_slow'
-    'dropout_member'
-    'dropout_self'
-    'battle_start'
-    'battle_end'
-    'in_field'
-    'union'
-    'in_sub'
-  ]
-
-  EFFECT_TABLE =
-    absorb:
-      name: '与えたダメージを吸収'
-      conditions: ['attack', 'critical', 'skill']
-      chains: ['attack', 'critical']
-    ap_recover:
-      name: 'APを回復'
-      conditions: []
-    areadown:
-      name: '回復範囲減少'
-      conditions: []
-      chains: []
-    areaup:
-      name: '回復範囲増加'
-      conditions: []
-      chains: []
-    atkdown:
-      name: '与えるダメージ減少'
-      conditions: []
-      chains: []
-    atkdown_enemy:
-      name: '敵の攻撃力低下'
-      conditions: []
-      chains: []
-    atkup:
-      name: '与えるダメージ上昇'
-      conditions: ['any', 'hp_upto', 'hp_upto_more', 'hp_downto',
-        'hp_downto_more', 'hp_full', 'attack', 'critical', 'in_combo', 'in_pierce',
-        'guard', 'kill', 'killer', 'kill_debuff',
-        'in_front', 'in_head', 'in_emeny_area', 'in_emeny_back',
-        'others_skill', 'link', 'mana_charged', 'boss_wave', 'wave_start',
-        'for_blind', 'for_slow', 'for_poison', 'for_down', 'for_curse', 'for_weaken',
-        'in_poison', 'in_debuff', 'in_field', 'dropout_member', 'union']
-      chains: ['any', 'hp_upto', 'hp_downto', 'attack', 'critical',
-        'killer', 'in_field', 'boss_wave', 'for_blind', 'for_slow', 'for_poison',
-        'for_down', 'for_curse', 'for_weaken', 'in_poison',
-        'in_slow', 'in_blind', 'in_debuff', 'dropout_member']
-    atkup_all:
-      name: '全員の与えるダメージ上昇'
-      conditions: ['any', 'in_sub', 'wave_start', 'dropout_self']
-      chains: []
-    atkup_for_job_best:
-      name: '特定の職で残りHPが高い対象の与えるダメージ上昇'
-      conditions: []
-    atkup_for_job_near:
-      name: '特定の職で一番近い対象の与えるダメージ上昇'
-      conditions: []
-    atkup_random:
-      name: '誰か一人の与えるダメージ上昇'
-      conditions: []
-    blind:
-      name: '暗闇付与'
-      conditions: ['attack', 'skill']
-      chains: ['attack', 'skill']
-    boost_heal:
-      name: '回復効果上昇'
-      conditions: []
-      chains: []
-    boost_skill:
-      name: 'スキル効果上昇'
-      conditions: []
-    buff_jobs:
-      name: '特定の職がステータス上昇'
-      conditions: ['any', 'union']
-    combat:
-      name: '接近戦可能'
-      conditions: []
-      chains: []
-    counterattack:
-      name: 'カウンター攻撃'
-      conditions: []
-    critup:
-      name: 'クリティカル率上昇'
-      conditions: ['attack', 'wave_start']
-      chains: []
-    critup_all:
-      name: '全員のクリティカル率上昇'
-      conditions: []
-    defdown:
-      name: '受けるダメージ増加'
-      conditions: ['any', 'kill', 'in_front', 'in_head', 'wave_start']
-      chains: []
-    defdown_all:
-      name: '全員の受けるダメージ増加'
-      conditions: []
-      chains: []
-    defdown_enemy:
-      name: '敵の防御力低下'
-      conditions: []
-      chains: []
-    defup:
-      name: '受けるダメージ軽減'
-      conditions: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more', 'in_combo',
-        'guard', 'kill', 'killer', 'in_field', 'boss_wave', 'wave_start',
-        'for_slow', 'in_blind', 'in_debuff', 'dropout_member', 'union']
-      chains: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more',
-        'killer', 'in_field', 'boss_wave']
-    defup_all:
-      name: '全員のダメージ軽減'
-      conditions: ['any', 'in_sub']
-      chains: []
-    defup_for_job_best:
-      name: '特定の職で残りHPが高い対象のダメージ軽減'
-      conditions: []
-    defup_for_job_worst:
-      name: '特定の職で残りHPが低い対象のダメージ軽減'
-      conditions: []
-    delayoff:
-      name: '攻撃間隔が早くなる'
-      conditions: []
-      chains: []
-    delayup:
-      name: '攻撃間隔が遅くなる'
-      conditions: []
-      chains: []
-    down:
-      name: 'ダウン付与'
-      conditions: ['attack', 'critical', 'skill', 'counter']
-      chains: ['attack', 'critical']
-    expup:
-      name: '獲得経験値上昇'
-      conditions: []
-      chains: []
-    fire:
-      name: '火属性'
-      conditions: []
-    freeze:
-      name: '凍結付与'
-      conditions: ['attack', 'critical', 'skill']
-      chains: []
-    goldup:
-      name: '獲得金額上昇'
-      conditions: []
-      chains: []
-    guard_all:
-      name: '全ての状態異常を防ぐ'
-      conditions: []
-    guard_blind:
-      name: '暗闇を防ぐ'
-      conditions: []
-      chains: []
-    guard_curse:
-      name: '呪いを防ぐ'
-      conditions: []
-      chains: []
-    guard_down:
-      name: 'ダウンを防ぐ'
-      conditions: []
-      chains: []
-    guard_fire:
-      name: '火属性を軽減する'
-      conditions: []
-      chains: []
-    guard_freeze:
-      name: '凍結を防ぐ'
-      conditions: []
-      chains: []
-    guard_ice:
-      name: '氷属性を軽減する'
-      conditions: []
-      chains: []
-    guard_poison:
-      name: '毒を防ぐ'
-      conditions: []
-      chains: []
-    guard_push:
-      name: '弾き飛ばしを防ぐ'
-      conditions: []
-    guard_seal:
-      name: '封印を防ぐ'
-      conditions: []
-      chains: []
-    guard_slow:
-      name: 'スロウを防ぐ'
-      conditions: []
-      chains: []
-    guard_undead:
-      name: '白骨化を防ぐ'
-      conditions: []
-      chains: []
-    guard_weaken:
-      name: '衰弱を防ぐ'
-      conditions: []
-    guardup:
-      name: '遠距離ダメージカット上昇'
-      conditions: []
-      chains: []
-    heal_all:
-      name: '全員を回復'
-      conditions: ['wave_start', 'dropout_self']
-      chains: []
-    heal_self:
-      name: '自身を回復'
-      conditions: ['wave_start', 'cycle', 'in_rear', 'in_base_area',
-        'others_skill', 'union', 'dropout_self', 'members_debuff']
-      chains: ['wave_start', 'cycle']
-    heal_worst:
-      name: '一番ダメージが大きい対象を回復'
-      conditions: []
-      chains: []
-    heal_worst_jobs:
-      name: '特定の職で一番ダメージが大きい対象を回復'
-      conditions: []
-      chains: []
-    healup:
-      name: '回復量上昇'
-      conditions: []
-      chains: []
-    ice:
-      name: '氷属性'
-      conditions: []
-    invincible:
-      name: '無敵になる'
-      conditions: []
-    invisible:
-      name: '見えなくなる（遠距離無効）'
-      conditions: []
-    mana_boost:
-      name: 'スロットで複数マナが出やすい'
-      conditions: []
-      chains: []
-    mana_charge:
-      name: 'マナを持って開始'
-      conditions: []
-      chains: []
-    mana_cost_down:
-      name: 'スキルでの消費マナ低下'
-      conditions: []
-    mana_drop:
-      name: 'マナを落とす'
-      conditions: ['kill', 'dropout_self']
-    maxhpup:
-      name: '最大HP増加'
-      conditions: []
-    pierce:
-      name: '貫通攻撃'
-      conditions: ['attack', 'skill', 'kill']
-      chains: []
-    poison:
-      name: '毒付与'
-      conditions: ['attack', 'skill']
-      chains: ['attack', 'skill']
-    poison_atkup:
-      name: '毒ダメージ上昇'
-      conditions: []
-      chains: []
-    push:
-      name: '弾き飛ばし付与'
-      conditions: ['critical', 'skill']
-    registup:
-      name: '魔法ダメージ軽減'
-      conditions: []
-    skill_atkup:
-      name: '必殺技威力上昇'
-      conditions: ['any', 'mana_lost', 'others_skill', 'guard']
-      chain:[]
-    slot_slow:
-      name: 'マナスロットが遅くなる'
-      conditions: []
-    slow:
-      name: 'スロウ付与'
-      conditions: ['attack', 'critical', 'skill']
-      chains: ['attack', 'critical']
-    speedup:
-      name: '移動速度上昇'
-      conditions: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more', 'hp_full',
-        'guard', 'in_combo', 'kill', 'in_field', 'in_slow', 'in_debuff',
-        'boss_wave', 'wave_start', 'union']
-      chains: ['any', 'hp_upto', 'hp_downto', 'in_field', 'boss_wave']
-    speedup_all:
-      name: '全員の移動速度上昇'
-      conditions: ['any', 'wave_start', 'in_sub', 'dropout_self']
-    treasure:
-      name: '宝箱が出やすくなる'
-      conditions: []
-      chains: []
-    unknown:
-      name: '（不明）'
-      conditions: []
-      chains: []
-
-  EFFECT_LIST = [
-    'atkup'
-    'skill_atkup'
-    'defup'
-    'guardup'
-    'speedup'
-    'critup'
-    'registup'
-    'delayoff'
-    'delayup'
-    'maxhpup'
-    'atkup_for_job_best'
-    'atkup_for_job_near'
-    'defup_for_job_best'
-    'defup_for_job_worst'
-    'atkdown_enemy'
-    'defdown_enemy'
-    'poison_atkup'
-    'mana_cost_down'
-    'fire'
-    'ice'
-    'mana_drop'
-    'pierce'
-    'absorb'
-    'counterattack'
-    'combat'
-    'invisible'
-    'invincible'
-    'healup'
-    'areaup'
-    'heal_self'
-    'heal_worst'
-    'heal_all'
-    'heal_worst_jobs'
-    'slow'
-    'blind'
-    'down'
-    'poison'
-    'freeze'
-    'push'
-    'guard_all'
-    'guard_slow'
-    'guard_blind'
-    'guard_down'
-    'guard_poison'
-    'guard_freeze'
-    'guard_push'
-    'guard_seal'
-    'guard_weaken'
-    'guard_curse'
-    'guard_undead'
-    'atkup_all'
-    'atkup_random'
-    'defup_all'
-    'speedup_all'
-    'critup_all'
-    'buff_jobs'
-    'boost_skill'
-    'mana_charge'
-    'mana_boost'
-    'slot_slow'
-    'treasure'
-    'expup'
-    'goldup'
-    'ap_recover'
-    'atkdown'
-    'defdown'
-    'areadown'
-  ]
-
-  EFFECT_LIST_FOR_CHAIN = [
-    'atkup'
-    'skill_atkup'
-    'defup'
-    'guardup'
-    'speedup'
-    'pierce'
-    'absorb'
-    'combat'
-    'healup'
-    'areaup'
-    'heal_self'
-    'heal_worst'
-    'heal_all'
-    'slow'
-    'blind'
-    'down'
-    'poison'
-    'freeze'
-    'guard_fire'
-    'guard_ice'
-    'guard_slow'
-    'guard_blind'
-    'guard_down'
-    'guard_poison'
-    'guard_freeze'
-    'guard_seal'
-    'atkup_all'
-    'defup_all'
-    'defdown_all'
-    'mana_charge'
-    'mana_boost'
-    'treasure'
-    'expup'
-    'goldup'
-    'atkdown'
-    'defdown'
-    'areadown'
-  ]
-
-  @conditions = -> CONDITION_LIST
-  @conditionNameFor = (c) -> CONDITION_TABLE[c] || ''
-  @effects = -> EFFECT_LIST
-  @chainEffects = -> EFFECT_LIST_FOR_CHAIN
-  @effectNameFor = (e) -> EFFECT_TABLE[e]?.name || ''
-  @conditionsFor = (e) -> EFFECT_TABLE[e]?.conditions || []
-  @chainConditionsFor = (e) -> EFFECT_TABLE[e]?.chains || []
-
-  constructor: (data) ->
-    @name = data.name || ''
-    @explanation = data.explanation || ''
-    @effects = []
-    if data.effects
-      for e in data.effects
-        d =
-          conditionType: e.condition_type
-          effectType: e.effect_type
-        @effects.push d
-
-class Arcana
-
-  JOB_NAME =
-    F: '戦士'
-    K: '騎士'
-    A: '弓使い'
-    M: '魔法使い'
-    P: '僧侶'
-
-  JOB_NAME_SHORT =
-    F: '戦'
-    K: '騎'
-    A: '弓'
-    M: '魔'
-    P: '僧'
-
-  CLASS_NAME =
-    F: 'fighter'
-    K: 'knight'
-    A: 'archer'
-    M: 'magician'
-    P: 'priest'
-
-  WEAPON_NAME =
-    Sl: '斬'
-    Bl: '打'
-    Pi: '突'
-    Ar: '弓'
-    Ma: '魔'
-    He: '聖'
-    Pu: '拳'
-    Gu: '銃'
-    Sh: '狙'
-
-  UNION_TYPE =
-    unknown: '（調査中）'
-    guildtown: '副都'
-    holytown: '聖都'
-    academy: '賢者の塔'
-    mountain: '迷宮山脈'
-    oasis: '湖都'
-    forest: '精霊島'
-    volcano: '九領'
-    'forest-sea': '海風の港'
-    dawnsea: '大海'
-    beasts: 'ケ者'
-    criminal: '罪の大陸'
-    volunteers: '義勇軍'
-    demon: '魔神'
-    others: '旅人'
-
-  SOURCE_TABLE =
-    first:
-      name: '1部'
-      types: ['guildtown', 'holytown', 'academy', 'mountain',
-        'oasis', 'forest', 'volcano', 'other']
-      details:
-        'guildtown': '副都・酒場'
-        'holytown': '聖都・酒場'
-        'academy': '賢者の塔・酒場'
-        'mountain': '迷宮山脈・酒場'
-        'oasis': '湖都・酒場'
-        'forest': '精霊島・酒場'
-        'volcano': '九領・酒場'
-        'other': 'その他'
-    second:
-      name: '2部'
-      types: ['forest-sea', 'dawnsea', 'beasts', 'criminal', 'other']
-      details:
-        'forest-sea': '海風の港・酒場'
-        'dawnsea': '夜明けの大海・酒場'
-        'beasts': 'ケ者・酒場'
-        'criminal': '罪の大陸・酒場'
-        'other': 'その他'
-    ring:
-      name: 'リング系'
-      types: ['trade', 'random']
-      details:
-        'trade': '交換'
-        'random': 'ガチャ'
-    event:
-      name: 'イベント限定'
-      types: ['festival', 'demon', 'score', 'other']
-      details:
-        'festival': 'フェス'
-        'demon': '魔神戦'
-        'score': '戦の年代記'
-        'other': 'その他'
-    collaboration:
-      name: 'コラボ限定'
-      types: ['shiningblade', 'maoyu', 'trefle', 'mediafactory',
-        'loghorizon', 'bakidou', 'atelier-twilight', 'monokuma',
-        'falcom-sen2', 'other']
-      details:
-        'shiningblade': 'シャイニング・ブレイド'
-        'maoyu': 'まおゆう'
-        'trefle': 'Trefle'
-        'mediafactory': 'メディアファクトリー'
-        'loghorizon': 'ログ・ホライズン'
-        'bakidou': '刃牙道'
-        'atelier-twilight': 'アトリエ・黄昏シリーズ'
-        'monokuma': '絶対絶望少女'
-        'falcom-sen2': '閃の軌跡II'
-        'other': 'その他'
-
-  WIKI_URL = 'http://xn--eckfza0gxcvmna6c.gamerch.com/'
-
-  constructor: (data) ->
-    @name = data.name
-    @title = data.title
-    @rarity = data.rarity
-    @cost = data.cost
-    @chainCost = data.chain_cost
-    @jobType = data.job_type
-    @jobIndex = data.job_index
-    @jobCode = data.job_code
-    @jobName = JOB_NAME[@jobType]
-    @jobNameShort = JOB_NAME_SHORT[@jobType]
-    @rarityStars = '★★★★★★'.slice(0, @rarity)
-    @jobClass = CLASS_NAME[@jobType]
-    @weaponType = data.weapon_type
-    @weaponName = WEAPON_NAME[@weaponType]
-    @voiceActor = data.voice_actor
-    @voiceActor = '？' if @voiceActor == ''
-    @illustrator = data.illustrator
-    @illustrator = '？' if @illustrator == ''
-    @union = data.union
-    @sourceCategory = data.source_category
-    @source = data.source
-    @jobDetail = data.job_detail
-    @maxAtk = (data.max_atk || '-')
-    @maxHp = (data.max_hp || '-')
-    @limitAtk = (data.limit_atk || '-')
-    @limitHp = (data.limit_hp || '-')
-
-    @skill = new Skill(data.skill)
-    @firstAbility = new Ability(data.first_ability)
-    @secondAbility = new Ability(data.second_ability)
-    @chainAbility = new Ability(data.chain_ability)
-
-    @wikiName = (
-      if @title is '（調査中）'
-        ''
-      else if @jobCode is 'F82'
-        "主人公（第2部）"
-      else
-        "#{@title}#{@name}"
-    )
-    @wikiUrl = (
-      if @wikiName is ''
-        WIKI_URL
-      else
-        WIKI_URL + encodeURIComponent(@wikiName)
-    )
-
-  @jobNameFor = (j) -> JOB_NAME[j]
-  @jobShortNameFor = (j) -> JOB_NAME_SHORT[j]
-  @weaponNameFor = (w) -> WEAPON_NAME[w]
-  @unionNameFor = (u) -> UNION_TYPE[u]
-  @unions = -> UNION_TYPE
-  @sourceCategoryNameFor = (c) -> SOURCE_TABLE[c]?.name || ''
-  @sourceTypesFor = (c) -> SOURCE_TABLE[c]?.types || []
-  @sourceNameFor = (c, s) -> SOURCE_TABLE[c]?.details?[s] || ''
-
-class Member
-
-  constructor: (a) ->
-    @arcana = a
-    @chainArcana = null
-
-  chainedCost: ->
-    c = @arcana.cost
-    return c unless @chainArcana
-    (c + @chainArcana.chainCost)
-
-  canUseChainAbility: ->
-    return false unless @chainArcana
-    return false unless @arcana.jobType == @chainArcana.jobType
-    return false if @arcana.name == @chainArcana.name
-    true
-
-  @canUseChainAbility = (a, b) ->
-    return false unless (a && b)
-    aa = a.arcana
-    ba = b.arcana
-    return false unless aa.jobType == ba.jobType
-    return false if aa.name == ba.name
-    true
-
-class Arcanas
-
-  arcanas = {}
-  resultCache = {}
-
-  constructor: () ->
-
-  createQueryKey = (query) ->
-    key = ""
-    key += "recently_" if query.recently
-    key += "j#{query.job}_" if query.job
-    key += "r#{query.rarity}_" if query.rarity
-    if query.sourcecategory
-      key += "soc#{query.sourcecategory}_"
-      key += "so#{query.source}_" if query.source
-    key += "w#{query.weapon}_" if query.weapon
-    key += "u#{query.union}_" if query.union
-    if query.skill || query.skillcost
-      key += "sk#{query.skill}_" if query.skill
-      key += "skco#{query.skillcost}_" if query.skillcost
-      key += "subsk#{query.skillsub}_" if query.skillsub
-      key += "subef#{query.skilleffect}_" if query.skilleffect
-    key += "a#{query.actor}_" if query.actor
-    key += "i#{query.illustrator}_" if query.illustrator
-    key += "abc#{query.abilitycond}_" if query.abilitycond
-    key += "abe#{query.abilityeffect}_" if query.abilityeffect
-    key += "cabc#{query.chainabilitycond}_" if query.chainabilitycond
-    key += "cabe#{query.chainabilityeffect}_" if query.chainabilityeffect
-    key += "arco#{query.arcanacost}_" if query.arcanacost
-    key += "chco#{query.chaincost}_" if query.chaincost
-    key
-
-  search: (query, url, callbacks) ->
-    key = createQueryKey(query)
-    cached = resultCache[key]
-    if cached
-      as = (new Member(arcanas[code]) for code in cached)
-      callbacks.done(as)
-      return
-
-    xhr = $.getJSON url, query
-    xhr.done (datas) ->
-      as = []
-      for data in datas
-        a = new Arcana(data)
-        arcanas[a.jobCode] = a unless arcanas[a.jobCode]
-        as.push (new Member(a))
-      cs = (a.arcana.jobCode for a in as)
-      resultCache[key] = cs
-      callbacks.done(as)
-    xhr.fail ->
-      callbacks.fail()
-
-  searchMembers: (query, url, callbacks) ->
-    xhr = $.getJSON url, query
-    xhr.done (datas) ->
-      as = {}
-      for mem, data of datas
-        continue unless data
-        a = new Arcana(data)
-        continue unless a
-        arcanas[a.jobCode] = a unless arcanas[a.jobCode]
-        as[mem] = new Member(a)
-      callbacks.done(as)
-    xhr.fail ->
-      callbacks.fail()
-
-  searchCodes: (query, url, callbacks) ->
-    xhr = $.getJSON url, query
-    xhr.done (datas) ->
-      as = []
-      for data in datas
-        a = new Arcana(data)
-        arcanas[a.jobCode] = a unless arcanas[a.jobCode]
-        as.push new Member(a)
-      callbacks.done(as)
-    xhr.fail ->
-      callbacks.fail()
-
-  forCode: (code) ->
-    a = arcanas[code]
-    return unless a
-    (new Member(a))
-
-class Cookie
-
-  $.cookie.json = true
-  cookieKey = 'ccpts'
-  expireDate = 21
-
-  @set = (data) ->
-    d = $.extend(@get(), (data || {}))
-    $.cookie(cookieKey, d, {expires: expireDate})
-
-  @get = ->
-    $.cookie(cookieKey) || {}
-
-  @clear = ->
-    $.removeCookie(cookieKey)
-
-  @replace = (data) ->
-    $.cookie(cookieKey, (data || {}), {expires: expireDate})
-
-  @delete = (key) ->
-    c = @get()
-    delete c[key]
-    @replace(c)
-
-  @valueFor = (key) ->
-    c = @get()
-    c[key]
-
-class Pager
-
-  defaultPageSize = 8
-
-  constructor: (list, psize) ->
-    @all = list || []
-    @size = @all.length
-    @pageSize = (psize || defaultPageSize)
-    @maxPage = if @size > 0
-      Math.ceil(list.length / @pageSize)
-    else
-      1
-    @page = 1
-
-  head: ->
-    (@page - 1) * @pageSize
-
-  tail: ->
-    t = (@page * @pageSize) - 1
-    if t >= @all.length
-      t = @all.length - 1
-    t
-
-  get: ->
-    h = @head()
-    t = @tail()
-    @all[h .. t]
-
-  nextPage: ->
-    @page += 1
-    if @page > @maxPage
-      @page = @maxPage
-    @page
-
-  prevPage: ->
-    @page -= 1
-    if @page < 0
-      @page = 1
-    @page
-
-  hasNextPage: ->
-    if @page < @maxPage then true else false
-
-  hasPrevPage: ->
-    if @page > 1 then true else false
-
-  jumpPage: (p) ->
-    @page = parseInt(p)
-    if @page > @maxPage
-      @page = @maxPage
-    if @page < 0
-      @page = 1
-    @page
-
-  sort: (col, order) ->
-    order ||= 'desc'
-    @all.sort (am, bm) ->
-      a = am.arcana
-      b = bm.arcana
-      return 0 if a.jobCode is b.jobCode
-
-      av = a[col]
-      av = 0 if av is '-'
-      bv = b[col]
-      bv = 0 if bv is '-'
-
-      if av is bv
-        0
-      else if av < bv
-        if order is 'desc' then 1 else -1
-      else
-        if order is 'desc' then -1 else 1
-    @all
-
 class Viewer
 
   members = {}
-  arcanas = new Arcanas()
   memberKeys = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'friend']
   pager = null
   pagerSize = null
@@ -1092,8 +23,8 @@ class Viewer
       recentlySize = (if isPhoneDevice() then 16 else 32)
       initDatabaseHandler()
 
-      query = parseQuery()
-      if Object.keys(query).length <= 0
+      query = Query.parse()
+      if query.isEmpty()
         searchRecentlyTargets()
       else
         searchTargets(query)
@@ -1199,7 +130,7 @@ class Viewer
         li = []
         for e in Skill.subeffectForEffect(ef)
           li.push Skill.effectNameFor(ef.category, e)
-        render += " ( + #{li.join(' / ')} )"
+        render += " ( #{li.join(' / ')} )"
       render += '</li>'
     render += "</ul>"
     render
@@ -1590,36 +521,13 @@ class Viewer
   replaceTargetAreaForFavorite = ->
     as = []
     for c in collectFavriteList()
-      as.push arcanas.forCode(c)
+      as.push Searcher.forCode(c)
     $(".search-detail").text('お気に入り')
     pager = createPager(as)
     replaceTargetArea()
 
-  searchArcanas = (query, path, callback) ->
-    $("#error-area").hide()
-    $("#loading-modal").modal('show')
-    query ?= {}
-    query.ver = $("#data-ver").val()
-    url = $("#app-path").val() + path
-    callbacks =
-      done: (as) ->
-        callback(as)
-        $("#loading-modal").modal('hide')
-      fail: ->
-        $("#loading-modal").modal('hide')
-        $("#error-area").show()
-
-    switch path
-      when 'ptm'
-        arcanas.searchMembers(query, url, callbacks)
-      when 'codes'
-        arcanas.searchCodes(query, url, callbacks)
-      else
-        arcanas.search(query, url, callbacks)
-
   buildMembersArea = (ptm) ->
-    query = ptm: ptm
-    searchArcanas query, 'ptm', (as) ->
+    Searcher.searchMembers ptm, (as) ->
       eachMemberKey (k) ->
         mb = as[k]
         mc = as[k + 'c']
@@ -1633,26 +541,7 @@ class Viewer
         renderMemberArcana memberAreaFor(k), render
       calcCost()
 
-  searchMembersFromCode = (ptm) ->
-    query = ptm: ptm
-    searchArcanas query, 'ptm', (as) ->
-      list = []
-      codes = {}
-      eachMemberKey (k) ->
-        mb = as[k]
-        if mb && !codes[mb.arcana.jobCode]
-          list.push mb
-          codes[mb.arcana.jobCode] = mb
-
-        mc = as[k + 'c']
-        if mc && !codes[mc.arcana.jobCode]
-          list.push mc
-          codes[mc.arcana.jobCode] = mc
-
-      pager = createPager(list)
-      replaceChoiceArea()
-
-  resetQuery = ->
+  resetConditions = ->
     $("#job").val('')
     $("#rarity").val('')
     $("#weapon").val('')
@@ -1677,57 +566,10 @@ class Viewer
     $("#add-condition").show()
     @
 
-  buildQuery = ->
-    job = $("#job").val()
-    rarity = $("#rarity").val()
-    weapon = $("#weapon").val()
-    actor = $("#actor").val()
-    illst = $("#illustrator").val()
-    union = $("#union").val()
-    sourcecategory = $("#source-category").val()
-    source = $("#source").val()
-    skill = $("#skill").val()
-    skillcost = $("#skill-cost").val()
-    abilityCond = $("#ability-condition").val()
-    abilityEffect = $("#ability-effect").val()
-    chainAbilityCond = $("#chain-ability-condition").val()
-    chainAbilityEffect = $("#chain-ability-effect").val()
-    arcanacost = $("#arcana-cost").val()
-    chaincost = $("#chain-cost").val()
-
-    query = {}
-    query.job = job unless job == ''
-    query.rarity = rarity unless rarity == ''
-    query.weapon = weapon unless weapon == ''
-    query.actor = actor unless actor == ''
-    query.illustrator = illst unless illst == ''
-    query.union = union unless union == ''
-    unless sourcecategory == ''
-      query.sourcecategory = sourcecategory
-      query.source = source unless source == ''
-    query.abilitycond = abilityCond unless abilityCond == ''
-    query.abilityeffect = abilityEffect unless abilityEffect == ''
-    query.chainabilitycond = chainAbilityCond unless chainAbilityCond == ''
-    query.chainabilityeffect = chainAbilityEffect unless chainAbilityEffect == ''
-    query.arcanacost = arcanacost unless arcanacost == ''
-    query.chaincost = chaincost unless chaincost == ''
-
-    unless (skill == '' && skillcost == '')
-      query.skill = skill unless skill == ''
-      query.skillcost = skillcost unless skillcost == ''
-      skillsub = $("#skill-sub").val()
-      query.skillsub = skillsub unless skillsub == ''
-      skilleffect = $("#skill-effect").val()
-      query.skilleffect = skilleffect unless skilleffect == ''
-
-    if Object.keys(query).length <= 0
-      query.recently = recentlySize
-
-    query
-
-  setConditions = (query) ->
-    return unless query
-    resetQuery()
+  setConditions = (q) ->
+    return unless q
+    resetConditions()
+    query = q.params()
 
     if query.job
       $("#job").val(query.job)
@@ -1792,130 +634,17 @@ class Viewer
       $("#add-condition").hide()
     @
 
-  parseQuery = (q) ->
-    q ?= (location.search.replace(/(^\?)/,'') || '')
-    return {} if q is ''
-
-    ret = {}
-    recently = false
-    r = /\+/g
-    for qs in q.split("&")
-      [n, v] = qs.split("=")
-      val = decodeURIComponent(v).replace(r, ' ')
-      switch n
-        when 'ver'
-          continue
-        when 'recently'
-          recently = true
-          break
-        when 'illustratorname'
-          ret['illustrator'] = getSelectboxValue('illustrator', val)
-        when 'actorname'
-          ret['actor'] = getSelectboxValue('actor', val)
-        else
-          ret[n] = val
-    return {} if recently
-    ret
-
-  encodeQuery = (q) ->
-    return {} unless q
-
-    ret = {}
-    recently = false
-    for n, v of q
-      switch n
-        when 'ver'
-          continue
-        when 'recently'
-          recently = true
-          break
-        when 'illustrator'
-          ret['illustratorname'] = getSelectboxText('illustrator', v)
-        when 'actor'
-          ret['actorname'] = getSelectboxText('actor', v)
-        else
-          ret[n] = v
-    return '' if recently
-    $.param ret
-
-  isQueryForRecently = (q) ->
-    return false unless q
-    if q.recently then true else false
-
-  getSelectboxText = (sname, v) ->
-    ret = null
-    $("##{sname} option").each ->
-      val = $(this).val()
-      return unless val is v
-      ret = $(this).text()
-      false
-    ret
-
-  getSelectboxValue = (sname, v) ->
-    ret = null
-    $("##{sname} option").each ->
-      text = $(this).text()
-      return unless text is v
-      ret = $(this).val()
-      false
-    ret
-
-  createQueryDetail = (query) ->
-    return '' unless query
-    elem = []
-    if query.recently
-      elem.push '最新'
-    if query.job
-      elem.push Arcana.jobNameFor(query.job)
-    if query.rarity
-      elem.push "★#{query.rarity.replace(/U/, '以上')}"
-    if query.arcanacost
-      elem.push "コスト#{query.arcanacost.replace(/D/, '以下')}"
-    if query.chaincost
-      elem.push "絆コスト#{query.chaincost.replace(/D/, '以下')}"
-    if query.union
-      elem.push '所属 - ' + Arcana.unionNameFor(query.union)
-    if query.weapon
-      elem.push '武器タイプ - ' + Arcana.weaponNameFor(query.weapon)
-    if query.skill || query.skillcost
-      text = 'スキル - '
-      text += Skill.typeNameFor(query.skill) if query.skill
-      text += " マナ#{query.skillcost.replace(/D/, '以下')}" if query.skillcost
-      if query.skillsub || query.skilleffect
-        text += '（'
-        ss = []
-        ss.push Skill.subnameFor(query.skill, query.skillsub) if query.skillsub
-        ss.push Skill.effectNameFor(query.skill, query.skilleffect) if query.skilleffect
-        text += ss.join(' + ')
-        text += '）'
-      elem.push text
-    if query.abilitycond || query.abilityeffect
-      text = 'アビリティ - ' + Ability.conditionNameFor(query.abilitycond) + ' ' + Ability.effectNameFor(query.abilityeffect)
-      elem.push text
-    if query.chainabilitycond || query.chainabilityeffect
-      text = '絆アビリティ - ' + Ability.conditionNameFor(query.chainabilitycond) + ' ' + Ability.effectNameFor(query.chainabilityeffect)
-      elem.push text
-    if query.sourcecategory
-      text = '入手先 - ' + Arcana.sourceCategoryNameFor(query.sourcecategory)
-      text += ' ' + Arcana.sourceNameFor(query.sourcecategory, query.source) if query.source
-      elem.push text
-    if query.actor
-      elem.push '声優 - ' + getSelectboxText('actor', query.actor)
-    if query.illustrator
-      elem.push 'イラスト - ' + getSelectboxText('illustrator', query.illustrator)
-    elem.join(' / ')
-
   addQueryLog = (q) ->
     lastQuery = q
-    return if isQueryForRecently(q)
+    return if q.isQueryForRecently()
     nl = [q]
-    eq = encodeQuery(q)
+    eq = q.encode()
     cs = [eq]
     for oq in querys
       break if nl.length == queryLogSize
-      continue if (eq is encodeQuery(oq))
+      continue if (eq is oq.encode())
       nl.push oq
-      cs.push encodeQuery(oq)
+      cs.push oq.encode()
     querys = nl
     Cookie.set({'query-log': cs})
     q
@@ -1927,7 +656,7 @@ class Viewer
       return unless cs
 
       for c in cs
-        q = parseQuery(c)
+        q = Query.parse(c)
         querys.push(q) if q
       renderQueryLog()
     catch
@@ -1950,7 +679,7 @@ class Viewer
     for i in [queryLogSize..1]
       q = querys[i-1]
       continue unless q
-      detail = createQueryDetail(q)
+      detail = q.createDetail()
       if detail.length > limit
         detail = detail.slice(0, limit-3) + '...'
       li = "<li><a data-target='#' data-order='#{i}' class='search-log'>#{detail}</a></li>"
@@ -1958,22 +687,17 @@ class Viewer
     @
 
   searchTargets = (q) ->
-    query = q || buildQuery()
-    unless query
-      $(".search-detail").text('')
-      pager = createPager([])
-      replaceTargetArea()
-      return
+    query = q || Query.build()
     addQueryLog(query)
     renderQueryLog()
-    searchArcanas query, 'arcanas', (as) ->
-      $(".search-detail").text(createQueryDetail(query))
+    Searcher.searchArcanas query, (as) ->
+      $(".search-detail").text query.createDetail()
       pager = createPager(as)
       resetSortOrder()
       replaceTargetArea()
 
   searchRecentlyTargets = ->
-    searchTargets({recently: recentlySize})
+    searchTargets Query.create({recently: recentlySize})
 
   searchFavoriteArcanas = ->
     fl = collectFavriteList()
@@ -1983,15 +707,14 @@ class Viewer
 
     targets = []
     for c in fl
-      continue if arcanas.forCode(c)
+      continue if Searcher.forCode(c)
       targets.push c
 
     if targets.length <= 0
       replaceTargetAreaForFavorite()
       return
 
-    query = {'codes': targets.join('/')}
-    searchArcanas query, 'codes', (as) ->
+    Searcher.searchCodes targets, (as) ->
       replaceTargetAreaForFavorite()
 
   toggleEditMode = ->
@@ -2132,7 +855,7 @@ class Viewer
     @
 
   createArcanaDetail = (code) ->
-    m = arcanas.forCode(code)
+    m = Searcher.forCode(code)
     view = $("#view-detail")
     view.empty()
     view.append(renderArcanaDetail(m))
@@ -2249,7 +972,7 @@ class Viewer
     swapKey = drag.data('parentKey')
     return if key == swapKey
 
-    d = arcanas.forCode(code)
+    d = Searcher.forCode(code)
     if (org && org.arcana.name != d.arcana.name)
       spr = $('#select-proposal-replace')
       spr.empty()
@@ -2264,7 +987,7 @@ class Viewer
       spc.append(rpc)
 
       st = $('#select-chain-status')
-      if Member.canUseChainAbility(org, d)
+      if Arcana.canUseChainAbility(org.arcana, d.arcana)
         st.text('絆アビリティ使用可能')
         st.addClass('label-success')
         st.removeClass('label-danger')
@@ -2293,7 +1016,7 @@ class Viewer
 
   replaceMemberArea = (pos, code, swapPos) ->
     fromMember = (if (swapPos && swapPos != '') then true else false)
-    m = arcanas.forCode(code)
+    m = Searcher.forCode(code)
     if fromMember
       m.chainArcana = (memberFor(swapPos)).chainArcana
     removeDuplicateMember(m) unless pos is 'friend'
@@ -2368,7 +1091,7 @@ class Viewer
 
     $(".search-clear").on 'click', (e) ->
       e.preventDefault()
-      resetQuery()
+      resetConditions()
 
     $("#add-condition").on 'click', (e) ->
       e.preventDefault()
@@ -2450,7 +1173,7 @@ class Viewer
     $("#view-modal").on 'click', 'button.wiki-link', (e) ->
       e.preventDefault()
       code = $(e.target).data('jobCode')
-      m = arcanas.forCode(code)
+      m = Searcher.forCode(code)
       return false unless m
 
       a = m.arcana
@@ -2557,7 +1280,7 @@ class Viewer
       code = $('#select-droped-code').val()
       mem = memberFor(key)
       if mem
-        m = arcanas.forCode(code)
+        m = Searcher.forCode(code)
         mem.chainArcana = m.arcana
       removeDuplicateMember(mem) unless key is 'friend'
       setMemberArcana(key, mem)
