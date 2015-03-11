@@ -217,6 +217,9 @@ class window.Ability
     defup_for_job_best:
       name: '特定の職で残りHPが高い対象のダメージ軽減'
       conditions: []
+    defup_for_job_atk_best:
+      name: '特定の職で一番ATKが高い対象のダメージ軽減'
+      conditions: []
     defup_for_job_worst:
       name: '特定の職で残りHPが低い対象のダメージ軽減'
       conditions: []
@@ -313,7 +316,11 @@ class window.Ability
       name: '一番ダメージが大きい対象を回復'
       conditions: []
       chains: []
-    heal_worst_jobs:
+    heal_for_job_atk_best:
+      name: '特定の職で一番ATKが高い対象を回復'
+      conditions: []
+      chains: []
+    heal_for_job_worst:
       name: '特定の職で一番ダメージが大きい対象を回復'
       conditions: []
       chains: []
@@ -409,6 +416,7 @@ class window.Ability
     'atkup_for_job_near'
     'defup_for_job_best'
     'defup_for_job_worst'
+    'defup_for_job_atk_best'
     'atkdown_enemy'
     'defdown_enemy'
     'poison_atkup'
@@ -427,7 +435,8 @@ class window.Ability
     'heal_self'
     'heal_worst'
     'heal_all'
-    'heal_worst_jobs'
+    'heal_for_job_worst'
+    'heal_for_job_atk_best'
     'slow'
     'blind'
     'down'

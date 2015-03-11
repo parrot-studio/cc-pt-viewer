@@ -56,13 +56,13 @@ class window.Skill
         all: '全体'
     area:
       name: '設置/領域'
-      types: ['obstacle', 'continual', 'bomb', 'atkup', 'defdown']
+      types: ['obstacle', 'bomb', 'continual', 'atkup', 'defdown']
       subname:
-        obstacle: '障害物'
-        continual: '継続ダメージ'
-        bomb: '爆弾'
-        atkup: '与えるダメージ上昇'
-        defdown: '受けるダメージ増加'
+        obstacle: '[設置] 障害物'
+        bomb: '[設置] 爆弾'
+        continual: '[領域] 継続ダメージ'
+        atkup: '[領域] 与えるダメージ上昇'
+        defdown: '[領域] 受けるダメージ増加'
 
   EFFECT_TABLE =
     attack:
