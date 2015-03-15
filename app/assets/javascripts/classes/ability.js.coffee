@@ -53,6 +53,7 @@ class window.Ability
     mana_lost: 'マナが少ないほど'
     members_debuff: '味方に状態異常が多いほど'
     others_skill: '味方がスキルを使った時'
+    same_abilities: '同じアビリティを持った味方がいる時'
     skill: 'スキル使用時'
     union: '特定の職構成の時'
     wave_start: '各WAVE開始時'
@@ -110,6 +111,7 @@ class window.Ability
     'battle_end'
     'in_field'
     'union'
+    'same_abilities'
     'in_sub'
   ]
 
@@ -145,7 +147,7 @@ class window.Ability
         'in_front', 'in_head', 'in_emeny_area', 'in_emeny_back',
         'others_skill', 'link', 'mana_charged', 'boss_wave', 'wave_start',
         'for_blind', 'for_slow', 'for_poison', 'for_down', 'for_curse', 'for_weaken',
-        'in_poison', 'in_debuff', 'in_field', 'dropout_member', 'union']
+        'in_poison', 'in_debuff', 'in_field', 'dropout_member', 'union', 'same_abilities']
       chains: ['any', 'hp_upto', 'hp_downto', 'attack', 'critical',
         'killer', 'in_field', 'boss_wave', 'for_blind', 'for_slow', 'for_poison',
         'for_down', 'for_curse', 'for_weaken', 'in_poison',
@@ -207,7 +209,7 @@ class window.Ability
       name: '受けるダメージ軽減'
       conditions: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more', 'in_combo',
         'guard', 'kill', 'killer', 'in_field', 'boss_wave', 'wave_start',
-        'for_slow', 'in_blind', 'in_debuff', 'dropout_member', 'union']
+        'for_slow', 'in_blind', 'in_debuff', 'dropout_member', 'union', 'same_abilities']
       chains: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more',
         'killer', 'in_field', 'boss_wave']
     defup_all:
@@ -387,7 +389,7 @@ class window.Ability
       name: '移動速度上昇'
       conditions: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more', 'hp_full',
         'guard', 'in_combo', 'kill', 'in_field', 'in_slow', 'in_debuff',
-        'boss_wave', 'wave_start', 'union']
+        'boss_wave', 'wave_start', 'union', 'same_abilities']
       chains: ['any', 'hp_upto', 'hp_downto', 'in_field', 'boss_wave']
     speedup_all:
       name: '全員の移動速度上昇'

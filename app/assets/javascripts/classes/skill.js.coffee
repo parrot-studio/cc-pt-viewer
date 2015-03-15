@@ -67,7 +67,7 @@ class window.Skill
   EFFECT_TABLE =
     attack:
       types: ['fire', 'ice', 'push', 'down', 'blind', 'slow', 'poison',
-        'freeze', 'curse', 'charge', 'shield_break', 'heal_all', 'pain']
+        'freeze', 'curse', 'charge', 'shield_break', 'heal_all', 'pain', 'kill_pierce']
       effectname:
         blind: '暗闇追加'
         charge: '溜め'
@@ -77,6 +77,7 @@ class window.Skill
         freeze: '凍結追加'
         heal_all: '全員を回復'
         ice: '氷属性'
+        kill_pierce: '倒したら貫通'
         poison: '毒追加'
         push: '弾き飛ばし'
         shield_break: '盾破壊'
