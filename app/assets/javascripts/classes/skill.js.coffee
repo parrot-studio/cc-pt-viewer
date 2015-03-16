@@ -6,7 +6,8 @@ class window.Skill
       types: ['one/short', 'one/line', 'one/combo', 'one/dash', 'one/rear',
         'one/jump', 'one/random', 'one/combination', 'range/line',
         'range/dash', 'range/forward', 'range/self', 'range/explosion',
-        'range/drop', 'range/jump', 'range/blast', 'range/random', 'range/all']
+        'range/drop', 'range/jump', 'range/blast', 'range/random',
+        'range/line2', 'range/all']
       subname:
         'one/short': '単体・目前'
         'one/line': '単体・直線'
@@ -25,6 +26,7 @@ class window.Skill
         'range/jump': '範囲・ジャンプ'
         'range/blast': '範囲・爆発'
         'range/random': '範囲・ランダム'
+        'range/line2': '範囲・直線2ライン'
         'range/all': '範囲・全体'
     heal:
       name: '回復'
@@ -85,11 +87,12 @@ class window.Skill
         pain: '自分もダメージ'
     heal:
       types: ['poison', 'blind', 'slow', 'freeze',
-        'seal', 'weaken', 'atkup', 'defup']
+        'seal', 'weaken', 'down', 'atkup', 'defup']
       effectname:
         atkup: '与えるダメージ上昇'
         blind: '暗闇解除'
         defup: '受けるダメージ軽減'
+        down: 'ダウン解除'
         freeze: '凍結解除'
         poison: '毒解除'
         seal: '封印解除'

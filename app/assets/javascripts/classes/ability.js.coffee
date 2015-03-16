@@ -374,6 +374,9 @@ class window.Ability
     registup:
       name: '魔法ダメージ軽減'
       conditions: []
+    reflect_magic:
+      name: '魔法反射'
+      conditions: []
     skill_atkup:
       name: '必殺技威力上昇'
       conditions: ['any', 'mana_lost', 'others_skill', 'guard']
@@ -429,6 +432,7 @@ class window.Ability
     'pierce'
     'absorb'
     'counterattack'
+    'reflect_magic'
     'combat'
     'invisible'
     'invincible'

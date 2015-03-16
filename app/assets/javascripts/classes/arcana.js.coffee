@@ -90,7 +90,7 @@ class window.Arcana
       name: 'コラボ限定'
       types: ['shiningblade', 'maoyu', 'trefle', 'mediafactory',
         'loghorizon', 'bakidou', 'atelier-twilight', 'monokuma',
-        'falcom-sen2', 'other']
+        'falcom-sen2', 'sevensins', 'other']
       details:
         'shiningblade': 'シャイニング・ブレイド'
         'maoyu': 'まおゆう'
@@ -101,6 +101,7 @@ class window.Arcana
         'atelier-twilight': 'アトリエ・黄昏シリーズ'
         'monokuma': '絶対絶望少女'
         'falcom-sen2': '閃の軌跡II'
+        'sevensins': '七つの大罪'
         'other': 'その他'
 
   WIKI_URL = 'http://xn--eckfza0gxcvmna6c.gamerch.com/'
