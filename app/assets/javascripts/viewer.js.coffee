@@ -723,6 +723,7 @@ class Viewer
     btnText = $("#edit-state")
     btnIcon = $("#edit-icon")
     title = $("#edit-title")
+    clear = $("#clear-area")
 
     if onEdit
       onEdit = false
@@ -732,6 +733,7 @@ class Viewer
       member.removeClass("well well-sm")
       title.hide()
       edit.fadeOut()
+      clear.hide()
     else
       onEdit = true
       btnText.text("編集終了")
@@ -740,6 +742,7 @@ class Viewer
       member.addClass("well well-sm")
       title.show()
       edit.fadeIn()
+      clear.show()
     reloadMemberAreas()
     @
 
