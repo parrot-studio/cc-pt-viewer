@@ -22,6 +22,8 @@ class window.Ability
     for_poison: '敵が毒の時'
     for_slow: '敵がスロウの時'
     for_weaken: '敵が衰弱の時'
+    for_forest_f: '精霊島の戦士が'
+    for_forest_m: '精霊島の魔法使いが'
     guard: 'ガードした時'
     heal: '回復時'
     hp_downto: 'HPが一定以下の時'
@@ -57,6 +59,7 @@ class window.Ability
     skill: 'スキル使用時'
     union: '特定の職構成の時'
     wave_start: '各WAVE開始時'
+    with_f: '戦士と一緒の時'
     unknown: '（不明）'
 
   CONDITION_LIST = [
@@ -147,7 +150,8 @@ class window.Ability
         'in_front', 'in_head', 'in_emeny_area', 'in_emeny_back',
         'others_skill', 'link', 'mana_charged', 'boss_wave', 'wave_start',
         'for_blind', 'for_slow', 'for_poison', 'for_down', 'for_curse', 'for_weaken',
-        'in_poison', 'in_debuff', 'in_field', 'dropout_member', 'union', 'same_abilities']
+        'in_poison', 'in_debuff', 'in_field', 'dropout_member', 'union',
+        'with_f', 'same_abilities']
       chains: ['any', 'hp_upto', 'hp_downto', 'attack', 'critical',
         'killer', 'in_field', 'boss_wave', 'for_blind', 'for_slow', 'for_poison',
         'for_down', 'for_curse', 'for_weaken', 'in_poison',
@@ -176,9 +180,17 @@ class window.Ability
     boost_skill:
       name: 'スキル効果上昇'
       conditions: []
+    buff_forests:
+      name: '精霊島所属がステータス上昇'
     buff_jobs:
       name: '特定の職がステータス上昇'
       conditions: ['any', 'union']
+    buff_slash:
+      name: '斬タイプがステータス上昇'
+      conditions: []
+    buff_magic:
+      name: '魔タイプがステータス上昇'
+      conditions: []
     combat:
       name: '接近戦可能'
       conditions: []
@@ -188,7 +200,7 @@ class window.Ability
       conditions: []
     critup:
       name: 'クリティカル率上昇'
-      conditions: ['attack', 'wave_start']
+      conditions: ['attack', 'wave_start', 'for_forest_f']
       chains: []
     critup_all:
       name: '全員のクリティカル率上昇'
@@ -208,7 +220,7 @@ class window.Ability
     defup:
       name: '受けるダメージ軽減'
       conditions: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more', 'in_combo',
-        'guard', 'kill', 'killer', 'in_field', 'boss_wave', 'wave_start',
+        'others_skill', 'guard', 'kill', 'killer', 'in_field', 'boss_wave', 'wave_start',
         'for_slow', 'in_blind', 'in_debuff', 'dropout_member', 'union', 'same_abilities']
       chains: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more',
         'killer', 'in_field', 'boss_wave']
@@ -326,6 +338,8 @@ class window.Ability
       name: '特定の職で一番ダメージが大きい対象を回復'
       conditions: []
       chains: []
+    heal_lowlv:
+      name: '一番レベルが低い対象を回復'
     healup:
       name: '回復量上昇'
       conditions: []
@@ -386,13 +400,13 @@ class window.Ability
       conditions: []
     slow:
       name: 'スロウ付与'
-      conditions: ['attack', 'critical', 'skill']
+      conditions: ['attack', 'critical', 'skill', 'for_forest_m']
       chains: ['attack', 'critical']
     speedup:
       name: '移動速度上昇'
       conditions: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more', 'hp_full',
         'guard', 'in_combo', 'kill', 'in_field', 'in_slow', 'in_debuff',
-        'boss_wave', 'wave_start', 'union', 'same_abilities']
+        'boss_wave', 'wave_start', 'union', 'with_f','same_abilities']
       chains: ['any', 'hp_upto', 'hp_downto', 'in_field', 'boss_wave']
     speedup_all:
       name: '全員の移動速度上昇'
@@ -443,6 +457,7 @@ class window.Ability
     'heal_all'
     'heal_for_job_worst'
     'heal_for_job_atk_best'
+    'heal_lowlv'
     'slow'
     'blind'
     'down'
@@ -466,6 +481,9 @@ class window.Ability
     'speedup_all'
     'critup_all'
     'buff_jobs'
+    'buff_slash'
+    'buff_magic'
+    'buff_forests'
     'boost_skill'
     'mana_charge'
     'mana_boost'

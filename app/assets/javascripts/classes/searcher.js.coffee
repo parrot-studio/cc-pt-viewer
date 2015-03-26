@@ -1,6 +1,6 @@
 class window.Searcher
 
-  ver = $('data-ver').val() || ''
+  ver = $('#data-ver').val() || ''
   appPath = $("#app-path").val() || ''
   searchUrl = appPath + 'arcanas'
   ptmUrl = appPath + 'ptm'
