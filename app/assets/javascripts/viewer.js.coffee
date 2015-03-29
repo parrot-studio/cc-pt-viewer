@@ -688,6 +688,8 @@ class Viewer
 
   searchTargets = (q) ->
     query = q || Query.build()
+    if query.isEmpty()
+      query = Query.create({recently: recentlySize})
     addQueryLog(query)
     renderQueryLog()
     Searcher.searchArcanas query, (as) ->

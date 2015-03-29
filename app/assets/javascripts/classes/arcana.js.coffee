@@ -80,11 +80,12 @@ class window.Arcana
         'random': 'ガチャ'
     event:
       name: 'イベント限定'
-      types: ['festival', 'demon', 'score', 'other']
+      types: ['festival', 'demon', 'score', 'war', 'other']
       details:
         'festival': 'フェス'
         'demon': '魔神戦'
         'score': '戦の年代記'
+        'war': '討伐戦'
         'other': 'その他'
     collaboration:
       name: 'コラボ限定'

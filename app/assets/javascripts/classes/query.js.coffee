@@ -65,9 +65,6 @@ class window.Query
       skilleffect = getInputValue("skill-effect")
       query.skilleffect = skilleffect unless skilleffect is ''
 
-    if Object.keys(query).length <= 0
-      query.recently = recentlySize
-
     @q = query
     @q
 

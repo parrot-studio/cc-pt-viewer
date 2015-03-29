@@ -59,7 +59,9 @@ class window.Ability
     skill: 'スキル使用時'
     union: '特定の職構成の時'
     wave_start: '各WAVE開始時'
+    with_a: '弓使いと一緒の時'
     with_f: '戦士と一緒の時'
+    with_m: '魔法使いと一緒の時'
     unknown: '（不明）'
 
   CONDITION_LIST = [
@@ -114,6 +116,9 @@ class window.Ability
     'battle_end'
     'in_field'
     'union'
+    'with_f'
+    'with_a'
+    'with_m'
     'same_abilities'
     'in_sub'
   ]
@@ -221,7 +226,7 @@ class window.Ability
       name: '受けるダメージ軽減'
       conditions: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more', 'in_combo',
         'others_skill', 'guard', 'kill', 'killer', 'in_field', 'boss_wave', 'wave_start',
-        'for_slow', 'in_blind', 'in_debuff', 'dropout_member', 'union', 'same_abilities']
+        'for_slow', 'in_blind', 'in_debuff', 'dropout_member', 'union', 'with_a', 'same_abilities']
       chains: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more',
         'killer', 'in_field', 'boss_wave']
     defup_all:
@@ -391,6 +396,9 @@ class window.Ability
     reflect_magic:
       name: '魔法反射'
       conditions: []
+    shield_break:
+      name: '盾を破壊する'
+      conditions: []
     skill_atkup:
       name: '必殺技威力上昇'
       conditions: ['any', 'mana_lost', 'others_skill', 'guard']
@@ -406,7 +414,7 @@ class window.Ability
       name: '移動速度上昇'
       conditions: ['any', 'hp_upto', 'hp_downto', 'hp_downto_more', 'hp_full',
         'guard', 'in_combo', 'kill', 'in_field', 'in_slow', 'in_debuff',
-        'boss_wave', 'wave_start', 'union', 'with_f','same_abilities']
+        'boss_wave', 'wave_start', 'union', 'with_f', 'with_m','same_abilities']
       chains: ['any', 'hp_upto', 'hp_downto', 'in_field', 'boss_wave']
     speedup_all:
       name: '全員の移動速度上昇'
