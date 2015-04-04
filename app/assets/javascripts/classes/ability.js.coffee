@@ -174,6 +174,9 @@ class window.Ability
     atkup_random:
       name: '誰か一人の与えるダメージ上昇'
       conditions: []
+    atkup_hp_worst:
+      name: '一番ダメージが大きい対象の与えるダメージ上昇'
+      conditions: []
     blind:
       name: '暗闇付与'
       conditions: ['attack', 'skill']
@@ -210,6 +213,9 @@ class window.Ability
     critup_all:
       name: '全員のクリティカル率上昇'
       conditions: []
+    critup_hp_worst:
+      name: '一番ダメージが大きい対象のクリティカル率上昇'
+      conditions: []
     defdown:
       name: '受けるダメージ増加'
       conditions: ['any', 'kill', 'in_front', 'in_head', 'wave_start']
@@ -241,6 +247,9 @@ class window.Ability
       conditions: []
     defup_for_job_worst:
       name: '特定の職で残りHPが低い対象のダメージ軽減'
+      conditions: []
+    defup_hp_worst:
+      name: '一番ダメージが大きい対象のダメージ軽減'
       conditions: []
     delayoff:
       name: '攻撃間隔が早くなる'
@@ -441,9 +450,12 @@ class window.Ability
     'maxhpup'
     'atkup_for_job_best'
     'atkup_for_job_near'
+    'atkup_hp_worst'
     'defup_for_job_best'
     'defup_for_job_worst'
     'defup_for_job_atk_best'
+    'defup_hp_worst'
+    'critup_hp_worst'
     'atkdown_enemy'
     'defdown_enemy'
     'poison_atkup'
