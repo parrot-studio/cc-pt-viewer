@@ -163,7 +163,7 @@ class window.Ability
         'in_slow', 'in_blind', 'in_debuff', 'dropout_member']
     atkup_all:
       name: '全員の与えるダメージ上昇'
-      conditions: ['any', 'in_sub', 'wave_start', 'dropout_self']
+      conditions: ['any', 'in_sub', 'wave_start', 'dropout_self', 'others_skill']
       chains: []
     atkup_for_job_best:
       name: '特定の職で残りHPが高い対象の与えるダメージ上昇'
@@ -333,7 +333,7 @@ class window.Ability
       chains: []
     heal_all:
       name: '全員を回復'
-      conditions: ['wave_start', 'dropout_self']
+      conditions: ['wave_start', 'dropout_self', 'others_skill']
       chains: []
     heal_self:
       name: '自身を回復'
@@ -408,12 +408,18 @@ class window.Ability
     shield_break:
       name: '盾を破壊する'
       conditions: []
+    skill_atkdown:
+      name: 'スキル威力減少'
+      conditions: []
     skill_atkup:
-      name: '必殺技威力上昇'
+      name: 'スキル威力上昇'
       conditions: ['any', 'mana_lost', 'others_skill', 'guard']
       chain:[]
     slot_slow:
       name: 'マナスロットが遅くなる'
+      conditions: []
+    skill_spread:
+      name: 'スキル範囲拡大'
       conditions: []
     slow:
       name: 'スロウ付与'
@@ -460,6 +466,7 @@ class window.Ability
     'defdown_enemy'
     'poison_atkup'
     'mana_cost_down'
+    'skill_spread'
     'fire'
     'ice'
     'mana_drop'
@@ -515,6 +522,7 @@ class window.Ability
     'atkdown'
     'defdown'
     'areadown'
+    'skill_atkdown'
   ]
 
   EFFECT_LIST_FOR_CHAIN = [

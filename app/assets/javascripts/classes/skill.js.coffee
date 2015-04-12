@@ -69,7 +69,8 @@ class window.Skill
   EFFECT_TABLE =
     attack:
       types: ['fire', 'ice', 'push', 'down', 'blind', 'slow', 'poison',
-        'freeze', 'curse', 'charge', 'shield_break', 'heal_all', 'pain', 'kill_pierce']
+        'freeze', 'curse', 'charge', 'shield_break', 'heal_all', 'pain',
+        'kill_pierce', 'return']
       effectname:
         blind: '暗闇追加'
         charge: '溜め'
@@ -80,11 +81,12 @@ class window.Skill
         heal_all: '全員を回復'
         ice: '氷属性'
         kill_pierce: '倒したら貫通'
+        pain: '自分もダメージ'
         poison: '毒追加'
         push: '弾き飛ばし'
+        return: '元の位置に戻る'
         shield_break: '盾破壊'
         slow: 'スロウ追加'
-        pain: '自分もダメージ'
     heal:
       types: ['poison', 'blind', 'slow', 'freeze',
         'seal', 'weaken', 'down', 'atkup', 'defup']
