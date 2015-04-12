@@ -10,22 +10,14 @@ class ViewerController < ApplicationController
     code = params[:code]
     mems = parse_pt_code(code)
     @ptm = mems ? code : ''
-    @uri = root_url
-    @title = ''
-    unless @ptm.blank?
-      @uri = URI.join(@uri, @ptm).to_s
-      @title = create_member_title(mems)
-    end
+    @uri = (@ptm.present? ? URI.join(root_url, @ptm).to_s : root_url)
+    @title = (@ptm.present? ? create_member_title(mems) : '')
   end
 
   def database
     searcher = ArcanaSearcher.parse(query_params)
-    @uri = db_url
-    @title = 'データベースモード'
-    unless searcher.blank?
-      @uri = "#{@uri}?#{searcher.query_string}"
-      @title = "[検索] #{searcher.query_detail}"
-    end
+    @uri = (searcher.present? ? "#{db_url}?#{searcher.query_string}" : db_url)
+    @title = (searcher.present? ? "[検索] #{searcher.query_detail}" : 'データベースモード')
   end
 
   def arcanas
@@ -76,8 +68,6 @@ class ViewerController < ApplicationController
       parse_pt_code_not_chained(part)
     when 2
       parse_pt_code_with_chain(part)
-    else
-      nil
     end
   end
 
@@ -88,7 +78,7 @@ class ViewerController < ApplicationController
     m = code.upcase.match(parser)
     return unless m
 
-    selector = lambda {|c| c == 'N' ? nil : c}
+    selector = ->(c) { c == 'N' ? nil : c }
     {
       mem1: selector.call(m[1]),
       mem2: selector.call(m[2]),
@@ -107,7 +97,7 @@ class ViewerController < ApplicationController
     m = code.upcase.match(parser)
     return unless m
 
-    selector = lambda {|c| c == 'N' ? nil : c}
+    selector = ->(c) { c == 'N' ? nil : c }
     {
       mem1: selector.call(m[1]),
       mem1c: selector.call(m[2]),
@@ -132,7 +122,7 @@ class ViewerController < ApplicationController
     keys.each do |k|
       c = mems[k]
       next if c.blank?
-      names << Arcana.find_by_job_code(c).name
+      names << Arcana.find_by(job_code: c).name
     end
     names.join(', ')
   end
@@ -156,7 +146,7 @@ class ViewerController < ApplicationController
 
     cs = mems.values.uniq.compact
     return {} if cs.empty?
-    as = Arcana.where(:job_code => cs).index_by(&:job_code)
+    as = Arcana.where(job_code: cs).index_by(&:job_code)
 
     ret = {}
     mems.each do |po, co|
@@ -171,7 +161,7 @@ class ViewerController < ApplicationController
     return [] if codes.blank?
     cs = codes.split('/')
     return [] if cs.blank?
-    Arcana.where(:job_code => cs).map(&:serialize)
+    Arcana.where(job_code: cs).map(&:serialize)
   end
 
   def with_cache(name, &b)

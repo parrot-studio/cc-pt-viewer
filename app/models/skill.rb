@@ -5,24 +5,24 @@ class Skill < ActiveRecord::Base
   COSTS = (1..3).to_a
 
   validates :name,
-    presence: true,
-    length: {maximum: 100}
+            presence: true,
+            length: { maximum: 100 }
   validates :explanation,
-    length: {maximum: 500}
+            length: { maximum: 500 }
   validates :cost,
-    presence: true,
-    numericality: {only_integer: true}
+            presence: true,
+            numericality: { only_integer: true }
 
   def effects
-    self.skill_effects.sort_by(&:order)
+    skill_effects.sort_by(&:order)
   end
 
   def serialize
-    sk = self.attributes
+    sk = attributes
     sk.delete('id')
     sk.delete('created_at')
     sk.delete('updated_at')
-    sk['effects'] = self.effects.map(&:serialize)
+    sk['effects'] = effects.map(&:serialize)
     sk
   end
 

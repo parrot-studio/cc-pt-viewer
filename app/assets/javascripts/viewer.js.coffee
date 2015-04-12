@@ -1324,7 +1324,7 @@ class Viewer
 
     $("#share-query-modal").on 'show.bs.modal', (e) ->
       query = lastQuery || {}
-      qs = encodeQuery(query) || ''
+      qs = query.encode() || ''
 
       url = "#{$("#app-path").val()}db"
       url += "?#{qs}" unless qs is ''

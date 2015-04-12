@@ -3,14 +3,14 @@ class ChainAbilityEffect < ActiveRecord::Base
   has_many :chain_abilities, through: :chain_ability_relations
 
   validates :condition_type,
-    presence: true,
-    length: {maximum: 100}
+            presence: true,
+            length: { maximum: 100 }
   validates :effect_type,
-    presence: true,
-    length: {maximum: 100}
+            presence: true,
+            length: { maximum: 100 }
 
   def serialize
-    ae = self.attributes
+    ae = attributes
     ae.delete('id')
     ae.delete('created_at')
     ae.delete('updated_at')

@@ -1,0 +1,81 @@
+AllCops:
+  RunRailsCops: true
+  Exclude:
+    - 'db/schema.rb'
+    - 'config/unicorn.rb'
+    - 'bin/setup'
+    - 'vendor/**/*'
+
+Lint/EndAlignment:
+  Enabled: false
+
+Style/CaseIndentation:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/ElseAlignment:
+  Enabled: false
+
+Style/EmptyLinesAroundBlockBody:
+  Enabled: false
+
+Style/EmptyLinesAroundClassBody:
+  Enabled: false
+
+Style/EmptyLinesAroundModuleBody:
+  Enabled: false
+
+Style/ParenthesesAroundCondition:
+  Enabled: false
+
+# allow "self.new"
+Style/RedundantSelf:
+  Enabled: false
+
+Style/SignalException:
+  Enabled: false
+
+Style/SingleSpaceBeforeFirstArg:
+  Enabled: false
+
+
+# ----------------
+
+
+# Offense count: 15
+Metrics/AbcSize:
+  Max: 113
+
+# Offense count: 3
+# Configuration parameters: CountComments.
+Metrics/ClassLength:
+  Max: 376
+
+# Offense count: 11
+Metrics/CyclomaticComplexity:
+  Max: 26
+
+# Offense count: 93
+# Configuration parameters: AllowURI, URISchemes.
+Metrics/LineLength:
+  Max: 156
+
+# Offense count: 21
+# Configuration parameters: CountComments.
+Metrics/MethodLength:
+  Max: 87
+
+# Offense count: 8
+Metrics/PerceivedComplexity:
+  Max: 22
+
+# Offense count: 1
+# Cop supports --auto-correct.
+# Configuration parameters: Width.
+Style/IndentationWidth:
+  Enabled: false

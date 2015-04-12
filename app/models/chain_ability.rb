@@ -6,17 +6,17 @@ class ChainAbility < ActiveRecord::Base
   has_many :chain_ability_effects, through: :chain_ability_relations
 
   validates :name,
-    presence: true,
-    length: {maximum: 100}
+            presence: true,
+            length: { maximum: 100 }
   validates :explanation,
-    length: {maximum: 500}
+            length: { maximum: 500 }
 
   def serialize
-    ab = self.attributes
+    ab = attributes
     ab.delete('id')
     ab.delete('created_at')
     ab.delete('updated_at')
-    ab['effects'] = self.chain_ability_effects.map(&:serialize) || []
+    ab['effects'] = chain_ability_effects.map(&:serialize) || []
     ab
   end
 

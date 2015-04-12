@@ -15,4 +15,5 @@
 /vendor/assets/bower_components
 *.bowerrc
 bower.json
+/vendor/bundle
 

@@ -1,4 +1,4 @@
-RAILS_ROOT ||= File.expand_path("../..", __FILE__)
+RAILS_ROOT ||= File.expand_path('../..', __FILE__)
 
 # Number of worker process
 worker_processes 3
@@ -21,9 +21,9 @@ preload_app true
 
 before_fork do |server, worker|
   old_pid = "#{RAILS_ROOT}/pids/unicorn.pid.oldbin"
-  if File.exists?(old_pid) && server.pid != old_pid
+  if File.exist?(old_pid) && server.pid != old_pid
     begin
-      Process.kill("QUIT", File.read(old_pid).to_i)
+      Process.kill('QUIT', File.read(old_pid).to_i)
     rescue Errno::ENOENT, Errno::ESRCH
     end
   end

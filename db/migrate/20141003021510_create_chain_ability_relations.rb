@@ -8,7 +8,7 @@ class CreateChainAbilityRelations < ActiveRecord::Migration
     add_index  :chain_ability_relations, :chain_ability_id
     add_index  :chain_ability_relations, :chain_ability_effect_id
     add_index  :chain_ability_relations,
-      [:chain_ability_id, :chain_ability_effect_id],
-      name: 'chain_ability_relations_index'
+               [:chain_ability_id, :chain_ability_effect_id],
+               name: 'chain_ability_relations_index'
   end
 end

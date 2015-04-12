@@ -129,7 +129,7 @@ class ArcanaImporter
     skills = Skill.all.index_by(&:name)
 
     each_table_lines(skill_table_file) do |datas|
-      3.times{ datas.shift } # name, job, index
+      3.times { datas.shift } # name, job, index
       name = datas.shift
       cost = datas.shift
       next if (name.blank? || cost.blank?)
@@ -186,13 +186,12 @@ class ArcanaImporter
 
   def build_ability
     abs = Ability.all.index_by(&:name)
-    effects = AbilityEffect.all.inject({}) do |h, e|
+    effects = AbilityEffect.all.each_with_object({}) do |e, h|
       h["#{e.condition_type}|#{e.effect_type}"] = e
-      h
     end
 
     each_table_lines(ability_table_file) do |datas|
-      3.times{ datas.shift } # name, job, index
+      3.times { datas.shift } # name, job, index
       name = datas.shift
       next if name.blank?
 
@@ -225,7 +224,7 @@ class ArcanaImporter
         keys << key
       end
 
-      orgs = abi.ability_effects.map{|e| "#{e.condition_type}|#{e.effect_type}"}.sort
+      orgs = abi.ability_effects.map { |e| "#{e.condition_type}|#{e.effect_type}" }.sort
       abi.ability_effects = effs
       puts "warning : ability data invalid => #{abi.name} #{orgs.inspect} -> #{effs.inspect}" unless orgs == keys.sort
     end
@@ -235,13 +234,12 @@ class ArcanaImporter
 
   def build_chain_ability
     abs = ChainAbility.all.index_by(&:name)
-    effects = ChainAbilityEffect.all.inject({}) do |h, e|
+    effects = ChainAbilityEffect.all.each_with_object({}) do |e, h|
       h["#{e.condition_type}|#{e.effect_type}"] = e
-      h
     end
 
     each_table_lines(chain_ability_table_file) do |datas|
-      3.times{ datas.shift } # name, job, index
+      3.times { datas.shift } # name, job, index
       name = datas.shift
       next if name.blank?
 
@@ -274,7 +272,7 @@ class ArcanaImporter
         keys << key
       end
 
-      orgs = abi.chain_ability_effects.map{|e| "#{e.condition_type}|#{e.effect_type}"}.sort
+      orgs = abi.chain_ability_effects.map { |e| "#{e.condition_type}|#{e.effect_type}" }.sort
       abi.chain_ability_effects = effs
       puts "warning : chain_ability data invalid => #{abi.name} #{orgs.inspect} -> #{effs.inspect}" unless orgs == keys.sort
     end
@@ -307,13 +305,13 @@ class ArcanaImporter
     latk = datas[16].to_i
     lhp = datas[17].to_i
     name2 = datas[18]
-    raise "name invalid" unless name == name2
+    raise 'name invalid' unless name == name2
     skill_name = datas[19]
     ability_name_f = datas[20]
     ability_name_s = datas[21]
     chain_ability_name = datas[22]
 
-    arcana = Arcana.find_by_job_code(code) || Arcana.new
+    arcana = Arcana.find_by(job_code: code) || Arcana.new
     arcana.name = name
     arcana.title = title
     arcana.rarity = rarity
@@ -333,22 +331,22 @@ class ArcanaImporter
     arcana.job_detail = job_detail
 
     unless vname.blank?
-      actor = actors[vname] || lambda do |name|
+      actor = actors[vname] || lambda do |na|
         va = VoiceActor.new
-        va.name = name
+        va.name = na
         va.save!
-        actors[name] = va
+        actors[na] = va
         va
       end.call(vname)
       arcana.voice_actor = actor
     end
 
     unless iname.blank?
-      illust = illusts[iname] || lambda do |name|
+      illust = illusts[iname] || lambda do |na|
         il = Illustrator.new
-        il.name = name
+        il.name = na
         il.save!
-        illusts[name] = il
+        illusts[na] = il
         il
       end.call(iname)
       arcana.illustrator = illust

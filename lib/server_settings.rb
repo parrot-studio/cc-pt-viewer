@@ -4,15 +4,15 @@ class ServerSettings < Settingslogic
   load!
 
   def job_types
-    split_types(self.jobs)
+    split_types(jobs)
   end
 
   def weapon_types
-    split_types(self.weapons)
+    split_types(weapons)
   end
 
   def addition_types
-    split_types(self.additions).map(&:to_s)
+    split_types(additions).map(&:to_s)
   end
 
   def data_version
@@ -24,8 +24,8 @@ class ServerSettings < Settingslogic
   end
 
   def update_data_version!(ver = nil)
-    ver ||= format_time(DateTime.now)
-    File.open(version_file, 'w'){|f| f.puts(ver) }
+    ver ||= format_time(Time.zone.now)
+    File.open(version_file, 'w') { |f| f.puts(ver) }
     @data_version = ver
   end
 
@@ -40,8 +40,7 @@ class ServerSettings < Settingslogic
   end
 
   def format_time(t)
-    format("%04d%02d%02d%02d%02d%02d",
-      t.year, t.month, t.day, t.hour, t.min, t.sec)
+    t.strftime('%Y%m%d%H%M%S')
   end
 
 end

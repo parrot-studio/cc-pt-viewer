@@ -31,13 +31,13 @@ class ArcanaSearcher
   }
 
   CONVERT_TABLE = {
-    :job => :job_type,
-    :weapon => :weapon_type,
-    :arcanacost => :cost,
-    :chaincost => :chain_cost,
-    :sourcecategory => :source_category,
-    :actor => :voice_actor_id,
-    :illustrator => :illustrator_id
+    job: :job_type,
+    weapon: :weapon_type,
+    arcanacost: :cost,
+    chaincost: :chain_cost,
+    sourcecategory: :source_category,
+    actor: :voice_actor_id,
+    illustrator: :illustrator_id
   }.freeze
 
   REVERSE_CONVERT_TABLE = lambda do
@@ -60,23 +60,23 @@ class ArcanaSearcher
   }
 
   JOB_TABLE = {
-    :F => '戦',
-    :K => '騎',
-    :A => '弓',
-    :M => '魔',
-    :P => '僧'
+    F: '戦',
+    K: '騎',
+    A: '弓',
+    M: '魔',
+    P: '僧'
   }
 
   WEAPON_TABLE = {
-    :Sl => '斬',
-    :Bl => '打',
-    :Pi => '突',
-    :Ar => '弓',
-    :Ma => '魔',
-    :He => '聖',
-    :Pu => '拳',
-    :Gu => '銃',
-    :Sh => '狙'
+    Sl: '斬',
+    Bl: '打',
+    Pi: '突',
+    Ar: '弓',
+    Ma: '魔',
+    He: '聖',
+    Pu: '拳',
+    Gu: '銃',
+    Sh: '狙'
   }
 
   UNION_TABLE = {
@@ -92,7 +92,7 @@ class ArcanaSearcher
     beasts: 'ケ者',
     volunteers: '義勇軍',
     demon: '魔神',
-    others: '旅人',
+    others: '旅人'
   }
 
   class << self
@@ -176,45 +176,41 @@ class ArcanaSearcher
       when :rarity
         rarity = case val
         when /\A(\d)U\z/
-          r = $1.to_i
+          r = Regexp.last_match(1).to_i
           Arcana::RARITYS.include?(r) ? (r..(Arcana::RARITYS.max)) : nil
         when /\A\d\z/
           r = val.to_i
           Arcana::RARITYS.include?(r) ? r : nil
-        else
-          nil
         end
         query[name] = rarity unless rarity.blank?
       when :skillcost
         cost = case val
         when /\A(\d)D\z/
-          r = $1.to_i
+          r = Regexp.last_match(1).to_i
           Skill::COSTS.include?(r) ? (1..r) : nil
         when /\A\d\z/
           r = val.to_i
           Skill::COSTS.include?(r) ? r : nil
-        else
-          nil
         end
         query[name] = cost unless cost.blank?
       when :job_type
-        job = [val].flatten.uniq.compact.select{|j| j.upcase!; Arcana::JOB_TYPES.include?(j)}
+        job = [val].flatten.uniq.compact.map(&:upcase).select { |j| Arcana::JOB_TYPES.include?(j) }
         query[name] = job.first unless job.blank?
       when :weapon_type
-        weapon = [val].flatten.uniq.compact.select{|j| Arcana::WEAPON_TYPES.include?(j)}
+        weapon = [val].flatten.uniq.compact.select { |j| Arcana::WEAPON_TYPES.include?(j) }
         query[name] = weapon.first unless weapon.blank?
       when :actorname
-        actor = VoiceActor.find_by_name(val)
+        actor = VoiceActor.find_by(name: val)
         next unless actor
         query[:voice_actor_id] = actor.id
       when :illustratorname
-        illust = Illustrator.find_by_name(val)
+        illust = Illustrator.find_by(name: val)
         next unless illust
         query[:illustrator_id] = illust.id
       else
         v = case val
         when /\A(\d+)D\z/
-          (0..($1.to_i))
+          (0..(Regexp.last_match(1).to_i))
         when /\A\d+\z/
           val.to_i
         else
@@ -252,11 +248,11 @@ class ArcanaSearcher
         end
         ret[query_name(k)] = v
       when :voice_actor_id
-        actor = VoiceActor.find_by_id(q)
+        actor = VoiceActor.find_by(id: q)
         next unless actor
         ret[:actorname] = actor.name
       when :illustrator_id
-        illust = Illustrator.find_by_id(q)
+        illust = Illustrator.find_by(id: q)
         next unless illust
         ret[:illustratorname] = illust.name
       else
@@ -280,11 +276,11 @@ class ArcanaSearcher
     each_querys(query) do |k, q|
       ke = case k
       when :voice_actor_id
-        actor = VoiceActor.find_by_id(q)
+        actor = VoiceActor.find_by(id: q)
         next unless actor
         "#{KEY_TABLE[k]}:#{actor.name}"
       when :illustrator_id
-        illust = Illustrator.find_by_id(q)
+        illust = Illustrator.find_by(id: q)
         next unless illust
         "#{KEY_TABLE[k]}:#{illust.name}"
       else
@@ -322,10 +318,10 @@ class ArcanaSearcher
       when :union
         UNION_TABLE[q.to_sym]
       when :voice_actor_id
-        actor = VoiceActor.find_by_id(q)
+        actor = VoiceActor.find_by(id: q)
         actor ? actor.name : nil
       when :illustrator_id
-        illust = Illustrator.find_by_id(q)
+        illust = Illustrator.find_by(id: q)
         illust ? illust.name : nil
       when :rarity
         case q
@@ -347,7 +343,7 @@ class ArcanaSearcher
     return '' if list.empty?
 
     ret = list.join(';')
-    ret += "...他" if other
+    ret += '...他' if other
     ret
   end
 
@@ -365,22 +361,22 @@ class ArcanaSearcher
 
     arel = Arcana.where(query)
 
-    unless (skill.blank? && skillcost.blank?)
+    unless skill.blank? && skillcost.blank?
       skills = skill_search(skill, skillcost, skillsub, skilleffect)
       return [] if skills.blank?
-      arel.where!(:skill_id => skills)
+      arel.where!(skill_id: skills)
     end
 
     unless (abcond.blank? && abeffect.blank?)
       abs = ability_search(abcond, abeffect)
       return [] if abs.blank?
-      arel.where!(Arcana.where(:first_ability_id => abs).where(:second_ability_id => abs).where_values.reduce(:or))
+      arel.where!(Arcana.where(first_ability_id: abs).where(second_ability_id: abs).where_values.reduce(:or))
     end
 
     unless (cabcond.blank? && cabeffect.blank?)
       abs = chain_ability_search(cabcond, cabeffect)
       return [] if abs.blank?
-      arel.where!(:chain_ability_id => abs)
+      arel.where!(chain_ability_id: abs)
     end
 
     arel.order(
@@ -392,15 +388,13 @@ class ArcanaSearcher
     return [] if (category.blank? && cost.blank?)
 
     arel = SkillEffect.all
-    arel.where!(:category => category) unless category.blank?
-    arel.where!(:subcategory => sub) unless sub.blank?
-    unless cost.blank?
-      arel = arel.joins(:skill).where(:skills => {:cost => cost})
-    end
+    arel.where!(category: category) unless category.blank?
+    arel.where!(subcategory: sub) unless sub.blank?
+    arel = arel.joins(:skill).where(skills: { cost: cost }) unless cost.blank?
     unless ef.blank?
       efs = [ef].flatten.uniq.compact
       arel.where!(
-        SkillEffect.where(:subeffect1 => efs).where(:subeffect2 => efs).where(:subeffect3 => efs).where_values.reduce(:or)
+        SkillEffect.where(subeffect1: efs).where(subeffect2: efs).where(subeffect3: efs).where_values.reduce(:or)
       )
     end
 
@@ -411,8 +405,8 @@ class ArcanaSearcher
     return [] if (cond.blank? && effect.blank?)
 
     es = AbilityEffect.all
-    es.where!(:condition_type => cond) unless cond.blank?
-    es.where!(:effect_type => effect) unless effect.blank?
+    es.where!(condition_type: cond) unless cond.blank?
+    es.where!(effect_type: effect) unless effect.blank?
     es.map(&:abilities).flatten.map(&:id).uniq
   end
 
@@ -420,8 +414,8 @@ class ArcanaSearcher
     return [] if (cond.blank? && effect.blank?)
 
     es = ChainAbilityEffect.all
-    es.where!(:condition_type => cond) unless cond.blank?
-    es.where!(:effect_type => effect) unless effect.blank?
+    es.where!(condition_type: cond) unless cond.blank?
+    es.where!(effect_type: effect) unless effect.blank?
     es.map(&:chain_abilities).flatten.map(&:id).uniq
   end
 
