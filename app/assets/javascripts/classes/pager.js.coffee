@@ -54,9 +54,7 @@ class window.Pager
 
   sort: (col, order) ->
     order ||= 'desc'
-    @all.sort (am, bm) ->
-      a = am.arcana
-      b = bm.arcana
+    @all.sort (a, b) ->
       return 0 if a.jobCode is b.jobCode
 
       av = a[col]

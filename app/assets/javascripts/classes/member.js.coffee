@@ -3,6 +3,7 @@ class window.Member
   constructor: (a) ->
     @arcana = a
     @chainArcana = null
+    @memberKey = null
 
   chainedCost: ->
     c = @arcana.cost

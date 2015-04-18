@@ -28,7 +28,7 @@ class window.Searcher
     key = query.createKey()
     cached = resultCache[key]
     if cached
-      as = (new Member(arcanas[code]) for code in cached)
+      as = (arcanas[code] for code in cached)
       callback(as)
       return
 
@@ -38,7 +38,7 @@ class window.Searcher
       for d in data
         a = new Arcana(d)
         arcanas[a.jobCode] = a unless arcanas[a.jobCode]
-        as.push (new Member(a))
+        as.push a
         cs.push a.jobCode
       resultCache[key] = cs
       callback(as)
@@ -55,7 +55,7 @@ class window.Searcher
         a = new Arcana(d)
         continue unless a
         arcanas[a.jobCode] = a unless arcanas[a.jobCode]
-        as[aid] = (new Member(a))
+        as[aid] = a
       callback(as)
 
     @search(params, ptmUrl, cb)
@@ -68,12 +68,10 @@ class window.Searcher
       for d in data
         a = new Arcana(d)
         arcanas[a.jobCode] = a unless arcanas[a.jobCode]
-        as.push (new Member(a))
+        as.push a
       callback(as)
 
     @search(params, codesUrl, cb)
 
   @forCode: (code) ->
-    a = arcanas[code]
-    return unless a
-    new Member(a)
+    arcanas[code]
