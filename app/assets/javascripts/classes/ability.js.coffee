@@ -193,11 +193,8 @@ class window.Ability
     buff_jobs:
       name: '特定の職がステータス上昇'
       conditions: ['any', 'union']
-    buff_slash:
-      name: '斬タイプがステータス上昇'
-      conditions: []
-    buff_magic:
-      name: '魔タイプがステータス上昇'
+    buff_weapons:
+      name: '特定の武器タイプがステータス上昇'
       conditions: []
     combat:
       name: '接近戦可能'
