@@ -51,6 +51,7 @@ class window.Ability
     kill_debuff: '状態異常の敵を倒した時'
     killer: '特定の敵に対して'
     link: '複数で一緒に攻撃した時'
+    magic: '魔法で攻撃した時'
     mana_charged: 'マナが多いほど'
     mana_lost: 'マナが少ないほど'
     members_debuff: '味方に状態異常が多いほど'
@@ -141,7 +142,7 @@ class window.Ability
       chains: []
     atkdown:
       name: '与えるダメージ減少'
-      conditions: []
+      conditions: ['hp_downto', 'magic']
       chains: []
     atkdown_enemy:
       name: '敵の攻撃力低下'
