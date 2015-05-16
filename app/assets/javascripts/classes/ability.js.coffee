@@ -47,6 +47,7 @@ class window.Ability
     in_pierce: '貫通した時'
     in_rear: '仲間より後ろにいる時'
     in_sub: 'サブパーティーにいる時'
+    in_tail: '一番後ろにいる時'
     kill: '敵を倒した時'
     kill_debuff: '状態異常の敵を倒した時'
     killer: '特定の敵に対して'
@@ -88,6 +89,7 @@ class window.Ability
     'in_front'
     'in_head'
     'in_rear'
+    'in_tail'
     'in_base_area'
     'in_emeny_area'
     'in_emeny_back'
@@ -153,7 +155,7 @@ class window.Ability
       conditions: ['any', 'hp_upto', 'hp_upto_more', 'hp_downto',
         'hp_downto_more', 'hp_full', 'attack', 'critical', 'in_combo', 'in_pierce',
         'guard', 'kill', 'killer', 'kill_debuff',
-        'in_front', 'in_head', 'in_emeny_area', 'in_emeny_back',
+        'in_front', 'in_head', 'in_tail', 'in_emeny_area', 'in_emeny_back',
         'others_skill', 'link', 'mana_charged', 'boss_wave', 'wave_start',
         'for_blind', 'for_slow', 'for_poison', 'for_down', 'for_curse', 'for_weaken',
         'in_poison', 'in_debuff', 'in_field', 'dropout_member', 'union',
@@ -166,6 +168,9 @@ class window.Ability
       name: '全員の与えるダメージ上昇'
       conditions: ['any', 'in_sub', 'wave_start', 'dropout_self', 'others_skill']
       chains: []
+    atkup_jobs:
+      name: '特定の職の与えるダメージ上昇'
+      conditions: []
     atkup_for_job_best:
       name: '特定の職で残りHPが高い対象の与えるダメージ上昇'
       conditions: []
@@ -213,6 +218,9 @@ class window.Ability
       conditions: []
     critup_hp_worst:
       name: '一番ダメージが大きい対象のクリティカル率上昇'
+      conditions: []
+    critup_jobs:
+      name: '特定の職のクリティカル率上昇'
       conditions: []
     defdown:
       name: '受けるダメージ増加'
@@ -342,6 +350,9 @@ class window.Ability
       name: '一番ダメージが大きい対象を回復'
       conditions: []
       chains: []
+    heal_jobs:
+      name: '特定の職を回復'
+      conditions: []
     heal_for_job_atk_best:
       name: '特定の職で一番ATKが高い対象を回復'
       conditions: []
@@ -455,11 +466,13 @@ class window.Ability
     'atkup_for_job_best'
     'atkup_for_job_near'
     'atkup_hp_worst'
+    'atkup_jobs'
     'defup_for_job_best'
     'defup_for_job_worst'
     'defup_for_job_atk_best'
     'defup_hp_worst'
     'critup_hp_worst'
+    'critup_jobs'
     'atkdown_enemy'
     'defdown_enemy'
     'poison_atkup'
@@ -480,6 +493,7 @@ class window.Ability
     'heal_self'
     'heal_worst'
     'heal_all'
+    'heal_jobs'
     'heal_for_job_worst'
     'heal_for_job_atk_best'
     'heal_lowlv'
@@ -506,8 +520,7 @@ class window.Ability
     'speedup_all'
     'critup_all'
     'buff_jobs'
-    'buff_slash'
-    'buff_magic'
+    'buff_weapons'
     'buff_forests'
     'boost_skill'
     'mana_charge'
