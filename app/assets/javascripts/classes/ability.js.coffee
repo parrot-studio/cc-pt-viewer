@@ -247,7 +247,7 @@ class window.Ability
         'killer', 'in_field', 'boss_wave']
     defup_all:
       name: '全員のダメージ軽減'
-      conditions: ['any', 'in_sub']
+      conditions: ['any', 'in_sub', 'wave_start']
       chains: []
     defup_for_job_best:
       name: '特定の職で残りHPが高い対象のダメージ軽減'
