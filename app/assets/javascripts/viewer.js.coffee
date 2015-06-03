@@ -1213,10 +1213,9 @@ class Viewer
     $("#view-modal").on 'click', 'button.wiki-link', (e) ->
       e.preventDefault()
       code = $(e.target).data('jobCode')
-      m = Searcher.forCode(code)
-      return false unless m
+      a = Searcher.forCode(code)
+      return false unless a
 
-      a = m.arcana
       lt = if a.wikiName is ''
         "Wikiで最新情報を確認する"
       else
