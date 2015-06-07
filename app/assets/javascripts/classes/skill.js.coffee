@@ -27,6 +27,7 @@ class window.Skill
         'range/blast': '範囲・爆発'
         'range/random': '範囲・ランダム'
         'range/line2': '範囲・直線2ライン'
+        'range/laser': '範囲・レーザー'
         'range/all': '範囲・全体'
     heal:
       name: '回復'
