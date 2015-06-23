@@ -45,6 +45,7 @@ class window.Arcana
     dawnsea: '大海'
     beasts: 'ケ者の大陸'
     criminal: '罪の大陸'
+    life: '薄命の大陸'
     volunteers: '義勇軍'
     demon: '魔神'
     others: '旅人'
@@ -65,12 +66,13 @@ class window.Arcana
         'other': 'その他'
     second:
       name: '2部'
-      types: ['forest-sea', 'dawnsea', 'beasts', 'criminal', 'other']
+      types: ['forest-sea', 'dawnsea', 'beasts', 'criminal', 'life', 'other']
       details:
         'forest-sea': '海風の港・酒場'
         'dawnsea': '夜明けの大海・酒場'
         'beasts': 'ケ者の大陸・酒場'
         'criminal': '罪の大陸・酒場'
+        'life': '薄命の大陸・酒場'
         'other': 'その他'
     ring:
       name: 'リング系'
