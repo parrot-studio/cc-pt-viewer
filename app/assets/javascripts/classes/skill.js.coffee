@@ -58,7 +58,7 @@ class window.Skill
         self: '自身'
         all: '全体'
     area:
-      name: '設置/領域'
+      name: '設置/領域/フィールド'
       types: ['obstacle', 'bomb', 'continual', 'atkup', 'defdown']
       subname:
         obstacle: '[設置] 障害物'
@@ -66,6 +66,7 @@ class window.Skill
         continual: '[領域] 継続ダメージ'
         atkup: '[領域] 与えるダメージ上昇'
         defdown: '[領域] 受けるダメージ増加'
+        field: 'フィールド変更'
 
   EFFECT_TABLE =
     attack:
