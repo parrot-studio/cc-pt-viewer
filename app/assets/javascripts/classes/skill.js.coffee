@@ -58,7 +58,7 @@ class window.Skill
         self: '自身'
         all: '全体'
     area:
-      name: '設置/領域/フィールド'
+      name: '設置/フィールド'
       types: ['obstacle', 'bomb', 'continual', 'atkup', 'defdown']
       subname:
         obstacle: '[設置] 障害物'
