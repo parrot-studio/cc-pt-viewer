@@ -2,8 +2,7 @@ class ChainAbility < ActiveRecord::Base
 
   default_scope { includes(:chain_ability_effects) }
 
-  has_many :chain_ability_relations
-  has_many :chain_ability_effects, through: :chain_ability_relations
+  has_many :chain_ability_effects
 
   validates :name,
             presence: true,
@@ -12,11 +11,9 @@ class ChainAbility < ActiveRecord::Base
             length: { maximum: 500 }
 
   def serialize
-    ab = attributes
-    ab.delete('id')
-    ab.delete('created_at')
-    ab.delete('updated_at')
-    ab['effects'] = chain_ability_effects.map(&:serialize) || []
+    excepts = %w(id created_at updated_at)
+    ab = self.as_json(except: excepts)
+    ab['effects'] = chain_ability_effects.sort_by(&:order).map(&:serialize)
     ab
   end
 

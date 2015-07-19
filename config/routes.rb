@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   root 'viewer#ptedit'
+  get  'conditions' => 'viewer#conditions'
   get  'db'      => 'viewer#database'
   get  'arcanas' => 'viewer#arcanas'
   get  'ptm'     => 'viewer#ptm'

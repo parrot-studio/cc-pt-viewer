@@ -5,6 +5,7 @@ AllCops:
     - 'config/unicorn.rb'
     - 'bin/setup'
     - 'vendor/**/*'
+    - 'tmp/**/*'
 
 Lint/EndAlignment:
   Enabled: false

@@ -3,8 +3,8 @@ class ArcanaSearcher
   QUERY_CONDITION_NAMES = [
     :recently, :job, :rarity, :weapon, :actor, :illustrator,
     :union, :source, :sourcecategory, :skill, :skillcost,
-    :skillsub, :skilleffect, :abilitycond, :abilityeffect,
-    :chainabilitycond, :chainabilityeffect, :arcanacost, :chaincost,
+    :skillsub, :skilleffect, :abilitycategory, :abilityeffect,
+    :chainabilitycategory, :chainabilityeffect, :arcanacost, :chaincost,
     :actorname, :illustratorname
   ].freeze
 
@@ -24,9 +24,9 @@ class ArcanaSearcher
     skillcost: 'skc',
     skillsub: 'sks',
     skilleffect: 'ske',
-    abilitycond: 'abc',
+    abilitycategory: 'abca',
     abilityeffect: 'abe',
-    chainabilitycond: 'cac',
+    chainabilitycategory: 'caca',
     chainabilityeffect: 'cae'
   }
 
@@ -48,52 +48,11 @@ class ArcanaSearcher
     ret
   end.call.freeze
 
-  DETAIL_TABLE = {
-    job_type: '職',
-    weapon_type: '武器',
-    voice_actor_id: '声優',
-    illustrator_id: 'イラスト',
-    rarity: '★',
-    union: '所属',
-    cost: 'コスト',
-    chain_cost: '絆コスト'
-  }
-
-  JOB_TABLE = {
-    F: '戦',
-    K: '騎',
-    A: '弓',
-    M: '魔',
-    P: '僧'
-  }
-
-  WEAPON_TABLE = {
-    Sl: '斬',
-    Bl: '打',
-    Pi: '突',
-    Ar: '弓',
-    Ma: '魔',
-    He: '聖',
-    Pu: '拳',
-    Gu: '銃',
-    Sh: '狙'
-  }
-
-  UNION_TABLE = {
-    guildtown: '副都',
-    holytown: '聖都',
-    academy: '賢者の塔',
-    mountain: '迷宮山脈',
-    oasis: '湖都',
-    forest: '精霊島',
-    volcano: '九領',
-    'forest-sea'.to_sym => '海風の港',
-    dawnsea: '大海',
-    beasts: 'ケ者',
-    volunteers: '義勇軍',
-    demon: '魔神',
-    others: '旅人'
-  }
+  DETAIL_COND_LIST = [
+    :job_type, :rarity, :cost, :chain_cost, :union, :weapon_type,
+    :skill, :skillcost, :abilitycategory, :chainabilitycategory,
+    :source_category, :voice_actor_id, :illustrator_id
+  ]
 
   class << self
 
@@ -107,6 +66,8 @@ class ArcanaSearcher
 
   def parse(params)
     @query_key = nil
+    @query_string = nil
+    @query_detail = nil
     @query = parse_params(params)
     @query
   end
@@ -116,19 +77,19 @@ class ArcanaSearcher
   end
 
   def query_key
-    return if empty?
+    return '' if empty?
     @query_key ||= create_query_key(@query)
     @query_key
   end
 
   def query_string
-    return if empty?
+    return '' if empty?
     @query_string ||= create_query_string(@query)
     @query_string
   end
 
   def query_detail
-    return if empty?
+    return '' if empty?
     @query_detail ||= create_query_detail(@query)
     @query_detail
   end
@@ -142,7 +103,7 @@ class ArcanaSearcher
     else
       arcana_search_from_query(@query)
     end
-    @result || []
+    result
   end
 
   def result
@@ -299,64 +260,111 @@ class ArcanaSearcher
 
   def create_query_detail(query)
     return '' if query.blank?
-    return '' if query[:recently]
+    return "最新 #{query[:recently]}件" if query[:recently]
 
-    list = []
-    other = false
-    each_querys(query) do |k, q|
-      head = DETAIL_TABLE[k]
-      unless head
-        other = true
-        next
-      end
-
-      val = case k
+    skill = false
+    list = DETAIL_COND_LIST.map do |k|
+      q = query[k]
+      next unless q
+      case k
       when :job_type
-        JOB_TABLE[q.to_sym]
+        Arcana::JOB_NAMES[q.to_sym]
       when :weapon_type
-        WEAPON_TABLE[q.to_sym]
+        "武器 - #{Arcana::WEAPON_NAMES[q.to_sym]}"
       when :union
-        UNION_TABLE[q.to_sym]
+        "所属 - #{Arcana::UNION_NAMES[q.to_sym]}"
       when :voice_actor_id
         actor = VoiceActor.find_by(id: q)
-        actor ? actor.name : nil
+        "声優 - #{actor ? actor.name : nil}"
       when :illustrator_id
         illust = Illustrator.find_by(id: q)
-        illust ? illust.name : nil
+        "イラスト - #{illust ? illust.name : nil}"
       when :rarity
         case q
         when Range
-          "#{q.first}以上"
+          "★#{q.first}以上"
         else
-          q
+          "★#{q}"
         end
-      when :cost, :chain_cost
-        case q
+      when :cost
+        str = 'コスト'
+        str += case q
         when Range
           "#{q.last}以下"
         else
-          q
+          q.to_s
         end
+        str
+      when :chain_cost
+        str = '絆コスト'
+        str += case q
+        when Range
+          "#{q.last}以下"
+        else
+          q.to_s
+        end
+        str
+      when :skill, :skillcost
+        next if skill
+        str = 'スキル - '
+        str += SkillEffect::CATEGORYS.fetch(query[:skill].to_sym, {}).fetch(:name, '') if query[:skill]
+        if query[:skillcost]
+          str += ' マナ'
+          str += case query[:skillcost]
+          when Range
+            "#{query[:skillcost].last}以下"
+          else
+            query[:skillcost].to_s
+          end
+        end
+        if query[:skillsub] || query[:skilleffect]
+          table = SkillEffect::CATEGORYS.fetch(query[:skill].to_sym, {})
+          next if table.blank?
+          ss = []
+          ss << table.fetch(:sub, {}).fetch(query[:skillsub].to_sym, nil) if query[:skillsub]
+          ss << table.fetch(:effect, {}).fetch(query[:skilleffect].to_sym, nil) if query[:skilleffect]
+          text = ss.compact.join(' + ')
+          str += "（#{text}）" unless text.blank?
+        end
+        skill = true
+        str
+      when :abilitycategory
+        table = AbilityEffect::CATEGORYS.fetch(query[:abilitycategory].to_sym, {})
+        next if table.blank?
+        str = 'アビリティ - '
+        str += table.fetch(:name, '')
+        str += (' ' + table.fetch(:effect, {}).fetch(query[:abilityeffect].to_sym, '')) if query[:abilityeffect]
+        str
+      when :chainabilitycategory
+        table = AbilityEffect::CATEGORYS.fetch(query[:chainabilitycategory].to_sym, {})
+        next if table.blank?
+        str = '絆アビリティ - '
+        str += table.fetch(:name, '')
+        str += (' ' + table.fetch(:effect, {}).fetch(query[:chainabilityeffect].to_sym, '')) if query[:chainabilityeffect]
+        str
+      when :source_category
+        table = Arcana::SOURCE_TABLE.fetch(query[:source_category].to_sym, {})
+        next if table.blank?
+        str = '入手先 - '
+        str += table.fetch(:name, '')
+        str += (' ' + table.fetch(:details, {}).fetch(query[:source].to_sym, '')) if query[:source]
+        str
       end
-      list << "#{head}/#{val}" unless val.blank?
     end
-    return '' if list.empty?
-
-    ret = list.join(';')
-    ret += '...他' if other
-    ret
+    list.reject(&:blank?).join(' / ')
   end
 
-  def arcana_search_from_query(query)
-    return [] if query.blank?
+  def arcana_search_from_query(org)
+    return [] if org.blank?
 
+    query = org.dup
     skill = query.delete(:skill)
     skillcost = query.delete(:skillcost)
     skillsub = query.delete(:skillsub)
     skilleffect = query.delete(:skilleffect)
-    abcond = query.delete(:abilitycond)
+    abcate = query.delete(:abilitycategory)
     abeffect = query.delete(:abilityeffect)
-    cabcond = query.delete(:chainabilitycond)
+    cabcate = query.delete(:chainabilitycategory)
     cabeffect = query.delete(:chainabilityeffect)
 
     arel = Arcana.where(query)
@@ -367,14 +375,14 @@ class ArcanaSearcher
       arel.where!(skill_id: skills)
     end
 
-    unless (abcond.blank? && abeffect.blank?)
-      abs = ability_search(abcond, abeffect)
+    unless (abcate.blank? && abeffect.blank?)
+      abs = ability_search(abcate, abeffect)
       return [] if abs.blank?
       arel.where!(Arcana.where(first_ability_id: abs).where(second_ability_id: abs).where_values.reduce(:or))
     end
 
-    unless (cabcond.blank? && cabeffect.blank?)
-      abs = chain_ability_search(cabcond, cabeffect)
+    unless (cabcate.blank? && cabeffect.blank?)
+      abs = chain_ability_search(cabcate, cabeffect)
       return [] if abs.blank?
       arel.where!(chain_ability_id: abs)
     end
@@ -401,22 +409,22 @@ class ArcanaSearcher
     arel.pluck(:skill_id)
   end
 
-  def ability_search(cond, effect)
-    return [] if (cond.blank? && effect.blank?)
+  def ability_search(cate, effect)
+    return [] if (cate.blank? && effect.blank?)
 
     es = AbilityEffect.all
-    es.where!(condition_type: cond) unless cond.blank?
-    es.where!(effect_type: effect) unless effect.blank?
-    es.map(&:abilities).flatten.map(&:id).uniq
+    es.where!(category: cate) unless cate.blank?
+    es.where!(effect: effect) unless effect.blank?
+    es.pluck(:ability_id).uniq
   end
 
-  def chain_ability_search(cond, effect)
-    return [] if (cond.blank? && effect.blank?)
+  def chain_ability_search(cate, effect)
+    return [] if (cate.blank? && effect.blank?)
 
     es = ChainAbilityEffect.all
-    es.where!(condition_type: cond) unless cond.blank?
-    es.where!(effect_type: effect) unless effect.blank?
-    es.map(&:chain_abilities).flatten.map(&:id).uniq
+    es.where!(category: cate) unless cate.blank?
+    es.where!(effect: effect) unless effect.blank?
+    es.pluck(:chain_ability_id).uniq
   end
 
 end

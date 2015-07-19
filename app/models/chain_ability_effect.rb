@@ -1,20 +1,34 @@
 class ChainAbilityEffect < ActiveRecord::Base
-  has_many :chain_ability_relations
-  has_many :chain_abilities, through: :chain_ability_relations
+  belongs_to :chain_abilities
 
-  validates :condition_type,
+  validates :order,
+            presence: true,
+            numericality: { only_integer: true }
+  validates :category,
             presence: true,
             length: { maximum: 100 }
-  validates :effect_type,
+  validates :condition,
             presence: true,
             length: { maximum: 100 }
+  validates :effect,
+            presence: true,
+            length: { maximum: 100 }
+  validates :target,
+            presence: true,
+            length: { maximum: 100 }
+  validates :note,
+            length: { maximum: 300 }
 
   def serialize
-    ae = attributes
-    ae.delete('id')
-    ae.delete('created_at')
-    ae.delete('updated_at')
-    ae
+    excepts = %w(id chain_ability_id created_at updated_at)
+    ef = self.as_json(except: excepts)
+
+    ef['category'] = AbilityEffect::CATEGORYS.fetch(self.category.to_sym, '')
+    ef['condition'] = AbilityEffect::CONDITIONS.fetch(self.condition.to_sym, '')
+    ef['effect'] = AbilityEffect::EFFECTS.fetch(self.effect.to_sym, '')
+    ef['target'] = AbilityEffect::TARGETS.fetch(self.target.to_sym, '')
+
+    ef
   end
 
 end

@@ -14,7 +14,7 @@ module ViewerHelper
     when 'ptedit'
       'パーティー編集モード'
     when 'database'
-      'データベースモード（β版）'
+      'データベースモード'
     end
   end
 

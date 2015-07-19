@@ -15,6 +15,7 @@ class window.Query
 
   constructor: (q) ->
     @q = (q || {})
+    @detail = ""
 
   reset: ->
     @q = {}
@@ -33,9 +34,9 @@ class window.Query
     source = getInputValue("source")
     skill = getInputValue("skill")
     skillcost = getInputValue("skill-cost")
-    abilityCond = getInputValue("ability-condition")
+    abilityCategory = getInputValue("ability-category")
     abilityEffect = getInputValue("ability-effect")
-    chainAbilityCond = getInputValue("chain-ability-condition")
+    chainAbilityCategory = getInputValue("chain-ability-category")
     chainAbilityEffect = getInputValue("chain-ability-effect")
     arcanacost = getInputValue("arcana-cost")
     chaincost = getInputValue("chain-cost")
@@ -50,9 +51,9 @@ class window.Query
     unless sourcecategory is ''
       query.sourcecategory = sourcecategory
       query.source = source unless source is ''
-    query.abilitycond = abilityCond unless abilityCond is ''
+    query.abilitycategory = abilityCategory unless abilityCategory is ''
     query.abilityeffect = abilityEffect unless abilityEffect is ''
-    query.chainabilitycond = chainAbilityCond unless chainAbilityCond is ''
+    query.chainabilitycategory = chainAbilityCategory unless chainAbilityCategory is ''
     query.chainabilityeffect = chainAbilityEffect unless chainAbilityEffect is ''
     query.arcanacost = arcanacost unless arcanacost is ''
     query.chaincost = chaincost unless chaincost is ''
@@ -90,9 +91,9 @@ class window.Query
           recently = true
           break
         when 'illustratorname'
-          ret['illustrator'] = getSelectboxValue('illustrator', val)
+          ret['illustrator'] = Searcher.illustratorIdFor(val)
         when 'actorname'
-          ret['actor'] = getSelectboxValue('actor', val)
+          ret['actor'] = Searcher.voiceactorIdFor(val)
         else
           ret[n] = val
     return if recently
@@ -112,9 +113,9 @@ class window.Query
           recently = true
           break
         when 'illustrator'
-          ret['illustratorname'] = getSelectboxText('illustrator', v)
+          ret['illustratorname'] = Searcher.illustratorNameFor(v)
         when 'actor'
-          ret['actorname'] = getSelectboxText('actor', v)
+          ret['actorname'] = Searcher.voiceactorNameFor(v)
         else
           ret[n] = v
     return '' if recently
@@ -146,74 +147,13 @@ class window.Query
       key += "subef#{query.skilleffect}_" if query.skilleffect
     key += "a#{query.actor}_" if query.actor
     key += "i#{query.illustrator}_" if query.illustrator
-    key += "abc#{query.abilitycond}_" if query.abilitycond
+    key += "abca#{query.abilitycategory}_" if query.abilitycategory
     key += "abe#{query.abilityeffect}_" if query.abilityeffect
-    key += "cabc#{query.chainabilitycond}_" if query.chainabilitycond
+    key += "cabca#{query.chainabilitycategory}_" if query.chainabilitycategory
     key += "cabe#{query.chainabilityeffect}_" if query.chainabilityeffect
     key += "arco#{query.arcanacost}_" if query.arcanacost
     key += "chco#{query.chaincost}_" if query.chaincost
     key
 
-  createDetail: ->
-    query = (@q || {})
-    elem = []
-    if query.recently
-      elem.push '最新'
-    if query.job
-      elem.push Arcana.jobNameFor(query.job)
-    if query.rarity
-      elem.push "★#{query.rarity.replace(/U/, '以上')}"
-    if query.arcanacost
-      elem.push "コスト#{query.arcanacost.replace(/D/, '以下')}"
-    if query.chaincost
-      elem.push "絆コスト#{query.chaincost.replace(/D/, '以下')}"
-    if query.union
-      elem.push '所属 - ' + Arcana.unionNameFor(query.union)
-    if query.weapon
-      elem.push '武器タイプ - ' + Arcana.weaponNameFor(query.weapon)
-    if query.skill || query.skillcost
-      text = 'スキル - '
-      text += Skill.typeNameFor(query.skill) if query.skill
-      text += " マナ#{query.skillcost.replace(/D/, '以下')}" if query.skillcost
-      if query.skillsub || query.skilleffect
-        text += '（'
-        ss = []
-        ss.push Skill.subnameFor(query.skill, query.skillsub) if query.skillsub
-        ss.push Skill.effectNameFor(query.skill, query.skilleffect) if query.skilleffect
-        text += ss.join(' + ')
-        text += '）'
-      elem.push text
-    if query.abilitycond || query.abilityeffect
-      text = 'アビリティ - ' + Ability.conditionNameFor(query.abilitycond) + ' ' + Ability.effectNameFor(query.abilityeffect)
-      elem.push text
-    if query.chainabilitycond || query.chainabilityeffect
-      text = '絆アビリティ - ' + Ability.conditionNameFor(query.chainabilitycond) + ' ' + Ability.effectNameFor(query.chainabilityeffect)
-      elem.push text
-    if query.sourcecategory
-      text = '入手先 - ' + Arcana.sourceCategoryNameFor(query.sourcecategory)
-      text += ' ' + Arcana.sourceNameFor(query.sourcecategory, query.source) if query.source
-      elem.push text
-    if query.actor
-      elem.push '声優 - ' + getSelectboxText('actor', query.actor)
-    if query.illustrator
-      elem.push 'イラスト - ' + getSelectboxText('illustrator', query.illustrator)
-    elem.join(' / ')
-
   getInputValue = (name) ->
     document.getElementById(name)?.value || ''
-
-  getSelectboxText = (sname, v) ->
-    ret = null
-    for opt in (document.getElementById(sname)?.options || [])
-      continue unless opt.value is v
-      ret = opt.text
-      break
-    ret
-
-  getSelectboxValue = (sname, v) ->
-    ret = null
-    for opt in (document.getElementById(sname)?.options || [])
-      continue unless opt.text is v
-      ret = opt.value
-      break
-    ret

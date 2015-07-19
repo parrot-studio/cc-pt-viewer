@@ -1,8 +1,6 @@
 class ViewerController < ApplicationController
 
   before_action only: [:ptedit, :database] do
-    @actors = actors
-    @illustrators = illustrators
     @mode = action_name
   end
 
@@ -20,9 +18,26 @@ class ViewerController < ApplicationController
     @title = (searcher.present? ? "[検索] #{searcher.query_detail}" : 'データベースモード')
   end
 
+  def conditions
+    conds = with_cache('conditions') do
+      {
+        unions: Arcana::UNION_NAMES.reject { |k, _| k == :unknown }.to_a,
+        sources: Arcana::SOURCE_CONDS,
+        skillcategorys: SkillEffect::CATEGORY_CONDS,
+        skillsubs: SkillEffect::SUBCATEGORY_CONDS,
+        skilleffects: SkillEffect::SUBEFFECT_CONDS,
+        abilitycategorys: AbilityEffect::CATEGORY_CONDS,
+        abilityeffects: AbilityEffect::EFFECT_CONDS,
+        voiceactors: voiceactors,
+        illustrators: illustrators
+      }
+    end
+    render json: conds
+  end
+
   def arcanas
     as = search_arcanas(query_params)
-    render json: (as || [])
+    render json: (as || {})
   end
 
   def ptm
@@ -43,16 +58,20 @@ class ViewerController < ApplicationController
 
   private
 
-  def actors
-    with_cache('actors') do
-      VoiceActor.order('count DESC, name').to_a
+  def voiceactors
+    ret = []
+    VoiceActor.order(:name).each do |act|
+      ret << [act.id, act.name]
     end
+    ret
   end
 
   def illustrators
-    with_cache('illustrators') do
-      Illustrator.order(:name).to_a
+    ret = []
+    Illustrator.order(:name).each do |ill|
+      ret << [ill.id, ill.name]
     end
+    ret
   end
 
   def parse_pt_code(code)
@@ -133,9 +152,11 @@ class ViewerController < ApplicationController
 
   def search_arcanas(query)
     searcher = ArcanaSearcher.parse(query)
-    return [] if searcher.blank? || searcher.query_key.blank?
+    rsl = { detail: searcher.query_detail, result: [] }
+    return rsl if searcher.blank? || searcher.query_key.blank?
     with_cache("arcanas_#{searcher.query_key}") do
-      searcher.search.map(&:serialize)
+      rsl[:result] = searcher.search.map(&:serialize)
+      rsl
     end
   end
 

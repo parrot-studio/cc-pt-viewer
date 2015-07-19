@@ -3,18 +3,6 @@ class ServerSettings < Settingslogic
   namespace Rails.env
   load!
 
-  def job_types
-    split_types(jobs)
-  end
-
-  def weapon_types
-    split_types(weapons)
-  end
-
-  def addition_types
-    split_types(additions).map(&:to_s)
-  end
-
   def data_version
     unless @data_version
       update_data_version! unless File.exist?(version_file)
@@ -30,10 +18,6 @@ class ServerSettings < Settingslogic
   end
 
   private
-
-  def split_types(str)
-    str.split(' ').reject(&:blank?).uniq.compact
-  end
 
   def version_file
     Rails.root.join('tmp', 'data_version')

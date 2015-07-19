@@ -123,12 +123,6 @@
                 <label for="skill">スキル・効果</label>
                 <select id="skill" class="form-control">
                   <option value="">-</option>
-                  <option value="attack">攻撃</option>
-                  <option value="heal">回復</option>
-                  <option value="song/dance">歌・舞</option>
-                  <option value="buff">能力UP</option>
-                  <option value="barrier">バリア</option>
-                  <option value="area">設置/領域</option>
                 </select>
               </div>
               <div class="col-sm-6 col-md-6">
@@ -161,28 +155,28 @@
             </div>
             <div class="form-group">
               <div class="col-sm-6 col-md-6">
-                <label for="ability-effect">アビリティ・効果</label>
-                <select id="ability-effect" class="form-control">
+                <label for="ability-category">アビリティ・分類</label>
+                <select id="ability-category" class="form-control">
                   <option value="">-</option>
                 </select>
               </div>
               <div class="col-sm-6 col-md-6">
-                <label for="ability-condition">アビリティ・発動条件</label>
-                <select id="ability-condition" class="form-control">
+                <label for="ability-effect">アビリティ・効果</label>
+                <select id="ability-effect" class="form-control">
                   <option value="">-</option>
                 </select>
               </div>
             </div>
             <div class="form-group">
               <div class="col-sm-6 col-md-6">
-                <label for="chain-ability-effect">絆アビリティ・効果</label>
-                <select id="chain-ability-effect" class="form-control">
+                <label for="chain-ability-category">絆アビリティ・分類</label>
+                <select id="chain-ability-category" class="form-control">
                   <option value="">-</option>
                 </select>
               </div>
               <div class="col-sm-6 col-md-6">
-                <label for="chain-ability-condition">絆アビリティ・発動条件</label>
-                <select id="chain-ability-condition" class="form-control">
+                <label for="chain-ability-effect">絆アビリティ・効果</label>
+                <select id="chain-ability-effect" class="form-control">
                   <option value="">-</option>
                 </select>
               </div>
@@ -192,18 +186,12 @@
                 <label for="actor">声優</label>
                 <select id="actor" class="form-control">
                   <option value="">-</option>
-                  <% @actors.each do |act| %>
-                    <option value="<%= act.id %>"><%= act.name %></option>
-                  <% end %>
                 </select>
               </div>
               <div class="col-sm-6 col-md-6">
                 <label for="illustrator">イラストレーター</label>
                 <select id="illustrator" class="form-control">
                   <option value="">-</option>
-                  <% @illustrators.each do |ill| %>
-                    <option value="<%= ill.id %>"><%= ill.name %></option>
-                  <% end %>
                 </select>
               </div>
             </div>

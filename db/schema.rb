@@ -11,38 +11,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150207073959) do
+ActiveRecord::Schema.define(version: 20150714023444) do
 
   create_table "abilities", force: :cascade do |t|
     t.string   "name",        limit: 100, null: false
     t.string   "explanation", limit: 500
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   add_index "abilities", ["name"], name: "index_abilities_on_name", unique: true, using: :btree
 
   create_table "ability_effects", force: :cascade do |t|
-    t.string   "condition_type", limit: 100, null: false
-    t.string   "effect_type",    limit: 100, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer  "ability_id", limit: 4,                null: false
+    t.integer  "order",      limit: 4,                null: false
+    t.string   "category",   limit: 100,              null: false
+    t.string   "condition",  limit: 100,              null: false
+    t.string   "effect",     limit: 100,              null: false
+    t.string   "target",     limit: 100,              null: false
+    t.string   "note",       limit: 300, default: ""
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
-  add_index "ability_effects", ["condition_type", "effect_type"], name: "index_ability_effects_on_condition_type_and_effect_type", using: :btree
-  add_index "ability_effects", ["condition_type"], name: "index_ability_effects_on_condition_type", using: :btree
-  add_index "ability_effects", ["effect_type"], name: "index_ability_effects_on_effect_type", using: :btree
-
-  create_table "ability_relations", force: :cascade do |t|
-    t.integer  "ability_id",        limit: 4, null: false
-    t.integer  "ability_effect_id", limit: 4, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "ability_relations", ["ability_effect_id"], name: "index_ability_relations_on_ability_effect_id", using: :btree
-  add_index "ability_relations", ["ability_id", "ability_effect_id"], name: "index_ability_relations_on_ability_id_and_ability_effect_id", using: :btree
-  add_index "ability_relations", ["ability_id"], name: "index_ability_relations_on_ability_id", using: :btree
+  add_index "ability_effects", ["ability_id"], name: "index_ability_effects_on_ability_id", using: :btree
+  add_index "ability_effects", ["category", "condition"], name: "index_ability_effects_on_category_and_condition", using: :btree
+  add_index "ability_effects", ["category", "effect"], name: "index_ability_effects_on_category_and_effect", using: :btree
+  add_index "ability_effects", ["category"], name: "index_ability_effects_on_category", using: :btree
+  add_index "ability_effects", ["condition", "effect"], name: "index_ability_effects_on_condition_and_effect", using: :btree
+  add_index "ability_effects", ["condition"], name: "index_ability_effects_on_condition", using: :btree
+  add_index "ability_effects", ["effect"], name: "index_ability_effects_on_effect", using: :btree
+  add_index "ability_effects", ["target"], name: "index_ability_effects_on_target", using: :btree
 
   create_table "arcanas", force: :cascade do |t|
     t.string   "name",              limit: 100,             null: false
@@ -53,23 +52,23 @@ ActiveRecord::Schema.define(version: 20150207073959) do
     t.string   "job_type",          limit: 10,              null: false
     t.integer  "job_index",         limit: 4,               null: false
     t.string   "job_code",          limit: 20,              null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string   "job_detail",        limit: 50
+    t.string   "source_category",   limit: 100,             null: false
     t.string   "source",            limit: 100,             null: false
-    t.integer  "voice_actor_id",    limit: 4,   default: 0, null: false
-    t.integer  "illustrator_id",    limit: 4,   default: 0, null: false
     t.string   "union",             limit: 100,             null: false
-    t.integer  "skill_id",          limit: 4,   default: 0, null: false
     t.integer  "max_atk",           limit: 8
     t.integer  "max_hp",            limit: 8
     t.integer  "limit_atk",         limit: 8
     t.integer  "limit_hp",          limit: 8
-    t.string   "job_detail",        limit: 50
+    t.integer  "skill_id",          limit: 4,   default: 0, null: false
     t.integer  "first_ability_id",  limit: 4,   default: 0, null: false
     t.integer  "second_ability_id", limit: 4,   default: 0, null: false
-    t.string   "source_category",   limit: 100,             null: false
     t.integer  "chain_ability_id",  limit: 4,   default: 0, null: false
     t.integer  "chain_cost",        limit: 4,   default: 0, null: false
+    t.integer  "voice_actor_id",    limit: 4,   default: 0, null: false
+    t.integer  "illustrator_id",    limit: 4,   default: 0, null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
   end
 
   add_index "arcanas", ["chain_ability_id"], name: "index_arcanas_on_chain_ability_id", using: :btree
@@ -101,39 +100,38 @@ ActiveRecord::Schema.define(version: 20150207073959) do
   create_table "chain_abilities", force: :cascade do |t|
     t.string   "name",        limit: 100, null: false
     t.string   "explanation", limit: 500
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   add_index "chain_abilities", ["name"], name: "index_chain_abilities_on_name", unique: true, using: :btree
 
   create_table "chain_ability_effects", force: :cascade do |t|
-    t.string   "condition_type", limit: 100, null: false
-    t.string   "effect_type",    limit: 100, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer  "chain_ability_id", limit: 4,                null: false
+    t.integer  "order",            limit: 4,                null: false
+    t.string   "category",         limit: 100,              null: false
+    t.string   "condition",        limit: 100,              null: false
+    t.string   "effect",           limit: 100,              null: false
+    t.string   "target",           limit: 100,              null: false
+    t.string   "note",             limit: 300, default: ""
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
   end
 
-  add_index "chain_ability_effects", ["condition_type", "effect_type"], name: "index_chain_ability_effects_on_condition_type_and_effect_type", using: :btree
-  add_index "chain_ability_effects", ["condition_type"], name: "index_chain_ability_effects_on_condition_type", using: :btree
-  add_index "chain_ability_effects", ["effect_type"], name: "index_chain_ability_effects_on_effect_type", using: :btree
-
-  create_table "chain_ability_relations", force: :cascade do |t|
-    t.integer  "chain_ability_id",        limit: 4, null: false
-    t.integer  "chain_ability_effect_id", limit: 4, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "chain_ability_relations", ["chain_ability_effect_id"], name: "index_chain_ability_relations_on_chain_ability_effect_id", using: :btree
-  add_index "chain_ability_relations", ["chain_ability_id", "chain_ability_effect_id"], name: "chain_ability_relations_index", using: :btree
-  add_index "chain_ability_relations", ["chain_ability_id"], name: "index_chain_ability_relations_on_chain_ability_id", using: :btree
+  add_index "chain_ability_effects", ["category", "condition"], name: "index_chain_ability_effects_on_category_and_condition", using: :btree
+  add_index "chain_ability_effects", ["category", "effect"], name: "index_chain_ability_effects_on_category_and_effect", using: :btree
+  add_index "chain_ability_effects", ["category"], name: "index_chain_ability_effects_on_category", using: :btree
+  add_index "chain_ability_effects", ["chain_ability_id"], name: "index_chain_ability_effects_on_chain_ability_id", using: :btree
+  add_index "chain_ability_effects", ["condition", "effect"], name: "index_chain_ability_effects_on_condition_and_effect", using: :btree
+  add_index "chain_ability_effects", ["condition"], name: "index_chain_ability_effects_on_condition", using: :btree
+  add_index "chain_ability_effects", ["effect"], name: "index_chain_ability_effects_on_effect", using: :btree
+  add_index "chain_ability_effects", ["target"], name: "index_chain_ability_effects_on_target", using: :btree
 
   create_table "illustrators", force: :cascade do |t|
     t.string   "name",       limit: 100,             null: false
     t.integer  "count",      limit: 4,   default: 0, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
   end
 
   add_index "illustrators", ["name"], name: "index_illustrators_on_name", unique: true, using: :btree
@@ -145,9 +143,9 @@ ActiveRecord::Schema.define(version: 20150207073959) do
     t.string   "subcategory", limit: 100, null: false
     t.string   "subeffect1",  limit: 100
     t.string   "subeffect2",  limit: 100
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.string   "subeffect3",  limit: 100
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   add_index "skill_effects", ["category", "subcategory"], name: "index_skill_effects_on_category_and_subcategory", using: :btree
@@ -162,8 +160,8 @@ ActiveRecord::Schema.define(version: 20150207073959) do
     t.string   "name",        limit: 100, null: false
     t.string   "explanation", limit: 500
     t.integer  "cost",        limit: 3,   null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   add_index "skills", ["cost"], name: "index_skills_on_cost", using: :btree
@@ -172,8 +170,8 @@ ActiveRecord::Schema.define(version: 20150207073959) do
   create_table "voice_actors", force: :cascade do |t|
     t.string   "name",       limit: 100,             null: false
     t.integer  "count",      limit: 4,   default: 0, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
   end
 
   add_index "voice_actors", ["count"], name: "index_voice_actors_on_count", using: :btree

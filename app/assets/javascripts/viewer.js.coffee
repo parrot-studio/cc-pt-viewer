@@ -21,14 +21,15 @@ class Viewer
     if mode is 'database'
       pagerSize = (if isPhoneDevice() then 8 else 16)
       recentlySize = (if isPhoneDevice() then 16 else 32)
-      initDatabaseHandler()
 
-      query = Query.parse()
-      if query.isEmpty()
-        searchRecentlyTargets()
-      else
-        searchTargets(query)
-        setConditions(query)
+      promise = initDatabaseHandler()
+      promise.then ->
+        query = Query.parse()
+        if query.isEmpty()
+          searchRecentlyTargets()
+        else
+          searchTargets(query)
+          setConditions(query)
     else if mode is 'ptedit'
       pagerSize = 8
       initEditHandler()
@@ -125,11 +126,11 @@ class Viewer
     #{sk.name} (#{sk.cost})<br>
     <ul class='small list-unstyled ability-detail'>"
     for ef, i in sk.effects
-      render += "<li>#{if i > 0 then '=> ' else '' }#{Skill.typeNameFor(ef.category)} - #{Skill.subnameFor(ef.category, ef.subcategory)}"
+      render += "<li>#{if i > 0 then '=> ' else '' }#{ef.category} - #{ef.subcategory}"
       if Skill.subeffectForEffect(ef).length > 0
         li = []
         for e in Skill.subeffectForEffect(ef)
-          li.push Skill.effectNameFor(ef.category, e)
+          li.push e
         render += " ( #{li.join(' / ')} )"
       render += '</li>'
     render += "</ul>"
@@ -140,7 +141,12 @@ class Viewer
 
     render = "#{ab.name}<ul class='small list-unstyled ability-detail'>"
     for e in ab.effects
-      render += "<li>#{Ability.conditionNameFor(e.conditionType)} - #{Ability.effectNameFor(e.effectType)}</li>"
+      str = "#{e.condition} - #{e.effect}"
+      unless e.target is ''
+       str += ":#{e.target}"
+      unless e.note is ''
+        str += " (#{e.note})"
+      render += "<li>#{str}</li>"
     render += "</ul>"
     render
 
@@ -307,13 +313,13 @@ class Viewer
                 <dt>武器タイプ</dt>
                 <dd>#{a.weaponName}</dd>
                 <dt>所属</dt>
-                <dd>#{Arcana.unionNameFor(a.union)}</dd>
+                <dd>#{a.union}</dd>
                 <dt>声優</dt>
                 <dd>#{a.voiceActor}</dd>
                 <dt>イラストレーター</dt>
                 <dd>#{a.illustrator}</dd>
                 <dt>入手先</dt>
-                <dd>#{Arcana.sourceCategoryNameFor(a.sourceCategory)} - #{Arcana.sourceNameFor(a.sourceCategory, a.source)}</dd>
+                <dd>#{a.sourceCategory} - #{a.source}</dd>
               </dl>
             </div>
             <div class='col-xs-12 col-sm-8 col-md-8'>
@@ -411,7 +417,7 @@ class Viewer
         <td>#{a.maxHp}</td>
         <td>#{a.limitAtk}</td>
         <td>#{a.limitHp}</td>
-        <td>#{Arcana.unionNameFor(a.union)}</td>
+        <td>#{a.union}</td>
       "
     tr += "</tr>"
     tr
@@ -589,10 +595,10 @@ class Viewer
     $("#skill-cost").val('')
     $("#skill-sub").empty().append("<option value=''>-</option>")
     $("#skill-effect").empty().append("<option value=''>-</option>")
-    $("#ability-effect").val('')
-    $("#ability-condition").empty().append("<option value=''>-</option>")
-    $("#chain-ability-effect").val('')
-    $("#chain-ability-condition").empty().append("<option value=''>-</option>")
+    $("#ability-category").val('')
+    $("#ability-effect").empty().append("<option value=''>-</option>")
+    $("#chain-ability-category").val('')
+    $("#chain-ability-effect").empty().append("<option value=''>-</option>")
     $("#arcana-cost").val('')
     $("#chain-cost").val('')
 
@@ -651,18 +657,18 @@ class Viewer
         $("#skill-sub").val(query.skillsub)
       if query.skilleffect
         $("#skill-effect").val(query.skilleffect)
-    if query.abilityeffect
+    if query.abilitycategory
       add = true
-      $("#ability-effect").val(query.abilityeffect)
-      createAbilityConditions()
-      if query.abilitycond
-        $("#ability-condition").val(query.abilitycond)
-    if query.chainabilityeffect
+      $("#ability-category").val(query.abilitycategory)
+      createAbilityEffects()
+      if query.abilityeffect
+        $("#ability-effect").val(query.abilityeffect)
+    if query.chainabilitycategory
       add = true
-      $("#chain-ability-effect").val(query.chainabilityeffect)
-      createChainAbilityConditions()
-      if query.chainabilitycond
-        $("#chain-ability-condition").val(query.chainabilitycond)
+      $("#chain-ability-category").val(query.chainabilitycategory)
+      createChainAbilityEffects()
+      if query.chainabilityeffect
+        $("#chain-ability-effect").val(query.chainabilityeffect)
 
     if add
       $("#additional-condition").show()
@@ -674,12 +680,14 @@ class Viewer
     return if q.isQueryForRecently()
     nl = [q]
     eq = q.encode()
-    cs = [eq]
+    cs = []
+    cs.push {query: eq, detail: q.detail}
     for oq in querys
       break if nl.length == queryLogSize
-      continue if (eq is oq.encode())
+      oqe = oq.encode()
+      continue if (eq is oqe)
       nl.push oq
-      cs.push oq.encode()
+      cs.push {query: oqe, detail: oq.detail}
     querys = nl
     Cookie.set({'query-log': cs})
     q
@@ -691,9 +699,9 @@ class Viewer
       return unless cs
 
       for c in cs
-        q = Query.parse(c)
+        q = Query.parse(c.query)
+        q.detail = c.detail
         querys.push(q) if q
-      renderQueryLog()
     catch
       querys = []
     @
@@ -714,7 +722,7 @@ class Viewer
     for i in [queryLogSize..1]
       q = querys[i-1]
       continue unless q
-      detail = q.createDetail()
+      detail = q.detail || ''
       if detail.length > limit
         detail = detail.slice(0, limit-3) + '...'
       li = "<li><a data-target='#' data-order='#{i}' class='search-log'>#{detail}</a></li>"
@@ -725,13 +733,14 @@ class Viewer
     query = q || Query.build()
     if query.isEmpty()
       query = Query.create({recently: recentlySize})
-    addQueryLog(query)
-    renderQueryLog()
-    Searcher.searchArcanas query, (as) ->
-      $(".search-detail").text query.createDetail()
+    Searcher.searchArcanas query, (as, detail) ->
+      query.detail = detail
+      $(".search-detail").text query.detail
       pager = createPager(as)
       resetSortOrder()
       replaceTargetArea()
+      addQueryLog(query)
+      renderQueryLog()
 
   searchRecentlyTargets = ->
     searchTargets Query.create({recently: recentlySize})
@@ -847,9 +856,16 @@ class Viewer
     li.empty()
     li.append("<option value=''>-</option>")
 
-    for u, n of Arcana.unions()
-      continue if u is 'unknown'
-      li.append("<option value='#{u}'>#{n}</option>")
+    for u in Searcher.unions()
+      li.append("<option value='#{u[0]}'>#{u[1]}</option>")
+    @
+
+  createSkillCategorys = ->
+    target = $("#skill")
+    target.empty()
+    target.append("<option value=''>-</option>")
+    for s in Searcher.skillCategorys()
+      target.append("<option value='#{s[0]}'>#{s[1]}</option>")
     @
 
   createSkillOptions = ->
@@ -866,15 +882,15 @@ class Viewer
       add.hide()
       return
 
-    subtypes = Skill.subtypesFor(skill)
+    subtypes = Searcher.skillSubtypesFor(skill)
     sub.append("<option value=''>（全て）</option>")
     for t in subtypes
-      sub.append("<option value='#{t}'>#{Skill.subnameFor(skill, t)}</option>")
+      sub.append("<option value='#{t[0]}'>#{t[1]}</option>")
 
-    effecttypes = Skill.effectTypesFor(skill)
+    effecttypes = Searcher.skillEffectTypesFor(skill)
     effect.append("<option value=''>（全て）</option>")
     for t in effecttypes
-      effect.append("<option value='#{t}'>#{Skill.effectNameFor(skill, t)}</option>")
+      effect.append("<option value='#{t[0]}'>#{t[1]}</option>")
 
     add.show()
     @
@@ -888,10 +904,10 @@ class Viewer
       sources.append("<option value=''>-</option>")
       return
 
-    types = Arcana.sourceTypesFor(cate)
+    types = Searcher.sourceTypesFor(cate)
     sources.append("<option value=''>（全て）</option>")
     for t in types
-      sources.append("<option value='#{t}'>#{Arcana.sourceNameFor(cate, t)}</option>")
+      sources.append("<option value='#{t[0]}'>#{t[1]}</option>")
     @
 
   createArcanaDetail = (code) ->
@@ -911,47 +927,78 @@ class Viewer
     })
     @
 
+  createAbilityCategorys = ->
+    target = $("#ability-category")
+    target.empty()
+    target.append("<option value=''>-</option>")
+    for c in Searcher.abirityCategorys()
+      target.append("<option value='#{c[0]}'>#{c[1]}</option>")
+    @
+
+  createChainAbilityCategorys = ->
+    target = $("#chain-ability-category")
+    target.empty()
+    target.append("<option value=''>-</option>")
+    for c in Searcher.abirityCategorys()
+      target.append("<option value='#{c[0]}'>#{c[1]}</option>")
+    @
+
   createAbilityEffects = ->
     target = $("#ability-effect")
     target.empty()
-    target.append("<option value=''>-</option>")
-    for e in Ability.effects()
-      target.append("<option value='#{e}'>#{Ability.effectNameFor(e)}</option>")
+    cate = $("#ability-category").val()
+    if cate == ''
+      target.append("<option value=''>-</option>")
+      return
+    conds = Searcher.abirityEffectsFor(cate)
+    target.append("<option value=''>（全て）</option>")
+    for c in conds
+      target.append("<option value='#{c[0]}'>#{c[1]}</option>")
     @
 
   createChainAbilityEffects = ->
     target = $("#chain-ability-effect")
     target.empty()
+    cate = $("#chain-ability-category").val()
+    if cate == ''
+      target.append("<option value=''>-</option>")
+      return
+    conds = Searcher.abirityEffectsFor(cate)
+    target.append("<option value=''>（全て）</option>")
+    for c in conds
+      target.append("<option value='#{c[0]}'>#{c[1]}</option>")
+    @
+
+  createActors = ->
+    target = $("#actor")
+    target.empty()
     target.append("<option value=''>-</option>")
-    for e in Ability.chainEffects()
-      target.append("<option value='#{e}'>#{Ability.effectNameFor(e)}</option>")
+    for a in Searcher.voiceactors()
+      target.append("<option value='#{a[0]}'>#{a[1]}</option>")
     @
 
-  createAbilityConditions = ->
-    target = $("#ability-condition")
+  createIllustrators = ->
+    target = $("#illustrator")
     target.empty()
-    abi = $("#ability-effect").val()
-    if abi == ''
-      target.append("<option value=''>-</option>")
-      return
-    conds = Ability.conditionsFor(abi)
-    target.append("<option value=''>（全て）</option>")
-    for c in conds
-      target.append("<option value='#{c}'>#{Ability.conditionNameFor(c)}</option>")
+    target.append("<option value=''>-</option>")
+    for i in Searcher.illustrators()
+      target.append("<option value='#{i[0]}'>#{i[1]}</option>")
     @
 
-  createChainAbilityConditions = ->
-    target = $("#chain-ability-condition")
-    target.empty()
-    abi = $("#chain-ability-effect").val()
-    if abi == ''
-      target.append("<option value=''>-</option>")
-      return
-    conds = Ability.chainConditionsFor(abi)
-    target.append("<option value=''>（全て）</option>")
-    for c in conds
-      target.append("<option value='#{c}'>#{Ability.conditionNameFor(c)}</option>")
-    @
+  initSearchConditions = ->
+    d = new $.Deferred()
+
+    Searcher.load_conditions ->
+      createUnionList()
+      createSkillCategorys()
+      createAbilityCategorys()
+      createChainAbilityCategorys()
+      createActors()
+      createIllustrators()
+      initFavoriteArcana()
+      initQueryLog()
+      d.resolve()
+    d.promise()
 
   prevTargetPage = ->
     if pager?.hasPrevPage()
@@ -1117,13 +1164,6 @@ class Viewer
     $("#additional-condition").hide()
     $("#skill-add").hide()
 
-    createUnionList()
-    createAbilityEffects()
-    createChainAbilityEffects()
-
-    initFavoriteArcana()
-    initQueryLog()
-
     $(".search").on 'click', (e) ->
       e.preventDefault()
       searchTargets()
@@ -1142,13 +1182,13 @@ class Viewer
       e.preventDefault()
       createSkillOptions()
 
-    $("#ability-effect").on 'change', (e) ->
+    $("#ability-category").on 'change', (e) ->
       e.preventDefault()
-      createAbilityConditions()
+      createAbilityEffects()
 
-    $("#chain-ability-effect").on 'change', (e) ->
+    $("#chain-ability-category").on 'change', (e) ->
       e.preventDefault()
-      createChainAbilityConditions()
+      createChainAbilityEffects()
 
     $("#source-category").on 'change', (e) ->
       e.preventDefault()
@@ -1244,10 +1284,11 @@ class Viewer
       sortTargets(col) unless col is ''
       false
 
-    @
+    # return promise
+    initSearchConditions()
 
   initEditHandler = ->
-    searchHandler()
+    promise = searchHandler()
 
     $("#tutorial").hide()
     $("#tutorial").removeClass("invisible")
@@ -1337,21 +1378,10 @@ class Viewer
       $("#help-text").show()
       $("#help-text-btn").hide()
 
-    @
+    promise
 
   initDatabaseHandler = ->
-    searchHandler()
-
-    # TODO remove ----------------------------
-    $("#database-warning").hide()
-    $("#database-warning").removeClass("invisible")
-
-    unless Cookie.valueFor('database-warning')
-      $("#database-warning").show()
-
-    $("#database-warning").on 'close.bs.alert', (e) ->
-      Cookie.set({'database-warning': true})
-    # ----------------------------
+    promise = searchHandler()
 
     showLatestInfo() if isShowLatestInfo()
 
@@ -1386,7 +1416,7 @@ class Viewer
           e.preventDefault()
       )
 
-    @
+    promise
 
 $ ->
   FastClick.attach(document.body)

@@ -13,16 +13,10 @@ class Skill < ActiveRecord::Base
             presence: true,
             numericality: { only_integer: true }
 
-  def effects
-    skill_effects.sort_by(&:order)
-  end
-
   def serialize
-    sk = attributes
-    sk.delete('id')
-    sk.delete('created_at')
-    sk.delete('updated_at')
-    sk['effects'] = effects.map(&:serialize)
+    excepts = %w(id created_at updated_at)
+    sk = self.as_json(except: excepts)
+    sk['effects'] = skill_effects.sort_by(&:order).map(&:serialize)
     sk
   end
 
