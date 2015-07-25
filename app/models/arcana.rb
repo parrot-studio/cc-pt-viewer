@@ -122,6 +122,7 @@ class Arcana < ActiveRecord::Base
         monokuma: '絶対絶望少女',
         falcom_sen2: '閃の軌跡II',
         sevensins: '七つの大罪',
+        brave: 'ブレイブフロンティア',
         other: 'その他'
       }
     }

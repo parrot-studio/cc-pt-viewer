@@ -100,7 +100,8 @@ class SkillEffect < ActiveRecord::Base
         speedup: '移動速度上昇',
         delayoff: '攻撃速度上昇',
         add_fire: '炎属性付与',
-        add_ice: '氷属性付与'
+        add_ice: '氷属性付与',
+        restoration: '返還'
       }
     },
     barrier: {

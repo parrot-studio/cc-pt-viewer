@@ -121,7 +121,10 @@ class AbilityEffect < ActiveRecord::Base
         speedup: '移動速度上昇',
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
-        defspeedup: '防御力/移動速度上昇'
+        defspeedup: '防御力/移動速度上昇',
+        cure_seal: '封印解除',
+        cure_slow: 'スロウ解除',
+        cure_weaken: '衰弱解除'
       }
     },
     killer: {
@@ -137,7 +140,8 @@ class AbilityEffect < ActiveRecord::Base
         mana_charge: 'マナを持って戦闘開始',
         mana_boost: 'スロットで複数マナが出やすい',
         mana_drop: 'マナを落とす',
-        slot_slow: 'マナスロットが遅くなる'
+        slot_slow: 'マナスロットが遅くなる',
+        composite: '複合マナ出現'
       }
     },
     field: {
@@ -213,7 +217,8 @@ class AbilityEffect < ActiveRecord::Base
         poison_atkup: '毒ダメージ上昇',
         registup: '魔法ダメージ軽減',
         combat: '接近戦可能',
-        invisible: '見えなくなる（遠距離無効）'
+        invisible: '見えなくなる（遠距離無効）',
+        bullet_speedup: '弾速上昇'
       }
     },
     unknown: {
@@ -289,6 +294,7 @@ class AbilityEffect < ActiveRecord::Base
     for_poison: '敵が毒の時',
     for_slow: '敵がスロウの時',
     guard: 'ガードした時',
+    has_mana: '特定のマナを保持している時',
     heal: '回復した時',
     hp_downto: 'HPが一定以下の時',
     hp_full: 'HPが満タンの時',
@@ -316,6 +322,7 @@ class AbilityEffect < ActiveRecord::Base
     kill_debuff: '状態異常の敵を倒した時',
     link: '複数で一緒に攻撃した時',
     mana_charged: 'マナが多いほど',
+    mana_droped: 'マナを獲得した時',
     mana_lost: 'マナが少ないほど',
     members_debuff: '味方に状態異常が多いほど',
     others_skill: '味方がスキルを使った時',
@@ -323,6 +330,7 @@ class AbilityEffect < ActiveRecord::Base
     skill: 'スキル使用時',
     union: '特定の構成の時',
     vs_beast: 'ビーストに対して',
+    vs_bird: '鳥に対して',
     vs_black: '黒の軍勢に対して',
     vs_dragon: 'ドラゴンに対して',
     vs_fish: '魚類に対して',
@@ -333,6 +341,7 @@ class AbilityEffect < ActiveRecord::Base
     vs_lizard: 'トカゲに対して',
     vs_ogre: '黒の軍勢に対して',
     vs_skeleton: 'ガイコツに対して',
+    waiting: '何もしていない間',
     wave_start: '各WAVE開始時',
     unknown: '（不明）'
   }.freeze
