@@ -10,7 +10,8 @@ class AbilityEffect < ActiveRecord::Base
         speedup: '移動速度上昇',
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
-        defspeedup: '防御力/移動速度上昇'
+        defspeedup: '防御力/移動速度上昇',
+        critup: 'クリティカル率上昇'
       }
     },
     buff_others: {
@@ -191,6 +192,7 @@ class AbilityEffect < ActiveRecord::Base
       effect: {
         atkup: '攻撃力上昇',
         atkdefup: '攻撃力/防御力上昇',
+        fullup: '攻撃力/防御力/移動速度上昇',
         critup: 'クリティカル率上昇'
       }
     },
@@ -299,13 +301,14 @@ class AbilityEffect < ActiveRecord::Base
     hp_downto: 'HPが一定以下の時',
     hp_full: 'HPが満タンの時',
     hp_upto: 'HPが一定以上の時',
+    in_attacking: '攻撃を継続している時',
     in_base_area: '自陣にいる時',
     in_blind: '自分が暗闇状態の時',
     in_combo: '攻撃を一定回数当てた時',
     in_curse: '自分が呪い状態の時',
     in_debuff: '自分が状態異常の時',
-    in_emeny_area: '敵陣にいる時',
-    in_emeny_back: '敵陣の奥にいる時',
+    in_enemy_area: '敵陣にいる時',
+    in_enemy_back: '敵陣の奥にいる時',
     in_field: '特定のフィールドで',
     in_front: '仲間より前にいる時',
     in_head: '先頭にいる時',
