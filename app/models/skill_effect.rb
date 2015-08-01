@@ -25,7 +25,7 @@ class SkillEffect < ActiveRecord::Base
         range_line2: '範囲・直線2ライン',
         range_laser: '範囲・レーザー',
         range_short: '範囲・接触',
-        range_all: '範囲・全体'
+        range_all: '範囲・広域'
       },
       effect: {
         add_blind: '暗闇追加',
@@ -63,7 +63,9 @@ class SkillEffect < ActiveRecord::Base
         cure_slow: 'スロウ解除',
         cure_weaken: '衰弱解除',
         atkup: '攻撃力上昇',
-        defup: '防御力上昇'
+        defup: '防御力上昇',
+        atkspeedup: '攻撃力/移動速度上昇',
+        restoration: '返還'
       }
     },
     song_dance: {
