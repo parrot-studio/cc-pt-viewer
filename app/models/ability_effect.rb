@@ -295,6 +295,7 @@ class AbilityEffect < ActiveRecord::Base
     for_freeze: '敵が凍結の時',
     for_poison: '敵が毒の時',
     for_slow: '敵がスロウの時',
+    for_weaken: '敵が衰弱の時',
     guard: 'ガードした時',
     has_mana: '特定のマナを保持している時',
     heal: '回復した時',
