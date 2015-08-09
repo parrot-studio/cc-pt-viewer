@@ -342,6 +342,7 @@ class AbilityEffect < ActiveRecord::Base
     vs_goblin: 'ゴブリンに対して',
     vs_golem: 'ゴーレムに対して',
     vs_human: '人間に対して',
+    vs_insect: '虫に対して',
     vs_lizard: 'トカゲに対して',
     vs_ogre: '黒の軍勢に対して',
     vs_skeleton: 'ガイコツに対して',
