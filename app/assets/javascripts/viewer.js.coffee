@@ -5,12 +5,12 @@ class Viewer
   pager = null
   pagerSize = null
   onEdit = true
-  recentlySize = 24
+  recentlySize = 36
   defaultMemberCode = 'V2F82F85K51NA38NP28NP24NNNNN'
   mode = null
   lastQuery = null
   querys = []
-  queryLogSize = 5
+  queryLogSize = 12
   favs = {}
   sortOrderDefault = {name: 'asc'}
   sortOrder = {}
@@ -40,8 +40,10 @@ class Viewer
       else
         toggleEditMode() unless ptm is ''
         searchRecentlyTargets()
-      ptm = defaultMemberCode if ptm is ''
-      buildMembersArea(ptm)
+      if ptm is ''
+        searchLastMembers()
+      else
+        buildMembersArea(ptm)
     else
       commonHandler()
 
@@ -126,11 +128,23 @@ class Viewer
     #{sk.name} (#{sk.cost})<br>
     <ul class='small list-unstyled ability-detail'>"
     for ef, i in sk.effects
-      render += "<li>#{if i > 0 then '=> ' else '' }#{ef.category} - #{ef.subcategory}"
-      if Skill.subeffectForEffect(ef).length > 0
-        li = []
-        for e in Skill.subeffectForEffect(ef)
-          li.push e
+      multi = if ef.multi_type is 'forward'
+        ' => '
+      else if ef.multi_type is 'either'
+        ' または '
+      else
+        ''
+
+      unless ef.multi_condition is ''
+        multi = "（#{multi} #{ef.multi_condition}）"
+
+      render += "<li>#{multi}#{ef.category} - #{ef.subcategory}"
+      li = []
+      for e in Skill.subeffectForEffect(ef)
+        li.push e
+      unless ef.note is ''
+        li.push ef.note
+      if li.length > 0
         render += " ( #{li.join(' / ')} )"
       render += '</li>'
     render += "</ul>"
@@ -143,7 +157,7 @@ class Viewer
     for e in ab.effects
       str = "#{e.condition} - #{e.effect}"
       unless e.target is ''
-       str += ":#{e.target}"
+        str += ":#{e.target}"
       unless e.note is ''
         str += " (#{e.note})"
       render += "<li>#{str}</li>"
@@ -744,6 +758,7 @@ class Viewer
 
   searchRecentlyTargets = ->
     searchTargets Query.create({recently: recentlySize})
+    resetConditions()
 
   searchFavoriteArcanas = ->
     fl = collectFavriteList()
@@ -1045,8 +1060,7 @@ class Viewer
 
   searchLastMembers = ->
     code = Cookie.valueFor('last-members') || ''
-    if code == ''
-      code = defaultMemberCode
+    code = defaultMemberCode if code is ''
     buildMembersArea(code)
 
   clearLastMembers = ->

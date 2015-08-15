@@ -143,6 +143,11 @@ class SkillEffect < ActiveRecord::Base
     }
   }.freeze
 
+  MULTI_TYPE = {
+    forward: '→',
+    either: 'または'
+  }
+
   CATEGORY_CONDS = lambda do
     ret = []
     CATEGORYS.each do |k, v|
@@ -193,11 +198,21 @@ class SkillEffect < ActiveRecord::Base
   validates :subcategory,
             presence: true,
             length: { maximum: 100 }
+  validates :multi_type,
+            length: { maximum: 100 }
+  validates :multi_condition,
+            length: { maximum: 100 }
   validates :subeffect1,
             length: { maximum: 100 }
   validates :subeffect2,
             length: { maximum: 100 }
   validates :subeffect3,
+            length: { maximum: 100 }
+  validates :subeffect4,
+            length: { maximum: 100 }
+  validates :subeffect5,
+            length: { maximum: 100 }
+  validates :note,
             length: { maximum: 100 }
 
   def serialize
@@ -209,6 +224,8 @@ class SkillEffect < ActiveRecord::Base
     se['subeffect1'] = SUBEFFECTS.fetch(self.subeffect1.to_sym, '') if self.subeffect1.present?
     se['subeffect2'] = SUBEFFECTS.fetch(self.subeffect2.to_sym, '') if self.subeffect2.present?
     se['subeffect3'] = SUBEFFECTS.fetch(self.subeffect3.to_sym, '') if self.subeffect3.present?
+    se['subeffect4'] = SUBEFFECTS.fetch(self.subeffect4.to_sym, '') if self.subeffect4.present?
+    se['subeffect5'] = SUBEFFECTS.fetch(self.subeffect5.to_sym, '') if self.subeffect5.present?
 
     se
   end

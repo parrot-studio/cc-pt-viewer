@@ -86,7 +86,7 @@ class ArcanaImporter
     file
   end
 
-  def each_ability_data_lines(file)
+  def each_data_lines(file)
     lines = []
     each_table_lines(file) do |data|
       3.times { data.shift } # name, job, index
@@ -149,66 +149,86 @@ class ArcanaImporter
   def build_skill
     skills = Skill.all.index_by(&:name)
 
-    each_table_lines(skill_table_file) do |data|
-      3.times { data.shift } # name, job, index
-      name = data.shift
-      cost = data.shift
-      next if (name.blank? || cost.blank?)
+    each_data_lines(skill_table_file) do |lines|
+      sk = nil
+      effects = []
+      efs = {}
+      lines.each.with_index(1) do |data, order|
+        if order == 1
+          name = data.shift
+          cost = data.shift
+          data.shift
+          next if (name.blank? || cost.blank?)
+          multi_type = ''
+          multi_cond = ''
 
-      sk = skills[name]
-      unless sk
-        sk = Skill.new
-        sk.name = name
-        skills[name] = sk
-      end
-      sk.cost = cost.to_i
-      sk.explanation = ''
+          sk = skills[name]
+          unless sk
+            sk = Skill.new
+            sk.name = name
+            skills[name] = sk
+          end
+          sk.cost = cost.to_i
+          sk.explanation = ''
 
-      efs = sk.skill_effects.index_by(&:order)
-      es = []
-      ord = 1
-      loop do
-        break if data.blank?
-        cate = data.shift
-        scate = data.shift
-        se1 = data.shift
-        se2 = data.shift
-        se3 = data.shift
-        break if cate.blank? && scate.blank?
+          efs = sk.skill_effects.index_by(&:order)
+        else
+          next unless sk
+          data.shift
+          multi_type = data.shift.to_s
+          multi_cond = data.shift.to_s
+          raise "multi_type not found => #{sk.name}" if multi_type.blank?
+          raise "multi_type not found => #{sk.name} #{multi_type}" unless SkillEffect::MULTI_TYPE.key?(multi_type.to_sym)
+        end
 
-        ef = efs[ord] || SkillEffect.new
-        ef.order = ord
-        ef.category = cate
+        ef = efs[order] || SkillEffect.new
+        ef.order = order
+        ef.category = data.shift
         raise "category not found => #{sk.name} #{ef.category}" unless SkillEffect::CATEGORYS.key?(ef.category.to_sym)
 
         check_table = SkillEffect::CATEGORYS.fetch(ef.category.to_sym, {})
-        ef.subcategory = scate
+        ef.subcategory = data.shift
         raise "subcategory not found => #{sk.name} #{ef.subcategory}" unless SkillEffect::SUBCATEGORYS.key?(ef.subcategory.to_sym)
         raise "subcategory not defined => #{sk.name} #{ef.category} #{ef.subcategory}" unless check_table.fetch(:sub, {}).fetch(ef.subcategory.to_sym, nil)
 
+        ef.multi_type = multi_type
+        ef.multi_condition = multi_cond
+
         effect_table = check_table.fetch(:effect, {})
-        ef.subeffect1 = se1.to_s
+        ef.subeffect1 = data.shift.to_s
         if ef.subeffect1.present?
           raise "subeffect1 not found => #{sk.name} #{ef.subeffect1}" unless SkillEffect::SUBEFFECTS.key?(ef.subeffect1.to_sym)
           raise "subeffect1 not defined => #{sk.name} #{ef.category} #{ef.subeffect1}" unless effect_table.fetch(ef.subeffect1.to_sym, nil)
         end
-        ef.subeffect2 = se2.to_s
+        ef.subeffect2 = data.shift.to_s
         if ef.subeffect2.present?
           raise "subeffect2 not found => #{sk.name} #{ef.subeffect1}" unless SkillEffect::SUBEFFECTS.key?(ef.subeffect2.to_sym)
           raise "subeffect2 not defined => #{sk.name} #{ef.category} #{ef.subeffect2}" unless effect_table.fetch(ef.subeffect2.to_sym, nil)
         end
-        ef.subeffect3 = se3.to_s
+        ef.subeffect3 = data.shift.to_s
         if ef.subeffect3.present?
           raise "subeffect3 not found => #{sk.name} #{ef.subeffect1}" unless SkillEffect::SUBEFFECTS.key?(ef.subeffect3.to_sym)
           raise "subeffect3 not defined => #{sk.name} #{ef.category} #{ef.subeffect3}" unless effect_table.fetch(ef.subeffect3.to_sym, nil)
         end
+        ef.subeffect4 = data.shift.to_s
+        if ef.subeffect4.present?
+          raise "subeffect4 not found => #{sk.name} #{ef.subeffect1}" unless SkillEffect::SUBEFFECTS.key?(ef.subeffect4.to_sym)
+          raise "subeffect4 not defined => #{sk.name} #{ef.category} #{ef.subeffect4}" unless effect_table.fetch(ef.subeffect4.to_sym, nil)
+        end
+        ef.subeffect5 = data.shift.to_s
+        if ef.subeffect5.present?
+          raise "subeffect5 not found => #{sk.name} #{ef.subeffect1}" unless SkillEffect::SUBEFFECTS.key?(ef.subeffect5.to_sym)
+          raise "subeffect5 not defined => #{sk.name} #{ef.category} #{ef.subeffect5}" unless effect_table.fetch(ef.subeffect5.to_sym, nil)
+        end
+
+        ef.note = data.shift.to_s
 
         changes = ef.changes if ef.changed?
         puts "warning : skill #{sk.name} : #{changes}" if changes.present?
-        es << ef
-        ord += 1
+        effects << ef
       end
-      sk.skill_effects = es
+
+      sk.skill_effects = effects
       sk.skill_effects.each(&:save!)
       sk.save!
     end
@@ -219,7 +239,7 @@ class ArcanaImporter
   def build_ability
     abs = Ability.all.index_by(&:name)
 
-    each_ability_data_lines(ability_table_file) do |lines|
+    each_data_lines(ability_table_file) do |lines|
       # アビリティ名
       name = lines.first.first
       abi = abs[name]
@@ -267,7 +287,7 @@ class ArcanaImporter
   def build_chain_ability
     abs = ChainAbility.all.index_by(&:name)
 
-    each_ability_data_lines(chain_ability_table_file) do |lines|
+    each_data_lines(chain_ability_table_file) do |lines|
       # アビリティ名
       name = lines.first.first
       abi = abs[name]

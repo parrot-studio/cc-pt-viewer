@@ -188,15 +188,7 @@ class ViewerController < ApplicationController
   def with_cache(name, &b)
     return unless (name && b)
     return b.call unless ServerSettings.cache
-
-    data = Rails.cache.read(name)
-    return data if data
-
-    ret = b.call
-    return unless ret
-    Rails.cache.write(name, ret)
-
-    ret
+    Rails.cache.fetch(name, &b)
   end
 
 end

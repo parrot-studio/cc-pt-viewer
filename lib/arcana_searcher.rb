@@ -402,7 +402,17 @@ class ArcanaSearcher
     unless ef.blank?
       efs = [ef].flatten.uniq.compact
       arel.where!(
-        SkillEffect.where(subeffect1: efs).where(subeffect2: efs).where(subeffect3: efs).where_values.reduce(:or)
+        SkillEffect.where(
+          subeffect1: efs
+        ).where(
+          subeffect2: efs
+        ).where(
+          subeffect3: efs
+        ).where(
+          subeffect4: efs
+        ).where(
+          subeffect5: efs
+        ).where_values.reduce(:or)
       )
     end
 

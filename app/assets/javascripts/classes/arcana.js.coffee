@@ -26,9 +26,14 @@ class window.Skill
         d =
           category: e.category
           subcategory: e.subcategory
+          multi_type: e.multi_type || ''
+          multi_condition: e.multi_condition || ''
           subeffect1: e.subeffect1 || ''
           subeffect2: e.subeffect2 || ''
           subeffect3: e.subeffect3 || ''
+          subeffect4: e.subeffect4 || ''
+          subeffect5: e.subeffect5 || ''
+          note: e.note || ''
         @effects.push d
 
   @subeffectForEffect: (ef) ->
@@ -37,6 +42,8 @@ class window.Skill
     ret.push(ef.subeffect1) unless ef.subeffect1 == ''
     ret.push(ef.subeffect2) unless ef.subeffect2 == ''
     ret.push(ef.subeffect3) unless ef.subeffect3 == ''
+    ret.push(ef.subeffect4) unless ef.subeffect4 == ''
+    ret.push(ef.subeffect5) unless ef.subeffect5 == ''
     ret
 
 class window.Arcana

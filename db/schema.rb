@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150714023444) do
+ActiveRecord::Schema.define(version: 20150809082623) do
 
   create_table "abilities", force: :cascade do |t|
     t.string   "name",        limit: 100, null: false
@@ -137,15 +137,20 @@ ActiveRecord::Schema.define(version: 20150714023444) do
   add_index "illustrators", ["name"], name: "index_illustrators_on_name", unique: true, using: :btree
 
   create_table "skill_effects", force: :cascade do |t|
-    t.integer  "skill_id",    limit: 4,   null: false
-    t.integer  "order",       limit: 4,   null: false
-    t.string   "category",    limit: 100, null: false
-    t.string   "subcategory", limit: 100, null: false
-    t.string   "subeffect1",  limit: 100
-    t.string   "subeffect2",  limit: 100
-    t.string   "subeffect3",  limit: 100
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.integer  "skill_id",        limit: 4,   null: false
+    t.integer  "order",           limit: 4,   null: false
+    t.string   "category",        limit: 100, null: false
+    t.string   "subcategory",     limit: 100, null: false
+    t.string   "multi_type",      limit: 100
+    t.string   "multi_condition", limit: 100
+    t.string   "subeffect1",      limit: 100
+    t.string   "subeffect2",      limit: 100
+    t.string   "subeffect3",      limit: 100
+    t.string   "subeffect4",      limit: 100
+    t.string   "subeffect5",      limit: 100
+    t.string   "note",            limit: 100
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
   add_index "skill_effects", ["category", "subcategory"], name: "index_skill_effects_on_category_and_subcategory", using: :btree
@@ -155,6 +160,8 @@ ActiveRecord::Schema.define(version: 20150714023444) do
   add_index "skill_effects", ["subeffect1"], name: "index_skill_effects_on_subeffect1", using: :btree
   add_index "skill_effects", ["subeffect2"], name: "index_skill_effects_on_subeffect2", using: :btree
   add_index "skill_effects", ["subeffect3"], name: "index_skill_effects_on_subeffect3", using: :btree
+  add_index "skill_effects", ["subeffect4"], name: "index_skill_effects_on_subeffect4", using: :btree
+  add_index "skill_effects", ["subeffect5"], name: "index_skill_effects_on_subeffect5", using: :btree
 
   create_table "skills", force: :cascade do |t|
     t.string   "name",        limit: 100, null: false
