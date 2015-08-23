@@ -213,13 +213,19 @@ class Viewer
             #{a.jobNameShort}:#{a.rarityStars} <span class='badge badge-sm pull-right'>#{a.cost} ( #{a.chainCost} )</span>
           </div>
           <div class='arcana-summary'>
-            <p>
+            <p style='margin-top: -8px'>
               <small>
-                <button type='button' class='btn btn-default btn-xs view-info pull-right' data-job-code='#{a.jobCode}' data-toggle='modal' data-target='#view-modal'>Info</button>
-                <span class='text-muted small'>#{a.title}</span><br>
-                <strong>#{a.name}</strong>
+                <div class='pull-right mini'>
+                  <input type='checkbox' id='fav-#{a.jobCode}' class='' data-job-code='#{a.jobCode}'>
+                  <button type='button' class='btn btn-default btn-xs view-info' data-job-code='#{a.jobCode}' data-toggle='modal' data-target='#view-modal'>Info</button>
+                </div>
+                <div class='pull-left'>
+                  <span class='text-muted small'>#{a.title}</span><br>
+                  <strong>#{a.name}</strong>
+                </div>
               </small>
             </p>
+            <p class='clearfix'></p>
             <p>
               <small>
                 <ul class='small text-muted list-unstyled summary-detail'>
@@ -315,7 +321,7 @@ class Viewer
           <div class='row'>
             <div class='col-xs-12 hidden-sm hidden-md hidden-lg'>
               <p class='pull-right'>
-                <input type='checkbox' class='fav' data-job-code='#{a.jobCode}'>
+                <input type='checkbox' class='fav-detail' data-job-code='#{a.jobCode}'>
               </p>
             </div>
             <div class='col-xs-12 col-sm-4 col-md-4'>
@@ -353,7 +359,7 @@ class Viewer
                 <button type='button' class='btn btn-default btn-sm wiki-link' data-job-code='#{a.jobCode}'>Wikiで確認</button>
               </p>
               <p class='pull-right hidden-xs'>
-                <input type='checkbox' class='fav' data-job-code='#{a.jobCode}'>
+                <input type='checkbox' class='fav-detail' data-job-code='#{a.jobCode}'>
               </p>
             </div>
           </div>
@@ -557,6 +563,19 @@ class Viewer
       li.html(renderChoiceArcana(a))
       li.hide()
       ul.append(li)
+
+      $("#fav-#{a.jobCode}").bootstrapSwitch({
+        state: favs[a.jobCode]
+        size: 'mini'
+        onColor: 'warning'
+        onText: '☆'
+        offText: '★'
+        labelWidth: '2'
+        onSwitchChange: (e, state) ->
+          target = $(e.target)
+          toggleFavoriteArcana(target.data('jobCode'), state)
+      })
+
       li.fadeIn('slow')
     renderPager()
     @
@@ -931,7 +950,7 @@ class Viewer
     view.empty()
     view.append(renderArcanaDetail(m))
 
-    $(".fav").bootstrapSwitch({
+    $(".fav-detail").bootstrapSwitch({
       state: favs[code]
       size: 'mini'
       onColor: 'success'
@@ -1286,18 +1305,6 @@ class Viewer
       $("#link-modal").modal('hide')
       true
 
-    $("#arcana-table").on 'click', 'th.sortable', (e) ->
-      e.preventDefault()
-      target = $(e.target)
-      col = target.data('colName') || ''
-      sortTargets(col) unless col is ''
-
-    $("#arcana-table").on 'click', 'button.sortable', (e) ->
-      target = $(e.target).parents('th')
-      col = target.data('colName') || ''
-      sortTargets(col) unless col is ''
-      false
-
     # return promise
     initSearchConditions()
 
@@ -1429,6 +1436,18 @@ class Viewer
           nextTargetPage()
           e.preventDefault()
       )
+
+    $("#arcana-table").on 'click', 'th.sortable', (e) ->
+      e.preventDefault()
+      target = $(e.target)
+      col = target.data('colName') || ''
+      sortTargets(col) unless col is ''
+
+    $("#arcana-table").on 'click', 'button.sortable', (e) ->
+      target = $(e.target).parents('th')
+      col = target.data('colName') || ''
+      sortTargets(col) unless col is ''
+      false
 
     promise
 
