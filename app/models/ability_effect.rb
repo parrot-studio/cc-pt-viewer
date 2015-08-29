@@ -191,6 +191,7 @@ class AbilityEffect < ActiveRecord::Base
       name: '誰か一人を強化',
       effect: {
         atkup: '攻撃力上昇',
+        defup: '防御力上昇',
         atkdefup: '攻撃力/防御力上昇',
         fullup: '攻撃力/防御力/移動速度上昇',
         critup: 'クリティカル率上昇'
