@@ -25,6 +25,7 @@ class SkillEffect < ActiveRecord::Base
         range_line2: '範囲・直線2ライン',
         range_laser: '範囲・レーザー',
         range_short: '範囲・接触',
+        range_combination: '範囲・コンビネーション',
         range_all: '範囲・広域'
       },
       effect: {

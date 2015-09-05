@@ -218,6 +218,7 @@ class AbilityEffect < ActiveRecord::Base
         healup: '回復効果上昇',
         healareaup: '回復範囲/効果上昇',
         poison_atkup: '毒ダメージ上昇',
+        blind_boost: '暗闇の効果延長',
         registup: '魔法ダメージ軽減',
         combat: '接近戦可能',
         invisible: '見えなくなる（遠距離無効）',
@@ -277,6 +278,7 @@ class AbilityEffect < ActiveRecord::Base
 
   CONDITIONS = {
     add_blind: '暗闇を与えた時',
+    add_down: 'ダウンさせた時',
     add_poison: '毒を与えた時',
     add_slow: 'スロウを与えた時',
     any: 'いつでも',
