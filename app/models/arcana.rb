@@ -123,6 +123,7 @@ class Arcana < ActiveRecord::Base
         falcom_sen2: '閃の軌跡II',
         sevensins: '七つの大罪',
         brave: 'ブレイブフロンティア',
+        shiningresonance: 'シャイニング・レゾナンス',
         other: 'その他'
       }
     }
