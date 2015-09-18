@@ -123,6 +123,8 @@ class AbilityEffect < ActiveRecord::Base
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
         defspeedup: '防御力/移動速度上昇',
+        cure_blind: '暗闇解除',
+        cure_poison: '毒解除',
         cure_seal: '封印解除',
         cure_slow: 'スロウ解除',
         cure_weaken: '衰弱解除'
