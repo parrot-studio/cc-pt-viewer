@@ -72,21 +72,27 @@ class SkillEffect < ActiveRecord::Base
     song_dance: {
       name: '歌/舞',
       sub: {
-        buff: '味方能力上昇',
-        debuff: '敵状態異常'
+        atkup: '攻撃力上昇',
+        defup: '防御力上昇',
+        speedup: '移動速度上昇',
+        atkdefup: '攻撃力/防御力上昇',
+        atkspeedup: '攻撃力/移動速度上昇',
+        defspeedup: '防御力/移動速度上昇',
+        speedcritup: '移動速度/クリティカル率上昇',
+        add_blind: '暗闇追加',
+        add_poison: '毒追加',
+        add_slow: 'スロウ追加'
       },
       effect: {
         guard_blind: '暗闇耐性',
         guard_freeze: '凍結耐性',
         guard_slow: 'スロウ耐性',
+        guard_poison: '毒耐性',
         guard_weaken: '衰弱耐性',
         guard_debuff: '状態異常耐性',
         guard_fire: '炎属性軽減',
         guard_ice: '氷属性軽減',
         guard_element: '属性軽減',
-        add_blind: '暗闇追加',
-        add_poison: '毒追加',
-        add_slow: 'スロウ追加'
       }
     },
     buff: {
