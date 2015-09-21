@@ -14,6 +14,8 @@ class Viewer
   favs = {}
   sortOrderDefault = {name: 'asc'}
   sortOrder = {}
+  parties = []
+  ptSize = 10
 
   constructor: ->
     mode = $("#mode").val() || ''
@@ -1031,6 +1033,7 @@ class Viewer
       createIllustrators()
       initFavoriteArcana()
       initQueryLog()
+      initParties()
       d.resolve()
     d.promise()
 
@@ -1177,6 +1180,60 @@ class Viewer
     replaceTargetArea()
     updateSortOrder(col, order)
     renderOrderState()
+    @
+
+  initParties = ->
+    parties = []
+
+    try
+      val = Cookie.valueFor('parties')
+      return unless val
+      parties = JSON.parse(val)
+      renderPartyList()
+    catch
+      parties = []
+    @
+
+  loadParty = (order) ->
+    pt = parties[order-1] || {}
+    code = pt.code || ''
+    code = defaultMemberCode if code is ''
+    comment = pt.comment || ""
+    $("#members-comment").val(comment)
+    buildMembersArea(code)
+
+  storeParty = (comment) ->
+    code = createMembersCode()
+    comment ||= '名無しパーティー'
+    if comment.length > 10
+      comment = comment.substr(0, 10)
+
+    data =
+      code: code
+      comment: comment
+    npt = [data]
+    for pt in parties
+      break if parties.length == ptSize
+      continue if pt.code == code
+      npt.push pt
+    parties = npt
+    renderPartyList()
+
+    val = JSON.stringify(parties)
+    Cookie.set({'parties': val})
+    parties
+
+  renderPartyList = ->
+    $(".party-list").remove()
+    return if parties.length < 1
+
+    base = $("#party-list-header")
+    for i in [ptSize..1]
+      pt = parties[i-1]
+      continue unless pt
+      comment = pt.comment || '名無しパーティー'
+      li = "<li><a data-target='#' data-order='#{i}' class='party-list'>#{comment}</a></li>"
+      base.after(li)
     @
 
   commonHandler = ->
@@ -1370,6 +1427,7 @@ class Viewer
       eachMemberKey (k) ->
         clearMemberArcana(k)
       $("#cost").text('0')
+      $("#reset-modal").modal('hide')
 
     $("#last-members").on 'click', (e) ->
       e.preventDefault()
@@ -1398,6 +1456,17 @@ class Viewer
       e.preventDefault()
       $("#help-text").show()
       $("#help-text-btn").hide()
+
+    $("#store-members").on 'click', (e) ->
+      e.preventDefault()
+      comment = $("#members-comment").val()
+      storeParty(comment)
+      $("#store-modal").modal('hide')
+
+    $("#party-menu").on 'click', 'a.party-list', (e) ->
+      e.preventDefault()
+      n = parseInt($(e.target).data('order'))
+      loadParty(n) if n > 0
 
     promise
 

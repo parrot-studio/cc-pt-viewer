@@ -1,0 +1,34 @@
+<div class="modal fade" id="store-modal" tabindex="-1" role="dialog" aria-labelledby="store-modal-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h2 class="modal-title" id="store-modal-label">パーティーを保存</h2>
+      </div>
+      <div class="modal-body">
+        <p>
+          現在のパーティーを保存します。<br>
+          名前を入力し、以下のボタンを押してください。
+        </p>
+        <div class="form-group" id="store-pt-form">
+          <label for="member-comment">パーティーの名前（10文字まで）</label>
+          <input type="text" id="members-comment" class="form-control" value="" maxlength="10" placeholder="例：ストーリー用PT">
+          <span class="help-block small">
+            保存されたパーティーは古いものから消えていきます。<br>
+            残したい場合、呼び出して再度保存してください。
+          </span>
+        </div>
+        <p>
+          <button class="btn btn-primary" id="store-members">
+            <span class="glyphicon glyphicon-save-file" aria-hidden="true"></span> 保存
+          </button>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 閉じる
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

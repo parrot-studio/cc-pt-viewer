@@ -56,9 +56,23 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
 <div id="member-area" class="well well-sm">
   <div class="row" id="edit-title">
     <div class="col-md-12 col-sm-12 hidden-xs">
-      <button class="btn btn-danger pull-right" id="reset-members">
-        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> パーティーをリセット
-      </button>
+      <div class="pull-right" role="group" aria-label="hoge">
+        <button class="btn btn-danger" id="reset-members-btn" data-toggle="modal" data-target="#reset-modal">
+          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> リセット
+        </button>
+        <button class="btn btn-primary " id="store-members-btn" data-toggle="modal" data-target="#store-modal">
+          <span class="glyphicon glyphicon-save-file" aria-hidden="true"></span> 保存
+        </button>
+        <div class="btn-group">
+          <button class="btn btn-info dropdown-toggle" id="load-members" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="glyphicon glyphicon-open-file" aria-hidden="true"></span> 呼び出し<span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" id="party-menu">
+            <li><a data-target="#" id="last-members"><span class="glyphicon glyphicon-export" aria-hidden="true"></span> 最後に作ったパーティー構成</a></li>
+            <li role="separator" class="divider" id="party-list-header"></li>
+          </ul>
+        </div>
+      </div>
       <h2>パーティー編集</h2>
     </div>
   </div>
@@ -88,6 +102,8 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
   <%= render 'viewer/edit' %>
   <%= render 'viewer/condition' %>
   <%= render 'viewer/select' %>
+  <%= render 'viewer/reset' %>
+  <%= render 'viewer/store' %>
 </div>
 <%= render 'viewer/help' %>
 <%= render 'viewer/share_ptm' %>

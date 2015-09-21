@@ -2,7 +2,7 @@ class window.Cookie
 
   $.cookie.json = true
   cookieKey = 'ccpts'
-  expireDate = 21
+  expireDate = 60
 
   @set = (data) ->
     d = $.extend(@get(), (data || {}))
