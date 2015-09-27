@@ -23,10 +23,11 @@ class SkillEffect < ActiveRecord::Base
         range_blast: '範囲・爆発',
         range_random: '範囲・ランダム',
         range_line2: '範囲・直線2ライン',
-        range_laser: '範囲・レーザー',
         range_short: '範囲・接触',
         range_combination: '範囲・コンビネーション',
-        range_all: '範囲・広域'
+        range_all: '範囲・広域',
+        laser: 'レーザー',
+        bombard: '砲撃'
       },
       effect: {
         add_blind: '暗闇追加',
@@ -42,6 +43,8 @@ class SkillEffect < ActiveRecord::Base
         kill_pierce: '倒したら貫通',
         shield_break: '盾破壊',
         heal_all: '全員を回復',
+        create_scrap: 'スクラップ生成',
+        destroy_scrap: 'スクラップ破壊',
         pain: '自分もダメージ',
         return_position: '元の位置に戻る'
       }
@@ -66,7 +69,9 @@ class SkillEffect < ActiveRecord::Base
         atkup: '攻撃力上昇',
         defup: '防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
-        restoration: '返還'
+        restoration: '返還',
+        create_scrap: 'スクラップ生成',
+        destroy_scrap: 'スクラップ破壊'
       }
     },
     song_dance: {
@@ -111,7 +116,8 @@ class SkillEffect < ActiveRecord::Base
         delayoff: '攻撃速度上昇',
         add_fire: '炎属性付与',
         add_ice: '氷属性付与',
-        restoration: '返還'
+        restoration: '返還',
+        destroy_scrap: 'スクラップ破壊'
       }
     },
     barrier: {
@@ -136,16 +142,19 @@ class SkillEffect < ActiveRecord::Base
       sub: {
         obstacle: '[設置] 障害物',
         bomb: '[設置] 爆弾',
+        target: '[設置] 攻撃範囲',
         continual: '[領域] 継続ダメージ',
         atkup: '[領域] 攻撃力上昇',
         defdown: '[領域] 防御力低下',
-        field: 'フィールド変更'
+        field: 'フィールド変更',
+        echo: '反響空間'
       },
       effect: {
         add_blind: '暗闇追加',
         add_poison: '毒追加',
         add_slow: 'スロウ追加',
-        fire: '火属性'
+        fire: '火属性',
+        create_scrap: 'スクラップ生成'
       }
     }
   }.freeze

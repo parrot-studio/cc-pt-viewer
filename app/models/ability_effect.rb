@@ -127,7 +127,8 @@ class AbilityEffect < ActiveRecord::Base
         cure_poison: '毒解除',
         cure_seal: '封印解除',
         cure_slow: 'スロウ解除',
-        cure_weaken: '衰弱解除'
+        cure_weaken: '衰弱解除',
+        cure_all: '状態異常解除'
       }
     },
     killer: {
@@ -144,7 +145,9 @@ class AbilityEffect < ActiveRecord::Base
         mana_boost: 'スロットで複数マナが出やすい',
         mana_drop: 'マナを落とす',
         slot_slow: 'マナスロットが遅くなる',
-        composite: '複合マナ出現'
+        composite: '複合マナ出現',
+        recycle_scrap: 'スクラップをマナに変換',
+        destroy_scrap: 'スクラップを破壊'
       }
     },
     field: {
@@ -224,7 +227,8 @@ class AbilityEffect < ActiveRecord::Base
         registup: '魔法ダメージ軽減',
         combat: '接近戦可能',
         invisible: '見えなくなる（遠距離無効）',
-        bullet_speedup: '弾速上昇'
+        bullet_speedup: '弾速上昇',
+        skill_once: '一度だけスキルが使える'
       }
     },
     unknown: {
@@ -311,6 +315,7 @@ class AbilityEffect < ActiveRecord::Base
     in_base_area: '自陣にいる時',
     in_blind: '自分が暗闇状態の時',
     in_combo: '攻撃を一定回数当てた時',
+    in_chain: 'チェイン発動中',
     in_curse: '自分が呪い状態の時',
     in_debuff: '自分が状態異常の時',
     in_enemy_area: '敵陣にいる時',
@@ -332,9 +337,11 @@ class AbilityEffect < ActiveRecord::Base
     link: '複数で一緒に攻撃した時',
     mana_charged: 'マナが多いほど',
     mana_droped: 'マナを獲得した時',
+    mana_empty: 'マナがない時',
     mana_lost: 'マナが少ないほど',
     members_debuff: '味方に状態異常が多いほど',
     others_skill: '味方がスキルを使った時',
+    own_skill: '自分がスキルを使った時',
     same_abilities: '同じアビリティを持った味方がいる時',
     skill: 'スキル使用時',
     union: '特定の構成の時',
@@ -353,6 +360,7 @@ class AbilityEffect < ActiveRecord::Base
     vs_skeleton: 'ガイコツに対して',
     waiting: '何もしていない間',
     wave_start: '各WAVE開始時',
+    use_mana: 'マナが使用された時',
     unknown: '（不明）'
   }.freeze
 
