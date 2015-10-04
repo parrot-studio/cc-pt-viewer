@@ -83,6 +83,7 @@ class SkillEffect < ActiveRecord::Base
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
         defspeedup: '防御力/移動速度上昇',
+        fullup: '攻撃力/防御力/移動速度上昇',
         speedcritup: '移動速度/クリティカル率上昇',
         add_blind: '暗闇追加',
         add_poison: '毒追加',
@@ -117,6 +118,7 @@ class SkillEffect < ActiveRecord::Base
         add_fire: '炎属性付与',
         add_ice: '氷属性付与',
         restoration: '返還',
+        create_scrap: 'スクラップ生成',
         destroy_scrap: 'スクラップ破壊'
       }
     },

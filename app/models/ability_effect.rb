@@ -198,6 +198,7 @@ class AbilityEffect < ActiveRecord::Base
         atkup: '攻撃力上昇',
         defup: '防御力上昇',
         atkdefup: '攻撃力/防御力上昇',
+        defspeedup: '防御力/移動速度上昇',
         fullup: '攻撃力/防御力/移動速度上昇',
         critup: 'クリティカル率上昇'
       }
@@ -343,6 +344,7 @@ class AbilityEffect < ActiveRecord::Base
     others_skill: '味方がスキルを使った時',
     own_skill: '自分がスキルを使った時',
     same_abilities: '同じアビリティを持った味方がいる時',
+    scrap_charged: 'スクラップが多いほど',
     skill: 'スキル使用時',
     union: '特定の構成の時',
     vs_beast: 'ビーストに対して',
@@ -355,6 +357,7 @@ class AbilityEffect < ActiveRecord::Base
     vs_golem: 'ゴーレムに対して',
     vs_human: '人間に対して',
     vs_insect: '虫に対して',
+    vs_machine: '機械に対して',
     vs_lizard: 'トカゲに対して',
     vs_ogre: '黒の軍勢に対して',
     vs_skeleton: 'ガイコツに対して',
