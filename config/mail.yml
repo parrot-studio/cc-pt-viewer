@@ -1,0 +1,22 @@
+production:
+  delivery_method: smtp
+  smtp_settings:
+    address: smtp.gmail.com
+    port: 587
+    user_name:
+    password:
+    authentication: :plain
+    enable_starttls_auto: true
+  from:
+  admin:
+    to:
+development:
+  delivery_method: test
+  from: hoge@example.com
+  admin:
+    to: piyo@example.com
+test:
+  delivery_method: test
+  from: hoge@example.com
+  admin:
+    to: piyo@example.com

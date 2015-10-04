@@ -17,6 +17,9 @@
     <button type="button" class="btn btn-info" id="share-query" data-toggle="modal" data-target="#share-query-modal">
       <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> 共有
     </button>
+    <button class="btn btn-link" id="request" data-toggle="modal" data-target="#request-modal">
+      管理者への要望
+    </button>
     <div class="btn-group pull-right" id="search-menu">
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
         <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> 履歴 <span class="caret"></span>
@@ -62,3 +65,4 @@
 
 <%= render 'viewer/condition' %>
 <%= render 'viewer/share_query' %>
+<%= render 'viewer/request' %>

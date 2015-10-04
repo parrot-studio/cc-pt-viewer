@@ -1236,6 +1236,17 @@ class Viewer
       base.after(li)
     @
 
+  twitterUrl = (text) ->
+    url = "https://twitter.com/intent/tweet"
+    url += "?text=#{encodeURIComponent(text)}"
+    url += "&hashtags=ccpts"
+    url
+
+  createRequestTweetUrl = ->
+    text = $("#request-textarea").val()
+    text = text.substr(0, 100) if text.length > 100
+    $("#twitter-request").attr('href', twitterUrl("@parrot_studio #{text}"))
+
   commonHandler = ->
     $("#error-area").hide()
     $("#error-area").removeClass("invisible")
@@ -1245,6 +1256,29 @@ class Viewer
       $("#ads").hide()
     else
       $("#topnav").show()
+
+    $("#request-modal").on 'show.bs.modal', (e) ->
+      createRequestTweetUrl()
+      true # for modal
+
+    $("#request-textarea").on 'change', (e) ->
+      createRequestTweetUrl()
+
+    $("#form-request").on 'click', (e) ->
+      e.preventDefault()
+
+      text = $("#request-textarea").val()
+      text = text.substr(0, 100) if text.length > 100
+      if text.length < 1
+        alert("メッセージを入力してください")
+        return
+      return unless confirm("メッセージを送信します。よろしいですか？")
+
+      $("#request-modal").modal('hide')
+      Searcher.request text, ->
+        $("#request-textarea").val('')
+        createRequestTweetUrl()
+        alert("メッセージを送信しました")
 
   searchHandler = ->
     commonHandler()
@@ -1411,11 +1445,7 @@ class Viewer
       code = createMembersCode()
       url = $("#app-path").val() + code
       $("#ptm-code").val(url)
-
-      twitterUrl = "https://twitter.com/intent/tweet"
-      twitterUrl += "?text=#{encodeURIComponent('チェンクロ パーティーシミュレーター ' + url)}"
-      twitterUrl += "&hashtags=ccpts"
-      $("#twitter-share").attr('href', twitterUrl)
+      $("#twitter-share").attr('href', twitterUrl("チェンクロ パーティーシミュレーター #{url}"))
       true # for modal
 
     $("#ptm-code").on 'click forcus', (e) ->
@@ -1485,11 +1515,7 @@ class Viewer
         $("#share-url-form").hide()
       else
         $("#query-url").val(url)
-
-      twitterUrl = "https://twitter.com/intent/tweet"
-      twitterUrl += "?text=#{encodeURIComponent('チェンクロ パーティーシミュレーター ' + url)}"
-      twitterUrl += "&hashtags=ccpts"
-      $("#twitter-share").attr('href', twitterUrl)
+      $("#twitter-share").attr('href', twitterUrl("チェンクロ パーティーシミュレーター #{url}"))
       true # for modal
 
     $("#query-url").on 'click forcus', (e) ->

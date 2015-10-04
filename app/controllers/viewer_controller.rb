@@ -50,6 +50,12 @@ class ViewerController < ApplicationController
     render json: (as || [])
   end
 
+  def request_mail
+    mail = AdminMailer.request_mail(params[:text], ip: request.remote_ip)
+    mail.deliver_later if mail
+    head :no_content
+  end
+
   def about
   end
 

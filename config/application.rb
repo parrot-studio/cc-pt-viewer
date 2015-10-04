@@ -7,6 +7,7 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 
 require File.expand_path('../../lib/server_settings', __FILE__)
+require File.expand_path('../../lib/mail_settings', __FILE__)
 
 module CcPtViewer
   class Application < Rails::Application
@@ -30,5 +31,8 @@ module CcPtViewer
 
     # autoload
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
+
+    # mail
+    MailSettings.init(config) if ServerSettings.use_mail?
   end
 end

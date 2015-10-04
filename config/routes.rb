@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get  'codes'   => 'viewer#codes'
   get  'about'   => 'viewer#about'
   get  'changelogs' => 'viewer#changelogs'
+  post 'request' => 'viewer#request_mail'
   get  ':code'   => 'viewer#ptedit'
 
 end

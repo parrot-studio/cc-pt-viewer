@@ -6,6 +6,7 @@ class window.Searcher
   ptmUrl = appPath + 'ptm'
   codesUrl = appPath + 'codes'
   condsUrl = appPath + 'conditions'
+  requestUrl = appPath + 'request'
 
   arcanas = {}
   resultCache = {}
@@ -153,3 +154,18 @@ class window.Searcher
       ret = v[1]
       break
     ret
+
+  @request: (text, callback) ->
+    $("#error-area").hide()
+    $("#loading-modal").modal('show')
+    params = {}
+    params.ver = ver
+    params.text = text
+
+    xhr = $.post requestUrl, params
+    xhr.done  ->
+      callback()
+      $("#loading-modal").modal('hide')
+    xhr.fail ->
+      $("#loading-modal").modal('hide')
+      $("#error-area").show()

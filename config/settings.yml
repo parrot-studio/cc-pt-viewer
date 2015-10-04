@@ -4,10 +4,13 @@ arcanas: &arcanas
 
 production:
   cache: true
+  mail: true
   <<: *arcanas
 development:
   cache: false
+  mail: true
   <<: *arcanas
 test:
   cache: false
+  mail: false
   <<: *arcanas

@@ -17,6 +17,10 @@ class ServerSettings < Settingslogic
     @data_version = ver
   end
 
+  def use_mail?
+    self.mail ? true : false
+  end
+
   private
 
   def version_file
