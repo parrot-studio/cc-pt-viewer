@@ -43,7 +43,9 @@ class AbilityEffect < ActiveRecord::Base
       effect: {
         atkup: '攻撃力上昇',
         defup: '防御力上昇',
-        atkdefup: '攻撃力/防御力上昇'
+        speedup: '移動速度上昇',
+        atkdefup: '攻撃力/防御力上昇',
+        critup: 'クリティカル率上昇'
       }
     },
     skillup: {
@@ -92,6 +94,7 @@ class AbilityEffect < ActiveRecord::Base
         slow: 'スロウ付与',
         atkdown: '攻撃力低下',
         defdown: '防御力低下',
+        speeddown: '移動速度低下',
         delayup: '攻撃速度低下',
         shield_break: '盾を破壊する'
       }
@@ -153,6 +156,7 @@ class AbilityEffect < ActiveRecord::Base
     field: {
       name: '特定のフィールドに強い',
       effect: {
+        atkup: '攻撃力上昇',
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
         fullup: '攻撃力/防御力/移動速度上昇'
@@ -276,6 +280,7 @@ class AbilityEffect < ActiveRecord::Base
     knight: '騎士',
     lv_worst: '一番レベルが低い対象',
     magician: '魔法使い',
+    other: '他者',
     priest: '僧侶',
     random: 'ランダム',
     resource: '',
@@ -288,6 +293,7 @@ class AbilityEffect < ActiveRecord::Base
     add_down: 'ダウンさせた時',
     add_poison: '毒を与えた時',
     add_slow: 'スロウを与えた時',
+    add_curse: '呪いを与えた時',
     any: 'いつでも',
     attack: '通常攻撃時',
     battle_end: '戦闘終了時',
@@ -359,7 +365,7 @@ class AbilityEffect < ActiveRecord::Base
     vs_insect: '虫に対して',
     vs_machine: '機械に対して',
     vs_lizard: 'トカゲに対して',
-    vs_ogre: '黒の軍勢に対して',
+    vs_ogre: '鬼に対して',
     vs_skeleton: 'ガイコツに対して',
     waiting: '何もしていない間',
     wave_start: '各WAVE開始時',
