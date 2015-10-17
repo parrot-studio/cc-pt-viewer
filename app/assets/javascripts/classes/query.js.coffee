@@ -36,8 +36,10 @@ class window.Query
     skillcost = getInputValue("skill-cost")
     abilityCategory = getInputValue("ability-category")
     abilityEffect = getInputValue("ability-effect")
+    abilityCondition = getInputValue("ability-condition")
     chainAbilityCategory = getInputValue("chain-ability-category")
     chainAbilityEffect = getInputValue("chain-ability-effect")
+    chainAbilityCondition = getInputValue("chain-ability-condition")
     arcanacost = getInputValue("arcana-cost")
     chaincost = getInputValue("chain-cost")
 
@@ -53,8 +55,10 @@ class window.Query
       query.source = source unless source is ''
     query.abilitycategory = abilityCategory unless abilityCategory is ''
     query.abilityeffect = abilityEffect unless abilityEffect is ''
+    query.abilitycondition = abilityCondition unless abilityCondition is ''
     query.chainabilitycategory = chainAbilityCategory unless chainAbilityCategory is ''
     query.chainabilityeffect = chainAbilityEffect unless chainAbilityEffect is ''
+    query.chainabilitycondition = chainAbilityCondition unless chainAbilityCondition is ''
     query.arcanacost = arcanacost unless arcanacost is ''
     query.chaincost = chaincost unless chaincost is ''
 
@@ -149,8 +153,10 @@ class window.Query
     key += "i#{query.illustrator}_" if query.illustrator
     key += "abca#{query.abilitycategory}_" if query.abilitycategory
     key += "abe#{query.abilityeffect}_" if query.abilityeffect
+    key += "abco#{query.abilitycondition}_" if query.abilitycondition
     key += "cabca#{query.chainabilitycategory}_" if query.chainabilitycategory
     key += "cabe#{query.chainabilityeffect}_" if query.chainabilityeffect
+    key += "cabco#{query.chainabilitycondition}_" if query.chainabilitycondition
     key += "arco#{query.arcanacost}_" if query.arcanacost
     key += "chco#{query.chaincost}_" if query.chaincost
     key

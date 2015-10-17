@@ -270,8 +270,10 @@ class ArcanaImporter
         effect.note = data.shift
 
         # 組み合わせチェック
-        check = AbilityEffect::CATEGORYS.fetch(effect.category.to_sym, {}).fetch(:effect, {}).fetch(effect.effect.to_sym, nil)
-        raise "effect undefined =>  #{abi.name} #{effect.category} #{effect.effect}" unless check
+        effcheck = AbilityEffect::CATEGORYS.fetch(effect.category.to_sym, {}).fetch(:effect, {}).fetch(effect.effect.to_sym, nil)
+        raise "effect undefined =>  #{abi.name} #{effect.category} #{effect.effect}" unless effcheck
+        condcheck = AbilityEffect::CATEGORYS.fetch(effect.category.to_sym, {}).fetch(:condition, {}).fetch(effect.condition.to_sym, nil)
+        raise "condition undefined =>  #{abi.name} #{effect.category} #{effect.condition}" unless condcheck
 
         changes = effect.changes if effect.changed?
         abi.ability_effects << effect

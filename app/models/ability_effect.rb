@@ -12,6 +12,14 @@ class AbilityEffect < ActiveRecord::Base
         atkspeedup: '攻撃力/移動速度上昇',
         defspeedup: '防御力/移動速度上昇',
         critup: 'クリティカル率上昇'
+      },
+      condition: {
+        any: 'いつでも',
+        in_sub: 'サブパーティーにいる時',
+        union: '特定の構成の時',
+        wave_start: '各WAVE開始時',
+        others_skill: '味方がスキルを使った時',
+        dropout_self: '自身が脱落した時'
       }
     },
     buff_others: {
@@ -24,6 +32,10 @@ class AbilityEffect < ActiveRecord::Base
         atkspeedup: '攻撃力/移動速度上昇',
         fullup: '攻撃力/防御力/移動速度上昇',
         critup: 'クリティカル率上昇'
+      },
+      condition: {
+        any: 'いつでも',
+        wave_start: '各WAVE開始時'
       }
     },
     buff_jobs: {
@@ -31,11 +43,18 @@ class AbilityEffect < ActiveRecord::Base
       effect: {
         atkup: '攻撃力上昇',
         defup: '防御力上昇',
+        speedup: '移動速度上昇',
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
         critup: 'クリティカル率上昇',
         add_down: '対象の攻撃にダウンを付与',
         add_slow: '対象の攻撃にスロウを付与'
+      },
+      condition: {
+        any: 'いつでも',
+        union: '特定の構成の時',
+        wave_start: '各WAVE開始時',
+        in_sub: 'サブパーティーにいる時'
       }
     },
     buff_weapons: {
@@ -46,6 +65,9 @@ class AbilityEffect < ActiveRecord::Base
         speedup: '移動速度上昇',
         atkdefup: '攻撃力/防御力上昇',
         critup: 'クリティカル率上昇'
+      },
+      condition: {
+        any: 'いつでも'
       }
     },
     skillup: {
@@ -55,14 +77,29 @@ class AbilityEffect < ActiveRecord::Base
         skill_boost: 'スキル強化',
         charge_reduce: '溜め時間減少',
         skill_spread: 'スキル範囲拡大'
+      },
+      condition: {
+        any: 'いつでも',
+        skill: 'スキル使用時',
+        in_combo: '攻撃を一定回数当てた時',
+        others_skill: '味方がスキルを使った時',
+        mana_charged: 'マナが多いほど',
+        mana_lost: 'マナが少ないほど',
+        guard: 'ガードした時',
+        scrap_charged: 'スクラップが多いほど'
       }
     },
     killup: {
       name: '倒すたびに自分を強化',
       effect: {
         atkup: '攻撃力上昇',
+        defup: '防御力上昇',
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇'
+      },
+      condition: {
+        kill: '敵を倒した時',
+        kill_debuff: '状態異常の敵を倒した時'
       }
     },
     element: {
@@ -70,6 +107,10 @@ class AbilityEffect < ActiveRecord::Base
       effect: {
         fire: '火属性',
         ice: '氷属性'
+      },
+      condition: {
+        attack: '通常攻撃時',
+        skill: 'スキル使用時'
       }
     },
     heal: {
@@ -81,6 +122,22 @@ class AbilityEffect < ActiveRecord::Base
         heal_jobs: '特定の職を回復',
         heal_all: '全員を回復',
         absorb: '与えたダメージを吸収'
+      },
+      condition: {
+        any: 'いつでも',
+        wave_start: '各WAVE開始時',
+        attack: '通常攻撃時',
+        critical: 'クリティカル時',
+        in_base_area: '自陣にいる時',
+        in_head: '先頭にいる時',
+        in_rear: '仲間より後ろにいる時',
+        skill: 'スキル使用時',
+        others_skill: '味方がスキルを使った時',
+        union: '特定の構成の時',
+        dropout_self: '自身が脱落した時',
+        members_debuff: '味方に状態異常が多いほど',
+        has_mana: '特定のマナを保持している時',
+        use_mana: 'マナが使用された時'
       }
     },
     add_debuff: {
@@ -97,6 +154,17 @@ class AbilityEffect < ActiveRecord::Base
         speeddown: '移動速度低下',
         delayup: '攻撃速度低下',
         shield_break: '盾を破壊する'
+      },
+      condition: {
+        attack: '通常攻撃時',
+        critical: 'クリティカル時',
+        skill: 'スキル使用時',
+        counter: 'カウンター発生時',
+        add_poison: '毒を与えた時',
+        add_blind: '暗闇を与えた時',
+        add_slow: 'スロウを与えた時',
+        add_down: 'ダウンさせた時',
+        add_curse: '呪いを与えた時'
       }
     },
     for_debuff: {
@@ -104,6 +172,15 @@ class AbilityEffect < ActiveRecord::Base
       effect: {
         atkup: '攻撃力上昇',
         atkdefup: '攻撃力/防御力上昇'
+      },
+      condition: {
+        for_poison: '敵が毒の時',
+        for_blind: '敵が暗闇の時',
+        for_down: '敵がダウン中',
+        for_slow: '敵がスロウの時',
+        for_freeze: '敵が凍結の時',
+        for_curse: '敵が呪いの時',
+        for_weaken: '敵が衰弱の時'
       }
     },
     against_debuff: {
@@ -132,6 +209,18 @@ class AbilityEffect < ActiveRecord::Base
         cure_slow: 'スロウ解除',
         cure_weaken: '衰弱解除',
         cure_all: '状態異常解除'
+      },
+      condition: {
+        any: 'いつでも',
+        in_poison: '自分が毒状態の時',
+        in_slow: '自分がスロウ状態の時',
+        in_blind: '自分が暗闇状態の時',
+        in_curse: '自分が呪い状態の時',
+        in_weaken: '自分が衰弱状態の時',
+        in_seal: '自分が封印状態の時',
+        in_debuff: '自分が状態異常の時',
+        skill: 'スキル使用時',
+        use_mana: 'マナが使用された時'
       }
     },
     killer: {
@@ -139,6 +228,22 @@ class AbilityEffect < ActiveRecord::Base
       effect: {
         atkup: '攻撃力上昇',
         atkdefup: '攻撃力/防御力上昇'
+      },
+      condition: {
+        vs_human: '人間に対して',
+        vs_goblin: 'ゴブリンに対して',
+        vs_skeleton: 'ガイコツに対して',
+        vs_beast: 'ビーストに対して',
+        vs_lizard: 'トカゲに対して',
+        vs_ogre: '鬼に対して',
+        vs_black: '黒の軍勢に対して',
+        vs_ghost: 'ゴーストに対して',
+        vs_golem: 'ゴーレムに対して',
+        vs_dragon: 'ドラゴンに対して',
+        vs_fish: '魚類に対して',
+        vs_insect: '虫に対して',
+        vs_bird: '鳥に対して',
+        vs_machine: '機械に対して'
       }
     },
     mana: {
@@ -149,8 +254,18 @@ class AbilityEffect < ActiveRecord::Base
         mana_drop: 'マナを落とす',
         slot_slow: 'マナスロットが遅くなる',
         composite: '複合マナ出現',
+        mana_cost_down: 'スキルの消費マナ低下',
         recycle_scrap: 'スクラップをマナに変換',
         destroy_scrap: 'スクラップを破壊'
+      },
+      condition: {
+        any: 'いつでも',
+        battle_start: '戦闘開始時',
+        wave_start: '各WAVE開始時',
+        kill: '敵を倒した時',
+        dropout_self: '自身が脱落した時',
+        in_chain: 'チェイン発動中',
+        boss_wave: 'BOSS WAVE時'
       }
     },
     field: {
@@ -160,18 +275,29 @@ class AbilityEffect < ActiveRecord::Base
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
         fullup: '攻撃力/防御力/移動速度上昇'
+      },
+      condition: {
+        in_field: '特定のフィールドで'
       }
     },
     combat: {
       name: '接近戦可能',
       effect: {
         combat: '接近戦可能'
+      },
+      condition: {
+        attack: '通常攻撃時'
       }
     },
     pierce: {
       name: '貫通',
       effect: {
         pierce: '貫通する'
+      },
+      condition: {
+        attack: '通常攻撃時',
+        kill: '敵を倒した時',
+        skill: 'スキル使用時'
       }
     },
     counter: {
@@ -179,12 +305,19 @@ class AbilityEffect < ActiveRecord::Base
       effect: {
         counterattack: 'カウンター攻撃',
         reflect_magic: '魔法反射'
+      },
+      condition: {
+        defend: '攻撃を受けた時',
+        guard: 'ガードした時'
       }
     },
     invincible: {
       name: '無敵',
       effect: {
         invincible: '無敵になる'
+      },
+      condition: {
+        dropout_self: '自身が脱落した時'
       }
     },
     resource: {
@@ -194,6 +327,10 @@ class AbilityEffect < ActiveRecord::Base
         goldup: '獲得ゴールド上昇',
         treasure: '宝箱が出やすくなる',
         ap_recover: 'APを回復'
+      },
+      condition: {
+        battle_start: '戦闘開始時',
+        battle_end: '戦闘終了時'
       }
     },
     buff_one: {
@@ -205,6 +342,9 @@ class AbilityEffect < ActiveRecord::Base
         defspeedup: '防御力/移動速度上昇',
         fullup: '攻撃力/防御力/移動速度上昇',
         critup: 'クリティカル率上昇'
+      },
+      condition: {
+        wave_start: '各WAVE開始時'
       }
     },
     buff_self: {
@@ -221,7 +361,6 @@ class AbilityEffect < ActiveRecord::Base
         guardup: '遠距離ダメージカット上昇',
         delayoff: '攻撃速度上昇',
         maxhpup: '最大HP増加',
-        mana_cost_down: 'スキルの消費マナ低下',
         guard_fire: '火属性を軽減する',
         guard_ice: '氷属性を軽減する',
         areaup: '回復範囲増加',
@@ -234,11 +373,55 @@ class AbilityEffect < ActiveRecord::Base
         invisible: '見えなくなる（遠距離無効）',
         bullet_speedup: '弾速上昇',
         skill_once: '一度だけスキルが使える'
+      },
+      condition: {
+        any: 'いつでも',
+        hp_upto: 'HPが一定以上の時',
+        hp_downto: 'HPが一定以下の時',
+        hp_full: 'HPが満タンの時',
+        attack: '通常攻撃時',
+        critical: 'クリティカル時',
+        heal: '回復した時',
+        in_move: '移動中',
+        in_pierce: '貫通した時',
+        link: '複数で一緒に攻撃した時',
+        guard: 'ガードした時',
+        waiting: '何もしていない間',
+        counter: 'カウンター発生時',
+        wave_start: '各WAVE開始時',
+        boss_wave: 'BOSS WAVE時',
+        union: '特定の構成の時',
+        same_abilities: '同じアビリティを持った味方がいる時',
+        in_head: '先頭にいる時',
+        in_front: '仲間より前にいる時',
+        in_enemy_area: '敵陣にいる時',
+        in_enemy_back: '敵陣の奥にいる時',
+        in_base_area: '自陣にいる時',
+        in_rear: '仲間より後ろにいる時',
+        in_tail: '一番後ろにいる時',
+        in_combo: '攻撃を一定回数当てた時',
+        in_attacking: '攻撃を継続している時',
+        own_skill: '自分がスキルを使った時',
+        others_skill: '味方がスキルを使った時',
+        mana_charged: 'マナが多いほど',
+        mana_lost: 'マナが少ないほど',
+        mana_droped: 'マナを獲得した時',
+        mana_empty: 'マナがない時',
+        use_mana: 'マナが使用された時',
+        scrap_charged: 'スクラップが多いほど',
+        has_mana: '特定のマナを保持している時',
+        dropout_member: '味方が脱落した時',
+        dropout_self: '自身が脱落した時',
+        members_debuff: '味方に状態異常が多いほど',
+        enemys_debuff: '敵に状態異常が多いほど'
       }
     },
     unknown: {
       name: '（不明）',
       effect: {
+        unknown: '（不明）'
+      },
+      condition: {
         unknown: '（不明）'
       }
     }
@@ -248,6 +431,14 @@ class AbilityEffect < ActiveRecord::Base
     ret = {}
     CATEGORYS.values.each do |v|
       ret.merge!(v.fetch(:effect, {}))
+    end
+    ret
+  end.call.freeze
+
+  CONDITIONS = lambda do
+    ret = {}
+    CATEGORYS.values.each do |v|
+      ret.merge!(v.fetch(:condition, {}))
     end
     ret
   end.call.freeze
@@ -270,6 +461,15 @@ class AbilityEffect < ActiveRecord::Base
     ret
   end.call.freeze
 
+  CONDITION_CONDS = lambda do
+    ret = {}
+    CATEGORYS.each do |k, v|
+      next if k == :unknown
+      ret[k] = v.fetch(:condition, {}).to_a
+    end
+    ret
+  end.call.freeze
+
   TARGETS = {
     all: '全員',
     archer: '弓使い',
@@ -288,90 +488,67 @@ class AbilityEffect < ActiveRecord::Base
     weapons: '特定の武器タイプ'
   }.freeze
 
-  CONDITIONS = {
-    add_blind: '暗闇を与えた時',
-    add_down: 'ダウンさせた時',
-    add_poison: '毒を与えた時',
-    add_slow: 'スロウを与えた時',
-    add_curse: '呪いを与えた時',
-    any: 'いつでも',
-    attack: '通常攻撃時',
-    battle_end: '戦闘終了時',
-    battle_start: '戦闘開始時',
-    boss_wave: 'BOSS WAVE時',
-    counter: 'カウンター発生時',
-    critical: 'クリティカル時',
-    defend: '攻撃を受けた時',
-    dropout_member: '味方が脱落した時',
-    dropout_self: '自身が脱落した時',
-    enemys_debuff: '敵に状態異常が多いほど',
-    for_blind: '敵が暗闇の時',
-    for_curse: '敵が呪いの時',
-    for_down: '敵がダウン中',
-    for_freeze: '敵が凍結の時',
-    for_poison: '敵が毒の時',
-    for_slow: '敵がスロウの時',
-    for_weaken: '敵が衰弱の時',
-    guard: 'ガードした時',
-    has_mana: '特定のマナを保持している時',
-    heal: '回復した時',
-    hp_downto: 'HPが一定以下の時',
-    hp_full: 'HPが満タンの時',
-    hp_upto: 'HPが一定以上の時',
-    in_attacking: '攻撃を継続している時',
-    in_base_area: '自陣にいる時',
-    in_blind: '自分が暗闇状態の時',
-    in_combo: '攻撃を一定回数当てた時',
-    in_chain: 'チェイン発動中',
-    in_curse: '自分が呪い状態の時',
-    in_debuff: '自分が状態異常の時',
-    in_enemy_area: '敵陣にいる時',
-    in_enemy_back: '敵陣の奥にいる時',
-    in_field: '特定のフィールドで',
-    in_front: '仲間より前にいる時',
-    in_head: '先頭にいる時',
-    in_move: '移動中',
-    in_pierce: '貫通した時',
-    in_poison: '自分が毒状態の時',
-    in_rear: '仲間より後ろにいる時',
-    in_seal: '自分が封印状態の時',
-    in_slow: '自分がスロウ状態の時',
-    in_sub: 'サブパーティーにいる時',
-    in_tail: '一番後ろにいる時',
-    in_weaken: '自分が衰弱状態の時',
-    kill: '敵を倒した時',
-    kill_debuff: '状態異常の敵を倒した時',
-    link: '複数で一緒に攻撃した時',
-    mana_charged: 'マナが多いほど',
-    mana_droped: 'マナを獲得した時',
-    mana_empty: 'マナがない時',
-    mana_lost: 'マナが少ないほど',
-    members_debuff: '味方に状態異常が多いほど',
-    others_skill: '味方がスキルを使った時',
-    own_skill: '自分がスキルを使った時',
-    same_abilities: '同じアビリティを持った味方がいる時',
-    scrap_charged: 'スクラップが多いほど',
-    skill: 'スキル使用時',
-    union: '特定の構成の時',
-    vs_beast: 'ビーストに対して',
-    vs_bird: '鳥に対して',
-    vs_black: '黒の軍勢に対して',
-    vs_dragon: 'ドラゴンに対して',
-    vs_fish: '魚類に対して',
-    vs_ghost: 'ゴーストに対して',
-    vs_goblin: 'ゴブリンに対して',
-    vs_golem: 'ゴーレムに対して',
-    vs_human: '人間に対して',
-    vs_insect: '虫に対して',
-    vs_machine: '機械に対して',
-    vs_lizard: 'トカゲに対して',
-    vs_ogre: '鬼に対して',
-    vs_skeleton: 'ガイコツに対して',
-    waiting: '何もしていない間',
-    wave_start: '各WAVE開始時',
-    use_mana: 'マナが使用された時',
-    unknown: '（不明）'
-  }.freeze
+  class << self
+
+    def chain_ability_categorys
+      keys = ChainAbilityEffect.pluck(:category).uniq
+
+      ret = []
+      CATEGORYS.each do |k, v|
+        next if k == :unknown
+        next unless keys.include?(k.to_s)
+        ret << [k, v[:name]]
+      end
+      ret
+    end
+
+    def chain_ability_effects
+      effects = ChainAbilityEffect.select(:category, :effect).uniq.pluck(:category, :effect)
+      efs = effects.each_with_object({}) do |ef, h|
+        cate = ef.first.to_sym
+        h[cate] ||= []
+        h[cate] << ef.last.to_sym
+      end
+
+      ret = {}
+      CATEGORYS.each do |k, v|
+        next if k == :unknown
+        has = efs[k]
+        next unless has
+
+        ret[k] = []
+        v.fetch(:effect, {}).each do |ef, name|
+          next unless has.include?(ef)
+          ret[k] << [ef, name]
+        end
+      end
+      ret
+    end
+
+    def chain_ability_conditions
+      conds = ChainAbilityEffect.select(:category, :condition).uniq.pluck(:category, :condition)
+      cos = conds.each_with_object({}) do |co, h|
+        cate = co.first.to_sym
+        h[cate] ||= []
+        h[cate] << co.last.to_sym
+      end
+
+      ret = {}
+      CATEGORYS.each do |k, v|
+        next if k == :unknown
+        has = cos[k]
+        next unless has
+
+        ret[k] = []
+        v.fetch(:condition, {}).each do |co, name|
+          next unless has.include?(co)
+          ret[k] << [co, name]
+        end
+      end
+      ret
+    end
+
+  end
 
   validates :order,
             presence: true,

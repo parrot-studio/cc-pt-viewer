@@ -3,9 +3,9 @@ class ArcanaSearcher
   QUERY_CONDITION_NAMES = [
     :recently, :job, :rarity, :weapon, :actor, :illustrator,
     :union, :source, :sourcecategory, :skill, :skillcost,
-    :skillsub, :skilleffect, :abilitycategory, :abilityeffect,
-    :chainabilitycategory, :chainabilityeffect, :arcanacost, :chaincost,
-    :actorname, :illustratorname
+    :skillsub, :skilleffect, :abilitycategory, :abilityeffect, :abilitycondition,
+    :chainabilitycategory, :chainabilityeffect, :chainabilitycondition,
+    :arcanacost, :chaincost, :actorname, :illustratorname
   ].freeze
 
   KEY_TABLE = {
@@ -26,8 +26,10 @@ class ArcanaSearcher
     skilleffect: 'ske',
     abilitycategory: 'abca',
     abilityeffect: 'abe',
+    abilitycondition: 'abco',
     chainabilitycategory: 'caca',
-    chainabilityeffect: 'cae'
+    chainabilityeffect: 'cae',
+    chainabilitycondition: 'cabco'
   }
 
   CONVERT_TABLE = {
@@ -332,14 +334,16 @@ class ArcanaSearcher
         table = AbilityEffect::CATEGORYS.fetch(query[:abilitycategory].to_sym, {})
         next if table.blank?
         str = 'アビリティ - '
-        str += table.fetch(:name, '')
+        str += table.fetch(:name, '') unless (query[:abilitycondition] && query[:abilityeffect])
+        str += (' ' + AbilityEffect::CONDITIONS.fetch(query[:abilitycondition].to_sym, '')) if query[:abilitycondition]
         str += (' ' + table.fetch(:effect, {}).fetch(query[:abilityeffect].to_sym, '')) if query[:abilityeffect]
         str
       when :chainabilitycategory
         table = AbilityEffect::CATEGORYS.fetch(query[:chainabilitycategory].to_sym, {})
         next if table.blank?
         str = '絆アビリティ - '
-        str += table.fetch(:name, '')
+        str += table.fetch(:name, '') unless (query[:chainabilitycondition] && query[:chainabilityeffect])
+        str += (' ' + AbilityEffect::CONDITIONS.fetch(query[:chainabilitycondition].to_sym, '')) if query[:chainabilitycondition]
         str += (' ' + table.fetch(:effect, {}).fetch(query[:chainabilityeffect].to_sym, '')) if query[:chainabilityeffect]
         str
       when :source_category
@@ -364,8 +368,10 @@ class ArcanaSearcher
     skilleffect = query.delete(:skilleffect)
     abcate = query.delete(:abilitycategory)
     abeffect = query.delete(:abilityeffect)
+    abcond = query.delete(:abilitycondition)
     cabcate = query.delete(:chainabilitycategory)
     cabeffect = query.delete(:chainabilityeffect)
+    cabcond = query.delete(:chainabilitycondition)
 
     arel = Arcana.where(query)
 
@@ -375,14 +381,14 @@ class ArcanaSearcher
       arel.where!(skill_id: skills)
     end
 
-    unless (abcate.blank? && abeffect.blank?)
-      abs = ability_search(abcate, abeffect)
+    unless (abcate.blank? && abeffect.blank? && abcond.blank?)
+      abs = ability_search(abcate, abeffect, abcond)
       return [] if abs.blank?
       arel.where!(Arcana.where(first_ability_id: abs).where(second_ability_id: abs).where_values.reduce(:or))
     end
 
-    unless (cabcate.blank? && cabeffect.blank?)
-      abs = chain_ability_search(cabcate, cabeffect)
+    unless (cabcate.blank? && cabeffect.blank? && cabcond.blank?)
+      abs = chain_ability_search(cabcate, cabeffect, cabcond)
       return [] if abs.blank?
       arel.where!(chain_ability_id: abs)
     end
@@ -419,21 +425,23 @@ class ArcanaSearcher
     arel.pluck(:skill_id)
   end
 
-  def ability_search(cate, effect)
-    return [] if (cate.blank? && effect.blank?)
+  def ability_search(cate, effect, cond)
+    return [] if (cate.blank? && effect.blank? && cond.blank?)
 
     es = AbilityEffect.all
     es.where!(category: cate) unless cate.blank?
     es.where!(effect: effect) unless effect.blank?
+    es.where!(condition: cond) unless cond.blank?
     es.pluck(:ability_id).uniq
   end
 
-  def chain_ability_search(cate, effect)
+  def chain_ability_search(cate, effect, cond)
     return [] if (cate.blank? && effect.blank?)
 
     es = ChainAbilityEffect.all
     es.where!(category: cate) unless cate.blank?
     es.where!(effect: effect) unless effect.blank?
+    es.where!(condition: cond) unless cond.blank?
     es.pluck(:chain_ability_id).uniq
   end
 

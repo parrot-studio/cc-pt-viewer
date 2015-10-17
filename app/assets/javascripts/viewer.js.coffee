@@ -632,13 +632,17 @@ class Viewer
     $("#skill-effect").empty().append("<option value=''>-</option>")
     $("#ability-category").val('')
     $("#ability-effect").empty().append("<option value=''>-</option>")
+    $("#ability-condition").empty().append("<option value=''>-</option>")
     $("#chain-ability-category").val('')
     $("#chain-ability-effect").empty().append("<option value=''>-</option>")
+    $("#chain-ability-condition").empty().append("<option value=''>-</option>")
     $("#arcana-cost").val('')
     $("#chain-cost").val('')
 
     $("#additional-condition").hide()
     $("#skill-add").hide()
+    $("#ability-add").hide()
+    $("#chain-ability-add").hide()
     $("#add-condition").show()
     @
 
@@ -975,7 +979,7 @@ class Viewer
     target = $("#chain-ability-category")
     target.empty()
     target.append("<option value=''>-</option>")
-    for c in Searcher.abirityCategorys()
+    for c in Searcher.chainAbirityCategorys()
       target.append("<option value='#{c[0]}'>#{c[1]}</option>")
     @
 
@@ -992,6 +996,19 @@ class Viewer
       target.append("<option value='#{c[0]}'>#{c[1]}</option>")
     @
 
+  createAbilityConditions = ->
+    target = $("#ability-condition")
+    target.empty()
+    cate = $("#ability-category").val()
+    if cate == ''
+      target.append("<option value=''>-</option>")
+      return
+    conds = Searcher.abirityConditionsFor(cate)
+    target.append("<option value=''>（全て）</option>")
+    for c in conds
+      target.append("<option value='#{c[0]}'>#{c[1]}</option>")
+    @
+
   createChainAbilityEffects = ->
     target = $("#chain-ability-effect")
     target.empty()
@@ -999,7 +1016,20 @@ class Viewer
     if cate == ''
       target.append("<option value=''>-</option>")
       return
-    conds = Searcher.abirityEffectsFor(cate)
+    conds = Searcher.chainAbirityEffectsFor(cate)
+    target.append("<option value=''>（全て）</option>")
+    for c in conds
+      target.append("<option value='#{c[0]}'>#{c[1]}</option>")
+    @
+
+  createChainAbilityConditions = ->
+    target = $("#chain-ability-condition")
+    target.empty()
+    cate = $("#chain-ability-category").val()
+    if cate == ''
+      target.append("<option value=''>-</option>")
+      return
+    conds = Searcher.chainAbirityConditionsFor(cate)
     target.append("<option value=''>（全て）</option>")
     for c in conds
       target.append("<option value='#{c[0]}'>#{c[1]}</option>")
@@ -1287,6 +1317,8 @@ class Viewer
     $("#latest-info").removeClass("invisible")
     $("#additional-condition").hide()
     $("#skill-add").hide()
+    $("#ability-add").hide()
+    $("#chain-ability-add").hide()
 
     $(".search").on 'click', (e) ->
       e.preventDefault()
@@ -1309,10 +1341,14 @@ class Viewer
     $("#ability-category").on 'change', (e) ->
       e.preventDefault()
       createAbilityEffects()
+      createAbilityConditions()
+      $("#ability-add").show()
 
     $("#chain-ability-category").on 'change', (e) ->
       e.preventDefault()
       createChainAbilityEffects()
+      createChainAbilityConditions()
+      $("#chain-ability-add").show()
 
     $("#source-category").on 'change', (e) ->
       e.preventDefault()

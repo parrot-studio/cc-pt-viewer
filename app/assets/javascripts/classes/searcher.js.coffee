@@ -111,6 +111,18 @@ class window.Searcher
   @abirityEffectsFor: (category) ->
     conditions?.abilityeffects?[category] || []
 
+  @abirityConditionsFor: (category) ->
+    conditions?.abilityconditions?[category] || []
+
+  @chainAbirityCategorys: ->
+    conditions?.chainabilitycategorys || []
+
+  @chainAbirityEffectsFor: (category) ->
+    conditions?.chainabilityeffects?[category] || []
+
+  @chainAbirityConditionsFor: (category) ->
+    conditions?.chainabilityconditions?[category] || []
+
   @voiceactors: ->
     conditions?.voiceactors || []
 

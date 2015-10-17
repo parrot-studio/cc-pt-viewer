@@ -28,6 +28,10 @@ class ViewerController < ApplicationController
         skilleffects: SkillEffect::SUBEFFECT_CONDS,
         abilitycategorys: AbilityEffect::CATEGORY_CONDS,
         abilityeffects: AbilityEffect::EFFECT_CONDS,
+        abilityconditions: AbilityEffect::CONDITION_CONDS,
+        chainabilitycategorys: AbilityEffect.chain_ability_categorys,
+        chainabilityeffects: AbilityEffect.chain_ability_effects,
+        chainabilityconditions: AbilityEffect.chain_ability_conditions,
         voiceactors: voiceactors,
         illustrators: illustrators
       }
