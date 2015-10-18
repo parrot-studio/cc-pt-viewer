@@ -155,7 +155,10 @@ class Viewer
   renderAbility = (ab) ->
     return "なし" if ab.name == ''
 
-    render = "#{ab.name}<ul class='small list-unstyled ability-detail'>"
+    render = "#{ab.name}"
+    unless ab.weaponName is ''
+      render += "（#{ab.weaponName}）"
+    render += "<ul class='small list-unstyled ability-detail'>"
     for e in ab.effects
       str = "#{e.condition} - #{e.effect}"
       unless e.target is ''
@@ -309,6 +312,11 @@ class Viewer
   renderArcanaDetail = (a) ->
     return '' unless a
 
+    weapon = unless a.weaponAbility.name is ''
+      "<dt>専用武器アビリティ</dt><dd>#{renderAbility(a.weaponAbility)}</dd>"
+    else
+      ''
+
     "
       <div class='#{a.jobClass} arcana'>
         <div class='#{a.jobClass}-title arcana-title'>
@@ -352,6 +360,7 @@ class Viewer
                 <dd>#{renderAbility(a.firstAbility)}</dd>
                 <dt>アビリティ2</dt>
                 <dd>#{renderAbility(a.secondAbility)}</dd>
+                #{weapon}
                 <dt>絆アビリティ</dt>
                 <dd>#{renderAbility(a.chainAbility)}</dd>
               </dl>

@@ -3,6 +3,7 @@ class window.Ability
   constructor: (data) ->
     @name = data.name || ''
     @explanation = data.explanation || ''
+    @weaponName = data.weapon_name || ''
     @effects = []
     if data.effects
       for e in data.effects
@@ -88,6 +89,7 @@ class window.Arcana
     @skill = new Skill(data.skill)
     @firstAbility = new Ability(data.first_ability)
     @secondAbility = new Ability(data.second_ability)
+    @weaponAbility = new Ability(data.weapon_ability)
     @chainAbility = new Ability(data.chain_ability)
 
     @wikiName = (

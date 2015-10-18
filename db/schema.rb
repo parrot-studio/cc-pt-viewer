@@ -11,11 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150809082623) do
+ActiveRecord::Schema.define(version: 20151017014317) do
 
   create_table "abilities", force: :cascade do |t|
     t.string   "name",        limit: 100, null: false
     t.string   "explanation", limit: 500
+    t.string   "weapon_name", limit: 100
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
   end
@@ -63,6 +64,7 @@ ActiveRecord::Schema.define(version: 20150809082623) do
     t.integer  "skill_id",          limit: 4,   default: 0, null: false
     t.integer  "first_ability_id",  limit: 4,   default: 0, null: false
     t.integer  "second_ability_id", limit: 4,   default: 0, null: false
+    t.integer  "weapon_ability_id", limit: 4,   default: 0, null: false
     t.integer  "chain_ability_id",  limit: 4,   default: 0, null: false
     t.integer  "chain_cost",        limit: 4,   default: 0, null: false
     t.integer  "voice_actor_id",    limit: 4,   default: 0, null: false
@@ -95,6 +97,7 @@ ActiveRecord::Schema.define(version: 20150809082623) do
   add_index "arcanas", ["source_category"], name: "index_arcanas_on_source_category", using: :btree
   add_index "arcanas", ["union"], name: "index_arcanas_on_union", using: :btree
   add_index "arcanas", ["voice_actor_id"], name: "index_arcanas_on_voice_actor_id", using: :btree
+  add_index "arcanas", ["weapon_ability_id"], name: "index_arcanas_on_weapon_ability_id", using: :btree
   add_index "arcanas", ["weapon_type"], name: "index_arcanas_on_weapon_type", using: :btree
 
   create_table "chain_abilities", force: :cascade do |t|

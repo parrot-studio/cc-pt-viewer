@@ -3,7 +3,7 @@ class Arcana < ActiveRecord::Base
   default_scope do
     includes([
       :voice_actor, :illustrator, :skill,
-      :first_ability, :second_ability, :chain_ability
+      :first_ability, :second_ability, :chain_ability, :weapon_ability
     ])
   end
 
@@ -13,6 +13,7 @@ class Arcana < ActiveRecord::Base
   belongs_to :first_ability,  class_name: 'Ability'
   belongs_to :second_ability, class_name: 'Ability'
   belongs_to :chain_ability
+  belongs_to :weapon_ability, class_name: 'Ability'
 
   RARITYS = (1..5).freeze
 
@@ -192,7 +193,7 @@ class Arcana < ActiveRecord::Base
             length: { maximum: 50 }
 
   def serialize
-    excepts = %w(voice_actor_id illustrator_id skill_id first_ability_id second_ability_id chain_ability_id)
+    excepts = %w(voice_actor_id illustrator_id skill_id first_ability_id second_ability_id chain_ability_id weapon_ability_id)
     ret = self.as_json(except: excepts)
 
     ret['weapon_name'] = WEAPON_NAMES.fetch(self.weapon_type.to_sym, '')
@@ -209,6 +210,7 @@ class Arcana < ActiveRecord::Base
     ret['first_ability'] = (first_ability ? first_ability.serialize : {})
     ret['second_ability'] = (second_ability ? second_ability.serialize : {})
     ret['chain_ability'] = (chain_ability ? chain_ability.serialize : {})
+    ret['weapon_ability'] = (weapon_ability ? weapon_ability.serialize : {})
 
     ret
   end

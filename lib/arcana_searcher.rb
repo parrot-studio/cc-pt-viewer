@@ -384,7 +384,7 @@ class ArcanaSearcher
     unless (abcate.blank? && abeffect.blank? && abcond.blank?)
       abs = ability_search(abcate, abeffect, abcond)
       return [] if abs.blank?
-      arel.where!(Arcana.where(first_ability_id: abs).where(second_ability_id: abs).where_values.reduce(:or))
+      arel.where!(Arcana.where(first_ability_id: abs).where(second_ability_id: abs).where(weapon_ability_id: abs).where_values.reduce(:or))
     end
 
     unless (cabcate.blank? && cabeffect.blank? && cabcond.blank?)

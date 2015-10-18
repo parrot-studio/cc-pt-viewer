@@ -9,6 +9,8 @@ class Ability < ActiveRecord::Base
             length: { maximum: 100 }
   validates :explanation,
             length: { maximum: 500 }
+  validates :weapon_name,
+            length: { maximum: 100 }
 
   def serialize
     excepts = %w(id created_at updated_at)

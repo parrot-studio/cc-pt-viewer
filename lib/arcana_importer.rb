@@ -247,6 +247,7 @@ class ArcanaImporter
         abi = Ability.new
         abi.name = name
         abi.explanation = ''
+        abi.weapon_name = ''
         abi.save!
         abs[name] = abi
       end
@@ -280,6 +281,13 @@ class ArcanaImporter
         effect.save!
 
         puts "warning : ability #{name} : #{changes}" if changes.present?
+
+        # 武器名
+        wname = data.shift
+        if wname.present?
+          abi.weapon_name = wname
+          abi.save!
+        end
       end
     end
 
@@ -363,7 +371,8 @@ class ArcanaImporter
     skill_name = data[19]
     ability_name_f = data[20]
     ability_name_s = data[21]
-    chain_ability_name = data[22]
+    ability_name_w = data[22]
+    chain_ability_name = data[23]
 
     arcana = Arcana.find_by(job_code: code) || Arcana.new
     arcana.name = name
@@ -433,6 +442,14 @@ class ArcanaImporter
       unless arcana.second_ability
         puts "ability not found => #{ability_name_s}"
         arcana.second_ability_id = 0
+      end
+    end
+
+    unless ability_name_w.blank?
+      arcana.weapon_ability = abilities[ability_name_w]
+      unless arcana.weapon_ability
+        puts "ability not found => #{ability_name_w}"
+        arcana.weapon_ability_id = 0
       end
     end
 
