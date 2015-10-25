@@ -1,4 +1,4 @@
-class window.Searcher
+class @Searcher
 
   ver = $('#data-ver').val() || ''
   appPath = $("#app-path").val() || ''

@@ -1,4 +1,4 @@
-class window.Ability
+class @Ability
 
   constructor: (data) ->
     @name = data.name || ''
@@ -15,7 +15,7 @@ class window.Ability
           note: e.note || ''
         @effects.push d
 
-class window.Skill
+class @Skill
 
   constructor: (data) ->
     @name = data.name || '？'
@@ -47,7 +47,7 @@ class window.Skill
     ret.push(ef.subeffect5) unless ef.subeffect5 == ''
     ret
 
-class window.Arcana
+class @Arcana
 
   JOB_NAME_SHORT =
     F: '戦'
@@ -115,7 +115,7 @@ class window.Arcana
     return false if a.name == b.name
     true
 
-class window.Member
+class @Member
 
   constructor: (a) ->
     @arcana = a

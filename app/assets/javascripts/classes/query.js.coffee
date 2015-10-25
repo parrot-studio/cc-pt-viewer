@@ -1,4 +1,4 @@
-class window.Query
+class @Query
 
   @create: (param) ->
     new Query(param)

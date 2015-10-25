@@ -1,4 +1,4 @@
-class window.Pager
+class @Pager
 
   defaultPageSize = 8
 

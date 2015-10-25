@@ -1,4 +1,4 @@
-class window.Cookie
+class @Cookie
 
   $.cookie.json = true
   cookieKey = 'ccpts'
