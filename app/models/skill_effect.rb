@@ -69,6 +69,7 @@ class SkillEffect < ActiveRecord::Base
         atkup: '攻撃力上昇',
         defup: '防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
+        critup: 'クリティカル率上昇',
         restoration: '返還',
         create_scrap: 'スクラップ生成',
         destroy_scrap: 'スクラップ破壊'
@@ -114,6 +115,7 @@ class SkillEffect < ActiveRecord::Base
         defup: '防御力上昇',
         defdown: '防御力低下',
         speedup: '移動速度上昇',
+        critup: 'クリティカル率上昇',
         delayoff: '攻撃速度上昇',
         add_fire: '炎属性付与',
         add_ice: '氷属性付与',

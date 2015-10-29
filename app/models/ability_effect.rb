@@ -95,7 +95,8 @@ class AbilityEffect < ActiveRecord::Base
         atkup: '攻撃力上昇',
         defup: '防御力上昇',
         atkdefup: '攻撃力/防御力上昇',
-        atkspeedup: '攻撃力/移動速度上昇'
+        atkspeedup: '攻撃力/移動速度上昇',
+        critup: 'クリティカル率上昇'
       },
       condition: {
         kill: '敵を倒した時',
@@ -126,6 +127,7 @@ class AbilityEffect < ActiveRecord::Base
       condition: {
         any: 'いつでも',
         wave_start: '各WAVE開始時',
+        boss_wave: 'BOSS WAVE時',
         attack: '通常攻撃時',
         critical: 'クリティカル時',
         in_base_area: '自陣にいる時',

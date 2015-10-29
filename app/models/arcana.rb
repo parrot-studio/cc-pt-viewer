@@ -127,6 +127,7 @@ class Arcana < ActiveRecord::Base
         sevensins: '七つの大罪',
         brave: 'ブレイブフロンティア',
         shiningresonance: 'シャイニング・レゾナンス',
+        atelier_arland: 'アトリエ・アーランドシリーズ',
         other: 'その他'
       }
     }
