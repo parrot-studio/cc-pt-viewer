@@ -169,6 +169,30 @@ class AbilityEffect < ActiveRecord::Base
         add_curse: '呪いを与えた時'
       }
     },
+    against_debuff: {
+      name: '状態異常防御',
+      effect: {
+        guard_blind: '暗闇を防ぐ',
+        guard_curse: '呪いを防ぐ',
+        guard_down: 'ダウンを防ぐ',
+        guard_freeze: '凍結を防ぐ',
+        guard_poison: '毒を防ぐ',
+        guard_push: '弾き飛ばしを防ぐ',
+        guard_seal: '封印を防ぐ',
+        guard_slow: 'スロウを防ぐ',
+        guard_undead: '白骨化を防ぐ',
+        guard_weaken: '衰弱を防ぐ',
+        guard_all: '全ての状態異常を防ぐ',
+        reduce_poison: '毒のダメージを減らす',
+        reduce_weaken: '衰弱のダメージを減らす',
+        reduce_slow: 'スロウからの回復時間減少',
+        reduce_down: 'ダウンからの回復時間減少',
+        reduce_blind: '暗闇からの回復時間減少',
+      },
+      condition: {
+        any: 'いつでも',
+      }
+    },
     for_debuff: {
       name: '状態異常の敵に強い',
       effect: {
@@ -185,26 +209,29 @@ class AbilityEffect < ActiveRecord::Base
         for_weaken: '敵が衰弱の時'
       }
     },
-    against_debuff: {
-      name: '対状態異常',
+    in_debuff: {
+      name: '状態異常時強化',
       effect: {
-        guard_blind: '暗闇を防ぐ',
-        guard_curse: '呪いを防ぐ',
-        guard_down: 'ダウンを防ぐ',
-        guard_freeze: '凍結を防ぐ',
-        guard_poison: '毒を防ぐ',
-        guard_push: '弾き飛ばしを防ぐ',
-        guard_seal: '封印を防ぐ',
-        guard_slow: 'スロウを防ぐ',
-        guard_undead: '白骨化を防ぐ',
-        guard_weaken: '衰弱を防ぐ',
-        guard_all: '全ての状態異常を防ぐ',
         atkup: '攻撃力上昇',
         defup: '防御力上昇',
         speedup: '移動速度上昇',
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
         defspeedup: '防御力/移動速度上昇',
+      },
+      condition: {
+        in_poison: '自分が毒状態の時',
+        in_slow: '自分がスロウ状態の時',
+        in_blind: '自分が暗闇状態の時',
+        in_curse: '自分が呪い状態の時',
+        in_weaken: '自分が衰弱状態の時',
+        in_seal: '自分が封印状態の時',
+        in_debuff: '自分が状態異常の時',
+      }
+    },
+    cure_debuff: {
+      name: '状態異常解除',
+      effect: {
         cure_blind: '暗闇解除',
         cure_poison: '毒解除',
         cure_seal: '封印解除',
@@ -213,14 +240,6 @@ class AbilityEffect < ActiveRecord::Base
         cure_all: '状態異常解除'
       },
       condition: {
-        any: 'いつでも',
-        in_poison: '自分が毒状態の時',
-        in_slow: '自分がスロウ状態の時',
-        in_blind: '自分が暗闇状態の時',
-        in_curse: '自分が呪い状態の時',
-        in_weaken: '自分が衰弱状態の時',
-        in_seal: '自分が封印状態の時',
-        in_debuff: '自分が状態異常の時',
         skill: 'スキル使用時',
         use_mana: 'マナが使用された時'
       }
@@ -279,7 +298,22 @@ class AbilityEffect < ActiveRecord::Base
         fullup: '攻撃力/防御力/移動速度上昇'
       },
       condition: {
-        in_field: '特定のフィールドで'
+        in_town: '街中で戦闘時',
+        in_forest: '森林で戦闘時',
+        in_cave: '洞窟で戦闘時',
+        in_castle: '城中で戦闘時',
+        in_desert: '砂漠で戦闘時',
+        in_ruins: '遺跡で戦闘時',
+        in_wasteland: '荒地で戦闘時',
+        in_battlefield: '戦場で戦闘時',
+        in_beach: '砂浜で戦闘時',
+        in_ship: '船上で戦闘時',
+        in_upland: '高地で戦闘時',
+        in_snow: '雪山で戦闘時',
+        in_sea: '海中で戦闘時',
+        in_prison: '監獄で戦闘時',
+        in_dimension: '異空間で戦闘時',
+        in_field: '特定のフィールドで（調整中）'
       }
     },
     combat: {
