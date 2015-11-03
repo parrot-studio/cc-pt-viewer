@@ -10,7 +10,7 @@ class Viewer
   mode = null
   lastQuery = null
   querys = []
-  queryLogSize = 12
+  queryLogSize = 8
   favs = {}
   sortOrderDefault = {name: 'asc'}
   sortOrder = {}
@@ -709,14 +709,24 @@ class Viewer
       add = true
       $("#ability-category").val(query.abilitycategory)
       createAbilityEffects()
+      createAbilityConditions()
+      unless query.abilitycategory is ''
+        $("#ability-add").show()
       if query.abilityeffect
         $("#ability-effect").val(query.abilityeffect)
+      if query.abilitycondition
+        $("#ability-condition").val(query.abilitycondition)
     if query.chainabilitycategory
       add = true
       $("#chain-ability-category").val(query.chainabilitycategory)
       createChainAbilityEffects()
+      createChainAbilityConditions()
+      unless query.chainabilitycategory is ''
+        $("#chain-ability-add").show()
       if query.chainabilityeffect
         $("#chain-ability-effect").val(query.chainabilityeffect)
+      if query.chainabilitycondition
+        $("#chain-ability-condition").val(query.chainabilitycondition)
 
     if add
       $("#additional-condition").show()
@@ -1351,13 +1361,19 @@ class Viewer
       e.preventDefault()
       createAbilityEffects()
       createAbilityConditions()
-      $("#ability-add").show()
+      if  $("#ability-category").val() is ''
+        $("#ability-add").hide()
+      else
+        $("#ability-add").show()
 
     $("#chain-ability-category").on 'change', (e) ->
       e.preventDefault()
       createChainAbilityEffects()
       createChainAbilityConditions()
-      $("#chain-ability-add").show()
+      if  $("#chain-ability-category").val() is ''
+        $("#chain-ability-add").hide()
+      else
+        $("#chain-ability-add").show()
 
     $("#source-category").on 'change', (e) ->
       e.preventDefault()

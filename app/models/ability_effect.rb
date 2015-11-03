@@ -313,7 +313,6 @@ class AbilityEffect < ActiveRecord::Base
         in_sea: '海中で戦闘時',
         in_prison: '監獄で戦闘時',
         in_dimension: '異空間で戦闘時',
-        in_field: '特定のフィールドで（調整中）'
       }
     },
     combat: {
