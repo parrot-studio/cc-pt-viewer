@@ -19,7 +19,8 @@ class AbilityEffect < ActiveRecord::Base
         union: '特定の構成の時',
         wave_start: '各WAVE開始時',
         others_skill: '味方がスキルを使った時',
-        dropout_self: '自身が脱落した時'
+        dropout_self: '自身が脱落した時',
+        dropout_member: '味方が脱落した時'
       }
     },
     buff_others: {
@@ -46,6 +47,7 @@ class AbilityEffect < ActiveRecord::Base
         speedup: '移動速度上昇',
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
+        fullup: '攻撃力/防御力/移動速度上昇',
         critup: 'クリティカル率上昇',
         add_down: '対象の攻撃にダウンを付与',
         add_slow: '対象の攻撃にスロウを付与'
@@ -64,6 +66,7 @@ class AbilityEffect < ActiveRecord::Base
         defup: '防御力上昇',
         speedup: '移動速度上昇',
         atkdefup: '攻撃力/防御力上昇',
+        atkspeedup: '攻撃力/移動速度上昇',
         critup: 'クリティカル率上昇'
       },
       condition: {
@@ -96,6 +99,7 @@ class AbilityEffect < ActiveRecord::Base
         defup: '防御力上昇',
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
+        defspeedup: '防御力/移動速度上昇',
         critup: 'クリティカル率上昇'
       },
       condition: {
@@ -151,6 +155,7 @@ class AbilityEffect < ActiveRecord::Base
         poison: '毒付与',
         push: '弾き飛ばし付与',
         slow: 'スロウ付与',
+        tumble: '転倒付与',
         atkdown: '攻撃力低下',
         defdown: '防御力低下',
         speeddown: '移動速度低下',

@@ -27,7 +27,8 @@ class SkillEffect < ActiveRecord::Base
         range_combination: '範囲・コンビネーション',
         range_all: '範囲・広域',
         laser: 'レーザー',
-        bombard: '砲撃'
+        bombard: '砲撃',
+        bullets: '連射'
       },
       effect: {
         add_blind: '暗闇追加',
