@@ -13,6 +13,13 @@ class @Searcher
   detailCache = {}
   conditions = null
 
+  toArcana = (d) ->
+    return null unless d
+    a = new Arcana(d)
+    return null unless a
+    arcanas[a.jobCode] = a unless arcanas[a.jobCode]
+    a
+
   @search: (params, url, callback) ->
     $("#error-area").hide()
     $("#loading-modal").modal('show')
@@ -41,8 +48,7 @@ class @Searcher
       as = []
       cs = []
       for d in data.result
-        a = new Arcana(d)
-        arcanas[a.jobCode] = a unless arcanas[a.jobCode]
+        a = toArcana(d)
         as.push a
         cs.push a.jobCode
       resultCache[key] = cs
@@ -58,9 +64,8 @@ class @Searcher
       as = {}
       for aid, d of data
         continue unless d
-        a = new Arcana(d)
+        a = toArcana(d)
         continue unless a
-        arcanas[a.jobCode] = a unless arcanas[a.jobCode]
         as[aid] = a
       callback(as)
 
@@ -72,8 +77,7 @@ class @Searcher
     cb = (data) ->
       as = []
       for d in data
-        a = new Arcana(d)
-        arcanas[a.jobCode] = a unless arcanas[a.jobCode]
+        a = toArcana(d)
         as.push a
       callback(as)
 

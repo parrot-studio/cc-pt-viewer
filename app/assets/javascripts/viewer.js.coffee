@@ -182,12 +182,12 @@ class Viewer
             <span class='badge pull-right'>#{renderArcanaCost(m)}</span>
           </div>
           <div class='arcana-body'>
-            <p class='arcana-name'>
-                <button type='button' class='btn btn-default btn-xs view-info pull-right' data-job-code='#{a.jobCode}' data-toggle='modal' data-target='#view-modal'>Info</button>
+            <p class='arcana-name overflow'>
+                <button type='button' class='btn btn-default btn-xs view-info pull-right info' data-job-code='#{a.jobCode}' data-toggle='modal' data-target='#view-modal'>Info</button>
                 <span class='text-muted small'>#{a.title}</span><br>
                 <strong>#{a.name}</strong>
             </p>
-            <dl class='small text-muted arcana-detail'>
+            <dl class='small text-muted arcana-detail overflow'>
               <dt>ATK / HP</dt>
               <dd> #{a.maxAtk} (#{a.limitAtk}) / #{a.maxHp} (#{a.limitHp})</dd>
               <dt>Skill</dt>
@@ -220,11 +220,11 @@ class Viewer
           <div class='arcana-summary'>
             <p style='margin-top: -8px'>
               <small>
-                <div class='pull-right mini'>
+                <div class='pull-right mini info'>
                   <input type='checkbox' id='fav-#{a.jobCode}' class='' data-job-code='#{a.jobCode}'>
                   <button type='button' class='btn btn-default btn-xs view-info' data-job-code='#{a.jobCode}' data-toggle='modal' data-target='#view-modal'>Info</button>
                 </div>
-                <div class='pull-left'>
+                <div class='pull-left overflow'>
                   <span class='text-muted small'>#{a.title}</span><br>
                   <strong>#{a.name}</strong>
                 </div>
@@ -233,7 +233,7 @@ class Viewer
             <p class='clearfix'></p>
             <p>
               <small>
-                <ul class='small text-muted list-unstyled summary-detail'>
+                <ul class='small text-muted list-unstyled summary-detail overflow'>
                   <li>#{a.maxAtk} / #{a.maxHp}</li>
                   <li>#{a.skill.name} (#{a.skill.cost})</li>
                   <li>#{if a.firstAbility.name != '' then a.firstAbility.name else 'なし'}<br>#{if a.secondAbility.name != '' then a.secondAbility.name else 'なし'}</li>
@@ -261,14 +261,14 @@ class Viewer
           <div class='arcana-summary'>
             <p>
               <small>
-                <button type='button' class='btn btn-default btn-xs view-info pull-right' data-job-code='#{a.jobCode}' data-toggle='modal' data-target='#view-modal'>Info</button>
+                <button type='button' class='btn btn-default btn-xs view-info pull-right info overflow' data-job-code='#{a.jobCode}' data-toggle='modal' data-target='#view-modal'>Info</button>
                 <span class='text-muted small'>#{a.title}</span><br>
                 <strong>#{a.name}</strong>
               </small>
             </p>
             <p>
               <small>
-                <ul class='small text-muted list-unstyled summary-detail'>
+                <ul class='small text-muted list-unstyled summary-detail overflow'>
                   <li>#{a.maxAtk} / #{a.maxHp}</li>
                   <li>#{a.skill.name} (#{a.skill.cost})</li>
                   <li>#{if a.firstAbility.name != '' then a.firstAbility.name else 'なし'}<br>#{if a.secondAbility.name != '' then a.secondAbility.name else 'なし'}</li>
