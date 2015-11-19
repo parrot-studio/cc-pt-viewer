@@ -113,7 +113,7 @@ class Arcana < ActiveRecord::Base
       }
     },
     collaboration: {
-      name: 'イベント限定',
+      name: 'コラボ',
       details: {
         shiningblade: 'シャイニング・ブレイド',
         maoyu: 'まおゆう',

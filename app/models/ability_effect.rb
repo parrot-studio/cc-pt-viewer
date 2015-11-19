@@ -135,6 +135,7 @@ class AbilityEffect < ActiveRecord::Base
         attack: '通常攻撃時',
         critical: 'クリティカル時',
         in_base_area: '自陣にいる時',
+        in_enemy_area: '敵陣にいる時',
         in_head: '先頭にいる時',
         in_rear: '仲間より後ろにいる時',
         skill: 'スキル使用時',
@@ -317,6 +318,7 @@ class AbilityEffect < ActiveRecord::Base
         in_snow: '雪山で戦闘時',
         in_sea: '海中で戦闘時',
         in_prison: '監獄で戦闘時',
+        in_night: '夜間に戦闘時',
         in_dimension: '異空間で戦闘時',
       }
     },
