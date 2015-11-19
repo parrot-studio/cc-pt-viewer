@@ -20,31 +20,28 @@ class @Searcher
     arcanas[a.jobCode] = a unless arcanas[a.jobCode]
     a
 
-  @search: (params, url, callback) ->
+  @search: (params, url) ->
     $("#error-area").hide()
     $("#loading-modal").modal('show')
+
     params ?= {}
     params.ver = ver
+    result = Bacon.$.ajaxGetJSON(url, params)
+    result.onError( (err) -> $("#error-area").show())
+    result.onEnd( -> $("#loading-modal").modal('hide'))
+    result
 
-    xhr = $.getJSON url, params
-    xhr.done (data) ->
-      callback(data)
-      $("#loading-modal").modal('hide')
-    xhr.fail ->
-      $("#loading-modal").modal('hide')
-      $("#error-area").show()
-
-  @searchArcanas: (query, callback) ->
+  @searchArcanas: (query) ->
     return unless query
     key = query.createKey()
     cached = resultCache[key]
     if cached
       as = (arcanas[code] for code in cached)
-      detail = detailCache[key]
-      callback(as, detail)
-      return
+      query.detail = detailCache[key]
+      return Bacon.once(as)
 
-    cb = (data) ->
+    result = @search(query.params(), searchUrl)
+    result.flatMap (data) ->
       as = []
       cs = []
       for d in data.result
@@ -53,43 +50,46 @@ class @Searcher
         cs.push a.jobCode
       resultCache[key] = cs
       detailCache[key] = data.detail
-      callback(as, data.detail)
+      query.detail = data.detail
+      Bacon.once(as)
 
-    @search(query.params(), searchUrl, cb)
-
-  @searchMembers: (code, callback) ->
+  @searchMembers: (code) ->
     params = {ptm: code}
 
-    cb = (data) ->
+    result = @search(params, ptmUrl)
+    result.flatMap (data) ->
       as = {}
       for aid, d of data
         continue unless d
-        a = toArcana(d)
-        continue unless a
-        as[aid] = a
-      callback(as)
+        as[aid] = toArcana(d)
+      Bacon.once(as)
 
-    @search(params, ptmUrl, cb)
+  @searchCodes: (targets) ->
+    return Bacon.once([]) if targets.length <= 0
 
-  @searchCodes: (targets, callback) ->
-    params = {'codes': targets.join('/')}
+    unknowns = []
+    for c in targets
+      continue if arcanas[c]
+      unknowns.push c
 
-    cb = (data) ->
-      as = []
-      for d in data
-        a = toArcana(d)
-        as.push a
-      callback(as)
+    if unknowns.length <= 0
+      as = (arcanas[c] for c in targets)
+      return Bacon.once(as)
 
-    @search(params, codesUrl, cb)
+    params = {'codes': unknowns.join('/')}
+    result = @search(params, codesUrl)
+    result.flatMap (data) ->
+      toArcana(d) for d in data
+      as = (arcanas[c] for c in targets)
+      Bacon.once(as)
 
-  @load_conditions: (callback) ->
-    return if conditions
-    cb = (data) ->
+  @loadConditions: ->
+    return Bacon.once(conditions) if conditions
+
+    result = @search({}, condsUrl)
+    result.flatMap (data) ->
       conditions = data
-      callback()
-
-    @search({}, condsUrl, cb)
+      Bacon.once(conditions)
 
   @forCode: (code) ->
     arcanas[code]
@@ -171,17 +171,14 @@ class @Searcher
       break
     ret
 
-  @request: (text, callback) ->
+  @request: (text) ->
     $("#error-area").hide()
     $("#loading-modal").modal('show')
     params = {}
     params.ver = ver
     params.text = text
 
-    xhr = $.post requestUrl, params
-    xhr.done  ->
-      callback()
-      $("#loading-modal").modal('hide')
-    xhr.fail ->
-      $("#loading-modal").modal('hide')
-      $("#error-area").show()
+    result = Bacon.$.ajaxPost(requestUrl, params)
+    result.onError( (err) -> $("#error-area").show())
+    result.onEnd( -> $("#loading-modal").modal('hide'))
+    result

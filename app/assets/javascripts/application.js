@@ -19,5 +19,7 @@
 //= require bootstrap-sass-official/assets/javascripts/bootstrap-sprockets
 //= require bootstrap-switch
 //= require fastclick
+//= require bacon
+//= require bacon.jquery
 //= require_tree ./classes
 //= require_tree .

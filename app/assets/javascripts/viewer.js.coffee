@@ -4,10 +4,8 @@ class Viewer
   memberKeys = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'friend']
   pager = null
   pagerSize = null
-  onEdit = true
   recentlySize = 36
   defaultMemberCode = 'V2F82F85K51NA38NP28NP24NNNNN'
-  mode = null
   lastQuery = null
   querys = []
   queryLogSize = 8
@@ -17,37 +15,64 @@ class Viewer
   parties = []
   ptSize = 10
 
+  $memberArea = $("#member-area")
+  $appPath = $("#app-path")
+  $ptmCode = $("#ptm-code")
+  $latestInfo = $("#latest-info")
+  $twitterShare = $("#twitter-share")
+
+  $searchSkill = $("#skill")
+  $searchSkillAdd = $("#skill-add")
+  $searchSourceCategory = $("#source-category")
+  $searchAbilityCategory = $("#ability-category")
+  $searchAbilityAdd = $("#ability-add")
+  $searchChainAbilityCategory = $("#chain-ability-category")
+  $searchChainAbilityAdd = $("#chain-ability-add")
+  $searchAddCondition = $("#add-condition")
+  $searchAdditionalCondition = $("#additional-condition")
+
   constructor: ->
-    mode = $("#mode").val() || ''
+    switch viewMode()
+      when 'ptedit'
+        pagerSize = 8
 
-    if mode is 'database'
-      pagerSize = (if isPhoneDevice() then 8 else 16)
-      recentlySize = (if isPhoneDevice() then 16 else 32)
+        conditions = initSearchConditions()
+        conditions.onValue () ->
+          initEditHandler()
 
-      promise = initDatabaseHandler()
-      promise.then ->
-        query = Query.parse()
-        if query.isEmpty()
-          searchRecentlyTargets()
-        else
-          searchTargets(query)
-          setConditions(query)
-    else if mode is 'ptedit'
-      pagerSize = 8
-      initEditHandler()
+          ptm = $("#ptm").val() || ''
+          hasPtm = (ptm is '')
+          if isPhoneDevice()
+            setEditMode(false)
+          else
+            setEditMode(hasPtm)
+            searchRecentlyTargets()
+          if hasPtm
+            searchLastMembers()
+          else
+            buildMembersArea(ptm)
+      when 'database'
+        pagerSize = (if isPhoneDevice() then 8 else 16)
+        recentlySize = (if isPhoneDevice() then 16 else 32)
 
-      ptm = $("#ptm").val() || ''
-      if isPhoneDevice()
-        toggleEditMode()
+        conditions = initSearchConditions()
+        conditions.onValue () ->
+          initDatabaseHandler()
+
+          query = Query.parse()
+          if query.isEmpty()
+            searchRecentlyTargets()
+          else
+            searchTargets(query)
+            setConditions(query)
       else
-        toggleEditMode() unless ptm is ''
-        searchRecentlyTargets()
-      if ptm is ''
-        searchLastMembers()
-      else
-        buildMembersArea(ptm)
-    else
-      commonHandler()
+        commonHandler()
+
+  isEditMode = ->
+    $memberArea.hasClass("well")
+
+  viewMode = ->
+    $("#mode").val() || ''
 
   isPhoneDevice = ->
     if window.innerWidth < 768 then true else false
@@ -521,7 +546,7 @@ class Viewer
     div = memberAreaFor(k)
     div.empty()
     mem = members[k]
-    render = if onEdit
+    render = if isEditMode()
       r = $(renderSummarySizeMember(mem))
       r.attr('data-parent-key', k)
       r
@@ -560,6 +585,7 @@ class Viewer
       renderMemberArcana(k)
 
   replaceTargetArea = ->
+    mode = viewMode()
     if mode is 'database'
       replaceTableArea()
     else
@@ -604,27 +630,21 @@ class Viewer
     renderOrderState()
     @
 
-  replaceTargetAreaForFavorite = ->
-    as = []
-    for c in collectFavriteList()
-      as.push Searcher.forCode(c)
-    $(".search-detail").text('お気に入り')
-    pager = createPager(as)
-    replaceTargetArea()
-
   buildMembersArea = (ptm) ->
-    Searcher.searchMembers ptm, (as) ->
-      eachMemberKey (k) ->
-        mb = as[k]
-        mc = as[k + 'c']
-        if mb
-          mem = new Member(mb)
-          mem.chainArcana = mc if mc
-          setMember(k, mem)
-        else
-          setMember(k, null)
-        renderMemberArcana(k)
-      calcCost()
+    Searcher.searchMembers(ptm)
+      .flatMap (as) ->
+        eachMemberKey (k) ->
+          mb = as[k]
+          mc = as[k + 'c']
+          if mb
+            mem = new Member(mb)
+            mem.chainArcana = mc if mc
+            setMember(k, mem)
+          else
+            setMember(k, null)
+          renderMemberArcana(k)
+        calcCost()
+      .onValue -> Bacon.End
 
   resetConditions = ->
     $("#job").val('')
@@ -633,26 +653,26 @@ class Viewer
     $("#actor").val('')
     $("#illustrator").val('')
     $("#union").val('')
-    $("#source-category").val('')
+    $searchSourceCategory.val('')
     $("#source").empty().append("<option value=''>-</option>")
-    $("#skill").val('')
+    $searchSkill.val('')
     $("#skill-cost").val('')
     $("#skill-sub").empty().append("<option value=''>-</option>")
     $("#skill-effect").empty().append("<option value=''>-</option>")
-    $("#ability-category").val('')
+    $searchAbilityCategory.val('')
     $("#ability-effect").empty().append("<option value=''>-</option>")
     $("#ability-condition").empty().append("<option value=''>-</option>")
-    $("#chain-ability-category").val('')
+    $searchChainAbilityCategory.val('')
     $("#chain-ability-effect").empty().append("<option value=''>-</option>")
     $("#chain-ability-condition").empty().append("<option value=''>-</option>")
     $("#arcana-cost").val('')
     $("#chain-cost").val('')
 
-    $("#additional-condition").hide()
-    $("#skill-add").hide()
-    $("#ability-add").hide()
-    $("#chain-ability-add").hide()
-    $("#add-condition").show()
+    $searchAdditionalCondition.hide()
+    $searchSkillAdd.hide()
+    $searchAbilityAdd.hide()
+    $searchChainAbilityAdd.hide()
+    $searchAddCondition.show()
     @
 
   setConditions = (q) ->
@@ -673,8 +693,9 @@ class Viewer
     if query.chaincost
       $("#chain-cost").val(query.chaincost)
     if query.sourcecategory
-      $("#source-category").val(query.sourcecategory)
-      createSourceOptions()
+      cate = query.sourcecategory
+      $searchSourceCategory.val(cate)
+      createSourceOptions(cate)
       if query.source
         $("#source").val(query.source)
 
@@ -683,14 +704,14 @@ class Viewer
       $("#actor").val(query.actor)
       add = true
     if query.actorname
-      id = getSelectboxValue(query.actorname)
+      id = Searcher.voiceactorIdFor(query.actorname)
       $("#actor").val(id)
       add = true
     if query.illustrator
       $("#illustrator").val(query.illustrator)
       add = true
     if query.illustratorname
-      id = getSelectboxValue(query.illustratorname)
+      id = Searcher.illustratorIdFor(query.illustratorname)
       $("#illustrator").val(id)
       add = true
     if query.skillcost
@@ -698,39 +719,42 @@ class Viewer
       $("#skill-cost").val(query.skillcost)
     if query.skill
       add = true
-      $("#skill").val(query.skill)
-      createSkillOptions()
-      $("#skill-add").show()
+      skill = query.skill
+      $searchSkill.val(skill)
+      createSkillOptions(skill)
+      $searchSkillAdd.show()
       if query.skillsub
         $("#skill-sub").val(query.skillsub)
       if query.skilleffect
         $("#skill-effect").val(query.skilleffect)
     if query.abilitycategory
       add = true
-      $("#ability-category").val(query.abilitycategory)
-      createAbilityEffects()
-      createAbilityConditions()
-      unless query.abilitycategory is ''
-        $("#ability-add").show()
+      cate = query.abilitycategory
+      $searchAbilityCategory.val(cate)
+      createAbilityEffects(cate)
+      createAbilityConditions(cate)
+      unless cate is ''
+        $searchAbilityAdd.show()
       if query.abilityeffect
         $("#ability-effect").val(query.abilityeffect)
       if query.abilitycondition
         $("#ability-condition").val(query.abilitycondition)
     if query.chainabilitycategory
       add = true
-      $("#chain-ability-category").val(query.chainabilitycategory)
-      createChainAbilityEffects()
-      createChainAbilityConditions()
-      unless query.chainabilitycategory is ''
-        $("#chain-ability-add").show()
+      cate = query.chainabilitycategory
+      $searchChainAbilityCategory.val(cate)
+      createChainAbilityEffects(cate)
+      createChainAbilityConditions(cate)
+      unless cate is ''
+        $searchChainAbilityAdd.show()
       if query.chainabilityeffect
         $("#chain-ability-effect").val(query.chainabilityeffect)
       if query.chainabilitycondition
         $("#chain-ability-condition").val(query.chainabilitycondition)
 
     if add
-      $("#additional-condition").show()
-      $("#add-condition").hide()
+      $searchAdditionalCondition.show()
+      $searchAddCondition.hide()
     @
 
   addQueryLog = (q) ->
@@ -791,14 +815,15 @@ class Viewer
     query = q || Query.build()
     if query.isEmpty()
       query = Query.create({recently: recentlySize})
-    Searcher.searchArcanas query, (as, detail) ->
-      query.detail = detail
-      $(".search-detail").text query.detail
-      pager = createPager(as)
-      resetSortOrder()
-      replaceTargetArea()
-      addQueryLog(query)
-      renderQueryLog()
+    Searcher.searchArcanas(query)
+      .flatMap (as) ->
+        $(".search-detail").text query.detail
+        pager = createPager(as)
+        resetSortOrder()
+        replaceTargetArea()
+        addQueryLog(query)
+        renderQueryLog()
+      .onValue -> Bacon.End
 
   searchRecentlyTargets = ->
     searchTargets Query.create({recently: recentlySize})
@@ -806,45 +831,33 @@ class Viewer
 
   searchFavoriteArcanas = ->
     fl = collectFavriteList()
-    if fl.length <= 0
-      replaceTargetAreaForFavorite()
-      return
+    Searcher.searchCodes(fl)
+      .flatMap (as) ->
+        $(".search-detail").text('お気に入り')
+        pager = createPager(as)
+        replaceTargetArea()
+      .onValue -> Bacon.End
 
-    targets = []
-    for c in fl
-      continue if Searcher.forCode(c)
-      targets.push c
-
-    if targets.length <= 0
-      replaceTargetAreaForFavorite()
-      return
-
-    Searcher.searchCodes targets, (as) ->
-      replaceTargetAreaForFavorite()
-
-  toggleEditMode = ->
+  setEditMode = (mode) ->
     edit = $("#edit-area")
-    member = $("#member-area")
     btnText = $("#edit-state")
     btnIcon = $("#edit-icon")
     title = $("#edit-title")
     clear = $("#clear-area")
 
-    if onEdit
-      onEdit = false
+    unless mode
       btnText.text("編集する")
       btnIcon.removeClass("glyphicon-check")
       btnIcon.addClass("glyphicon-edit")
-      member.removeClass("well well-sm")
+      $memberArea.removeClass("well well-sm")
       title.hide()
       edit.fadeOut()
       clear.hide()
     else
-      onEdit = true
       btnText.text("編集終了")
       btnIcon.removeClass("glyphicon-edit")
       btnIcon.addClass("glyphicon-check")
-      member.addClass("well well-sm")
+      $memberArea.addClass("well well-sm")
       title.show()
       edit.fadeIn()
       clear.show()
@@ -854,6 +867,8 @@ class Viewer
   clearMemberArcana = (key) ->
     removeMember(key)
     renderMemberArcana(key)
+    calcCost()
+    storeLastMembers()
 
   removeDuplicateMember = (target) ->
     name1 = target.arcana.name
@@ -891,13 +906,6 @@ class Viewer
       cost += m.chainedCost() if m
     $("#cost").text(cost)
 
-  isShowTutorial = ->
-    if Cookie.valueFor('tutorial') then false else true
-
-  showTutorial = ->
-    $("#tutorial").show()
-    Cookie.set({tutorial: true})
-
   isShowLatestInfo = ->
     ver = $("#latest-info-ver").val()
     return false if ver == ''
@@ -907,7 +915,7 @@ class Viewer
 
   showLatestInfo = ->
     ver = $("#latest-info-ver").val()
-    $("#latest-info").show()
+    $latestInfo.show()
     Cookie.set({'latest-info': ver})
 
   createUnionList = ->
@@ -920,22 +928,21 @@ class Viewer
     @
 
   createSkillCategorys = ->
-    target = $("#skill")
+    target = $searchSkill
     target.empty()
     target.append("<option value=''>-</option>")
     for s in Searcher.skillCategorys()
       target.append("<option value='#{s[0]}'>#{s[1]}</option>")
     @
 
-  createSkillOptions = ->
+  createSkillOptions = (skill) ->
     sub = $("#skill-sub")
     sub.empty()
     effect = $("#skill-effect")
     effect.empty()
-    add = $("#skill-add")
+    add = $searchSkillAdd
 
-    skill = $("#skill").val()
-    if skill == ''
+    if skill is ''
       sub.append("<option value=''>-</option>")
       effect.append("<option value=''>-</option>")
       add.hide()
@@ -954,12 +961,11 @@ class Viewer
     add.show()
     @
 
-  createSourceOptions = ->
-    cate = $("#source-category").val()
+  createSourceOptions = (cate) ->
     sources = $("#source")
     sources.empty()
 
-    if cate == ''
+    if cate is ''
       sources.append("<option value=''>-</option>")
       return
 
@@ -987,7 +993,7 @@ class Viewer
     @
 
   createAbilityCategorys = ->
-    target = $("#ability-category")
+    target = $searchAbilityCategory
     target.empty()
     target.append("<option value=''>-</option>")
     for c in Searcher.abirityCategorys()
@@ -995,18 +1001,17 @@ class Viewer
     @
 
   createChainAbilityCategorys = ->
-    target = $("#chain-ability-category")
+    target = $searchChainAbilityCategory
     target.empty()
     target.append("<option value=''>-</option>")
     for c in Searcher.chainAbirityCategorys()
       target.append("<option value='#{c[0]}'>#{c[1]}</option>")
     @
 
-  createAbilityEffects = ->
+  createAbilityEffects = (cate) ->
     target = $("#ability-effect")
     target.empty()
-    cate = $("#ability-category").val()
-    if cate == ''
+    if cate is ''
       target.append("<option value=''>-</option>")
       return
     conds = Searcher.abirityEffectsFor(cate)
@@ -1015,11 +1020,10 @@ class Viewer
       target.append("<option value='#{c[0]}'>#{c[1]}</option>")
     @
 
-  createAbilityConditions = ->
+  createAbilityConditions = (cate) ->
     target = $("#ability-condition")
     target.empty()
-    cate = $("#ability-category").val()
-    if cate == ''
+    if cate is ''
       target.append("<option value=''>-</option>")
       return
     conds = Searcher.abirityConditionsFor(cate)
@@ -1028,11 +1032,10 @@ class Viewer
       target.append("<option value='#{c[0]}'>#{c[1]}</option>")
     @
 
-  createChainAbilityEffects = ->
+  createChainAbilityEffects = (cate) ->
     target = $("#chain-ability-effect")
     target.empty()
-    cate = $("#chain-ability-category").val()
-    if cate == ''
+    if cate is ''
       target.append("<option value=''>-</option>")
       return
     conds = Searcher.chainAbirityEffectsFor(cate)
@@ -1041,11 +1044,10 @@ class Viewer
       target.append("<option value='#{c[0]}'>#{c[1]}</option>")
     @
 
-  createChainAbilityConditions = ->
+  createChainAbilityConditions = (cate) ->
     target = $("#chain-ability-condition")
     target.empty()
-    cate = $("#chain-ability-category").val()
-    if cate == ''
+    if cate is ''
       target.append("<option value=''>-</option>")
       return
     conds = Searcher.chainAbirityConditionsFor(cate)
@@ -1071,9 +1073,8 @@ class Viewer
     @
 
   initSearchConditions = ->
-    d = new $.Deferred()
-
-    Searcher.load_conditions ->
+    result = Searcher.loadConditions()
+    result.flatMap ->
       createUnionList()
       createSkillCategorys()
       createAbilityCategorys()
@@ -1082,9 +1083,7 @@ class Viewer
       createIllustrators()
       initFavoriteArcana()
       initQueryLog()
-      initParties()
-      d.resolve()
-    d.promise()
+      Bacon.once()
 
   prevTargetPage = ->
     if pager?.hasPrevPage()
@@ -1212,267 +1211,308 @@ class Viewer
     sortOrder = {}
     @
 
-  updateSortOrder = (col, order) ->
-    resetSortOrder()
-    sortOrder[col] = order
-    @
-
-  reverseOrder = (order) ->
-    switch order
-      when 'asc' then 'desc'
-      when 'desc' then 'asc'
-      else null
-
-  sortTargets = (col, ord) ->
-    order = ord || reverseOrder(sortOrder[col]) || sortOrderDefault[col] || 'desc'
-    pager?.sort(col, order)
-    replaceTargetArea()
-    updateSortOrder(col, order)
-    renderOrderState()
-    @
-
-  initParties = ->
-    parties = []
-
-    try
-      val = Cookie.valueFor('parties')
-      return unless val
-      parties = JSON.parse(val)
-      renderPartyList()
-    catch
-      parties = []
-    @
-
-  loadParty = (order) ->
-    pt = parties[order-1] || {}
-    code = pt.code || ''
-    code = defaultMemberCode if code is ''
-    comment = pt.comment || ""
-    $("#members-comment").val(comment)
-    buildMembersArea(code)
-
-  storeParty = (comment) ->
-    code = createMembersCode()
-    comment ||= '名無しパーティー'
-    if comment.length > 10
-      comment = comment.substr(0, 10)
-
-    data =
-      code: code
-      comment: comment
-    npt = [data]
-    for pt in parties
-      break if parties.length == ptSize
-      continue if pt.code == code
-      npt.push pt
-    parties = npt
-    renderPartyList()
-
-    val = JSON.stringify(parties)
-    Cookie.set({'parties': val})
-    parties
-
-  renderPartyList = ->
-    $(".party-list").remove()
-    return if parties.length < 1
-
-    base = $("#party-list-header")
-    for i in [ptSize..1]
-      pt = parties[i-1]
-      continue unless pt
-      comment = pt.comment || '名無しパーティー'
-      li = "<li><a data-target='#' data-order='#{i}' class='party-list'>#{comment}</a></li>"
-      base.after(li)
-    @
-
   twitterUrl = (text) ->
     url = "https://twitter.com/intent/tweet"
     url += "?text=#{encodeURIComponent(text)}"
     url += "&hashtags=ccpts"
     url
 
-  createRequestTweetUrl = ->
-    text = $("#request-textarea").val()
-    text = text.substr(0, 100) if text.length > 100
-    $("#twitter-request").attr('href', twitterUrl("@parrot_studio #{text}"))
-
   commonHandler = ->
-    $("#error-area").hide()
-    $("#error-area").removeClass("invisible")
-    $("#topnav").hide()
-    $("#topnav").removeClass("invisible")
+    $errorArea = $("#error-area")
+    $topnav = $("#topnav")
+    $requestTextarea = $("#request-textarea")
+
+    $errorArea.hide()
+    $errorArea.removeClass("invisible")
+    $topnav.hide()
+    $topnav.removeClass("invisible")
+
+    requestText = ->
+      $requestTextarea.val().substr(0, 100)
+
+    createRequestTweetUrl = (text) ->
+      text ?= requestText()
+      $("#twitter-request").attr('href', twitterUrl("@parrot_studio #{text}"))
+
     if isPhoneDevice()
       $("#ads").hide()
     else
-      $("#topnav").show()
+      $topnav.show()
 
-    $("#request-modal").on 'show.bs.modal', (e) ->
-      createRequestTweetUrl()
-      true # for modal
+    $("#request-modal")
+      .asEventStream('show.bs.modal')
+      .onValue -> createRequestTweetUrl()
 
-    $("#request-textarea").on 'change', (e) ->
-      createRequestTweetUrl()
+    $requestTextarea
+      .asEventStream('keyup')
+      .map -> requestText()
+      .debounce(300)
+      .skipDuplicates()
+      .onValue (text) -> createRequestTweetUrl(text)
 
-    $("#form-request").on 'click', (e) ->
-      e.preventDefault()
-
-      text = $("#request-textarea").val()
-      text = text.substr(0, 100) if text.length > 100
-      if text.length < 1
-        alert("メッセージを入力してください")
-        return
-      return unless confirm("メッセージを送信します。よろしいですか？")
-
-      $("#request-modal").modal('hide')
-      Searcher.request text, ->
-        $("#request-textarea").val('')
-        createRequestTweetUrl()
-        alert("メッセージを送信しました")
+    $("#form-request")
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .map -> requestText()
+      .filter (text) ->
+        rsl = (text.length > 0)
+        window.alert("メッセージを入力してください") unless rsl
+        rsl
+      .filter (text) -> window.confirm("メッセージを送信します。よろしいですか？")
+      .doAction( -> $("#request-modal").modal('hide'))
+      .map (text) -> Searcher.request(text)
+      .onValue ->
+        $requestTextarea.val('')
+        createRequestTweetUrl('')
+        window.alert("メッセージを送信しました")
 
   searchHandler = ->
     commonHandler()
 
-    $("#latest-info").hide()
-    $("#latest-info").removeClass("invisible")
-    $("#additional-condition").hide()
-    $("#skill-add").hide()
-    $("#ability-add").hide()
-    $("#chain-ability-add").hide()
+    $viewModal = $("#view-modal")
+    $linkModal = $("#link-modal")
+    $outsideLink = $("#outside-link")
 
-    $(".search").on 'click', (e) ->
-      e.preventDefault()
-      searchTargets()
-      $("#search-modal").modal('hide')
+    $latestInfo.hide()
+    $latestInfo.removeClass("invisible")
+    $searchAdditionalCondition.hide()
+    $searchSkillAdd.hide()
+    $searchAbilityAdd.hide()
+    $searchChainAbilityAdd.hide()
 
-    $(".search-clear").on 'click', (e) ->
-      e.preventDefault()
-      resetConditions()
+    $(".search")
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .map -> searchTargets()
+      .onValue -> $("#search-modal").modal('hide')
 
-    $("#add-condition").on 'click', (e) ->
-      e.preventDefault()
-      $("#add-condition").hide()
-      $("#additional-condition").fadeIn('fast')
+    $(".search-clear")
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .onValue -> resetConditions()
 
-    $("#skill").on 'change', (e) ->
-      e.preventDefault()
-      createSkillOptions()
+    $searchAddCondition
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .onValue ->
+        $searchAddCondition.hide()
+        $searchAdditionalCondition.fadeIn('fast')
 
-    $("#ability-category").on 'change', (e) ->
-      e.preventDefault()
-      createAbilityEffects()
-      createAbilityConditions()
-      if  $("#ability-category").val() is ''
-        $("#ability-add").hide()
-      else
-        $("#ability-add").show()
+    $searchSkill
+      .asEventStream('change')
+      .doAction('.preventDefault')
+      .map -> $searchSkill.val()
+      .onValue (val) -> createSkillOptions(val)
 
-    $("#chain-ability-category").on 'change', (e) ->
-      e.preventDefault()
-      createChainAbilityEffects()
-      createChainAbilityConditions()
-      if  $("#chain-ability-category").val() is ''
-        $("#chain-ability-add").hide()
-      else
-        $("#chain-ability-add").show()
+    $searchAbilityCategory
+      .asEventStream('change')
+      .doAction('.preventDefault')
+      .map -> $searchAbilityCategory.val()
+      .onValue (val) ->
+        createAbilityEffects(val)
+        createAbilityConditions(val)
+        if val is ''
+          $searchAbilityAdd.hide()
+        else
+          $searchAbilityAdd.show()
 
-    $("#source-category").on 'change', (e) ->
-      e.preventDefault()
-      createSourceOptions()
+    $searchChainAbilityCategory
+      .asEventStream('change')
+      .doAction('.preventDefault')
+      .map -> $searchChainAbilityCategory.val()
+      .onValue (val) ->
+        createChainAbilityEffects(val)
+        createChainAbilityConditions(val)
+        if val is ''
+          $searchChainAbilityAdd.hide()
+        else
+          $searchChainAbilityAdd.show()
 
-    $("#view-modal").on 'show.bs.modal', (e) ->
-      code = $(e.relatedTarget).data('jobCode')
-      createArcanaDetail(code)
-      true # for modal
+    $searchSourceCategory
+      .asEventStream('change')
+      .doAction('.preventDefault')
+      .map -> $searchSourceCategory.val()
+      .onValue (val) -> createSourceOptions(val)
 
-    $(".pager-prev").on 'click', (e) ->
-      e.preventDefault()
-      prevTargetPage()
+    $viewModal
+      .asEventStream('show.bs.modal')
+      .map (e) -> $(e.relatedTarget).data('jobCode')
+      .onValue (code) -> createArcanaDetail(code)
 
-    $(".pager-next").on 'click', (e) ->
-      e.preventDefault()
-      nextTargetPage()
+    $(".pager-prev")
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .onValue -> prevTargetPage()
 
-    $(".pagination").on 'click', 'span.jump-page', (e) ->
-      e.preventDefault()
-      page = $(e.target).data('page')
-      pager?.jumpPage(page)
-      replaceTargetArea()
+    $(".pager-next")
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .onValue -> nextTargetPage()
 
-    $("#default-list").on 'click', (e) ->
-      e.preventDefault()
-      searchRecentlyTargets()
+    $(".pagination")
+      .asEventStream('click', 'span.jump-page')
+      .doAction('.preventDefault')
+      .map (e) -> $(e.target).data('page')
+      .onValue (page) ->
+        pager?.jumpPage(page)
+        replaceTargetArea()
 
-    $("#clear-fav").on 'click', (e) ->
-      e.preventDefault()
-      if window.confirm('お気に入りを消去します。よろしいですか？')
+    $("#default-list")
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .filter -> !lastQuery?.isQueryForRecently()
+      .onValue -> searchRecentlyTargets()
+
+    $("#clear-fav")
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .filter -> window.confirm('お気に入りを消去します。よろしいですか？')
+      .onValue ->
         clearFavoriteArcana()
         window.alert('お気に入りを消去しました。')
 
-    $("#clear-log").on 'click', (e) ->
-      e.preventDefault()
-      if window.confirm('検索履歴を消去します。よろしいですか？')
+    $("#clear-log")
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .filter -> window.confirm('検索履歴を消去します。よろしいですか？')
+      .onValue ->
         clearQueryLog()
         window.alert('検索履歴を消去しました。')
 
-    $("#clear-all").on 'click', (e) ->
-      e.preventDefault()
-      if window.confirm('全ての履歴（お気に入り/検索）を消去します。よろしいですか？')
+    $("#clear-all")
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .filter -> window.confirm('全ての履歴（お気に入り/検索）を消去します。よろしいですか？')
+      .onValue ->
         clearFavoriteArcana()
         clearLastMembers()
         clearQueryLog()
         window.alert('全ての履歴を消去しました。')
 
-    $("#search-menu").on 'click', 'a.search-log', (e) ->
-      e.preventDefault()
-      n = parseInt($(e.target).data('order'))
-      if n > 0
-        query = querys[n-1]
-        if query
-          searchTargets(query)
-          setConditions(query)
+    $("#search-menu")
+      .asEventStream('click', 'a.search-log')
+      .doAction('.preventDefault')
+      .map (e) -> parseInt($(e.target).data('order'))
+      .filter (n) -> n > 0
+      .map (n) -> querys[n-1]
+      .filter (q) -> q
+      .onValue (query) ->
+        searchTargets(query)
+        setConditions(query)
 
-    $("#favorite-list").on 'click', (e) ->
-      e.preventDefault()
-      searchFavoriteArcanas()
+    $("#favorite-list")
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .onValue -> searchFavoriteArcanas()
 
-    $("#view-modal").on 'click', 'button.wiki-link', (e) ->
-      e.preventDefault()
-      code = $(e.target).data('jobCode')
-      a = Searcher.forCode(code)
-      return false unless a
+    $viewModal
+      .asEventStream('click', 'button.wiki-link')
+      .doAction('.preventDefault')
+      .map (e) -> $(e.target).data('jobCode')
+      .map (code) -> Searcher.forCode(code)
+      .filter (a) -> a
+      .onValue (a) ->
+        lt = if a.wikiName is ''
+          "Wikiで最新情報を確認する"
+        else
+          "Wikiで #{a.wikiName} を確認する"
 
-      lt = if a.wikiName is ''
-        "Wikiで最新情報を確認する"
-      else
-        "Wikiで #{a.wikiName} を確認する"
+        $outsideLink.attr('href', a.wikiUrl)
+        $("#outside-link-text").text(lt)
+        $("#outside-site-name").text("チェインクロニクル攻略・交流Wiki")
+        $viewModal.modal('hide')
+        $linkModal.modal('show')
 
-      $("#outside-link-text").text(lt)
-      $("#outside-link").attr('href', a.wikiUrl)
-      $("#outside-site-name").text("チェインクロニクル攻略・交流Wiki")
-
-      $("#view-modal").modal('hide')
-      $("#link-modal").modal('show')
-
-    $("#outside-link").on 'click', (e) ->
-      $("#link-modal").modal('hide')
-      true
-
-    # return promise
-    initSearchConditions()
+    $outsideLink
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .onValue -> $linkModal.modal('hide')
 
   initEditHandler = ->
-    promise = searchHandler()
+    searchHandler()
 
-    $("#tutorial").hide()
-    $("#tutorial").removeClass("invisible")
-    $("#help-area").hide()
-    $("#help-area").removeClass("invisible")
-    $("#help-text").hide()
+    $tutorial = $("#tutorial")
+    $helpArea = $("#help-area")
+    $helpText = $("#help-text")
+    $helpTextBtn = $("#help-text-btn")
+    $membersComment = $("#members-comment")
+
+    $tutorial.hide()
+    $tutorial.removeClass("invisible")
+    $helpArea.hide()
+    $helpArea.removeClass("invisible")
+    $helpText.hide()
+
+    # local methods ------------
+
+    isShowTutorial = ->
+      if Cookie.valueFor('tutorial') then false else true
+
+    showTutorial = ->
+      $tutorial.show()
+      Cookie.set({tutorial: true})
+
+    initParties = ->
+      parties = []
+      try
+        val = Cookie.valueFor('parties')
+        return unless val
+        parties = JSON.parse(val)
+        renderPartyList()
+      catch
+        parties = []
+      @
+
+    renderPartyList = ->
+      $(".party-list").remove()
+      return if parties.length < 1
+
+      base = $("#party-list-header")
+      for i in [ptSize..1]
+        pt = parties[i-1]
+        continue unless pt
+        comment = pt.comment || '名無しパーティー'
+        li = "<li><a data-target='#' data-order='#{i}' class='party-list'>#{comment}</a></li>"
+        base.after(li)
+      @
+
+    loadParty = (order) ->
+      pt = parties[order-1] || {}
+      code = pt.code || ''
+      code = defaultMemberCode if code is ''
+      comment = pt.comment || ""
+      $membersComment.val(comment)
+      buildMembersArea(code)
+
+    storeParty = (comment) ->
+      code = createMembersCode()
+      comment ||= '名無しパーティー'
+      if comment.length > 10
+        comment = comment.substr(0, 10)
+
+      data =
+        code: code
+        comment: comment
+      npt = [data]
+      for pt in parties
+        break if parties.length == ptSize
+        continue if pt.code == code
+        npt.push pt
+      parties = npt
+      renderPartyList()
+
+      val = JSON.stringify(parties)
+      Cookie.set({'parties': val})
+      parties
+
+    # init ------------
 
     if isShowTutorial()
       showTutorial()
     else if isShowLatestInfo()
       showLatestInfo()
+
+    initParties()
 
     $(".member-character").droppable(
       drop: (e, ui) ->
@@ -1480,111 +1520,152 @@ class Viewer
         handleDropedArcana($(e.target), ui.draggable)
     )
 
-    $("#edit-members").on 'click', (e) ->
-      e.preventDefault()
-      toggleEditMode()
+    $("#edit-members")
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .onValue -> setEditMode(!isEditMode())
 
-    $("#member-area").on 'click', 'button.close-member', (e) ->
-      e.preventDefault()
-      target = $(e.target).parents(".member-character")
-      key = memberKeyFromArea(target)
-      clearMemberArcana(key)
-      calcCost()
-      false
+    $memberArea
+      .asEventStream('click', 'button.close-member')
+      .doAction('.preventDefault')
+      .map (e) -> $(e.target).parents(".member-character")
+      .map (target) -> memberKeyFromArea(target)
+      .onValue (key) -> clearMemberArcana(key)
 
-    $("#member-area").on 'click', 'button.close-chain', (e) ->
-      e.preventDefault()
-      target = $(e.target).parents(".member-character")
-      key = memberKeyFromArea(target)
-      mem = memberFor(key)
-      if mem
+    $memberArea
+      .asEventStream('click', 'button.close-chain')
+      .doAction('.preventDefault')
+      .map (e) -> $(e.target).parents(".member-character")
+      .map (target) -> memberFor(memberKeyFromArea(target))
+      .filter (mem) -> mem
+      .onValue (mem) ->
         mem.chainArcana = null
-        setMemberArcana(key, mem)
-      false
+        setMemberArcana(mem.memberKey, mem)
 
-    $("#share-ptm-modal").on 'show.bs.modal', (e) ->
-      code = createMembersCode()
-      url = $("#app-path").val() + code
-      $("#ptm-code").val(url)
-      $("#twitter-share").attr('href', twitterUrl("チェンクロ パーティーシミュレーター #{url}"))
-      true # for modal
+    $("#share-ptm-modal")
+      .asEventStream('show.bs.modal')
+      .onValue ->
+        code = createMembersCode()
+        url = $appPath.val() + code
+        $ptmCode.val(url)
+        $twitterShare.attr('href', twitterUrl("チェンクロ パーティーシミュレーター #{url}"))
 
-    $("#ptm-code").on 'click forcus', (e) ->
-      $(e.target).select()
-      e.preventDefault()
+    $ptmCode
+      .asEventStream('click forcus')
+      .doAction('.preventDefault')
+      .map (e) -> $(e.target)
+      .onValue (target) -> target.select()
 
-    $("#reset-members").on 'click', (e) ->
-      e.preventDefault()
-      eachMemberKey (k) ->
-        clearMemberArcana(k)
-      $("#cost").text('0')
-      $("#reset-modal").modal('hide')
+    $("#reset-members")
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .onValue ->
+        eachMemberKey (k) ->
+          clearMemberArcana(k)
+        $("#reset-modal").modal('hide')
 
-    $("#last-members").on 'click', (e) ->
-      e.preventDefault()
-      searchLastMembers()
+    $("#last-members")
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .onValue -> searchLastMembers()
 
-    $("#select-btn-chain").on 'click', (e) ->
-      e.preventDefault()
-      key = $('#select-position-key').val()
-      code = $('#select-droped-code').val()
-      mem = memberFor(key)
-      if mem
+    $("#select-btn-chain")
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .map -> $('#select-position-key').val()
+      .map (key) -> memberFor(key)
+      .filter (mem) -> mem
+      .onValue (mem) ->
+        code = $('#select-droped-code').val()
         mem.chainArcana = Searcher.forCode(code)
-      removeDuplicateMember(mem) unless key is 'friend'
-      setMemberArcana(key, mem)
-      $('#select-modal').modal('hide')
+        removeDuplicateMember(mem) unless mem.memberKey is 'friend'
+        setMemberArcana(mem.memberKey, mem)
+        $('#select-modal').modal('hide')
 
-    $("#select-btn-replace").on 'click', (e) ->
-      e.preventDefault()
-      key = $('#select-position-key').val()
-      swapKey = $('#select-swap-position-key').val()
-      code = $('#select-droped-code').val()
-      replaceMemberArea(key, code, swapKey)
-      $('#select-modal').modal('hide')
+    $("#select-btn-replace")
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .onValue ->
+        key = $('#select-position-key').val()
+        swapKey = $('#select-swap-position-key').val()
+        code = $('#select-droped-code').val()
+        replaceMemberArea(key, code, swapKey)
+        $('#select-modal').modal('hide')
 
-    $("#help-text-btn").on 'click', (e) ->
-      e.preventDefault()
-      $("#help-text").show()
-      $("#help-text-btn").hide()
+    $helpTextBtn
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .onValue ->
+        $helpText.show()
+        $helpTextBtn.hide()
 
-    $("#store-members").on 'click', (e) ->
-      e.preventDefault()
-      comment = $("#members-comment").val()
-      storeParty(comment)
-      $("#store-modal").modal('hide')
+    $("#store-members")
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .map -> $membersComment.val()
+      .onValue (comment) ->
+        storeParty(comment)
+        $("#store-modal").modal('hide')
 
-    $("#party-menu").on 'click', 'a.party-list', (e) ->
-      e.preventDefault()
-      n = parseInt($(e.target).data('order'))
-      loadParty(n) if n > 0
-
-    promise
+    $("#party-menu")
+      .asEventStream('click', 'a.party-list')
+      .doAction('.preventDefault')
+      .map (e) -> parseInt($(e.target).data('order'))
+      .filter (n) -> n > 0
+      .onValue (n) -> loadParty(n)
 
   initDatabaseHandler = ->
-    promise = searchHandler()
+    searchHandler()
+
+    $queryUrl = $("#query-url")
+    $arcanaTable = $("#arcana-table")
+
+    # local methods ------------
+
+    updateSortOrder = (col, order) ->
+      resetSortOrder()
+      sortOrder[col] = order
+      @
+
+    reverseOrder = (order) ->
+      switch order
+        when 'asc' then 'desc'
+        when 'desc' then 'asc'
+        else null
+
+    sortTargets = (col, ord) ->
+      order = ord || reverseOrder(sortOrder[col]) || sortOrderDefault[col] || 'desc'
+      pager?.sort(col, order)
+      replaceTargetArea()
+      updateSortOrder(col, order)
+      renderOrderState()
+      @
+
+    # init ------------
 
     showLatestInfo() if isShowLatestInfo()
 
-    $("#share-query-modal").on 'show.bs.modal', (e) ->
-      query = lastQuery || {}
-      qs = query.encode() || ''
+    $("#share-query-modal")
+      .asEventStream('show.bs.modal')
+      .map -> lastQuery?.encode() || ''
+      .map (qs) ->
+        url = "#{$appPath.val()}db"
+        url += "?#{qs}" unless qs is ''
+        url
+      .doAction ->
+        $("#share-url-form").hide() if isPhoneDevice()
+      .onValue (url) ->
+        $queryUrl.val(url)
+        $twitterShare.attr('href', twitterUrl("チェンクロ パーティーシミュレーター #{url}"))
 
-      url = "#{$("#app-path").val()}db"
-      url += "?#{qs}" unless qs is ''
-      if isPhoneDevice()
-        $("#share-url-form").hide()
-      else
-        $("#query-url").val(url)
-      $("#twitter-share").attr('href', twitterUrl("チェンクロ パーティーシミュレーター #{url}"))
-      true # for modal
-
-    $("#query-url").on 'click forcus', (e) ->
-      $(e.target).select()
-      e.preventDefault()
+    $queryUrl
+      .asEventStream('click forcus')
+      .doAction('.preventDefault')
+      .map (e) -> $(e.target)
+      .onValue (target) -> target.select()
 
     if isPhoneDevice()
-      $("#arcana-table").swipe (
+      $arcanaTable.swipe (
         swipeLeft: (e) ->
           prevTargetPage()
           e.preventDefault()
@@ -1593,19 +1674,20 @@ class Viewer
           e.preventDefault()
       )
 
-    $("#arcana-table").on 'click', 'th.sortable', (e) ->
-      e.preventDefault()
-      target = $(e.target)
-      col = target.data('colName') || ''
-      sortTargets(col) unless col is ''
+    sortTitleStream = $arcanaTable
+      .asEventStream('click', 'th.sortable')
+      .doAction('.preventDefault')
+      .map (e) -> $(e.target)
 
-    $("#arcana-table").on 'click', 'button.sortable', (e) ->
-      target = $(e.target).parents('th')
-      col = target.data('colName') || ''
-      sortTargets(col) unless col is ''
-      false
+    sortButtonStream = $arcanaTable
+      .asEventStream('click', 'button.sortable')
+      .doAction('.stopPropagation')
+      .map (e) -> $(e.target).parents('th')
 
-    promise
+    sortTitleStream.merge(sortButtonStream)
+      .map (target) -> target.data('colName') || ''
+      .filter (col) -> !(col is '')
+      .onValue (col) -> sortTargets(col)
 
 $ ->
   FastClick.attach(document.body)
