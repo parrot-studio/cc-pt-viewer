@@ -107,7 +107,7 @@ class Arcana < ActiveRecord::Base
       details: {
         festival: 'フェス',
         demon: '魔神戦',
-        score: '戦の年代記',
+        score: '踏破',
         war: '討伐戦',
         other: 'その他'
       }

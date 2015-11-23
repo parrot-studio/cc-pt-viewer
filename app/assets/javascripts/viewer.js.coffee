@@ -1260,7 +1260,7 @@ class Viewer
         rsl
       .filter (text) -> window.confirm("メッセージを送信します。よろしいですか？")
       .doAction( -> $("#request-modal").modal('hide'))
-      .map (text) -> Searcher.request(text)
+      .flatMap (text) -> Searcher.request(text)
       .onValue ->
         $requestTextarea.val('')
         createRequestTweetUrl('')
