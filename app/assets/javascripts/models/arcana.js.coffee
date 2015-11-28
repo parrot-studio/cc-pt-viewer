@@ -6,14 +6,13 @@ class @Ability
     @weaponName = data.weapon_name || ''
     @effects = []
     if data.effects
-      for e in data.effects
+    　@effects = _.map data.effects, (e) ->
         d =
           category: e.category
           condition: e.condition
           effect: e.effect
           target: e.target
           note: e.note || ''
-        @effects.push d
 
 class @Skill
 
@@ -23,7 +22,7 @@ class @Skill
     @cost = data.cost || '？'
     @effects = []
     if data.effects
-      for e in data.effects
+      @effects = _.map data.effects, (e) ->
         d =
           category: e.category
           subcategory: e.subcategory
@@ -35,7 +34,6 @@ class @Skill
           subeffect4: e.subeffect4 || ''
           subeffect5: e.subeffect5 || ''
           note: e.note || ''
-        @effects.push d
 
   @subeffectForEffect: (ef) ->
     return [] unless ef
@@ -58,6 +56,18 @@ class @Arcana
 
   WIKI_URL = 'http://xn--eckfza0gxcvmna6c.gamerch.com/'
 
+  arcanas = {}
+
+  @forCode: (code) ->
+    arcanas[code]
+
+  @build = (d) ->
+    return null unless d
+    a = new Arcana(d)
+    return null unless a
+    arcanas[a.jobCode] = a unless arcanas[a.jobCode]
+    a
+
   constructor: (data) ->
     @name = data.name
     @title = data.title
@@ -74,9 +84,9 @@ class @Arcana
     @weaponType = data.weapon_type
     @weaponName = data.weapon_name
     @voiceActor = data.voice_actor
-    @voiceActor = '？' if @voiceActor == ''
+    @voiceActor = '？' if _.isEmpty(@voiceActor)
     @illustrator = data.illustrator
-    @illustrator = '？' if @illustrator == ''
+    @illustrator = '？' if _.isEmpty(@illustrator)
     @union = data.union
     @sourceCategory = data.source_category
     @source = data.source
@@ -103,7 +113,7 @@ class @Arcana
         "#{@title}#{@name}"
     )
     @wikiUrl = (
-      if @wikiName is ''
+      if _.isEmpty(@wikiName)
         WIKI_URL
       else
         WIKI_URL + encodeURIComponent(@wikiName)

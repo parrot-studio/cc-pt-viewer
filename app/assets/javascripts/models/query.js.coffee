@@ -15,7 +15,7 @@ class @Query
 
   constructor: (q) ->
     @q = (q || {})
-    @detail = ""
+    @detail = ''
 
   reset: ->
     @q = {}
@@ -44,31 +44,31 @@ class @Query
     chaincost = getInputValue("chain-cost")
 
     query = {}
-    query.job = job unless job is ''
-    query.rarity = rarity unless rarity is ''
-    query.weapon = weapon unless weapon is ''
-    query.actor = actor unless actor is ''
-    query.illustrator = illst unless illst is ''
-    query.union = union unless union is ''
-    unless sourcecategory is ''
+    query.job = job unless _.isEmpty(job)
+    query.rarity = rarity unless _.isEmpty(rarity)
+    query.weapon = weapon unless _.isEmpty(weapon)
+    query.actor = actor unless _.isEmpty(actor)
+    query.illustrator = illst unless _.isEmpty(illst)
+    query.union = union unless _.isEmpty(union)
+    unless _.isEmpty(sourcecategory)
       query.sourcecategory = sourcecategory
-      query.source = source unless source is ''
-    query.abilitycategory = abilityCategory unless abilityCategory is ''
-    query.abilityeffect = abilityEffect unless abilityEffect is ''
-    query.abilitycondition = abilityCondition unless abilityCondition is ''
-    query.chainabilitycategory = chainAbilityCategory unless chainAbilityCategory is ''
-    query.chainabilityeffect = chainAbilityEffect unless chainAbilityEffect is ''
-    query.chainabilitycondition = chainAbilityCondition unless chainAbilityCondition is ''
-    query.arcanacost = arcanacost unless arcanacost is ''
-    query.chaincost = chaincost unless chaincost is ''
+      query.source = source unless _.isEmpty(source)
+    query.abilitycategory = abilityCategory unless _.isEmpty(abilityCategory)
+    query.abilityeffect = abilityEffect unless _.isEmpty(abilityEffect)
+    query.abilitycondition = abilityCondition unless _.isEmpty(abilityCondition)
+    query.chainabilitycategory = chainAbilityCategory unless _.isEmpty(chainAbilityCategory)
+    query.chainabilityeffect = chainAbilityEffect unless _.isEmpty(chainAbilityEffect)
+    query.chainabilitycondition = chainAbilityCondition unless _.isEmpty(chainAbilityCondition)
+    query.arcanacost = arcanacost unless _.isEmpty(arcanacost)
+    query.chaincost = chaincost unless _.isEmpty(chaincost)
 
-    unless (skill is '' && skillcost is '')
-      query.skill = skill unless skill is ''
-      query.skillcost = skillcost unless skillcost is ''
+    unless (_.isEmpty(skill) && _.isEmpty(skillcost))
+      query.skill = skill unless _.isEmpty(skill)
+      query.skillcost = skillcost unless _.isEmpty(skillcost)
       skillsub = getInputValue("skill-sub")
-      query.skillsub = skillsub unless skillsub is ''
+      query.skillsub = skillsub unless _.isEmpty(skillsub)
       skilleffect = getInputValue("skill-effect")
-      query.skilleffect = skilleffect unless skilleffect is ''
+      query.skilleffect = skilleffect unless _.isEmpty(skilleffect)
 
     @q = query
     @q
@@ -80,24 +80,22 @@ class @Query
   parse: (q) ->
     q ?= (location.search.replace(/(^\?)/,'') || '')
     @reset()
-    return {} if q is ''
+    return {} if _.isEmpty(q)
 
     ret = {}
     recently = false
     r = /\+/g
-    for qs in q.split("&")
+    _.forEach q.split("&"), (qs) ->
       [n, v] = qs.split("=")
       val = decodeURIComponent(v).replace(r, ' ')
+      return if n is 'ver'
       switch n
-        when 'ver'
-          continue
         when 'recently'
           recently = true
-          break
         when 'illustratorname'
-          ret['illustrator'] = Searcher.illustratorIdFor(val)
+          ret['illustrator'] = Conditions.illustratorIdFor(val)
         when 'actorname'
-          ret['actor'] = Searcher.voiceactorIdFor(val)
+          ret['actor'] = Conditions.voiceactorIdFor(val)
         else
           ret[n] = val
     return if recently
@@ -106,26 +104,20 @@ class @Query
 
   encode: ->
     return '' unless @q
+    return '' if @q.recently
 
-    ret = {}
-    recently = false
-    for n, v of @q
+    query = _.transform @q, (ret, v, n) ->
+      return if n is 'ver'
       switch n
-        when 'ver'
-          continue
-        when 'recently'
-          recently = true
-          break
         when 'illustrator'
-          ret['illustratorname'] = Searcher.illustratorNameFor(v)
+          ret['illustratorname'] = Conditions.illustratorNameFor(v)
         when 'actor'
-          ret['actorname'] = Searcher.voiceactorNameFor(v)
+          ret['actorname'] = Conditions.voiceactorNameFor(v)
         else
           ret[n] = v
-    return '' if recently
 
     rs = []
-    for k, v of ret
+    _.forEach query, (v, k) ->
       rs.push (encodeURIComponent(k) + "=" + encodeURIComponent(v))
     rs.join("&").replace(' ', "+")
 
@@ -135,7 +127,7 @@ class @Query
 
   createKey: ->
     query = (@q || {})
-    key = ""
+    key = ''
     key += "recently_" if query.recently
     key += "j#{query.job}_" if query.job
     key += "r#{query.rarity}_" if query.rarity

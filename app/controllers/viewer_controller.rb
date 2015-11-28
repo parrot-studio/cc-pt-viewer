@@ -54,6 +54,11 @@ class ViewerController < ApplicationController
     render json: (as || [])
   end
 
+  def name_search
+    as = search_from_name(params[:name])
+    render json: (as || [])
+  end
+
   def request_mail
     mail = AdminMailer.request_mail(params[:text], ip: request.remote_ip)
     mail.deliver_later if mail
@@ -193,6 +198,19 @@ class ViewerController < ApplicationController
     cs = codes.split('/')
     return [] if cs.blank?
     Arcana.where(job_code: cs).map(&:serialize)
+  end
+
+  def search_from_name(name)
+    return [] if name.blank?
+    return [] unless name.size > 1
+
+    arel = Arcana.where(
+      Arcana.arel_table[:name].matches("%#{name}%").or(
+        Arcana.arel_table[:title].matches("%#{name}%"))
+    ).order(
+      'arcanas.rarity DESC, arcanas.cost DESC, arcanas.job_type, arcanas.job_index DESC'
+    )
+    arel.map(&:serialize)
   end
 
   def with_cache(name, &b)
