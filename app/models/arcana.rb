@@ -115,19 +115,19 @@ class Arcana < ActiveRecord::Base
     collaboration: {
       name: 'コラボ',
       details: {
-        shiningblade: 'シャイニング・ブレイド',
-        maoyu: 'まおゆう',
-        trefle: 'Trefle',
-        mediafactory: 'メディアファクトリー',
-        loghorizon: 'ログ・ホライズン',
-        bakidou: '刃牙道',
-        atelier_twilight: 'アトリエ・黄昏シリーズ',
-        monokuma: '絶対絶望少女',
-        falcom_sen2: '閃の軌跡II',
-        sevensins: '七つの大罪',
-        brave: 'ブレイブフロンティア',
-        shiningresonance: 'シャイニング・レゾナンス',
+        seiken: '聖剣伝説',
         atelier_arland: 'アトリエ・アーランドシリーズ',
+        shiningresonance: 'シャイニング・レゾナンス',
+        brave: 'ブレイブフロンティア',
+        sevensins: '七つの大罪',
+        falcom_sen2: '閃の軌跡II',
+        monokuma: '絶対絶望少女',
+        atelier_twilight: 'アトリエ・黄昏シリーズ',
+        loghorizon: 'ログ・ホライズン',
+        mediafactory: 'メディアファクトリー',
+        trefle: 'Trefle',
+        maoyu: 'まおゆう',
+        shiningblade: 'シャイニング・ブレイド',
         other: 'その他'
       }
     }

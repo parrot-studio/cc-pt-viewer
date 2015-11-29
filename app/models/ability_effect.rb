@@ -50,7 +50,8 @@ class AbilityEffect < ActiveRecord::Base
         fullup: '攻撃力/防御力/移動速度上昇',
         critup: 'クリティカル率上昇',
         add_down: '対象の攻撃にダウンを付与',
-        add_slow: '対象の攻撃にスロウを付与'
+        add_slow: '対象の攻撃にスロウを付与',
+        barrier: 'バリアを張る'
       },
       condition: {
         any: 'いつでも',
@@ -301,6 +302,7 @@ class AbilityEffect < ActiveRecord::Base
         atkup: '攻撃力上昇',
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
+        defspeedup: '防御力/移動速度上昇',
         fullup: '攻撃力/防御力/移動速度上昇'
       },
       condition: {
@@ -434,6 +436,7 @@ class AbilityEffect < ActiveRecord::Base
         boss_wave: 'BOSS WAVE時',
         union: '特定の構成の時',
         same_abilities: '同じアビリティを持った味方がいる時',
+        combat: '近接戦闘時',
         in_head: '先頭にいる時',
         in_front: '仲間より前にいる時',
         in_enemy_area: '敵陣にいる時',
