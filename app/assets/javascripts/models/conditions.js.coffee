@@ -46,14 +46,14 @@ class @Conditions
   @voiceactorIdFor: (name) ->
     return null unless name
     rsl = _.find @voiceactors(), (v) -> v[1] is name
-    return unless rsl
+    return null unless rsl
     rsl[0]
 
   @voiceactorNameFor: (id) ->
     return '' unless id
     id = parseInt(id)
     rsl = _.find @voiceactors(), (v) -> v[0] is id
-    return unless rsl
+    return '' unless rsl
     rsl[1]
 
   @illustrators: ->
@@ -62,12 +62,12 @@ class @Conditions
   @illustratorIdFor: (name) ->
     return null unless name
     rsl = _.find @illustrators(), (v) -> v[1] is name
-    return unless rsl
+    return null unless rsl
     rsl[0]
 
   @illustratorNameFor: (id) ->
     return '' unless id
     id = parseInt(id)
     rsl = _.find @illustrators(), (v) -> v[0] is id
-    return unless rsl
+    return '' unless rsl
     rsl[1]

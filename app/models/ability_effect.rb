@@ -161,6 +161,7 @@ class AbilityEffect < ActiveRecord::Base
         atkdown: '攻撃力低下',
         defdown: '防御力低下',
         speeddown: '移動速度低下',
+        fulldown: '攻撃力/防御力/移動速度低下',
         delayup: '攻撃速度低下',
         shield_break: '盾を破壊する'
       },

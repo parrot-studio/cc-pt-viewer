@@ -159,8 +159,8 @@ class @DatabaseView
     tr
 
   renderOrderState = ->
-    $(".sortable").map ->
-      col = $(this)
+    _.forEach $(".sortable"), (c) ->
+      col = $(c)
       name = col.data('colName')
       order = sortOrder[name] || ''
       span = col.children('button').children('span')

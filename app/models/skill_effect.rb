@@ -38,6 +38,7 @@ class SkillEffect < ActiveRecord::Base
         add_poison: '毒追加',
         add_slow: 'スロウ追加',
         add_push: '弾き飛ばし',
+        add_tumble: '転倒付与',
         fire: '火属性',
         ice: '氷属性',
         charge: '溜め',
