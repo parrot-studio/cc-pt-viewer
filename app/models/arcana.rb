@@ -2,7 +2,7 @@ class Arcana < ActiveRecord::Base
 
   default_scope do
     includes([
-      :voice_actor, :illustrator, :skill,
+      :voice_actor, :illustrator, :skill, :skill2,
       :first_ability, :second_ability, :chain_ability, :weapon_ability
     ])
   end
@@ -10,6 +10,7 @@ class Arcana < ActiveRecord::Base
   belongs_to :voice_actor
   belongs_to :illustrator
   belongs_to :skill
+  belongs_to :skill2,         class_name: 'Skill'
   belongs_to :first_ability,  class_name: 'Ability'
   belongs_to :second_ability, class_name: 'Ability'
   belongs_to :chain_ability
@@ -208,6 +209,7 @@ class Arcana < ActiveRecord::Base
     ret['voice_actor'] = (voice_actor ? voice_actor.name : '')
     ret['illustrator'] = (illustrator ? illustrator.name : '')
     ret['skill'] = (skill ? skill.serialize : {})
+    ret['skill2'] = (skill2 ? skill2.serialize : {})
     ret['first_ability'] = (first_ability ? first_ability.serialize : {})
     ret['second_ability'] = (second_ability ? second_ability.serialize : {})
     ret['chain_ability'] = (chain_ability ? chain_ability.serialize : {})

@@ -157,10 +157,9 @@ class ArcanaImporter
         if order == 1
           name = data.shift
           cost = data.shift
-          data.shift
+          multi_cond = data.shift.to_s
           next if (name.blank? || cost.blank?)
           multi_type = ''
-          multi_cond = ''
 
           sk = skills[name]
           unless sk
@@ -369,10 +368,11 @@ class ArcanaImporter
     name2 = data[18]
     raise 'name invalid' unless name == name2
     skill_name = data[19]
-    ability_name_f = data[20]
-    ability_name_s = data[21]
-    ability_name_w = data[22]
-    chain_ability_name = data[23]
+    skill2_name = data[20]
+    ability_name_f = data[21]
+    ability_name_s = data[22]
+    ability_name_w = data[23]
+    chain_ability_name = data[24]
 
     arcana = Arcana.find_by(job_code: code) || Arcana.new
     arcana.name = name
@@ -426,6 +426,14 @@ class ArcanaImporter
       unless arcana.skill
         puts "skill not found => #{skill_name}"
         arcana.skill_id = 0
+      end
+    end
+
+    unless skill2_name.blank?
+      arcana.skill2 = skills[skill2_name]
+      unless arcana.skill2
+        puts "skill2 not found => #{skill2_name}"
+        arcana.skill2_id = 0
       end
     end
 

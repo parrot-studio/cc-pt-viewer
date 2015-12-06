@@ -669,6 +669,11 @@ class @ArcanasView
     else
       ''
 
+    skill2 = unless _.isEmpty(a.skill2?.name)
+      "#{renderSkill(a.skill2)}"
+    else
+      ''
+
     "
       <div class='#{a.jobClass} arcana'>
         <div class='#{a.jobClass}-title arcana-title'>
@@ -707,7 +712,7 @@ class @ArcanasView
             <div class='col-xs-12 col-sm-8 col-md-8'>
               <dl class='small arcana-view-detail'>
                 <dt>スキル</dt>
-                <dd>#{renderSkill(a.skill)}</dd>
+                <dd>#{renderSkill(a.skill)}#{skill2}</dd>
                 <dt>アビリティ1</dt>
                 <dd>#{renderAbility(a.firstAbility)}</dd>
                 <dt>アビリティ2</dt>

@@ -241,6 +241,13 @@ class @EditView
       addFavHandlerForChoice(a)
       li.fadeIn('slow')
 
+  renderSkillName = (a) ->
+    return '' unless a
+    render = "#{a.skill.name}"
+    unless _.isEmpty(a.skill2)
+      render += "/#{a.skill2.name}"
+    render
+
   renderChoiceArcana = (a) ->
     if a
       div = "
@@ -266,7 +273,7 @@ class @EditView
               <small>
                 <ul class='small text-muted list-unstyled summary-detail overflow'>
                   <li>#{a.maxAtk} / #{a.maxHp}</li>
-                  <li>#{a.skill.name} (#{a.skill.cost})</li>
+                  <li>#{renderSkillName(a)} (#{a.skill.cost})</li>
                   <li>#{unless _.isEmpty(a.firstAbility.name) then a.firstAbility.name else 'なし'}<br>#{unless _.isEmpty(a.secondAbility.name) then a.secondAbility.name else 'なし'}</li>
                   <li class='chain-ability-name'>（#{a.chainAbility.name}）</li>
                 </ul>
@@ -340,7 +347,7 @@ class @EditView
               <small>
                 <ul class='small text-muted list-unstyled summary-detail overflow'>
                   <li>#{a.maxAtk} / #{a.maxHp}</li>
-                  <li>#{a.skill.name} (#{a.skill.cost})</li>
+                  <li>#{renderSkillName(a)} (#{a.skill.cost})</li>
                   <li>#{unless _.isEmpty(a.firstAbility.name) then a.firstAbility.name else 'なし'}<br>#{unless _.isEmpty(a.secondAbility.name) then a.secondAbility.name else 'なし'}</li>
                   <li class='chain-ability-name'>#{renderChainAbility(m, cl)}</li>
                 </ul>
@@ -381,7 +388,7 @@ class @EditView
               <dt>ATK / HP</dt>
               <dd> #{a.maxAtk} (#{a.limitAtk}) / #{a.maxHp} (#{a.limitHp})</dd>
               <dt>Skill</dt>
-              <dd>#{a.skill.name} (#{a.skill.cost})</dd>
+              <dd>#{renderSkillName(a)}(#{a.skill.cost})</dd>
               <dt>Ability</dt>
               <dd>
                 <ul class='list-unstyled'>

@@ -97,6 +97,7 @@ class @Arcana
     @limitHp = (data.limit_hp || '-')
 
     @skill = new Skill(data.skill)
+    @skill2 = new Skill(data.skill2) unless _.isEmpty(data.skill2)
     @firstAbility = new Ability(data.first_ability)
     @secondAbility = new Ability(data.second_ability)
     @weaponAbility = new Ability(data.weapon_ability)

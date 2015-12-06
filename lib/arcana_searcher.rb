@@ -378,7 +378,7 @@ class ArcanaSearcher
     unless skill.blank? && skillcost.blank?
       skills = skill_search(skill, skillcost, skillsub, skilleffect)
       return [] if skills.blank?
-      arel.where!(skill_id: skills)
+      arel.where!(Arcana.where(skill_id: skills).where(skill2_id: skills).where_values.reduce(:or))
     end
 
     unless (abcate.blank? && abeffect.blank? && abcond.blank?)

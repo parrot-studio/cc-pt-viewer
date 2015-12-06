@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151017014317) do
+ActiveRecord::Schema.define(version: 20151206003541) do
 
   create_table "abilities", force: :cascade do |t|
     t.string   "name",        limit: 100, null: false
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 20151017014317) do
     t.integer  "limit_atk",         limit: 8
     t.integer  "limit_hp",          limit: 8
     t.integer  "skill_id",          limit: 4,   default: 0, null: false
+    t.integer  "skill2_id",         limit: 4,   default: 0, null: false
     t.integer  "first_ability_id",  limit: 4,   default: 0, null: false
     t.integer  "second_ability_id", limit: 4,   default: 0, null: false
     t.integer  "weapon_ability_id", limit: 4,   default: 0, null: false
@@ -91,6 +92,7 @@ ActiveRecord::Schema.define(version: 20151017014317) do
   add_index "arcanas", ["rarity", "weapon_type"], name: "index_arcanas_on_rarity_and_weapon_type", using: :btree
   add_index "arcanas", ["rarity"], name: "index_arcanas_on_rarity", using: :btree
   add_index "arcanas", ["second_ability_id"], name: "index_arcanas_on_second_ability_id", using: :btree
+  add_index "arcanas", ["skill2_id"], name: "index_arcanas_on_skill2_id", using: :btree
   add_index "arcanas", ["skill_id"], name: "index_arcanas_on_skill_id", using: :btree
   add_index "arcanas", ["source"], name: "index_arcanas_on_source", using: :btree
   add_index "arcanas", ["source_category", "source"], name: "index_arcanas_on_source_category_and_source", using: :btree
