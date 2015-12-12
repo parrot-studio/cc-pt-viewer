@@ -19,7 +19,7 @@
             </div>
           </div>
           <div class="form-group">
-            <div class="col-sm-6 col-md-6">
+            <div class="col-sm-4 col-md-4">
               <label for="job" class="control-label">職業</label>
               <select id="job" class="form-control">
                 <option value="">-</option>
@@ -30,7 +30,7 @@
                 <option value="M">魔</option>
               </select>
             </div>
-            <div class="col-sm-6 col-md-6">
+            <div class="col-sm-4 col-md-4">
               <label for="rarity" class="control-label">レア度</label>
               <select id="rarity" class="form-control col-sm-6 col-md-6">
                 <option value="">-</option>
@@ -45,9 +45,30 @@
                 <option value="5">☆☆☆☆☆</option>
               </select>
             </div>
+            <div class="col-sm-4 col-md-4">
+              <label for="weapon">武器タイプ</label>
+              <select id="weapon" class="form-control">
+                <option value="">-</option>
+                <option value="Sl">斬</option>
+                <option value="Bl">打</option>
+                <option value="Pi">突</option>
+                <option value="Pu">拳</option>
+                <option value="Ar">弓</option>
+                <option value="Gu">銃</option>
+                <option value="Sh">狙</option>
+                <option value="Ma">魔</option>
+                <option value="He">聖</option>
+              </select>
+            </div>
           </div>
           <div class="form-group">
-            <div class="col-sm-6 col-md-6">
+            <div class="col-sm-4 col-md-4">
+              <label for="union">所属</label>
+              <select id="union" class="form-control">
+                <option value="">-</option>
+              </select>
+            </div>
+            <div class="col-sm-4 col-md-4">
               <label for="arcana-cost">コスト</label>
               <select id="arcana-cost" class="form-control">
                 <option value="">-</option>
@@ -57,7 +78,7 @@
                 <option value="0">0</option>
               </select>
             </div>
-            <div class="col-sm-6 col-md-6">
+            <div class="col-sm-4 col-md-4">
               <label for="chain-cost">絆コスト</label>
               <select id="chain-cost" class="form-control">
                 <option value="">-</option>
@@ -76,30 +97,7 @@
             </div>
           </div>
           <div class="form-group">
-            <div class="col-sm-6 col-md-6">
-              <label for="union">所属</label>
-              <select id="union" class="form-control">
-                <option value="">-</option>
-              </select>
-            </div>
-            <div class="col-sm-6 col-md-6">
-              <label for="weapon">武器タイプ</label>
-              <select id="weapon" class="form-control">
-                <option value="">-</option>
-                <option value="Sl">斬</option>
-                <option value="Bl">打</option>
-                <option value="Pi">突</option>
-                <option value="Pu">拳</option>
-                <option value="Ar">弓</option>
-                <option value="Gu">銃</option>
-                <option value="Sh">狙</option>
-                <option value="Ma">魔</option>
-                <option value="He">聖</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-sm-6 col-md-6">
+            <div class="col-sm-4 col-md-4">
               <label for="source">入手先</label>
               <select id="source-category" class="form-control">
                 <option value="">-</option>
@@ -110,7 +108,7 @@
                 <option value="collaboration">コラボ限定</option>
               </select>
             </div>
-            <div class="col-sm-6 col-md-6">
+            <div class="col-sm-4 col-md-4">
               <label for="source">入手先・詳細</label>
               <select id="source" class="form-control">
                 <option value="">-</option>
@@ -119,14 +117,14 @@
           </div>
           <div id="additional-condition">
             <div class="form-group">
-              <div class="col-sm-6 col-md-6">
+              <div class="col-sm-3 col-md-3">
                 <label for="skill">スキル・効果</label>
                 <select id="skill" class="form-control">
                   <option value="">-</option>
                 </select>
               </div>
-              <div class="col-sm-6 col-md-6">
-                <label for="skill-cost">スキル・マナ</label>
+              <div class="col-sm-2 col-md-2">
+                <label for="skill-cost">マナ</label>
                 <select id="skill-cost" class="form-control">
                   <option value="">-</option>
                   <option value="3">3</option>
@@ -136,17 +134,15 @@
                   <option value="1">1</option>
                 </select>
               </div>
-            </div>
-            <div id="skill-add">
-              <div class="form-group">
-                <div class="col-sm-6 col-md-6">
-                  <label for="skill-sub">スキル・対象範囲</label>
+              <div id="skill-add">
+                <div class="col-sm-4 col-md-4">
+                  <label for="skill-sub">対象範囲</label>
                   <select id="skill-sub" class="form-control">
                     <option value="">-</option>
                   </select>
                 </div>
-                <div class="col-sm-6 col-md-6">
-                  <label for="skill-effect">スキル・追加効果</label>
+                <div class="col-sm-3 col-md-3">
+                  <label for="skill-effect">追加効果</label>
                   <select id="skill-effect" class="form-control">
                     <option value="">-</option>
                   </select>
@@ -154,25 +150,21 @@
               </div>
             </div>
             <div class="form-group">
-              <div class="col-sm-6 col-md-6">
+              <div class="col-sm-4 col-md-4">
                 <label for="ability-category">アビリティ・分類</label>
                 <select id="ability-category" class="form-control">
                   <option value="">-</option>
                 </select>
               </div>
-              <div class="col-sm-6 col-md-6">
-              </div>
-            </div>
-            <div id="ability-add">
-              <div class="form-group">
-                <div class="col-sm-6 col-md-6">
-                  <label for="ability-condition">アビリティ・条件</label>
+              <div id="ability-add">
+                <div class="col-sm-4 col-md-4">
+                  <label for="ability-condition">条件</label>
                   <select id="ability-condition" class="form-control">
                     <option value="">-</option>
                   </select>
                 </div>
-                <div class="col-sm-6 col-md-6">
-                  <label for="ability-effect">アビリティ・効果</label>
+                <div class="col-sm-4 col-md-4">
+                  <label for="ability-effect">効果</label>
                   <select id="ability-effect" class="form-control">
                     <option value="">-</option>
                   </select>
@@ -180,25 +172,21 @@
               </div>
             </div>
             <div class="form-group">
-              <div class="col-sm-6 col-md-6">
+              <div class="col-sm-4 col-md-4">
                 <label for="chain-ability-category">絆アビリティ・分類</label>
                 <select id="chain-ability-category" class="form-control">
                   <option value="">-</option>
                 </select>
               </div>
-              <div class="col-sm-6 col-md-6">
-              </div>
-            </div>
-            <div id="chain-ability-add">
-              <div class="form-group">
-                <div class="col-sm-6 col-md-6">
-                  <label for="chain-ability-condition">絆アビリティ・条件</label>
+              <div id="chain-ability-add">
+                <div class="col-sm-4 col-md-4">
+                  <label for="chain-ability-condition">条件</label>
                   <select id="chain-ability-condition" class="form-control">
                     <option value="">-</option>
                   </select>
                 </div>
-                <div class="col-sm-6 col-md-6">
-                  <label for="chain-ability-effect">絆アビリティ・効果</label>
+                <div class="col-sm-4 col-md-4">
+                  <label for="chain-ability-effect">効果</label>
                   <select id="chain-ability-effect" class="form-control">
                     <option value="">-</option>
                   </select>

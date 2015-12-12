@@ -25,6 +25,8 @@ class @Searcher
 
   @searchArcanas: (query) ->
     return unless query
+    return @searchFromName(query) if query.isQueryForName()
+
     key = query.createKey()
     cached = resultCache[key]
     if cached
@@ -79,11 +81,6 @@ class @Searcher
     result.onEnd( -> $("#loading-modal").modal('hide'))
     result
 
-  @searchFromName: (name) ->
-    params = {}
-    params.ver = ver
-    params.name = name
-
-    Bacon.fromPromise($.getJSON(nameUrl, params))
-      .flatMap (data) ->
-        _.map data, (d) -> Arcana.build(d)
+  @searchFromName: (query) ->
+    @search(query.params(), nameUrl).flatMap (data) ->
+      _.map data, (d) -> Arcana.build(d)

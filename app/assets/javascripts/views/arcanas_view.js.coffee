@@ -77,22 +77,13 @@ class @ArcanasView
       .map -> recentQuery
 
     queryFromInit = Bacon.once(parseQuery())
+      .filter (q) -> !q.isQueryForName()
 
-    queryStream = queryFromSearch
+    normalSearchStream = queryFromSearch
       .merge queryfromQueryLog
       .merge queryFromDefaultList
       .merge queryFromInit
-
-    querySearchStream = queryStream
-      .map (q) -> (if q.isEmpty() then recentQuery else q)
       .doAction -> $arcanaName.val('')
-      .flatMap (query) -> searchTargets(query)
-
-    favSearchStream = $("#favorite-list")
-      .asEventStream('click')
-      .doAction('.preventDefault')
-      .map -> Favorites.list()
-      .flatMap (favs) -> searchFavs(favs)
 
     arcanaNameStream = $arcanaName
       .asEventStream('keyup change')
@@ -103,17 +94,35 @@ class @ArcanasView
 
     nameSearchStream = arcanaNameStream
       .filter (name) -> name.length > 1
-      .flatMap (name) -> searchName(name)
+      .map (name) -> queryFromName(name)
 
     emptyNameSearchStream = arcanaNameStream
       .filter (name) -> _.isEmpty(name)
-      .flatMap -> searchTargets(recentQuery)
+      .map -> recentQuery
 
-    arcanaNameSearchStream = nameSearchStream.merge(emptyNameSearchStream)
+    queryFromInitForName = Bacon.once(parseQuery())
+      .filter (q) -> q.isQueryForName()
+      .map (q) -> queryFromName(q.params().name)
+
+    arcanaNameSearchStream = nameSearchStream
+      .merge emptyNameSearchStream
+      .merge queryFromInitForName
+
+    queryStream = normalSearchStream
+      .merge arcanaNameSearchStream
+
+    querySearchStream = queryStream
+      .map (q) -> (if q.isEmpty() then recentQuery else q)
+      .flatMap (query) -> searchTargets(query)
+
+    favSearchStream = $("#favorite-list")
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .map -> Favorites.list()
+      .flatMap (favs) -> searchFavs(favs)
 
     searchStream = querySearchStream
       .merge favSearchStream
-      .merge arcanaNameSearchStream
 
     searchResult = searchStream
       .flatMap (as) -> createPager(as, pagerSize)
@@ -263,10 +272,10 @@ class @ArcanasView
       replaceDetail('お気に入り')
       as
 
-  searchName = (name) ->
-    Searcher.searchFromName(name).flatMap (as) ->
-      replaceDetail('名前から検索 : ' + name)
-      as
+  queryFromName = (name) ->
+    query = Query.create(name: name)
+    query.detail = "名前から検索 : #{name}"
+    query
 
   clearQueryLogs = ->
     QueryLogs.clear()
@@ -311,6 +320,9 @@ class @ArcanasView
     resetConditions()
     return if q.isEmpty() || q.isQueryForRecently()
     query = q.params()
+    if q.isQueryForName()
+      $arcanaName.val(query.name)
+      return
 
     if query.job
       $("#job").val(query.job)

@@ -5,7 +5,7 @@ class ArcanaSearcher
     :union, :source, :sourcecategory, :skill, :skillcost,
     :skillsub, :skilleffect, :abilitycategory, :abilityeffect, :abilitycondition,
     :chainabilitycategory, :chainabilityeffect, :chainabilitycondition,
-    :arcanacost, :chaincost, :actorname, :illustratorname
+    :arcanacost, :chaincost, :actorname, :illustratorname, :name
   ].freeze
 
   KEY_TABLE = {
@@ -263,6 +263,7 @@ class ArcanaSearcher
   def create_query_detail(query)
     return '' if query.blank?
     return "最新 #{query[:recently]}件" if query[:recently]
+    return "名前 - #{query[:name]}" if query[:name]
 
     skill = false
     list = DETAIL_COND_LIST.map do |k|

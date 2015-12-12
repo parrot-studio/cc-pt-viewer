@@ -10,6 +10,7 @@ class @QueryLogs
     return if q.isEmpty()
     @lastQuery = q
     return if q.isQueryForRecently()
+    return if q.isQueryForName()
 
     @querys = _.chain(_.flatten([q, @querys]))
       .uniq (oq) -> oq.encode()

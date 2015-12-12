@@ -84,6 +84,7 @@ class @Query
 
     ret = {}
     recently = false
+    name = null
     r = /\+/g
     _.forEach q.split("&"), (qs) ->
       [n, v] = qs.split("=")
@@ -92,6 +93,8 @@ class @Query
       switch n
         when 'recently'
           recently = true
+        when 'name'
+          name = val
         when 'illustratorname'
           ret['illustrator'] = Conditions.illustratorIdFor(val)
         when 'actorname'
@@ -99,6 +102,7 @@ class @Query
         else
           ret[n] = val
     return if recently
+    ret = {name: name} unless _.isEmpty(name)
     @q = ret
     @q
 
@@ -114,7 +118,8 @@ class @Query
         when 'actor'
           ret['actorname'] = Conditions.voiceactorNameFor(v)
         else
-          ret[n] = v
+          ret[n] = v unless _.isEmpty(v)
+    query = {name: query.name} unless _.isEmpty(query.name)
 
     rs = []
     _.forEach query, (v, k) ->
@@ -125,10 +130,16 @@ class @Query
     return false unless @q
     if @q.recently then true else false
 
+  isQueryForName: ->
+    return false unless @q
+    return false if @q.recently
+    unless _.isEmpty(@q.name) then true else false
+
   createKey: ->
     query = (@q || {})
     key = ''
     key += "recently_" if query.recently
+    key += "name_" if query.name
     key += "j#{query.job}_" if query.job
     key += "r#{query.rarity}_" if query.rarity
     if query.sourcecategory
