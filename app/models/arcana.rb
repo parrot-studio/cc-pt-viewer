@@ -64,6 +64,7 @@ class Arcana < ActiveRecord::Base
     criminal: '罪の大陸',
     life: '薄命',
     machine: '鉄煙',
+    chronicle: '年代記の大陸',
     volunteers: '義勇軍',
     demon: '魔神',
     others: '旅人',
@@ -93,6 +94,7 @@ class Arcana < ActiveRecord::Base
         criminal: '罪の大陸・酒場',
         life: '薄命の大陸・酒場',
         machine: '鉄煙の大陸・酒場',
+        chronicle: '年代記の大陸・酒場',
         other: 'その他'
       }
     },
