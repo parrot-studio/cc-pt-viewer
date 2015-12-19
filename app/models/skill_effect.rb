@@ -28,7 +28,8 @@ class SkillEffect < ActiveRecord::Base
         range_all: '範囲・広域',
         laser: 'レーザー',
         bombard: '砲撃',
-        bullets: '連射'
+        bullets: '連射',
+        random: 'ランダム'
       },
       effect: {
         add_blind: '暗闇追加',
@@ -47,6 +48,7 @@ class SkillEffect < ActiveRecord::Base
         heal_all: '全員を回復',
         create_scrap: 'スクラップ生成',
         destroy_scrap: 'スクラップ破壊',
+        super_skill: '超必殺技',
         pain: '自分もダメージ',
         return_position: '元の位置に戻る'
       }
@@ -138,9 +140,11 @@ class SkillEffect < ActiveRecord::Base
         guard_slow: 'スロウ耐性',
         guard_weaken: '衰弱耐性',
         guard_debuff: '状態異常耐性',
+        guard_fire: '火属性軽減',
         guard_ice: '氷属性軽減',
         guard_element: '属性軽減',
-        invincible: '無敵'
+        invincible: '無敵',
+        atkup: '攻撃力上昇'
       }
     },
     area: {
@@ -161,6 +165,20 @@ class SkillEffect < ActiveRecord::Base
         add_slow: 'スロウ追加',
         fire: '火属性',
         create_scrap: 'スクラップ生成'
+      }
+    },
+    metamorphose: {
+      name: '変身',
+      sub: {
+        self: '自身'
+      },
+      effect: {
+        atkup: '攻撃力上昇',
+        atkspeedup: '攻撃力/移動速度上昇',
+        delayoff: '攻撃速度上昇',
+        pierce: '貫通する',
+        supermode: '攻撃力/防御力/移動速度/クリ率/クリダメ上昇',
+        wide_attack: '範囲攻撃'
       }
     }
   }.freeze

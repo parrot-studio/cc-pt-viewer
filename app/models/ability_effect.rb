@@ -11,7 +11,8 @@ class AbilityEffect < ActiveRecord::Base
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
         defspeedup: '防御力/移動速度上昇',
-        critup: 'クリティカル率上昇'
+        critup: 'クリティカル率上昇',
+        critdamup: 'クリティカル率/クリティカルダメージ上昇'
       },
       condition: {
         any: 'いつでも',
@@ -20,7 +21,9 @@ class AbilityEffect < ActiveRecord::Base
         wave_start: '各WAVE開始時',
         others_skill: '味方がスキルを使った時',
         dropout_self: '自身が脱落した時',
-        dropout_member: '味方が脱落した時'
+        dropout_member: '味方が脱落した時',
+        mana_charged: 'マナが多いほど',
+        super_gauge_max: '超必殺技ゲージがMAXの時'
       }
     },
     buff_others: {
@@ -47,6 +50,7 @@ class AbilityEffect < ActiveRecord::Base
         speedup: '移動速度上昇',
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
+        defspeedup: '防御力/移動速度上昇',
         fullup: '攻撃力/防御力/移動速度上昇',
         critup: 'クリティカル率上昇',
         add_down: '対象の攻撃にダウンを付与',
@@ -196,6 +200,7 @@ class AbilityEffect < ActiveRecord::Base
         reduce_slow: 'スロウからの回復時間減少',
         reduce_down: 'ダウンからの回復時間減少',
         reduce_blind: '暗闇からの回復時間減少',
+        reduce_freeze: '凍結からの回復時間減少'
       },
       condition: {
         any: 'いつでも',
@@ -285,7 +290,8 @@ class AbilityEffect < ActiveRecord::Base
         composite: '複合マナ出現',
         mana_cost_down: 'スキルの消費マナ低下',
         recycle_scrap: 'スクラップをマナに変換',
-        destroy_scrap: 'スクラップを破壊'
+        destroy_scrap: 'スクラップを破壊',
+        super_gauge_gain: '超必殺技ゲージ上昇'
       },
       condition: {
         any: 'いつでも',
@@ -294,7 +300,8 @@ class AbilityEffect < ActiveRecord::Base
         kill: '敵を倒した時',
         dropout_self: '自身が脱落した時',
         in_chain: 'チェイン発動中',
-        boss_wave: 'BOSS WAVE時'
+        boss_wave: 'BOSS WAVE時',
+        own_skill: '自分がスキルを使った時'
       }
     },
     field: {
@@ -403,6 +410,7 @@ class AbilityEffect < ActiveRecord::Base
         defspeedup: '防御力/移動速度上昇',
         fullup: '攻撃力/防御力/移動速度上昇',
         critup: 'クリティカル率上昇',
+        critdamup: 'クリティカル率/クリティカルダメージ上昇',
         guardup: '遠距離ダメージカット上昇',
         delayoff: '攻撃速度上昇',
         maxhpup: '最大HP増加',
@@ -411,6 +419,7 @@ class AbilityEffect < ActiveRecord::Base
         areaup: '回復範囲増加',
         healup: '回復効果上昇',
         healareaup: '回復範囲/効果上昇',
+        areashift: '回復範囲移動',
         poison_atkup: '毒ダメージ上昇',
         blind_boost: '暗闇の効果延長',
         registup: '魔法ダメージ軽減',
@@ -460,7 +469,8 @@ class AbilityEffect < ActiveRecord::Base
         dropout_member: '味方が脱落した時',
         dropout_self: '自身が脱落した時',
         members_debuff: '味方に状態異常が多いほど',
-        enemys_debuff: '敵に状態異常が多いほど'
+        enemys_debuff: '敵に状態異常が多いほど',
+        super_gauge_max: '超必殺技ゲージがMAXの時'
       }
     },
     unknown: {
