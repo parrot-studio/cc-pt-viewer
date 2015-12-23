@@ -147,6 +147,7 @@ class AbilityEffect < ActiveRecord::Base
         others_skill: '味方がスキルを使った時',
         union: '特定の構成の時',
         dropout_self: '自身が脱落した時',
+        dropout_member: '味方が脱落した時',
         members_debuff: '味方に状態異常が多いほど',
         has_mana: '特定のマナを保持している時',
         use_mana: 'マナが使用された時'
@@ -391,6 +392,7 @@ class AbilityEffect < ActiveRecord::Base
         atkup: '攻撃力上昇',
         defup: '防御力上昇',
         atkdefup: '攻撃力/防御力上昇',
+        atkspeedup: '攻撃力/移動速度上昇',
         defspeedup: '防御力/移動速度上昇',
         fullup: '攻撃力/防御力/移動速度上昇',
         critup: 'クリティカル率上昇'

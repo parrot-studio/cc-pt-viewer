@@ -24,6 +24,7 @@ class SkillEffect < ActiveRecord::Base
         range_random: '範囲・ランダム',
         range_line2: '範囲・直線2ライン',
         range_short: '範囲・接触',
+        range_shortline: '範囲・前方直線',
         range_combination: '範囲・コンビネーション',
         range_all: '範囲・広域',
         laser: 'レーザー',
@@ -132,7 +133,8 @@ class SkillEffect < ActiveRecord::Base
       name: 'バリア',
       sub: {
         self: '自身',
-        all: '全体'
+        all: '全体',
+        knight: '騎士'
       },
       effect: {
         guard_blind: '暗闇耐性',

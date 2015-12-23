@@ -644,7 +644,7 @@ class @ArcanasView
         ''
 
       unless _.isEmpty(ef.multi_condition)
-        multi = "（#{multi} #{ef.multi_condition}）"
+        multi = "（#{multi} #{ef.multi_condition} ）"
 
       render += "<li>#{multi}#{ef.category} - #{ef.subcategory}"
       li = Skill.subeffectForEffect(ef)
