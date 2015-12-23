@@ -3,9 +3,6 @@ class @DatabaseView
   recentlySize = 16
   pagerSize = 8
 
-  sortOrderDefault = {name: 'asc'}
-  sortOrder = {}
-
   $arcanaTable = $("#arcana-table")
 
   @init: -> new DatabaseView()
@@ -16,6 +13,8 @@ class @DatabaseView
 
     pagerSize = (if CommonView.isPhoneDevice() then 8 else 16)
     recentlySize = (if CommonView.isPhoneDevice() then 16 else 32)
+
+    $arcanaTable.children("thead").append(renderTableHeader())
 
     view = new ArcanasView(pagerSize: pagerSize, recentlySize: recentlySize)
     view.targetArcanas.onValue (as) -> replaceTableArea(as)
@@ -51,35 +50,21 @@ class @DatabaseView
       .doAction('.stopPropagation')
       .map (e) -> $(e.target).parents('th')
 
-    sortTitleStream.merge(sortButtonStream)
+    sortColumnStream = sortTitleStream.merge(sortButtonStream)
       .map (target) -> target.data('colName')
       .filter (col) -> !_.isEmpty(col)
-      .map (col) ->
-        order = reverseOrder(sortOrder[col]) || sortOrderDefault[col] || 'desc'
-        updateSortOrder(col, order)
-        view.sortArcanasFor(col, order)
-      .onValue (as) -> replaceTableArea(as)
 
-  updateSortOrder = (col, order) ->
-    sortOrder = {}
-    sortOrder[col] = order
-    @
+    view.sortColumn.plug sortColumnStream
 
-  reverseOrder = (order) ->
-    switch order
-      when 'asc' then 'desc'
-      when 'desc' then 'asc'
-      else null
+    view.sortOrderState.onValue (state) -> renderOrderState(state)
 
   replaceTableArea = (as) ->
-    tbody = $('#table-body')
+    tbody = $arcanaTable.children("tbody")
     tbody.empty()
-    tbody.append(renderTableHeader())
 
     _.forEach as, (a) ->
       tr = renderTableArcana(a)
       tbody.append(tr)
-    renderOrderState()
     @
 
   renderTableHeader = ->
@@ -158,12 +143,12 @@ class @DatabaseView
     tr += "</tr>"
     tr
 
-  renderOrderState = ->
-    _.forEach $(".sortable"), (c) ->
+  renderOrderState = (state) ->
+    _.forEach $("th.sortable"), (c) ->
       col = $(c)
       name = col.data('colName')
-      order = sortOrder[name] || ''
-      span = col.children('button').children('span')
+      order = state[name] || ''
+      span = col.children('button').children('span.glyphicon')
 
       switch order
         when 'desc'

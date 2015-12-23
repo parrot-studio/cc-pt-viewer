@@ -41,6 +41,27 @@
           <li id="pager-next" class="pager-next"><span>&rarr;</span></li>
         </ul>
       </nav>
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label class="control-label col-sm-3 col-md-3" for="sort">ソート</label>
+          <div class="col-sm-6 col-md-6">
+            <div class="btn-group btn-group-justified" role="group" aria-label="sort">
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default sortable" data-col-name="cost">コスト</button>
+              </div>
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default sortable" data-col-name="maxAtk">ATK</button>
+              </div>
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default sortable" data-col-name="maxHp">HP</button>
+              </div>
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default sortable" data-col-name="name">名前</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
       <div id="name-search">
         <form class="form-horizontal">
           <div class="form-group">

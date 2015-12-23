@@ -3,6 +3,9 @@ class @ArcanasView
   pagerSize = 8
   recentlySize = 36
 
+  sortOrderDefault = {name: 'asc'}
+  sortOrder = {}
+
   pager = new Pager([])
 
   $appPath = $("#app-path")
@@ -19,10 +22,6 @@ class @ArcanasView
   $searchChainAbilityAdd = $("#chain-ability-add")
   $searchAddCondition = $("#add-condition")
   $searchAdditionalCondition = $("#additional-condition")
-
-  sortArcanasFor: (col, ord) ->
-    pager.sort(col, ord)
-    pager.get()
 
   setTwitterShare: (path) ->
     url = $appPath.val() + path
@@ -146,11 +145,25 @@ class @ArcanasView
       .map (p) -> parseInt(p)
       .doAction (page) -> pager.jumpPage(page)
 
-    @targetArcanas = searchResult
-      .merge prevPageStream
+    pageStream = prevPageStream
       .merge nextPageStream
       .merge jumpPageStream
+
+    @sortColumn = new Bacon.Bus()
+
+    @sortOrderState = new Bacon.Bus()
+
+    sortStream = @sortColumn
+      .doAction (col) ->
+        order = reverseOrder(sortOrder[col]) || sortOrderDefault[col] || 'desc'
+        updateSortOrder(col, order)
+        pager.sort(col, order)
+
+    @targetArcanas = searchResult
+      .merge pageStream
+      .merge sortStream
       .doAction -> renderPager()
+      .doAction => @sortOrderState.push(sortOrder)
       .map -> pager.get()
 
     $("#clear-fav")
@@ -265,6 +278,7 @@ class @ArcanasView
       replaceDetail(query.detail)
       QueryLogs.add(query)
       renderQueryLog(QueryLogs.querys)
+      resetSortOrder()
       as
 
   searchFavs = (favs) ->
@@ -280,6 +294,20 @@ class @ArcanasView
   clearQueryLogs = ->
     QueryLogs.clear()
     renderQueryLog(QueryLogs.querys)
+
+  resetSortOrder = ->
+    sortOrder = {}
+
+  updateSortOrder = (col, order) ->
+    sortOrder = {}
+    sortOrder[col] = order
+    @
+
+  reverseOrder = (order) ->
+    switch order
+      when 'asc' then 'desc'
+      when 'desc' then 'asc'
+      else null
 
   parseQuery = ->
     q = Query.parse()

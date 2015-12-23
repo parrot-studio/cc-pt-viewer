@@ -15,6 +15,7 @@ class @EditView
   $helpTextBtn = $("#help-text-btn")
   $selectModal = $('#select-modal')
   $membersComment = $("#members-comment")
+  $sortableButton = $("button.sortable")
 
   @init: -> new EditView()
 
@@ -152,6 +153,17 @@ class @EditView
       .onValue (comment) ->
         storeParty(comment)
         $("#store-modal").modal('hide')
+
+    sortButtonStream = $sortableButton
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .map (e) -> $(e.target)
+      .filter (btn) -> !btn.hasClass('active')
+      .map (btn) -> btn.data('colName')
+
+    view.sortColumn.plug sortButtonStream
+
+    view.sortOrderState.onValue (state) -> updateSortButtonState(state)
 
   # private ------------------
 
@@ -577,3 +589,15 @@ class @EditView
     calcCost()
     storeLastMembers()
     @
+
+  updateSortButtonState = (state) ->
+    _.forEach $sortableButton, (b) ->
+      btn = $(b)
+      name = btn.data('colName')
+      order = state[name] || ''
+
+      switch order
+        when 'desc', 'asc'
+          btn.addClass('active btn-info')
+        else
+          btn.removeClass('active btn-info')
