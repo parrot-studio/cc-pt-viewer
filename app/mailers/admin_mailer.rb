@@ -7,7 +7,7 @@ class AdminMailer < ApplicationMailer
   def request_mail(content, ip: nil, time: nil)
     subject = "[ccpts] user's request"
     @ip = ip
-    @time = (time || Time.now)
+    @time = (time || Time.current)
     @content = content
     mail(to: admin_to, subject: subject)
   end

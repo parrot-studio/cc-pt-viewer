@@ -1,7 +1,7 @@
 class CreateChainAbilityRelations < ActiveRecord::Migration
   def change
     create_table :chain_ability_relations do |t|
-      t.integer :chain_ability_id,  null: false
+      t.integer :chain_ability_id, null: false
       t.integer :chain_ability_effect_id, null: false
       t.timestamps
     end

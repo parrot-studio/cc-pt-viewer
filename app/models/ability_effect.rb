@@ -204,7 +204,7 @@ class AbilityEffect < ActiveRecord::Base
         reduce_freeze: '凍結からの回復時間減少'
       },
       condition: {
-        any: 'いつでも',
+        any: 'いつでも'
       }
     },
     for_debuff: {
@@ -231,7 +231,7 @@ class AbilityEffect < ActiveRecord::Base
         speedup: '移動速度上昇',
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
-        defspeedup: '防御力/移動速度上昇',
+        defspeedup: '防御力/移動速度上昇'
       },
       condition: {
         in_poison: '自分が毒状態の時',
@@ -240,7 +240,7 @@ class AbilityEffect < ActiveRecord::Base
         in_curse: '自分が呪い状態の時',
         in_weaken: '自分が衰弱状態の時',
         in_seal: '自分が封印状態の時',
-        in_debuff: '自分が状態異常の時',
+        in_debuff: '自分が状態異常の時'
       }
     },
     cure_debuff: {
@@ -330,7 +330,7 @@ class AbilityEffect < ActiveRecord::Base
         in_sea: '海中で戦闘時',
         in_prison: '監獄で戦闘時',
         in_night: '夜間に戦闘時',
-        in_dimension: '異空間で戦闘時',
+        in_dimension: '異空間で戦闘時'
       }
     },
     combat: {

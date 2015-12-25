@@ -27,7 +27,7 @@ class MailSettings < Settingslogic
 
     def symbolize(sets)
       ret = {}
-      sets.each{|k, v| ret[k.to_sym] = v}
+      sets.each { |k, v| ret[k.to_sym] = v }
       ret
     end
 

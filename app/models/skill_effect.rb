@@ -104,7 +104,7 @@ class SkillEffect < ActiveRecord::Base
         guard_debuff: '状態異常耐性',
         guard_fire: '炎属性軽減',
         guard_ice: '氷属性軽減',
-        guard_element: '属性軽減',
+        guard_element: '属性軽減'
       }
     },
     buff: {
