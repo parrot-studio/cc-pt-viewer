@@ -428,22 +428,31 @@ class ArcanaSearcher
 
   def ability_search(cate, effect, cond)
     return [] if (cate.blank? && effect.blank? && cond.blank?)
+    efs = effect_group_for(effect)
 
     es = AbilityEffect.all
     es.where!(category: cate) unless cate.blank?
-    es.where!(effect: effect) unless effect.blank?
+    es.where!(effect: efs) unless efs.blank?
     es.where!(condition: cond) unless cond.blank?
     es.pluck(:ability_id).uniq
   end
 
   def chain_ability_search(cate, effect, cond)
     return [] if (cate.blank? && effect.blank?)
+    efs = effect_group_for(effect)
 
     es = ChainAbilityEffect.all
     es.where!(category: cate) unless cate.blank?
-    es.where!(effect: effect) unless effect.blank?
+    es.where!(effect: efs) unless efs.blank?
     es.where!(condition: cond) unless cond.blank?
     es.pluck(:chain_ability_id).uniq
+  end
+
+  def effect_group_for(ef)
+    return if ef.blank?
+    group = AbilityEffect::EFFECT_GROUP[ef.to_sym]
+    return ef if group.blank?
+    [ef, group].flatten.uniq.compact
   end
 
 end

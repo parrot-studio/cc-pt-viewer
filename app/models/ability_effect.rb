@@ -425,7 +425,6 @@ class AbilityEffect < ActiveRecord::Base
         poison_atkup: '毒ダメージ上昇',
         blind_boost: '暗闇の効果延長',
         registup: '魔法ダメージ軽減',
-        combat: '接近戦可能',
         invisible: '見えなくなる（遠距離無効）',
         bullet_speedup: '弾速上昇',
         skill_once: '一度だけスキルが使える'
@@ -545,6 +544,33 @@ class AbilityEffect < ActiveRecord::Base
     resource: '',
     self: '自分',
     weapons: '特定の武器タイプ'
+  }.freeze
+
+  EFFECT_GROUP = {
+    atkup: ['atkdefup', 'atkspeedup', 'fullup'],
+    defup: ['atkdefup', 'defspeedup', 'fullup'],
+    speedup: ['atkspeedup', 'defspeedup', 'fullup'],
+    critup: ['critdamup'],
+    areaup: ['healareaup', 'areashift'],
+    healup: ['healareaup'],
+    atkdown: ['fulldown'],
+    defdown:  ['fulldown'],
+    speeddown: ['fulldown'],
+    guard_blind: ['guard_all'],
+    guard_curse: ['guard_all'],
+    guard_down: ['guard_all'],
+    guard_freeze: ['guard_all'],
+    guard_poison: ['guard_all'],
+    guard_push: ['guard_all'],
+    guard_seal: ['guard_all'],
+    guard_slow: ['guard_all'],
+    guard_undead: ['guard_all'],
+    guard_weaken: ['guard_all'],
+    cure_blind: ['cure_all'],
+    cure_poison: ['cure_all'],
+    cure_seal: ['cure_all'],
+    cure_slow: ['cure_all'],
+    cure_weaken: ['cure_all']
   }.freeze
 
   class << self
