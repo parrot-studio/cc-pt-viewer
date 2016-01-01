@@ -309,6 +309,7 @@ class AbilityEffect < ActiveRecord::Base
       name: '特定のフィールドに強い',
       effect: {
         atkup: '攻撃力上昇',
+        speedup: '移動速度上昇',
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
         defspeedup: '防御力/移動速度上昇',
