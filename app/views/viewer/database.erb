@@ -3,79 +3,80 @@
   <div class="row">
     <div class="alert alert-info alert-dismissible col-xs-12 col-sm-12 col-md-12 invisible" id="latest-info" role="alert">
       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-      <p><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 更新：<%= log.body %> (<%= log.date %>)</p>
+      <p><i class="fa fa-info-sign"></i> 更新：<%= log.body %> (<%= log.date %>)</p>
     </div>
     <input type="hidden" id="latest-info-ver" value="<%= log.version %>">
   </div>
 <% end %>
 
-<div class="row">
-  <div class="col-sm-12 col-md-12">
-    <button type="button" class="btn btn-primary" id="search-modal-btn" data-toggle="modal" data-target="#search-modal" >
-      <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 検索
-    </button>
-    <button type="button" class="btn btn-info" id="share-query" data-toggle="modal" data-target="#share-query-modal">
-      <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> 共有
-    </button>
-    <button class="btn btn-link" id="request" data-toggle="modal" data-target="#request-modal">
-      管理者への要望
-    </button>
-    <div class="btn-group pull-right" id="search-menu">
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-        <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> 履歴 <span class="caret"></span>
+<div id="main-area">
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <button class="search-mode-btn btn btn-primary" type="button">
+        <i class="fa fa-search"></i> 検索
       </button>
-      <ul class="dropdown-menu" role="menu">
-        <li><a data-target="#" id="default-list"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> 最新のアルカナ</a></li>
-        <li><a data-target="#" id="favorite-list"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> お気に入り</a></li>
-        <li class="divider"></li>
-        <li role="presentation" class="dropdown-header" id="search-log-header">検索履歴</li>
-      </ul>
+      <button type="button" class="btn btn-info" id="share-query" data-toggle="modal" data-target="#share-query-modal">
+        <i class="fa fa-cloud"></i> 共有
+      </button>
+      <button class="btn btn-link" id="request" data-toggle="modal" data-target="#request-modal">
+        管理者への要望
+      </button>
+      <div class="btn-group pull-right" id="search-menu">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+          <i class="fa fa-menu-hamburger"></i> 履歴 <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li><a data-target="#" id="default-list"><i class="fa fa-refresh"></i> 最新のアルカナ</a></li>
+          <li><a data-target="#" id="favorite-list"><i class="fa fa-star"></i> お気に入り</a></li>
+          <li class="divider"></li>
+          <li role="presentation" class="dropdown-header" id="search-log-header">検索履歴</li>
+        </ul>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="row">
-  <div class="col-sm-12 col-md-12">
-    <nav class="text-center">
-      <ul class="pagination" id="pagination-area-u">
-        <li id="pager-prev-u" class="pager-prev"><span>&larr;</span></li>
-        <li id="pager-next-u" class="pager-next"><span>&rarr;</span></li>
-      </ul>
-    </nav>
-    <div class="well well-sm small text-muted">
-      <button class="btn btn-primary btn-xs pull-right" type="button" data-toggle="collapse" data-target="#name-search" aria-expanded="false" aria-controls="name-search">
-        名前から検索
-      </button>
-      <span id="detail-u" class="search-detail"></span> <span id="pager-count-u" class="pager-count"></span>
-    </div>
-    <div class="collapse" id="name-search">
-      <form class="form-horizontal">
-        <div class="form-group">
-          <label class="control-label col-sm-3 col-md-3" for="arcana-name">名前から検索</label>
-          <div class="col-sm-6 col-md-6">
-            <input type="text" class="form-control" id ="arcana-name" placeholder="名前を入力（2文字以上）">
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <nav class="text-center">
+        <ul class="pagination" id="pagination-area-u">
+          <li id="pager-prev-u" class="pager-prev"><span>&larr;</span></li>
+          <li id="pager-next-u" class="pager-next"><span>&rarr;</span></li>
+        </ul>
+      </nav>
+      <div class="well well-sm small text-muted">
+        <button class="btn btn-primary btn-xs pull-right" type="button" data-toggle="collapse" data-target="#name-search" aria-expanded="false" aria-controls="name-search">
+          名前から検索
+        </button>
+        <span id="detail-u" class="search-detail"></span> <span id="pager-count-u" class="pager-count"></span>
+      </div>
+      <div class="collapse" id="name-search">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label class="control-label col-sm-3 col-md-3" for="arcana-name">名前から検索</label>
+            <div class="col-sm-6 col-md-6">
+              <input type="text" class="form-control" id ="arcana-name" placeholder="名前を入力（2文字以上）">
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
+      <div class="table-responsive">
+        <table id="arcana-table" class="table table-bordered table-condensed">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="well well-sm small text-muted">
+        <span id="detail-d" class="search-detail"></span> <span id="pager-count-d" class="pager-count"></span>
+      </div>
+      <nav class="text-center">
+        <ul class="pagination" id="pagination-area-d">
+          <li id="pager-prev-d" class="pager-prev"><span>&larr;</span></li>
+          <li id="pager-next-d" class="pager-next"><span>&rarr;</span></li>
+        </ul>
+      </nav>
     </div>
-    <div class="table-responsive">
-      <table id="arcana-table" class="table table-bordered table-condensed">
-        <thead></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div class="well well-sm small text-muted">
-      <span id="detail-d" class="search-detail"></span> <span id="pager-count-d" class="pager-count"></span>
-    </div>
-    <nav class="text-center">
-      <ul class="pagination" id="pagination-area-d">
-        <li id="pager-prev-d" class="pager-prev"><span>&larr;</span></li>
-        <li id="pager-next-d" class="pager-next"><span>&rarr;</span></li>
-      </ul>
-    </nav>
   </div>
 </div>
 
 <%= render 'viewer/condition' %>
 <%= render 'viewer/share_query' %>
-<%= render 'viewer/request' %>

@@ -12,6 +12,8 @@ class @ArcanasView
   $twitterShare = $("#twitter-share")
   $queryUrl = $("#query-url")
   $arcanaName = $('#arcana-name')
+  $mainArea = $("#main-area")
+  $conditionArea = $("#condition-area")
 
   $searchSkill = $("#skill")
   $searchSkillAdd = $("#skill-add")
@@ -37,6 +39,9 @@ class @ArcanasView
     $linkModal = $("#link-modal")
     $outsideLink = $("#outside-link")
 
+    $conditionArea.hide()
+    $conditionArea.removeClass("invisible")
+
     $searchAdditionalCondition.hide()
     $searchSkillAdd.hide()
     $searchAbilityAdd.hide()
@@ -58,7 +63,9 @@ class @ArcanasView
     queryFromSearch = $(".search")
       .asEventStream('click')
       .doAction('.preventDefault')
-      .doAction -> $("#search-modal").modal('hide')
+      .doAction ->
+        $("#search-modal").modal('hide')
+        switchMainMode()
       .map -> Query.build()
 
     queryfromQueryLog = $("#search-menu")
@@ -269,9 +276,27 @@ class @ArcanasView
       .doAction('.preventDefault')
       .onValue -> resetConditions()
 
+    $(".search-mode-btn")
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .onValue -> switchConditionMode()
+
+    $(".main-mode-btn")
+      .asEventStream('click')
+      .doAction('.preventDefault')
+      .onValue -> switchMainMode()
+
   # private ------------------
 
   replaceDetail = (text) -> $(".search-detail").text(text)
+
+  switchMainMode = ->
+    $conditionArea.fadeOut 'fast', ->
+      $mainArea.fadeIn 'slow'
+
+  switchConditionMode = ->
+    $mainArea.fadeOut 'fast', ->
+      $conditionArea.fadeIn 'slow'
 
   searchTargets = (query) ->
     Searcher.searchArcanas(query).flatMap (as) ->

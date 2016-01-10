@@ -59,6 +59,8 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
     execjs (2.6.0)
+    font-awesome-sass (4.5.0)
+      sass (>= 3.2)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     http-cookie (1.0.2)
@@ -200,6 +202,7 @@ DEPENDENCIES
   byebug
   coffee-rails (~> 4.1.0)
   coffee-script-source (~> 1.8.0)
+  font-awesome-sass
   i18n_generators
   jbuilder (~> 2.0)
   mysql2 (~> 0.3.20)

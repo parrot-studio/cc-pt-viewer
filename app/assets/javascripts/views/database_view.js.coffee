@@ -72,7 +72,7 @@ class @DatabaseView
       <tr>
         <th class='sortable' data-col-name='name'>名前
           <button class='btn btn-default btn-xs sortable' type='button'>
-            <span class='glyphicon glyphicon-sort' aria-hidden='true'></span>
+            <i class='fa fa-sort'></i>
           </button>
         </th>
         <th>職</th>
@@ -82,28 +82,28 @@ class @DatabaseView
       tr += "
         <th class='sortable' data-col-name='cost'>コスト
           <button class='btn btn-default btn-xs sortable' type='button'>
-            <span class='glyphicon glyphicon-sort' aria-hidden='true'></span>
+            <i class='fa fa-sort'></i>
           </button>
         </th>
         <th>武器</th>
         <th class='sortable' data-col-name='maxAtk'>最大ATK
           <button class='btn btn-default btn-xs sortable' type='button'>
-            <span class='glyphicon glyphicon-sort' aria-hidden='true'></span>
+            <i class='fa fa-sort'></i>
           </button>
         </th>
         <th class='sortable' data-col-name='maxHp'>最大HP
           <button class='btn btn-default btn-xs sortable' type='button'>
-            <span class='glyphicon glyphicon-sort' aria-hidden='true'></span>
+            <i class='fa fa-sort'></i>
           </button>
         </th>
         <th class='sortable' data-col-name='limitAtk'>限界ATK
           <button class='btn btn-default btn-xs sortable' type='button'>
-            <span class='glyphicon glyphicon-sort' aria-hidden='true'></span>
+            <i class='fa fa-sort'></i>
           </button>
         </th>
         <th class='sortable' data-col-name='limitHp'>限界HP
           <button class='btn btn-default btn-xs sortable' type='button'>
-            <span class='glyphicon glyphicon-sort' aria-hidden='true'></span>
+            <i class='fa fa-sort'></i>
           </button>
         </th>
         <th>所属</th>
@@ -148,21 +148,21 @@ class @DatabaseView
       col = $(c)
       name = col.data('colName')
       order = state[name] || ''
-      span = col.children('button').children('span.glyphicon')
+      icon = col.children('button').children('i.fa')
 
       switch order
         when 'desc'
-          span.removeClass('glyphicon-sort')
-          span.removeClass('glyphicon-sort-by-attributes')
-          span.addClass('glyphicon-sort-by-attributes-alt')
-          span.addClass('active')
+          icon.removeClass('fa-sort')
+          icon.removeClass('fa-sort-amount-asc')
+          icon.addClass('fa-sort-amount-desc')
+          icon.addClass('active')
         when 'asc'
-          span.removeClass('glyphicon-sort')
-          span.removeClass('glyphicon-sort-by-attributes-alt')
-          span.addClass('glyphicon-sort-by-attributes')
-          span.addClass('active')
+          icon.removeClass('fa-sort')
+          icon.removeClass('fa-sort-amount-desc')
+          icon.addClass('fa-sort-amount-asc ')
+          icon.addClass('active')
         else
-          span.removeClass('glyphicon-sort-by-attributes-alt')
-          span.removeClass('glyphicon-sort-by-attributes')
-          span.removeClass('active')
-          span.addClass('glyphicon-sort')
+          icon.removeClass('fa-sort-amount-desc')
+          icon.removeClass('fa-sort-amount-asc')
+          icon.removeClass('active')
+          icon.addClass('fa-sort')

@@ -475,8 +475,8 @@ class @EditView
 
     if mode
       btnText.text("編集終了")
-      btnIcon.removeClass("glyphicon-edit")
-      btnIcon.addClass("glyphicon-check")
+      btnIcon.removeClass("fa-edit")
+      btnIcon.addClass("fa-check")
       $memberArea.addClass("well well-sm")
       title.show()
       edit.fadeIn()
@@ -484,8 +484,8 @@ class @EditView
       renderPartyList(Parties.parties)
     else
       btnText.text("編集する")
-      btnIcon.removeClass("glyphicon-check")
-      btnIcon.addClass("glyphicon-edit")
+      btnIcon.removeClass("fa-check")
+      btnIcon.addClass("fa-edit")
       $memberArea.removeClass("well well-sm")
       title.hide()
       edit.fadeOut()

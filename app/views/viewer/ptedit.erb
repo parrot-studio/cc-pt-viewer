@@ -21,7 +21,7 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
     <% log = Changelog.latest %>
     <div class="alert alert-info alert-dismissible col-xs-12 col-sm-12 col-md-12 invisible" id="latest-info" role="alert">
       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-      <p><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 更新：<%= log.body %> (<%= log.date %>)</p>
+      <p><i class="fa fa-info-sign"></i> 更新：<%= log.body %> (<%= log.date %>)</p>
     </div>
     <input type="hidden" id="latest-info-ver" value="<%= log.version %>">
   <% end %>
@@ -39,77 +39,82 @@ members = {mem1: 'Leader', mem2: '2nd', mem3: '3rd', mem4: '4th', sub1: 'Sub1', 
   </div>
 </div>
 
-<div class="row hidden-xs">
-  <div class="col-sm-12 col-md-12">
-    <button class="btn btn-primary act-btn" id="edit-members">
-      <span class="glyphicon glyphicon-check" aria-hidden="true" id="edit-icon"></span> <span id="edit-state">編集終了</span>
-    </button>
-    <button class="btn btn-info act-btn" id="share-members" data-toggle="modal" data-target="#share-ptm-modal">
-      <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> 共有
-    </button>
-    <button class="btn btn-link act-btn" id="help" data-toggle="modal" data-target="#help-modal">
-      使い方
-    </button>
-    <button class="btn btn-link act-btn" id="request" data-toggle="modal" data-target="#request-modal">
-      管理者への要望
-    </button>
+<div id="main-area">
+  <div class="row hidden-xs">
+    <div class="col-sm-12 col-md-12">
+      <button class="btn btn-primary act-btn" id="edit-members">
+        <i class="fa fa-check" id="edit-icon"></i> <span id="edit-state">編集終了</span>
+      </button>
+      <button class="btn btn-info act-btn" id="share-members" data-toggle="modal" data-target="#share-ptm-modal">
+        <i class="fa fa-cloud"></i></span> 共有
+      </button>
+      <button class="btn btn-link act-btn" id="help" data-toggle="modal" data-target="#help-modal">
+        使い方
+      </button>
+      <button class="btn btn-link act-btn" id="request" data-toggle="modal" data-target="#request-modal">
+        管理者への要望
+      </button>
+    </div>
   </div>
-</div>
 
-<div id="member-area" class="well well-sm">
-  <div class="row" id="edit-title">
-    <div class="col-md-12 col-sm-12 hidden-xs">
-      <div class="pull-right" role="group" aria-label="hoge">
-        <button class="btn btn-danger" id="reset-members-btn" data-toggle="modal" data-target="#reset-modal">
-          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> リセット
-        </button>
-        <button class="btn btn-primary " id="store-members-btn" data-toggle="modal" data-target="#store-modal">
-          <span class="glyphicon glyphicon-save-file" aria-hidden="true"></span> 保存
-        </button>
-        <div class="btn-group">
-          <button class="btn btn-info dropdown-toggle" id="load-members" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="glyphicon glyphicon-open-file" aria-hidden="true"></span> 呼び出し<span class="caret"></span>
+  <div id="member-area" class="well well-sm">
+    <div class="row" id="edit-title">
+      <div class="col-md-12 col-sm-12 hidden-xs">
+        <div class="pull-right" role="group" aria-label="hoge">
+          <button class="btn btn-danger" id="reset-members-btn" data-toggle="modal" data-target="#reset-modal">
+            <i class="fa fa-trash"></i> リセット
           </button>
-          <ul class="dropdown-menu" id="party-menu">
-            <li><a data-target="#" id="last-members"><span class="glyphicon glyphicon-export" aria-hidden="true"></span> 最後に作ったパーティー構成</a></li>
-            <li role="separator" class="divider" id="party-list-header"></li>
-          </ul>
+          <button class="btn btn-primary " id="store-members-btn" data-toggle="modal" data-target="#store-modal">
+            <i class="fa fa-save-file"></i> 保存
+          </button>
+          <div class="btn-group">
+            <button class="btn btn-info dropdown-toggle" id="load-members" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-open-file"></i> 呼び出し<span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" id="party-menu">
+              <li><a data-target="#" id="last-members"><i class="fa fa-export"></i> 最後に作ったパーティー構成</a></li>
+              <li role="separator" class="divider" id="party-list-header"></li>
+            </ul>
+          </div>
         </div>
+        <h2>パーティー編集</h2>
       </div>
-      <h2>パーティー編集</h2>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 member-list">
+        <ul class="list-inline">
+          <% members.each do |code, name| %>
+            <li class="col-xs-6 col-sm-3 col-md-3">
+              <% case code %>
+              <% when :cost %>
+                <p class="text-center">
+                  <label for="cost">Total Cost</label><br>
+                  <span id="cost" class="cost"></span>
+                </p>
+              <% else %>
+                <label for="member-character-<%= code %>" class="member-label"><%= name %></label>
+                <div class="member-character<%= ' friend' if code == :friend %>" id="member-character-<%= code %>"></div>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 member-list">
-      <ul class="list-inline">
-        <% members.each do |code, name| %>
-          <li class="col-xs-6 col-sm-3 col-md-3">
-            <% case code %>
-            <% when :cost %>
-              <p class="text-center">
-                <label for="cost">Total Cost</label><br>
-                <span id="cost" class="cost"></span>
-              </p>
-            <% else %>
-              <label for="member-character-<%= code %>" class="member-label"><%= name %></label>
-              <div class="member-character<%= ' friend' if code == :friend %>" id="member-character-<%= code %>"></div>
-            <% end %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
+
+  <div class="hidden-xs">
+    <%= render 'viewer/edit' %>
+    <%= render 'viewer/select' %>
+    <%= render 'viewer/reset' %>
+    <%= render 'viewer/store' %>
   </div>
 </div>
 
 <div class="hidden-xs">
-  <%= render 'viewer/edit' %>
   <%= render 'viewer/condition' %>
-  <%= render 'viewer/select' %>
-  <%= render 'viewer/reset' %>
-  <%= render 'viewer/store' %>
 </div>
+
 <%= render 'viewer/help' %>
 <%= render 'viewer/share_ptm' %>
-<%= render 'viewer/request' %>
 
 <input type="hidden" id="ptm" value="<%= @ptm %>">

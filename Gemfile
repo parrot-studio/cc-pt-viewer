@@ -47,6 +47,7 @@ end
 # need for app
 gem 'settingslogic'
 gem 'bower-rails'
+gem 'font-awesome-sass'
 
 # pry
 gem 'pry'
