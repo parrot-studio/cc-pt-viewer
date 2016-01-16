@@ -33,10 +33,10 @@ class @DatabaseView
     if CommonView.isPhoneDevice()
       $arcanaTable.swipe (
         swipeLeft: (e) ->
-          prevTargetPage()
+          $('.pager-prev').click()
           e.preventDefault()
         swipeRight: (e) ->
-          nextTargetPage()
+          $('.pager-next').click()
           e.preventDefault()
       )
 
@@ -59,12 +59,14 @@ class @DatabaseView
     view.sortOrderState.onValue (state) -> renderOrderState(state)
 
   replaceTableArea = (as) ->
+    $arcanaTable.hide()
     tbody = $arcanaTable.children("tbody")
     tbody.empty()
 
     _.forEach as, (a) ->
       tr = renderTableArcana(a)
       tbody.append(tr)
+    $arcanaTable.fadeIn('slow')
     @
 
   renderTableHeader = ->
