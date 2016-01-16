@@ -142,6 +142,7 @@ class AbilityEffect < ActiveRecord::Base
         in_base_area: '自陣にいる時',
         in_enemy_area: '敵陣にいる時',
         in_head: '先頭にいる時',
+        in_front: '仲間より前にいる時',
         in_rear: '仲間より後ろにいる時',
         skill: 'スキル使用時',
         others_skill: '味方がスキルを使った時',

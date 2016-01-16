@@ -30,7 +30,8 @@ class SkillEffect < ActiveRecord::Base
         laser: 'レーザー',
         bombard: '砲撃',
         bullets: '連射',
-        random: 'ランダム'
+        random: 'ランダム効果',
+        cycle_attack: '定期的に攻撃'
       },
       effect: {
         add_blind: '暗闇追加',
@@ -47,6 +48,7 @@ class SkillEffect < ActiveRecord::Base
         kill_pierce: '倒したら貫通',
         shield_break: '盾破壊',
         heal_all: '全員を回復',
+        absorb: '与えたダメージを吸収',
         create_scrap: 'スクラップ生成',
         destroy_scrap: 'スクラップ破壊',
         super_skill: '超必殺技',
