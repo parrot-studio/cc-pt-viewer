@@ -100,7 +100,7 @@ class ArcanaSearcher
     return [] if empty?
     @result = if @query[:recently]
       re = @query[:recently].to_i
-      re = ServerSettings.recently.to_i if re < 1
+      re = ServerSettings.recently if re < 1
       Arcana.order('id DESC').limit(re)
     else
       arcana_search_from_query(@query)

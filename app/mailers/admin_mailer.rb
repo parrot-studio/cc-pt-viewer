@@ -15,7 +15,7 @@ class AdminMailer < ApplicationMailer
   private
 
   def admin_to
-    MailSettings.admin.to
+    ServerSettings.mail_admin_to
   end
 
 end

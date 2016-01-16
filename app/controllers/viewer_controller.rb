@@ -60,8 +60,10 @@ class ViewerController < ApplicationController
   end
 
   def request_mail
-    mail = AdminMailer.request_mail(params[:text], ip: request.remote_ip)
-    mail.deliver_later if mail
+    if ServerSettings.use_mail?
+      mail = AdminMailer.request_mail(params[:text], ip: request.remote_ip)
+      mail.deliver_later if mail
+    end
     head :no_content
   end
 
@@ -215,7 +217,7 @@ class ViewerController < ApplicationController
 
   def with_cache(name, &b)
     return unless (name && b)
-    return b.call unless ServerSettings.cache
+    return b.call unless ServerSettings.use_cache?
     Rails.cache.fetch(name, &b)
   end
 
