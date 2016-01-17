@@ -15,7 +15,7 @@ gem 'coffee-script-source', '~> 1.8.0' # see https://github.com/jashkenas/coffee
 gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
-# gem 'jquery-rails'
+gem 'jquery-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -45,8 +45,11 @@ group :development, :test do
 end
 
 # need for app
-gem 'bower-rails'
+gem 'jquery-ui-rails'
+gem 'bootstrap-sass'
+gem "bootstrap-switch-rails"
 gem 'font-awesome-sass'
+gem "browserify-rails"
 
 # pry
 gem 'pry'

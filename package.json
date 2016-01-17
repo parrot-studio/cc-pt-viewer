@@ -1,0 +1,19 @@
+{
+  "name": "cc_pt_viewer",
+  "version": "3.0.0",
+  "description": "Get our light! チェンクロパーティーシミュレーター",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/parrot-studio/cc-pt-viewer"
+  },
+  "author": "ぱろっと(@parrot_studio)",
+  "license": "MIT",
+  "dependencies": {
+    "baconjs": "~0.7.83",
+    "browserify": "~13.0.0",
+    "browserify-incremental": "~3.0.1",
+    "coffeeify": "~2.0.1",
+    "fastclick": "~1.0.6",
+    "lodash": "~4.0.0"
+  }
+}

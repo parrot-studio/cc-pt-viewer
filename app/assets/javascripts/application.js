@@ -11,16 +11,12 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery-ujs
+//= require jquery_ujs
 //= require jquery-ui
-//= require jqueryui-touch-punch
-//= require jquery-cookie
-//= require jquery-touchswipe
-//= require bootstrap-sass-official/assets/javascripts/bootstrap-sprockets
+//= require bootstrap-sprockets
 //= require bootstrap-switch
-//= require fastclick
-//= require lodash
-//= require bacon
+//= require modules
+//= require_tree ./extlib
 //= require_tree ./lib
 //= require_tree ./models
 //= require_tree ./views

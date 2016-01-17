@@ -1,6 +1,4 @@
 $ ->
-  FastClick.attach(document.body)
-
   $(document).on 'keypress', (e) -> !(e.which == 13 || e.keyCode == 13)
 
   mode = $("#mode").val()

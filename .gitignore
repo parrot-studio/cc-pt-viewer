@@ -16,4 +16,5 @@
 *.bowerrc
 bower.json
 /vendor/bundle
+node_modules
 
