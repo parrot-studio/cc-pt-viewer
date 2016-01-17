@@ -31,7 +31,7 @@ class SkillEffect < ActiveRecord::Base
         bombard: '砲撃',
         bullets: '連射',
         random: 'ランダム効果',
-        cycle_attack: '定期的に攻撃'
+        cycle_shoot: '定期的に射撃'
       },
       effect: {
         add_blind: '暗闇追加',
