@@ -122,6 +122,7 @@ class SkillEffect < ActiveRecord::Base
         defup: '防御力上昇',
         defdown: '防御力低下',
         speedup: '移動速度上昇',
+        atkdefup: '攻撃力/防御力上昇',
         critup: 'クリティカル率上昇',
         delayoff: '攻撃速度上昇',
         add_fire: '炎属性付与',
@@ -159,6 +160,7 @@ class SkillEffect < ActiveRecord::Base
         target: '[設置] 攻撃範囲',
         continual: '[領域] 継続ダメージ',
         atkup: '[領域] 攻撃力上昇',
+        atkdefup: '[領域] 攻撃力/防御力上昇',
         defdown: '[領域] 防御力低下',
         field: 'フィールド変更',
         echo: '反響空間'
