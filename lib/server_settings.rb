@@ -17,27 +17,27 @@ class ServerSettings
     end
 
     def pt_version
-      config.dig(:pt_version)
+      config[:pt_version]
     end
 
     def recently
-      (config.dig(:recently) || 24).to_i
+      (config[:recently] || 24).to_i
     end
 
     def use_mail?
-      config.dig(:mail) ? true : false
+      config[:mail] ? true : false
     end
 
     def use_cache?
-      config.dig(:cache) ? true : false
+      config[:cache] ? true : false
     end
 
     def mail_from
-      mail_config.dig(:from)
+      mail_config[:from]
     end
 
     def mail_admin_to
-      mail_config.dig(:admin, :to)
+      mail_config[:admin][:to]
     end
 
     private

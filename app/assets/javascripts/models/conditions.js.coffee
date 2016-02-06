@@ -7,6 +7,9 @@ class @Conditions
       conditions = data
       Bacon.once(conditions)
 
+  @latestInfo: ->
+    conditions?.latestinfo || {}
+
   @unions: ->
     conditions?.unions || []
 

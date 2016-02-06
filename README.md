@@ -10,6 +10,7 @@ Description
 
 - Ruby2.3
 - Rails4.2
+- React(+ Bacon.js)
 - MariaDB
 
 Site

@@ -1,6 +1,6 @@
 {
-  "name": "cc_pt_viewer",
-  "version": "3.0.0",
+  "name": "ccpts",
+  "version": "4.0.0",
   "description": "Get our light! チェンクロパーティーシミュレーター",
   "repository": {
     "type": "git",
@@ -10,10 +10,17 @@
   "license": "MIT",
   "dependencies": {
     "baconjs": "~0.7.83",
+    "bootstrap-switch": "~3.3.2",
     "browserify": "~13.0.0",
     "browserify-incremental": "~3.0.1",
-    "coffeeify": "~2.0.1",
     "fastclick": "~1.0.6",
-    "lodash": "~4.0.0"
+    "jquery-touchswipe": "~1.6.15",
+    "jquery-ui-touch-punch": "~0.2.3",
+    "jquery.cookie": "~1.4.1",
+    "lodash": "~4.2.0",
+    "object-hash": "~1.1.0",
+    "react": "~0.14.7",
+    "react-bootstrap": "~0.28.2",
+    "react-dom": "~0.14.7"
   }
 }

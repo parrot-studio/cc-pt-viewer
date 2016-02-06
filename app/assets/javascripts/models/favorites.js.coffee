@@ -1,6 +1,7 @@
 class @Favorites
 
   favs = {}
+  @notifyStream = new Bacon.Bus()
 
   @stateFor: (code) ->
     return false unless code
@@ -9,6 +10,7 @@ class @Favorites
   @setState: (code, state) ->
     favs[code] = state
     store()
+    @notifyStream.push(favs)
     state
 
   @list: ->
@@ -21,6 +23,7 @@ class @Favorites
   @clear: ->
     favs = {}
     Cookie.delete('fav-arcana')
+    @notifyStream.push(favs)
     favs
 
   store = ->

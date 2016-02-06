@@ -11,6 +11,7 @@ class @Searcher
 
   resultCache = {}
   detailCache = {}
+  memberCache = {}
 
   @search: (params, url) ->
     $("#error-area").hide()
@@ -32,7 +33,7 @@ class @Searcher
     if cached
       as = _.map cached, (c) -> Arcana.forCode(c)
       query.detail = detailCache[key]
-      return Bacon.once(as)
+      return Bacon.once(QueryResult.create(as, detailCache[key]))
 
     result = @search(query.params(), searchUrl)
     result.flatMap (data) ->
@@ -41,14 +42,18 @@ class @Searcher
       resultCache[key] = cs
       detailCache[key] = data.detail
       query.detail = data.detail
-      Bacon.once(as)
+      QueryLogs.add(query)
+      Bacon.once(QueryResult.create(as, data.detail))
 
   @searchMembers: (code) ->
-    params = {ptm: code}
+    cache = memberCache[code]
+    return Bacon.once(cache) if (cache)
 
+    params = {ptm: code}
     result = @search(params, ptmUrl)
     result.flatMap (data) ->
       as = _.mapValues data, (d) -> Arcana.build(d)
+      memberCache[code] = as
       Bacon.once(as)
 
   @searchCodes: (targets) ->
@@ -57,14 +62,14 @@ class @Searcher
     unknowns = _.reject targets, (c) -> Arcana.forCode(c)
     if unknowns.length <= 0
       as = _.map targets, (c) -> Arcana.forCode(c)
-      return Bacon.once(as)
+      return Bacon.once(QueryResult.create(as))
 
     params = {'codes': unknowns.join('/')}
     result = @search(params, codesUrl)
     result.flatMap (data) ->
       _.forEach data, (d) -> Arcana.build(d)
       as = _.map targets, (c) -> Arcana.forCode(c)
-      Bacon.once(as)
+      Bacon.once(QueryResult.create(as))
 
   @loadConditions: ->
     @search({}, condsUrl)
@@ -83,4 +88,7 @@ class @Searcher
 
   @searchFromName: (query) ->
     @search(query.params(), nameUrl).flatMap (data) ->
-      _.map data, (d) -> Arcana.build(d)
+      as = _.map data, (d) -> Arcana.build(d)
+      query.detail = "名前から検索 : #{query.params().name}"
+      QueryLogs.add(query)
+      Bacon.once(QueryResult.create(as, query.detail))

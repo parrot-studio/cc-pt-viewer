@@ -12,12 +12,15 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery-ui
+//= require jquery-ui/draggable
+//= require jquery-ui/droppable
+//= require jquery-ui-touch-punch/jquery.ui.touch-punch
+//= require jquery.cookie/jquery.cookie
+//= require jquery-touchswipe/jquery.touchSwipe
 //= require bootstrap-sprockets
-//= require bootstrap-switch
+//= require bootstrap-switch/dist/js/bootstrap-switch
 //= require modules
-//= require_tree ./extlib
 //= require_tree ./lib
 //= require_tree ./models
-//= require_tree ./views
+//= require components
 //= require main

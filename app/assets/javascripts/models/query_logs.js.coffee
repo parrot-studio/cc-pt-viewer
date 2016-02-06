@@ -4,6 +4,7 @@ class @QueryLogs
 
   @lastQuery = null
   @querys = []
+  @notifyStream = new Bacon.Bus()
 
   @add: (q) ->
     return unless q
@@ -13,27 +14,26 @@ class @QueryLogs
     return if q.isQueryForName()
 
     @querys = _.chain(_.flatten([q, @querys]))
-      .uniq (oq) -> oq.encode()
+      .uniqBy (oq) -> oq.encode()
       .take(queryLogSize)
       .value()
     cs = _.map @querys, (oq) ->
       {query: oq.encode(), detail: oq.detail.substr(0, 30)}
 
-    Cookie.delete('query-log') # TODO delete
     QueryLogCookie.set({'query-log': cs})
+    @notifyStream.push @querys
     q
 
   @clear: ->
     @lastQuery = null
     @querys = []
-    Cookie.delete('query-log') # TODO delete
     QueryLogCookie.delete('query-log')
+    @notifyStream.push []
 
   @init: ->
     @querys = []
     try
-      # TODO delete
-      cs = Cookie.valueFor('query-log') || QueryLogCookie.valueFor('query-log')
+      cs = QueryLogCookie.valueFor('query-log')
       return unless cs
 
       @querys = _.map cs, (c) ->

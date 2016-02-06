@@ -31,50 +31,20 @@
         <div class="hidden-xs hidden-sm col-md-1"></div>
 
         <div class="col-xs-12 col-sm-12 col-md-10">
-          <% if main_view? %>
-            <%= render 'viewer/topnav' %>
-          <% end %>
-
-          <div class="header">
+          <div class="header" id="pre-header">
             <h1>
               Get our light!
               <span class="hidden-sm hidden-md hidden-lg"><br></span>
               <small class="text-muted lead">チェンクロ パーティーシミュレーター</small>
             </h1>
             <% if main_view? %>
-              <p class="pull-right">
-                <small class="text-muted">【<%= mode_name %>】</small>
-              </p>
+              <div class="well well-lg">
+                <h2 class="text-muted">Now loading...</h2>
+              </div>
             <% end %>
           </div>
 
-          <% if main_view? %>
-            <div id="error-area" class="invisible">
-              <div class="row">
-                <div class="col-xs-12 col-md-12 col-sm-12">
-                  <div class="alert alert-danger" role="alert">
-                    <p>
-                      <strong>データの取得に失敗しました。</strong>
-                      <%= link_to 'リロードする', request.url, :class => 'alert-link' %>か、もう一度検索してください。
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          <% end %>
-
           <%= yield %>
-
-          <% if main_view? %>
-            <%= render 'viewer/view' %>
-            <%= render 'viewer/link' %>
-            <%= render 'viewer/request' %>
-
-            <input type="hidden" id="mode" value="<%= @mode %>">
-            <input type="hidden" id="data-ver" value="<%= data_version %>">
-            <input type="hidden" id="pt-ver" value="<%= pt_version %>">
-            <input type="hidden" id="app-path" value="<%= root_url %>">
-          <% end %>
         </div>
 
         <div class="hidden-xs hidden-sm col-md-1"></div>

@@ -47,9 +47,10 @@ end
 # need for app
 gem 'jquery-ui-rails'
 gem 'bootstrap-sass'
-gem "bootstrap-switch-rails"
 gem 'font-awesome-sass'
-gem "browserify-rails"
+gem 'sprockets-es6', require: 'sprockets/es6'
+gem 'browserify-rails'
+gem 'react-rails'
 
 # pry
 gem 'pry'

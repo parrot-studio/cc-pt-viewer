@@ -2,6 +2,9 @@ class @Pager
 
   defaultPageSize = 8
 
+  @create: (list, psize) ->
+    new Pager(list, psize)
+
   constructor: (list, psize) ->
     @all = list || []
     @size = @all.length

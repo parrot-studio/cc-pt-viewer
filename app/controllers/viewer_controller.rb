@@ -10,12 +10,14 @@ class ViewerController < ApplicationController
     @ptm = mems ? code : ''
     @uri = (@ptm.present? ? URI.join(root_url, @ptm).to_s : root_url)
     @title = (@ptm.present? ? create_member_title(mems) : '')
+    render :app
   end
 
   def database
     searcher = ArcanaSearcher.parse(query_params)
     @uri = (searcher.present? ? "#{db_url}?#{searcher.query_string}" : db_url)
     @title = (searcher.present? ? "[検索] #{searcher.query_detail}" : 'データベースモード')
+    render :app
   end
 
   def conditions
@@ -33,7 +35,8 @@ class ViewerController < ApplicationController
         chainabilityeffects: AbilityEffect.chain_ability_effects,
         chainabilityconditions: AbilityEffect.chain_ability_conditions,
         voiceactors: voiceactors,
-        illustrators: illustrators
+        illustrators: illustrators,
+        latestinfo: Changelog.latest.as_json
       }
     end
     render json: conds

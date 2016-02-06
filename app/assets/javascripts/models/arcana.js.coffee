@@ -35,7 +35,7 @@ class @Skill
           subeffect5: e.subeffect5 || ''
           note: e.note || ''
 
-  @subeffectForEffect: (ef) ->
+  @subEffectForEffect: (ef) ->
     return [] unless ef
     ret = []
     ret.push(ef.subeffect1) unless ef.subeffect1 == ''
@@ -120,10 +120,17 @@ class @Arcana
         WIKI_URL + encodeURIComponent(@wikiName)
     )
 
+  @sameCharacter = (a, b) ->
+    return false unless (a && b)
+
+    # TODO ここに例外を追加
+
+    if a.name is b.name then true else false
+
   @canUseChainAbility = (a, b) ->
     return false unless (a && b)
+    return false if @sameCharacter(a, b)
     return false unless a.jobType == b.jobType
-    return false if a.name == b.name
     true
 
 class @Member
@@ -141,5 +148,10 @@ class @Member
   canUseChainAbility: ->
     return false unless @chainArcana
     return false unless @arcana.jobType == @chainArcana.jobType
-    return false if @arcana.name == @chainArcana.name
+    return false if Arcana.sameCharacter(@arcana, @chainArcana)
+    true
+
+  isSameUnion: ->
+    return false unless @chainArcana
+    return false unless @arcana.union == @chainArcana.union
     true
