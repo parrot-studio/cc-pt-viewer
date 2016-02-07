@@ -180,7 +180,9 @@ class SkillEffect < ActiveRecord::Base
       },
       effect: {
         atkup: '攻撃力上昇',
+        atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
+        critup: 'クリティカル率上昇',
         delayoff: '攻撃速度上昇',
         pierce: '貫通する',
         supermode: '攻撃力/防御力/移動速度/クリ率/クリダメ上昇',

@@ -429,7 +429,9 @@ class AbilityEffect < ActiveRecord::Base
         blind_boost: '暗闇の効果延長',
         registup: '魔法ダメージ軽減',
         invisible: '見えなくなる（遠距離無効）',
+        single_shoot: '単発射撃',
         bullet_speedup: '弾速上昇',
+        rapid_shoot: '弾数増加',
         skill_once: '一度だけスキルが使える'
       },
       condition: {
