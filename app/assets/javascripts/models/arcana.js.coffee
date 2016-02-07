@@ -122,9 +122,9 @@ class @Arcana
 
   @sameCharacter = (a, b) ->
     return false unless (a && b)
-
-    # TODO ここに例外を追加
-
+    # コラボキャラとオリジナルキャラの組み合わせはチェックしない
+    return false if (a.sourceCategory == "コラボ" && b.sourceCategory != "コラボ")
+    return false if (a.sourceCategory != "コラボ" && b.sourceCategory == "コラボ")
     if a.name is b.name then true else false
 
   @canUseChainAbility = (a, b) ->
