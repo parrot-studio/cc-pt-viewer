@@ -72,10 +72,10 @@ class ArcanaViewModal extends React.Component {
       let e = t[0]
       let str = `${e.condition} - ${e.effect}`
       if (!_.isEmpty(e.target)) {
-        str.concat(`:${e.target}`)
+        str = str.concat(`:${e.target}`)
       }
       if (!_.isEmpty(e.note)) {
-        str.concat(` (${e.note})`)
+        str = str.concat(` (${e.note})`)
       }
       return <li key={t[1]}>{str}</li>
     })
