@@ -203,7 +203,8 @@ class AbilityEffect < ActiveRecord::Base
         reduce_slow: 'スロウからの回復時間減少',
         reduce_down: 'ダウンからの回復時間減少',
         reduce_blind: '暗闇からの回復時間減少',
-        reduce_freeze: '凍結からの回復時間減少'
+        reduce_freeze: '凍結からの回復時間減少',
+        reduce_seal: '封印からの回復時間減少'
       },
       condition: {
         any: 'いつでも'

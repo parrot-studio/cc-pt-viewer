@@ -60,7 +60,7 @@ class SkillEffect < ActiveRecord::Base
       name: '回復',
       sub: {
         all_instant: '全体・即時',
-        all_cycle: '全体・オート',
+        all_cycle: '全体・徐々に回復',
         all_reaction: '全体・ダメージ反応',
         one_self: '単体・自分',
         one_worst: '単体・一番HPが低い対象'
@@ -95,7 +95,8 @@ class SkillEffect < ActiveRecord::Base
         speedcritup: '移動速度/クリティカル率上昇',
         add_blind: '暗闇追加',
         add_poison: '毒追加',
-        add_slow: 'スロウ追加'
+        add_slow: 'スロウ追加',
+        heal_cycle: '徐々に回復'
       },
       effect: {
         guard_blind: '暗闇耐性',
@@ -114,6 +115,7 @@ class SkillEffect < ActiveRecord::Base
       sub: {
         self: '自身',
         all: '全体',
+        others: '自分以外の全員',
         random: 'ランダム'
       },
       effect: {
@@ -123,6 +125,7 @@ class SkillEffect < ActiveRecord::Base
         defdown: '防御力低下',
         speedup: '移動速度上昇',
         atkdefup: '攻撃力/防御力上昇',
+        defspeedup: '防御力/移動速度上昇',
         critup: 'クリティカル率上昇',
         delayoff: '攻撃速度上昇',
         add_fire: '炎属性付与',
