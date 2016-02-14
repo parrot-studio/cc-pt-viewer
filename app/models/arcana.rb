@@ -58,7 +58,6 @@ class Arcana < ActiveRecord::Base
     oasis: '湖都',
     forest: '精霊島',
     volcano: '九領',
-    forest_sea: '海風の港',
     dawnsea: '大海',
     beasts: 'ケ者',
     criminal: '罪の大陸',
