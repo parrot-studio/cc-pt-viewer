@@ -172,6 +172,7 @@ class SkillEffect < ActiveRecord::Base
         add_blind: '暗闇追加',
         add_poison: '毒追加',
         add_slow: 'スロウ追加',
+        add_freeze: '凍結追加',
         fire: '火属性',
         create_scrap: 'スクラップ生成'
       }
