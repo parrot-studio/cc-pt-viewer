@@ -10,7 +10,7 @@ class NameSearchForm extends React.Component {
     this.nameStream = new Bacon.Bus()
 
     let arcanaNameStream = this.nameStream
-      .delay(500).debounce(1000)
+      .delay(400).debounce(800)
       .skipDuplicates()
       .map((n) => {
         if (n.length > 1){

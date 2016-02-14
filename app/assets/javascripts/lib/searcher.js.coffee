@@ -33,6 +33,7 @@ class @Searcher
     if cached
       as = _.map cached, (c) -> Arcana.forCode(c)
       query.detail = detailCache[key]
+      QueryLogs.add(query)
       return Bacon.once(QueryResult.create(as, detailCache[key]))
 
     result = @search(query.params(), searchUrl)
