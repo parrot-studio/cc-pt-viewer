@@ -94,6 +94,7 @@ class Arcana < ActiveRecord::Base
         life: '薄命の大陸・酒場',
         machine: '鉄煙の大陸・酒場',
         chronicle: '年代記の大陸・酒場',
+        bookshelf: '書架・酒場',
         other: 'その他'
       }
     },
