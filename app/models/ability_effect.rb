@@ -12,17 +12,20 @@ class AbilityEffect < ActiveRecord::Base
         atkspeedup: '攻撃力/移動速度上昇',
         defspeedup: '防御力/移動速度上昇',
         critup: 'クリティカル率上昇',
-        critdamup: 'クリティカル率/クリティカルダメージ上昇'
+        critdamup: 'クリティカル率/クリティカルダメージ上昇',
+        super_gauge_gain: '超必殺技ゲージ上昇'
       },
       condition: {
         any: 'いつでも',
         in_sub: 'サブパーティーにいる時',
         union: '特定の構成の時',
         wave_start: '各WAVE開始時',
+        own_skill: '自分がスキルを使った時',
         others_skill: '味方がスキルを使った時',
         dropout_self: '自身が脱落した時',
         dropout_member: '味方が脱落した時',
         mana_charged: 'マナが多いほど',
+        kill: '敵を倒した時',
         super_gauge_max: '超必殺技ゲージがMAXの時'
       }
     },
@@ -105,7 +108,8 @@ class AbilityEffect < ActiveRecord::Base
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
         defspeedup: '防御力/移動速度上昇',
-        critup: 'クリティカル率上昇'
+        critup: 'クリティカル率上昇',
+        critdamup: 'クリティカル率/クリティカルダメージ上昇'
       },
       condition: {
         kill: '敵を倒した時',
@@ -151,7 +155,9 @@ class AbilityEffect < ActiveRecord::Base
         dropout_member: '味方が脱落した時',
         members_debuff: '味方に状態異常が多いほど',
         has_mana: '特定のマナを保持している時',
-        use_mana: 'マナが使用された時'
+        use_mana: 'マナが使用された時',
+        kill: '敵を倒した時',
+        super_gauge_max: '超必殺技ゲージがMAXの時'
       }
     },
     add_debuff: {
@@ -354,7 +360,8 @@ class AbilityEffect < ActiveRecord::Base
       condition: {
         attack: '通常攻撃時',
         kill: '敵を倒した時',
-        skill: 'スキル使用時'
+        skill: 'スキル使用時',
+        in_combo: '攻撃を一定回数当てた時'
       }
     },
     counter: {
@@ -399,7 +406,8 @@ class AbilityEffect < ActiveRecord::Base
         atkspeedup: '攻撃力/移動速度上昇',
         defspeedup: '防御力/移動速度上昇',
         fullup: '攻撃力/防御力/移動速度上昇',
-        critup: 'クリティカル率上昇'
+        critup: 'クリティカル率上昇',
+        barrier: 'バリアを張る'
       },
       condition: {
         wave_start: '各WAVE開始時'
@@ -433,7 +441,9 @@ class AbilityEffect < ActiveRecord::Base
         single_shoot: '単発射撃',
         bullet_speedup: '弾速上昇',
         rapid_shoot: '弾数増加',
-        skill_once: '一度だけスキルが使える'
+        barrier: 'バリアを張る',
+        skill_once: '一度だけスキルが使える',
+        super_skill: '超必殺技使用可能'
       },
       condition: {
         any: 'いつでも',
@@ -466,6 +476,7 @@ class AbilityEffect < ActiveRecord::Base
         in_invisible: '姿を消している時',
         own_skill: '自分がスキルを使った時',
         others_skill: '味方がスキルを使った時',
+        skill_hit: 'スキルが当たる毎に',
         mana_charged: 'マナが多いほど',
         mana_lost: 'マナが少ないほど',
         mana_droped: 'マナを獲得した時',

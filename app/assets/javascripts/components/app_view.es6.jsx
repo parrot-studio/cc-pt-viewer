@@ -63,7 +63,7 @@ class AppView extends React.Component {
       this.setState({
         showConditionArea: false
       }, () => {
-        this.state.queryStream.push(QueryLogs.lastQuery.params())
+        //this.state.queryStream.push(QueryLogs.lastQuery.params())
         this.fadeModeArea()
       })
     }

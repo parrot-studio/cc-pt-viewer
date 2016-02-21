@@ -31,7 +31,9 @@ class SkillEffect < ActiveRecord::Base
         bombard: '砲撃',
         bullets: '連射',
         random: 'ランダム効果',
-        cycle_shoot: '定期的に射撃'
+        cycle_shoot: '定期的に射撃',
+        boomerang: 'ブーメラン',
+        summon: '召喚'
       },
       effect: {
         add_blind: '暗闇追加',
@@ -53,7 +55,8 @@ class SkillEffect < ActiveRecord::Base
         destroy_scrap: 'スクラップ破壊',
         super_skill: '超必殺技',
         pain: '自分もダメージ',
-        return_position: '元の位置に戻る'
+        return_position: '元の位置に戻る',
+        chain: '周辺の敵に広がる'
       }
     },
     heal: {
@@ -73,6 +76,7 @@ class SkillEffect < ActiveRecord::Base
         cure_seal: '封印解除',
         cure_slow: 'スロウ解除',
         cure_weaken: '衰弱解除',
+        cure_curse: '呪い解除',
         atkup: '攻撃力上昇',
         defup: '防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
@@ -116,6 +120,8 @@ class SkillEffect < ActiveRecord::Base
         self: '自身',
         all: '全体',
         others: '自分以外の全員',
+        fighter: '戦士',
+        front: '先頭の一人',
         random: 'ランダム'
       },
       effect: {
@@ -132,7 +138,9 @@ class SkillEffect < ActiveRecord::Base
         add_ice: '氷属性付与',
         restoration: '返還',
         create_scrap: 'スクラップ生成',
-        destroy_scrap: 'スクラップ破壊'
+        destroy_scrap: 'スクラップ破壊',
+        super_skill: '超必殺技',
+        add_resurrection: '復活付与'
       }
     },
     barrier: {
@@ -174,7 +182,8 @@ class SkillEffect < ActiveRecord::Base
         add_slow: 'スロウ追加',
         add_freeze: '凍結追加',
         fire: '火属性',
-        create_scrap: 'スクラップ生成'
+        create_scrap: 'スクラップ生成',
+        against_dropout: '戦闘不能にならない'
       }
     },
     metamorphose: {
@@ -187,6 +196,7 @@ class SkillEffect < ActiveRecord::Base
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
         critup: 'クリティカル率上昇',
+        crdamup: 'クリティカルダメージ上昇',
         delayoff: '攻撃速度上昇',
         pierce: '貫通する',
         supermode: '攻撃力/防御力/移動速度/クリ率/クリダメ上昇',
