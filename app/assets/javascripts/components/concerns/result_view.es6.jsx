@@ -9,12 +9,17 @@ class ResultView extends React.Component {
     }
 
     this.props.resultStream.onValue(result => {
-      let pager = Pager.create(result.arcanas, this.props.pagerSize)
-      this.setState({
-        pager: pager,
-        sortOrder: {},
-        searchDetail: result.detail
-      })
+      if (result.reload) {
+        let pager = Pager.create(this.state.pager.all, this.props.pagerSize)
+        this.setState({pager: pager})
+      } else {
+        let pager = Pager.create(result.arcanas, this.props.pagerSize)
+        this.setState({
+          pager: pager,
+          sortOrder: {},
+          searchDetail: result.detail
+        })
+      }
     })
     this.sortOrderDefault = {name: 'asc'}
   }
