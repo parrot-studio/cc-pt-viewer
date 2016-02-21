@@ -15,7 +15,6 @@ class @Searcher
 
   @search: (params, url) ->
     $("#error-area").hide()
-    $("#loading-modal").modal('show')
 
     params ?= {}
     params.ver = ver
@@ -36,6 +35,7 @@ class @Searcher
       QueryLogs.add(query)
       return Bacon.once(QueryResult.create(as, detailCache[key]))
 
+    $("#loading-modal").modal('show')
     result = @search(query.params(), searchUrl)
     result.flatMap (data) ->
       as = _.map data.result, (d) -> Arcana.build(d)
@@ -65,6 +65,7 @@ class @Searcher
       as = _.map targets, (c) -> Arcana.forCode(c)
       return Bacon.once(QueryResult.create(as))
 
+    $("#loading-modal").modal('show')
     params = {'codes': unknowns.join('/')}
     result = @search(params, codesUrl)
     result.flatMap (data) ->
