@@ -64,6 +64,7 @@ class Arcana < ActiveRecord::Base
     life: '薄命',
     machine: '鉄煙',
     chronicle: '年代記の大陸',
+    remless: 'レムレス島',
     volunteers: '義勇軍',
     demon: '魔神',
     others: '旅人',
@@ -95,6 +96,7 @@ class Arcana < ActiveRecord::Base
         machine: '鉄煙の大陸・酒場',
         chronicle: '年代記の大陸・酒場',
         bookshelf: '書架・酒場',
+        remless: 'レムレス島・酒場',
         other: 'その他'
       }
     },
