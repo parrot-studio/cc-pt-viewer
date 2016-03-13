@@ -131,6 +131,7 @@ class SkillEffect < ActiveRecord::Base
         defdown: '防御力低下',
         speedup: '移動速度上昇',
         atkdefup: '攻撃力/防御力上昇',
+        atkspeedup: '攻撃力/移動速度上昇',
         defspeedup: '防御力/移動速度上昇',
         critup: 'クリティカル率上昇',
         delayoff: '攻撃速度上昇',
