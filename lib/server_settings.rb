@@ -16,6 +16,12 @@ class ServerSettings
       @data_version = ver
     end
 
+    def data_update_time
+      return Time.zone.now unless use_cache?
+      @data_update_time ||= Time.parse(data_version)
+      @data_update_time
+    end
+
     def pt_version
       config[:pt_version]
     end

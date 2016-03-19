@@ -21,25 +21,10 @@ class ViewerController < ApplicationController
   end
 
   def conditions
-    conds = with_cache('conditions') do
-      {
-        unions: Arcana::UNION_NAMES.reject { |k, _| k == :unknown }.to_a,
-        sources: Arcana::SOURCE_CONDS,
-        skillcategorys: SkillEffect::CATEGORY_CONDS,
-        skillsubs: SkillEffect::SUBCATEGORY_CONDS,
-        skilleffects: SkillEffect::SUBEFFECT_CONDS,
-        abilitycategorys: AbilityEffect::CATEGORY_CONDS,
-        abilityeffects: AbilityEffect::EFFECT_CONDS,
-        abilityconditions: AbilityEffect::CONDITION_CONDS,
-        chainabilitycategorys: AbilityEffect.chain_ability_categorys,
-        chainabilityeffects: AbilityEffect.chain_ability_effects,
-        chainabilityconditions: AbilityEffect.chain_ability_conditions,
-        voiceactors: voiceactors,
-        illustrators: illustrators,
-        latestinfo: Changelog.latest.as_json
-      }
+    if stale?(last_modified: ServerSettings.data_update_time, etag: 'conditions')
+      conds = with_cache('conditions') { create_conditions }
+      render json: conds
     end
-    render json: conds
   end
 
   def arcanas
@@ -71,9 +56,11 @@ class ViewerController < ApplicationController
   end
 
   def about
+    fresh_when last_modified: ServerSettings.data_update_time, etag: 'about'
   end
 
   def changelogs
+    fresh_when last_modified: ServerSettings.data_update_time, etag: 'hangelogs'
   end
 
   private
@@ -92,6 +79,25 @@ class ViewerController < ApplicationController
       ret << [ill.id, ill.name]
     end
     ret
+  end
+
+  def create_conditions
+    {
+      unions: Arcana::UNION_NAMES.reject { |k, _| k == :unknown }.to_a,
+      sources: Arcana::SOURCE_CONDS,
+      skillcategorys: SkillEffect::CATEGORY_CONDS,
+      skillsubs: SkillEffect::SUBCATEGORY_CONDS,
+      skilleffects: SkillEffect::SUBEFFECT_CONDS,
+      abilitycategorys: AbilityEffect::CATEGORY_CONDS,
+      abilityeffects: AbilityEffect::EFFECT_CONDS,
+      abilityconditions: AbilityEffect::CONDITION_CONDS,
+      chainabilitycategorys: AbilityEffect.chain_ability_categorys,
+      chainabilityeffects: AbilityEffect.chain_ability_effects,
+      chainabilityconditions: AbilityEffect.chain_ability_conditions,
+      voiceactors: voiceactors,
+      illustrators: illustrators,
+      latestinfo: Changelog.latest.as_json
+    }
   end
 
   def parse_pt_code(code)
