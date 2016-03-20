@@ -120,6 +120,7 @@ class Arcana < ActiveRecord::Base
     collaboration: {
       name: 'コラボ',
       details: {
+        utaware: 'うたわれるもの',
         valkyria: '戦場のヴァルキュリア',
         falcom_sorasc: '閃の軌跡II',
         seiken: '聖剣伝説',

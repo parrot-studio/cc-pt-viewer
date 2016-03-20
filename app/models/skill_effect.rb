@@ -79,6 +79,7 @@ class SkillEffect < ActiveRecord::Base
         cure_curse: '呪い解除',
         atkup: '攻撃力上昇',
         defup: '防御力上昇',
+        atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
         critup: 'クリティカル率上昇',
         restoration: '返還',
