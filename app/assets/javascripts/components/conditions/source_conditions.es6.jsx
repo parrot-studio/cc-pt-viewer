@@ -15,6 +15,13 @@ class SourceConditions extends React.Component {
     this.notifier.push({source: e.target.value})
   }
 
+  renderSourceCategorys() {
+    let cs = _.map(this.conditions.sourceCategorys(), (c) => {
+      return <option value={c[0]} key={c[0]}>{c[1]}</option>
+    })
+    return _.concat([<option key="none" value={""}>{"-"}</option>], cs)
+  }
+
   renderSourceOptions() {
     let source = this.props.sourcecategory
     if (source) {
@@ -34,12 +41,7 @@ class SourceConditions extends React.Component {
           <label htmlFor="source-category">入手先</label>
           <select id="source-category" className="form-control"
             value={this.props.sourcecategory} onChange={this.handleCategoryChange.bind(this)}>
-            <option value={""}>-</option>
-            <option value={"first"}>1部</option>
-            <option value={"second"}>2部</option>
-            <option value={"ring"}>リング系</option>
-            <option value={"event"}>イベント限定</option>
-            <option value={"collaboration"}>コラボ限定</option>
+            {this.renderSourceCategorys()}
           </select>
         </div>
         <div className="col-sm-4 col-md-4">

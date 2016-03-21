@@ -84,6 +84,7 @@ class ViewerController < ApplicationController
   def create_conditions
     {
       unions: Arcana::UNION_NAMES.reject { |k, _| k == :unknown }.to_a,
+      sourcecategorys: Arcana::SOURCE_CATEGORYS,
       sources: Arcana::SOURCE_CONDS,
       skillcategorys: SkillEffect::CATEGORY_CONDS,
       skillsubs: SkillEffect::SUBCATEGORY_CONDS,

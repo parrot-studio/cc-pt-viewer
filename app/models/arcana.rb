@@ -72,8 +72,8 @@ class Arcana < ActiveRecord::Base
   }.freeze
 
   SOURCE_TABLE = {
-    first: {
-      name: '1部',
+    yggd: {
+      name: 'ユグド大陸',
       details: {
         guildtown: '副都・酒場',
         holytown: '聖都・酒場',
@@ -82,20 +82,32 @@ class Arcana < ActiveRecord::Base
         oasis: '湖都・酒場',
         forest: '精霊島・酒場',
         volcano: '九領・酒場',
+        forest_sea: '海風の港・酒場',
         other: 'その他'
       }
     },
-    second: {
-      name: '2部',
+    cross: {
+      name: '交鎖の海域',
       details: {
-        forest_sea: '海風の港・酒場',
         dawnsea: '夜明けの大海・酒場',
         beasts: 'ケ者の大陸・酒場',
         criminal: '罪の大陸・酒場',
         life: '薄命の大陸・酒場',
+        other: 'その他'
+      }
+    },
+    origin: {
+      name: '起源の海域',
+      details: {
         machine: '鉄煙の大陸・酒場',
         chronicle: '年代記の大陸・酒場',
         bookshelf: '書架・酒場',
+        other: 'その他'
+      }
+    },
+    faraway: {
+      name: '彼方の海域',
+      details: {
         remless: 'レムレス島・酒場',
         other: 'その他'
       }
@@ -140,6 +152,14 @@ class Arcana < ActiveRecord::Base
       }
     }
   }.freeze
+
+  SOURCE_CATEGORYS = lambda do
+    ret = []
+    SOURCE_TABLE.each do |k, v|
+      ret << [k, v[:name]]
+    end
+    ret
+  end.call.freeze
 
   SOURCE_CONDS = lambda do
     ret = {}

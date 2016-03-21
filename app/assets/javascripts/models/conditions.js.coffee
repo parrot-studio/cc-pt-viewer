@@ -13,6 +13,9 @@ class @Conditions
   @unions: ->
     conditions?.unions || []
 
+  @sourceCategorys: ->
+    conditions?.sourcecategorys || []
+
   @sourceTypesFor: (category) ->
     conditions?.sources?[category] || []
 
