@@ -374,6 +374,8 @@ class ArcanaSearcher
     cabeffect = query.delete(:chainabilityeffect)
     cabcond = query.delete(:chainabilitycondition)
 
+    query = replace_source_query(query)
+
     arel = Arcana.where(query)
 
     unless skill.blank? && skillcost.blank?
@@ -453,6 +455,16 @@ class ArcanaSearcher
     group = AbilityEffect::EFFECT_GROUP[ef.to_sym]
     return ef if group.blank?
     [ef, group].flatten.uniq.compact
+  end
+
+  def replace_source_query(q)
+    return q if (q[:source_category].blank? || q[:source].present?)
+    return q unless Arcana::SOURCE_GROUP_CATEGORYS.include?(q[:source_category].to_sym)
+    cate = q.delete(:source_category)
+    ss = Arcana::SOURCE_TABLE.fetch(cate.to_sym, {}).fetch(:details, {}).keys
+    return q if ss.blank?
+    q[:source] = ss
+    q
   end
 
 end

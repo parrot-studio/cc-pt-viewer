@@ -150,6 +150,31 @@ class Arcana < ActiveRecord::Base
         shiningblade: 'シャイニング・ブレイド',
         other: 'その他'
       }
+    },
+    first: {
+      name: '1部酒場',
+      details: {
+        guildtown: '副都・酒場',
+        holytown: '聖都・酒場',
+        academy: '賢者の塔・酒場',
+        mountain: '迷宮山脈・酒場',
+        oasis: '湖都・酒場',
+        forest: '精霊島・酒場',
+        volcano: '九領・酒場'
+      }
+    },
+    second: {
+      name: '2部酒場',
+      details: {
+        forest_sea: '海風の港・酒場',
+        dawnsea: '夜明けの大海・酒場',
+        beasts: 'ケ者の大陸・酒場',
+        criminal: '罪の大陸・酒場',
+        life: '薄命の大陸・酒場',
+        machine: '鉄煙の大陸・酒場',
+        chronicle: '年代記の大陸・酒場',
+        bookshelf: '書架・酒場'
+      }
     }
   }.freeze
 
@@ -168,6 +193,8 @@ class Arcana < ActiveRecord::Base
     end
     ret
   end.call.freeze
+
+  SOURCE_GROUP_CATEGORYS = [:first, :second].freeze
 
   validates :name,
             presence: true,

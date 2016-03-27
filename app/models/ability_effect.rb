@@ -316,7 +316,8 @@ class AbilityEffect < ActiveRecord::Base
         dropout_self: '自身が脱落した時',
         in_chain: 'チェイン発動中',
         boss_wave: 'BOSS WAVE時',
-        own_skill: '自分がスキルを使った時'
+        own_skill: '自分がスキルを使った時',
+        wave_span: '一定WAVE進むごとに'
       }
     },
     field: {
