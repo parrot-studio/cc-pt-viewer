@@ -81,5 +81,5 @@ class @Query
     unless _.isEmpty(@q.name) then true else false
 
   createKey: ->
-    query = _.filter (@q || {}), (v, k) -> (k != "ver")
+    query = _.omit (@q || {}), "ver"
     ObjectHash(query)
