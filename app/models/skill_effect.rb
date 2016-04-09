@@ -33,7 +33,8 @@ class SkillEffect < ActiveRecord::Base
         random: 'ランダム効果',
         cycle_shoot: '定期的に射撃',
         boomerang: 'ブーメラン',
-        summon: '魔法弾召喚'
+        summon: '魔法弾召喚',
+        bombshoot: '爆弾付与'
       },
       effect: {
         add_blind: '暗闇追加',
