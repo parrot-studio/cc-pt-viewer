@@ -493,6 +493,7 @@ class AbilityEffect < ActiveRecord::Base
         mana_lost: 'マナが少ないほど',
         mana_droped: 'マナを獲得した時',
         mana_empty: 'マナがない時',
+        mana_mixed: 'マナの種類が多いほど',
         use_mana: 'マナが使用された時',
         scrap_charged: 'スクラップが多いほど',
         has_mana: '特定のマナを保持している時',
@@ -500,7 +501,8 @@ class AbilityEffect < ActiveRecord::Base
         dropout_self: '自身が脱落した時',
         members_debuff: '味方に状態異常が多いほど',
         enemys_debuff: '敵に状態異常が多いほど',
-        super_gauge_max: '超必殺技ゲージがMAXの時'
+        super_gauge_max: '超必殺技ゲージがMAXの時',
+        add_debuff: '状態異常を付与した時'
       }
     },
     unknown: {

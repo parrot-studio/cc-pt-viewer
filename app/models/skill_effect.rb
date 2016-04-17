@@ -136,6 +136,7 @@ class SkillEffect < ActiveRecord::Base
         atkspeedup: '攻撃力/移動速度上昇',
         defspeedup: '防御力/移動速度上昇',
         critup: 'クリティカル率上昇',
+        critdamup: 'クリティカル率/クリティカルダメージ上昇',
         delayoff: '攻撃速度上昇',
         add_fire: '炎属性付与',
         add_ice: '氷属性付与',
