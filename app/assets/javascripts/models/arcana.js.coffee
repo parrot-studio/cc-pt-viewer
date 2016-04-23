@@ -123,13 +123,16 @@ class @Arcana
   @sameCharacter = (a, b) ->
     return false unless (a && b)
     # コラボキャラとオリジナルキャラの組み合わせはチェックしない
-    return false if (a.sourceCategory == "コラボ" && b.sourceCategory != "コラボ")
-    return false if (a.sourceCategory != "コラボ" && b.sourceCategory == "コラボ")
-    if a.name is b.name then true else false
+    return false if (a.union == "旅人" && b.union != "旅人")
+    return false if (a.union != "旅人" && b.union == "旅人")
+    if a.name == b.name then true else false
+
+  @sameArcana = (a, b) ->
+    return false unless (a && b)
+    if a.jobCode == b.jobCode then true else false
 
   @canUseChainAbility = (a, b) ->
     return false unless (a && b)
-    return false if @sameCharacter(a, b)
     return false unless a.jobType == b.jobType
     true
 
@@ -148,7 +151,6 @@ class @Member
   canUseChainAbility: ->
     return false unless @chainArcana
     return false unless @arcana.jobType == @chainArcana.jobType
-    return false if Arcana.sameCharacter(@arcana, @chainArcana)
     true
 
   isSameUnion: ->

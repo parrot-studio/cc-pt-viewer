@@ -37,7 +37,7 @@ class MemberAreaBody extends React.Component {
       target.chainArcana = party.memberFor(swapKey).chainArcana
     }
 
-    if (!orgMember || Arcana.sameCharacter(orgMember.arcana, target.arcana)) {
+    if (!orgMember || Arcana.sameArcana(orgMember.arcana, target.arcana)) {
       this.replaceMemberArea(orgKey, target)
       return
     }

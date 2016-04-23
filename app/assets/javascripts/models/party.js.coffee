@@ -90,8 +90,7 @@ class @Party
 
       return unless m.chainArcana
       if Arcana.sameCharacter(m.chainArcana, ta) || Arcana.sameCharacter(m.chainArcana, tc)
-        m.chainArcana = null
-        mems[k] = m
+        mems[k] = new Member(m.arcana)
     mems
 
   costForMembers = (mems) ->
