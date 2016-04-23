@@ -155,6 +155,7 @@ class AbilityEffect < ActiveRecord::Base
         skill: 'スキル使用時',
         others_skill: '味方がスキルを使った時',
         union: '特定の構成の時',
+        link: '複数で一緒に攻撃した時',
         dropout_self: '自身が脱落した時',
         dropout_member: '味方が脱落した時',
         in_debuff: '自分が状態異常の時',
@@ -245,16 +246,17 @@ class AbilityEffect < ActiveRecord::Base
         speedup: '移動速度上昇',
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
-        defspeedup: '防御力/移動速度上昇'
+        defspeedup: '防御力/移動速度上昇',
+        critup: 'クリティカル率上昇'
       },
       condition: {
-        in_poison: '自分が毒状態の時',
-        in_slow: '自分がスロウ状態の時',
-        in_blind: '自分が暗闇状態の時',
-        in_curse: '自分が呪い状態の時',
-        in_weaken: '自分が衰弱状態の時',
-        in_seal: '自分が封印状態の時',
-        in_debuff: '自分が状態異常の時'
+        in_poison: '毒状態の時',
+        in_slow: 'スロウ状態の時',
+        in_blind: '暗闇状態の時',
+        in_curse: '呪い状態の時',
+        in_weaken: '衰弱状態の時',
+        in_seal: '封印状態の時',
+        in_debuff: '状態異常の時'
       }
     },
     cure_debuff: {

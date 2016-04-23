@@ -13,6 +13,7 @@ class SkillEffect < ActiveRecord::Base
         one_jump: '単体・ジャンプ',
         one_random: '単体・ランダム',
         one_combination: '単体・コンビネーション',
+        one_nearest: '単体・一番近い対象',
         range_line: '範囲・直線',
         range_dash: '範囲・ダッシュ',
         range_forward: '範囲・前方',
