@@ -274,6 +274,9 @@
 # 2部,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 主人公,F,82,クロノブレード,3,,attack,range_dash,add_push,,,,,
+,,,ブラックナイト,1,超必殺技ゲージMAX,metamorphose,self,super_skill,fullup,guard,,,黒騎士の剣装備時のみ
+,,,クロノブレイカー・アビス,2,変身中,attack,range_forward,add_down,,,,,
+,,,,forward,,attack,range_dash,add_push,,,,,変身解除
 カイン,K,51,エフォルスラッシュ,2,,attack,range_forward,,,,,,
 ミシディア,A,38,オーラショット,2,,attack,one_line,,,,,,
 マリナ,P,28,エンジェルヒール,1,,heal,all_instant,,,,,,
@@ -962,8 +965,8 @@
 ,,,,,,,,,,,,,
 イムカ,F,218,武装開放,3,,attack,bombard,,,,,,
 セルベリア,K,124,ヴァルキュリアの閃光,2,,attack,laser,,,,,,
-アリシア,A,112,ヴァルキュリア化（アリシア）,2,,metamorphose,self,atkdefup,delayoff,,,,クリダメ上昇　移動速度低下　遠距離ガード可能
-リエラ,A,113,ヴァルキュリア化（リエラ）,1,,metamorphose,self,atkdefup,critup,,,,遠距離ガード可能
+アリシア,A,112,ヴァルキュリア化（アリシア）,2,,metamorphose,self,atkdefup,delayoff,guard,,,クリダメ上昇　移動速度低下
+リエラ,A,113,ヴァルキュリア化（リエラ）,1,,metamorphose,self,atkdefup,critup,guard,,,
 ,,,ヴァルキュリアの光,1,変身中,attack,laser,,,,,,変身解除
 ,,,,,,,,,,,,,
 ユリアナ,K,125,才女の一閃,1,,attack,one_short,add_push,,,,,
