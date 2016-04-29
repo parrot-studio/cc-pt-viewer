@@ -381,13 +381,23 @@ class ArcanaSearcher
     unless skill.blank? && skillcost.blank?
       skills = skill_search(skill, skillcost, skillsub, skilleffect)
       return [] if skills.blank?
-      arel.where!(Arcana.where(skill_id: skills).where(skill2_id: skills).where_values.reduce(:or))
+      arel.where!(
+        Arcana
+          .where(first_skill_id: skills)
+          .where(second_skill_id: skills)
+          .where(third_skill_id: skills)
+          .where_values.reduce(:or))
     end
 
     unless (abcate.blank? && abeffect.blank? && abcond.blank?)
       abs = ability_search(abcate, abeffect, abcond)
       return [] if abs.blank?
-      arel.where!(Arcana.where(first_ability_id: abs).where(second_ability_id: abs).where(weapon_ability_id: abs).where_values.reduce(:or))
+      arel.where!(
+        Arcana
+          .where(first_ability_id: abs)
+          .where(second_ability_id: abs)
+          .where(weapon_ability_id: abs)
+          .where_values.reduce(:or))
     end
 
     unless (cabcate.blank? && cabeffect.blank? && cabcond.blank?)
@@ -396,9 +406,10 @@ class ArcanaSearcher
       arel.where!(chain_ability_id: abs)
     end
 
+    table = Arcana.arel_table
     arel.order(
-      'arcanas.rarity DESC, arcanas.cost DESC, arcanas.job_type, arcanas.job_index DESC'
-    )
+      table[:rarity].desc, table[:cost].desc,
+      table[:job_type].asc, table[:job_index].desc)
   end
 
   def skill_search(category, cost, sub, ef)

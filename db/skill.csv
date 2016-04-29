@@ -1113,3 +1113,12 @@
 スウ,P,71,コールソング・ナイト,1,フィールドが夜ではない,area,field,,,,,,夜
 ,,,コールソング・ヒール,1,フィールドが夜,heal,all_instant,defup,,,,,
 ムニ,M,174,ディレクォーム,2,,attack,range_random,,,,,,
+,,,,,,,,,,,,,
+# 2部7章ラスト,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+フィーナ,M,175,クロノス・メモリア・勇気の頁,1,最後列にいない,attack,range_all,pain,,,,,
+,,,クロノス・メモリア・希望の頁,1,最後列にいる,buff,all,fullup,,,,,
+,,,チェインクロニクル,2,超必殺技ゲージMAX,heal,all_instant,super_skill,,,,,
+,,,,forward,,attack,range_all,super_skill,,,,,
+,,,,,,,,,,,,,
+マイラ,F,241,インフォマースラスト,1,,attack,range_dash,,,,,,

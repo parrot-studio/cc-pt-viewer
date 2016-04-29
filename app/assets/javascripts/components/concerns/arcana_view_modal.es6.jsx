@@ -56,9 +56,15 @@ class ArcanaViewModal extends React.Component {
   renderSkill() {
     let a = this.props.viewArcana
     let ss = []
-    ss.push(this.renderEachSkill(a.skill, 1))
-    if (a.skill2 && !_.isEmpty(a.skill2.name)) {
-      ss.push(this.renderEachSkill(a.skill2, 2))
+    let ind = 1
+    ss.push(this.renderEachSkill(a.firstSkill, ind))
+    if (a.secondSkill && !_.isEmpty(a.secondSkill.name)) {
+      ind += 1
+      ss.push(this.renderEachSkill(a.secondSkill, ind))
+    }
+    if (a.thirdSkill && !_.isEmpty(a.thirdSkill.name)) {
+      ind += 1
+      ss.push(this.renderEachSkill(a.thirdSkill, ind))
     }
     return ss
   }

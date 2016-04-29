@@ -56,6 +56,7 @@ class AbilityEffect < ActiveRecord::Base
         defspeedup: '防御力/移動速度上昇',
         fullup: '攻撃力/防御力/移動速度上昇',
         critup: 'クリティカル率上昇',
+        crdamup: 'クリティカルダメージ上昇',
         add_down: '対象の攻撃にダウンを付与',
         add_slow: '対象の攻撃にスロウを付与',
         barrier: 'バリアを張る'
@@ -692,7 +693,7 @@ class AbilityEffect < ActiveRecord::Base
     excepts = %w(id ability_id created_at updated_at)
     ef = self.as_json(except: excepts)
 
-    ef['category'] = CATEGORYS.fetch(self.category.to_sym, '')
+    ef['category'] = CATEGORYS.fetch(self.category.to_sym, {}).fetch(:name, '')
     ef['condition'] = CONDITIONS.fetch(self.condition.to_sym, '')
     ef['effect'] = EFFECTS.fetch(self.effect.to_sym, '')
     ef['target'] = TARGETS.fetch(self.target.to_sym, '')

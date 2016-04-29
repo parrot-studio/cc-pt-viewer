@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151206003541) do
+ActiveRecord::Schema.define(version: 20160427012608) do
 
   create_table "abilities", force: :cascade do |t|
     t.string   "name",        limit: 100, null: false
@@ -61,8 +61,9 @@ ActiveRecord::Schema.define(version: 20151206003541) do
     t.integer  "max_hp",            limit: 8
     t.integer  "limit_atk",         limit: 8
     t.integer  "limit_hp",          limit: 8
-    t.integer  "skill_id",          limit: 4,   default: 0, null: false
-    t.integer  "skill2_id",         limit: 4,   default: 0, null: false
+    t.integer  "first_skill_id",    limit: 4,   default: 0, null: false
+    t.integer  "second_skill_id",   limit: 4,   default: 0, null: false
+    t.integer  "third_skill_id",    limit: 4,   default: 0, null: false
     t.integer  "first_ability_id",  limit: 4,   default: 0, null: false
     t.integer  "second_ability_id", limit: 4,   default: 0, null: false
     t.integer  "weapon_ability_id", limit: 4,   default: 0, null: false
@@ -78,6 +79,7 @@ ActiveRecord::Schema.define(version: 20151206003541) do
   add_index "arcanas", ["chain_cost"], name: "index_arcanas_on_chain_cost", using: :btree
   add_index "arcanas", ["cost"], name: "index_arcanas_on_cost", using: :btree
   add_index "arcanas", ["first_ability_id"], name: "index_arcanas_on_first_ability_id", using: :btree
+  add_index "arcanas", ["first_skill_id"], name: "index_arcanas_on_first_skill_id", using: :btree
   add_index "arcanas", ["illustrator_id"], name: "index_arcanas_on_illustrator_id", using: :btree
   add_index "arcanas", ["job_code"], name: "index_arcanas_on_job_code", unique: true, using: :btree
   add_index "arcanas", ["job_type", "job_index"], name: "index_arcanas_on_job_type_and_job_index", using: :btree
@@ -92,11 +94,11 @@ ActiveRecord::Schema.define(version: 20151206003541) do
   add_index "arcanas", ["rarity", "weapon_type"], name: "index_arcanas_on_rarity_and_weapon_type", using: :btree
   add_index "arcanas", ["rarity"], name: "index_arcanas_on_rarity", using: :btree
   add_index "arcanas", ["second_ability_id"], name: "index_arcanas_on_second_ability_id", using: :btree
-  add_index "arcanas", ["skill2_id"], name: "index_arcanas_on_skill2_id", using: :btree
-  add_index "arcanas", ["skill_id"], name: "index_arcanas_on_skill_id", using: :btree
+  add_index "arcanas", ["second_skill_id"], name: "index_arcanas_on_second_skill_id", using: :btree
   add_index "arcanas", ["source"], name: "index_arcanas_on_source", using: :btree
   add_index "arcanas", ["source_category", "source"], name: "index_arcanas_on_source_category_and_source", using: :btree
   add_index "arcanas", ["source_category"], name: "index_arcanas_on_source_category", using: :btree
+  add_index "arcanas", ["third_skill_id"], name: "index_arcanas_on_third_skill_id", using: :btree
   add_index "arcanas", ["union"], name: "index_arcanas_on_union", using: :btree
   add_index "arcanas", ["voice_actor_id"], name: "index_arcanas_on_voice_actor_id", using: :btree
   add_index "arcanas", ["weapon_ability_id"], name: "index_arcanas_on_weapon_ability_id", using: :btree

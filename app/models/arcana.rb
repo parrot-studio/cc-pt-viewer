@@ -2,19 +2,20 @@ class Arcana < ActiveRecord::Base
 
   default_scope do
     includes([
-      :voice_actor, :illustrator, :skill, :skill2,
+      :voice_actor, :illustrator, :first_skill, :second_skill, :third_skill,
       :first_ability, :second_ability, :chain_ability, :weapon_ability
     ])
   end
 
   belongs_to :voice_actor
   belongs_to :illustrator
-  belongs_to :skill
-  belongs_to :skill2,         class_name: 'Skill'
+  belongs_to :first_skill,    class_name: 'Skill'
+  belongs_to :second_skill,   class_name: 'Skill'
+  belongs_to :third_skill,    class_name: 'Skill'
   belongs_to :first_ability,  class_name: 'Ability'
   belongs_to :second_ability, class_name: 'Ability'
-  belongs_to :chain_ability
   belongs_to :weapon_ability, class_name: 'Ability'
+  belongs_to :chain_ability
 
   RARITYS = (1..5).freeze
 
@@ -249,7 +250,9 @@ class Arcana < ActiveRecord::Base
             length: { maximum: 50 }
 
   def serialize
-    excepts = %w(voice_actor_id illustrator_id skill_id first_ability_id second_ability_id chain_ability_id weapon_ability_id)
+    excepts = %w(voice_actor_id illustrator_id first_skill_id
+      second_skill_id third_skill_id chain_ability_id
+      first_ability_id second_ability_id  weapon_ability_id)
     ret = self.as_json(except: excepts)
 
     ret['weapon_name'] = WEAPON_NAMES.fetch(self.weapon_type.to_sym, '')
@@ -262,12 +265,13 @@ class Arcana < ActiveRecord::Base
 
     ret['voice_actor'] = (voice_actor ? voice_actor.name : '')
     ret['illustrator'] = (illustrator ? illustrator.name : '')
-    ret['skill'] = (skill ? skill.serialize : {})
-    ret['skill2'] = (skill2 ? skill2.serialize : {})
+    ret['first_skill'] = (first_skill ? first_skill.serialize : {})
+    ret['second_skill'] = (second_skill ? second_skill.serialize : {})
+    ret['third_skill'] = (third_skill ? third_skill.serialize : {})
     ret['first_ability'] = (first_ability ? first_ability.serialize : {})
     ret['second_ability'] = (second_ability ? second_ability.serialize : {})
-    ret['chain_ability'] = (chain_ability ? chain_ability.serialize : {})
     ret['weapon_ability'] = (weapon_ability ? weapon_ability.serialize : {})
+    ret['chain_ability'] = (chain_ability ? chain_ability.serialize : {})
 
     ret
   end

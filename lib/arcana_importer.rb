@@ -369,10 +369,11 @@ class ArcanaImporter
     raise 'name invalid' unless name == name2
     skill_name = data[19]
     skill2_name = data[20]
-    ability_name_f = data[21]
-    ability_name_s = data[22]
-    ability_name_w = data[23]
-    chain_ability_name = data[24]
+    skill3_name = data[21]
+    ability_name_f = data[22]
+    ability_name_s = data[23]
+    ability_name_w = data[24]
+    chain_ability_name = data[25]
 
     arcana = Arcana.find_by(job_code: code) || Arcana.new
     arcana.name = name
@@ -422,18 +423,26 @@ class ArcanaImporter
     end
 
     unless skill_name.blank?
-      arcana.skill = skills[skill_name]
-      unless arcana.skill
-        puts "skill not found => #{skill_name}"
-        arcana.skill_id = 0
+      arcana.first_skill = skills[skill_name]
+      unless arcana.first_skill
+        puts "first_skill not found => #{skill_name}"
+        arcana.first_skill_id = 0
       end
     end
 
     unless skill2_name.blank?
-      arcana.skill2 = skills[skill2_name]
-      unless arcana.skill2
-        puts "skill2 not found => #{skill2_name}"
-        arcana.skill2_id = 0
+      arcana.second_skill = skills[skill2_name]
+      unless arcana.second_skill
+        puts "second_skill not found => #{skill2_name}"
+        arcana.second_skill_id = 0
+      end
+    end
+
+    unless skill3_name.blank?
+      arcana.third_skill = skills[skill3_name]
+      unless arcana.third_skill
+        puts "third_skill not found => #{skill3_name}"
+        arcana.third_skill_it = 0
       end
     end
 

@@ -86,7 +86,8 @@ class SkillEffect < ActiveRecord::Base
         critup: 'クリティカル率上昇',
         restoration: '返還',
         create_scrap: 'スクラップ生成',
-        destroy_scrap: 'スクラップ破壊'
+        destroy_scrap: 'スクラップ破壊',
+        super_skill: '超必殺技'
       }
     },
     song_dance: {
@@ -136,6 +137,7 @@ class SkillEffect < ActiveRecord::Base
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
         defspeedup: '防御力/移動速度上昇',
+        fullup: '攻撃力/防御力/移動速度上昇',
         critup: 'クリティカル率上昇',
         critdamup: 'クリティカル率/クリティカルダメージ上昇',
         delayoff: '攻撃速度上昇',

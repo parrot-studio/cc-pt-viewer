@@ -87,17 +87,32 @@ class ArcanaRenderer extends React.Component {
   }
 
   renderSkill(a) {
-    let s1 = a.skill
-    let s2 = a.skill2
+    let s1 = a.firstSkill
+    let s2 = a.secondSkill
+    let s3 = a.thirdSkill
+    let maxLength = 17
+
     render = s1.name
     if (s2 && !_.isEmpty(s2.name)) {
       render += `/${s2.name}`
+    }
+    if (s3 && !_.isEmpty(s3.name)) {
+      render += `/${s3.name}`
     }
     render += `(${s1.cost}`
     if (s2 && s1.cost !== s2.cost) {
       render += `/${s2.cost}`
     }
+    if (s3 && s3.cost !== s3.cost) {
+      render += `/${s3.cost}`
+    }
     render += ')'
+
+    if (render.length > maxLength) {
+      render = render.substr(0, maxLength - 3)
+      render += '...'
+    }
+
     return render
   }
 
