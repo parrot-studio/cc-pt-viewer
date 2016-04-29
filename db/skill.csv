@@ -886,6 +886,7 @@
 ,,,セラフィックオーバードライブ,2,超必殺技ゲージMAX,attack,range_jump,super_skill,add_slow,add_push,,,
 クライン,F,210,ランページマッスル,2,,metamorphose,self,supermode,wide_attack,,,,攻撃間隔減少
 ツァーリ14世,K,114,我が栄光の覇道,1,,area,field,,,,,,戦場
+,,,覇王の先駆,1,フィールドが戦場,attack,range_dash,,,,,,
 ,,,栄光のクロニクル,2,超必殺技ゲージMAX,attack,range_random,super_skill,,,,,
 ,,,,forward,,area,field,,,,,,戦場
 レノ,A,106,惨禍乃賽子,1,,attack,random,,,,,,効果が6種類
