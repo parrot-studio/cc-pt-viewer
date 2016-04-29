@@ -84,12 +84,12 @@ class @Party
       m = mems[k]
       return unless m
 
-      if Arcana.sameCharacter(m.arcana, ta) || Arcana.sameCharacter(m.arcana, tc)
+      if Arcana.sameArcana(m.arcana, ta) || Arcana.sameArcana(m.arcana, tc)
         mems[k] = null
         return
 
       return unless m.chainArcana
-      if Arcana.sameCharacter(m.chainArcana, ta) || Arcana.sameCharacter(m.chainArcana, tc)
+      if Arcana.sameArcana(m.chainArcana, ta) || Arcana.sameArcana(m.chainArcana, tc)
         mems[k] = new Member(m.arcana)
     mems
 
