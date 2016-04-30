@@ -1135,3 +1135,5 @@
 ツァイス,F,244,イリュージョンラッシュ,1,,attack,one_combo,,,,,,
 ヴィドック,A,130,フェイタルエッジ,1,,attack,one_line,add_defspeeddown,,,,,
 トルウァトス,M,176,,,,,,,,,,,
+,,,,,,,,,,,,,
+トーガ,P,72,大地の息吹,2,,heal,all_instant,excess,atkup,,,,

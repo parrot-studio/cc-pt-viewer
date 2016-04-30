@@ -1330,3 +1330,5 @@
 ツァイス,F,244,スカウトマン,field,in_night,atkdefup,self,
 ヴィドック,A,130,諜報活動,buff_self,any,speedup,self,
 トルウァトス,M,176,,,,,,
+,,,,,,,,
+トーガ,P,72,年の功,buff_self,any,healup,self,

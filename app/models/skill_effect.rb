@@ -89,7 +89,8 @@ class SkillEffect < ActiveRecord::Base
         restoration: '返還',
         create_scrap: 'スクラップ生成',
         destroy_scrap: 'スクラップ破壊',
-        super_skill: '超必殺技'
+        super_skill: '超必殺技',
+        excess: '超過'
       }
     },
     song_dance: {
