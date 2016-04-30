@@ -487,6 +487,7 @@ class AbilityEffect < ActiveRecord::Base
         in_base_area: '自陣にいる時',
         in_rear: '仲間より後ろにいる時',
         in_tail: '一番後ろにいる時',
+        in_back: '一番後列にいる時',
         in_combo: '攻撃を一定回数当てた時',
         in_attacking: '攻撃を継続している時',
         in_invisible: '姿を消している時',

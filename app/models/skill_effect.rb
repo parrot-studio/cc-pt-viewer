@@ -46,6 +46,8 @@ class SkillEffect < ActiveRecord::Base
         add_slow: 'スロウ追加',
         add_push: '弾き飛ばし',
         add_tumble: '転倒付与',
+        add_defdown: '防御力低下',
+        add_defspeeddown: '防御力/移動速度低下',
         fire: '火属性',
         ice: '氷属性',
         charge: '溜め',
