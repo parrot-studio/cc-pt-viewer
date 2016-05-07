@@ -1329,6 +1329,6 @@
 ミレイユ,F,243,怪力自慢,add_debuff,critical,down,enemy,
 ツァイス,F,244,スカウトマン,field,in_night,atkdefup,self,
 ヴィドック,A,130,諜報活動,buff_self,any,speedup,self,
-トルウァトス,M,176,,,,,,
+トルウァトス,M,176,人心掌握術,add_debuff,attack,slow,enemy,
 ,,,,,,,,
 トーガ,P,72,年の功,buff_self,any,healup,self,

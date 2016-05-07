@@ -1134,6 +1134,6 @@
 ミレイユ,F,243,パワフルスイング,2,,attack,range_self,,,,,,
 ツァイス,F,244,イリュージョンラッシュ,1,,attack,one_combo,,,,,,
 ヴィドック,A,130,フェイタルエッジ,1,,attack,one_line,add_defspeeddown,,,,,
-トルウァトス,M,176,,,,,,,,,,,
+トルウァトス,M,176,マインド・コンフュージョン,2,,area,echo,,,,,,
 ,,,,,,,,,,,,,
 トーガ,P,72,大地の息吹,2,,heal,all_instant,excess,atkup,,,,
