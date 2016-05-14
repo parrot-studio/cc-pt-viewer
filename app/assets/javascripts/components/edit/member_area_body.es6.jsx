@@ -23,15 +23,15 @@ class MemberAreaBody extends React.Component {
   }
 
   handleDropedArcana(orgKey, drag) {
-    jobCode = drag.data('jobCode')
-    swapKey = drag.data('memberKey')
+    let jobCode = drag.data('jobCode')
+    let swapKey = drag.data('memberKey')
     if (orgKey === swapKey) {
       return
     }
 
-    party = this.props.party
-    orgMember = party.memberFor(orgKey)
-    target = new Member(Arcana.forCode(jobCode))
+    let party = this.props.party
+    let orgMember = party.memberFor(orgKey)
+    let target = new Member(Arcana.forCode(jobCode))
     if (swapKey) {
       target.memberKey = swapKey
       target.chainArcana = party.memberFor(swapKey).chainArcana

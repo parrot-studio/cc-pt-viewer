@@ -231,6 +231,9 @@
 バリエナ,K,40,マナの天分,mana,battle_start,mana_charge,resource,2個,
 ,,,銀狼の毛皮,against_debuff,any,guard_all,self,,
 ,,,,buff_self,any,defup,self,,
+,,,銀狼の爪,field,in_forest,atkdefup,all,,プラタルヴォ
+,,,,field,in_forest,atkup,self,,
+,,,,buff_jobs,wave_start,atkup,archer,一番遠い対象,
 リフレット,K,41,ゴーレムキラー,killer,vs_golem,atkup,self,,
 ,,,不倒の向日葵,against_debuff,any,guard_down,self,,
 ,,,,against_debuff,any,guard_poison,self,,
