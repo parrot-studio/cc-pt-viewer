@@ -1332,3 +1332,8 @@
 トルウァトス,M,176,人心掌握術,add_debuff,attack,slow,enemy,
 ,,,,,,,,
 トーガ,P,72,年の功,buff_self,any,healup,self,
+,,,,,,,,
+# ワダアルコフェス,,,,,,,,
+,,,,,,,,
+モルバ,K,136,族長の補佐,field,in_upland,atkdefup,self,
+,,,,field,in_snow,atkdefup,self,

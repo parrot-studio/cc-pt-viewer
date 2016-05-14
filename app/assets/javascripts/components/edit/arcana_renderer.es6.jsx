@@ -64,7 +64,7 @@ class ArcanaRenderer extends React.Component {
       return
     }
 
-    d = $(this._div)
+    let d = $(this._div)
     d.attr("data-job-code", code)
     if (k){
       d.attr("data-member-key", k)
@@ -92,7 +92,7 @@ class ArcanaRenderer extends React.Component {
     let s3 = a.thirdSkill
     let maxLength = 17
 
-    render = s1.name
+    let render = s1.name
     if (s2 && !_.isEmpty(s2.name)) {
       render += `/${s2.name}`
     }

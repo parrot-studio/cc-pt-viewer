@@ -15,7 +15,7 @@ class RequestFormModal extends React.Component {
 
   twitterUrl() {
     let text = `@parrot_studio ${this.state.requestText}`
-    url = "https://twitter.com/intent/tweet"
+    let url = "https://twitter.com/intent/tweet"
     url += `?text=${encodeURIComponent(text)}`
     url += "&hashtags=ccpts"
     return url
