@@ -1,4 +1,4 @@
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 
 require 'rails/all'
 
@@ -23,11 +23,8 @@ module CcPtViewer
     # config.i18n.default_locale = :de
     config.i18n.default_locale = :ja
 
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
-
     # autoload
-    config.autoload_paths += Dir["#{config.root}/lib/**/"]
+    config.eager_load_paths += Dir["#{config.root}/lib"]
 
     # configs
     config.x.settings = Rails.application.config_for(:settings).deep_symbolize_keys

@@ -1,4 +1,4 @@
-class VoiceActor < ActiveRecord::Base
+class VoiceActor < ApplicationRecord
 
   validates :name,
             presence: true,

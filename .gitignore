@@ -9,12 +9,12 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*
+/tmp/*
 !/log/.keep
-/tmp
+!/tmp/.keep
 
-/vendor/assets/bower_components
-*.bowerrc
-bower.json
+# Ignore Byebug command history file.
+.byebug_history
+
 /vendor/bundle
 node_modules
-

@@ -17,7 +17,7 @@ class ServerSettings
     end
 
     def data_update_time
-      return Time.zone.now unless use_cache?
+      return Time.current unless Rails.env.production?
       @data_update_time ||= Time.parse(data_version)
       @data_update_time
     end
@@ -32,10 +32,6 @@ class ServerSettings
 
     def use_mail?
       config[:mail] ? true : false
-    end
-
-    def use_cache?
-      config[:cache] ? true : false
     end
 
     def mail_from

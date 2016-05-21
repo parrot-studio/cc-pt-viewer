@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ViewerControllerTest < ActionController::TestCase
+class ViewerControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end

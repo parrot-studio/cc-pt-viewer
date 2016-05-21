@@ -1,4 +1,4 @@
-class Illustrator < ActiveRecord::Base
+class Illustrator < ApplicationRecord
 
   validates :name,
             presence: true,

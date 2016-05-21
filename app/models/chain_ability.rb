@@ -1,4 +1,4 @@
-class ChainAbility < ActiveRecord::Base
+class ChainAbility < ApplicationRecord
 
   default_scope { includes(:chain_ability_effects) }
 

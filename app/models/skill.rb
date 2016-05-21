@@ -1,4 +1,5 @@
-class Skill < ActiveRecord::Base
+class Skill < ApplicationRecord
+
   default_scope { includes(:skill_effects) }
   has_many :skill_effects
 

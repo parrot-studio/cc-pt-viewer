@@ -1,5 +1,6 @@
-class ChainAbilityEffect < ActiveRecord::Base
-  belongs_to :chain_abilities
+class ChainAbilityEffect < ApplicationRecord
+
+  belongs_to :chain_ability
 
   validates :order,
             presence: true,

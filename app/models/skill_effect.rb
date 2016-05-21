@@ -1,4 +1,5 @@
-class SkillEffect < ActiveRecord::Base
+class SkillEffect < ApplicationRecord
+
   belongs_to :skill
 
   CATEGORYS = {

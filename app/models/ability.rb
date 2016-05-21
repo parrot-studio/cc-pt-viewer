@@ -1,4 +1,4 @@
-class Ability < ActiveRecord::Base
+class Ability < ApplicationRecord
 
   default_scope { includes(:ability_effects) }
 

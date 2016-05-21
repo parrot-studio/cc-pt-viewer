@@ -376,35 +376,31 @@ class ArcanaSearcher
 
     query = replace_source_query(query)
 
-    arel = Arcana.where(query)
+    arel = Arcana.all
 
     unless skill.blank? && skillcost.blank?
       skills = skill_search(skill, skillcost, skillsub, skilleffect)
       return [] if skills.blank?
-      arel.where!(
-        Arcana
-          .where(first_skill_id: skills)
-          .where(second_skill_id: skills)
-          .where(third_skill_id: skills)
-          .where_values.reduce(:or))
+      arel = arel.where(first_skill_id: skills)
+        .or(Arcana.where(second_skill_id: skills))
+        .or(Arcana.where(third_skill_id: skills))
     end
 
     unless (abcate.blank? && abeffect.blank? && abcond.blank?)
       abs = ability_search(abcate, abeffect, abcond)
       return [] if abs.blank?
-      arel.where!(
-        Arcana
-          .where(first_ability_id: abs)
-          .where(second_ability_id: abs)
-          .where(weapon_ability_id: abs)
-          .where_values.reduce(:or))
+      arel = arel.where(first_ability_id: abs)
+        .or(Arcana.where(second_ability_id: abs))
+        .or(Arcana.where(weapon_ability_id: abs))
     end
 
     unless (cabcate.blank? && cabeffect.blank? && cabcond.blank?)
       abs = chain_ability_search(cabcate, cabeffect, cabcond)
       return [] if abs.blank?
-      arel.where!(chain_ability_id: abs)
+      arel = arel.where(chain_ability_id: abs)
     end
+
+    arel = arel.where(query)
 
     table = Arcana.arel_table
     arel.order(
@@ -416,26 +412,18 @@ class ArcanaSearcher
     return [] if (category.blank? && cost.blank?)
 
     arel = SkillEffect.all
-    arel.where!(category: category) unless category.blank?
-    arel.where!(subcategory: sub) unless sub.blank?
-    arel = arel.joins(:skill).where(skills: { cost: cost }) unless cost.blank?
     unless ef.blank?
       efs = [ef].flatten.uniq.compact
-      arel.where!(
-        SkillEffect.where(
-          subeffect1: efs
-        ).where(
-          subeffect2: efs
-        ).where(
-          subeffect3: efs
-        ).where(
-          subeffect4: efs
-        ).where(
-          subeffect5: efs
-        ).where_values.reduce(:or)
-      )
+      arel = arel.where(subeffect1: efs)
+        .or(SkillEffect.where(subeffect2: efs))
+        .or(SkillEffect.where(subeffect3: efs))
+        .or(SkillEffect.where(subeffect4: efs))
+        .or(SkillEffect.where(subeffect5: efs))
     end
 
+    arel = arel.where(category: category) unless category.blank?
+    arel = arel.where(subcategory: sub) unless sub.blank?
+    arel = arel.joins(:skill).where(skills: { cost: cost }) unless cost.blank?
     arel.pluck(:skill_id)
   end
 
@@ -444,9 +432,9 @@ class ArcanaSearcher
     efs = effect_group_for(effect)
 
     es = AbilityEffect.all
-    es.where!(category: cate) unless cate.blank?
-    es.where!(effect: efs) unless efs.blank?
-    es.where!(condition: cond) unless cond.blank?
+    es = es.where(category: cate) unless cate.blank?
+    es = es.where(effect: efs) unless efs.blank?
+    es = es.where(condition: cond) unless cond.blank?
     es.pluck(:ability_id).uniq
   end
 
@@ -455,9 +443,9 @@ class ArcanaSearcher
     efs = effect_group_for(effect)
 
     es = ChainAbilityEffect.all
-    es.where!(category: cate) unless cate.blank?
-    es.where!(effect: efs) unless efs.blank?
-    es.where!(condition: cond) unless cond.blank?
+    es = es.where(category: cate) unless cate.blank?
+    es = es.where(effect: efs) unless efs.blank?
+    es = es.where(condition: cond) unless cond.blank?
     es.pluck(:chain_ability_id).uniq
   end
 
@@ -469,9 +457,10 @@ class ArcanaSearcher
   end
 
   def replace_source_query(q)
-    return q if (q[:source_category].blank? || q[:source].present?)
+    return q if q[:source_category].blank?
     return q unless Arcana::SOURCE_GROUP_CATEGORYS.include?(q[:source_category].to_sym)
     cate = q.delete(:source_category)
+    return q if q[:source].present?
     ss = Arcana::SOURCE_TABLE.fetch(cate.to_sym, {}).fetch(:details, {}).keys
     return q if ss.blank?
     q[:source] = ss

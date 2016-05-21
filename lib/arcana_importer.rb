@@ -13,7 +13,7 @@ class ArcanaImporter
   end
 
   def execute
-    Arcana.transaction do
+    ApplicationRecord.transaction do
       build_skill
       build_ability
       build_chain_ability
@@ -247,16 +247,16 @@ class ArcanaImporter
         abi.name = name
         abi.explanation = ''
         abi.weapon_name = ''
-        abi.save!
         abs[name] = abi
       end
 
       # 詳細
+      effects = []
+      efs = abi.ability_effects.index_by(&:order)
       lines.each.with_index(1) do |data, ord|
         data.shift # name
         next if data.all?(&:blank?)
-        effect = abi.ability_effects.find { |e| e.order == ord }
-        effect ||= AbilityEffect.new
+        effect = (efs[ord] || AbilityEffect.new)
 
         effect.order = ord
         effect.category = data.shift
@@ -276,18 +276,18 @@ class ArcanaImporter
         raise "condition undefined =>  #{abi.name} #{effect.category} #{effect.condition}" unless condcheck
 
         changes = effect.changes if effect.changed?
-        abi.ability_effects << effect
-        effect.save!
+        effects << effect
 
         puts "warning : ability #{name} : #{changes}" if changes.present?
 
         # 武器名
         wname = data.shift
-        if wname.present?
-          abi.weapon_name = wname
-          abi.save!
-        end
+        abi.weapon_name = wname if wname.present?
       end
+
+      abi.ability_effects = effects
+      abi.ability_effects.each(&:save!)
+      abi.save!
     end
 
     @abilities = abs
@@ -304,16 +304,16 @@ class ArcanaImporter
         abi = ChainAbility.new
         abi.name = name
         abi.explanation = ''
-        abi.save!
         abs[name] = abi
       end
 
       # 詳細
+      effects = []
+      efs = abi.chain_ability_effects.index_by(&:order)
       lines.each.with_index(1) do |data, ord|
         data.shift # name
         next if data.all?(&:blank?)
-        effect = abi.chain_ability_effects.find { |e| e.order == ord }
-        effect ||= ChainAbilityEffect.new
+        effect = (efs[ord] || ChainAbilityEffect.new)
 
         effect.order = ord
         effect.category = data.shift
@@ -331,11 +331,14 @@ class ArcanaImporter
         raise "effect undefined =>  #{abi.name} #{effect.category} #{effect.effect}" unless check
 
         changes = effect.changes if effect.changed?
-        abi.chain_ability_effects << effect
-        effect.save!
+        effects << effect
 
         puts "warning : chain_ability #{name} : #{changes}" if changes.present?
       end
+
+      abi.chain_ability_effects = effects
+      abi.chain_ability_effects.each(&:save!)
+      abi.save!
     end
 
     @chain_abilities = abs

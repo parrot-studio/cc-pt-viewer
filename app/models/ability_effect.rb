@@ -1,5 +1,6 @@
-class AbilityEffect < ActiveRecord::Base
-  belongs_to :abilities
+class AbilityEffect < ApplicationRecord
+
+  belongs_to :ability
 
   CATEGORYS = {
     buff_all: {

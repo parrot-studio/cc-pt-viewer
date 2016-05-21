@@ -227,7 +227,6 @@ class ViewerController < ApplicationController
 
   def with_cache(name, &b)
     return unless (name && b)
-    return b.call unless ServerSettings.use_cache?
     Rails.cache.fetch(name, &b)
   end
 
