@@ -165,7 +165,8 @@ class AbilityEffect < ApplicationRecord
         has_mana: '特定のマナを保持している時',
         use_mana: 'マナが使用された時',
         kill: '敵を倒した時',
-        super_gauge_max: '超必殺技ゲージがMAXの時'
+        super_gauge_max: '超必殺技ゲージがMAXの時',
+        kill: '敵を倒した時'
       }
     },
     add_debuff: {

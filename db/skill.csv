@@ -1154,3 +1154,10 @@
 # 変身！真☆魔法少女,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 リーゼロッテ,M,178,プリズミックレイン,3,,attack,range_all,add_down,,,,,
+,,,,,,,,,,,,,
+# 鉄煙チェインストーリーフェス,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+ヴァッサー,K,137,フェルカー・モルト,1,,buff,self,fullup,create_scrap,,,,2個
+ジルヴェスター,K,138,シェアシュラーゲン,2,,attack,range_self,destroy_scrap,,,,,全て
+グリゼルディス,A,131,シュメルツェン・パトローネ,1,,attack,one_line,add_defdown,create_scrap,,,,1個
+ギーゼラ,A,132,フェアシュテルケン,1,,buff,all,atkup,destroy_scrap,,,,1個
