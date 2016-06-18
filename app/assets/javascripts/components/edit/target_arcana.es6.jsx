@@ -9,8 +9,7 @@ class TargetArcana extends ArcanaRenderer {
       offText: '★',
       labelWidth: '2',
       onSwitchChange: (e, state) => {
-        target = $(e.target)
-        Favorites.setState(target.data('jobCode'), state)
+        Favorites.setState($(e.target).data('jobCode'), state)
       }
     })
   }

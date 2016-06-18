@@ -7,8 +7,7 @@ class ArcanaViewModal extends React.Component {
       onColor: 'success',
       labelText: 'お気に入り',
       onSwitchChange: (e, state) => {
-        target = $(e.target)
-        Favorites.setState(target.data('jobCode'), state)
+        Favorites.setState($(e.target).data('jobCode'), state)
       }
     })
   }

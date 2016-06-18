@@ -18,10 +18,10 @@ class @Searcher
 
     params ?= {}
     params.ver = ver
-    result = Bacon.fromPromise($.getJSON(url, params))
+    result = Bacon.fromPromise(Agent.get(url).query(params))
     result.onError (err) -> $("#error-area").show()
     result.onEnd -> $("#loading-modal").modal('hide')
-    result
+    result.flatMap (res) -> Bacon.once(res.body)
 
   @searchArcanas: (query) ->
     return unless query
@@ -36,8 +36,7 @@ class @Searcher
       return Bacon.once(QueryResult.create(as, detailCache[key]))
 
     $("#loading-modal").modal('show')
-    result = @search(query.params(), searchUrl)
-    result.flatMap (data) ->
+    @search(query.params(), searchUrl).flatMap (data) ->
       as = _.map data.result, (d) -> Arcana.build(d)
       cs = _.map as, (a) -> a.jobCode
       resultCache[key] = cs
@@ -51,8 +50,7 @@ class @Searcher
     return Bacon.once(cache) if (cache)
 
     params = {ptm: code}
-    result = @search(params, ptmUrl)
-    result.flatMap (data) ->
+    @search(params, ptmUrl).flatMap (data) ->
       as = _.mapValues data, (d) -> Arcana.build(d)
       memberCache[code] = as
       Bacon.once(as)
@@ -67,8 +65,7 @@ class @Searcher
 
     $("#loading-modal").modal('show')
     params = {'codes': unknowns.join('/')}
-    result = @search(params, codesUrl)
-    result.flatMap (data) ->
+    @search(params, codesUrl).flatMap (data) ->
       _.forEach data, (d) -> Arcana.build(d)
       as = _.map targets, (c) -> Arcana.forCode(c)
       Bacon.once(QueryResult.create(as))
@@ -83,10 +80,14 @@ class @Searcher
     params.ver = ver
     params.text = text
 
-    result = Bacon.fromPromise($.post(requestUrl, params))
-    result.onError( (err) -> $("#error-area").show())
-    result.onEnd( -> $("#loading-modal").modal('hide'))
-    result
+    # NOTE: add CSRF header automatically if use jQuery's Ajax with jquery-rails
+    token = $('meta[name="csrf-token"]').attr('content')
+    post = Agent.post(requestUrl).set('X-CSRF-Token', token).send(params)
+
+    result = Bacon.fromPromise(post)
+    result.onError (err) -> $("#error-area").show()
+    result.onEnd -> $("#loading-modal").modal('hide')
+    result.flatMap (res) -> Bacon.once(res.body)
 
   @searchFromName: (query) ->
     @search(query.params(), nameUrl).flatMap (data) ->
