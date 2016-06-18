@@ -1161,3 +1161,15 @@
 ジルヴェスター,K,138,シェアシュラーゲン,2,,attack,range_self,destroy_scrap,,,,,全て
 グリゼルディス,A,131,シュメルツェン・パトローネ,1,,attack,one_line,add_defdown,create_scrap,,,,1個
 ギーゼラ,A,132,フェアシュテルケン,1,,buff,all,atkup,destroy_scrap,,,,1個
+,,,,,,,,,,,,,
+# レムレス島後半,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+ラントカルテ,F,246,メジャーメント・ブロウ,2,,attack,one_combo,,,,,,
+,,,,forward,,attack,range_self,add_down,,,,,
+メディア,A,133,シューティングスターズ,1,最後列にいない,attack,bullets,,,,,,
+,,,ヒーリングフロンティア,1,最後列にいる,heal,all_instant,,,,,,
+ファクト,A,134,バーストショット,2,,attack,range_forward,add_push,,,,,
+ヘロディア,P,74,希望の物語,1,,attack,range_dash,return_position,,,,,
+,,,,forward,,buff,all,atkdefup,,,,,
+ミアセラ,M,179,ダメージ・ディーラー,2,,attack,range_random,,,,,,
+フラッグス,F,247,桜乱散華,2,,attack,one_dash,add_push,,,,,

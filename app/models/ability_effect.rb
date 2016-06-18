@@ -12,6 +12,7 @@ class AbilityEffect < ApplicationRecord
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
         defspeedup: '防御力/移動速度上昇',
+        fullup: '攻撃力/防御力/移動速度上昇',
         critup: 'クリティカル率上昇',
         critdamup: 'クリティカル率/クリティカルダメージ上昇',
         super_gauge_gain: '超必殺技ゲージ上昇'
@@ -165,8 +166,7 @@ class AbilityEffect < ApplicationRecord
         has_mana: '特定のマナを保持している時',
         use_mana: 'マナが使用された時',
         kill: '敵を倒した時',
-        super_gauge_max: '超必殺技ゲージがMAXの時',
-        kill: '敵を倒した時'
+        super_gauge_max: '超必殺技ゲージがMAXの時'
       }
     },
     add_debuff: {
@@ -509,7 +509,8 @@ class AbilityEffect < ApplicationRecord
         members_debuff: '味方に状態異常が多いほど',
         enemys_debuff: '敵に状態異常が多いほど',
         super_gauge_max: '超必殺技ゲージがMAXの時',
-        add_debuff: '状態異常を付与した時'
+        add_debuff: '状態異常を付与した時',
+        after_move: '一定距離を移動した時'
       }
     },
     unknown: {
@@ -628,7 +629,7 @@ class AbilityEffect < ApplicationRecord
     end
 
     def chain_ability_effects
-      effects = ChainAbilityEffect.select(:category, :effect).uniq.pluck(:category, :effect)
+      effects = ChainAbilityEffect.select(:category, :effect).distinct.pluck(:category, :effect)
       efs = effects.each_with_object({}) do |ef, h|
         cate = ef.first.to_sym
         h[cate] ||= []
@@ -651,7 +652,7 @@ class AbilityEffect < ApplicationRecord
     end
 
     def chain_ability_conditions
-      conds = ChainAbilityEffect.select(:category, :condition).uniq.pluck(:category, :condition)
+      conds = ChainAbilityEffect.select(:category, :condition).distinct.pluck(:category, :condition)
       cos = conds.each_with_object({}) do |co, h|
         cate = co.first.to_sym
         h[cate] ||= []
