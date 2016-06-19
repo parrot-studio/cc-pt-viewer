@@ -259,15 +259,15 @@ class ArcanaImporter
         effect = (efs[ord] || AbilityEffect.new)
 
         effect.order = ord
-        effect.category = data.shift
+        effect.category = data.shift.to_s
         raise "category not found => #{abi.name} #{effect.category}" unless AbilityEffect::CATEGORYS.key?(effect.category.to_sym)
-        effect.condition = data.shift
+        effect.condition = data.shift.to_s
         raise "condition not found => #{abi.name} #{effect.condition}" unless AbilityEffect::CONDITIONS.key?(effect.condition.to_sym)
-        effect.effect = data.shift
+        effect.effect = data.shift.to_s
         raise "effect not found => #{abi.name} #{effect.effect}" unless AbilityEffect::EFFECTS.key?(effect.effect.to_sym)
-        effect.target = data.shift
+        effect.target = data.shift.to_s
         raise "target not found => #{abi.name} #{effect.target}" unless AbilityEffect::TARGETS.key?(effect.target.to_sym)
-        effect.note = data.shift
+        effect.note = data.shift.to_s
 
         # 組み合わせチェック
         effcheck = AbilityEffect::CATEGORYS.fetch(effect.category.to_sym, {}).fetch(:effect, {}).fetch(effect.effect.to_sym, nil)
@@ -316,15 +316,15 @@ class ArcanaImporter
         effect = (efs[ord] || ChainAbilityEffect.new)
 
         effect.order = ord
-        effect.category = data.shift
+        effect.category = data.shift.to_s
         raise "category not found = #{abi.name}> #{effect.category}" unless AbilityEffect::CATEGORYS.key?(effect.category.to_sym)
-        effect.condition = data.shift
+        effect.condition = data.shift.to_s
         raise "condition not found => #{abi.name} #{effect.condition}" unless AbilityEffect::CONDITIONS.key?(effect.condition.to_sym)
-        effect.effect = data.shift
+        effect.effect = data.shift.to_s
         raise "effect not found => #{abi.name} #{effect.effect}" unless AbilityEffect::EFFECTS.key?(effect.effect.to_sym)
-        effect.target = data.shift
+        effect.target = data.shift.to_s
         raise "target not found => #{abi.name} #{effect.target}" unless AbilityEffect::TARGETS.key?(effect.target.to_sym)
-        effect.note = data.shift
+        effect.note = data.shift.to_s
 
         # 組み合わせチェック
         check = AbilityEffect::CATEGORYS.fetch(effect.category.to_sym, {}).fetch(:effect, {}).fetch(effect.effect.to_sym, nil)
