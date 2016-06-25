@@ -481,6 +481,10 @@ class ArcanaImporter
       end
     end
 
+    # TODO: 特別対応の汎用的なやり方を検討する
+    arcana.name = 'セガ・マークⅢ' if arcana.job_code == 'A82'
+    arcana.title = '絶✝影' if arcana.job_code == 'A136'
+
     puts "warning : arcana #{arcana.name} : #{arcana.changes}" if arcana.changed?
 
     arcana.save!

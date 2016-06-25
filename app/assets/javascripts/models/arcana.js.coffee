@@ -109,8 +109,6 @@ class @Arcana
         ''
       else if @jobCode is 'F82'
         "主人公（第2部）"
-      else if @jobCode is 'A82'
-        "#{@title}セガ・マークⅢ"
       else
         "#{@title}#{@name}"
     )

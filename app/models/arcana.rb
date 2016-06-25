@@ -9,13 +9,13 @@ class Arcana < ApplicationRecord
 
   belongs_to :voice_actor
   belongs_to :illustrator
-  belongs_to :first_skill,    class_name: 'Skill'
+  belongs_to :first_skill,    class_name: 'Skill',   optional: true
   belongs_to :second_skill,   class_name: 'Skill',   optional: true
   belongs_to :third_skill,    class_name: 'Skill',   optional: true
   belongs_to :first_ability,  class_name: 'Ability', optional: true
   belongs_to :second_ability, class_name: 'Ability', optional: true
   belongs_to :weapon_ability, class_name: 'Ability', optional: true
-  belongs_to :chain_ability
+  belongs_to :chain_ability,                         optional: true
 
   RARITYS = (1..5).freeze
 
@@ -133,6 +133,7 @@ class Arcana < ApplicationRecord
     collaboration: {
       name: 'コラボ',
       details: {
+        danmachi: 'ダンまち',
         utaware: 'うたわれるもの',
         valkyria: '戦場のヴァルキュリア',
         falcom_sorasc: '閃の軌跡II',
