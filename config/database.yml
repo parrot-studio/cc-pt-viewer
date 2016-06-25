@@ -15,6 +15,7 @@ default: &default
   pool: 5
   username: chain
   password: chain
+  prepared_statements: true
   host: localhost
   collation: utf8_bin
 
