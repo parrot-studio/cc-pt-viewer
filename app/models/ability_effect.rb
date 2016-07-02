@@ -27,6 +27,7 @@ class AbilityEffect < ApplicationRecord
         dropout_self: '自身が脱落した時',
         dropout_member: '味方が脱落した時',
         mana_charged: 'マナが多いほど',
+        mana_slot_many: 'マナスロットが多いほど',
         kill: '敵を倒した時',
         super_gauge_max: '超必殺技ゲージがMAXの時'
       }

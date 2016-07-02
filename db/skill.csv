@@ -1187,4 +1187,9 @@
 リリルカ・アーデ,A,135,援護射撃,1,,attack,range_random,add_poison,,,,,
 ヤマト・命,A,136,フツノミタマ,2,,attack,range_forward,add_slow,,,,,
 ,,,,,,,,,,,,,
-アイズ・ヴァレンシュタイン,K,139,,,,,,,,,,,
+アイズ・ヴァレンシュタイン,K,139,エアリエル,1,初回のみ,buff,self,fullup,delayoff,,,,
+,,,リル・ラファーガ,2,2回目以降,attack,range_dash,add_push,,,,,一度自陣に下がる
+,,,,,,,,,,,,,
+ヤシュム,M,180,タリーク・マスィール,2,,area,atkup,,,,,,
+グラシア,A,137,フォルタレザ,1,,area,field,,,,,,森林
+,,,レペティール,1,フィールドが森林,attack,bullets,,,,,,
