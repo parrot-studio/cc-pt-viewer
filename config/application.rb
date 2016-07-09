@@ -25,9 +25,5 @@ module CcPtViewer
 
     # autoload
     config.eager_load_paths += Dir["#{config.root}/lib"]
-
-    # configs
-    config.x.settings = Rails.application.config_for(:settings).deep_symbolize_keys
-    config.x.mail = Rails.application.config_for(:mail).deep_symbolize_keys
   end
 end

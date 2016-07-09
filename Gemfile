@@ -53,6 +53,7 @@ gem 'font-awesome-sass'
 gem 'sprockets-es6', require: 'sprockets/es6'
 gem 'browserify-rails'
 gem 'react-rails'
+gem 'config'
 
 # pry
 gem 'pry'

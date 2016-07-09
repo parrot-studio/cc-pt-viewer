@@ -1,13 +1,14 @@
 config = Rails.application.config
-mail_config = config.x.mail
 
-case mail_config[:delivery_method]
+case Settings.mail.delivery_method.to_sym
 when :smtp
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = mail_config[:smtp_settings] if mail_config[:smtp_settings].present?
+  conf = (Settings.mail.smtp_settings || {}).deep_symbolize_keys
+  config.action_mailer.smtp_settings = conf if conf.present?
 when :sendmail
   config.action_mailer.delivery_method = :sendmail
-  config.action_mailer.sendmail_settings = mail_config[:sendmail_settings] if mail_config[:sendmail_settings].present?
+  conf = (Settings.mail.sendmail_settings || {}).deep_symbolize_keys
+  config.action_mailer.sendmail_settings = conf if conf.present?
 else
   config.action_mailer.delivery_method = :test
 end

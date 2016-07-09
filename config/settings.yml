@@ -1,13 +1,9 @@
-arcanas: &arcanas
+api:
   recently: 24
   pt_version: 2
-
-production:
-  mail: true
-  <<: *arcanas
-development:
-  mail: true
-  <<: *arcanas
-test:
-  mail: false
-  <<: *arcanas
+mail:
+  use: <%= ENV['MAIL_USE'].to_i > 0 ? true : false %>
+  from: <%= ENV['MAIL_FROM'] %>
+  admin:
+    to: <%= ENV['MAIL_ADMIN_TO'] %>
+  delivery_method: <%= ENV['MAIL_METHOD'] %>

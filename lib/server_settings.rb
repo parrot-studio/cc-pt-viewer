@@ -1,5 +1,12 @@
 class ServerSettings
 
+  PT_VERSION = lambda{ Settings.api.pt_version }.call
+  RECENTLY_SIZE = lambda do
+    size = Settings.api.recently.to_i
+    size > 0 ? size : 24
+  end.call
+  USE_MAIL = lambda{ Settings.mail.use ? true : false }.call
+
   class << self
 
     def data_version
@@ -11,7 +18,7 @@ class ServerSettings
     end
 
     def update_data_version!(ver = nil)
-      ver ||= format_time(Time.zone.now)
+      ver ||= format_time(Time.current)
       File.open(version_file, 'w') { |f| f.puts(ver) }
       @data_version = ver
     end
@@ -23,34 +30,26 @@ class ServerSettings
     end
 
     def pt_version
-      config[:pt_version]
+      PT_VERSION
     end
 
     def recently
-      (config[:recently] || 24).to_i
+      RECENTLY_SIZE
     end
 
     def use_mail?
-      config[:mail] ? true : false
+      USE_MAIL
     end
 
     def mail_from
-      mail_config[:from]
+      Settings.mail.from
     end
 
     def mail_admin_to
-      mail_config[:admin][:to]
+      Settings.mail.admin.to
     end
 
     private
-
-    def config
-      Rails.application.config.x.settings
-    end
-
-    def mail_config
-      Rails.application.config.x.mail
-    end
 
     def version_file
       Rails.root.join('tmp', 'data_version')

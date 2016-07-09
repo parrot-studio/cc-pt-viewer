@@ -13,10 +13,10 @@ default: &default
   adapter: mysql2
   encoding: utf8
   pool: 5
-  username: chain
-  password: chain
+  username: <%= ENV['DATABASE_USER'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
   prepared_statements: true
-  host: localhost
+  host: <%= ENV['DATABASE_HOST'] %>
   collation: utf8_bin
 
 development:
@@ -51,6 +51,4 @@ test:
 #
 production:
   <<: *default
-  database: cc_pt_viewer
-  username: cc_pt_viewer
-  password: <%= ENV['CC_PT_VIEWER_DATABASE_PASSWORD'] %>
+  database: <%= ENV['DATABASE_NAME_PRODUCTION'] %>
