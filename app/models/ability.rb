@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: abilities
+#
+#  id          :integer          not null, primary key
+#  name        :string(100)      not null
+#  explanation :string(500)
+#  weapon_name :string(100)
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+# Indexes
+#
+#  index_abilities_on_name  (name) UNIQUE
+#
+
 class Ability < ApplicationRecord
 
   default_scope { includes(:ability_effects) }

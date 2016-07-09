@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: chain_abilities
+#
+#  id          :integer          not null, primary key
+#  name        :string(100)      not null
+#  explanation :string(500)
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+# Indexes
+#
+#  index_chain_abilities_on_name  (name) UNIQUE
+#
+
 class ChainAbility < ApplicationRecord
 
   default_scope { includes(:chain_ability_effects) }

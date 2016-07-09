@@ -1,3 +1,30 @@
+# == Schema Information
+#
+# Table name: chain_ability_effects
+#
+#  id               :integer          not null, primary key
+#  chain_ability_id :integer          not null
+#  order            :integer          not null
+#  category         :string(100)      not null
+#  condition        :string(100)      not null
+#  effect           :string(100)      not null
+#  target           :string(100)      not null
+#  note             :string(300)      default("")
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#
+# Indexes
+#
+#  index_chain_ability_effects_on_category                (category)
+#  index_chain_ability_effects_on_category_and_condition  (category,condition)
+#  index_chain_ability_effects_on_category_and_effect     (category,effect)
+#  index_chain_ability_effects_on_chain_ability_id        (chain_ability_id)
+#  index_chain_ability_effects_on_condition               (condition)
+#  index_chain_ability_effects_on_condition_and_effect    (condition,effect)
+#  index_chain_ability_effects_on_effect                  (effect)
+#  index_chain_ability_effects_on_target                  (target)
+#
+
 class ChainAbilityEffect < ApplicationRecord
 
   belongs_to :chain_ability

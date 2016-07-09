@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: skills
+#
+#  id          :integer          not null, primary key
+#  name        :string(100)      not null
+#  explanation :string(500)
+#  cost        :integer          not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+# Indexes
+#
+#  index_skills_on_cost  (cost)
+#  index_skills_on_name  (name) UNIQUE
+#
+
 class Skill < ApplicationRecord
 
   default_scope { includes(:skill_effects) }
