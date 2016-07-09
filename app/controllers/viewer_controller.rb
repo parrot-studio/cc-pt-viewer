@@ -7,6 +7,7 @@ class ViewerController < ApplicationController
   def ptedit
     code = params[:code]
     mems = parse_pt_code(code)
+    (redirect_to root_url; return) if (code.present? && mems.blank?)
     @ptm = mems ? code : ''
     @uri = (@ptm.present? ? URI.join(root_url, @ptm).to_s : root_url)
     @title = (@ptm.present? ? create_member_title(mems) : '')
