@@ -1389,3 +1389,10 @@
 グラシア,A,137,森の恵み,for_debuff,for_poison,atkup,self,
 ,,,,for_debuff,for_blind,atkup,self,
 ,,,,for_debuff,for_slow,atkup,self,
+,,,,,,,,
+# 3周年記念フェス,,,,,,,,
+,,,,,,,,
+リヴェラ,F,252,絆の剣,mana,battle_start,mana_charge,resource,僧がいれば僧マナも追加
+,,,,,,,,
+ロボピッチャ,F,253,千本ノック,buff_self,hp_downto,atkup,self,
+メガドライブ２,M,181,計算好き,skillup,skill,skill_atkup,self,

@@ -42,7 +42,8 @@ class AbilityEffect < ApplicationRecord
         fullup: '攻撃力/防御力/移動速度上昇',
         critup: 'クリティカル率上昇',
         critdamup: 'クリティカル率/クリティカルダメージ上昇',
-        super_gauge_gain: '超必殺技ゲージ上昇'
+        super_gauge_gain: '超必殺技ゲージ上昇',
+        add_shield_break: '盾破壊付与'
       },
       condition: {
         any: 'いつでも',

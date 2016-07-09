@@ -1193,3 +1193,12 @@
 ヤシュム,M,180,タリーク・マスィール,2,,area,atkup,,,,,,
 グラシア,A,137,フォルタレザ,1,,area,field,,,,,,森林
 ,,,レペティール,1,フィールドが森林,attack,bullets,,,,,,
+,,,,,,,,,,,,,
+# 3周年記念フェス,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+リヴェラ,F,252,奥義・斬空剣,1,自陣にいる,attack,range_short,add_push,,,,,
+,,,秘剣・烈風,1,敵陣にいる,attack,one_combination,,,,,,
+,,,神技・玲瓏黒破斬,2,超必殺技ゲージMAX,attack,range_forward,super_skill,,,,,
+,,,,,,,,,,,,,
+ロボピッチャ,F,253,フルスウィング,2,,attack,range_short,,,,,,
+メガドライブ２,M,181,さんすうのこたえ,2,,attack,range_forward,charge,,,,,
