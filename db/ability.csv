@@ -1322,6 +1322,7 @@
 ,,,‘åŠC‚Ìˆê”Ô¯,against_debuff,any,guard_poison,self,,
 ,,,,against_debuff,any,guard_weaken,self,,
 ,,,,against_debuff,any,guard_seal,self,,
+,,,,buff_self,in_head,atkup,self,,
 ,,,,heal,in_head,heal_self,self,,
 ƒRƒ‰[ƒ‹,M,107,XŒè‚ÌŒì•„,buff_self,in_tail,atkup,self,,
 ,,,,field,in_beach,atkspeedup,self,,
