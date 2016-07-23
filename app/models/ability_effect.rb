@@ -168,7 +168,8 @@ class AbilityEffect < ApplicationRecord
         heal_one: '一人を回復',
         heal_jobs: '特定の職を回復',
         heal_all: '全員を回復',
-        absorb: '与えたダメージを吸収'
+        absorb: '与えたダメージを吸収',
+        heal_action: '回復行動を取る'
       },
       condition: {
         any: 'いつでも',
