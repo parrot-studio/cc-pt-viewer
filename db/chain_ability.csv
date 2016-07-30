@@ -1402,4 +1402,5 @@
 メルティオール,M,182,力の研究,pierce,attack,pierce,enemy,
 ディルマ,M,183,生命の魔法,killer,vs_skeleton,atkup,self,
 ,,,,heal,wave_start,heal_all,all,
-トリスメギストス,M,184,,,,,,
+トリスメギストス,M,184,止まぬ探究,buff_self,any,atkup,self,
+,,,,buff_self,any,critup,self,

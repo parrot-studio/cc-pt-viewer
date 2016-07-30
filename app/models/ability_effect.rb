@@ -138,6 +138,7 @@ class AbilityEffect < ApplicationRecord
       effect: {
         atkup: '攻撃力上昇',
         defup: '防御力上昇',
+        speedup: '移動速度上昇',
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
         defspeedup: '防御力/移動速度上昇',
@@ -243,6 +244,7 @@ class AbilityEffect < ApplicationRecord
         guard_undead: '白骨化を防ぐ',
         guard_weaken: '衰弱を防ぐ',
         guard_all: '全ての状態異常を防ぐ',
+        guard_hitstop: '遠距離でのけぞらない',
         reduce_poison: '毒のダメージを減らす',
         reduce_weaken: '衰弱のダメージを減らす',
         reduce_slow: 'スロウからの回復時間減少',

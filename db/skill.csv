@@ -1209,4 +1209,4 @@
 ,,,超越するゼイヴァルド,3,超必殺技ゲージMAX,attack,range_drop,super_skill,add_blind,add_slow,,,
 ディルマ,M,183,レスティスヒール,1,,heal,all_instant,cure_blind,cure_slow,,,,
 ,,,リザイブレージュ,1,超必殺技ゲージMAX,heal,all_cycle,super_skill,cure_blind,cure_slow,,,
-トリスメギストス,M,184,,,,,,,,,,,
+トリスメギストス,M,184,マギア・アルス・マグナ,3,,attack,cycle_shoot,,,,,,
