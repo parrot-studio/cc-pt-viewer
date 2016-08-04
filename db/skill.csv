@@ -991,7 +991,7 @@
 ,,,,,,,,,,,,,
 ヴェルナー,M,155,ヴォルケーノヘイズ,2,,attack,range_line,fire,add_down,,,,
 ,,,爆炎のヴォルケーノヘイズ,2,超必殺技ゲージMAX,attack,range_line,super_skill,fire,add_down,,,直線の周辺にもダメージ
-カティア,M,156,グローリースペル,1,自陣にいる,buff,all,atkup,,,,,
+カティア,M,156,グローリースペル,1,自陣にいる,buff,all,atkspeedup,,,,,
 ,,,セイバースペル,1,敵陣にいる,attack,range_self,,,,,,
 ユニ,M,157,アブソリュートゼロ・レギオン,2,,attack,range_dash,add_freeze,,,,,
 ,,,,forward,,area,continual,add_freeze,,,,,
@@ -1210,3 +1210,14 @@
 ディルマ,M,183,レスティスヒール,1,,heal,all_instant,cure_blind,cure_slow,,,,
 ,,,リザイブレージュ,1,超必殺技ゲージMAX,heal,all_cycle,super_skill,cure_blind,cure_slow,,,
 トリスメギストス,M,184,マギア・アルス・マグナ,3,,attack,cycle_shoot,,,,,,
+,,,,,,,,,,,,,
+ジュリア,K,140,ブライドブラスト,1,,attack,range_linecombo,,,,,,
+,,,,,,,,,,,,,
+黒騎士,K,141,アビス・ブレイカー,2,,attack,range_blast,fire,charge,add_down,,,ダウンは最大まで溜めた場合
+ユリアナ,K,142,ジェネラルオーダー,2,,buff,all,atkspeedup,,,,,
+,,,,forward,,attack,range_dash,,,,,,
+ファティマ,M,185,バーニングライト,1,,attack,range_drop,,,,,,
+,,,,,,,,,,,,,
+SC-3000,F,254,勇将明敏,2,,attack,one_short,add_push,,,,,
+ジェネシス,A,138,スタードライヴ,1,,attack,range_line,,,,,,
+スケルトンセガサターン,M,186,クールパッド,1,,attack,range_line,,,,,,

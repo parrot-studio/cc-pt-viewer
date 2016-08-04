@@ -313,6 +313,7 @@ class AbilityEffect < ApplicationRecord
       name: '特定の敵に強い',
       effect: {
         atkup: '攻撃力上昇',
+        defup: '防御力上昇',
         atkdefup: '攻撃力/防御力上昇'
       },
       condition: {
@@ -330,7 +331,8 @@ class AbilityEffect < ApplicationRecord
         vs_insect: '虫に対して',
         vs_bird: '鳥に対して',
         vs_boar: 'イノシシに対して',
-        vs_machine: '機械に対して'
+        vs_machine: '機械に対して',
+        vs_giant: '巨人に対して'
       }
     },
     mana: {

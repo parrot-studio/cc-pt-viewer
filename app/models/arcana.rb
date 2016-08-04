@@ -212,6 +212,7 @@ class Arcana < ApplicationRecord
         monokuma: '絶対絶望少女',
         atelier_twilight: 'アトリエ・黄昏シリーズ',
         loghorizon: 'ログ・ホライズン',
+        hardgirls: 'セガ・ハード・ガールズ',
         mediafactory: 'メディアファクトリー',
         trefle: 'Trefle',
         maoyu: 'まおゆう',
