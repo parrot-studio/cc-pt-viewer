@@ -1211,7 +1211,7 @@
 ,,,リザイブレージュ,1,超必殺技ゲージMAX,heal,all_cycle,super_skill,cure_blind,cure_slow,,,
 トリスメギストス,M,184,マギア・アルス・マグナ,3,,attack,cycle_shoot,,,,,,
 ,,,,,,,,,,,,,
-ジュリア,K,140,ブライドブラスト,1,,attack,range_linecombo,,,,,,
+ジュリア,K,140,ブライドブラスト,1,,attack,laser,,,,,,
 ,,,,,,,,,,,,,
 黒騎士,K,141,アビス・ブレイカー,2,,attack,range_blast,fire,charge,add_down,,,ダウンは最大まで溜めた場合
 ユリアナ,K,142,ジェネラルオーダー,2,,buff,all,atkspeedup,,,,,
@@ -1221,3 +1221,11 @@
 SC-3000,F,254,勇将明敏,2,,attack,one_short,add_push,,,,,
 ジェネシス,A,138,スタードライヴ,1,,attack,range_line,,,,,,
 スケルトンセガサターン,M,186,クールパッド,1,,attack,range_line,,,,,,
+,,,,,,,,,,,,,
+# 魔神ザロビ戦,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+ベルヴィード,K,143,ガーディア・オブ・クイーン,2,,attack,range_line,,,,,,
+,,,,forward,,buff,all,atkspeedup,,,,,騎のみ
+シンフォニア,K,144,アーティライト・レクイエム,2,,attack,one_combo,,,,,,
+,,,,forward,,attack,range_blast,add_down,,,,,
+ザロビ,M,187,,,,,,,,,,,

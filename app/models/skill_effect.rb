@@ -60,7 +60,6 @@ class SkillEffect < ApplicationRecord
         range_line2: '範囲・直線2ライン',
         range_short: '範囲・接触',
         range_shortline: '範囲・前方直線',
-        range_linecombo: '範囲・直線連続',
         range_combination: '範囲・コンビネーション',
         range_all: '範囲・広域',
         laser: 'レーザー',
