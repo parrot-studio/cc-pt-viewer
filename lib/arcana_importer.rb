@@ -486,6 +486,9 @@ class ArcanaImporter
     arcana.title = '絶✝影' if arcana.job_code == 'A136'
 
     puts "warning : arcana #{arcana.name} : #{arcana.changes}" if arcana.changed?
+    if arcana.max_atk.nil? || arcana.max_hp.nil?
+      puts "warning : arcana #{arcana.name} : lack max_atk/max_hp"
+    end
 
     arcana.save!
     arcana
