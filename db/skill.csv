@@ -1228,4 +1228,4 @@ SC-3000,F,254,勇将明敏,2,,attack,one_short,add_push,,,,,
 ,,,,forward,,buff,all,atkspeedup,,,,,騎のみ
 シンフォニア,K,144,アーティライト・レクイエム,2,,attack,one_combo,,,,,,
 ,,,,forward,,attack,range_blast,add_down,,,,,
-ザロビ,M,187,,,,,,,,,,,
+ザロビ,M,187,スパイダー・ヴェノム,1,,area,target,add_poison,add_slow,,,,
