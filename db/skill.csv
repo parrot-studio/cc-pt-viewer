@@ -1247,3 +1247,6 @@ SC-3000,F,254,勇将明敏,2,,attack,one_short,add_push,,,,,
 桐島カンナ,F,258,一百林牌,2,,attack,range_short,add_tumble,,,,,
 李紅蘭,A,140,チビロボ,1,,attack,summon,,,,,,
 アイリス,P,76,イリス・マリオネット,1,,heal,all_instant,defup,,,,,
+,,,,,,,,,,,,,
+ユーフィス,P,77,グレイセス・オブ・レイン,1,,area,field,,,,,,雨の砂漠
+,,,ヒーリング・アクア,1,フィールドが雨の砂漠,heal,all_cycle,cure_blind,,,,,
