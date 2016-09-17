@@ -69,7 +69,8 @@ class SkillEffect < ApplicationRecord
         cycle_shoot: '定期的に射撃',
         boomerang: 'ブーメラン',
         summon: '魔法弾召喚',
-        bombshoot: '爆弾付与'
+        bombshoot: '爆弾付与',
+        chain: '周囲に連鎖'
       },
       effect: {
         add_blind: '暗闇追加',
