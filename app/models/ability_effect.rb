@@ -621,12 +621,12 @@ class AbilityEffect < ApplicationRecord
   }.freeze
 
   EFFECT_GROUP = {
-    atkup: ['atkdefup', 'atkspeedup', 'fullup'],
-    defup: ['atkdefup', 'defspeedup', 'fullup'],
-    speedup: ['atkspeedup', 'defspeedup', 'fullup'],
+    atkup: %w(atkdefup atkspeedup fullup),
+    defup: %w(atkdefup defspeedup fullup),
+    speedup: %w(atkspeedup defspeedup fullup),
     critup: ['critdamup'],
     crdamup: ['critdamup'],
-    areaup: ['healareaup', 'areashift'],
+    areaup: %w(healareaup areashift),
     healup: ['healareaup'],
     atkdown: ['fulldown'],
     defdown:  ['fulldown'],
@@ -651,7 +651,7 @@ class AbilityEffect < ApplicationRecord
   class << self
 
     def chain_ability_categorys
-      keys = ChainAbilityEffect.pluck(:category).uniq
+      keys = ChainAbilityEffect.uniq.pluck(:category)
 
       ret = []
       CATEGORYS.each do |k, v|

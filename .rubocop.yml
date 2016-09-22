@@ -1,5 +1,4 @@
 AllCops:
-  RunRailsCops: true
   Exclude:
     - 'db/**/*'
     - 'config/unicorn.rb'
@@ -7,6 +6,8 @@ AllCops:
     - 'vendor/**/*'
     - 'test/**/*'
     - 'tmp/**/*'
+  TargetRubyVersion: 2.3
+  DisplayCopNames: true
 
 Lint/EndAlignment:
   Enabled: false
@@ -42,15 +43,20 @@ Style/RedundantSelf:
 Style/SignalException:
   Enabled: false
 
-Style/SingleSpaceBeforeFirstArg:
+Style/SpaceBeforeFirstArg:
   Enabled: false
 
 Style/AsciiComments:
   Enabled: false
 
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Rails:
+  Enabled: true
+
 # ----------------
 
-# Offense count: 7
 # Configuration parameters: CountComments.
 Metrics/ClassLength:
   Exclude:
@@ -59,36 +65,39 @@ Metrics/ClassLength:
     - 'lib/arcana_searcher.rb'
     - 'lib/arcana_importer.rb'
 
-# Offense count: 12
 # Configuration parameters: Include.
 Rails/Output:
   Exclude:
     - 'lib/arcana_importer.rb'
 
-# Offense count: 18
 Metrics/AbcSize:
-  Max: 161
+  Max: 60
+  Exclude:
+    - 'lib/arcana_searcher.rb'
+    - 'lib/arcana_importer.rb'
 
-# Offense count: 13
 Metrics/CyclomaticComplexity:
   Max: 44
 
-# Offense count: 87
 # Configuration parameters: AllowURI, URISchemes.
 Metrics/LineLength:
-  Max: 155
+  Max: 140
+  Exclude:
+    - 'lib/arcana_importer.rb'
 
-# Offense count: 22
 # Configuration parameters: CountComments.
 Metrics/MethodLength:
-  Max: 118
+  Max: 60
+  Exclude:
+    - 'lib/arcana_searcher.rb'
+    - 'lib/arcana_importer.rb'
 
-# Offense count: 9
 Metrics/PerceivedComplexity:
-  Max: 35
+  Max: 10
+  Exclude:
+    - 'lib/arcana_searcher.rb'
+    - 'lib/arcana_importer.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
 # Configuration parameters: Width.
 Style/IndentationWidth:
   Exclude:

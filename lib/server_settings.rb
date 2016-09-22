@@ -1,11 +1,11 @@
 class ServerSettings
 
-  PT_VERSION = lambda{ Settings.api.pt_version }.call
+  PT_VERSION = -> { Settings.api.pt_version }.call
   RECENTLY_SIZE = lambda do
     size = Settings.api.recently.to_i
-    size > 0 ? size : 24
+    size.positive? ? size : 24
   end.call
-  USE_MAIL = lambda{ Settings.mail.use ? true : false }.call
+  USE_MAIL = -> { Settings.mail.use ? true : false }.call
 
   class << self
 
@@ -25,7 +25,7 @@ class ServerSettings
 
     def data_update_time
       return Time.current unless Rails.env.production?
-      @data_update_time ||= Time.parse(data_version)
+      @data_update_time ||= Time.zone.parse(data_version)
       @data_update_time
     end
 

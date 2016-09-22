@@ -67,10 +67,12 @@
 class Arcana < ApplicationRecord
 
   default_scope do
-    includes([
-      :voice_actor, :illustrator, :first_skill, :second_skill, :third_skill,
-      :first_ability, :second_ability, :chain_ability, :weapon_ability
-    ])
+    includes(
+      [
+        :voice_actor, :illustrator, :first_skill, :second_skill, :third_skill,
+        :first_ability, :second_ability, :chain_ability, :weapon_ability
+      ]
+    )
   end
 
   belongs_to :voice_actor
@@ -321,8 +323,8 @@ class Arcana < ApplicationRecord
 
   def serialize
     excepts = %w(voice_actor_id illustrator_id first_skill_id
-      second_skill_id third_skill_id chain_ability_id
-      first_ability_id second_ability_id  weapon_ability_id)
+                 second_skill_id third_skill_id chain_ability_id
+                 first_ability_id second_ability_id weapon_ability_id)
     ret = self.as_json(except: excepts)
 
     ret['weapon_name'] = WEAPON_NAMES.fetch(self.weapon_type.to_sym, '')

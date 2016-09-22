@@ -30,7 +30,7 @@ class ArcanaSearcher
     chainabilitycategory: 'caca',
     chainabilityeffect: 'cae',
     chainabilitycondition: 'cabco'
-  }
+  }.freeze
 
   CONVERT_TABLE = {
     job: :job_type,
@@ -54,7 +54,7 @@ class ArcanaSearcher
     :job_type, :rarity, :cost, :chain_cost, :union, :weapon_type,
     :skill, :skillcost, :abilitycategory, :chainabilitycategory,
     :source_category, :voice_actor_id, :illustrator_id
-  ]
+  ].freeze
 
   class << self
 
@@ -382,16 +382,16 @@ class ArcanaSearcher
       skills = skill_search(skill, skillcost, skillsub, skilleffect)
       return [] if skills.blank?
       arel = arel.where(first_skill_id: skills)
-        .or(Arcana.where(second_skill_id: skills))
-        .or(Arcana.where(third_skill_id: skills))
+                 .or(Arcana.where(second_skill_id: skills))
+                 .or(Arcana.where(third_skill_id: skills))
     end
 
     unless (abcate.blank? && abeffect.blank? && abcond.blank?)
       abs = ability_search(abcate, abeffect, abcond)
       return [] if abs.blank?
       arel = arel.where(first_ability_id: abs)
-        .or(Arcana.where(second_ability_id: abs))
-        .or(Arcana.where(weapon_ability_id: abs))
+                 .or(Arcana.where(second_ability_id: abs))
+                 .or(Arcana.where(weapon_ability_id: abs))
     end
 
     unless (cabcate.blank? && cabeffect.blank? && cabcond.blank?)
@@ -405,7 +405,8 @@ class ArcanaSearcher
     table = Arcana.arel_table
     arel.order(
       table[:rarity].desc, table[:cost].desc,
-      table[:job_type].asc, table[:job_index].desc)
+      table[:job_type].asc, table[:job_index].desc
+    )
   end
 
   def skill_search(category, cost, sub, ef)
@@ -415,10 +416,10 @@ class ArcanaSearcher
     unless ef.blank?
       efs = [ef].flatten.uniq.compact
       arel = arel.where(subeffect1: efs)
-        .or(SkillEffect.where(subeffect2: efs))
-        .or(SkillEffect.where(subeffect3: efs))
-        .or(SkillEffect.where(subeffect4: efs))
-        .or(SkillEffect.where(subeffect5: efs))
+                 .or(SkillEffect.where(subeffect2: efs))
+                 .or(SkillEffect.where(subeffect3: efs))
+                 .or(SkillEffect.where(subeffect4: efs))
+                 .or(SkillEffect.where(subeffect5: efs))
     end
 
     arel = arel.where(category: category) unless category.blank?

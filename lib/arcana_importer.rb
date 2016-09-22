@@ -24,7 +24,7 @@ class ArcanaImporter
 
       VoiceActor.all.each do |va|
         va.count = Arcana.where(voice_actor_id: va.id).count
-        if va.count > 0
+        if va.count.positive?
           va.save!
         else
           puts "warning : VoiceActor count 0 => #{va.name}"
@@ -34,7 +34,7 @@ class ArcanaImporter
 
       Illustrator.all.each do |il|
         il.count = Arcana.where(illustrator_id: il.id).count
-        if il.count > 0
+        if il.count.positive?
           il.save!
         else
           puts "warning : Illustrator count 0 => #{il.name}"
@@ -397,10 +397,10 @@ class ArcanaImporter
     raise "job_type not found => #{arcana.name} #{arcana.job_type}" unless Arcana::JOB_NAMES.key?(arcana.job_type.to_sym)
     arcana.job_index = job_index
     arcana.job_code = code
-    arcana.max_atk = (matk > 0 ? matk : nil)
-    arcana.max_hp = (mhp > 0 ? mhp : nil)
-    arcana.limit_atk = (latk > 0 ? latk : nil)
-    arcana.limit_hp = (lhp > 0 ? lhp : nil)
+    arcana.max_atk = (matk.positive? ? matk : nil)
+    arcana.max_hp = (mhp.positive? ? mhp : nil)
+    arcana.limit_atk = (latk.positive? ? latk : nil)
+    arcana.limit_hp = (lhp.positive? ? lhp : nil)
     arcana.job_detail = job_detail
 
     unless vname.blank?

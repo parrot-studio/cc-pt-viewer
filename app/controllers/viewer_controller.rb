@@ -7,7 +7,10 @@ class ViewerController < ApplicationController
   def ptedit
     code = params[:code]
     mems = parse_pt_code(code)
-    (redirect_to root_url; return) if (code.present? && mems.blank?)
+    if (code.present? && mems.blank?)
+      redirect_to root_url
+      return
+    end
     @ptm = mems ? code : ''
     @uri = (@ptm.present? ? URI.join(root_url, @ptm).to_s : root_url)
     @title = (@ptm.present? ? create_member_title(mems) : '')
@@ -219,7 +222,8 @@ class ViewerController < ApplicationController
 
     arel = Arcana.where(
       Arcana.arel_table[:name].matches("%#{name}%").or(
-        Arcana.arel_table[:title].matches("%#{name}%"))
+        Arcana.arel_table[:title].matches("%#{name}%")
+      )
     ).order(
       'arcanas.rarity DESC, arcanas.cost DESC, arcanas.job_type, arcanas.job_index DESC'
     )

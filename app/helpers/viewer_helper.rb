@@ -27,7 +27,7 @@ module ViewerHelper
   end
 
   def main_view?
-    (ptedit_mode? || database_mode?) ? true : false
+    ptedit_mode? || database_mode? ? true : false
   end
 
   def show_ads?

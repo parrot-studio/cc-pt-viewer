@@ -261,7 +261,7 @@ class SkillEffect < ApplicationRecord
   MULTI_TYPE = {
     forward: '→',
     either: 'または'
-  }
+  }.freeze
 
   CATEGORY_CONDS = lambda do
     ret = []
