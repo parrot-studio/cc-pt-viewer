@@ -111,7 +111,8 @@ class AbilityEffect < ApplicationRecord
         critup: 'クリティカル率上昇'
       },
       condition: {
-        any: 'いつでも'
+        any: 'いつでも',
+        union: '特定の構成の時'
       }
     },
     skillup: {

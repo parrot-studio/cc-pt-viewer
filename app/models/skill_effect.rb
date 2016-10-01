@@ -239,6 +239,7 @@ class SkillEffect < ApplicationRecord
       },
       effect: {
         atkup: '攻撃力上昇',
+        defup: '防御力上昇',
         speedup: '移動速度上昇',
         atkdefup: '攻撃力/防御力上昇',
         atkspeedup: '攻撃力/移動速度上昇',
@@ -247,6 +248,7 @@ class SkillEffect < ApplicationRecord
         critup: 'クリティカル率上昇',
         crdamup: 'クリティカルダメージ上昇',
         critdamup: 'クリティカル率/クリティカルダメージ上昇',
+        healareaup: '回復範囲/効果上昇',
         delayoff: '攻撃速度上昇',
         heal_cycle: '徐々に回復',
         pierce: '貫通する',
