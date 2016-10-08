@@ -196,12 +196,14 @@ class Arcana < ApplicationRecord
         demon: '魔神戦',
         score: '踏破',
         war: '討伐戦',
+        whirlpool: '深淵の渦',
         other: 'その他'
       }
     },
     collaboration: {
       name: 'コラボ',
       details: {
+        taiko: '太鼓の達人',
         sakurawar: 'サクラ大戦',
         danmachi: 'ダンまち',
         utaware: 'うたわれるもの',

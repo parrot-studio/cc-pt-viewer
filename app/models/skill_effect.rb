@@ -185,7 +185,8 @@ class SkillEffect < ApplicationRecord
         create_scrap: 'スクラップ生成',
         destroy_scrap: 'スクラップ破壊',
         super_skill: '超必殺技',
-        add_resurrection: '復活付与'
+        add_resurrection: '復活付与',
+        invincible: '無敵'
       }
     },
     barrier: {
