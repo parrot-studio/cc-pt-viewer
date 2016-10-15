@@ -303,10 +303,12 @@ class AbilityEffect < ApplicationRecord
         cure_seal: '封印解除',
         cure_slow: 'スロウ解除',
         cure_weaken: '衰弱解除',
+        cure_curse: '衰弱解除',
         cure_all: '状態異常解除'
       },
       condition: {
         skill: 'スキル使用時',
+        wave_start: '各WAVE開始時',
         use_mana: 'マナが使用された時'
       }
     },
