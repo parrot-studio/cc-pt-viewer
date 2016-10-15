@@ -25,10 +25,8 @@ class ViewerController < ApplicationController
   end
 
   def conditions
-    if stale?(last_modified: ServerSettings.data_update_time, etag: 'conditions')
-      conds = with_cache('conditions') { create_conditions }
-      render json: conds
-    end
+    stale = stale?(last_modified: ServerSettings.data_update_time, etag: 'conditions')
+    render json: ArcanaCache.conditions if stale
   end
 
   def arcanas
@@ -68,42 +66,6 @@ class ViewerController < ApplicationController
   end
 
   private
-
-  def voiceactors
-    ret = []
-    VoiceActor.order(:name).each do |act|
-      ret << [act.id, act.name]
-    end
-    ret
-  end
-
-  def illustrators
-    ret = []
-    Illustrator.order(:name).each do |ill|
-      ret << [ill.id, ill.name]
-    end
-    ret
-  end
-
-  def create_conditions
-    {
-      unions: Arcana::UNION_NAMES.reject { |k, _| k == :unknown }.to_a,
-      sourcecategorys: Arcana::SOURCE_CATEGORYS,
-      sources: Arcana::SOURCE_CONDS,
-      skillcategorys: SkillEffect::CATEGORY_CONDS,
-      skillsubs: SkillEffect::SUBCATEGORY_CONDS,
-      skilleffects: SkillEffect::SUBEFFECT_CONDS,
-      abilitycategorys: AbilityEffect::CATEGORY_CONDS,
-      abilityeffects: AbilityEffect::EFFECT_CONDS,
-      abilityconditions: AbilityEffect::CONDITION_CONDS,
-      chainabilitycategorys: AbilityEffect.chain_ability_categorys,
-      chainabilityeffects: AbilityEffect.chain_ability_effects,
-      chainabilityconditions: AbilityEffect.chain_ability_conditions,
-      voiceactors: voiceactors,
-      illustrators: illustrators,
-      latestinfo: Changelog.latest.as_json
-    }
-  end
 
   def parse_pt_code(code)
     return if code.blank?
@@ -168,13 +130,9 @@ class ViewerController < ApplicationController
 
   def create_member_title(mems)
     keys = [:mem1, :mem2, :mem3, :mem4, :sub1, :sub2, :friend]
-    names = []
-    keys.each do |k|
-      c = mems[k]
-      next if c.blank?
-      names << Arcana.find_by(job_code: c).name
-    end
-    names.join(', ')
+    codes = keys.map { |k| mems[k] }.compact
+    as = from_arcana_cache(codes)
+    as.map { |a| a['name'] }.join(', ')
   end
 
   def query_params
@@ -185,10 +143,8 @@ class ViewerController < ApplicationController
     searcher = ArcanaSearcher.parse(query)
     rsl = { detail: searcher.query_detail, result: [] }
     return rsl if searcher.blank? || searcher.query_key.blank?
-    with_cache("arcanas_#{searcher.query_key}") do
-      rsl[:result] = searcher.search.map(&:serialize)
-      rsl
-    end
+    rsl[:result] = searcher.search
+    rsl
   end
 
   def search_members(ptm)
@@ -198,13 +154,13 @@ class ViewerController < ApplicationController
 
     cs = mems.values.uniq.compact
     return {} if cs.empty?
-    as = Arcana.where(job_code: cs).index_by(&:job_code)
+    as = from_arcana_cache(cs).each_with_object({}) { |o, h| h[o['job_code']] = o }
 
     ret = {}
     mems.each do |po, co|
       a = as[co]
       next unless a
-      ret[po] = as[co].serialize
+      ret[po] = as[co]
     end
     ret
   end
@@ -213,7 +169,7 @@ class ViewerController < ApplicationController
     return [] if codes.blank?
     cs = codes.split('/')
     return [] if cs.blank?
-    Arcana.where(job_code: cs).map(&:serialize)
+    from_arcana_cache(cs)
   end
 
   def search_from_name(name)
@@ -227,12 +183,12 @@ class ViewerController < ApplicationController
     ).order(
       'arcanas.rarity DESC, arcanas.cost DESC, arcanas.job_type, arcanas.job_index DESC'
     )
-    arel.map(&:serialize)
+    codes = arel.distinct.pluck(:job_code)
+    from_arcana_cache(codes)
   end
 
-  def with_cache(name, &b)
-    return unless (name && b)
-    Rails.cache.fetch(name, &b)
+  def from_arcana_cache(codes)
+    ArcanaCache.for_codes(codes)
   end
 
 end

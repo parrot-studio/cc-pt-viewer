@@ -8,30 +8,6 @@ class ArcanaSearcher
     :arcanacost, :chaincost, :actorname, :illustratorname, :name
   ].freeze
 
-  KEY_TABLE = {
-    recently: 're',
-    job_type: 'jt',
-    rarity: 'ra',
-    weapon_type: 'wt',
-    cost: 'co',
-    chain_cost: 'ch',
-    union: 'un',
-    source: 'so',
-    source_category: 'soc',
-    voice_actor_id: 'an',
-    illustrator_id: 'in',
-    skill: 'sk',
-    skillcost: 'skc',
-    skillsub: 'sks',
-    skilleffect: 'ske',
-    abilitycategory: 'abca',
-    abilityeffect: 'abe',
-    abilitycondition: 'abco',
-    chainabilitycategory: 'caca',
-    chainabilityeffect: 'cae',
-    chainabilitycondition: 'cabco'
-  }.freeze
-
   CONVERT_TABLE = {
     job: :job_type,
     weapon: :weapon_type,
@@ -48,6 +24,10 @@ class ArcanaSearcher
       ret[v] = k
     end
     ret
+  end.call.freeze
+
+  QUERY_KEYS = lambda do
+    QUERY_CONDITION_NAMES.map { |n| CONVERT_TABLE[n] ? CONVERT_TABLE[n] : n }
   end.call.freeze
 
   DETAIL_COND_LIST = [
@@ -80,7 +60,7 @@ class ArcanaSearcher
 
   def query_key
     return '' if empty?
-    @query_key ||= create_query_key(@query)
+    @query_key ||= Digest::MD5.hexdigest(query_string)
     @query_key
   end
 
@@ -101,11 +81,13 @@ class ArcanaSearcher
     @result = if @query[:recently]
       re = @query[:recently].to_i
       re = ServerSettings.recently if re < 1
-      Arcana.order('id DESC').limit(re)
+      ArcanaCache.recently(re)
     else
-      arcana_search_from_query(@query)
+      ArcanaCache.search_result(query_key) do
+        arcana_search_from_query(@query)
+      end
     end
-    result
+    @result
   end
 
   def result
@@ -163,13 +145,13 @@ class ArcanaSearcher
         weapon = [val].flatten.uniq.compact.select { |j| Arcana::WEAPON_TYPES.include?(j) }
         query[name] = weapon.first unless weapon.blank?
       when :actorname
-        actor = VoiceActor.find_by(name: val)
-        next unless actor
-        query[:voice_actor_id] = actor.id
+        aid = ArcanaCache.voice_actor_id(val)
+        next unless aid
+        query[:voice_actor_id] = aid
       when :illustratorname
-        illust = Illustrator.find_by(name: val)
-        next unless illust
-        query[:illustrator_id] = illust.id
+        iid = ArcanaCache.illustrator_id(val)
+        next unless iid
+        query[:illustrator_id] = iid
       else
         v = case val
         when /\A(\d+)D\z/
@@ -188,7 +170,7 @@ class ArcanaSearcher
   end
 
   def each_querys(query)
-    KEY_TABLE.keys.each do |k|
+    QUERY_KEYS.each do |k|
       q = query[k]
       next unless q
       yield(k, q)
@@ -211,13 +193,13 @@ class ArcanaSearcher
         end
         ret[query_name(k)] = v
       when :voice_actor_id
-        actor = VoiceActor.find_by(id: q)
-        next unless actor
-        ret[:actorname] = actor.name
+        name = ArcanaCache.voice_actor_name(q)
+        next unless name
+        ret[:actorname] = name
       when :illustrator_id
-        illust = Illustrator.find_by(id: q)
-        next unless illust
-        ret[:illustratorname] = illust.name
+        name = ArcanaCache.illustrator_name(q)
+        next unless name
+        ret[:illustratorname] = name
       else
         v = case q
         when Range
@@ -229,35 +211,6 @@ class ArcanaSearcher
       end
     end
     ret.to_query
-  end
-
-  def create_query_key(query)
-    return if query.blank?
-    return "#{KEY_TABLE[:recently]}:#{query[:recently]}" if query[:recently]
-
-    keys = []
-    each_querys(query) do |k, q|
-      ke = case k
-      when :voice_actor_id
-        actor = VoiceActor.find_by(id: q)
-        next unless actor
-        "#{KEY_TABLE[k]}:#{actor.name}"
-      when :illustrator_id
-        illust = Illustrator.find_by(id: q)
-        next unless illust
-        "#{KEY_TABLE[k]}:#{illust.name}"
-      else
-        val = case q
-        when Range
-          "#{q.first}-#{q.last}"
-        else
-          q
-        end
-        "#{KEY_TABLE[k]}:#{val}"
-      end
-      keys << ke
-    end
-    keys.join(',')
   end
 
   def create_query_detail(query)
@@ -277,11 +230,9 @@ class ArcanaSearcher
       when :union
         "所属 - #{Arcana::UNION_NAMES[q.to_sym]}"
       when :voice_actor_id
-        actor = VoiceActor.find_by(id: q)
-        "声優 - #{actor ? actor.name : nil}"
+        "声優 - #{ArcanaCache.voice_actor_name(q)}"
       when :illustrator_id
-        illust = Illustrator.find_by(id: q)
-        "イラスト - #{illust ? illust.name : nil}"
+        "イラスト - #{ArcanaCache.illustrator_name(q)}"
       when :rarity
         case q
         when Range
@@ -406,7 +357,7 @@ class ArcanaSearcher
     arel.order(
       table[:rarity].desc, table[:cost].desc,
       table[:job_type].asc, table[:job_index].desc
-    )
+    ).distinct.pluck(:job_code)
   end
 
   def skill_search(category, cost, sub, ef)

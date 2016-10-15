@@ -16,6 +16,16 @@
 
 class VoiceActor < ApplicationRecord
 
+  class << self
+    def conditions
+      ret = []
+      self.order(:name).each do |act|
+        ret << [act.id, act.name]
+      end
+      ret
+    end
+  end
+
   validates :name,
             presence: true,
             uniqueness: true,

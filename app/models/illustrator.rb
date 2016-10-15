@@ -15,6 +15,16 @@
 
 class Illustrator < ApplicationRecord
 
+  class << self
+    def conditions
+      ret = []
+      self.order(:name).each do |ill|
+        ret << [ill.id, ill.name]
+      end
+      ret
+    end
+  end
+
   validates :name,
             presence: true,
             uniqueness: true,

@@ -7,3 +7,6 @@ export MAIL_USE=1
 export MAIL_METHOD=test
 export MAIL_FROM=hoge@example.com
 export MAIL_ADMIN_TO=hoge@example.com
+export REDIS_HOST=localhost
+export REDIS_PORT=6379
+export REDIS_DB=0

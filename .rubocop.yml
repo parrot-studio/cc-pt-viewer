@@ -40,6 +40,9 @@ Style/ParenthesesAroundCondition:
 Style/RedundantSelf:
   Enabled: false
 
+Style/SafeNavigation:
+  Enabled: false
+
 Style/SignalException:
   Enabled: false
 
@@ -64,6 +67,7 @@ Metrics/ClassLength:
     - 'app/controllers/viewer_controller.rb'
     - 'lib/arcana_searcher.rb'
     - 'lib/arcana_importer.rb'
+    - 'lib/arcana_cache.rb'
 
 # Configuration parameters: Include.
 Rails/Output:

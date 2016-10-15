@@ -1,5 +1,5 @@
 api:
-  recently: 24
+  recently: 32
   pt_version: 2
 mail:
   use: <%= ENV['MAIL_USE'].to_i > 0 ? true : false %>
@@ -7,3 +7,7 @@ mail:
   admin:
     to: <%= ENV['MAIL_ADMIN_TO'] %>
   delivery_method: <%= ENV['MAIL_METHOD'] %>
+redis:
+  host: <%= ENV['REDIS_HOST'] %>
+  port: <%= ENV['REDIS_PORT'] %>
+  db: <%= ENV['REDIS_DB'] %>

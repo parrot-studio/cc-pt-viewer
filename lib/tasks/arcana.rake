@@ -1,10 +1,16 @@
 namespace :arcana do
 
-  desc 'Import Arcanas from CSV'
+  desc 'import arcanas from csv (and rebuild cache)'
   task import: :environment do
     ArcanaImporter.execute
-    Rails.cache.clear
     ServerSettings.update_data_version!
+    ArcanaCache.rebuild
+  end
+
+  desc 'rebuild arcanas cache'
+  task rebuild: :environment do
+    ServerSettings.update_data_version!
+    ArcanaCache.rebuild
   end
 
   desc 'Wiki access Test'
