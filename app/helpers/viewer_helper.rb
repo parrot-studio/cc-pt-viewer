@@ -1,5 +1,4 @@
 module ViewerHelper
-
   def data_version
     ServerSettings.data_version
   end
@@ -34,5 +33,4 @@ module ViewerHelper
     return true unless ptedit_mode?
     @ptm.blank? ? false : true
   end
-
 end

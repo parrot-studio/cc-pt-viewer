@@ -32,7 +32,6 @@
 #
 
 class SkillEffect < ApplicationRecord
-
   belongs_to :skill
 
   CATEGORYS = {
@@ -347,5 +346,4 @@ class SkillEffect < ApplicationRecord
 
     se
   end
-
 end

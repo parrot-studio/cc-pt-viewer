@@ -1,5 +1,4 @@
 class AdminMailer < ApplicationMailer
-
   def test_mail
     mail(to: admin_to, subject: 'test mail')
   end
@@ -17,5 +16,4 @@ class AdminMailer < ApplicationMailer
   def admin_to
     ServerSettings.mail_admin_to
   end
-
 end

@@ -1,5 +1,4 @@
 class ServerSettings
-
   PT_VERSION = -> { Settings.api.pt_version }.call
   RECENTLY_SIZE = lambda do
     size = Settings.api.recently.to_i
@@ -8,7 +7,6 @@ class ServerSettings
   USE_MAIL = -> { Settings.mail.use ? true : false }.call
 
   class << self
-
     def data_version
       unless @data_version
         update_data_version! unless File.exist?(version_file)
@@ -58,7 +56,5 @@ class ServerSettings
     def format_time(t)
       t.strftime('%Y%m%d%H%M%S')
     end
-
   end
-
 end

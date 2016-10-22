@@ -1,15 +1,12 @@
 class ArcanaImporter
-
   attr_writer :file_dir
 
   class << self
-
     def execute(fdir: nil)
       ai = self.new
       ai.file_dir = fdir if fdir
       ai.execute
     end
-
   end
 
   def execute
@@ -493,5 +490,4 @@ class ArcanaImporter
     arcana.save!
     arcana
   end
-
 end

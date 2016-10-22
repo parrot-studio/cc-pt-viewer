@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   root 'viewer#ptedit'
   get  'conditions' => 'viewer#conditions'
   get  'db'      => 'viewer#database'
@@ -11,5 +10,4 @@ Rails.application.routes.draw do
   get  'changelogs' => 'viewer#changelogs'
   post 'request' => 'viewer#request_mail'
   get  ':code'   => 'viewer#ptedit'
-
 end

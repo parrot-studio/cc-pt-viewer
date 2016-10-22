@@ -16,7 +16,6 @@
 #
 
 class Skill < ApplicationRecord
-
   default_scope { includes(:skill_effects) }
   has_many :skill_effects
 
@@ -37,5 +36,4 @@ class Skill < ApplicationRecord
     sk['effects'] = skill_effects.sort_by(&:order).map(&:serialize)
     sk
   end
-
 end

@@ -15,7 +15,6 @@
 #
 
 class VoiceActor < ApplicationRecord
-
   class << self
     def conditions
       ret = []
@@ -30,5 +29,4 @@ class VoiceActor < ApplicationRecord
             presence: true,
             uniqueness: true,
             length: { maximum: 100 }
-
 end

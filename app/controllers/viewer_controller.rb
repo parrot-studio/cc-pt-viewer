@@ -1,5 +1,4 @@
 class ViewerController < ApplicationController
-
   before_action only: [:ptedit, :database] do
     @mode = action_name
   end
@@ -190,5 +189,4 @@ class ViewerController < ApplicationController
   def from_arcana_cache(codes)
     ArcanaCache.for_codes(codes)
   end
-
 end

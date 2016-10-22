@@ -14,7 +14,6 @@
 #
 
 class Illustrator < ApplicationRecord
-
   class << self
     def conditions
       ret = []
@@ -29,5 +28,4 @@ class Illustrator < ApplicationRecord
             presence: true,
             uniqueness: true,
             length: { maximum: 100 }
-
 end

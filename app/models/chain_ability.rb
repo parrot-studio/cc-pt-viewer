@@ -14,7 +14,6 @@
 #
 
 class ChainAbility < ApplicationRecord
-
   default_scope { includes(:chain_ability_effects) }
 
   has_many :chain_ability_effects
@@ -31,5 +30,4 @@ class ChainAbility < ApplicationRecord
     ab['effects'] = chain_ability_effects.sort_by(&:order).map(&:serialize)
     ab
   end
-
 end

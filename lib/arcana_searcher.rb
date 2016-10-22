@@ -1,5 +1,4 @@
 class ArcanaSearcher
-
   QUERY_CONDITION_NAMES = [
     :recently, :job, :rarity, :weapon, :actor, :illustrator,
     :union, :source, :sourcecategory, :skill, :skillcost,
@@ -37,13 +36,11 @@ class ArcanaSearcher
   ].freeze
 
   class << self
-
     def parse(params)
       as = self.new
       as.parse(params)
       as
     end
-
   end
 
   def parse(params)
@@ -418,5 +415,4 @@ class ArcanaSearcher
     q[:source] = ss
     q
   end
-
 end

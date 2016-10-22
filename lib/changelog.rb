@@ -1,9 +1,7 @@
 class Changelog
-
   attr_accessor :version, :date, :body
 
   class << self
-
     def all
       logs
     end
@@ -34,7 +32,5 @@ class Changelog
       end.call
       @logs
     end
-
   end
-
 end

@@ -65,7 +65,6 @@
 #
 
 class Arcana < ApplicationRecord
-
   default_scope do
     includes(
       [
@@ -349,5 +348,4 @@ class Arcana < ApplicationRecord
 
     ret
   end
-
 end

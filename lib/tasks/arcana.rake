@@ -1,5 +1,4 @@
 namespace :arcana do
-
   desc 'import arcanas from csv (and rebuild cache)'
   task import: :environment do
     ArcanaImporter.execute
@@ -28,5 +27,4 @@ namespace :arcana do
       end
     end
   end
-
 end

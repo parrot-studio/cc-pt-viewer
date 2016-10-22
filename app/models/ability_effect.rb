@@ -26,7 +26,6 @@
 #
 
 class AbilityEffect < ApplicationRecord
-
   belongs_to :ability
 
   CATEGORYS = {
@@ -652,7 +651,6 @@ class AbilityEffect < ApplicationRecord
   }.freeze
 
   class << self
-
     def chain_ability_categorys
       keys = ChainAbilityEffect.uniq.pluck(:category)
 
@@ -710,7 +708,6 @@ class AbilityEffect < ApplicationRecord
       end
       ret
     end
-
   end
 
   validates :order,
@@ -742,5 +739,4 @@ class AbilityEffect < ApplicationRecord
 
     ef
   end
-
 end

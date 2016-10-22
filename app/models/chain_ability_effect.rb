@@ -26,7 +26,6 @@
 #
 
 class ChainAbilityEffect < ApplicationRecord
-
   belongs_to :chain_ability
 
   validates :order,
@@ -58,5 +57,4 @@ class ChainAbilityEffect < ApplicationRecord
 
     ef
   end
-
 end

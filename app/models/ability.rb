@@ -15,7 +15,6 @@
 #
 
 class Ability < ApplicationRecord
-
   default_scope { includes(:ability_effects) }
 
   has_many :ability_effects
@@ -34,5 +33,4 @@ class Ability < ApplicationRecord
     ab['effects'] = ability_effects.sort_by(&:order).map(&:serialize)
     ab
   end
-
 end
