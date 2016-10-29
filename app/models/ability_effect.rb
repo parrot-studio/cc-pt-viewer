@@ -89,6 +89,7 @@ class AbilityEffect < ApplicationRecord
         crdamup: 'クリティカルダメージ上昇',
         add_down: '対象の攻撃にダウンを付与',
         add_slow: '対象の攻撃にスロウを付与',
+        add_poison: '対象の攻撃に毒を付与',
         barrier: 'バリアを張る'
       },
       condition: {
