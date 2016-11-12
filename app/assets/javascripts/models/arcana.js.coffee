@@ -121,6 +121,13 @@ class @Arcana
 
   @sameCharacter = (a, b) ->
     return false unless (a && b)
+    # 名前が違うけど同一人物
+    # セガサターンとスケルトンセガサターン
+    return true if (a.jobCode == "M83" && b.jobCode == "M186")
+    return true if (a.jobCode == "M186" && b.jobCode == "M83")
+    # ほむら
+    return true if (a.jobCode == "M191" && b.jobCode == "M193")
+    return true if (a.jobCode == "M193" && b.jobCode == "M191")
     # コラボキャラとオリジナルキャラの組み合わせはチェックしない
     return false if (a.union == "旅人" && b.union != "旅人")
     return false if (a.union != "旅人" && b.union == "旅人")

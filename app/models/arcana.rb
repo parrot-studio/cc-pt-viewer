@@ -202,6 +202,7 @@ class Arcana < ApplicationRecord
     collaboration: {
       name: 'コラボ',
       details: {
+        magica: 'まどか☆マギカ',
         taiko: '太鼓の達人',
         sakurawar: 'サクラ大戦',
         danmachi: 'ダンまち',
