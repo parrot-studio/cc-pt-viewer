@@ -1,4 +1,4 @@
-class LatestInfoArea extends React.Component {
+class NextVersionWarning extends React.Component {
 
   constructor(props) {
     super(props)
@@ -14,15 +14,15 @@ class LatestInfoArea extends React.Component {
       return null
     }
 
-    let info = this.props.latestInfo
+    let cc3Path = `${this.props.appPath}cc3`
     return (
       <div className="row">
         <div className="col-xs-12 col-sm-12 col-md-12">
-          <Alert bsStyle="info"
+          <Alert bsStyle="warning"
             closeLabel={"&times; Close"}
             onDismiss={this.handleAlertDismiss.bind(this)}>
             <p>
-              <i className="fa fa-info-circle"/> {`更新：${info.body} (${info.date})`}
+              <i className="fa fa-info-circle"/> おしらせ：2016/11/24に実装された第3部への対応を進めております。<a href={`${cc3Path}`}>詳しくはこちらで</a>
             </p>
           </Alert>
         </div>

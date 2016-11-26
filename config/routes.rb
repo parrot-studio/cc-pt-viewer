@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get  'name'    => 'viewer#name_search'
   get  'about'   => 'viewer#about'
   get  'changelogs' => 'viewer#changelogs'
+  get  'cc3'     => 'viewer#cc3'
   post 'request' => 'viewer#request_mail'
   get  ':code'   => 'viewer#ptedit'
 end

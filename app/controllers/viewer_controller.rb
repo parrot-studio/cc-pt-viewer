@@ -61,7 +61,10 @@ class ViewerController < ApplicationController
   end
 
   def changelogs
-    fresh_when last_modified: ServerSettings.data_update_time, etag: 'hangelogs'
+    fresh_when last_modified: ServerSettings.data_update_time, etag: 'changelogs'
+  end
+
+  def cc3
   end
 
   private

@@ -1,0 +1,86 @@
+<div class="row">
+  <div class="col-xs-12 col-md-12 col-sm-12">
+    <div class="well well-sm">
+      <%= link_to '<< 戻る', root_path %>
+    </div>
+    <h2>第3部への対応について</h2>
+    <p class="well well-sm">
+      <strong>※対応時期や項目は仮のもので、作業の進行に応じてこのページも更新していきます。</strong><br>
+      新機能の要望や質問等はTwitterの <%= link_to '@parrot_studio', 'https://twitter.com/parrot_studio/', :target => '_blank' %> か、<%= link_to 'Blogへのコメント', 'http://netgamer.hateblo.jp/', :target => '_blank' %> でどうぞ。
+    </p>
+    <p>
+      2016/11/24に実装された第3部（チェンクロ3）は大幅にシステムが変更されたため、調査と対応方法を検討中です。
+    </p>
+    <ul>
+      <li>パーティーアビリティ</li>
+      <li>伝授システム</li>
+      <li>バディシステム</li>
+      <li>その他、世代の概念や親愛度等</li>
+    </ul>
+    <p>
+      とはいえ、全く使えないのも困るので、以下のような段取りで対応を進める予定です。<br>
+    </p>
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">1. 無理矢理データ登録（12月〜）</h3>
+      </div>
+      <div class="panel-body">
+        <p>
+          <strong>今のデータ構造のまま、3部のアルカナについてデータ登録をおこないます。</strong><br>
+          新しいシステムが完成するまでは、追加されたものも含めてどんどん登録します。
+        </p>
+        <p>
+          まだ3部が公開されたばかりで、Wikiのデータもほとんど揃っていないので、<br>
+          登録作業は12月から開始予定です。
+        </p>
+        <ul>
+          <li>パーティーアビリティ：武器アビリティのところに登録</li>
+          <li>伝授システム：未対応（今まで通り絆が設定できるだけ）</li>
+          <li>バディシステム：アビリティの一種として対応</li>
+          <li>新世代対応：未対応（区別できない）</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">2. アルカナデータの再設計（12月〜）</h3>
+      </div>
+      <div class="panel-body">
+        <p>
+          現在のシステムは2015/07に大規模な修正を入れてから、<br>
+          大きな修正をおこなわずに運用されてきました。<br>
+          その結果、アビリティの分類など、いろいろ無理が出ている部分があります。
+        </p>
+        <p>
+          3部実装により2部までのデータがいったん落ち着いたのもあり、<br>
+          <strong>3部のデータも含めて、アビリティなどのデータを再設計します。</strong>
+        </p>
+        <p>
+          一方、基本的なデザインや機能に変更は加えません。<br>
+          検索項目や細かい表示対応はしますが、だいたい今まで通りです。
+        </p>
+        <ul>
+          <li>パーティーアビリティ: 対応</li>
+          <li>伝授システム: （おそらく）対応</li>
+          <li>バディシステム: おそらく対応するが、方法検討中</li>
+          <li>新世代対応：対応（表示と検索）</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">3. UIの再設計（対応時期未定）</h3>
+      </div>
+      <div class="panel-body">
+        <p>
+          UIを修正してもう少し使いやすくするとか、新機能の追加など、<br>
+          大幅な修正を加える予定です。<br>
+          具体的な項目はデータの完全対応が終わってから検討予定です。
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>

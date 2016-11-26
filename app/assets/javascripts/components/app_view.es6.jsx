@@ -158,6 +158,10 @@ class AppView extends React.Component {
     return <DisplaySizeWarning appPath={this.props.appPath}/>
   }
 
+  renderNextVersionWarning() {
+    return <NextVersionWarning appPath={this.props.appPath}/>
+  }
+
   renderModeView() {
     switch (this.props.mode) {
       case 'ptedit':
@@ -244,6 +248,7 @@ class AppView extends React.Component {
         {this.renderErrorArea()}
         {this.renderWarning()}
         {this.renderHeadInfo()}
+        {this.renderNextVersionWarning()}
         <div id="main-area" ref="mainArea">
           {this.renderModeView()}
         </div>
