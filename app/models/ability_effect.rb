@@ -215,6 +215,7 @@ class AbilityEffect < ApplicationRecord
         defdown: '防御力低下',
         speeddown: '移動速度低下',
         atkdefdown: '攻撃力/防御力低下',
+        defspeeddown: '防御力/移動速度低下',
         fulldown: '攻撃力/防御力/移動速度低下',
         delayup: '攻撃速度低下',
         shield_break: '盾を破壊する'
@@ -335,7 +336,8 @@ class AbilityEffect < ApplicationRecord
         vs_bird: '鳥に対して',
         vs_boar: 'イノシシに対して',
         vs_machine: '機械に対して',
-        vs_giant: '巨人に対して'
+        vs_giant: '巨人に対して',
+        vs_white: '白き異形に対して'
       }
     },
     mana: {
@@ -547,7 +549,8 @@ class AbilityEffect < ApplicationRecord
         enemys_debuff: '敵に状態異常が多いほど',
         super_gauge_max: '超必殺技ゲージがMAXの時',
         add_debuff: '状態異常を付与した時',
-        after_move: '一定距離を移動した時'
+        after_move: '一定距離を移動した時',
+        in_awakening: '覚醒ゲージがMAXの時'
       }
     },
     unknown: {

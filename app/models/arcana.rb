@@ -181,6 +181,16 @@ class Arcana < ApplicationRecord
         other: 'その他'
       }
     },
+    new_generation: {
+      name: '3部',
+      details: {
+        guildtown3: '副都・酒場（3部）',
+        academy3: '賢者の塔・酒場（3部）',
+        oasis3: '湖都・酒場（3部）',
+        forest3: '精霊島・酒場（3部）',
+        volcano3: '九領・酒場（3部）'
+      }
+    },
     ring: {
       name: 'リング系',
       details: {
