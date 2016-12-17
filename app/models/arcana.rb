@@ -189,6 +189,7 @@ class Arcana < ApplicationRecord
         oasis3: '湖都・酒場（3部）',
         forest3: '精霊島・酒場（3部）',
         volcano3: '九領・酒場（3部）',
+        pub: '酒場全般（3部）',
         quest: 'クエスト報酬'
       }
     },

@@ -1214,3 +1214,38 @@ SC-3000,F,254,薙刀の撫子,4,12,3,Sl,collaboration,hardgirls,相沢 舞,KEI,others,Na
 ベルタ,M,202,瞳に刻印を持つ少女,3,5,2,Ma,new_generation,quest,せきしほ,煎茶,academy,Student,,,,,ベルタ,パワーサポート,,,知的な魔法学生,,,小さな補佐
 カーリン,M,203,獣の刻印を持つ少女,3,5,2,Pu,new_generation,quest,石飛 恵里花,煎茶,academy,Student,,,,,カーリン,ジャンピングレイド,,,野生な魔法学生,,,小さな本能
 ヒトリ,M,204,うかつな火鬼,3,5,2,Pu,new_generation,quest,遠藤 綾,村山竜大,volcano,Hioni,4050,2550,,,ヒトリ,火球,,,炎の拳,,,小さな赤炎
+,,,,,,,,,,,,,,,,,,,,,,,,,
+スカラデン,F,285,まどろみの灯台守,3,10,2,Pi,new_generation,pub,中村 悠一,クレタ,guildtown,Watchman,,,,,スカラデン,スピアラッシュ,,,水平線を見る眼,,,暇な灯台守
+シドビビ,F,286,大狼を目指す小犬児,3,10,2,Pu,new_generation,pub,伊瀬 茉莉也,天野英,guildtown,Grappler,,,,,シドビビ,ウルフェンブロー,,,祝福,,,武者修行
+ゼルマ,F,287,依願依頼の集積所,3,10,2,Bl,new_generation,pub,森下 由樹子,秋津たいら,mountain,Merchant,,,,,ゼルマ,フルスイング,,,秘境戦闘,,,暗がりの先導者
+ガンドル,F,288,豪武具職人,3,10,2,Bl,new_generation,pub,菊池 幸利,平将,mountain,Smith,,,,,ガンドル,ヘビーインパクト,,,剛腕武器職人,,,一撃必殺
+サナム,F,289,熱砂の骨漁り,3,10,2,Bl,new_generation,pub,福山 潤,KAZTO FURUYA,oasis,Archaeologist,,,,,サナム,ファスト・エクスカヴェイション,,,古代の骨の化石,,,化石の歴史
+テンペスタ,F,290,千河の美食家,3,10,2,Pi,new_generation,pub,緑川 光,チェロキー,forest,Hunter,,,,,テンペスタ,ランページラッシュ,,,美食家,,,食通
+ツバキ,F,291,白き処刑人,3,10,2,Sl,new_generation,pub,村川 梨衣,weila,volcano,Executioners,,,,,ツバキ,白刃一閃,,,鬼の剣術,,,処刑人
+シュカ,F,292,最速の運び屋,3,10,2,Sl,new_generation,pub,大坪 由佳,ricci,volcano,Transporter,,,,,シュカ,疾風斬り,,,韋駄天,,,運び屋
+エミリアン,K,156,“典麗たる銀花”騎士団,3,10,2,Sl,new_generation,pub,菊池 幸利,伊藤明十,holytown,Knight,,,,,エミリアン,スラッシュ,,,貴族騎士,,,優雅さ
+ナウラ,K,157,財宝の守人,3,10,2,Sl,new_generation,pub,森下 由樹子,うろこ,oasis,Guard,,,,,ナウラ,ジュエルスラスト,,,守護剣術,,,青の財宝
+ジーメオン,A,151,鉄煙轟く新技術,3,10,2,Gu,new_generation,pub,諏訪部 順一,伊藤明十,guildtown,Smith,,,,,ジーメオン,クラフトネイル,,,万能腕,,,職人技
+ラーナ,A,152,矢毒蛙の使い,3,10,2,Ar,new_generation,pub,大坪 由佳,クロサワテツ,forest,Archer,,,,,ラーナ,ポイズンショット,,,ヤドクガエルの加護,,,毒矢
+オリュミーナ,A,153,放蕩蝶々,3,10,2,Ar,new_generation,pub,伊瀬 茉莉也,コダマユウヤ,forest,Archer,,,,,オリュミーナ,オル・レイン,,,海風の加護,,,暗闇の加護
+オヅミ,A,154,穿ち貫く紅牡丹,3,10,2,Ar,new_generation,pub,内田 彩,秋津たいら,volcano,Archer,,,,,オヅミ,ひだねゆみ,,,炎の武器,,,炎の壁
+マナワ,A,155,旅する不運な薄紅,3,10,2,Ar,new_generation,pub,立花 理香,秋津たいら,volcano,Archer,,,,,マナワ,ひだねのまい,,,火の加護,,,放浪
+ジェンター,P,87,腕利きの町医者,3,10,2,Sl,new_generation,pub,今井 麻美,沙汰,guildtown,Doctor,,,,,ジェンター,キュア,,,腕利きの町医者,,,標本収集
+バルーフ,P,88,奇跡の大盤振る舞い,3,10,2,He,new_generation,pub,遠藤 綾,チェロキー,holytown,Priest,,,,,バルーフ,オートヒール,,,奇跡の伝道者,,,奇跡の御業
+タウィーラ,P,89,砂漠の薬学史,3,10,2,He,new_generation,pub,村川 梨衣,チェロキー,oasis,Healer,,,,,タウィーラ,ヒーリングハーブ,,,ファルス薬学,,,調合薬
+メーリア,P,90,花屋の樹人,3,10,2,He,new_generation,pub,花澤 香菜,24,forest,Healer,,,,,メーリア,ハイヒール,,,花の恵み,,,心の花
+フランジア,M,205,魔法の香水使い,3,10,2,Ma,new_generation,pub,立花 理香,24,academy,Professor,,,,,フランジア,マジカルパフューム,,,癒しの香水,,,アロマの香り
+ミリー,M,206,全力魔術士,3,10,2,Ma,new_generation,pub,今井 麻美,weila,academy,Student,,,,,ミリー,バニシングフレア,,,魔闘技,,,近接補助
+エステバン,M,207,魔境を彷徨う巡礼者,3,10,2,Ma,new_generation,pub,八代 拓,COGA,academy,Magician,,,,,エステバン,スピリットファイアー,,,呪詛返し,,,悪霊耐性
+イフサーン,M,208,大砂漠の給水塔,3,10,2,Ma,new_generation,pub,内山 昂輝,COGA,oasis,Merchant,,,,,イフサーン,神の水,,,給水塔の暗い噂,,,大砂漠の給水塔
+,,,,,,,,,,,,,,,,,,,,,,,,,
+# ストーリー追加12/8,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+ミユキ,F,293,六花の化身,5,18,4,Sl,new_generation,volcano3,立花 理香,かわすみ,volcano,Shinobi,7050,6950,9050,8950,ミユキ,六花繚乱の太刀,,,雪女の末裔,風花散る,（PTアビリティ：ミユキ）,雪女の道しるべ
+シャディア,A,156,万砂一紅の艶姫,5,18,4,Ar,new_generation,oasis3,沢城 みゆき,文太,oasis,Diva,7000,3000,9000,5000,シャディア,黄金都市ビアルジャの歌,,,薔薇のぐーたら姫,流麗の弓,（PTアビリティ：シャディア）,宵月のハミング
+,,,,,,,,,,,,,,,,,,,,,,,,,
+# ストーリー追加12/15・クリスマス,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+ユニカ,K,158,純潔の一角騎士,5,18,4,Pi,new_generation,forest3,大坪 由佳,七和禮,forest,Guardian,,,,,ユニカ,ニコルノサルト,,,一角獣の加護,森守りの蒼銀,（PTアビリティ：ユニカ）,森の守護者
+ベルタ,M,209,知の刻印者,5,18,4,Ma,new_generation,academy3,せきしほ,煎茶,academy,Student,,,,,ベルタ,B・フォール,,,頭脳は少女,塔の刻印,（PTアビリティ：ベルタ）,司令塔補佐
+アベータ,P,91,聖夜を彩る樹人,4,10,3,He,event,other,高木 友梨香,富岡二郎（RED FS）,guildtown,Healer,,,,,アベータ,ホーリーシャインシャワー,,,キラキラな笑顔,真冬からの贈り物,,モミの木の加護
