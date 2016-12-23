@@ -14,6 +14,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require jquery-ui-touch-punch/jquery.ui.touch-punch
 //= require jquery-touchswipe/jquery.touchSwipe
 //= require bootstrap-switch/dist/js/bootstrap-switch
 //= require bootstrap-sprockets
