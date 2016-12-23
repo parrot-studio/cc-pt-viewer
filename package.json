@@ -1,29 +1,19 @@
 {
   "name": "ccpts",
-  "version": "4.2.1",
-  "description": "Get our light! チェンクロパーティーシミュレーター",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/parrot-studio/cc-pt-viewer"
+  "version": "4.3.0",
+  "private": true,
+  "engines": {
+    "node": "5.10.0",
+    "npm": "3.5.0"
   },
-  "author": "ぱろっと(@parrot_studio)",
-  "license": "MIT",
+  "scripts": {
+    "postinstall": "cd client && npm install",
+    "rails-server": "echo 'visit http://localhost:3000/' && foreman start -f Procfile.dev",
+    "test": "rspec"
+  },
   "dependencies": {
-    "baconjs": "~0.7.83",
-    "bootstrap-switch": "~3.3.2",
-    "browserify": "~13.0.0",
-    "browserify-incremental": "~3.1.1",
-    "fastclick": "~1.0.6",
-    "jquery": "~3.0.0",
-    "jquery-touchswipe": "~1.6.15",
-    "jquery-ui": "~1.10.5",
-    "jquery-ui-touch-punch": "~0.2.3",
-    "jquery.cookie": "~1.4.1",
-    "lodash": "~4.13.0",
-    "object-hash": "~1.1.0",
-    "react": "~0.14.7",
-    "react-bootstrap": "~0.28.2",
-    "react-dom": "~0.14.7",
-    "superagent": "~2.0.0"
+    "bootstrap-switch": "^3.3.2",
+    "jquery-touchswipe": "^1.6.15",
+    "jquery-ui-touch-punch": "^0.2.3"
   }
 }

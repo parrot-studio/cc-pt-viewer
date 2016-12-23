@@ -10,10 +10,11 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require modules
+
+//= require jquery
 //= require jquery_ujs
+//= require jquery-ui
+//= require jquery-touchswipe/jquery.touchSwipe
+//= require bootstrap-switch/dist/js/bootstrap-switch
 //= require bootstrap-sprockets
-//= require_tree ./lib
-//= require_tree ./models
-//= require components
-//= require main
+//= require webpack-bundle

@@ -13,10 +13,11 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
-gem 'therubyracer', platforms: :ruby
+#gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # Use Redis adapter to run Action Cable in production
@@ -50,9 +51,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # need for app
 gem 'bootstrap-sass'
 gem 'font-awesome-sass'
-gem 'sprockets-es6', require: 'sprockets/es6'
-gem 'browserify-rails'
-gem 'react-rails'
+gem 'react_on_rails', '~> 6.3'
+gem 'mini_racer', platforms: :ruby
 gem 'config'
 gem 'annotate'
 
