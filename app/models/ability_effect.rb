@@ -195,6 +195,7 @@ class AbilityEffect < ApplicationRecord
         dropout_member: '味方が脱落した時',
         in_debuff: '自分が状態異常の時',
         members_debuff: '味方に状態異常が多いほど',
+        enemys_debuff: '敵に状態異常が多いほど',
         has_mana: '特定のマナを保持している時',
         use_mana: 'マナが使用された時',
         kill: '敵を倒した時',
