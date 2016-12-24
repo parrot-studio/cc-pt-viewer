@@ -107,10 +107,17 @@ export default class ArcanaViewModal extends React.Component {
   renderWeaponAbility() {
     let a = this.props.viewArcana
     if (a.weaponAbility && !_.isEmpty(a.weaponAbility.name)) {
-      return ([
-        <dt key="wdt">専用武器アビリティ</dt>,
-        <dd key="wdd">{this.renderAbility(a.weaponAbility)}</dd>
-      ])
+      if (/（PT/.test(a.weaponAbility.name)) {
+        return ([
+          <dt key="wdt">PTアビリティ</dt>,
+          <dd key="wdd">{this.renderAbility(a.weaponAbility)}</dd>
+        ])
+      } else {
+        return ([
+          <dt key="wdt">専用武器アビリティ</dt>,
+          <dd key="wdd">{this.renderAbility(a.weaponAbility)}</dd>
+        ])
+      }
     } else {
       return null
     }

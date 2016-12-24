@@ -24,8 +24,7 @@ class ViewerController < ApplicationController
   end
 
   def conditions
-    stale = stale?(last_modified: ServerSettings.data_update_time, etag: 'conditions')
-    render json: ArcanaCache.conditions if stale
+    render json: ArcanaCache.conditions
   end
 
   def arcanas
