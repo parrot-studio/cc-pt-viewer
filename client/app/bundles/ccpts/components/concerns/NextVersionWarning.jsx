@@ -25,7 +25,7 @@ export default class NextVersionWarning extends React.Component {
             closeLabel={"&times; Close"}
             onDismiss={this.handleAlertDismiss.bind(this)}>
             <p>
-              <i className="fa fa-info-circle"/> おしらせ：2016/11/24に実装された第3部への対応を進めております。<a href={`${cc3Path}`}>詳しくはこちらで</a>
+              <i className="fa fa-info-circle"/> おしらせ：第3部への対応を進めております。<a href={`${cc3Path}`}>詳しくはこちらで</a>（2016/12/25更新）
             </p>
           </Alert>
         </div>

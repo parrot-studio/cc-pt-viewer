@@ -1230,12 +1230,12 @@ SC-3000,F,254,薙刀の撫子,4,12,3,Sl,collaboration,hardgirls,相沢 舞,KEI,others,Na
 オリュミーナ,A,153,放蕩蝶々,3,10,2,Ar,new_generation,pub,伊瀬 茉莉也,コダマユウヤ,forest,Archer,,,,,オリュミーナ,オル・レイン,,,海風の加護,,,暗闇の加護
 オヅミ,A,154,穿ち貫く紅牡丹,3,10,2,Ar,new_generation,pub,内田 彩,秋津たいら,volcano,Archer,,,,,オヅミ,ひだねゆみ,,,炎の武器,,,炎の壁
 マナワ,A,155,旅する不運な薄紅,3,10,2,Ar,new_generation,pub,立花 理香,秋津たいら,volcano,Archer,,,,,マナワ,ひだねのまい,,,火の加護,,,放浪
-ジェンター,P,87,腕利きの町医者,3,10,2,Sl,new_generation,pub,今井 麻美,沙汰,guildtown,Doctor,,,,,ジェンター,キュア,,,腕利きの町医者,,,標本収集
+ジェンター,P,87,腕利きの町医者,3,10,2,Sl,new_generation,pub,今井 麻美,沙汰,guildtown,Doctor,4800,3600,6400,5200,ジェンター,キュア,,,腕利きの町医者,,,標本収集
 バルーフ,P,88,奇跡の大盤振る舞い,3,10,2,He,new_generation,pub,遠藤 綾,チェロキー,holytown,Priest,,,,,バルーフ,オートヒール,,,奇跡の伝道者,,,奇跡の御業
 タウィーラ,P,89,砂漠の薬学史,3,10,2,He,new_generation,pub,村川 梨衣,チェロキー,oasis,Healer,,,,,タウィーラ,ヒーリングハーブ,,,ファルス薬学,,,調合薬
 メーリア,P,90,花屋の樹人,3,10,2,He,new_generation,pub,花澤 香菜,24,forest,Healer,,,,,メーリア,ハイヒール,,,花の恵み,,,心の花
 フランジア,M,205,魔法の香水使い,3,10,2,Ma,new_generation,pub,立花 理香,24,academy,Professor,,,,,フランジア,マジカルパフューム,,,癒しの香水,,,アロマの香り
-ミリー,M,206,全力魔術士,3,10,2,Ma,new_generation,pub,今井 麻美,weila,academy,Student,,,,,ミリー,バニシングフレア,,,魔闘技,,,近接補助
+ミリー,M,206,全力魔術士,3,10,2,Ma,new_generation,pub,今井 麻美,weila,academy,Student,4700,3000,6300,4600,ミリー,バニシングフレア,,,魔闘技,,,近接補助
 エステバン,M,207,魔境を彷徨う巡礼者,3,10,2,Ma,new_generation,pub,八代 拓,COGA,academy,Magician,,,,,エステバン,スピリットファイアー,,,呪詛返し,,,悪霊耐性
 イフサーン,M,208,大砂漠の給水塔,3,10,2,Ma,new_generation,pub,内山 昂輝,COGA,oasis,Merchant,,,,,イフサーン,神の水,,,給水塔の暗い噂,,,大砂漠の給水塔
 ,,,,,,,,,,,,,,,,,,,,,,,,,
