@@ -532,6 +532,7 @@ class AbilityEffect < ApplicationRecord
         in_back: '一番後列にいる時',
         in_combo: '攻撃を一定回数当てた時',
         in_attacking: '攻撃を継続している時',
+        in_attack: '攻撃を当てた時',
         in_invisible: '姿を消している時',
         own_skill: '自分がスキルを使った時',
         others_skill: '味方がスキルを使った時',

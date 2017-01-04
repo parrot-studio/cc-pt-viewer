@@ -95,7 +95,8 @@ class SkillEffect < ApplicationRecord
         super_skill: '超必殺技',
         pain: '自分もダメージ',
         return_position: '元の位置に戻る',
-        chain: '周辺の敵に広がる'
+        chain: '周辺の敵に広がる',
+        cure_blind: '暗闇解除'
       }
     },
     heal: {

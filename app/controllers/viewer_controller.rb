@@ -63,8 +63,7 @@ class ViewerController < ApplicationController
     fresh_when last_modified: ServerSettings.data_update_time, etag: 'changelogs'
   end
 
-  def cc3
-  end
+  def cc3; end
 
   private
 
