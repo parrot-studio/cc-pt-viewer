@@ -306,6 +306,7 @@ class AbilityEffect < ApplicationRecord
         cure_slow: 'スロウ解除',
         cure_weaken: '衰弱解除',
         cure_curse: '衰弱解除',
+        cure_down: 'ダウン解除',
         cure_all: '状態異常解除'
       },
       condition: {
