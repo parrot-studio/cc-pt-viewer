@@ -1,5 +1,3 @@
-import React from 'react'
-
 import TwitterShareModal from '../concerns/TwitterShareModal'
 
 export default class MemberShareModal extends TwitterShareModal {

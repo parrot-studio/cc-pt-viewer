@@ -5,7 +5,7 @@ import { Cookie } from '../lib/Cookie'
 const __favorites_COOKIE_NAME = 'fav-arcana'
 
 let __favorites = {}
-let __favorites_notifyStream = new Bacon.Bus()
+const __favorites_notifyStream = new Bacon.Bus()
 
 export default class Favorites {
 
@@ -44,8 +44,8 @@ export default class Favorites {
   }
 
   static store() {
-    let fl = Favorites.list()
-    let co = {}
+    const fl = Favorites.list()
+    const co = {}
     co[__favorites_COOKIE_NAME] = fl.join('/')
     Cookie.set(co)
     return __favorites
@@ -54,7 +54,7 @@ export default class Favorites {
   static init() {
     __favorites = {}
     try {
-      let list = Cookie.valueFor(__favorites_COOKIE_NAME)
+      const list = Cookie.valueFor(__favorites_COOKIE_NAME)
       if (!list){
         return __favorites
       }

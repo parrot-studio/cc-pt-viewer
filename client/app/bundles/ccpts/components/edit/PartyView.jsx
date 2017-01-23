@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 import React from 'react'
 
 import FullCharacter from './FullCharacter'
@@ -5,7 +7,7 @@ import FullCharacter from './FullCharacter'
 export default class PartyView extends React.Component {
 
   renderMembers() {
-    let list = [
+    const list = [
       ["mem1", "Leader"],
       ["mem2", "2nd"],
       ["mem3", "3rd"],
@@ -15,9 +17,9 @@ export default class PartyView extends React.Component {
       ["friend", "Friend"]
     ]
 
-    let party = this.props.party
+    const party = this.props.party
     return _.map(list, (l) => {
-      let code = l[0]
+      const code = l[0]
       return (
         <li className="col-xs-6 col-sm-3 col-md-3" key={code}>
           <FullCharacter

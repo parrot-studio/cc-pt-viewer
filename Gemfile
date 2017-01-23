@@ -55,6 +55,7 @@ gem 'react_on_rails', '~> 6.3'
 gem 'mini_racer', platforms: :ruby
 gem 'config'
 gem 'annotate'
+gem 'rainbow'
 
 # pry
 gem 'pry'

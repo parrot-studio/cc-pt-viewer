@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactBootstrap, { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap'
+import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap'
 
 import SearchMenuButton from '../concerns/SearchMenuButton'
 import RequestFormModal from '../concerns/RequestFormModal'

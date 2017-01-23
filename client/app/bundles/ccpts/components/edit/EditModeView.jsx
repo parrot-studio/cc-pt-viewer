@@ -22,26 +22,26 @@ export default class EditModeView extends React.Component {
     Party.ptver = this.props.ptver
     Parties.init()
 
-    let partyStream = new Bacon.Bus()
-    let memberCodeStream = new Bacon.Bus()
+    const partyStream = new Bacon.Bus()
+    const memberCodeStream = new Bacon.Bus()
 
     partyStream.onValue((party) => {
       Parties.setLastParty(party)
-      this.setState({party: party})
+      this.setState({party})
     })
 
     memberCodeStream.onValue((code) => {
       Searcher.searchMembers(code).onValue((as) => {
-        let party = Party.build(as)
-        this.setState({party: party})
+        const party = Party.build(as)
+        this.setState({party})
       })
     })
 
     this.state = {
       editMode: (_.isEmpty(this.props.ptm) ? true : false),
       party: Party.create(),
-      partyStream: partyStream,
-      memberCodeStream: memberCodeStream
+      partyStream,
+      memberCodeStream
     }
   }
 

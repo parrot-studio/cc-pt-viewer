@@ -12,9 +12,9 @@ export default class NameSearchForm extends React.Component {
 
     this.nameStream = new Bacon.Bus()
 
-    let arcanaNameStream = this.nameStream
+    const arcanaNameStream = this.nameStream
       .filter((n) => n.length > 1)
-      .map((n) => { return {name: n} })
+      .map((n) => ({name: n}))
 
     this.props.queryStream.plug(arcanaNameStream)
 
@@ -27,7 +27,7 @@ export default class NameSearchForm extends React.Component {
     this.setState({name: e.target.value})
   }
 
-  handleClick(e) {
+  handleClick() {
     this.nameStream.push(this.state.name)
   }
 

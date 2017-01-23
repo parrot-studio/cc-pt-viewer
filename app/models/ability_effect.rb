@@ -9,24 +9,24 @@
 #  condition  :string(100)      not null
 #  effect     :string(100)      not null
 #  target     :string(100)      not null
-#  note       :string(300)      default("")
+#  note       :string(300)      default(""), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 # Indexes
 #
-#  index_ability_effects_on_ability_id              (ability_id)
-#  index_ability_effects_on_category                (category)
-#  index_ability_effects_on_category_and_condition  (category,condition)
-#  index_ability_effects_on_category_and_effect     (category,effect)
-#  index_ability_effects_on_condition               (condition)
-#  index_ability_effects_on_condition_and_effect    (condition,effect)
-#  index_ability_effects_on_effect                  (effect)
-#  index_ability_effects_on_target                  (target)
+#  index_ability_effects_on_ability_id                         (ability_id)
+#  index_ability_effects_on_category                           (category)
+#  index_ability_effects_on_category_and_condition             (category,condition)
+#  index_ability_effects_on_category_and_condition_and_effect  (category,condition,effect)
+#  index_ability_effects_on_category_and_effect                (category,effect)
 #
 
 class AbilityEffect < ApplicationRecord
   belongs_to :ability
+
+  scope :exclude_chain, -> { where.not(ability_id: Ability.chain_ability_ids) }
+  scope :only_chain, -> { where(ability_id: Ability.chain_ability_ids) }
 
   CATEGORYS = {
     buff_all: {
@@ -659,7 +659,8 @@ class AbilityEffect < ApplicationRecord
 
   class << self
     def chain_ability_categorys
-      keys = ChainAbilityEffect.uniq.pluck(:category)
+      cs = Ability.chain_ability_ids
+      keys = AbilityEffect.where(ability_id: cs).uniq.pluck(:category)
 
       ret = []
       CATEGORYS.each do |k, v|
@@ -671,7 +672,8 @@ class AbilityEffect < ApplicationRecord
     end
 
     def chain_ability_effects
-      effects = ChainAbilityEffect.select(:category, :effect).distinct.pluck(:category, :effect)
+      cs = Ability.chain_ability_ids
+      effects = AbilityEffect.where(ability_id: cs).select(:category, :effect).distinct.pluck(:category, :effect)
       efs = effects.each_with_object({}) do |ef, h|
         cate = ef.first.to_sym
         h[cate] ||= []
@@ -694,7 +696,8 @@ class AbilityEffect < ApplicationRecord
     end
 
     def chain_ability_conditions
-      conds = ChainAbilityEffect.select(:category, :condition).distinct.pluck(:category, :condition)
+      cs = Ability.chain_ability_ids
+      conds = AbilityEffect.where(ability_id: cs).select(:category, :condition).distinct.pluck(:category, :condition)
       cos = conds.each_with_object({}) do |co, h|
         cate = co.first.to_sym
         h[cate] ||= []
@@ -736,14 +739,12 @@ class AbilityEffect < ApplicationRecord
             length: { maximum: 300 }
 
   def serialize
-    excepts = %w(id ability_id created_at updated_at)
-    ef = self.as_json(except: excepts)
-
+    ef = {}
     ef['category'] = CATEGORYS.fetch(self.category.to_sym, {}).fetch(:name, '')
     ef['condition'] = CONDITIONS.fetch(self.condition.to_sym, '')
     ef['effect'] = EFFECTS.fetch(self.effect.to_sym, '')
     ef['target'] = TARGETS.fetch(self.target.to_sym, '')
-
+    ef['note'] = self.note
     ef
   end
 end

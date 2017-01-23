@@ -1,10 +1,10 @@
 import React from 'react'
-import ReactBootstrap, { Modal, Button } from 'react-bootstrap'
+import { Modal, Button } from 'react-bootstrap'
 
 export default class TwitterShareModal extends React.Component {
 
   twitterUrl() {
-    let text = `チェンクロ パーティーシミュレーター ${this.shareUrl()}`
+    const text = `チェンクロ パーティーシミュレーター ${this.shareUrl()}`
     let url = "https://twitter.com/intent/tweet"
     url += `?text=${encodeURIComponent(text)}`
     url += "&hashtags=ccpts"

@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactBootstrap, { Alert } from 'react-bootstrap'
+import { Alert } from 'react-bootstrap'
 
 export default class EditTutorialArea extends React.Component {
 

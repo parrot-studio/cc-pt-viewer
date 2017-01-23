@@ -6,7 +6,7 @@ import { QueryLogCookie } from '../lib/Cookie'
 const __queryLog_LOG_SIZE = 10
 const __queryLog_COOKIE_NAME = 'query-log'
 
-let __queryLog_notifyStream = new Bacon.Bus()
+const __queryLog_notifyStream = new Bacon.Bus()
 
 export default class QueryLogs {
 
@@ -20,17 +20,15 @@ export default class QueryLogs {
     }
 
     QueryLogs.querys = _.chain(_.flatten([q, QueryLogs.querys]))
-      .uniqBy(oq => oq.encode())
+      .uniqBy((oq) => oq.encode())
       .take(__queryLog_LOG_SIZE)
       .value()
-    let cs = _.map(QueryLogs.querys, (oq) => {
-      return {
-        query: oq.encode(),
-        detail: oq.detail.substr(0, 30)
-      }
-    })
+    const cs = _.map(QueryLogs.querys, (oq) => ({
+      query: oq.encode(),
+      detail: oq.detail.substr(0, 30)
+    }))
 
-    let co = {}
+    const co = {}
     co[__queryLog_COOKIE_NAME] = cs
     QueryLogCookie.set(co)
     __queryLog_notifyStream.push(QueryLogs.querys)
@@ -47,12 +45,12 @@ export default class QueryLogs {
   static init() {
     QueryLogs.querys = []
     try {
-      let cs = QueryLogCookie.valueFor(__queryLog_COOKIE_NAME)
+      const cs = QueryLogCookie.valueFor(__queryLog_COOKIE_NAME)
       if (!cs) {
         return
       }
       QueryLogs.querys = _.map(cs, (c) => {
-        let q = Query.parse(c.query)
+        const q = Query.parse(c.query)
         if (!q) {
           return
         }

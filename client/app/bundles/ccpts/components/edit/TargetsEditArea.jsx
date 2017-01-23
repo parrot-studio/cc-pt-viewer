@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 import React from 'react'
-import ReactBootstrap, { Button, ButtonGroup } from 'react-bootstrap'
+import { Button, ButtonGroup } from 'react-bootstrap'
 
 import Favorites from '../../model/Favorites'
 
@@ -17,9 +17,9 @@ export default class TargetsEditArea extends ResultView {
   constructor(props) {
     super(props)
 
-    Favorites.notifyStream.onValue((favs) => {
+    Favorites.notifyStream.onValue(() => {
       _.forEach(this.state.pager.get(), (a) => {
-        let code = a.jobCode
+        const code = a.jobCode
         $(`#fav-${code}`).bootstrapSwitch("state", Favorites.stateFor(code))
       })
     })
@@ -32,39 +32,37 @@ export default class TargetsEditArea extends ResultView {
   handleSort(col, e) {
     e.stopPropagation()
 
-    let order = (this.sortOrderDefault[col] || 'desc')
-    let pager = this.state.pager
+    const order = (this.sortOrderDefault[col] || 'desc')
+    const pager = this.state.pager
     pager.sort(col, order)
     pager.jumpPage(1)
 
     this.setState({
-      pager: pager,
+      pager,
       sortOrder: {[col]: order}
     })
   }
 
   renderArcanas() {
-    let as = _.map(this.state.pager.get(), (a) => {
-      return <TargetArcana
-        key={a.jobCode}
-        arcana={a}
-        arcanaViewStream={this.props.arcanaViewStream}/>
-    })
+    const as = _.map(this.state.pager.get(), (a) => <TargetArcana
+      key={a.jobCode}
+      arcana={a}
+      arcanaViewStream={this.props.arcanaViewStream}/>)
     return <ul id="choice-characters" className="list-inline">{as}</ul>
   }
 
   renderSortArea() {
-    let sortCols = [
+    const sortCols = [
       ["コスト", "cost"],
       ["ATK", "maxAtk"],
       ["HP", "maxHp"],
       ["名前", "name"]
     ]
 
-    let cs = _.map(_.zip(sortCols, _.range(sortCols.length)), (l) => {
-      let cl = l[0]
-      let name = cl[0]
-      let col = cl[1]
+    const cs = _.map(_.zip(sortCols, _.range(sortCols.length)), (l) => {
+      const cl = l[0]
+      const name = cl[0]
+      const col = cl[1]
 
       if (this.state.sortOrder[col]){
         return (

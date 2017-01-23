@@ -2,7 +2,7 @@ import _ from 'lodash'
 import Bacon from 'baconjs'
 
 import React from 'react'
-import ReactBootstrap, { Button, ButtonToolbar } from 'react-bootstrap'
+import { Button, ButtonToolbar } from 'react-bootstrap'
 
 import Conditions from '../../model/Conditions'
 
@@ -29,7 +29,7 @@ export default class ConditionView extends React.Component {
 
     // subscribe query
     this.props.conditionStream.onValue((query = {}) => {
-      let qs = {}
+      const qs = {}
       qs.job = (query.job || "")
       qs.rarity = (query.rarity || "")
       qs.weapon = (query.weapon || "")
@@ -51,13 +51,13 @@ export default class ConditionView extends React.Component {
       qs.chainabilityeffect = (query.chainabilityeffect || "")
       qs.chainabilitycondition = (query.chainabilitycondition || "")
 
-      let addTargets = [
+      const addTargets = [
         "actor", "illustrator", "skill", "skillcost", "skillsub", "skilleffect",
         "abilitycategory", "abilityeffect", "abilitycondition",
         "chainabilitycategory", "chainabilityeffect", "chainabilitycondition"
       ]
       qs.addCondition = _.chain(addTargets)
-        .map((t) => { return (query[t] ? true : false) })
+        .map((t) => (query[t] ? true : false))
         .some()
         .value()
 
@@ -98,7 +98,7 @@ export default class ConditionView extends React.Component {
   }
 
   hundleSearch() {
-    let query = {}
+    const query = {}
     _.forEach(this.state, (val, key) => {
       if (key === "addCondition") {
         return
@@ -111,14 +111,12 @@ export default class ConditionView extends React.Component {
   }
 
   renderConditionList(list) {
-    let cs = _.map(list, (c) => {
-      return <option value={c[0]} key={c[0]}>{c[1]}</option>
-    })
+    const cs = _.map(list, (c) => <option value={c[0]} key={c[0]}>{c[1]}</option>)
     return _.concat([<option value={""} key={""}>{"-"}</option>], cs)
   }
 
   renderJobList() {
-    let jobs = [
+    const jobs = [
       ["F", "戦"],
       ["K", "騎"],
       ["P", "僧"],
@@ -129,7 +127,7 @@ export default class ConditionView extends React.Component {
   }
 
   renderRarityList() {
-    let rarities = [
+    const rarities = [
       ["5", "☆☆☆☆☆"],
       ["4U", "☆☆☆☆+"],
       ["4", "☆☆☆☆"],
@@ -144,7 +142,7 @@ export default class ConditionView extends React.Component {
   }
 
   renderWeaponList() {
-    let weapons = [
+    const weapons = [
       ["Sl", "斬"],
       ["Bl", "打"],
       ["Pi", "突"],
@@ -163,13 +161,13 @@ export default class ConditionView extends React.Component {
   }
 
   renderArcanaCostList() {
-    let costs = _.map(_.range(4, 23).reverse(), (c) => ([`${c}D`, `${c}以下`]))
+    const costs = _.map(_.range(4, 23).reverse(), (c) => ([`${c}D`, `${c}以下`]))
     costs.push(["0", "0"])
     return this.renderConditionList(costs)
   }
 
   renderChainCostList() {
-    let costs = []
+    const costs = []
     _.forEach(_.range(1, 6).reverse(), (c) => {
       costs.push([c, c])
       costs.push([`${c}D`, `${c}以下`])

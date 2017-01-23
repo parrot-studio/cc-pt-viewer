@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 import Favorites from '../../model/Favorites'
 import ArcanaRenderer from './ArcanaRenderer'
@@ -21,7 +20,7 @@ export default class TargetArcana extends ArcanaRenderer {
   }
 
   render () {
-    let a = this.props.arcana
+    const a = this.props.arcana
     return (
       <li className={`listed-character col-sm-3 col-md-3 col-xs-6`}
         id={`choice-${a.jobCode}`}>
@@ -41,7 +40,7 @@ export default class TargetArcana extends ArcanaRenderer {
                   id={`fav-${a.jobCode}`}
                   data-job-code={a.jobCode}
                   ref={(inp) => {
-                    this.addFavHandler(ReactDOM.findDOMNode(inp), a)
+                    this.addFavHandler(inp, a)
                   }}/>
                 {this.renderInfoButton(a)}
               </div>

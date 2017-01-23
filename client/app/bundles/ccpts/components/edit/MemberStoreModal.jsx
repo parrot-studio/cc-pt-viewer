@@ -1,13 +1,13 @@
 import React from 'react'
-import ReactBootstrap, { Button, Modal } from 'react-bootstrap'
+import { Button, Modal } from 'react-bootstrap'
 
 import Parties from '../../model/Parties'
 
 export default class MemberStoreModal extends React.Component {
 
   storeParty() {
-    let comment = this.refs.ptname.value
-    let party = this.props.party
+    const comment = this.refs.ptname.value
+    const party = this.props.party
     Parties.addParty(party, comment)
     this.props.closeModal()
   }

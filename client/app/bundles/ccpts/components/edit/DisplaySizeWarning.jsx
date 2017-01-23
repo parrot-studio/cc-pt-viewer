@@ -1,9 +1,9 @@
 import React from 'react'
-import ReactBootstrap, { Alert } from 'react-bootstrap'
+import { Alert } from 'react-bootstrap'
 
 export default class DisplaySizeWarning extends React.Component {
   render() {
-    let dbPath = `${this.props.appPath}db`
+    const dbPath = `${this.props.appPath}db`
 
     return (
       <div className="row">

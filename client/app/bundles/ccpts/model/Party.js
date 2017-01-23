@@ -12,7 +12,7 @@ export default class Party {
   }
 
   static build(as) {
-    let pt = new Party()
+    const pt = new Party()
     pt.build(as)
     return pt
   }
@@ -23,20 +23,20 @@ export default class Party {
   }
 
   createCode() {
-    let header = 'V' + Party.ptver
-    let mems = this.members
+    const header = `V${Party.ptver}`
+    const mems = this.members
     let code = ''
     _.forEach(__party_MEMBER_KEY, (k) => {
-      let m = mems[k]
+      const m = mems[k]
       if (m) {
         code = code + m.arcana.jobCode
         if (m.chainArcana) {
           code = code + m.chainArcana.jobCode
         } else {
-          code = code + 'N'
+          code = `${code}N`
         }
       } else {
-        code = code + 'NN'
+        code = `${code}NN`
       }
     })
 
@@ -48,10 +48,10 @@ export default class Party {
 
   build(as) {
     _.forEach(__party_MEMBER_KEY, (k) => {
-      let mb = as[k]
-      let mc = as[k + 'c']
+      const mb = as[k]
+      const mc = as[`${k}c`]
       if (mb) {
-        let mem = new Member(mb)
+        const mem = new Member(mb)
         if (mc) {
           mem.chainArcana = mc
         }
@@ -82,7 +82,7 @@ export default class Party {
   }
 
   removeChain(key) {
-    let m = this.memberFor(ak)
+    const m = this.memberFor(key)
     if (!m) {
       return
     }
@@ -95,31 +95,31 @@ export default class Party {
   }
 
   swap(ak, bk) {
-    let am = this.memberFor(ak)
-    let bm = this.memberFor(bk)
+    const am = this.memberFor(ak)
+    const bm = this.memberFor(bk)
     this.addMember(ak, bm)
     this.addMember(bk, am)
   }
 
   copyFromFriend(k) {
-    let fm = this.memberFor('friend')
+    const fm = this.memberFor('friend')
     if (!fm) {
       return
     }
-    let m = new Member(fm.arcana)
+    const m = new Member(fm.arcana)
     m.chainArcana = fm.chainArcana
     this.addMember(k, m)
   }
 
   _removeDuplicateMember(mems, target) {
-    let ta = target.arcana
-    let tc = target.chainArcana
+    const ta = target.arcana
+    const tc = target.chainArcana
 
     _.forEach(__party_MEMBER_KEY, (k) => {
       if (_.eq(k, 'friend')) {
         return
       }
-      let m = mems[k]
+      const m = mems[k]
       if (!m) {
         return
       }

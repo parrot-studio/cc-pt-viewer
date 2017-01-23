@@ -26,9 +26,7 @@ export default class SkillConditions extends React.Component {
   }
 
   renderConditionList(list) {
-    let cs = _.map(list, (c) => {
-      return <option value={c[0]} key={c[0]}>{c[1]}</option>
-    })
+    const cs = _.map(list, (c) => <option value={c[0]} key={c[0]}>{c[1]}</option>)
     return _.concat([<option value={""} key={""}>{"-"}</option>], cs)
   }
 
@@ -37,7 +35,7 @@ export default class SkillConditions extends React.Component {
   }
 
   renderCostList() {
-    let list = [
+    const list = [
       ["3", "3"],
       ["3D", "3以下"],
       ["2", "2"],
@@ -48,11 +46,9 @@ export default class SkillConditions extends React.Component {
   }
 
   renderSubList() {
-    let category = this.props.skill
+    const category = this.props.skill
     if (category) {
-      let cs = _.map(this.conditions.skillSubtypesFor(category), (c) => {
-        return <option value={c[0]} key={c[0]}>{c[1]}</option>
-      })
+      const cs = _.map(this.conditions.skillSubtypesFor(category), (c) => <option value={c[0]} key={c[0]}>{c[1]}</option>)
       return _.concat([<option value={""} key={""}>{"（全て）"}</option>], cs)
     } else {
       return <option value={""}>{"-"}</option>
@@ -60,11 +56,9 @@ export default class SkillConditions extends React.Component {
   }
 
   renderEffectList() {
-    let category = this.props.skill
+    const category = this.props.skill
     if (category) {
-      let cs = _.map(this.conditions.skillEffectTypesFor(category), (c) => {
-        return <option value={c[0]} key={c[0]}>{c[1]}</option>
-      })
+      const cs = _.map(this.conditions.skillEffectTypesFor(category), (c) => <option value={c[0]} key={c[0]}>{c[1]}</option>)
       return _.concat([<option value={""} key={""}>{"（全て）"}</option>], cs)
     } else {
       return <option value={""}>{"-"}</option>

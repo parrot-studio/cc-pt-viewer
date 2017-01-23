@@ -1,8 +1,7 @@
 import _ from 'lodash'
 
 import React from 'react'
-import ReactDOM from 'react-dom'
-import ReactBootstrap, { Button, Badge, Modal } from 'react-bootstrap'
+import { Button, Badge, Modal } from 'react-bootstrap'
 
 import Favorites from '../../model/Favorites'
 import Skill from '../../model/Skill'
@@ -22,8 +21,8 @@ export default class ArcanaViewModal extends React.Component {
   }
 
   renderEachSkill(sk, ind) {
-    let ss = _.map(_.zip(sk.effects, _.range(sk.effects.length)), (t) => {
-      let ef = t[0]
+    const ss = _.map(_.zip(sk.effects, _.range(sk.effects.length)), (t) => {
+      const ef = t[0]
       let multi = ""
       switch (ef.multi_type) {
         case 'forward':
@@ -39,7 +38,7 @@ export default class ArcanaViewModal extends React.Component {
         multi = `（${multi} ${ef.multi_condition} ）`
       }
 
-      let ses = Skill.subEffectForEffect(ef)
+      const ses = Skill.subEffectForEffect(ef)
       if (!_.isEmpty(ef.note)) {
         ses.push(ef.note)
       }
@@ -62,8 +61,8 @@ export default class ArcanaViewModal extends React.Component {
   }
 
   renderSkill() {
-    let a = this.props.viewArcana
-    let ss = []
+    const a = this.props.viewArcana
+    const ss = []
     let ind = 1
     ss.push(this.renderEachSkill(a.firstSkill, ind))
     if (a.secondSkill && !_.isEmpty(a.secondSkill.name)) {
@@ -78,12 +77,12 @@ export default class ArcanaViewModal extends React.Component {
   }
 
   renderAbility(ab) {
-    if (!ab || _.isEmpty(ab.name)) {
+    if (!ab || _.isEmpty(ab.effects)) {
       return "なし"
     }
 
-    let abs = _.map(_.zip(ab.effects, _.range(ab.effects.length)), (t) => {
-      let e = t[0]
+    const abs = _.map(_.zip(ab.effects, _.range(ab.effects.length)), (t) => {
+      const e = t[0]
       let str = `${e.condition} - ${e.effect}`
       if (!_.isEmpty(e.target)) {
         str = str.concat(`:${e.target}`)
@@ -104,27 +103,32 @@ export default class ArcanaViewModal extends React.Component {
     )
   }
 
+  renderPartyAbility() {
+    const a = this.props.viewArcana
+    if (a.partyAbility && !_.isEmpty(a.partyAbility.effects)) {
+      return ([
+        <dt key="pdt">PTアビリティ</dt>,
+        <dd key="pdd">{this.renderAbility(a.partyAbility)}</dd>
+      ])
+    } else {
+      return null
+    }
+  }
+
   renderWeaponAbility() {
-    let a = this.props.viewArcana
+    const a = this.props.viewArcana
     if (a.weaponAbility && !_.isEmpty(a.weaponAbility.name)) {
-      if (/（PT/.test(a.weaponAbility.name)) {
-        return ([
-          <dt key="wdt">PTアビリティ</dt>,
-          <dd key="wdd">{this.renderAbility(a.weaponAbility)}</dd>
-        ])
-      } else {
-        return ([
-          <dt key="wdt">専用武器アビリティ</dt>,
-          <dd key="wdd">{this.renderAbility(a.weaponAbility)}</dd>
-        ])
-      }
+      return ([
+        <dt key="wdt">専用武器アビリティ</dt>,
+        <dd key="wdd">{this.renderAbility(a.weaponAbility)}</dd>
+      ])
     } else {
       return null
     }
   }
 
   renderArcanaView() {
-    let a = this.props.viewArcana
+    const a = this.props.viewArcana
 
     return (
       <Modal show={this.props.showModal} onHide={this.props.closeModal}>
@@ -150,7 +154,7 @@ export default class ArcanaViewModal extends React.Component {
                       type='checkbox'
                       data-job-code={a.jobCode}
                       ref={(inp) => {
-                        this.addFavHandler(ReactDOM.findDOMNode(inp), a)
+                        this.addFavHandler(inp, a)
                       }}/>
                   </p>
                 </div>
@@ -184,6 +188,7 @@ export default class ArcanaViewModal extends React.Component {
                     <dd>{this.renderAbility(a.firstAbility)}</dd>
                     <dt>アビリティ2</dt>
                     <dd>{this.renderAbility(a.secondAbility)}</dd>
+                    {this.renderPartyAbility()}
                     {this.renderWeaponAbility()}
                     <dt>絆アビリティ</dt>
                     <dd>{this.renderAbility(a.chainAbility)}</dd>
@@ -203,7 +208,7 @@ export default class ArcanaViewModal extends React.Component {
                       type='checkbox'
                       data-job-code={a.jobCode}
                       ref={(inp) => {
-                        this.addFavHandler(ReactDOM.findDOMNode(inp), a)
+                        this.addFavHandler(inp, a)
                       }}/>
                   </p>
                 </div>

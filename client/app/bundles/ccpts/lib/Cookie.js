@@ -6,7 +6,7 @@ const __cookie_EXPIRE_DATE = 60
 class CookieBase {
 
   static set(base, data) {
-    let d = _.merge(CookieBase.get(base), (data || {}))
+    const d = _.merge(CookieBase.get(base), (data || {}))
     Cookies.set(base, d, {expires: __cookie_EXPIRE_DATE})
   }
 
@@ -23,13 +23,13 @@ class CookieBase {
   }
 
   static delete(base, key) {
-    let c = CookieBase.get(base)
+    const c = CookieBase.get(base)
     delete c[key]
     CookieBase.replace(base, c)
   }
 
   static valueFor(base, key) {
-    let c = CookieBase.get(base)
+    const c = CookieBase.get(base)
     return c[key]
   }
 }

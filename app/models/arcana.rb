@@ -2,87 +2,67 @@
 #
 # Table name: arcanas
 #
-#  id                :integer          not null, primary key
-#  name              :string(100)      not null
-#  title             :string(200)
-#  rarity            :integer          not null
-#  cost              :integer          not null
-#  weapon_type       :string(10)       not null
-#  job_type          :string(10)       not null
-#  job_index         :integer          not null
-#  job_code          :string(20)       not null
-#  job_detail        :string(50)
-#  source_category   :string(100)      not null
-#  source            :string(100)      not null
-#  union             :string(100)      not null
-#  max_atk           :integer
-#  max_hp            :integer
-#  limit_atk         :integer
-#  limit_hp          :integer
-#  first_skill_id    :integer          default(0), not null
-#  second_skill_id   :integer          default(0), not null
-#  third_skill_id    :integer          default(0), not null
-#  first_ability_id  :integer          default(0), not null
-#  second_ability_id :integer          default(0), not null
-#  weapon_ability_id :integer          default(0), not null
-#  chain_ability_id  :integer          default(0), not null
-#  chain_cost        :integer          default(0), not null
-#  voice_actor_id    :integer          default(0), not null
-#  illustrator_id    :integer          default(0), not null
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
+#  id              :integer          not null, primary key
+#  name            :string(100)      not null
+#  title           :string(100)      not null
+#  arcana_type     :string(20)       not null
+#  rarity          :integer          not null
+#  cost            :integer          default(0), not null
+#  chain_cost      :integer          default(0), not null
+#  weapon_type     :string(10)       not null
+#  job_type        :string(10)       not null
+#  job_index       :integer          not null
+#  job_code        :string(10)       not null
+#  job_detail      :string(50)
+#  source_category :string(50)       not null
+#  source          :string(50)       not null
+#  union           :string(20)       not null
+#  person_code     :string(10)       not null
+#  owner_code      :string(10)
+#  max_atk         :integer
+#  max_hp          :integer
+#  limit_atk       :integer
+#  limit_hp        :integer
+#  voice_actor_id  :integer          default(0), not null
+#  illustrator_id  :integer          default(0), not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 # Indexes
 #
-#  index_arcanas_on_chain_ability_id                   (chain_ability_id)
-#  index_arcanas_on_chain_cost                         (chain_cost)
-#  index_arcanas_on_cost                               (cost)
-#  index_arcanas_on_first_ability_id                   (first_ability_id)
-#  index_arcanas_on_first_skill_id                     (first_skill_id)
-#  index_arcanas_on_illustrator_id                     (illustrator_id)
-#  index_arcanas_on_job_code                           (job_code) UNIQUE
-#  index_arcanas_on_job_type                           (job_type)
-#  index_arcanas_on_job_type_and_job_index             (job_type,job_index)
-#  index_arcanas_on_job_type_and_rarity                (job_type,rarity)
-#  index_arcanas_on_job_type_and_rarity_and_job_index  (job_type,rarity,job_index)
-#  index_arcanas_on_limit_atk                          (limit_atk)
-#  index_arcanas_on_limit_hp                           (limit_hp)
-#  index_arcanas_on_max_atk                            (max_atk)
-#  index_arcanas_on_max_hp                             (max_hp)
-#  index_arcanas_on_name                               (name)
-#  index_arcanas_on_rarity                             (rarity)
-#  index_arcanas_on_rarity_and_weapon_type             (rarity,weapon_type)
-#  index_arcanas_on_second_ability_id                  (second_ability_id)
-#  index_arcanas_on_second_skill_id                    (second_skill_id)
-#  index_arcanas_on_source                             (source)
-#  index_arcanas_on_source_category                    (source_category)
-#  index_arcanas_on_source_category_and_source         (source_category,source)
-#  index_arcanas_on_third_skill_id                     (third_skill_id)
-#  index_arcanas_on_union                              (union)
-#  index_arcanas_on_voice_actor_id                     (voice_actor_id)
-#  index_arcanas_on_weapon_ability_id                  (weapon_ability_id)
-#  index_arcanas_on_weapon_type                        (weapon_type)
+#  index_arcanas_on_arcana_type                 (arcana_type)
+#  index_arcanas_on_chain_cost                  (chain_cost)
+#  index_arcanas_on_cost                        (cost)
+#  index_arcanas_on_illustrator_id              (illustrator_id)
+#  index_arcanas_on_job_code                    (job_code) UNIQUE
+#  index_arcanas_on_job_type                    (job_type)
+#  index_arcanas_on_job_type_and_job_index      (job_type,job_index) UNIQUE
+#  index_arcanas_on_job_type_and_rarity         (job_type,rarity)
+#  index_arcanas_on_name                        (name)
+#  index_arcanas_on_person_code                 (person_code)
+#  index_arcanas_on_rarity                      (rarity)
+#  index_arcanas_on_source_category             (source_category)
+#  index_arcanas_on_source_category_and_source  (source_category,source)
+#  index_arcanas_on_title                       (title)
+#  index_arcanas_on_union                       (union)
+#  index_arcanas_on_union_and_job_type          (union,job_type)
+#  index_arcanas_on_voice_actor_id              (voice_actor_id)
+#  index_arcanas_on_weapon_type                 (weapon_type)
 #
 
 class Arcana < ApplicationRecord
-  default_scope do
-    includes(
-      [
-        :voice_actor, :illustrator, :first_skill, :second_skill, :third_skill,
-        :first_ability, :second_ability, :chain_ability, :weapon_ability
-      ]
-    )
-  end
-
   belongs_to :voice_actor
   belongs_to :illustrator
-  belongs_to :first_skill,    class_name: 'Skill',   optional: true
-  belongs_to :second_skill,   class_name: 'Skill',   optional: true
-  belongs_to :third_skill,    class_name: 'Skill',   optional: true
-  belongs_to :first_ability,  class_name: 'Ability', optional: true
-  belongs_to :second_ability, class_name: 'Ability', optional: true
-  belongs_to :weapon_ability, class_name: 'Ability', optional: true
-  belongs_to :chain_ability,                         optional: true
+  has_many   :skills
+  has_many   :abilities
+
+  scope :with_tables, -> {
+    includes(
+      [
+        :voice_actor, :illustrator, :skills, :abilities
+      ]
+    )
+  }
 
   RARITYS = (1..5).freeze
 
@@ -103,6 +83,16 @@ class Arcana < ApplicationRecord
     M: 'magician',
     P: 'priest'
   }.freeze
+
+  ARCANA_TYPE_NAMES = {
+    first: '旧世代（1部・2部）',
+    third: '新世代（3部）',
+    demon: '魔神',
+    buddy: 'バディ',
+    collaboration: 'コラボ'
+  }.freeze
+
+  ARCANA_TYPES = ARCANA_TYPE_NAMES.keys.map(&:to_s).freeze
 
   WEAPON_NAMES = {
     Sl: '斬',
@@ -181,7 +171,7 @@ class Arcana < ApplicationRecord
         other: 'その他'
       }
     },
-    new_generation: {
+    third: {
       name: '3部',
       details: {
         guildtown3: '副都・酒場（3部）',
@@ -193,11 +183,11 @@ class Arcana < ApplicationRecord
         quest: 'クエスト報酬'
       }
     },
-    ring: {
-      name: 'リング系',
+    random: {
+      name: 'ガチャ系',
       details: {
-        trade: '交換',
-        random: 'ガチャ'
+        coin: 'アルカナコイン',
+        ring: 'リング'
       }
     },
     event: {
@@ -288,7 +278,10 @@ class Arcana < ApplicationRecord
             presence: true,
             length: { maximum: 100 }
   validates :title,
-            length: { maximum: 200 }
+            length: { maximum: 100 }
+  validates :arcana_type,
+            presence: true,
+            inclusion: { in: ARCANA_TYPES }
   validates :rarity,
             presence: true,
             inclusion: { in: RARITYS }
@@ -303,13 +296,13 @@ class Arcana < ApplicationRecord
             inclusion: { in: WEAPON_TYPES }
   validates :source_category,
             presence: true,
-            length: { maximum: 100 }
+            length: { maximum: 50 }
   validates :source,
             presence: true,
-            length: { maximum: 100 }
+            length: { maximum: 50 }
   validates :union,
             presence: true,
-            length: { maximum: 100 }
+            length: { maximum: 50 }
   validates :job_type,
             presence: true,
             inclusion: { in: JOB_TYPES }
@@ -319,7 +312,16 @@ class Arcana < ApplicationRecord
   validates :job_code,
             presence: true,
             uniqueness: true,
-            length: { maximum: 20 }
+            length: { maximum: 10 }
+  validates :job_detail,
+            presence: true,
+            length: { maximum: 50 }
+  validates :person_code,
+            presence: true,
+            length: { maximum: 10 }
+  validates :owner_code,
+            allow_nil: true,
+            length: { maximum: 10 }
   validates :max_atk,
             allow_nil: true,
             numericality: { only_integer: true }
@@ -332,16 +334,20 @@ class Arcana < ApplicationRecord
   validates :limit_hp,
             allow_nil: true,
             numericality: { only_integer: true }
-  validates :job_detail,
-            allow_nil: true,
-            length: { maximum: 50 }
 
-  def serialize
-    excepts = %w(voice_actor_id illustrator_id first_skill_id
-                 second_skill_id third_skill_id chain_ability_id
-                 first_ability_id second_ability_id weapon_ability_id)
+  def skill_for(order)
+    skills.find { |a| a.order == order }
+  end
+
+  def ability_for(atype)
+    abilities.find { |a| a.ability_type == atype }
+  end
+
+  def serialize # rubocop:disable Metrics/PerceivedComplexity
+    excepts = %w(id voice_actor_id illustrator_id created_at updated_at)
     ret = self.as_json(except: excepts)
 
+    ret['arcana_type'] = ARCANA_TYPE_NAMES.fetch(self.arcana_type.to_sym, '')
     ret['weapon_name'] = WEAPON_NAMES.fetch(self.weapon_type.to_sym, '')
     ret['job_name'] = JOB_NAMES.fetch(self.job_type.to_sym, '')
     ret['job_class'] = CLASS_NAMES.fetch(self.job_type.to_sym, '')
@@ -352,13 +358,24 @@ class Arcana < ApplicationRecord
 
     ret['voice_actor'] = (voice_actor ? voice_actor.name : '')
     ret['illustrator'] = (illustrator ? illustrator.name : '')
+
+    first_skill = skill_for(1)
     ret['first_skill'] = (first_skill ? first_skill.serialize : {})
+    second_skill = skill_for(2)
     ret['second_skill'] = (second_skill ? second_skill.serialize : {})
+    third_skill = skill_for(3)
     ret['third_skill'] = (third_skill ? third_skill.serialize : {})
+
+    first_ability = ability_for('1')
     ret['first_ability'] = (first_ability ? first_ability.serialize : {})
+    second_ability = ability_for('2')
     ret['second_ability'] = (second_ability ? second_ability.serialize : {})
-    ret['weapon_ability'] = (weapon_ability ? weapon_ability.serialize : {})
+    party_ability = ability_for('p')
+    ret['party_ability'] = (party_ability ? party_ability.serialize : {})
+    chain_ability = ability_for('c')
     ret['chain_ability'] = (chain_ability ? chain_ability.serialize : {})
+    weapon_ability = ability_for('w')
+    ret['weapon_ability'] = (weapon_ability ? weapon_ability.serialize : {})
 
     ret
   end

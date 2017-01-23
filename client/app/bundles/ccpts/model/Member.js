@@ -9,7 +9,7 @@ export default class Member {
   }
 
   chainedCost() {
-    let c = this.arcana.cost
+    const c = this.arcana.cost
     if (!this.chainArcana) {
       return c
     }

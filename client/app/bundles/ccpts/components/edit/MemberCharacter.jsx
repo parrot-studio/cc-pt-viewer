@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 import React from 'react'
 
 import ArcanaRenderer from './ArcanaRenderer'
@@ -7,12 +5,12 @@ import ArcanaRenderer from './ArcanaRenderer'
 export default class MemberCharacter extends ArcanaRenderer {
 
   renderMember() {
-    let m = this.props.member
+    const m = this.props.member
     if (!m) {
       return <div className='none summary-size arcana'></div>
     }
 
-    let a = m.arcana
+    const a = m.arcana
     return (
       <div className={`${a.jobClass} summary-size arcana`}
         ref={(div) => {

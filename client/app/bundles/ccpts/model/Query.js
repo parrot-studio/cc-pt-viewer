@@ -9,7 +9,7 @@ export default class Query {
   }
 
   static parse(q) {
-    let query = new Query()
+    const query = new Query()
     query.parse(q)
     return query
   }
@@ -43,13 +43,13 @@ export default class Query {
     let ret = {}
     let recently = false
     let name = null
-    let r = /\+/g
+    const r = /\+/g
     _.forEach(q.split("&"), (qs) => {
-      let ss = qs.split("=")
-      let n = ss[0]
-      let v = ss[1]
+      const ss = qs.split("=")
+      const n = ss[0]
+      const v = ss[1]
 
-      let val = decodeURIComponent(v).replace(r, ' ')
+      const val = decodeURIComponent(v).replace(r, ' ')
       if (_.eq(n, 'ver')) {
         return
       }
@@ -74,7 +74,7 @@ export default class Query {
       return
     }
     if (!_.isEmpty(name)) {
-      ret = {name: name}
+      ret = {name}
     }
     this.q = ret
     return this.q
@@ -105,9 +105,9 @@ export default class Query {
       query = {name: query.name}
     }
 
-    let rs = []
+    const rs = []
     _.forEach(query, (v, k) => {
-      rs.push(encodeURIComponent(k) + "=" + encodeURIComponent(v))
+      rs.push(`${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
     })
     return rs.join("&").replace(' ', "+")
   }
@@ -136,7 +136,7 @@ export default class Query {
   }
 
   createKey() {
-    let query = _.omit((this.q || {}), 'ver')
+    const query = _.omit((this.q || {}), 'ver')
     return ObjectHash(query)
   }
 }

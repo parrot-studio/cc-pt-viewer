@@ -1,7 +1,5 @@
-import _ from 'lodash'
-
 import React from 'react'
-import ReactBootstrap, { Button, ButtonToolbar } from 'react-bootstrap'
+import { Button, ButtonToolbar } from 'react-bootstrap'
 
 import RequestFormModal from '../concerns/RequestFormModal'
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactBootstrap, { Pagination } from 'react-bootstrap'
+import { Pagination } from 'react-bootstrap'
 
 export default class PagerArea extends React.Component {
 
@@ -8,7 +8,7 @@ export default class PagerArea extends React.Component {
   }
 
   render() {
-    let pager = this.props.pager
+    const pager = this.props.pager
     let cn = "pagination"
     if (this.props.phoneDevice) {
       cn += " pagination-sm"

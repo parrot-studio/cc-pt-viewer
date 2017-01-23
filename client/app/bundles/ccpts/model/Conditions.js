@@ -73,7 +73,7 @@ export default class Conditions {
     if (!name) {
       return null
     }
-    let rsl = _.find(__conditions.voiceactors, (v) => _.eq(v[1], name))
+    const rsl = _.find(__conditions.voiceactors, (v) => _.eq(v[1], name))
     if (!rsl) {
       return null
     }
@@ -84,8 +84,8 @@ export default class Conditions {
     if (!id) {
       return ''
     }
-    let num = parseInt(id)
-    let rsl = _.find(__conditions.voiceactors, (v) => _.eq(v[0], num))
+    const num = parseInt(id)
+    const rsl = _.find(__conditions.voiceactors, (v) => _.eq(v[0], num))
     if (!rsl) {
       return ''
     }
@@ -100,7 +100,7 @@ export default class Conditions {
     if (!name) {
       return null
     }
-    let rsl = _.find(__conditions.illustrators, (v) => _.eq(v[1], name))
+    const rsl = _.find(__conditions.illustrators, (v) => _.eq(v[1], name))
     if (!rsl) {
       return null
     }
@@ -111,8 +111,8 @@ export default class Conditions {
     if (!id) {
       return ''
     }
-    let num = parseInt(id)
-    let rsl = _.find(__conditions.illustrators, (v) => _.eq(v[0], num))
+    const num = parseInt(id)
+    const rsl = _.find(__conditions.illustrators, (v) => _.eq(v[0], num))
     if (!rsl) {
       return ''
     }

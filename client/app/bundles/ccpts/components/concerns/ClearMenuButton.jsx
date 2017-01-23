@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactBootstrap, { DropdownButton, MenuItem } from 'react-bootstrap'
+import { DropdownButton, MenuItem } from 'react-bootstrap'
 
 import Favorites from '../../model/Favorites'
 import QueryLogs from '../../model/QueryLogs'

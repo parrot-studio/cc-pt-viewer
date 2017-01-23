@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactBootstrap, { Alert } from 'react-bootstrap'
+import { Alert } from 'react-bootstrap'
 
 export default class NextVersionWarning extends React.Component {
 
@@ -17,7 +17,7 @@ export default class NextVersionWarning extends React.Component {
       return null
     }
 
-    let cc3Path = `${this.props.appPath}cc3`
+    const cc3Path = `${this.props.appPath}cc3`
     return (
       <div className="row">
         <div className="col-xs-12 col-sm-12 col-md-12">
@@ -25,7 +25,7 @@ export default class NextVersionWarning extends React.Component {
             closeLabel={"&times; Close"}
             onDismiss={this.handleAlertDismiss.bind(this)}>
             <p>
-              <i className="fa fa-info-circle"/> おしらせ：第3部への対応を進めております。<a href={`${cc3Path}`}>詳しくはこちらで</a>（2016/12/25更新）
+              <i className="fa fa-info-circle"/> おしらせ：第3部への対応を進めております。<a href={`${cc3Path}`}>詳しくはこちらで</a>（2017/1/24更新）
             </p>
           </Alert>
         </div>

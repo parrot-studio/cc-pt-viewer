@@ -2,7 +2,7 @@ import _ from 'lodash'
 import Bacon from 'baconjs'
 
 import React from 'react'
-import ReactBootstrap, { Nav, NavItem, Alert } from 'react-bootstrap'
+import { Nav, NavItem, Alert } from 'react-bootstrap'
 
 import Query from '../model/Query'
 import QueryLogs from '../model/QueryLogs'
@@ -12,6 +12,7 @@ import { Cookie } from '../lib/Cookie'
 
 import EditModeView from './edit/EditModeView'
 import EditTutorialArea from './edit/EditTutorialArea'
+import DisplaySizeWarning from './edit/DisplaySizeWarning'
 import DatabaseModeView from './database/DatabaseModeView'
 import LatestInfoArea from './concerns/LatestInfoArea'
 import ConditionView from './concerns/ConditionView'
@@ -23,12 +24,12 @@ export default class AppView extends React.Component {
   constructor(props) {
     super(props)
 
-    let mode = this.props.mode
-    let phoneDevice = this.props.phoneDevice
-    let queryStream = new Bacon.Bus()
-    let conditionStream = new Bacon.Bus()
-    let resultStream = new Bacon.Bus()
-    let arcanaViewStream = new Bacon.Bus()
+    const mode = this.props.mode
+    const phoneDevice = this.props.phoneDevice
+    const queryStream = new Bacon.Bus()
+    const conditionStream = new Bacon.Bus()
+    const resultStream = new Bacon.Bus()
+    const arcanaViewStream = new Bacon.Bus()
 
     let pagerSize = 8
     let recentlySize = 32
@@ -51,8 +52,8 @@ export default class AppView extends React.Component {
     QueryLogs.init()
     Favorites.init()
 
-    let recentlyQuery = Query.create({recently: recentlySize})
-    let searchStream = queryStream
+    const recentlyQuery = Query.create({recently: recentlySize})
+    const searchStream = queryStream
       .doAction(() => this.switchMainMode())
       .map((q) => Query.create(q))
       .map((q) => (q.isEmpty() ? recentlyQuery : q))
@@ -62,11 +63,11 @@ export default class AppView extends React.Component {
     resultStream.plug(searchStream)
 
     this.state = {
-      pagerSize: pagerSize,
-      queryStream: queryStream,
-      conditionStream: conditionStream,
-      resultStream: resultStream,
-      arcanaViewStream: arcanaViewStream,
+      pagerSize,
+      queryStream,
+      conditionStream,
+      resultStream,
+      arcanaViewStream,
       showConditionArea: false
     }
   }
@@ -128,7 +129,7 @@ export default class AppView extends React.Component {
       return false
     }
 
-    let ver = String(info.version)
+    const ver = String(info.version)
     if (_.isEmpty(ver)) {
       return false
     }
@@ -148,7 +149,7 @@ export default class AppView extends React.Component {
   }
 
   renderLatestInfo() {
-    let info = this.props.latestInfo
+    const info = this.props.latestInfo
     if (this.isShowLatestInfo(info)) {
       Cookie.set({'latest-info': info.version})
       return <LatestInfoArea latestInfo={info}/>
@@ -162,7 +163,7 @@ export default class AppView extends React.Component {
       return this.renderLatestInfo()
     }
 
-    let tutorial = Cookie.valueFor('tutorial')
+    const tutorial = Cookie.valueFor('tutorial')
     if (!tutorial) {
       Cookie.set({tutorial: true})
       return <EditTutorialArea/>
@@ -197,7 +198,6 @@ export default class AppView extends React.Component {
           queryStream={this.state.queryStream}
           resultStream={this.state.resultStream}
           arcanaViewStream={this.state.arcanaViewStream}/>
-        break
       case 'database':
         return <DatabaseModeView
           phoneDevice={this.props.phoneDevice}
@@ -208,7 +208,6 @@ export default class AppView extends React.Component {
           queryStream={this.state.queryStream}
           resultStream={this.state.resultStream}
           arcanaViewStream={this.state.arcanaViewStream}/>
-        break
     }
   }
 
@@ -217,8 +216,8 @@ export default class AppView extends React.Component {
       return null
     }
 
-    let rootPath = this.props.appPath
-    let dbPath = this.props.appPath + 'db'
+    const rootPath = this.props.appPath
+    const dbPath = `${this.props.appPath}db`
     return (
       <Nav bsStyle="tabs" justified activeKey={this.props.mode}>
         <NavItem eventKey="ptedit" href={rootPath}>{this.modeName("ptedit")}</NavItem>

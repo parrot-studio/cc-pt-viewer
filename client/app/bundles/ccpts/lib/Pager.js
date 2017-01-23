@@ -18,7 +18,7 @@ export default class Pager {
   }
 
   head() {
-    return (this.page - 1) * this.pageSize
+    return ((this.page - 1) * this.pageSize) + 1
   }
 
   tail() {
@@ -30,8 +30,8 @@ export default class Pager {
   }
 
   get() {
-    let h = this.head()
-    let t = this.tail()
+    const h = this.head() - 1
+    const t = this.tail()
     return _.slice(this.all, h, t)
   }
 

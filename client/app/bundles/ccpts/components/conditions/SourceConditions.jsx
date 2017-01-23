@@ -19,18 +19,14 @@ export default class SourceConditions extends React.Component {
   }
 
   renderSourceCategorys() {
-    let cs = _.map(this.conditions.sourceCategorys(), (c) => {
-      return <option value={c[0]} key={c[0]}>{c[1]}</option>
-    })
+    const cs = _.map(this.conditions.sourceCategorys(), (c) => <option value={c[0]} key={c[0]}>{c[1]}</option>)
     return _.concat([<option key="none" value={""}>{"-"}</option>], cs)
   }
 
   renderSourceOptions() {
-    let source = this.props.sourcecategory
+    const source = this.props.sourcecategory
     if (source) {
-      let ss = _.map(this.conditions.sourceTypesFor(source), (s) => {
-        return <option value={s[0]} key={s[0]}>{s[1]}</option>
-      })
+      const ss = _.map(this.conditions.sourceTypesFor(source), (s) => <option value={s[0]} key={s[0]}>{s[1]}</option>)
       return _.concat([<option value={""} key={""}>{"（全て）"}</option>], ss)
     } else {
       return <option value={""}>{"-"}</option>

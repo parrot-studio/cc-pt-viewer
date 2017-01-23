@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 import React from 'react'
-import ReactBootstrap, { Modal, Button, ButtonToolbar, DropdownButton, MenuItem } from 'react-bootstrap'
+import { DropdownButton, MenuItem } from 'react-bootstrap'
 
 import Searcher from '../../lib/Searcher'
 import Favorites from '../../model/Favorites'
@@ -15,8 +15,8 @@ export default class SearchMenuButton extends React.Component {
       querys: QueryLogs.querys
     }
 
-    QueryLogs.notifyStream.onValue(querys => {
-      this.setState({querys: querys})
+    QueryLogs.notifyStream.onValue((querys) => {
+      this.setState({querys})
     })
   }
 
@@ -36,14 +36,14 @@ export default class SearchMenuButton extends React.Component {
   }
 
   renderQueryLogs() {
-    let limit = (this.props.phoneDevice ? 20 : 30)
+    const limit = (this.props.phoneDevice ? 20 : 30)
 
-    let querys = this.state.querys
+    const querys = this.state.querys
     return _.map(_.zip(querys, _.range(querys.length)), (m) => {
-      let q = m[0]
+      const q = m[0]
       let text = q.detail || ""
       if (text.length > limit) {
-        text = text.slice(0, limit-3) + '...'
+        text = `${text.slice(0, limit-3)}...`
       }
       return (
         <MenuItem key={m[1]} onClick={this.search.bind(this, q.params())}>

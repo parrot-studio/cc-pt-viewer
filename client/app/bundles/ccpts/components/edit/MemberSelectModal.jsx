@@ -1,13 +1,13 @@
 import React from 'react'
-import ReactBootstrap, { Button, Modal, Label } from 'react-bootstrap'
+import { Button, Modal, Label } from 'react-bootstrap'
 
 import SummaryMember from './SummaryMember'
 
 export default class MemberSelectModal extends React.Component {
 
   renderLabels() {
-    let m = this.props.chainMember
-    let labels = []
+    const m = this.props.chainMember
+    const labels = []
 
     if (m.canUseChainAbility()) {
       labels.push(<Label key="c" bsStyle="success">絆アビリティ使用可能</Label>)

@@ -22,18 +22,14 @@ export default class AbilityConditions extends React.Component {
   }
 
   renderCategoryList() {
-    let cs = _.map(this.conditions.abilityCategorys(), (c) => {
-      return <option value={c[0]} key={c[0]}>{c[1]}</option>
-    })
+    const cs = _.map(this.conditions.abilityCategorys(), (c) => <option value={c[0]} key={c[0]}>{c[1]}</option>)
     return _.concat([<option value={""} key={""}>{"-"}</option>], cs)
   }
 
   renderConditionList() {
-    let category = this.props.abilitycategory
+    const category = this.props.abilitycategory
     if (category) {
-      let cs = _.map(this.conditions.abilityConditionsFor(category), (c) => {
-        return <option value={c[0]} key={c[0]}>{c[1]}</option>
-      })
+      const cs = _.map(this.conditions.abilityConditionsFor(category), (c) => <option value={c[0]} key={c[0]}>{c[1]}</option>)
       return _.concat([<option value={""} key={""}>{"（全て）"}</option>], cs)
     } else {
       return <option value={""}>{"-"}</option>
@@ -41,11 +37,9 @@ export default class AbilityConditions extends React.Component {
   }
 
   renderEffectList() {
-    let category = this.props.abilitycategory
+    const category = this.props.abilitycategory
     if (category) {
-      let cs = _.map(this.conditions.abilityEffectsFor(category), (c) => {
-        return <option value={c[0]} key={c[0]}>{c[1]}</option>
-      })
+      const cs = _.map(this.conditions.abilityEffectsFor(category), (c) => <option value={c[0]} key={c[0]}>{c[1]}</option>)
       return _.concat([<option value={""} key={""}>{"（全て）"}</option>], cs)
     } else {
       return <option value={""}>{"-"}</option>

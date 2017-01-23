@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactBootstrap, { Alert } from 'react-bootstrap'
+import { Alert } from 'react-bootstrap'
 
 export default class LatestInfoArea extends React.Component {
 
@@ -17,7 +17,7 @@ export default class LatestInfoArea extends React.Component {
       return null
     }
 
-    let info = this.props.latestInfo
+    const info = this.props.latestInfo
     return (
       <div className="row">
         <div className="col-xs-12 col-sm-12 col-md-12">

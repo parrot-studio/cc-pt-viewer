@@ -1,7 +1,6 @@
 import _ from 'lodash'
 
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 import Arcana from '../../model/Arcana'
 import Member from '../../model/Member'
@@ -34,15 +33,15 @@ export default class MemberAreaBody extends React.Component {
   }
 
   handleDropedArcana(orgKey, drag) {
-    let jobCode = drag.data('jobCode')
-    let swapKey = drag.data('memberKey')
+    const jobCode = drag.data('jobCode')
+    const swapKey = drag.data('memberKey')
     if (orgKey === swapKey) {
       return
     }
 
-    let party = this.props.party
-    let orgMember = party.memberFor(orgKey)
-    let target = new Member(Arcana.forCode(jobCode))
+    const party = this.props.party
+    const orgMember = party.memberFor(orgKey)
+    const target = new Member(Arcana.forCode(jobCode))
     if (swapKey) {
       target.memberKey = swapKey
       target.chainArcana = party.memberFor(swapKey).chainArcana
@@ -53,14 +52,14 @@ export default class MemberAreaBody extends React.Component {
       return
     }
 
-    let chainMember = new Member(orgMember.arcana)
+    const chainMember = new Member(orgMember.arcana)
     chainMember.chainArcana = Arcana.forCode(jobCode)
     chainMember.memberKey = orgKey
 
     this.setState({
       showSelectModal: true,
-      orgKey: orgKey,
-      chainMember: chainMember,
+      orgKey,
+      chainMember,
       replaceMember: target
     })
   }
@@ -75,23 +74,23 @@ export default class MemberAreaBody extends React.Component {
   }
 
   selectChain() {
-    let orgKey = this.state.orgKey
-    let chainMember = this.state.chainMember
-    let party = this.props.party
+    const orgKey = this.state.orgKey
+    const chainMember = this.state.chainMember
+    const party = this.props.party
     party.addMember(orgKey, chainMember)
     this.props.partyStream.push(party)
     this.closeModal()
   }
 
   selectReplace() {
-    let orgKey = this.state.orgKey
-    let replaceMember = this.state.replaceMember
+    const orgKey = this.state.orgKey
+    const replaceMember = this.state.replaceMember
     this.replaceMemberArea(orgKey, replaceMember)
     this.closeModal()
   }
 
   replaceMemberArea(orgKey, target) {
-    let party = this.props.party
+    const party = this.props.party
     if (target.memberKey && orgKey !== "friend") {
       party.swap(orgKey, target.memberKey)
     } else {
@@ -102,20 +101,20 @@ export default class MemberAreaBody extends React.Component {
 
   removeMember(code, e) {
     e.preventDefault()
-    let party = this.props.party
+    const party = this.props.party
     party.removeMember(code)
     this.props.partyStream.push(party)
   }
 
   removeChain(code, e) {
     e.preventDefault()
-    let party = this.props.party
+    const party = this.props.party
     party.removeChain(code)
     this.props.partyStream.push(party)
   }
 
   renderMembers() {
-    let list = [
+    const list = [
       ["mem1", "Leader"],
       ["mem2", "2nd"],
       ["mem3", "3rd"],
@@ -125,13 +124,13 @@ export default class MemberAreaBody extends React.Component {
       ["friend", "Friend"]
     ]
 
-    let party = this.props.party
+    const party = this.props.party
     return _.map(list, (l) => {
-      let code = l[0]
+      const code = l[0]
       return (
         <li className="col-xs-6 col-sm-3 col-md-3 member-list" key={code}
           ref={(div) => {
-            this.addDropHandler(ReactDOM.findDOMNode(div), code)
+            this.addDropHandler(div, code)
           }}>
           <MemberCharacter
             code={code}

@@ -22,18 +22,14 @@ export default class ChainAbilityConditions extends React.Component {
   }
 
   renderCategoryList() {
-    let cs = _.map(this.conditions.chainAbirityCategorys(), (c) => {
-      return <option value={c[0]} key={c[0]}>{c[1]}</option>
-    })
+    const cs = _.map(this.conditions.chainAbirityCategorys(), (c) => <option value={c[0]} key={c[0]}>{c[1]}</option>)
     return _.concat([<option value={""} key={""}>{"-"}</option>], cs)
   }
 
   renderConditionList() {
-    let category = this.props.chainabilitycategory
+    const category = this.props.chainabilitycategory
     if (category) {
-      let cs = _.map(this.conditions.chainAbirityConditionsFor(category), (c) => {
-        return <option value={c[0]} key={c[0]}>{c[1]}</option>
-      })
+      const cs = _.map(this.conditions.chainAbirityConditionsFor(category), (c) => <option value={c[0]} key={c[0]}>{c[1]}</option>)
       return _.concat([<option value={""} key={""}>{"（全て）"}</option>], cs)
     } else {
       return <option value={""}>{"-"}</option>
@@ -41,11 +37,9 @@ export default class ChainAbilityConditions extends React.Component {
   }
 
   renderEffectList() {
-    let category = this.props.chainabilitycategory
+    const category = this.props.chainabilitycategory
     if (category) {
-      let cs = _.map(this.conditions.chainAbirityEffectsFor(category), (c) => {
-        return <option value={c[0]} key={c[0]}>{c[1]}</option>
-      })
+      const cs = _.map(this.conditions.chainAbirityEffectsFor(category), (c) => <option value={c[0]} key={c[0]}>{c[1]}</option>)
       return _.concat([<option value={""} key={""}>{"（全て）"}</option>], cs)
     } else {
       return <option value={""}>{"-"}</option>

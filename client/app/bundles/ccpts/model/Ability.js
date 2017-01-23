@@ -8,15 +8,13 @@ export default class Ability {
     this.weaponName = (data.weaponName  || '')
     this.effects = []
     if (!_.isEmpty(data.effects)){
-      this.effects = _.map(data.effects, (e) => {
-        return {
-          category: e.category,
-          condition: e.condition,
-          effect: e.effect,
-          target: e.target,
-          note: (e.note || '')
-        }
-      })
+      this.effects = _.map(data.effects, (e) => ({
+        category: e.category,
+        condition: e.condition,
+        effect: e.effect,
+        target: e.target,
+        note: (e.note || '')
+      }))
     }
   }
 }

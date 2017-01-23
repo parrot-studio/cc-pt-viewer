@@ -1,10 +1,12 @@
+import _ from 'lodash'
+
 import React from 'react'
-import ReactBootstrap, { Modal, Button } from 'react-bootstrap'
+import { Modal, Button } from 'react-bootstrap'
 
 export default class WikiLinkModal extends React.Component {
 
   renderLinkButton() {
-    let a = this.props.viewArcana
+    const a = this.props.viewArcana
     let btnName = ""
     if (_.isEmpty(a.wikiName)) {
       btnName = "Wikiで最新情報を確認する"

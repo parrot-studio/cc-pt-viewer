@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 import React from 'react'
-import ReactBootstrap, { Button, ButtonToolbar, DropdownButton, MenuItem } from 'react-bootstrap'
+import { Button, ButtonToolbar, DropdownButton, MenuItem } from 'react-bootstrap'
 
 import Party from '../../model/Party'
 import Parties from '../../model/Parties'
@@ -20,7 +20,7 @@ export default class MemberAreaHeader extends React.Component {
     }
 
     Parties.notifyStream.onValue((parties) => {
-      this.setState({parties: parties})
+      this.setState({parties})
     })
 
     this.closeResetModal = this.closeResetModal.bind(this)
@@ -57,9 +57,9 @@ export default class MemberAreaHeader extends React.Component {
   }
 
   renderParties() {
-    let ps = this.state.parties
+    const ps = this.state.parties
     return _.map(_.zip(ps, _.range(ps.length)), (p) => {
-      let pt = p[0]
+      const pt = p[0]
       return (
         <MenuItem key={p[1]} onClick={this.reloadMembers.bind(this, pt.code)}>
           {pt.comment}

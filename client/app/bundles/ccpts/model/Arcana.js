@@ -4,16 +4,16 @@ import Skill from './Skill'
 import Ability from './Ability'
 
 const __arcana_JOB_NAME_SHORT = {
-    'F': '戦',
-    'K': '騎',
-    'A': '弓',
-    'M': '魔',
-    'P': '僧'
+  'F': '戦',
+  'K': '騎',
+  'A': '弓',
+  'M': '魔',
+  'P': '僧'
 }
 
 const __arcana_WIKI_URL = 'http://xn--eckfza0gxcvmna6c.gamerch.com/'
 
-let __arcanas = {}
+const __arcanas = {}
 
 export default class Arcana {
 
@@ -25,7 +25,7 @@ export default class Arcana {
     if (!d){
       return null
     }
-    let a = new Arcana(d)
+    const a = new Arcana(d)
     if (!a) {
       return null
     }
@@ -62,6 +62,8 @@ export default class Arcana {
     this.sourceCategory = data.source_category
     this.source = data.source
     this.jobDetail = data.job_detail
+    this.personCode = data.person_code
+    this.ownerCode = data.owner_code
 
     this.maxAtk = (data.max_atk || '-')
     this.maxHp = (data.max_hp || '-')
@@ -79,6 +81,7 @@ export default class Arcana {
     this.secondAbility = new Ability(data.second_ability)
     this.weaponAbility = new Ability(data.weapon_ability)
     this.chainAbility = new Ability(data.chain_ability)
+    this.partyAbility = new Ability(data.party_ability)
 
     if (_.eq(this.title, '（調査中）')) {
       this.wikiName = ''
@@ -99,29 +102,7 @@ export default class Arcana {
     if (!a || !b) {
       return false
     }
-    // 名前が違うけど同一人物
-    // セガサターンとスケルトンセガサターン
-    if (_.eq(a.jobCode, 'M83') && _.eq(b.jobCode, 'M186')) {
-      return true
-    }
-    if (_.eq(a.jobCode, 'M186') && _.eq(b.jobCode, 'M83')) {
-      return true
-    }
-    // ほむら
-    if (_.eq(a.jobCode, 'M191') && _.eq(b.jobCode, 'M193')) {
-      return true
-    }
-    if (_.eq(a.jobCode, 'M193') && _.eq(b.jobCode, 'M191')) {
-      return true
-    }
-    // コラボキャラとオリジナルキャラの組み合わせはチェックしない
-    if (_.eq(a.union, '旅人') && !_.eq(b.union, '旅人')) {
-      return false
-    }
-    if (!_.eq(a.union, '旅人') && _.eq(b.union, '旅人')) {
-      return false
-    }
-    return _.eq(a.name, b.name)
+    return _.eq(a.personCode, b.personCode)
   }
 
   static sameArcana(a, b) {

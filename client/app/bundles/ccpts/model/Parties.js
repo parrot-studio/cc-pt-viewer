@@ -8,18 +8,18 @@ const __parties_DEFAULT_MEMBER_CODE = 'V2F82F85K51NA38NP28NP24NNNNN'
 const __parties_COOKIE_NAME_LIST = 'parties'
 const __parties_COOKIE_NAME_LAST = 'last-members'
 
-let __parties_notifyStream = new Bacon.Bus()
+const __parties_notifyStream = new Bacon.Bus()
 
 export default class Parties {
 
   static setListCookie(code) {
-    let cs = {}
+    const cs = {}
     cs[__parties_COOKIE_NAME_LIST] = code
     Cookie.set(cs)
   }
 
   static setLastCookie(code) {
-    let cs = {}
+    const cs = {}
     cs[__parties_COOKIE_NAME_LAST] = code
     Cookie.set(cs)
   }
@@ -43,7 +43,7 @@ export default class Parties {
   }
 
   static addParty(party, comment) {
-    let code = party.createCode()
+    const code = party.createCode()
     if (_.isEmpty(code)) {
       return
     }
@@ -52,16 +52,16 @@ export default class Parties {
       comment = comment.substr(0, 10)
     }
 
-    let data = {
-      code: code,
-      comment: comment
+    const data = {
+      code,
+      comment
     }
     Parties.parties = _.chain(_.flatten([data, Parties.parties]))
-      .uniqBy(pt => pt.code)
+      .uniqBy((pt) => pt.code)
       .take(__parties_PT_SIZE)
       .value()
 
-    let val = JSON.stringify(Parties.parties)
+    const val = JSON.stringify(Parties.parties)
     Parties.setListCookie(val)
     __parties_notifyStream.push(Parties.parties)
     return Parties.parties
@@ -70,7 +70,7 @@ export default class Parties {
   static init() {
     Parties.parties = []
     try {
-      let val = Cookie.valueFor(__parties_COOKIE_NAME_LIST) || ''
+      const val = Cookie.valueFor(__parties_COOKIE_NAME_LIST) || ''
       if (!_.isEmpty(val)) {
         Parties.parties = JSON.parse(val)
       }

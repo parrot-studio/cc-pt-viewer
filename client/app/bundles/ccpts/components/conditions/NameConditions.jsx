@@ -18,9 +18,7 @@ export default class NameConditions extends React.Component {
   }
 
   renderConditionList(list) {
-    let cs = _.map(list, (c) => {
-      return <option value={c[0]} key={c[0]}>{c[1]}</option>
-    })
+    const cs = _.map(list, (c) => <option value={c[0]} key={c[0]}>{c[1]}</option>)
     return _.concat([<option value={""} key={""}>{"-"}</option>], cs)
   }
 

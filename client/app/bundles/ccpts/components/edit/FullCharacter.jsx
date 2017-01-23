@@ -8,7 +8,7 @@ import SummaryMember from './SummaryMember'
 export default class FullCharacter extends ArcanaRenderer {
 
   renderMember() {
-    let m = this.props.member
+    const m = this.props.member
 
     if (this.props.phoneDevice) {
       return (
@@ -23,7 +23,7 @@ export default class FullCharacter extends ArcanaRenderer {
       return <div className='none full-size arcana'></div>
     }
 
-    let a = m.arcana
+    const a = m.arcana
     return (
       <div className={`${a.jobClass} full-size arcana`}>
         <div className={`${a.jobClass}-title arcana-title small`}>

@@ -23,7 +23,6 @@
 #  index_skill_effects_on_category                  (category)
 #  index_skill_effects_on_category_and_subcategory  (category,subcategory)
 #  index_skill_effects_on_skill_id                  (skill_id)
-#  index_skill_effects_on_subcategory               (subcategory)
 #  index_skill_effects_on_subeffect1                (subeffect1)
 #  index_skill_effects_on_subeffect2                (subeffect2)
 #  index_skill_effects_on_subeffect3                (subeffect3)

@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactBootstrap, { Modal, Button, ButtonToolbar } from 'react-bootstrap'
+import { Modal, Button, ButtonToolbar } from 'react-bootstrap'
 
 import Searcher from '../../lib/Searcher'
 
@@ -14,12 +14,12 @@ export default class RequestFormModal extends React.Component {
   }
 
   handleChange(e) {
-    let text = e.target.value.substr(0, 100)
+    const text = e.target.value.substr(0, 100)
     this.setState({requestText: text})
   }
 
   twitterUrl() {
-    let text = `@parrot_studio ${this.state.requestText}`
+    const text = `@parrot_studio ${this.state.requestText}`
     let url = "https://twitter.com/intent/tweet"
     url += `?text=${encodeURIComponent(text)}`
     url += "&hashtags=ccpts"
@@ -29,7 +29,7 @@ export default class RequestFormModal extends React.Component {
   sendForm(e) {
     e.preventDefault()
 
-    let text = this.state.requestText
+    const text = this.state.requestText
     if (text.length <= 0) {
       window.alert("メッセージを入力してください")
       return

@@ -11,17 +11,15 @@ import AppView from './components/AppView'
 $(() => {
   fastclick.attach(document.body)
 
-  $(document).on('keypress', (e) => {
-    return !(e.which === 13 || e.keyCode === 13)
-  })
+  $(document).on('keypress', (e) => !(e.which === 13 || e.keyCode === 13))
 
-  let mode = $("#mode").val()
-  let appPath = $("#app-path").val()
-  let aboutPath = $("#about-path").val()
-  let ptm = $("#ptm").val() || ''
-  let ptver = $("#pt-ver").val() || ''
-  let dataver = $("#data-ver").val() || ''
-  let phoneDevice = (window.innerWidth < 768 ? true : false)
+  const mode = $("#mode").val()
+  const appPath = $("#app-path").val()
+  const aboutPath = $("#about-path").val()
+  const ptm = $("#ptm").val() || ''
+  const ptver = $("#pt-ver").val() || ''
+  const dataver = $("#data-ver").val() || ''
+  const phoneDevice = (window.innerWidth < 768 ? true : false)
 
   if ((mode === 'ptedit') && phoneDevice && _.isEmpty(ptm)) {
     window.location.href = `${appPath}db`
@@ -42,13 +40,13 @@ $(() => {
     ReactDOM.render(
       React.createElement(AppView,
         {
-          mode: mode,
-          phoneDevice: phoneDevice,
-          appPath: appPath,
-          aboutPath: aboutPath,
+          mode,
+          phoneDevice,
+          appPath,
+          aboutPath,
           latestInfo: Conditions.latestInfo(),
-          ptm: ptm,
-          ptver: ptver
+          ptm,
+          ptver
         }),
       document.getElementById('app-view')
     )

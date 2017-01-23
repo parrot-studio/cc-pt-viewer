@@ -97,14 +97,21 @@ class ArcanaCache
       illustrator_id_table[name]
     end
 
+    def chain_ability_ids
+      with_object_cache("chain_ability:#{ServerSettings.data_version}") do
+        Ability.chain_abilities.pluck(:id)
+      end
+    end
+
     def rebuild
       clear
       conditions
-      Arcana.all.each { |a| update_cache(a) }
+      Arcana.with_tables.each { |a| update_cache(a) }
       voice_actor_name_table
       voice_actor_id_table
       illustrator_name_table
       illustrator_id_table
+      chain_ability_ids
       recently
     end
 

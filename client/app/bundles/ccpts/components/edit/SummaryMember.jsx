@@ -4,8 +4,8 @@ import ArcanaRenderer from './ArcanaRenderer'
 
 export default class SummaryMember extends ArcanaRenderer {
   render () {
-    let m = this.props.member
-    let a = m.arcana
+    const m = this.props.member
+    const a = m.arcana
 
     return (
       <div className={`${a.jobClass} ${this.props.view} summary-size arcana`}>

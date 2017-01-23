@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 import React from 'react'
-import ReactBootstrap, { Button } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 
 import ResultView from '../concerns/ResultView'
 import NameSearchForm from '../concerns/NameSearchForm'
@@ -35,7 +35,7 @@ export default class DatabaseTableArea extends ResultView {
   }
 
   fadeTable() {
-    let table = $(this.refs.arcanaTable)
+    const table = $(this.refs.arcanaTable)
     table.hide()
     table.fadeIn("fast")
   }
@@ -43,7 +43,7 @@ export default class DatabaseTableArea extends ResultView {
   handleSort(col, e) {
     e.stopPropagation()
 
-    let orgOrder = this.state.sortOrder[col]
+    const orgOrder = this.state.sortOrder[col]
     let order = ""
     if (orgOrder) {
       order = (orgOrder === "desc" ? "asc" : "desc")
@@ -51,12 +51,12 @@ export default class DatabaseTableArea extends ResultView {
       order = (this.sortOrderDefault[col] || "desc")
     }
 
-    let pager = this.state.pager
+    const pager = this.state.pager
     pager.sort(col, order)
     pager.jumpPage(1)
 
     this.setState({
-      pager: pager,
+      pager,
       sortOrder: {[col]: order},
     })
   }
@@ -67,27 +67,25 @@ export default class DatabaseTableArea extends ResultView {
   }
 
   renderSortIcon(col) {
-    let order = this.state.sortOrder[col]
+    const order = this.state.sortOrder[col]
     switch (order) {
       case "asc":
         return (<i className='fa fa-sort-amount-asc active'/>)
-        break
       case "desc":
         return (<i className='fa fa-sort-amount-desc active'/>)
-        break
       default:
         return (<i className='fa fa-sort'/>)
     }
   }
 
   renderTableHeader() {
-    let mainCols = [
+    const mainCols = [
       ["名前", "name"],
       ["職", ""],
       ["★", ""]
     ]
 
-    let exCols = [
+    const exCols = [
       ["コスト", "cost"],
       ["武器", ""],
       ["最大ATK", "maxAtk"],
@@ -104,7 +102,7 @@ export default class DatabaseTableArea extends ResultView {
       cols = mainCols.concat(exCols)
     }
 
-    let cs = _.map(cols, (col) => {
+    const cs = _.map(cols, (col) => {
       if (col[1]) {
         return (
           <th className="sortable" key={col[1]}
@@ -128,14 +126,14 @@ export default class DatabaseTableArea extends ResultView {
   }
 
   renderArcanas() {
-    let phone = this.props.phoneDevice
+    const phone = this.props.phoneDevice
     return _.map(this.state.pager.get(), (a) => {
       let cost = ""
       if (phone) {
         cost = (<span className='badge badge-sm pull-right' key={`${a.jobCode}.header.cost`}>{`${a.cost}  ( ${a.chainCost} )`}</span>)
       }
 
-      let body = []
+      const body = []
       body.push(
         <td className='arcana-header' key={`${a.jobCode}.header`}>
           <div className={a.jobClass}>

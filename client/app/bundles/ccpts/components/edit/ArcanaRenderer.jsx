@@ -1,11 +1,11 @@
 import _ from 'lodash'
 
 import React from 'react'
-import ReactBootstrap, { Button } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 
 export default class ArcanaRenderer extends React.Component {
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     if (!_.isUndefined(this.props.member)) {
       if (this.isSameMember(this.props.member, nextProps.member)){
         return false
@@ -69,7 +69,7 @@ export default class ArcanaRenderer extends React.Component {
       return
     }
 
-    let d = $(this._div)
+    const d = $(this._div)
     d.attr("data-job-code", code)
     if (k){
       d.attr("data-member-key", k)
@@ -92,10 +92,10 @@ export default class ArcanaRenderer extends React.Component {
   }
 
   renderSkill(a) {
-    let s1 = a.firstSkill
-    let s2 = a.secondSkill
-    let s3 = a.thirdSkill
-    let maxLength = 17
+    const s1 = a.firstSkill
+    const s2 = a.secondSkill
+    const s3 = a.thirdSkill
+    const maxLength = 17
 
     let render = s1.name
     if (s2 && !_.isEmpty(s2.name)) {
@@ -158,12 +158,12 @@ export default class ArcanaRenderer extends React.Component {
   }
 
   renderChainAbility(m, type) {
-    let c = m.chainArcana
+    const c = m.chainArcana
     if (!c) {
       return `（${m.arcana.chainAbility.name}）`
     }
 
-    let render = []
+    const render = []
     let key = 0
 
     switch (type) {

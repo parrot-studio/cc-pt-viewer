@@ -12,14 +12,14 @@ export default class ResultView extends React.Component {
       searchDetail: "",
     }
 
-    this.props.resultStream.onValue(result => {
+    this.props.resultStream.onValue((result) => {
       if (result.reload) {
-        let pager = Pager.create(this.state.pager.all, this.props.pagerSize)
-        this.setState({pager: pager})
+        const pager = Pager.create(this.state.pager.all, this.props.pagerSize)
+        this.setState({pager})
       } else {
-        let pager = Pager.create(result.arcanas, this.props.pagerSize)
+        const pager = Pager.create(result.arcanas, this.props.pagerSize)
         this.setState({
-          pager: pager,
+          pager,
           sortOrder: {},
           searchDetail: result.detail
         })
@@ -29,15 +29,15 @@ export default class ResultView extends React.Component {
   }
 
   changePage(page) {
-    let pager = this.state.pager
+    const pager = this.state.pager
     pager.jumpPage(page)
-    this.setState({pager: pager})
+    this.setState({pager})
   }
 
   renderPageCount() {
-    let pager = this.state.pager
+    const pager = this.state.pager
     if (pager.size > 0){
-      return `（${pager.head() + 1} - ${pager.tail() + 1} / ${pager.size}件）`
+      return `（${pager.head()} - ${pager.tail()} / ${pager.size}件）`
     } else {
       return "（0件）"
     }
