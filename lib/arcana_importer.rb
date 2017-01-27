@@ -362,6 +362,8 @@ class ArcanaImporter
         raise "effect undefined =>  #{abi.name} #{effect.category} #{effect.effect}" unless effcheck
         condcheck = AbilityEffect::CATEGORYS.fetch(effect.category.to_sym, {}).fetch(:condition, {}).fetch(effect.condition.to_sym, nil)
         raise "condition undefined =>  #{abi.name} #{effect.category} #{effect.condition}" unless condcheck
+        targetcheck = AbilityEffect::CATEGORYS.fetch(effect.category.to_sym, {}).fetch(:target, {}).fetch(effect.target.to_sym, nil)
+        raise "target undefined =>  #{abi.name} #{effect.category} #{effect.target}" unless targetcheck
 
         output_warning "warning : #{arcana.name} - #{abi.name}(#{abi.ability_type}) : #{effect.changes}" if effect.changed?
         abi.ability_effects << effect if effect.new_record?

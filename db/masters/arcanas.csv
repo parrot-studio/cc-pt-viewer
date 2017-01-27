@@ -1267,7 +1267,7 @@ SC-3000,F,254,collaboration,,,薙刀の撫子,4,12,3,Sl,collaboration,hardgirls,相沢 
 ,,,,,,,,,,,,,,,,,,,,
 フィーナ,P,92,first,P24,,年代記を持つ少女,4,12,3,He,event,other,佐倉 綾音,チェンクロ・フィルムパートナーズ/工藤昌史,volunteers,Chronicler,,,,
 ,,,,,,,,,,,,,,,,,,,,
-# ストーリー追加1/12,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,
 エメライン＆フラット,K,162,third,,,赤銅の小さな翼,5,18,4,Sl,third,guildtown3,村川 梨衣,武城にしき,guildtown,Fighter,7500,7700,9500,9700
 ,,,,,,,,,,,,,,,,,,,,
@@ -1286,5 +1286,11 @@ SC-3000,F,254,collaboration,,,薙刀の撫子,4,12,3,Sl,collaboration,hardgirls,相沢 
 ノワール,A,159,collaboration,,,怪盗団の御令嬢,4,15,3,Sh,collaboration,persona5,戸松 遥,副島成記/アトラス,others,The Empress,6000,3600,7800,5400
 モナ,P,93,collaboration,,,怪盗団の先導役,4,15,3,Sl,collaboration,persona5,大谷 育江,副島成記/アトラス,others,The Magician,5250,4400,7050,6200
 ナビ,P,94,collaboration,,,怪盗団の天才ハッカー,4,15,3,He,collaboration,persona5,悠木 碧,副島成記/アトラス,others,The Hermit,5300,3700,7100,5500
+,,,,,,,,,,,,,,,,,,,,
+# ストーリー追加1/26,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,
+ヒトリ,M,213,third,,,忘れられた陽炎の民,5,18,4,Pu,third,volcano3,遠藤 綾,村山竜大,volcano,Hioni,6900,4200,8900,6200
+,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,
 #end,,,,,,,,,,,,,,,,,,,,

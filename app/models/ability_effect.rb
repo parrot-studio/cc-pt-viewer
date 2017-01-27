@@ -29,25 +29,148 @@ class AbilityEffect < ApplicationRecord
   scope :only_chain, -> { where(ability_id: Ability.chain_ability_ids) }
 
   CATEGORYS = {
+    buff_self: {
+      name: '自分を強化',
+      effect: {
+        aup: '攻撃力上昇',
+        dup: '防御力上昇',
+        sup: '移動速度上昇',
+        cup: 'クリティカル率上昇',
+        rup: 'クリティカルダメージ上昇',
+        adup: '攻撃力/防御力上昇',
+        asup: '攻撃力/移動速度上昇',
+        dsup: '防御力/移動速度上昇',
+        acup: '攻撃力/クリティカル率上昇',
+        dcup: '防御力/クリティカル率上昇',
+        scup: '移動速度/クリティカル率上昇',
+        arup: '攻撃力/クリティカルダメージ上昇',
+        srup: '移動速度/クリティカルダメージ上昇',
+        crup: 'クリティカル率/クリティカルダメージ上昇',
+        adsup: '攻撃力/防御力/移動速度上昇',
+        adcup: '攻撃力/防御力/クリティカル率上昇',
+        ascup: '攻撃力/移動速度/クリティカル率上昇',
+        acrup: '攻撃力/クリティカル率/クリティカルダメージ上昇',
+        dcrup: '防御力/クリティカル率/クリティカルダメージ上昇',
+        scrup: '移動速度/クリティカル率/クリティカルダメージ上昇',
+        adsrup: '攻撃力/防御力/移動速度/クリティカルダメージ上昇',
+        ascrup: '攻撃力/移動速度/クリティカル率/クリティカルダメージ上昇',
+        guardup: '遠距離ダメージカット上昇',
+        delayoff: '攻撃速度上昇',
+        maxhpup: '最大HP増加',
+        guard_fire: '火属性を軽減する',
+        guard_ice: '氷属性を軽減する',
+        areaup: '回復範囲増加',
+        healup: '回復効果上昇',
+        healareaup: '回復範囲/効果上昇',
+        areashift: '回復範囲移動',
+        healdelayoff: '回復後の硬直時間減少',
+        poison_atkup: '毒ダメージ上昇',
+        blind_boost: '暗闇の効果延長',
+        registup: '魔法ダメージ軽減',
+        invisible: '見えなくなる（遠距離無効）',
+        single_shoot: '単発射撃',
+        bullet_speedup: '弾速上昇',
+        rapid_shoot: '弾数増加',
+        barrier: 'バリアを張る',
+        skill_once: '一度だけスキルが使える',
+        mana_cost_down: 'スキルの消費マナ低下',
+        super_skill: '超必殺技使用可能'
+      },
+      condition: {
+        any: 'いつでも',
+        hp_upto: 'HPが一定以上の時',
+        hp_downto: 'HPが一定以下の時',
+        hp_full: 'HPが満タンの時',
+        attack: '通常攻撃時',
+        heal: '回復した時',
+        in_move: '移動中',
+        in_pierce: '貫通した時',
+        link: '複数で一緒に攻撃した時',
+        guard: 'ガードした時',
+        waiting: '何もしていない間',
+        staying: '移動していない間',
+        counter: 'カウンター発生時',
+        wave_start: '各WAVE開始時',
+        boss_wave: 'BOSS WAVE時',
+        with_f: '戦士がいる時',
+        with_k: '騎士がいる時',
+        with_a: '弓使いがいる時',
+        with_p: '僧侶がいる時',
+        with_m: '魔法使いがいる時',
+        with_fa: '戦＋弓がいる時',
+        with_sl: '<<斬>>がいる時',
+        with_bl: '<<打>>がいる時',
+        with_pi: '<<突>>がいる時',
+        with_ar: '<<弓>>がいる時',
+        with_ma: '<<魔>>がいる時',
+        with_he: '<<聖>>がいる時',
+        with_pu: '<<拳>>がいる時',
+        with_gu: '<<銃>>がいる時',
+        with_sh: '<<狙>>がいる時',
+        with_forest: '所属：精霊島がいる時',
+        with_volcano: '所属：九領がいる時',
+        with_beasts: '所属：ケ者がいる時',
+        same_abilities: '同じアビリティを持った味方がいる時',
+        combat: '近接戦闘時',
+        in_head: '先頭にいる時',
+        in_front: '仲間より前にいる時',
+        in_enemy_area: '敵陣にいる時',
+        in_enemy_back: '敵陣の奥にいる時',
+        in_base_area: '自陣にいる時',
+        in_rear: '仲間より後ろにいる時',
+        in_tail: '一番後ろにいる時',
+        in_back: '一番後列にいる時',
+        in_combo: '攻撃を一定回数当てた時',
+        in_attacking: '攻撃を継続している時',
+        in_attack: '攻撃を当てた時',
+        in_invisible: '姿を消している時',
+        own_skill: '自分がスキルを使った時',
+        others_skill: '味方がスキルを使った時',
+        skill_hit: 'スキルが当たる毎に',
+        in_chain: 'チェイン発動中',
+        mana_charged: 'マナが多いほど',
+        mana_lost: 'マナが少ないほど',
+        mana_droped: 'マナを獲得した時',
+        mana_empty: 'マナがない時',
+        mana_mixed: 'マナの種類が多いほど',
+        use_mana: 'マナが使用された時',
+        scrap_charged: 'スクラップが多いほど',
+        has_mana: '特定のマナを保持している時',
+        dropout_member: '味方が脱落した時',
+        dropout_self: '自身が脱落した時',
+        members_debuff: '味方に状態異常が多いほど',
+        enemys_debuff: '敵に状態異常が多いほど',
+        super_gauge_max: '超必殺技ゲージがMAXの時',
+        add_debuff: '状態異常を付与した時',
+        after_move: '一定距離を移動した時',
+        in_awakening: '覚醒ゲージがMAXの時'
+      },
+      target: {
+        self: '自分'
+      }
+    },
     buff_all: {
       name: '全体を強化',
       effect: {
-        atkup: '攻撃力上昇',
-        defup: '防御力上昇',
-        speedup: '移動速度上昇',
-        atkdefup: '攻撃力/防御力上昇',
-        atkspeedup: '攻撃力/移動速度上昇',
-        defspeedup: '防御力/移動速度上昇',
-        fullup: '攻撃力/防御力/移動速度上昇',
-        critup: 'クリティカル率上昇',
-        critdamup: 'クリティカル率/クリティカルダメージ上昇',
-        super_gauge_gain: '超必殺技ゲージ上昇',
-        add_shield_break: '盾破壊付与'
+        aup: '攻撃力上昇',
+        dup: '防御力上昇',
+        sup: '移動速度上昇',
+        cup: 'クリティカル率上昇',
+        adup: '攻撃力/防御力上昇',
+        asup: '攻撃力/移動速度上昇',
+        dsup: '防御力/移動速度上昇',
+        acup: '攻撃力/クリティカル率上昇',
+        dcup: '防御力/クリティカル率上昇',
+        scup: '移動速度/クリティカル率上昇',
+        crup: 'クリティカル率/クリティカルダメージ上昇',
+        adsup: '攻撃力/防御力/移動速度上昇',
+        adcup: '攻撃力/防御力/クリティカル率上昇',
+        acrup: '攻撃力/クリティカル率/クリティカルダメージ上昇',
+        super_gauge_gain: '超必殺技ゲージ上昇'
       },
       condition: {
         any: 'いつでも',
         in_sub: 'サブパーティーにいる時',
-        union: '特定の構成の時',
         wave_start: '各WAVE開始時',
         own_skill: '自分がスキルを使った時',
         others_skill: '味方がスキルを使った時',
@@ -57,62 +180,196 @@ class AbilityEffect < ApplicationRecord
         mana_slot_many: 'マナスロットが多いほど',
         kill: '敵を倒した時',
         super_gauge_max: '超必殺技ゲージがMAXの時'
+      },
+      target: {
+        all: '全員'
       }
     },
     buff_others: {
       name: '自分以外の全体を強化',
       effect: {
-        atkup: '攻撃力上昇',
-        defup: '防御力上昇',
-        speedup: '移動速度上昇',
-        atkdefup: '攻撃力/防御力上昇',
-        atkspeedup: '攻撃力/移動速度上昇',
-        fullup: '攻撃力/防御力/移動速度上昇',
-        critup: 'クリティカル率上昇'
+        aup: '攻撃力上昇',
+        dup: '防御力上昇',
+        sup: '移動速度上昇',
+        cup: 'クリティカル率上昇',
+        adup: '攻撃力/防御力上昇',
+        asup: '攻撃力/移動速度上昇',
+        acup: '攻撃力/クリティカル率上昇',
+        adsup: '攻撃力/防御力/移動速度上昇'
       },
       condition: {
         any: 'いつでも',
         wave_start: '各WAVE開始時'
+      },
+      target: {
+        all: '全員',
+        job_f: '戦士',
+        job_k: '騎士',
+        job_a: '弓使い',
+        job_m: '魔法使い',
+        job_fk: '戦/騎',
+        job_fa: '戦/弓',
+        job_fm: '戦/魔',
+        job_kahm: '騎/弓/僧/魔'
       }
     },
     buff_jobs: {
-      name: '特定の職全体を強化',
+      name: '特定の職を強化',
       effect: {
-        atkup: '攻撃力上昇',
-        defup: '防御力上昇',
-        speedup: '移動速度上昇',
-        atkdefup: '攻撃力/防御力上昇',
-        atkspeedup: '攻撃力/移動速度上昇',
-        defspeedup: '防御力/移動速度上昇',
-        fullup: '攻撃力/防御力/移動速度上昇',
-        critup: 'クリティカル率上昇',
-        crdamup: 'クリティカルダメージ上昇',
-        add_down: '対象の攻撃にダウンを付与',
+        aup: '攻撃力上昇',
+        dup: '防御力上昇',
+        sup: '移動速度上昇',
+        cup: 'クリティカル率上昇',
+        rup: 'クリティカルダメージ上昇',
+        adup: '攻撃力/防御力上昇',
+        asup: '攻撃力/移動速度上昇',
+        dsup: '防御力/移動速度上昇',
+        acup: '攻撃力/クリティカル率上昇',
+        scup: '移動速度/クリティカル率上昇',
+        adsup: '攻撃力/防御力/移動速度上昇',
+        ascup: '攻撃力/移動速度/クリティカル率上昇',
         add_slow: '対象の攻撃にスロウを付与',
-        add_poison: '対象の攻撃に毒を付与',
         barrier: 'バリアを張る'
       },
       condition: {
         any: 'いつでも',
-        union: '特定の構成の時',
+        with_f: '戦士がいる時',
+        with_k: '騎士がいる時',
+        with_a: '弓使いがいる時',
+        with_m: '魔法使いがいる時',
+        with_fk: '戦＋騎がいる時',
+        with_fa: '戦＋弓がいる時',
+        with_fm: '戦＋魔がいる時',
+        with_kh: '騎＋僧がいる時',
+        with_ap: '弓＋僧がいる時',
+        with_kap: '騎＋弓＋僧がいる時',
         wave_start: '各WAVE開始時',
         in_sub: 'サブパーティーにいる時'
+      },
+      target: {
+        job_f: '戦士',
+        job_k: '騎士',
+        job_a: '弓使い',
+        job_h: '僧侶',
+        job_m: '魔法使い',
+        job_fk: '戦/騎',
+        job_fa: '戦/弓',
+        job_fm: '戦/魔',
+        job_ka: '騎/弓',
+        job_kh: '騎/僧',
+        job_km: '騎/魔',
+        job_ah: '弓/僧',
+        job_am: '弓/魔',
+        job_fkh: '戦/騎/僧',
+        job_fah: '戦/弓/僧',
+        job_fkah: '戦/騎/弓/僧'
       }
     },
     buff_weapons: {
-      name: '特定の武器タイプ全体を強化',
+      name: '特定の武器タイプを強化',
       effect: {
-        atkup: '攻撃力上昇',
-        defup: '防御力上昇',
-        speedup: '移動速度上昇',
-        atkdefup: '攻撃力/防御力上昇',
-        atkspeedup: '攻撃力/移動速度上昇',
-        fullup: '攻撃力/防御力/移動速度上昇',
-        critup: 'クリティカル率上昇'
+        aup: '攻撃力上昇',
+        dup: '防御力上昇',
+        sup: '移動速度上昇',
+        cup: 'クリティカル率上昇',
+        adup: '攻撃力/防御力上昇',
+        asup: '攻撃力/移動速度上昇',
+        acup: '攻撃力/クリティカル率上昇',
+        scup: '移動速度/クリティカル率上昇',
+        adsup: '攻撃力/防御力/移動速度上昇'
       },
       condition: {
         any: 'いつでも',
-        union: '特定の構成の時'
+        with_f: '戦士がいる時',
+        with_a: '弓使いがいる時'
+      },
+      target: {
+        weapon_sl: '<<斬>>',
+        weapon_bl: '<<打>>',
+        weapon_pi: '<<突>>',
+        weapon_ar: '<<弓>>',
+        weapon_ma: '<<魔>>',
+        weapon_pu: '<<拳>>',
+        weapon_gu: '<<銃>>',
+        weapon_sh: '<<狙>>',
+        weapon_slma: '<<斬/魔>>',
+        weapon_blpi: '<<打/突>>'
+      }
+    },
+    buff_group: {
+      name: '特定の所属を強化',
+      effect: {
+        aup: '攻撃力上昇',
+        dup: '防御力上昇',
+        sup: '移動速度上昇',
+        cup: 'クリティカル率上昇',
+        adup: '攻撃力/防御力上昇',
+        asup: '攻撃力/移動速度上昇',
+        acup: '攻撃力/クリティカル率上昇',
+        scup: '移動速度/クリティカル率上昇',
+        adsup: '攻撃力/防御力/移動速度上昇',
+        adcup: '攻撃力/防御力/クリティカル率上昇',
+        adscup: '攻撃力/防御力/移動速度上昇/クリティカル率上昇',
+        add_down: '対象の攻撃にダウンを付与',
+        add_slow: '対象の攻撃にスロウを付与',
+        add_poison: '対象の攻撃に毒を付与',
+        add_shield_break: '盾破壊付与'
+      },
+      condition: {
+        group_guildtown: '副都所属',
+        group_holytown: '聖都所属',
+        group_academy: '賢者の塔所属',
+        group_mountain: '迷宮山脈所属',
+        group_oasis: '湖都所属',
+        group_forest: '精霊島所属',
+        group_volcano: '九領所属',
+        group_beasts: 'ケ者所属',
+        group_criminal: '罪の大陸所属',
+        group_machine: '鉄煙所属',
+        group_chronicle: '年代記所属',
+        group_remless: 'レムレス島所属',
+        group_demon: '魔神所属',
+        group_sakurawar: '華劇団所属',
+        group_others: '旅人所属'
+      },
+      target: {
+        all: '全員',
+        job_f: '戦士',
+        job_k: '騎士',
+        job_m: '魔法使い',
+        job_fk: '戦/騎',
+        job_fa: '戦/弓',
+        job_fm: '戦/魔',
+        job_am: '弓/魔',
+        weapon_argush: '<<弓/銃/狙>>'
+      }
+    },
+    buff_one: {
+      name: '誰か一人を強化',
+      effect: {
+        aup: '攻撃力上昇',
+        dup: '防御力上昇',
+        sup: '移動速度上昇',
+        cup: 'クリティカル率上昇',
+        adup: '攻撃力/防御力上昇',
+        asup: '攻撃力/移動速度上昇',
+        dsup: '防御力/移動速度上昇',
+        scup: '移動速度/クリティカル率上昇',
+        adsup: '攻撃力/防御力/移動速度上昇',
+        adcup: '攻撃力/防御力/クリティカル率上昇',
+        adscup: '攻撃力/防御力/移動速度上昇/クリティカル率上昇',
+        barrier: 'バリアを張る'
+      },
+      condition: {
+        wave_start: '各WAVE開始時'
+      },
+      target: {
+        hp_worst: '一番ダメージが大きい対象',
+        random: 'ランダム',
+        other: '他者',
+        job_f: '戦士',
+        job_k: '騎士',
+        job_a: '弓使い'
       }
     },
     skillup: {
@@ -132,23 +389,32 @@ class AbilityEffect < ApplicationRecord
         mana_lost: 'マナが少ないほど',
         guard: 'ガードした時',
         scrap_charged: 'スクラップが多いほど'
+      },
+      target: {
+        self: '自分'
       }
     },
     killup: {
       name: '倒すたびに自分を強化',
       effect: {
-        atkup: '攻撃力上昇',
-        defup: '防御力上昇',
-        speedup: '移動速度上昇',
-        atkdefup: '攻撃力/防御力上昇',
-        atkspeedup: '攻撃力/移動速度上昇',
-        defspeedup: '防御力/移動速度上昇',
-        critup: 'クリティカル率上昇',
-        critdamup: 'クリティカル率/クリティカルダメージ上昇'
+        aup: '攻撃力上昇',
+        dup: '防御力上昇',
+        sup: '移動速度上昇',
+        cup: 'クリティカル率上昇',
+        adup: '攻撃力/防御力上昇',
+        asup: '攻撃力/移動速度上昇',
+        dsup: '防御力/移動速度上昇',
+        acup: '攻撃力/クリティカル率上昇',
+        crup: 'クリティカル率/クリティカルダメージ上昇',
+        adcup: '攻撃力/防御力/クリティカル率上昇',
+        ascup: '攻撃力/移動速度/クリティカル率上昇'
       },
       condition: {
         kill: '敵を倒した時',
         kill_debuff: '状態異常の敵を倒した時'
+      },
+      target: {
+        self: '自分'
       }
     },
     element: {
@@ -160,6 +426,9 @@ class AbilityEffect < ApplicationRecord
       condition: {
         attack: '通常攻撃時',
         skill: 'スキル使用時'
+      },
+      target: {
+        self: '自分'
       }
     },
     heal: {
@@ -189,7 +458,12 @@ class AbilityEffect < ApplicationRecord
         in_sub: 'サブパーティーにいる時',
         skill: 'スキル使用時',
         others_skill: '味方がスキルを使った時',
-        union: '特定の構成の時',
+        with_f: '戦士がいる時',
+        with_k: '騎士がいる時',
+        with_a: '弓使いがいる時',
+        with_p: '僧侶がいる時',
+        with_gu: '<<銃>>がいる時',
+        with_sh: '<<狙>>がいる時',
         link: '複数で一緒に攻撃した時',
         dropout_self: '自身が脱落した時',
         dropout_member: '味方が脱落した時',
@@ -200,6 +474,18 @@ class AbilityEffect < ApplicationRecord
         use_mana: 'マナが使用された時',
         kill: '敵を倒した時',
         super_gauge_max: '超必殺技ゲージがMAXの時'
+      },
+      target: {
+        self: '自分',
+        all: '全員',
+        hp_worst: '一番ダメージが大きい対象',
+        lv_worst: '一番レベルが低い対象',
+        other: '他者',
+        job_f: '戦士',
+        job_k: '騎士',
+        job_fk: '戦/騎',
+        weapon_sl: '<<斬>>',
+        weapon_blpi: '<<打/突>>'
       }
     },
     add_debuff: {
@@ -231,6 +517,9 @@ class AbilityEffect < ApplicationRecord
         add_slow: 'スロウを与えた時',
         add_down: 'ダウンさせた時',
         add_curse: '呪いを与えた時'
+      },
+      target: {
+        enemy: '敵'
       }
     },
     against_debuff: {
@@ -258,13 +547,16 @@ class AbilityEffect < ApplicationRecord
       },
       condition: {
         any: 'いつでも'
+      },
+      target: {
+        self: '自分'
       }
     },
     for_debuff: {
       name: '状態異常の敵に強い',
       effect: {
-        atkup: '攻撃力上昇',
-        atkdefup: '攻撃力/防御力上昇'
+        aup: '攻撃力上昇',
+        adup: '攻撃力/防御力上昇'
       },
       condition: {
         for_poison: '敵が毒の時',
@@ -274,18 +566,21 @@ class AbilityEffect < ApplicationRecord
         for_freeze: '敵が凍結の時',
         for_curse: '敵が呪いの時',
         for_weaken: '敵が衰弱の時'
+      },
+      target: {
+        self: '自分'
       }
     },
     in_debuff: {
       name: '状態異常時強化',
       effect: {
-        atkup: '攻撃力上昇',
-        defup: '防御力上昇',
-        speedup: '移動速度上昇',
-        atkdefup: '攻撃力/防御力上昇',
-        atkspeedup: '攻撃力/移動速度上昇',
-        defspeedup: '防御力/移動速度上昇',
-        critup: 'クリティカル率上昇'
+        aup: '攻撃力上昇',
+        dup: '防御力上昇',
+        sup: '移動速度上昇',
+        cup: 'クリティカル率上昇',
+        adup: '攻撃力/防御力上昇',
+        asup: '攻撃力/移動速度上昇',
+        dsup: '防御力/移動速度上昇'
       },
       condition: {
         in_poison: '毒状態の時',
@@ -295,6 +590,10 @@ class AbilityEffect < ApplicationRecord
         in_weaken: '衰弱状態の時',
         in_seal: '封印状態の時',
         in_debuff: '状態異常の時'
+      },
+      target: {
+        self: '自分',
+        all: '全員'
       }
     },
     cure_debuff: {
@@ -313,14 +612,19 @@ class AbilityEffect < ApplicationRecord
         skill: 'スキル使用時',
         wave_start: '各WAVE開始時',
         use_mana: 'マナが使用された時'
+      },
+      target: {
+        self: '自分',
+        all: '全員',
+        job_k: '騎士'
       }
     },
     killer: {
       name: '特定の敵に強い',
       effect: {
-        atkup: '攻撃力上昇',
-        defup: '防御力上昇',
-        atkdefup: '攻撃力/防御力上昇'
+        aup: '攻撃力上昇',
+        dup: '防御力上昇',
+        adup: '攻撃力/防御力上昇'
       },
       condition: {
         vs_human: '人間に対して',
@@ -340,6 +644,9 @@ class AbilityEffect < ApplicationRecord
         vs_machine: '機械に対して',
         vs_giant: '巨人に対して',
         vs_white: '白き異形に対して'
+      },
+      target: {
+        self: '自分'
       }
     },
     mana: {
@@ -350,10 +657,8 @@ class AbilityEffect < ApplicationRecord
         mana_drop: 'マナを落とす',
         slot_slow: 'マナスロットが遅くなる',
         composite: '複合マナ出現',
-        mana_cost_down: 'スキルの消費マナ低下',
         recycle_scrap: 'スクラップをマナに変換',
-        destroy_scrap: 'スクラップを破壊',
-        super_gauge_gain: '超必殺技ゲージ上昇'
+        destroy_scrap: 'スクラップを破壊'
       },
       condition: {
         any: 'いつでも',
@@ -365,18 +670,23 @@ class AbilityEffect < ApplicationRecord
         boss_wave: 'BOSS WAVE時',
         own_skill: '自分がスキルを使った時',
         wave_span: '一定WAVE進むごとに'
+      },
+      target: {
+        resource: ''
       }
     },
     field: {
       name: '特定のフィールドに強い',
       effect: {
-        atkup: '攻撃力上昇',
-        speedup: '移動速度上昇',
-        atkdefup: '攻撃力/防御力上昇',
-        atkspeedup: '攻撃力/移動速度上昇',
-        defspeedup: '防御力/移動速度上昇',
-        fullup: '攻撃力/防御力/移動速度上昇',
-        critup: 'クリティカル率上昇'
+        aup: '攻撃力上昇',
+        sup: '移動速度上昇',
+        cup: 'クリティカル率上昇',
+        adup: '攻撃力/防御力上昇',
+        asup: '攻撃力/移動速度上昇',
+        acup: '攻撃力/クリティカル率上昇',
+        dsup: '防御力/移動速度上昇',
+        adsup: '攻撃力/防御力/移動速度上昇',
+        adcup: '攻撃力/防御力/クリティカル率上昇'
       },
       condition: {
         in_town: '街中で戦闘時',
@@ -395,6 +705,10 @@ class AbilityEffect < ApplicationRecord
         in_prison: '監獄で戦闘時',
         in_night: '夜間に戦闘時',
         in_dimension: '異空間で戦闘時'
+      },
+      target: {
+        self: '自分',
+        all: '全員'
       }
     },
     combat: {
@@ -404,6 +718,9 @@ class AbilityEffect < ApplicationRecord
       },
       condition: {
         attack: '通常攻撃時'
+      },
+      target: {
+        self: '自分'
       }
     },
     pierce: {
@@ -416,6 +733,9 @@ class AbilityEffect < ApplicationRecord
         kill: '敵を倒した時',
         skill: 'スキル使用時',
         in_combo: '攻撃を一定回数当てた時'
+      },
+      target: {
+        enemy: '敵'
       }
     },
     counter: {
@@ -428,6 +748,9 @@ class AbilityEffect < ApplicationRecord
       condition: {
         defend: '攻撃を受けた時',
         guard: 'ガードした時'
+      },
+      target: {
+        enemy: '敵'
       }
     },
     invincible: {
@@ -437,6 +760,9 @@ class AbilityEffect < ApplicationRecord
       },
       condition: {
         dropout_self: '自身が脱落した時'
+      },
+      target: {
+        self: '自分'
       }
     },
     resource: {
@@ -450,110 +776,9 @@ class AbilityEffect < ApplicationRecord
       condition: {
         battle_start: '戦闘開始時',
         battle_end: '戦闘終了時'
-      }
-    },
-    buff_one: {
-      name: '誰か一人を強化',
-      effect: {
-        atkup: '攻撃力上昇',
-        defup: '防御力上昇',
-        speedup: '移動速度上昇',
-        atkdefup: '攻撃力/防御力上昇',
-        atkspeedup: '攻撃力/移動速度上昇',
-        defspeedup: '防御力/移動速度上昇',
-        fullup: '攻撃力/防御力/移動速度上昇',
-        critup: 'クリティカル率上昇',
-        barrier: 'バリアを張る'
       },
-      condition: {
-        wave_start: '各WAVE開始時'
-      }
-    },
-    buff_self: {
-      name: '自分を強化（その他）',
-      effect: {
-        atkup: '攻撃力上昇',
-        defup: '防御力上昇',
-        speedup: '移動速度上昇',
-        atkdefup: '攻撃力/防御力上昇',
-        atkspeedup: '攻撃力/移動速度上昇',
-        defspeedup: '防御力/移動速度上昇',
-        fullup: '攻撃力/防御力/移動速度上昇',
-        critup: 'クリティカル率上昇',
-        crdamup: 'クリティカルダメージ上昇',
-        critdamup: 'クリティカル率/クリティカルダメージ上昇',
-        guardup: '遠距離ダメージカット上昇',
-        delayoff: '攻撃速度上昇',
-        maxhpup: '最大HP増加',
-        guard_fire: '火属性を軽減する',
-        guard_ice: '氷属性を軽減する',
-        areaup: '回復範囲増加',
-        healup: '回復効果上昇',
-        healareaup: '回復範囲/効果上昇',
-        areashift: '回復範囲移動',
-        healdelayoff: '回復後の硬直時間減少',
-        poison_atkup: '毒ダメージ上昇',
-        blind_boost: '暗闇の効果延長',
-        registup: '魔法ダメージ軽減',
-        invisible: '見えなくなる（遠距離無効）',
-        single_shoot: '単発射撃',
-        bullet_speedup: '弾速上昇',
-        rapid_shoot: '弾数増加',
-        barrier: 'バリアを張る',
-        skill_once: '一度だけスキルが使える',
-        super_skill: '超必殺技使用可能'
-      },
-      condition: {
-        any: 'いつでも',
-        hp_upto: 'HPが一定以上の時',
-        hp_downto: 'HPが一定以下の時',
-        hp_full: 'HPが満タンの時',
-        attack: '通常攻撃時',
-        heal: '回復した時',
-        in_move: '移動中',
-        in_pierce: '貫通した時',
-        link: '複数で一緒に攻撃した時',
-        guard: 'ガードした時',
-        waiting: '何もしていない間',
-        staying: '移動していない間',
-        counter: 'カウンター発生時',
-        wave_start: '各WAVE開始時',
-        boss_wave: 'BOSS WAVE時',
-        union: '特定の構成の時',
-        weapon: '特定の武器を持った味方がいる時',
-        same_abilities: '同じアビリティを持った味方がいる時',
-        combat: '近接戦闘時',
-        in_head: '先頭にいる時',
-        in_front: '仲間より前にいる時',
-        in_enemy_area: '敵陣にいる時',
-        in_enemy_back: '敵陣の奥にいる時',
-        in_base_area: '自陣にいる時',
-        in_rear: '仲間より後ろにいる時',
-        in_tail: '一番後ろにいる時',
-        in_back: '一番後列にいる時',
-        in_combo: '攻撃を一定回数当てた時',
-        in_attacking: '攻撃を継続している時',
-        in_attack: '攻撃を当てた時',
-        in_invisible: '姿を消している時',
-        own_skill: '自分がスキルを使った時',
-        others_skill: '味方がスキルを使った時',
-        skill_hit: 'スキルが当たる毎に',
-        mana_charged: 'マナが多いほど',
-        mana_lost: 'マナが少ないほど',
-        mana_droped: 'マナを獲得した時',
-        mana_empty: 'マナがない時',
-        mana_mixed: 'マナの種類が多いほど',
-        use_mana: 'マナが使用された時',
-        scrap_charged: 'スクラップが多いほど',
-        has_mana: '特定のマナを保持している時',
-        dropout_member: '味方が脱落した時',
-        dropout_self: '自身が脱落した時',
-        members_debuff: '味方に状態異常が多いほど',
-        enemys_debuff: '敵に状態異常が多いほど',
-        super_gauge_max: '超必殺技ゲージがMAXの時',
-        add_debuff: '状態異常を付与した時',
-        after_move: '一定距離を移動した時',
-        in_awakening: '覚醒ゲージがMAXの時'
+      target: {
+        resource: ''
       }
     },
     unknown: {
@@ -579,6 +804,14 @@ class AbilityEffect < ApplicationRecord
     ret = {}
     CATEGORYS.values.each do |v|
       ret.merge!(v.fetch(:condition, {}))
+    end
+    ret
+  end.call.freeze
+
+  TARGETS = lambda do
+    ret = {}
+    CATEGORYS.values.each do |v|
+      ret.merge!(v.fetch(:target, {}))
     end
     ret
   end.call.freeze
@@ -610,36 +843,30 @@ class AbilityEffect < ApplicationRecord
     ret
   end.call.freeze
 
-  TARGETS = {
-    all: '全員',
-    archer: '弓使い',
-    enemy: '敵',
-    fighter: '戦士',
-    healer: '僧侶',
-    hp_worst: '一番ダメージが大きい対象',
-    jobs: '特定の職',
-    knight: '騎士',
-    lv_worst: '一番レベルが低い対象',
-    magician: '魔法使い',
-    other: '他者',
-    priest: '僧侶',
-    random: 'ランダム',
-    resource: '',
-    self: '自分',
-    weapons: '特定の武器タイプ'
-  }.freeze
+  TARGET_CONDS = lambda do
+    ret = {}
+    CATEGORYS.each do |k, v|
+      next if k == :unknown
+      ret[k] = v.fetch(:target, {}).to_a
+    end
+    ret
+  end.call.freeze
+
+  BUFF_TYPES = lambda do
+    CATEGORYS[:buff_self][:effect].keys.select { |k| k.match(/\A[a|d|s|c|r]+up\z/) }.map(&:to_s)
+  end.call
 
   EFFECT_GROUP = {
-    atkup: %w(atkdefup atkspeedup fullup),
-    defup: %w(atkdefup defspeedup fullup),
-    speedup: %w(atkspeedup defspeedup fullup),
-    critup: ['critdamup'],
-    crdamup: ['critdamup'],
+    aup: BUFF_TYPES.select { |s| s.match(/a/) },
+    dup: BUFF_TYPES.select { |s| s.match(/d/) },
+    sup: BUFF_TYPES.select { |s| s.match(/s/) },
+    cup: BUFF_TYPES.select { |s| s.match(/c/) },
+    rup: BUFF_TYPES.select { |s| s.match(/r/) },
     areaup: %w(healareaup areashift),
-    healup: ['healareaup'],
-    atkdown: ['fulldown'],
-    defdown:  ['fulldown'],
-    speeddown: ['fulldown'],
+    healup: %w(healareaup),
+    atkdown: %w(atkdefdown atkspeeddown fulldown),
+    defdown:  %w(atkdefdown defspeeddown fulldown),
+    speeddown: %w(atkspeeddown defspeeddown fulldown),
     guard_blind: ['guard_all'],
     guard_curse: ['guard_all'],
     guard_down: ['guard_all'],
@@ -654,7 +881,9 @@ class AbilityEffect < ApplicationRecord
     cure_poison: ['cure_all'],
     cure_seal: ['cure_all'],
     cure_slow: ['cure_all'],
-    cure_weaken: ['cure_all']
+    cure_weaken: ['cure_all'],
+    cure_curse: ['cure_all'],
+    cure_down: ['cure_all']
   }.freeze
 
   class << self

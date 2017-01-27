@@ -121,7 +121,7 @@ class Arcana < ApplicationRecord
     criminal: '罪の大陸',
     life: '薄命',
     machine: '鉄煙',
-    chronicle: '年代記の大陸',
+    chronicle: '年代記',
     remless: 'レムレス島',
     volunteers: '義勇軍',
     demon: '魔神',
