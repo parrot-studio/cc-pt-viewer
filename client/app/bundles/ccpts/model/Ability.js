@@ -4,7 +4,6 @@ export default class Ability {
 
   constructor(data) {
     this.name = (data.name || '')
-    this.explanation = (data.explanation  || '')
     this.weaponName = (data.weaponName  || '')
     this.effects = []
     if (!_.isEmpty(data.effects)){

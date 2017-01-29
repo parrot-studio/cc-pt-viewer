@@ -63,12 +63,14 @@ export default class Arcana {
     this.source = data.source
     this.jobDetail = data.job_detail
     this.personCode = data.person_code
-    this.ownerCode = data.owner_code
+    this.linkCode = data.link_code
+    this.arcanaType = data.arcana_type
 
     this.maxAtk = (data.max_atk || '-')
     this.maxHp = (data.max_hp || '-')
     this.limitAtk = (data.limit_atk || '-')
     this.limitHp = (data.limit_hp || '-')
+    this.wikiLinkName = data.wiki_link_name
 
     this.firstSkill = new Skill(data.first_skill)
     if (!_.isEmpty(data.second_skill)) {
@@ -83,18 +85,10 @@ export default class Arcana {
     this.chainAbility = new Ability(data.chain_ability)
     this.partyAbility = new Ability(data.party_ability)
 
-    if (_.eq(this.title, '（調査中）')) {
-      this.wikiName = ''
-    } else if (_.eq(this.jobCode, 'F82')) {
-      this.wikiName = "主人公（第2部）"
-    } else {
-      this.wikiName = `${this.title}${this.name}`
-    }
-
-    if (_.isEmpty(this.wikiName)) {
+    if (_.isEmpty(this.wikiLinkName)) {
       this.wikiUrl = __arcana_WIKI_URL
     } else {
-      this.wikiUrl = __arcana_WIKI_URL + encodeURIComponent(this.wikiName)
+      this.wikiUrl = __arcana_WIKI_URL + encodeURIComponent(this.wikiLinkName)
     }
   }
 
@@ -120,5 +114,12 @@ export default class Arcana {
       return false
     }
     return true
+  }
+
+  isBuddy() {
+    if (_.eq(this.arcanaType, 'buddy')) {
+      return true
+    }
+    return false
   }
 }

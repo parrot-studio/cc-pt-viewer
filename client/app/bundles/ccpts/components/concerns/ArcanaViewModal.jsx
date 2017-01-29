@@ -50,9 +50,14 @@ export default class ArcanaViewModal extends React.Component {
       return <li key={t[1]}>{`${multi}${ef.category} - ${ef.subcategory}${sv}`}</li>
     })
 
+    let cost = sk.cost
+    if (_.isInteger(cost) && cost < 1) {
+      cost = '-'
+    }
+
     return (
       <div key={ind}>
-        {sk.name}（{sk.cost}）
+        {sk.name}（{cost}）
         <ul className='small list-unstyled ability-detail'>
           {ss}
         </ul>
@@ -103,6 +108,30 @@ export default class ArcanaViewModal extends React.Component {
     )
   }
 
+  renderFirstAbility() {
+    const a = this.props.viewArcana
+    if (a.firstAbility && !_.isEmpty(a.firstAbility.effects)) {
+      return ([
+        <dt key="a1dt">アビリティ1</dt>,
+        <dd key="a1dd">{this.renderAbility(a.firstAbility)}</dd>
+      ])
+    } else {
+      return null
+    }
+  }
+
+  renderSecondAbility() {
+    const a = this.props.viewArcana
+    if (a.secondAbility && !_.isEmpty(a.secondAbility.effects)) {
+      return ([
+        <dt key="a2dt">アビリティ2</dt>,
+        <dd key="a2dd">{this.renderAbility(a.secondAbility)}</dd>
+      ])
+    } else {
+      return null
+    }
+  }
+
   renderPartyAbility() {
     const a = this.props.viewArcana
     if (a.partyAbility && !_.isEmpty(a.partyAbility.effects)) {
@@ -127,6 +156,27 @@ export default class ArcanaViewModal extends React.Component {
     }
   }
 
+  renderChainAbility() {
+    const a = this.props.viewArcana
+    if (a.chainAbility && !_.isEmpty(a.chainAbility.effects)) {
+      return ([
+        <dt key="cdt">絆アビリティ</dt>,
+        <dd key="cdd">{this.renderAbility(a.chainAbility)}</dd>
+      ])
+    } else {
+      return null
+    }
+  }
+
+  renderCost() {
+    const a = this.props.viewArcana
+    if (a.isBuddy()) {
+      return 'Buddy'
+    } else {
+      return `${a.cost} ( ${a.chainCost} )`
+    }
+  }
+
   renderArcanaView() {
     const a = this.props.viewArcana
 
@@ -140,7 +190,7 @@ export default class ArcanaViewModal extends React.Component {
           <div className={`arcana ${a.jobClass}`}>
             <div className={`arcana-title ${a.jobClass}-title`}>
               {`${a.jobName} : ${a.rarityStars}`}
-              <Badge pullRight={true}>{`${a.cost} ( ${a.chainCost} )`}</Badge>
+              <Badge pullRight={true}>{this.renderCost()}</Badge>
             </div>
             <div className='arcana-view-body'>
               <h4 className='arcana-name'>
@@ -184,14 +234,11 @@ export default class ArcanaViewModal extends React.Component {
                   <dl className='small arcana-view-detail'>
                     <dt>スキル</dt>
                     <dd>{this.renderSkill()}</dd>
-                    <dt>アビリティ1</dt>
-                    <dd>{this.renderAbility(a.firstAbility)}</dd>
-                    <dt>アビリティ2</dt>
-                    <dd>{this.renderAbility(a.secondAbility)}</dd>
+                    {this.renderFirstAbility()}
+                    {this.renderSecondAbility()}
                     {this.renderPartyAbility()}
                     {this.renderWeaponAbility()}
-                    <dt>絆アビリティ</dt>
-                    <dd>{this.renderAbility(a.chainAbility)}</dd>
+                    {this.renderChainAbility()}
                   </dl>
                 </div>
                 <div className='col-xs-12 col-sm-12 col-md-12'>

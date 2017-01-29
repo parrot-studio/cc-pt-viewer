@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170107022601) do
+ActiveRecord::Schema.define(version: 20170129010624) do
 
   create_table "abilities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
     t.integer  "arcana_id",                null: false
@@ -59,13 +59,14 @@ ActiveRecord::Schema.define(version: 20170107022601) do
     t.string   "source",          limit: 50,              null: false
     t.string   "union",           limit: 20,              null: false
     t.string   "person_code",     limit: 10,              null: false
-    t.string   "owner_code",      limit: 10
+    t.string   "link_code",       limit: 10
     t.integer  "max_atk"
     t.integer  "max_hp"
     t.integer  "limit_atk"
     t.integer  "limit_hp"
     t.integer  "voice_actor_id",              default: 0, null: false
     t.integer  "illustrator_id",              default: 0, null: false
+    t.string   "wiki_name",       limit: 50,              null: false
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
     t.index ["arcana_type"], name: "index_arcanas_on_arcana_type", using: :btree

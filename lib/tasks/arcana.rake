@@ -14,16 +14,19 @@ namespace :arcana do
 
   desc 'Wiki access Test'
   task wikitest: :environment do
-    Arcana.all.each do |a|
-      sleep 3
-      wikiname = "#{a.title}#{a.name}"
-      uri = URI.join('http://xn--eckfza0gxcvmna6c.gamerch.com', ERB::Util.url_encode(wikiname))
-      res = Net::HTTP.get_response(uri)
-      case res
-      when Net::HTTPOK
+    count = Arcana.count
+    reg = %r|\AHTTP/1.1 200 OK|
+
+    Arcana.all.each.with_index(1) do |a, i|
+      sleep 2
+      uri = URI.join('https://xn--eckfza0gxcvmna6c.gamerch.com', ERB::Util.url_encode(a.wiki_link_name))
+      res = `curl -I -s #{uri}`
+
+      if res.match(reg)
+        puts "now: #{i}/#{count}" if i % 50 == 0
         next
       else
-        puts "access failed => #{wikiname}"
+        puts "access failed => #{a.wiki_link_name}"
       end
     end
   end

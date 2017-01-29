@@ -148,7 +148,7 @@ class ArcanaImporter
     arcana_type = data[3]
     person = data[4]
     person = code if person.blank?
-    owner = data[5]
+    link = data[5]
     title = data[6].gsub(/"""/, '"')
     rarity = data[7].to_i
     cost = data[8].to_i
@@ -164,13 +164,15 @@ class ArcanaImporter
     mhp = data[18].to_i
     latk = data[19].to_i
     lhp = data[20].to_i
+    wikiname = data[21].to_s
 
     arcana = Arcana.find_by(job_code: code) || Arcana.new
     arcana.name = name
     arcana.title = title
     arcana.arcana_type = arcana_type
+    raise "arcana_type not found => #{arcana.name} #{arcana.arcana_type}" unless Arcana::ARCANA_TYPE_NAMES.key?(arcana.arcana_type.to_sym)
     arcana.person_code = person
-    arcana.owner_code = owner
+    arcana.link_code = link
     arcana.rarity = rarity
     arcana.cost = cost
     arcana.chain_cost = chain_cost
@@ -192,6 +194,7 @@ class ArcanaImporter
     arcana.max_hp = (mhp.positive? ? mhp : nil)
     arcana.limit_atk = (latk.positive? ? latk : nil)
     arcana.limit_hp = (lhp.positive? ? lhp : nil)
+    arcana.wiki_name = wikiname
 
     unless vname.blank?
       actor = actors[vname] || lambda do |na|
@@ -242,6 +245,7 @@ class ArcanaImporter
       lines.each.with_index(1) do |data, ord|
         order = data.shift
         sname = data.shift
+        raise "skill: order or name not found => #{arcana.name}" if (order.present? && sname.blank?) || (order.blank? && sname.present?)
 
         if order.present? && sname.present?
           sk = sks.shift || Skill.new
@@ -331,6 +335,7 @@ class ArcanaImporter
       lines.each do |data|
         at = data.shift
         aname = data.shift
+        raise "ability: type or name not found => #{arcana.name}" if (at.present? && at != 'p' && aname.blank?) || (at.blank? && aname.present?)
         eindex += 1
         if at.present? && at != atype
           abi = abs.shift || Ability.new

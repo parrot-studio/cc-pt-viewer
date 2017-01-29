@@ -19,6 +19,15 @@ export default class TargetArcana extends ArcanaRenderer {
     })
   }
 
+  renderTargetCost() {
+    const a = this.props.arcana
+    if (a.isBuddy()) {
+      return 'Buddy'
+    } else {
+      return `${a.cost} ( ${a.chainCost} )`
+    }
+  }
+
   render () {
     const a = this.props.arcana
     return (
@@ -31,7 +40,7 @@ export default class TargetArcana extends ArcanaRenderer {
           }}>
           <div className={`${a.jobClass}-title arcana-title small`}>
             {`${a.jobNameShort}:${a.rarityStars}`}
-            <span className='badge badge-sm pull-right'>{`${a.cost} ( ${a.chainCost} )`}</span>
+            <span className='badge badge-sm pull-right'>{`${this.renderTargetCost()}`}</span>
           </div>
           <div className='arcana-summary'>
             <small>
@@ -55,7 +64,7 @@ export default class TargetArcana extends ArcanaRenderer {
                 <li>{`${a.maxAtk} / ${a.maxHp}`}</li>
                 <li>{this.renderSkill(a)}</li>
                 <li>{this.renderAbilityNames(a)}</li>
-                <li className='chain-ability-name'>{`（${a.chainAbility.name}）`}</li>
+                <li className='chain-ability-name'>{`（${this.renderChainAbilityName(a)}）`}</li>
               </ul>
             </small>
           </div>

@@ -135,6 +135,14 @@ export default class ArcanaRenderer extends React.Component {
     return <span>{abName1}<br/>{abName2}</span>
   }
 
+  renderChainAbilityName(a) {
+    if (_.isEmpty(a.chainAbility) || _.isEmpty(a.chainAbility.name)) {
+      return 'なし'
+    } else {
+      return a.chainAbility.name
+    }
+  }
+
   renderInfoButton(a) {
     return (
       <Button

@@ -3,9 +3,8 @@ import _ from 'lodash'
 export default class Skill {
 
   constructor(data) {
-    this.name = (data.name || '？')
-    this.explanation = (data.explanation  || '')
-    this.cost = (data.cost || '？')
+    this.name = (!_.isEmpty(data.name) ? data.name : '？')
+    this.cost = (_.isInteger(data.cost) ? data.cost : '？')
     this.effects = []
     if (!_.isEmpty(data.effects)){
       this.effects = _.map(data.effects, (e) => ({

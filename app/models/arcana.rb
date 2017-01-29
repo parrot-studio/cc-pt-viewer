@@ -18,13 +18,14 @@
 #  source          :string(50)       not null
 #  union           :string(20)       not null
 #  person_code     :string(10)       not null
-#  owner_code      :string(10)
+#  link_code       :string(10)
 #  max_atk         :integer
 #  max_hp          :integer
 #  limit_atk       :integer
 #  limit_hp        :integer
 #  voice_actor_id  :integer          default(0), not null
 #  illustrator_id  :integer          default(0), not null
+#  wiki_name       :string(50)       not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
@@ -56,13 +57,7 @@ class Arcana < ApplicationRecord
   has_many   :skills
   has_many   :abilities
 
-  scope :with_tables, -> {
-    includes(
-      [
-        :voice_actor, :illustrator, :skills, :abilities
-      ]
-    )
-  }
+  scope :with_tables, -> { includes([:voice_actor, :illustrator, :skills, :abilities]) }
 
   RARITYS = (1..5).freeze
 
@@ -319,7 +314,7 @@ class Arcana < ApplicationRecord
   validates :person_code,
             presence: true,
             length: { maximum: 10 }
-  validates :owner_code,
+  validates :link_code,
             allow_nil: true,
             length: { maximum: 10 }
   validates :max_atk,
@@ -343,11 +338,16 @@ class Arcana < ApplicationRecord
     abilities.find { |a| a.ability_type == atype }
   end
 
+  def wiki_link_name
+    return self.wiki_name if self.wiki_name.present?
+    return '' if self.title.match(/調査中/)
+    "#{self.title}#{self.name}"
+  end
+
   def serialize # rubocop:disable Metrics/PerceivedComplexity
-    excepts = %w(id voice_actor_id illustrator_id created_at updated_at)
+    excepts = %w(id voice_actor_id illustrator_id wiki_name created_at updated_at)
     ret = self.as_json(except: excepts)
 
-    ret['arcana_type'] = ARCANA_TYPE_NAMES.fetch(self.arcana_type.to_sym, '')
     ret['weapon_name'] = WEAPON_NAMES.fetch(self.weapon_type.to_sym, '')
     ret['job_name'] = JOB_NAMES.fetch(self.job_type.to_sym, '')
     ret['job_class'] = CLASS_NAMES.fetch(self.job_type.to_sym, '')
@@ -358,6 +358,7 @@ class Arcana < ApplicationRecord
 
     ret['voice_actor'] = (voice_actor ? voice_actor.name : '')
     ret['illustrator'] = (illustrator ? illustrator.name : '')
+    ret['wiki_link_name'] = wiki_link_name
 
     first_skill = skill_for(1)
     ret['first_skill'] = (first_skill ? first_skill.serialize : {})
