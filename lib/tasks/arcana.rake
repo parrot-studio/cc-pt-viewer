@@ -15,7 +15,7 @@ namespace :arcana do
   desc 'Wiki access Test'
   task wikitest: :environment do
     count = Arcana.count
-    reg = %r|\AHTTP/1.1 200 OK|
+    reg = %r{\AHTTP/1.1 200 OK}
 
     Arcana.all.each.with_index(1) do |a, i|
       sleep 2
@@ -23,7 +23,7 @@ namespace :arcana do
       res = `curl -I -s #{uri}`
 
       if res.match(reg)
-        puts "now: #{i}/#{count}" if i % 50 == 0
+        puts "now: #{i}/#{count}" if (i % 50).zero?
         next
       else
         puts "access failed => #{a.wiki_link_name}"

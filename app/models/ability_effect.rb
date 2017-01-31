@@ -111,6 +111,8 @@ class AbilityEffect < ApplicationRecord
         with_volcano: '所属：九領がいる時',
         with_beasts: '所属：ケ者がいる時',
         same_abilities: '同じアビリティを持った味方がいる時',
+        kill: '敵を倒した時',
+        kill_debuff: '状態異常の敵を倒した時',
         combat: '近接戦闘時',
         in_head: '先頭にいる時',
         in_front: '仲間より前にいる時',
@@ -389,29 +391,6 @@ class AbilityEffect < ApplicationRecord
         mana_lost: 'マナが少ないほど',
         guard: 'ガードした時',
         scrap_charged: 'スクラップが多いほど'
-      },
-      target: {
-        self: '自分'
-      }
-    },
-    killup: {
-      name: '倒すたびに自分を強化',
-      effect: {
-        aup: '攻撃力上昇',
-        dup: '防御力上昇',
-        sup: '移動速度上昇',
-        cup: 'クリティカル率上昇',
-        adup: '攻撃力/防御力上昇',
-        asup: '攻撃力/移動速度上昇',
-        dsup: '防御力/移動速度上昇',
-        acup: '攻撃力/クリティカル率上昇',
-        crup: 'クリティカル率/クリティカルダメージ上昇',
-        adcup: '攻撃力/防御力/クリティカル率上昇',
-        ascup: '攻撃力/移動速度/クリティカル率上昇'
-      },
-      condition: {
-        kill: '敵を倒した時',
-        kill_debuff: '状態異常の敵を倒した時'
       },
       target: {
         self: '自分'

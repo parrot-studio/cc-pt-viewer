@@ -32,6 +32,9 @@ export default class Arcana {
     if (!__arcanas[a.jobCode]) {
       __arcanas[a.jobCode] = a
     }
+    if (!_.isEmpty(d.linked_arcana)) {
+      Arcana.build(d.linked_arcana) // cache
+    }
     return a
   }
 
@@ -116,10 +119,55 @@ export default class Arcana {
     return true
   }
 
+  hasLink() {
+    if (_.isEmpty(this.linkCode)) {
+      return false
+    }
+    if (_.eq(this.linkCode, this.jobCode)) {
+      return false
+    }
+    return true
+  }
+
   isBuddy() {
-    if (_.eq(this.arcanaType, 'buddy')) {
+    if (this.hasLink() && _.eq(this.arcanaType, 'buddy')) {
       return true
     }
     return false
+  }
+
+  hasBuddy() {
+    if (!this.hasLink()) {
+      return false
+    }
+    return (!this.isBuddy() ? true : false)
+  }
+
+  hasOwner() {
+    if (!this.hasLink()) {
+      return false
+    }
+    return (this.isBuddy() ? true : false)
+  }
+
+  buddy() {
+    if (!this.hasBuddy()) {
+      return
+    }
+    return Arcana.forCode(this.linkCode)
+  }
+
+  owner() {
+    if (!this.hasOwner()) {
+      return
+    }
+    return Arcana.forCode(this.linkCode)
+  }
+
+  nameWithBuddy() {
+    if (!this.hasBuddy()){
+      return this.name
+    }
+    return `${this.name}＆${this.buddy().name}`
   }
 }

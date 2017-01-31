@@ -33,15 +33,22 @@ export default class MemberAreaBody extends React.Component {
   }
 
   handleDropedArcana(orgKey, drag) {
-    const jobCode = drag.data('jobCode')
     const swapKey = drag.data('memberKey')
     if (orgKey === swapKey) {
       return
     }
 
+    let jobCode = drag.data('jobCode')
+    let arcana = Arcana.forCode(jobCode)
+    // drop buddy
+    if (arcana.hasOwner()) {
+      jobCode = arcana.owner().jobCode
+      arcana = Arcana.forCode(jobCode)
+    }
+
     const party = this.props.party
     const orgMember = party.memberFor(orgKey)
-    const target = new Member(Arcana.forCode(jobCode))
+    const target = new Member(arcana)
     if (swapKey) {
       target.memberKey = swapKey
       target.chainArcana = party.memberFor(swapKey).chainArcana

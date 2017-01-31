@@ -34,7 +34,7 @@ export default class FullCharacter extends ArcanaRenderer {
           <p className='arcana-name overflow'>
             <span className="pull-right">{this.renderInfoButton(a)}</span>
             <span className='text-muted small'>{a.title}</span><br/>
-            <strong>{a.name}</strong>
+            <strong>{a.nameWithBuddy()}</strong>
           </p>
           <dl className='small text-muted arcana-detail overflow'>
             <dt>ATK / HP</dt>

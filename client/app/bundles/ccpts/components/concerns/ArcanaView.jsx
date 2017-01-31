@@ -57,7 +57,8 @@ export default class ArcanaView extends React.Component {
           showModal={this.state.showArcanaViewModal}
           viewArcana={this.state.viewArcana}
           closeModal={this.closeArcanaViewModal.bind(this)}
-          openWikiModal={this.openWikiModal.bind(this)}/>
+          openWikiModal={this.openWikiModal.bind(this)}
+          arcanaViewStream={this.props.arcanaViewStream}/>
         <WikiLinkModal
           showModal={this.state.showWikiModal}
           viewArcana={this.state.viewArcana}

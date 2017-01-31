@@ -1,8 +1,10 @@
 import _ from 'lodash'
 
+import Bacon from 'baconjs'
 import React from 'react'
 import { Button, Badge, Modal } from 'react-bootstrap'
 
+import Arcana from '../../model/Arcana'
 import Favorites from '../../model/Favorites'
 import Skill from '../../model/Skill'
 
@@ -65,8 +67,7 @@ export default class ArcanaViewModal extends React.Component {
     )
   }
 
-  renderSkill() {
-    const a = this.props.viewArcana
+  renderSkill(a) {
     const ss = []
     let ind = 1
     ss.push(this.renderEachSkill(a.firstSkill, ind))
@@ -108,8 +109,7 @@ export default class ArcanaViewModal extends React.Component {
     )
   }
 
-  renderFirstAbility() {
-    const a = this.props.viewArcana
+  renderFirstAbility(a) {
     if (a.firstAbility && !_.isEmpty(a.firstAbility.effects)) {
       return ([
         <dt key="a1dt">アビリティ1</dt>,
@@ -120,8 +120,7 @@ export default class ArcanaViewModal extends React.Component {
     }
   }
 
-  renderSecondAbility() {
-    const a = this.props.viewArcana
+  renderSecondAbility(a) {
     if (a.secondAbility && !_.isEmpty(a.secondAbility.effects)) {
       return ([
         <dt key="a2dt">アビリティ2</dt>,
@@ -132,8 +131,7 @@ export default class ArcanaViewModal extends React.Component {
     }
   }
 
-  renderPartyAbility() {
-    const a = this.props.viewArcana
+  renderPartyAbility(a) {
     if (a.partyAbility && !_.isEmpty(a.partyAbility.effects)) {
       return ([
         <dt key="pdt">PTアビリティ</dt>,
@@ -144,8 +142,7 @@ export default class ArcanaViewModal extends React.Component {
     }
   }
 
-  renderWeaponAbility() {
-    const a = this.props.viewArcana
+  renderWeaponAbility(a) {
     if (a.weaponAbility && !_.isEmpty(a.weaponAbility.name)) {
       return ([
         <dt key="wdt">専用武器アビリティ</dt>,
@@ -156,8 +153,7 @@ export default class ArcanaViewModal extends React.Component {
     }
   }
 
-  renderChainAbility() {
-    const a = this.props.viewArcana
+  renderChainAbility(a) {
     if (a.chainAbility && !_.isEmpty(a.chainAbility.effects)) {
       return ([
         <dt key="cdt">絆アビリティ</dt>,
@@ -168,13 +164,51 @@ export default class ArcanaViewModal extends React.Component {
     }
   }
 
-  renderCost() {
-    const a = this.props.viewArcana
+  renderCost(a) {
     if (a.isBuddy()) {
       return 'Buddy'
     } else {
       return `${a.cost} ( ${a.chainCost} )`
     }
+  }
+
+  renderOwner(a) {
+    if (!a.hasOwner()) {
+      return null
+    }
+    const o = a.owner()
+    return (
+      <small>
+        / 主人：
+        <a href="#"
+          key={`${o.jobCode}.view`}
+          onClick={this.openArcanaViewModal.bind(this, Arcana.forCode(o.jobCode))}>
+          {o.name}
+        </a>
+      </small>
+    )
+  }
+
+  renderBuddy(a) {
+    if (!a.hasBuddy()) {
+      return null
+    }
+    const b = a.buddy()
+    return (
+      <small>
+        / バディ：
+        <a href="#"
+          key={`${b.jobCode}.view`}
+          onClick={this.openArcanaViewModal.bind(this, Arcana.forCode(b.jobCode))}>
+          {b.name}
+        </a>
+      </small>
+    )
+  }
+
+  openArcanaViewModal(a, e) {
+    e.preventDefault()
+    this.props.arcanaViewStream.plug(Bacon.sequentially(50, [null, a]))
   }
 
   renderArcanaView() {
@@ -190,12 +224,14 @@ export default class ArcanaViewModal extends React.Component {
           <div className={`arcana ${a.jobClass}`}>
             <div className={`arcana-title ${a.jobClass}-title`}>
               {`${a.jobName} : ${a.rarityStars}`}
-              <Badge pullRight={true}>{this.renderCost()}</Badge>
+              <Badge pullRight={true}>{this.renderCost(a)}</Badge>
             </div>
             <div className='arcana-view-body'>
               <h4 className='arcana-name'>
                 <span className='text-muted'>{a.title}</span>
                 <strong>{a.name}</strong>
+                {this.renderOwner(a)}
+                {this.renderBuddy(a)}
               </h4>
               <div className='row'>
                 <div className='col-xs-12 hidden-sm hidden-md hidden-lg'>
@@ -233,12 +269,12 @@ export default class ArcanaViewModal extends React.Component {
                 <div className='col-xs-12 col-sm-8 col-md-8'>
                   <dl className='small arcana-view-detail'>
                     <dt>スキル</dt>
-                    <dd>{this.renderSkill()}</dd>
-                    {this.renderFirstAbility()}
-                    {this.renderSecondAbility()}
-                    {this.renderPartyAbility()}
-                    {this.renderWeaponAbility()}
-                    {this.renderChainAbility()}
+                    <dd>{this.renderSkill(a)}</dd>
+                    {this.renderFirstAbility(a)}
+                    {this.renderSecondAbility(a)}
+                    {this.renderPartyAbility(a)}
+                    {this.renderWeaponAbility(a)}
+                    {this.renderChainAbility(a)}
                   </dl>
                 </div>
                 <div className='col-xs-12 col-sm-12 col-md-12'>

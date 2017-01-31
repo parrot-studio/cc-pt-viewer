@@ -16,11 +16,11 @@ export default class SummaryMember extends ArcanaRenderer {
         <div className='arcana-summary'>
           <small>
             <div className='pull-right info'>
-              {this.renderInfoButton(a)}
+              {this.renderInfoButton(a, this.props.view)}
             </div>
             <div className='pull-left overflow'>
               <span className='text-muted small'>{a.title}</span><br/>
-              <strong>{a.name}</strong>
+              <strong>{a.nameWithBuddy()}</strong>
             </div>
           </small>
           <p className='clearfix'/>

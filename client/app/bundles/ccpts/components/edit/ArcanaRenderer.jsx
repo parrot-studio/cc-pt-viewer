@@ -143,7 +143,10 @@ export default class ArcanaRenderer extends React.Component {
     }
   }
 
-  renderInfoButton(a) {
+  renderInfoButton(a, view) {
+    if (_.eq(view, 'chain')) {
+      return null
+    }
     return (
       <Button
         bsStyle="default"

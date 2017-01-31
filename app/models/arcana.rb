@@ -340,11 +340,16 @@ class Arcana < ApplicationRecord
 
   def wiki_link_name
     return self.wiki_name if self.wiki_name.present?
-    return '' if self.title.match(/調査中/)
+    return '' if self.title =~ /調査中/
     "#{self.title}#{self.name}"
   end
 
-  def serialize # rubocop:disable Metrics/PerceivedComplexity
+  def linked_arcana
+    return if self.link_code.blank?
+    Arcana.find_by(job_code: self.link_code)
+  end
+
+  def serialize(nolink: false) # rubocop:disable Metrics/PerceivedComplexity
     excepts = %w(id voice_actor_id illustrator_id wiki_name created_at updated_at)
     ret = self.as_json(except: excepts)
 
@@ -377,6 +382,9 @@ class Arcana < ApplicationRecord
     ret['chain_ability'] = (chain_ability ? chain_ability.serialize : {})
     weapon_ability = ability_for('w')
     ret['weapon_ability'] = (weapon_ability ? weapon_ability.serialize : {})
+
+    linked = linked_arcana
+    ret['linked_arcana'] = (!nolink && linked ? linked.serialize(nolink: true) : {})
 
     ret
   end
