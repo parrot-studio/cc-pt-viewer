@@ -66,6 +66,7 @@ class AbilityEffect < ApplicationRecord
         healdelayoff: '回復後の硬直時間減少',
         poison_atkup: '毒ダメージ上昇',
         blind_boost: '暗闇の効果延長',
+        down_boost: 'ダウンの効果延長',
         registup: '魔法ダメージ軽減',
         invisible: '見えなくなる（遠距離無効）',
         single_shoot: '単発射撃',
