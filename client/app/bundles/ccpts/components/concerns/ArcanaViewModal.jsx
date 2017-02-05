@@ -83,7 +83,7 @@ export default class ArcanaViewModal extends React.Component {
   }
 
   renderAbility(ab) {
-    if (!ab || _.isEmpty(ab.category)) {
+    if (!ab || _.eq(ab.name, '？')) {
       return '？'
     }
 

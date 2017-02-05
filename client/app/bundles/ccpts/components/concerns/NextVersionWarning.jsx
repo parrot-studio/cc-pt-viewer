@@ -27,7 +27,7 @@ export default class NextVersionWarning extends React.Component {
             <p>
               <i className="fa fa-info-circle"/> おしらせ：第3部への対応を進めております。
               <a href={`${cc3Path}`}>詳しくはこちらで</a>
-              <strong>（2017/1/31更新）</strong>
+              <strong>（2017/2/5更新）</strong>
             </p>
           </Alert>
         </div>

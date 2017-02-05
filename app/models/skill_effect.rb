@@ -158,7 +158,7 @@ class SkillEffect < ApplicationRecord
       }
     },
     buff: {
-      name: '能力UP',
+      name: 'ステータス上昇',
       sub: {
         self: '自身',
         all: '全体',
@@ -205,7 +205,6 @@ class SkillEffect < ApplicationRecord
         guard_debuff: '状態異常耐性',
         guard_fire: '火属性軽減',
         guard_ice: '氷属性軽減',
-        guard_element: '属性軽減',
         invincible: '無敵',
         aup: '攻撃力上昇'
       }
@@ -225,27 +224,28 @@ class SkillEffect < ApplicationRecord
       effect: {}
     },
     area: {
-      name: '設置/フィールド',
+      name: '領域展開/設置',
       sub: {
-        obstacle: '[設置] 障害物',
-        bomb: '[設置] 爆弾',
-        target: '[設置] 攻撃範囲',
+        buff: '[領域] ステータス上昇',
+        debuff: '[領域] ステータス低下',
         continual: '[領域] 継続ダメージ',
-        aup: '[領域] 攻撃力上昇',
-        dup: '[領域] 防御力上昇',
-        adup: '[領域] 攻撃力/防御力上昇',
-        defdown: '[領域] 防御力低下',
-        echo: '[領域] 反響空間'
+        echo: '[領域] 反響',
+        obstacle: '[設置] 障害物',
+        trap: '[設置] 罠'
       },
       effect: {
+        aup: '攻撃力上昇',
+        dup: '防御力上昇',
+        adup: '攻撃力/防御力上昇',
+        defdown: '防御力低下',
         add_blind: '暗闇追加',
         add_poison: '毒追加',
         add_slow: 'スロウ追加',
         add_down: 'ダウン追加',
         add_freeze: '凍結追加',
         fire: '火属性',
-        create_scrap: 'スクラップ生成',
-        against_dropout: '戦闘不能にならない'
+        against_dropout: '戦闘不能にならない',
+        create_scrap: 'スクラップ生成'
       }
     },
     metamorphose: {
