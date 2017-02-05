@@ -764,10 +764,13 @@ class AbilityEffect < ApplicationRecord
     unknown: {
       name: '（不明）',
       effect: {
-        unknown: '（不明）'
+        unknown: ''
       },
       condition: {
-        unknown: '（不明）'
+        unknown: ''
+      },
+      target: {
+        unknown: ''
       }
     }
   }.freeze
