@@ -82,6 +82,9 @@ export default class Arcana {
     if (!_.isEmpty(data.third_skill)) {
       this.thirdSkill = new Skill(data.third_skill)
     }
+    if (!_.isEmpty(data.inherit_skill)) {
+      this.inheritSkill = new Skill(data.inherit_skill)
+    }
     this.firstAbility = new Ability(data.first_ability)
     this.secondAbility = new Ability(data.second_ability)
     this.weaponAbility = new Ability(data.weapon_ability)

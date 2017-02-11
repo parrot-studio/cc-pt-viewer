@@ -5,7 +5,7 @@
 #  id         :integer          not null, primary key
 #  arcana_id  :integer          not null
 #  job_code   :string(10)       not null
-#  order      :integer          not null
+#  skill_type :string(20)       not null
 #  name       :string(100)      not null
 #  cost       :integer          default(0), not null
 #  created_at :datetime         not null
@@ -28,9 +28,9 @@ class Skill < ApplicationRecord
   validates :job_code,
             presence: true,
             length: { maximum: 10 }
-  validates :order,
+  validates :skill_type,
             presence: true,
-            numericality: { only_integer: true }
+            length: { maximum: 20 }
   validates :name,
             presence: true,
             length: { maximum: 100 }

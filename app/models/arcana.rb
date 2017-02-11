@@ -330,8 +330,8 @@ class Arcana < ApplicationRecord
             allow_nil: true,
             numericality: { only_integer: true }
 
-  def skill_for(order)
-    skills.find { |a| a.order == order }
+  def skill_for(stype)
+    skills.find { |a| a.skill_type == stype }
   end
 
   def ability_for(atype)
@@ -365,12 +365,14 @@ class Arcana < ApplicationRecord
     ret['illustrator'] = (illustrator ? illustrator.name : '')
     ret['wiki_link_name'] = wiki_link_name
 
-    first_skill = skill_for(1)
+    first_skill = skill_for('1')
     ret['first_skill'] = (first_skill ? first_skill.serialize : {})
-    second_skill = skill_for(2)
+    second_skill = skill_for('2')
     ret['second_skill'] = (second_skill ? second_skill.serialize : {})
-    third_skill = skill_for(3)
+    third_skill = skill_for('3')
     ret['third_skill'] = (third_skill ? third_skill.serialize : {})
+    inherit_skill = skill_for('d')
+    ret['inherit_skill'] = (inherit_skill ? inherit_skill.serialize : {})
 
     first_ability = ability_for('1')
     ret['first_ability'] = (first_ability ? first_ability.serialize : {})

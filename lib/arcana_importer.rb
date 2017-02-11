@@ -39,6 +39,15 @@ class ArcanaImporter
       end
     end
 
+    # 伝授スキルチェック
+    Arcana.all.each do |a|
+      next if a.rarity < 4
+      next if a.arcana_type == 'buddy'
+      inherit = a.skills.find_by(skill_type: 'd')
+      next if inherit
+      output_warning "warning : arcana #{a.name}(#{a.job_code}/#{a.rarity}) : lack inherit skill"
+    end
+
     self
   end
 
@@ -239,18 +248,31 @@ class ArcanaImporter
         next
       end
 
-      sks = arcana.skills.sort_by(&:order)
+      sks = arcana.skills.sort_by(&:skill_type)
       sk = nil
       efs = []
-      lines.each.with_index(1) do |data, ord|
-        order = data.shift
-        sname = data.shift
-        raise "skill: order or name not found => #{arcana.name}" if (order.present? && sname.blank?) || (order.blank? && sname.present?)
 
-        if order.present? && sname.present?
+      # 伝授可能
+      inherit = []
+      lines.each do |data|
+        next if data[1].blank?
+        i = data.dup
+        i[0] = 'd' if inherit.blank?
+        i[4] = '' # drop condition
+        inherit << i
+      end
+      lines += inherit if inherit.present?
+
+      lines.each.with_index(1) do |data, ord|
+        stype = data.shift
+        data.shift # drop inherit
+        sname = data.shift
+        raise "skill: skill_type or name not found => #{arcana.name}" if (stype.present? && sname.blank?) || (stype.blank? && sname.present?)
+
+        if stype.present? && sname.present?
           sk = sks.shift || Skill.new
           sk.job_code = code
-          sk.order = order.to_i
+          sk.skill_type = stype.to_s
           sk.name = sname
           sk.cost = data.shift.to_i
           arcana.skills << sk if sk.new_record?
@@ -310,7 +332,7 @@ class ArcanaImporter
         end
         ef.note = data.shift.to_s
 
-        output_warning "warning : #{arcana.name} - #{sk.name}(#{sk.order}) : #{ef.changes}" if ef.changed?
+        output_warning "warning : #{arcana.name} - #{sk.name}(#{sk.skill_type}) : #{ef.changes}" if ef.changed?
         sk.skill_effects << ef if ef.new_record?
         ef.save!
       end

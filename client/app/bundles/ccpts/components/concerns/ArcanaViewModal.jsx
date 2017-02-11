@@ -82,6 +82,17 @@ export default class ArcanaViewModal extends React.Component {
     return ss
   }
 
+  renderInheritSkill(a) {
+    if (!_.isEmpty(a.inheritSkill)) {
+      return ([
+        <dt key="isdt">伝授スキル</dt>,
+        <dd key="isdd">{this.renderEachSkill(a.inheritSkill, 1)}</dd>
+      ])
+    } else {
+      return null
+    }
+  }
+
   renderAbility(ab) {
     if (!ab || _.eq(ab.name, '？')) {
       return '？'
@@ -270,6 +281,7 @@ export default class ArcanaViewModal extends React.Component {
                   <dl className='small arcana-view-detail'>
                     <dt>スキル</dt>
                     <dd>{this.renderSkill(a)}</dd>
+                    {this.renderInheritSkill(a)}
                     {this.renderFirstAbility(a)}
                     {this.renderSecondAbility(a)}
                     {this.renderPartyAbility(a)}

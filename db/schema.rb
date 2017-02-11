@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170129010624) do
+ActiveRecord::Schema.define(version: 20170211011500) do
 
   create_table "abilities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
     t.integer  "arcana_id",                null: false
@@ -125,7 +125,7 @@ ActiveRecord::Schema.define(version: 20170129010624) do
   create_table "skills", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
     t.integer  "arcana_id",                          null: false
     t.string   "job_code",   limit: 10,              null: false
-    t.integer  "order",                              null: false
+    t.string   "skill_type", limit: 20,              null: false
     t.string   "name",       limit: 100,             null: false
     t.integer  "cost",                   default: 0, null: false
     t.datetime "created_at",                         null: false
