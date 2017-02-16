@@ -20,6 +20,10 @@ export default class ArcanaView extends React.Component {
   }
 
   openArcanaViewModal(a) {
+    const uri = `data/${a.jobCode}/${a.wikiLinkName}`
+    this.props.historyStream.push(uri)
+    const title = `${a.wikiLinkName} : Get our light! - チェンクロ パーティーシミュレーター`
+    this.changeTitle(title)
     this.setState({
       viewArcana: a,
       showArcanaViewModal: true,
@@ -28,6 +32,8 @@ export default class ArcanaView extends React.Component {
   }
 
   closeArcanaViewModal() {
+    this.changeTitle()
+    this.props.historyStream.push('')
     this.setState({
       viewArcana: null,
       showArcanaViewModal: false,
@@ -43,11 +49,17 @@ export default class ArcanaView extends React.Component {
   }
 
   closeWikiModal() {
+    this.changeTitle()
+    this.props.historyStream.push('')
     this.setState({
       viewArcana: null,
       showArcanaViewModal: false,
       showWikiModal: false
     })
+  }
+
+  changeTitle(title) {
+    document.title = (title || this.props.originTitle)
   }
 
   render () {

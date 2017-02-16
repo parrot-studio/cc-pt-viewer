@@ -344,6 +344,11 @@ class Arcana < ApplicationRecord
     "#{self.title}#{self.name}"
   end
 
+  def origin_name
+    return wiki_link_name unless self.arcana_type == 'buddy'
+    "#{self.title}#{self.name}"
+  end
+
   def linked_arcana
     return if self.link_code.blank?
     Arcana.find_by(job_code: self.link_code)

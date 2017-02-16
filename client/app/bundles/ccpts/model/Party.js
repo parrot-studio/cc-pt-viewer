@@ -8,7 +8,7 @@ const __party_MEMBER_KEY = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'fri
 export default class Party {
 
   static create() {
-    return new Party()
+    return Party.build([])
   }
 
   static build(as) {

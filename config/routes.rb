@@ -10,5 +10,7 @@ Rails.application.routes.draw do
   get  'changelogs' => 'viewer#changelogs'
   get  'cc3'     => 'viewer#cc3'
   post 'request' => 'viewer#request_mail'
+  get  'data/:code' => 'viewer#detail'
+  get  'data/:code/:name' => 'viewer#detail'
   get  ':code'   => 'viewer#ptedit'
 end

@@ -11,12 +11,14 @@ export default class FullCharacter extends ArcanaRenderer {
     const m = this.props.member
 
     if (this.props.phoneDevice) {
-      return (
-        <SummaryMember
+      if (m) {
+        return <SummaryMember
           view="full"
           member={m}
           arcanaViewStream={this.props.arcanaViewStream}/>
-      )
+      } else {
+        return <div className='none summary-size arcana'></div>
+      }
     }
 
     if (!m) {

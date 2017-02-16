@@ -25,6 +25,9 @@ config/settings.local.yml
 config/settings/*.local.yml
 config/environments/*.local.yml
 
+sitemap.xml
+sitemap.xml.gz
+
 # React on Rails
 npm-debug.log*
 node_modules

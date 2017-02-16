@@ -30,6 +30,7 @@ export default class AppView extends React.Component {
     const conditionStream = new Bacon.Bus()
     const resultStream = new Bacon.Bus()
     const arcanaViewStream = new Bacon.Bus()
+    const historyStream = new Bacon.Bus()
 
     let pagerSize = 8
     let recentlySize = 32
@@ -68,6 +69,7 @@ export default class AppView extends React.Component {
       conditionStream,
       resultStream,
       arcanaViewStream,
+      historyStream,
       showConditionArea: false
     }
   }
@@ -192,14 +194,17 @@ export default class AppView extends React.Component {
           aboutPath={this.props.aboutPath}
           ptm={this.props.ptm}
           ptver={this.props.ptver}
+          code={this.props.code}
           switchConditionMode={this.switchConditionMode.bind(this)}
           pagerSize={this.state.pagerSize}
           conditionStream={this.state.conditionStream}
           queryStream={this.state.queryStream}
           resultStream={this.state.resultStream}
-          arcanaViewStream={this.state.arcanaViewStream}/>
+          arcanaViewStream={this.state.arcanaViewStream}
+          historyStream={this.state.historyStream}/>
       case 'database':
         return <DatabaseModeView
+          code={this.props.code}
           phoneDevice={this.props.phoneDevice}
           appPath={this.props.appPath}
           switchConditionMode={this.switchConditionMode.bind(this)}
@@ -207,7 +212,8 @@ export default class AppView extends React.Component {
           conditionStream={this.state.conditionStream}
           queryStream={this.state.queryStream}
           resultStream={this.state.resultStream}
-          arcanaViewStream={this.state.arcanaViewStream}/>
+          arcanaViewStream={this.state.arcanaViewStream}
+          historyStream={this.state.historyStream}/>
     }
   }
 
@@ -278,7 +284,10 @@ export default class AppView extends React.Component {
             queryStream={this.state.queryStream}
             resultStream={this.state.resultStream}/>
         </div>
-        <ArcanaView arcanaViewStream={this.state.arcanaViewStream}/>
+        <ArcanaView
+          originTitle={this.props.originTitle}
+          arcanaViewStream={this.state.arcanaViewStream}
+          historyStream={this.state.historyStream}/>
       </div>
     )
   }

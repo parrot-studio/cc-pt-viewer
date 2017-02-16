@@ -1,6 +1,12 @@
 class ViewerController < ApplicationController
-  before_action only: [:ptedit, :database] do
-    @mode = action_name
+  before_action only: [:ptedit, :database, :detail] do
+    @mode =
+      case action_name.to_s
+      when 'database'
+        'database'
+      else
+        'ptedit'
+      end
   end
 
   def ptedit
@@ -20,6 +26,18 @@ class ViewerController < ApplicationController
     searcher = ArcanaSearcher.parse(query_params)
     @uri = (searcher.present? ? "#{db_url}?#{searcher.query_string}" : db_url)
     @title = (searcher.present? ? "[検索] #{searcher.query_detail}" : 'データベースモード')
+    render :app
+  end
+
+  def detail
+    arcana = from_arcana_cache(params[:code]).first
+    if arcana.blank?
+      redirect_to root_url
+      return
+    end
+    @code = arcana['job_code']
+    @uri = root_url
+    @title = arcana['wiki_link_name']
     render :app
   end
 

@@ -27,6 +27,7 @@ export default class EditModeView extends React.Component {
 
     partyStream.onValue((party) => {
       Parties.setLastParty(party)
+      this.props.historyStream.push(party.createCode())
       this.setState({party})
     })
 
@@ -35,6 +36,16 @@ export default class EditModeView extends React.Component {
         const party = Party.build(as)
         this.setState({party})
       })
+    })
+
+    this.props.historyStream.onValue((target) => {
+      let uri = ''
+      if (!_.isEmpty(target) ) {
+        uri = target
+      } else if (!_.isEmpty(Parties.lastParty)) {
+        uri = Parties.lastParty
+      }
+      history.replaceState('', '', `/${uri}`)
     })
 
     this.state = {
@@ -46,9 +57,25 @@ export default class EditModeView extends React.Component {
   }
 
   componentDidMount() {
-    this.props.queryStream.push(Query.parse().params())
+    const code = this.props.code
+    if (code) {
+      Searcher.searchCodes([code]).onValue((result) => {
+        const a = result.arcanas[0]
+        if (a) {
+          this.props.queryStream.push({name: a.name})
+          this.props.arcanaViewStream.push(a)
+        }
+      })
+    }
+
+    if (!this.props.phoneDevice) {
+      this.props.queryStream.push(Query.parse().params())
+    }
     if (_.isEmpty(this.props.ptm)) {
       this.state.memberCodeStream.push(Parties.lastParty)
+      if (!code) {
+        this.props.historyStream.push(Parties.lastParty)
+      }
     } else {
       this.state.memberCodeStream.push(this.props.ptm)
     }
@@ -93,6 +120,27 @@ export default class EditModeView extends React.Component {
     }
   }
 
+  renderEditArea() {
+    if (this.props.phoneDevice) {
+      return null
+    }
+    return(
+      <div id="edit-area" ref="editArea">
+        <div id="member-area" className="well well-sm">
+          <MemberAreaHeader
+            party={this.state.party}
+            partyStream={this.state.partyStream}
+            memberCodeStream={this.state.memberCodeStream}/>
+          <MemberAreaBody
+            party={this.state.party}
+            partyStream={this.state.partyStream}
+            arcanaViewStream={this.props.arcanaViewStream}/>
+        </div>
+        {this.renderTargetsArea()}
+      </div>
+    )
+  }
+
   render() {
     return (
       <div>
@@ -103,19 +151,7 @@ export default class EditModeView extends React.Component {
           party={this.state.party}
           editMode={this.state.editMode}
           switchEditMode={this.switchEditMode.bind(this)}/>
-        <div id="edit-area" ref="editArea">
-          <div id="member-area" className="well well-sm">
-            <MemberAreaHeader
-              party={this.state.party}
-              partyStream={this.state.partyStream}
-              memberCodeStream={this.state.memberCodeStream}/>
-            <MemberAreaBody
-              party={this.state.party}
-              partyStream={this.state.partyStream}
-              arcanaViewStream={this.props.arcanaViewStream}/>
-          </div>
-          {this.renderTargetsArea()}
-        </div>
+        {this.renderEditArea()}
         <div id="party-area" ref="partyArea">
           <PartyView
             phoneDevice={this.props.phoneDevice}

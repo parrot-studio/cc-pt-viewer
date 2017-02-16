@@ -56,6 +56,7 @@ gem 'mini_racer', platforms: :ruby
 gem 'config'
 gem 'annotate'
 gem 'rainbow'
+gem 'sitemap_generator'
 
 # pry
 gem 'pry'

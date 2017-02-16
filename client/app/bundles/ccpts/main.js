@@ -13,17 +13,22 @@ $(() => {
 
   $(document).on('keypress', (e) => !(e.which === 13 || e.keyCode === 13))
 
-  const mode = $("#mode").val()
   const appPath = $("#app-path").val()
   const aboutPath = $("#about-path").val()
   const ptm = $("#ptm").val() || ''
   const ptver = $("#pt-ver").val() || ''
   const dataver = $("#data-ver").val() || ''
   const phoneDevice = (window.innerWidth < 768 ? true : false)
+  const code = $("#code").val() || ''
 
-  if ((mode === 'ptedit') && phoneDevice && _.isEmpty(ptm)) {
-    window.location.href = `${appPath}db`
-    return
+  let mode = $("#mode").val()
+  let originTitle = document.title
+
+  if (_.eq(mode, 'ptedit') && phoneDevice && _.isEmpty(ptm)) {
+    mode = 'database'
+    originTitle = `データベースモード : ${originTitle}`
+    document.title = originTitle
+    history.replaceState('','',`db`)
   }
 
   if (phoneDevice) {
@@ -46,7 +51,9 @@ $(() => {
           aboutPath,
           latestInfo: Conditions.latestInfo(),
           ptm,
-          ptver
+          ptver,
+          code,
+          originTitle
         }),
       document.getElementById('app-view')
     )

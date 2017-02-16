@@ -13,7 +13,7 @@ export default class DisplaySizeWarning extends React.Component {
               PC/タブレット以外のデバイスでは、パーティーの閲覧のみで編集はできません。<br/>
               アルカナの検索等は「<a className="alert-link" href={dbPath}>データベースモード</a>」でご利用いただけます。
             </p>
-            <p className="pull-right">
+            <p>
               <a className="btn btn-default" href={dbPath} role="button">データベースモード</a>
             </p>
           </Alert>
