@@ -87,6 +87,7 @@ class SkillEffect < ApplicationRecord
         ice: '氷属性',
         charge: '溜め',
         kill_pierce: '倒したら貫通',
+        kill_mana: '倒したらマナドロップ',
         shield_break: '盾破壊',
         heal_all: '全員を回復',
         absorb: '与えたダメージを吸収',
@@ -165,6 +166,7 @@ class SkillEffect < ApplicationRecord
         others: '自分以外の全員',
         fighter: '戦士',
         front: '先頭の一人',
+        far: '一番遠い一人',
         random: 'ランダム'
       },
       effect: {

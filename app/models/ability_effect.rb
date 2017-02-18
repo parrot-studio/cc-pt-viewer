@@ -435,6 +435,7 @@ class AbilityEffect < ApplicationRecord
         in_front: '仲間より前にいる時',
         in_rear: '仲間より後ろにいる時',
         in_tail: '後ろに仲間がいない時',
+        in_back: '一番後列にいる時',
         in_sub: 'サブパーティーにいる時',
         skill: 'スキル使用時',
         others_skill: '味方がスキルを使った時',
@@ -644,12 +645,12 @@ class AbilityEffect < ApplicationRecord
         any: 'いつでも',
         battle_start: '戦闘開始時',
         wave_start: '各WAVE開始時',
+        boss_wave: 'BOSS WAVE時',
+        wave_span: '一定WAVE進むごとに',
         kill: '敵を倒した時',
         dropout_self: '自身が脱落した時',
-        in_chain: 'チェイン発動中',
-        boss_wave: 'BOSS WAVE時',
         own_skill: '自分がスキルを使った時',
-        wave_span: '一定WAVE進むごとに'
+        in_chain: 'チェイン発動中'
       },
       target: {
         resource: ''

@@ -40,12 +40,18 @@ class ArcanaImporter
     end
 
     # 伝授スキルチェック
+    except_types = %w(buddy third)
+    implemented_collabo = %w(
+      konosuba persona5 utaware valkyria falcom_sen2
+    )
+
     Arcana.all.each do |a|
       next if a.rarity < 4
-      next if a.arcana_type == 'buddy'
+      next if except_types.include?(a.arcana_type)
+      next if a.arcana_type == 'collaboration' && !implemented_collabo.include?(a.source)
       inherit = a.skills.find_by(skill_type: 'd')
       next if inherit
-      output_warning "warning : arcana #{a.name}(#{a.job_code}/#{a.rarity}) : lack inherit skill"
+      output_warning "warning : arcana #{a.name}(#{a.job_code}/#{a.rarity}) : lack inherit skill (#{a.arcana_type})"
     end
 
     self
@@ -258,7 +264,7 @@ class ArcanaImporter
         next if data[1].blank?
         i = data.dup
         i[0] = 'd' if inherit.blank?
-        i[4] = '' # drop condition
+        i[4] = ''  unless i[3] == 'forward' # drop condition
         inherit << i
       end
       lines += inherit if inherit.present?

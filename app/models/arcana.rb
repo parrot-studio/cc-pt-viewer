@@ -199,6 +199,7 @@ class Arcana < ApplicationRecord
     collaboration: {
       name: 'コラボ',
       details: {
+        konosuba: 'このすば',
         persona5: 'ペルソナ5',
         magica: 'まどか☆マギカ',
         taiko: '太鼓の達人',
@@ -352,6 +353,16 @@ class Arcana < ApplicationRecord
   def linked_arcana
     return if self.link_code.blank?
     Arcana.find_by(job_code: self.link_code)
+  end
+
+  def data_updated_at
+    [
+      self.updated_at,
+      self.skills.map(&:updated_at).max,
+      self.skills.map(&:skill_effects).flatten.compact.map(&:updated_at).max,
+      self.abilities.map(&:updated_at).max,
+      self.abilities.map(&:ability_effects).flatten.compact.map(&:updated_at).max
+    ].flatten.compact.max
   end
 
   def serialize(nolink: false) # rubocop:disable Metrics/PerceivedComplexity

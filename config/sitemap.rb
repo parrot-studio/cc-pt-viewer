@@ -7,6 +7,6 @@ SitemapGenerator::Sitemap.create do
 
   Arcana.find_each do |a|
     add "/data/#{a.job_code}/#{URI.encode_www_form_component(a.origin_name)}",
-      lastmod: a.updated_at, priority: 0.7
+      lastmod: (a.data_updated_at || Time.now), priority: 0.7
   end
 end
