@@ -207,7 +207,7 @@ class Arcana < ApplicationRecord
         danmachi: 'ダンまち',
         utaware: 'うたわれるもの',
         valkyria: '戦場のヴァルキュリア',
-        falcom_sorasc: '閃の軌跡II',
+        falcom_sorasc: '空の軌跡SC',
         seiken: '聖剣伝説',
         atelier_arland: 'アトリエ・アーランドシリーズ',
         shiningresonance: 'シャイニング・レゾナンス',

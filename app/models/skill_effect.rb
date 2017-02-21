@@ -223,7 +223,9 @@ class SkillEffect < ApplicationRecord
         night: '夜間',
         dimension: '異空間'
       },
-      effect: {}
+      effect: {
+        aup: '攻撃力上昇'
+      }
     },
     area: {
       name: '領域展開/設置',

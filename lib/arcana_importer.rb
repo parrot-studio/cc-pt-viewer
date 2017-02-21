@@ -45,9 +45,14 @@ class ArcanaImporter
       konosuba persona5 utaware valkyria falcom_sen2
     )
 
+    except_arcanas = [
+      'F211' # ミョルン
+    ]
+
     Arcana.all.each do |a|
       next if a.rarity < 4
       next if except_types.include?(a.arcana_type)
+      next if except_arcanas.include?(a.job_code)
       next if a.arcana_type == 'collaboration' && !implemented_collabo.include?(a.source)
       inherit = a.skills.find_by(skill_type: 'd')
       next if inherit
