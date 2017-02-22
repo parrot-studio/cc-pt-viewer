@@ -18,6 +18,9 @@ Lint/EndAlignment:
 Style/CaseIndentation:
   Enabled: false
 
+Style/ClassAndModuleChildren:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
 
@@ -52,7 +55,6 @@ Rails:
 Metrics/ClassLength:
   Exclude:
     - 'app/models/*'
-    - 'app/controllers/viewer_controller.rb'
     - 'lib/arcana_searcher.rb'
     - 'lib/arcana_importer.rb'
     - 'lib/arcana_cache.rb'

@@ -7,14 +7,14 @@ let __conditions = {}
 export default class Conditions {
 
   static init() {
+    if (!_.isEmpty(__conditions)) {
+      return Bacon.once(__conditions)
+    }
+
     return Searcher.loadConditions().flatMap((data) => {
       __conditions = (data || {})
       return Bacon.once(__conditions)
     })
-  }
-
-  static latestInfo() {
-    return (__conditions.latestinfo || {})
   }
 
   static unions() {

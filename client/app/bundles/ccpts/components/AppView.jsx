@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import Bacon from 'baconjs'
 
 import React from 'react'
@@ -7,6 +6,7 @@ import { Nav, NavItem, Alert } from 'react-bootstrap'
 import Query from '../model/Query'
 import QueryLogs from '../model/QueryLogs'
 import Favorites from '../model/Favorites'
+import Conditions from '../model/Conditions'
 import Searcher from '../lib/Searcher'
 import { Cookie } from '../lib/Cookie'
 
@@ -94,10 +94,12 @@ export default class AppView extends React.Component {
 
   switchConditionMode() {
     if (!this.state.showConditionArea) {
-      this.setState({
-        showConditionArea: true
-      }, () => {
-        this.fadeModeArea()
+      Conditions.init().onValue(() => {
+        this.setState({
+          showConditionArea: true
+        }, () => {
+          this.fadeModeArea()
+        })
       })
     }
   }
@@ -126,38 +128,8 @@ export default class AppView extends React.Component {
     return name
   }
 
-  isShowLatestInfo(info) {
-    if (!info) {
-      return false
-    }
-
-    const ver = String(info.version)
-    if (_.isEmpty(ver)) {
-      return false
-    }
-
-    let showed = ""
-    try {
-      showed = String(Cookie.valueFor('latest-info'))
-    } catch (e) {
-      showed = ""
-    }
-
-    if (_.isEmpty(showed)) {
-      return true
-    }
-
-    return (ver === showed ? false : true)
-  }
-
   renderLatestInfo() {
-    const info = this.props.latestInfo
-    if (this.isShowLatestInfo(info)) {
-      Cookie.set({'latest-info': info.version})
-      return <LatestInfoArea latestInfo={info}/>
-    } else {
-      return null
-    }
+    return <LatestInfoArea ver={this.props.infover}/>
   }
 
   renderHeadInfo() {
@@ -279,6 +251,7 @@ export default class AppView extends React.Component {
         </div>
         <div id="condition-area" ref="conditionArea">
           <ConditionView
+            conditions={Conditions}
             switchMainMode={this.switchMainMode.bind(this)}
             conditionStream={this.state.conditionStream}
             queryStream={this.state.queryStream}

@@ -5,7 +5,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import Searcher from './lib/Searcher'
-import Conditions from './model/Conditions'
 import AppView from './components/AppView'
 
 $(() => {
@@ -18,6 +17,7 @@ $(() => {
   const ptm = $("#ptm").val() || ''
   const ptver = $("#pt-ver").val() || ''
   const dataver = $("#data-ver").val() || ''
+  const infover = $("#info-ver").val() || ''
   const phoneDevice = (window.innerWidth < 768 ? true : false)
   const code = $("#code").val() || ''
 
@@ -41,21 +41,19 @@ $(() => {
 
   Searcher.init(dataver, appPath)
 
-  Conditions.init().onValue(() => {
-    ReactDOM.render(
-      React.createElement(AppView,
-        {
-          mode,
-          phoneDevice,
-          appPath,
-          aboutPath,
-          latestInfo: Conditions.latestInfo(),
-          ptm,
-          ptver,
-          code,
-          originTitle
-        }),
-      document.getElementById('app-view')
-    )
-  })
+  ReactDOM.render(
+    React.createElement(AppView,
+      {
+        mode,
+        phoneDevice,
+        appPath,
+        aboutPath,
+        ptm,
+        ptver,
+        infover,
+        code,
+        originTitle
+      }),
+    document.getElementById('app-view')
+  )
 })

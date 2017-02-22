@@ -22,9 +22,14 @@ class ArcanaCache
           chainabilityeffects: AbilityEffect.chain_ability_effects,
           chainabilityconditions: AbilityEffect.chain_ability_conditions,
           voiceactors: VoiceActor.conditions,
-          illustrators: Illustrator.conditions,
-          latestinfo: Changelog.latest.as_json
+          illustrators: Illustrator.conditions
         }
+      end
+    end
+
+    def latestinfo
+      with_object_cache("latestinfo:#{ServerSettings.data_version}") do
+        Changelog.latest.as_json
       end
     end
 
@@ -106,6 +111,7 @@ class ArcanaCache
     def rebuild
       clear
       conditions
+      latestinfo
       Arcana.with_tables.each { |a| update_cache(a) }
       voice_actor_name_table
       voice_actor_id_table

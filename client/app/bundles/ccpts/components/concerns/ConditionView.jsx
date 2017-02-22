@@ -4,8 +4,6 @@ import Bacon from 'baconjs'
 import React from 'react'
 import { Button, ButtonToolbar } from 'react-bootstrap'
 
-import Conditions from '../../model/Conditions'
-
 import SkillConditions from '../conditions/SkillConditions'
 import AbilityConditions from '../conditions/AbilityConditions'
 import ChainAbilityConditions from '../conditions/ChainAbilityConditions'
@@ -18,7 +16,6 @@ export default class ConditionView extends React.Component {
 
   constructor(props) {
     super(props)
-    this.conditions = Conditions
     this.state = {}
 
     // from children
@@ -157,7 +154,7 @@ export default class ConditionView extends React.Component {
   }
 
   renderUnionList() {
-    return this.renderConditionList(this.conditions.unions())
+    return this.renderConditionList(this.props.conditions.unions())
   }
 
   renderArcanaCostList() {
@@ -180,23 +177,23 @@ export default class ConditionView extends React.Component {
     if (this.state.addCondition) {
       return (
         <div>
-          <SkillConditions conditions={this.conditions}
+          <SkillConditions conditions={this.props.conditions}
             skill={this.state.skill}
             skillcost={this.state.skillcost}
             skillsub={this.state.skillsub}
             skilleffect={this.state.skilleffect}
             notifier={this.notifier}/>
-          <AbilityConditions conditions={this.conditions}
+          <AbilityConditions conditions={this.props.conditions}
             abilitycategory={this.state.abilitycategory}
             abilityeffect={this.state.abilityeffect}
             abilitycondition={this.state.abilitycondition}
             notifier={this.notifier}/>
-          <ChainAbilityConditions conditions={this.conditions}
+          <ChainAbilityConditions conditions={this.props.conditions}
             chainabilitycategory={this.state.chainabilitycategory}
             chainabilityeffect={this.state.chainabilityeffect}
             chainabilitycondition={this.state.chainabilitycondition}
             notifier={this.notifier}/>
-          <NameConditions conditions={this.conditions}
+          <NameConditions conditions={this.props.conditions}
             actor={this.state.actor}
             illustrator={this.state.illustrator}
             notifier={this.notifier}/>
@@ -214,6 +211,10 @@ export default class ConditionView extends React.Component {
   }
 
   render() {
+    if (!this.props.conditions) {
+      return null
+    }
+
     return (
       <div className="row">
         <div className="col-sm-12 col-md-12 ">
@@ -294,7 +295,7 @@ export default class ConditionView extends React.Component {
               </div>
             </div>
             <SourceConditions
-              conditions={this.conditions}
+              conditions={this.props.conditions}
               sourcecategory={this.state.sourcecategory}
               source={this.state.source}
               notifier={this.notifier}/>

@@ -16,6 +16,7 @@ export default class Searcher {
   static init(dataVer, appPath) {
     __searcher_config.ver = (dataVer || '')
     __searcher_config.appPath = (appPath || '')
+    __searcher_config.apiPath = `${__searcher_config.appPath}api/`
   }
 
   static search(params, url) {
@@ -48,7 +49,7 @@ export default class Searcher {
     }
 
     $("#loading-modal").modal('show')
-    const searchUrl = `${__searcher_config.appPath}arcanas`
+    const searchUrl = `${__searcher_config.apiPath}search`
     return Searcher.search(query.params(), searchUrl).flatMap((data) => {
       const as = _.map(data.result, (d) => Arcana.build(d))
       const cs = _.map(as, (a) => a.jobCode)
@@ -67,7 +68,7 @@ export default class Searcher {
     }
 
     const params = {ptm: code}
-    const ptmUrl = `${__searcher_config.appPath}ptm`
+    const ptmUrl = `${__searcher_config.apiPath}ptm`
     return Searcher.search(params, ptmUrl).flatMap((data) => {
       const as = _.mapValues(data, (d) => Arcana.build(d))
       __sercher_memberCache[code] = as
@@ -87,17 +88,12 @@ export default class Searcher {
 
     $("#loading-modal").modal('show')
     const params = {codes: unknowns.join('/')}
-    const codesUrl = `${__searcher_config.appPath}codes`
+    const codesUrl = `${__searcher_config.apiPath}codes`
     return Searcher.search(params, codesUrl).flatMap((data) => {
       _.forEach(data, (d) => Arcana.build(d))
       const as = _.map(targets, (c) => Arcana.forCode(c))
       return Bacon.once(QueryResult.create(as))
     })
-  }
-
-  static loadConditions() {
-    const condsUrl = `${__searcher_config.appPath}conditions`
-    return Searcher.search({}, condsUrl)
   }
 
   static request(text) {
@@ -109,7 +105,7 @@ export default class Searcher {
     // NOTE: add CSRF header automatically if use jQuery's Ajax with jquery-rails
     // TODO: react_on_railsの機能で取得する
     const token = $('meta[name="csrf-token"]').attr('content')
-    const requestUrl = `${__searcher_config.appPath}request`
+    const requestUrl = `${__searcher_config.apiPath}request`
     const post = Agent.post(requestUrl).set('X-CSRF-Token', token).send(params)
 
     const result = Bacon.fromPromise(post)
@@ -119,12 +115,22 @@ export default class Searcher {
   }
 
   static searchFromName(query) {
-    const nameUrl = `${__searcher_config.appPath}name`
+    const nameUrl = `${__searcher_config.apiPath}name`
     return Searcher.search(query.params(), nameUrl).flatMap((data) => {
       const as = _.map(data, (d) => Arcana.build(d))
       query.detail = `名前から検索 : ${query.params().name}`
       QueryLogs.add(query)
       return Bacon.once(QueryResult.create(as, query.detail))
     })
+  }
+
+  static loadConditions() {
+    const condsUrl = `${__searcher_config.apiPath}conditions`
+    return Searcher.search({}, condsUrl)
+  }
+
+  static loadLatestInfo() {
+    const infoUrl = `${__searcher_config.apiPath}latestinfo`
+    return Searcher.search({}, infoUrl)
   }
 }

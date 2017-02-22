@@ -7,6 +7,10 @@ module ViewerHelper
     ServerSettings.pt_version
   end
 
+  def info_version
+    Changelog.latest.try(:version)
+  end
+
   def mode_name(mode = nil)
     mode ||= action_name
     case mode
