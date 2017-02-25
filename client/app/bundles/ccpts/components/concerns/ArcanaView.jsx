@@ -20,6 +20,9 @@ export default class ArcanaView extends React.Component {
   }
 
   openArcanaViewModal(a) {
+    if (!a){
+      return
+    }
     const uri = `data/${a.jobCode}/${a.wikiLinkName}`
     this.props.historyStream.push(uri)
     const title = `${a.wikiLinkName} : Get our light! - チェンクロ パーティーシミュレーター`

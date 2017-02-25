@@ -8,6 +8,8 @@ module ViewerHelper
   end
 
   def info_version
+    info = ArcanaCache.latestinfo
+    return info['version'] if info
     Changelog.latest.try(:version)
   end
 

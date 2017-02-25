@@ -2,7 +2,7 @@ import _ from 'lodash'
 
 import Bacon from 'baconjs'
 import React from 'react'
-import { Button, Badge, Modal } from 'react-bootstrap'
+import { Button, Badge, Modal, Label } from 'react-bootstrap'
 
 import Arcana from '../../model/Arcana'
 import Favorites from '../../model/Favorites'
@@ -217,6 +217,39 @@ export default class ArcanaViewModal extends React.Component {
     )
   }
 
+  renderArcanaType(a) {
+    let cl, text;
+    switch(a.arcanaType) {
+      case 'third':
+        cl = 'success'
+        text = '新世代'
+        break
+      case 'first':
+        text = '旧世代'
+        break
+      case 'collaboration':
+        cl = 'info'
+        text = 'コラボ'
+        break
+      case 'demon':
+        text = '魔神'
+        break
+    }
+
+    if (!text) {
+      return null
+    }
+    if (!cl) {
+      cl = 'default'
+    }
+
+    return (
+      <div className="pull-right">
+        <Label bsStyle={cl}>{text}</Label>
+      </div>
+    )
+  }
+
   openArcanaViewModal(a, e) {
     e.preventDefault()
     this.props.arcanaViewStream.plug(Bacon.sequentially(50, [null, a]))
@@ -238,6 +271,7 @@ export default class ArcanaViewModal extends React.Component {
               <Badge pullRight={true}>{this.renderCost(a)}</Badge>
             </div>
             <div className='arcana-view-body'>
+              {this.renderArcanaType(a)}
               <h4 className='arcana-name'>
                 <span className='text-muted'>{a.title}</span>
                 <strong>{a.name}</strong>
