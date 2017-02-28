@@ -4,6 +4,7 @@ import React from 'react'
 
 import Arcana from '../../model/Arcana'
 import Member from '../../model/Member'
+import MessageStream from '../../model/MessageStream'
 
 import MemberCharacter from './MemberCharacter'
 import MemberSelectModal from './MemberSelectModal'
@@ -85,7 +86,7 @@ export default class MemberAreaBody extends React.Component {
     const chainMember = this.state.chainMember
     const party = this.props.party
     party.addMember(orgKey, chainMember)
-    this.props.partyStream.push(party)
+    MessageStream.partyStream.push(party)
     this.closeModal()
   }
 
@@ -103,21 +104,21 @@ export default class MemberAreaBody extends React.Component {
     } else {
       party.addMember(orgKey, target)
     }
-    this.props.partyStream.push(party)
+    MessageStream.partyStream.push(party)
   }
 
   removeMember(code, e) {
     e.preventDefault()
     const party = this.props.party
     party.removeMember(code)
-    this.props.partyStream.push(party)
+    MessageStream.partyStream.push(party)
   }
 
   removeChain(code, e) {
     e.preventDefault()
     const party = this.props.party
     party.removeChain(code)
-    this.props.partyStream.push(party)
+    MessageStream.partyStream.push(party)
   }
 
   renderMembers() {
@@ -143,7 +144,6 @@ export default class MemberAreaBody extends React.Component {
             code={code}
             member={party.memberFor(code)}
             name={l[1]}
-            arcanaViewStream={this.props.arcanaViewStream}
             removeMember={this.removeMember.bind(this, code)}
             removeChain={this.removeChain.bind(this, code)}/>
         </li>

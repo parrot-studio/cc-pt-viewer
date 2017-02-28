@@ -1,11 +1,11 @@
 import _ from 'lodash'
-import Bacon from 'baconjs'
 
 import React from 'react'
 
 import Query from '../../model/Query'
 import Party from '../../model/Party'
 import Parties from '../../model/Parties'
+import MessageStream from '../../model/MessageStream'
 import Searcher from '../../lib/Searcher'
 
 import MemberControlArea from './MemberControlArea'
@@ -22,23 +22,20 @@ export default class EditModeView extends React.Component {
     Party.ptver = this.props.ptver
     Parties.init()
 
-    const partyStream = new Bacon.Bus()
-    const memberCodeStream = new Bacon.Bus()
-
-    partyStream.onValue((party) => {
+    MessageStream.partyStream.onValue((party) => {
       Parties.setLastParty(party)
-      this.props.historyStream.push(party.createCode())
+      MessageStream.historyStream.push(party.createCode())
       this.setState({party})
     })
 
-    memberCodeStream.onValue((code) => {
+    MessageStream.memberCodeStream.onValue((code) => {
       Searcher.searchMembers(code).onValue((as) => {
         const party = Party.build(as)
         this.setState({party})
       })
     })
 
-    this.props.historyStream.onValue((target) => {
+    MessageStream.historyStream.onValue((target) => {
       let uri = ''
       if (!_.isEmpty(target) ) {
         uri = target
@@ -50,9 +47,7 @@ export default class EditModeView extends React.Component {
 
     this.state = {
       editMode: (_.isEmpty(this.props.ptm) ? true : false),
-      party: Party.create(),
-      partyStream,
-      memberCodeStream
+      party: Party.create()
     }
   }
 
@@ -62,22 +57,22 @@ export default class EditModeView extends React.Component {
       Searcher.searchCodes([code]).onValue((result) => {
         const a = result.arcanas[0]
         if (a) {
-          this.props.queryStream.push({name: a.name})
-          this.props.arcanaViewStream.push(a)
+          MessageStream.queryStream.push({name: a.name})
+          MessageStream.arcanaViewStream.push(a)
         }
       })
     }
 
     if (!this.props.phoneDevice) {
-      this.props.queryStream.push(Query.parse().params())
+      MessageStream.queryStream.push(Query.parse().params())
     }
     if (_.isEmpty(this.props.ptm)) {
-      this.state.memberCodeStream.push(Parties.lastParty)
+      MessageStream.memberCodeStream.push(Parties.lastParty)
       if (!code) {
-        this.props.historyStream.push(Parties.lastParty)
+        MessageStream.historyStream.push(Parties.lastParty)
       }
     } else {
-      this.state.memberCodeStream.push(this.props.ptm)
+      MessageStream.memberCodeStream.push(this.props.ptm)
     }
 
     if (this.state.editMode)  {
@@ -112,11 +107,7 @@ export default class EditModeView extends React.Component {
       return <TargetsEditArea
         phoneDevice={this.props.phoneDevice}
         pagerSize={this.props.pagerSize}
-        switchConditionMode={this.props.switchConditionMode}
-        conditionStream={this.props.conditionStream}
-        queryStream={this.props.queryStream}
-        resultStream={this.props.resultStream}
-        arcanaViewStream={this.props.arcanaViewStream}/>
+        switchConditionMode={this.props.switchConditionMode}/>
     }
   }
 
@@ -127,14 +118,8 @@ export default class EditModeView extends React.Component {
     return(
       <div id="edit-area" ref="editArea">
         <div id="member-area" className="well well-sm">
-          <MemberAreaHeader
-            party={this.state.party}
-            partyStream={this.state.partyStream}
-            memberCodeStream={this.state.memberCodeStream}/>
-          <MemberAreaBody
-            party={this.state.party}
-            partyStream={this.state.partyStream}
-            arcanaViewStream={this.props.arcanaViewStream}/>
+          <MemberAreaHeader party={this.state.party}/>
+          <MemberAreaBody party={this.state.party}/>
         </div>
         {this.renderTargetsArea()}
       </div>
@@ -155,8 +140,7 @@ export default class EditModeView extends React.Component {
         <div id="party-area" ref="partyArea">
           <PartyView
             phoneDevice={this.props.phoneDevice}
-            party={this.state.party}
-            arcanaViewStream={this.props.arcanaViewStream}/>
+            party={this.state.party}/>
         </div>
       </div>
     )

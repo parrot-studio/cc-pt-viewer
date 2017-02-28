@@ -4,6 +4,8 @@ import Bacon from 'baconjs'
 import React from 'react'
 import { Button, ButtonToolbar } from 'react-bootstrap'
 
+import MessageStream from '../../model/MessageStream'
+
 import SkillConditions from '../conditions/SkillConditions'
 import AbilityConditions from '../conditions/AbilityConditions'
 import ChainAbilityConditions from '../conditions/ChainAbilityConditions'
@@ -25,7 +27,7 @@ export default class ConditionView extends React.Component {
     })
 
     // subscribe query
-    this.props.conditionStream.onValue((query = {}) => {
+    MessageStream.conditionStream.onValue((query = {}) => {
       const qs = {}
       qs.job = (query.job || "")
       qs.rarity = (query.rarity || "")
@@ -91,7 +93,7 @@ export default class ConditionView extends React.Component {
   }
 
   handleReset() {
-    this.props.conditionStream.push({})
+    MessageStream.conditionStream.push({})
   }
 
   hundleSearch() {
@@ -104,7 +106,7 @@ export default class ConditionView extends React.Component {
         query[key] = val
       }
     })
-    this.props.queryStream.push(query)
+    MessageStream.queryStream.push(query)
   }
 
   renderConditionList(list) {

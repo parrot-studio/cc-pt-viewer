@@ -3,6 +3,8 @@ import _ from 'lodash'
 import React from 'react'
 import { Button } from 'react-bootstrap'
 
+import MessageStream from '../../model/MessageStream'
+
 export default class ArcanaRenderer extends React.Component {
 
   shouldComponentUpdate(nextProps) {
@@ -61,7 +63,7 @@ export default class ArcanaRenderer extends React.Component {
 
   openArcanaViewModal(a, e) {
     e.preventDefault()
-    this.props.arcanaViewStream.push(a)
+    MessageStream.arcanaViewStream.push(a)
   }
 
   setDraggable(code, k) {

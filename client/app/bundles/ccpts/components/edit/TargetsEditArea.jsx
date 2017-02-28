@@ -4,6 +4,7 @@ import React from 'react'
 import { Button, ButtonGroup } from 'react-bootstrap'
 
 import Favorites from '../../model/Favorites'
+import MessageStream from '../../model/MessageStream'
 
 import ResultView from '../concerns/ResultView'
 import PagerArea from '../concerns/PagerArea'
@@ -17,7 +18,7 @@ export default class TargetsEditArea extends ResultView {
   constructor(props) {
     super(props)
 
-    Favorites.notifyStream.onValue(() => {
+    MessageStream.favoritesStream.onValue(() => {
       _.forEach(this.state.pager.get(), (a) => {
         const code = a.jobCode
         $(`#fav-${code}`).bootstrapSwitch("state", Favorites.stateFor(code))
@@ -46,8 +47,7 @@ export default class TargetsEditArea extends ResultView {
   renderArcanas() {
     const as = _.map(this.state.pager.get(), (a) => <TargetArcana
       key={a.jobCode}
-      arcana={a}
-      arcanaViewStream={this.props.arcanaViewStream}/>)
+      arcana={a}/>)
     return <ul id="choice-characters" className="list-inline">{as}</ul>
   }
 
@@ -124,10 +124,7 @@ export default class TargetsEditArea extends ResultView {
                     onClick={this.props.switchConditionMode}>
                     <i className="fa fa-search"/> 検索
                   </Button>
-                  <SearchMenuButton
-                    phoneDevice={this.props.phoneDevice}
-                    queryStream={this.props.queryStream}
-                    resultStream={this.props.resultStream}/>
+                  <SearchMenuButton phoneDevice={this.props.phoneDevice}/>
                 </ButtonGroup>
                 &nbsp;表示中：{this.state.searchDetail}
                 <span className="pager-count">{this.renderPageCount()}</span>
@@ -146,9 +143,7 @@ export default class TargetsEditArea extends ResultView {
               phoneDevice={this.props.phoneDevice}
               changePage={this.changePage.bind(this)}/>
             {this.renderSortArea()}
-            <NameSearchForm
-              conditionStream={this.props.conditionStream}
-              queryStream={this.props.queryStream}/>
+            <NameSearchForm/>
           </div>
         </div>
       </div>

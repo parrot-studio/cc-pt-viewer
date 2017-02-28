@@ -5,6 +5,7 @@ import { Button, ButtonToolbar, DropdownButton, MenuItem } from 'react-bootstrap
 
 import Party from '../../model/Party'
 import Parties from '../../model/Parties'
+import MessageStream from '../../model/MessageStream'
 
 import MemberResetModal from './MemberResetModal'
 import MemberStoreModal from './MemberStoreModal'
@@ -19,7 +20,7 @@ export default class MemberAreaHeader extends React.Component {
       parties: Parties.parties
     }
 
-    Parties.notifyStream.onValue((parties) => {
+    MessageStream.partiesStream.onValue((parties) => {
       this.setState({parties})
     })
 
@@ -45,7 +46,7 @@ export default class MemberAreaHeader extends React.Component {
   }
 
   resetParty() {
-    this.props.partyStream.push(Party.create())
+    MessageStream.partyStream.push(Party.create())
   }
 
   reloadLastMembers() {
@@ -53,7 +54,7 @@ export default class MemberAreaHeader extends React.Component {
   }
 
   reloadMembers(code) {
-    this.props.memberCodeStream.push(code)
+    MessageStream.memberCodeStream.push(code)
   }
 
   renderParties() {

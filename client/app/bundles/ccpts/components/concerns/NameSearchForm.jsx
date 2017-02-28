@@ -1,6 +1,8 @@
 import Bacon from 'baconjs'
 import React from 'react'
 
+import MessageStream from '../../model/MessageStream'
+
 export default class NameSearchForm extends React.Component {
 
   constructor(props) {
@@ -16,9 +18,9 @@ export default class NameSearchForm extends React.Component {
       .filter((n) => n.length > 1)
       .map((n) => ({name: n}))
 
-    this.props.queryStream.plug(arcanaNameStream)
+    MessageStream.queryStream.plug(arcanaNameStream)
 
-    this.props.conditionStream.onValue((q) => {
+    MessageStream.conditionStream.onValue((q) => {
       this.setState({name: (q.name || "")})
     })
   }

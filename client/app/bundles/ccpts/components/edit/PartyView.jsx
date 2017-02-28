@@ -26,8 +26,7 @@ export default class PartyView extends React.Component {
             code={code}
             member={party.memberFor(code)}
             name={l[1]}
-            phoneDevice={this.props.phoneDevice}
-            arcanaViewStream={this.props.arcanaViewStream}/>
+            phoneDevice={this.props.phoneDevice}/>
         </li>
       )
     })

@@ -3,6 +3,8 @@ import _ from 'lodash'
 import React from 'react'
 import { Button } from 'react-bootstrap'
 
+import MessageStream from '../../model/MessageStream'
+
 import ResultView from '../concerns/ResultView'
 import NameSearchForm from '../concerns/NameSearchForm'
 import PagerArea from '../concerns/PagerArea'
@@ -63,7 +65,7 @@ export default class DatabaseTableArea extends ResultView {
 
   openArcanaViewModal(a, e) {
     e.preventDefault()
-    this.props.arcanaViewStream.push(a)
+    MessageStream.arcanaViewStream.push(a)
   }
 
   renderSortIcon(col) {
@@ -182,9 +184,7 @@ export default class DatabaseTableArea extends ResultView {
               <tbody>{this.renderArcanas()}</tbody>
             </table>
           </div>
-          <NameSearchForm
-            conditionStream={this.props.conditionStream}
-            queryStream={this.props.queryStream}/>
+          <NameSearchForm/>
           <div className="well well-sm small text-muted">
             {this.state.searchDetail}
             <span className="pager-count">{this.renderPageCount()}</span>

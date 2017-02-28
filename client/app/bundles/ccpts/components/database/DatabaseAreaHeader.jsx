@@ -58,10 +58,7 @@ export default class DatabaseAreaHeader extends React.Component {
                 onClick={this.props.switchConditionMode}>
                 <i className="fa fa-search"/> 検索
               </Button>
-              <SearchMenuButton
-                phoneDevice={this.props.phoneDevice}
-                queryStream={this.props.queryStream}
-                resultStream={this.props.resultStream}/>
+              <SearchMenuButton phoneDevice={this.props.phoneDevice}/>
             </ButtonGroup>
             <Button
               bsStyle="info"

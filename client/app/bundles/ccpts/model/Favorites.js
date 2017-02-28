@@ -1,11 +1,9 @@
 import _ from 'lodash'
-import Bacon from 'baconjs'
 import { Cookie } from '../lib/Cookie'
+import MessageStream from './MessageStream'
 
 const __favorites_COOKIE_NAME = 'fav-arcana'
-
 let __favorites = {}
-const __favorites_notifyStream = new Bacon.Bus()
 
 export default class Favorites {
 
@@ -22,7 +20,7 @@ export default class Favorites {
   static setState(code, state) {
     __favorites[code] = state
     Favorites.store()
-    __favorites_notifyStream.push(__favorites)
+    MessageStream.favoritesStream.push(__favorites)
     return state
   }
 
@@ -39,7 +37,7 @@ export default class Favorites {
   static clear() {
     __favorites = {}
     Cookie.delete(__favorites_COOKIE_NAME)
-    __favorites_notifyStream.push(__favorites)
+    MessageStream.favoritesStream.push(__favorites)
     return __favorites
   }
 
@@ -67,5 +65,3 @@ export default class Favorites {
     }
   }
 }
-
-Favorites.notifyStream = __favorites_notifyStream

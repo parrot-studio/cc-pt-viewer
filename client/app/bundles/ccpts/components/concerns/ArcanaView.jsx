@@ -1,5 +1,7 @@
 import React from 'react'
 
+import MessageStream from '../../model/MessageStream'
+
 import ArcanaViewModal from './ArcanaViewModal'
 import WikiLinkModal from './WikiLinkModal'
 
@@ -14,7 +16,7 @@ export default class ArcanaView extends React.Component {
       showWikiModal: false
     }
 
-    this.props.arcanaViewStream.onValue((a) => {
+    MessageStream.arcanaViewStream.onValue((a) => {
       this.openArcanaViewModal(a)
     })
   }
@@ -24,7 +26,7 @@ export default class ArcanaView extends React.Component {
       return
     }
     const uri = `data/${a.jobCode}/${a.wikiLinkName}`
-    this.props.historyStream.push(uri)
+    MessageStream.historyStream.push(uri)
     const title = `${a.wikiLinkName} : Get our light! - チェンクロ パーティーシミュレーター`
     this.changeTitle(title)
     this.setState({
@@ -36,7 +38,7 @@ export default class ArcanaView extends React.Component {
 
   closeArcanaViewModal() {
     this.changeTitle()
-    this.props.historyStream.push('')
+    MessageStream.historyStream.push('')
     this.setState({
       viewArcana: null,
       showArcanaViewModal: false,
@@ -53,7 +55,7 @@ export default class ArcanaView extends React.Component {
 
   closeWikiModal() {
     this.changeTitle()
-    this.props.historyStream.push('')
+    MessageStream.historyStream.push('')
     this.setState({
       viewArcana: null,
       showArcanaViewModal: false,
@@ -72,8 +74,7 @@ export default class ArcanaView extends React.Component {
           showModal={this.state.showArcanaViewModal}
           viewArcana={this.state.viewArcana}
           closeModal={this.closeArcanaViewModal.bind(this)}
-          openWikiModal={this.openWikiModal.bind(this)}
-          arcanaViewStream={this.props.arcanaViewStream}/>
+          openWikiModal={this.openWikiModal.bind(this)}/>
         <WikiLinkModal
           showModal={this.state.showWikiModal}
           viewArcana={this.state.viewArcana}

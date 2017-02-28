@@ -1,5 +1,3 @@
-import Bacon from 'baconjs'
-
 import React from 'react'
 import { Nav, NavItem, Alert } from 'react-bootstrap'
 
@@ -7,6 +5,7 @@ import Query from '../model/Query'
 import QueryLogs from '../model/QueryLogs'
 import Favorites from '../model/Favorites'
 import Conditions from '../model/Conditions'
+import MessageStream from '../model/MessageStream'
 import Searcher from '../lib/Searcher'
 import { Cookie } from '../lib/Cookie'
 
@@ -26,11 +25,6 @@ export default class AppView extends React.Component {
 
     const mode = this.props.mode
     const phoneDevice = this.props.phoneDevice
-    const queryStream = new Bacon.Bus()
-    const conditionStream = new Bacon.Bus()
-    const resultStream = new Bacon.Bus()
-    const arcanaViewStream = new Bacon.Bus()
-    const historyStream = new Bacon.Bus()
 
     let pagerSize = 8
     let recentlySize = 32
@@ -54,22 +48,15 @@ export default class AppView extends React.Component {
     Favorites.init()
 
     const recentlyQuery = Query.create({recently: recentlySize})
-    const searchStream = queryStream
+    const searchStream = MessageStream.queryStream
       .doAction(() => this.switchMainMode())
       .map((q) => Query.create(q))
       .map((q) => (q.isEmpty() ? recentlyQuery : q))
       .flatMap((query) => Searcher.searchArcanas(query))
-
-    conditionStream.plug(queryStream)
-    resultStream.plug(searchStream)
+    MessageStream.resultStream.plug(searchStream)
 
     this.state = {
       pagerSize,
-      queryStream,
-      conditionStream,
-      resultStream,
-      arcanaViewStream,
-      historyStream,
       showConditionArea: false
     }
   }
@@ -86,7 +73,7 @@ export default class AppView extends React.Component {
       this.setState({
         showConditionArea: false
       }, () => {
-        this.state.resultStream.push({reload: true})
+        MessageStream.resultStream.push({reload: true})
         this.fadeModeArea()
       })
     }
@@ -168,24 +155,14 @@ export default class AppView extends React.Component {
           ptver={this.props.ptver}
           code={this.props.code}
           switchConditionMode={this.switchConditionMode.bind(this)}
-          pagerSize={this.state.pagerSize}
-          conditionStream={this.state.conditionStream}
-          queryStream={this.state.queryStream}
-          resultStream={this.state.resultStream}
-          arcanaViewStream={this.state.arcanaViewStream}
-          historyStream={this.state.historyStream}/>
+          pagerSize={this.state.pagerSize}/>
       case 'database':
         return <DatabaseModeView
           code={this.props.code}
           phoneDevice={this.props.phoneDevice}
           appPath={this.props.appPath}
           switchConditionMode={this.switchConditionMode.bind(this)}
-          pagerSize={this.state.pagerSize}
-          conditionStream={this.state.conditionStream}
-          queryStream={this.state.queryStream}
-          resultStream={this.state.resultStream}
-          arcanaViewStream={this.state.arcanaViewStream}
-          historyStream={this.state.historyStream}/>
+          pagerSize={this.state.pagerSize}/>
     }
   }
 
@@ -252,15 +229,9 @@ export default class AppView extends React.Component {
         <div id="condition-area" ref="conditionArea">
           <ConditionView
             conditions={Conditions}
-            switchMainMode={this.switchMainMode.bind(this)}
-            conditionStream={this.state.conditionStream}
-            queryStream={this.state.queryStream}
-            resultStream={this.state.resultStream}/>
+            switchMainMode={this.switchMainMode.bind(this)}/>
         </div>
-        <ArcanaView
-          originTitle={this.props.originTitle}
-          arcanaViewStream={this.state.arcanaViewStream}
-          historyStream={this.state.historyStream}/>
+        <ArcanaView originTitle={this.props.originTitle}/>
       </div>
     )
   }

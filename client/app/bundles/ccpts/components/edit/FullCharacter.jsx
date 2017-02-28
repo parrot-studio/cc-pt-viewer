@@ -14,8 +14,7 @@ export default class FullCharacter extends ArcanaRenderer {
       if (m) {
         return <SummaryMember
           view="full"
-          member={m}
-          arcanaViewStream={this.props.arcanaViewStream}/>
+          member={m}/>
       } else {
         return <div className='none summary-size arcana'></div>
       }

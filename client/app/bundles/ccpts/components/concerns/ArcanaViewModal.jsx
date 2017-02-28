@@ -7,6 +7,7 @@ import { Button, Badge, Modal, Label } from 'react-bootstrap'
 import Arcana from '../../model/Arcana'
 import Favorites from '../../model/Favorites'
 import Skill from '../../model/Skill'
+import MessageStream from '../../model/MessageStream'
 
 export default class ArcanaViewModal extends React.Component {
 
@@ -252,7 +253,7 @@ export default class ArcanaViewModal extends React.Component {
 
   openArcanaViewModal(a, e) {
     e.preventDefault()
-    this.props.arcanaViewStream.plug(Bacon.sequentially(50, [null, a]))
+    MessageStream.arcanaViewStream.plug(Bacon.sequentially(50, [null, a]))
   }
 
   renderArcanaView() {

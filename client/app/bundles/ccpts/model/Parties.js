@@ -1,14 +1,12 @@
 import _ from 'lodash'
-import Bacon from 'baconjs'
 
+import MessageStream from './MessageStream'
 import { Cookie } from '../lib/Cookie'
 
 const __parties_PT_SIZE = 10
 const __parties_DEFAULT_MEMBER_CODE = 'V2F82F85K51NA38NP28NP24NNNNN'
 const __parties_COOKIE_NAME_LIST = 'parties'
 const __parties_COOKIE_NAME_LAST = 'last-members'
-
-const __parties_notifyStream = new Bacon.Bus()
 
 export default class Parties {
 
@@ -28,7 +26,7 @@ export default class Parties {
     Parties.parties = []
     Parties.setListCookie('')
     Parties.setLastCookie('')
-    __parties_notifyStream.push([])
+    MessageStream.partiesStream.push([])
     return Parties.parties
   }
 
@@ -63,7 +61,7 @@ export default class Parties {
 
     const val = JSON.stringify(Parties.parties)
     Parties.setListCookie(val)
-    __parties_notifyStream.push(Parties.parties)
+    MessageStream.partiesStream.push(Parties.parties)
     return Parties.parties
   }
 
@@ -86,5 +84,3 @@ export default class Parties {
     }
   }
 }
-
-Parties.notifyStream = __parties_notifyStream

@@ -2,6 +2,7 @@ import _ from 'lodash'
 import React from 'react'
 
 import Query from '../../model/Query'
+import MessageStream from '../../model/MessageStream'
 import Searcher from '../../lib/Searcher'
 
 import DatabaseAreaHeader from './DatabaseAreaHeader'
@@ -16,14 +17,14 @@ export default class DatabaseModeView extends React.Component {
       lastQueryCode: null
     }
 
-    this.props.queryStream.onValue((q) => {
+    MessageStream.queryStream.onValue((q) => {
       const code = Query.create(q).encode()
       this.setState({lastQueryCode: code}, () => {
-        this.props.historyStream.push('')
+        MessageStream.historyStream.push('')
       })
     })
 
-    this.props.historyStream.onValue((target) => {
+    MessageStream.historyStream.onValue((target) => {
       let uri = ''
       if (!_.isEmpty(target) ) {
         uri = target
@@ -45,12 +46,12 @@ export default class DatabaseModeView extends React.Component {
       Searcher.searchCodes([code]).onValue((result) => {
         const a = result.arcanas[0]
         if (a) {
-          this.props.queryStream.push({name: a.name})
-          this.props.arcanaViewStream.push(a)
+          MessageStream.queryStream.push({name: a.name})
+          MessageStream.arcanaViewStream.push(a)
         }
       })
     }
-    this.props.queryStream.push(Query.parse().params())
+    MessageStream.queryStream.push(Query.parse().params())
   }
 
   render() {
@@ -59,17 +60,10 @@ export default class DatabaseModeView extends React.Component {
         <DatabaseAreaHeader
           phoneDevice={this.props.phoneDevice}
           appPath={this.props.appPath}
-          switchConditionMode={this.props.switchConditionMode}
-          conditionStream={this.props.conditionStream}
-          queryStream={this.props.queryStream}
-          resultStream={this.props.resultStream}/>
+          switchConditionMode={this.props.switchConditionMode}/>
         <DatabaseTableArea
           phoneDevice={this.props.phoneDevice}
-          pagerSize={this.props.pagerSize}
-          conditionStream={this.props.conditionStream}
-          queryStream={this.props.queryStream}
-          resultStream={this.props.resultStream}
-          arcanaViewStream={this.props.arcanaViewStream}/>
+          pagerSize={this.props.pagerSize}/>
       </div>
     )
   }

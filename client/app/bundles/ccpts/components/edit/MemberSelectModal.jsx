@@ -45,8 +45,7 @@ export default class MemberSelectModal extends React.Component {
               <div className="col-sm-10 col-md-10">
                 <SummaryMember
                   view="chain"
-                  member={this.props.chainMember}
-                  arcanaViewStream={this.props.arcanaViewStream}/>
+                  member={this.props.chainMember}/>
               </div>
               <p className="clearfix"/>
               {this.renderLabels()}
@@ -62,8 +61,7 @@ export default class MemberSelectModal extends React.Component {
               <div className="col-sm-10 col-md-10">
                 <SummaryMember
                   view="chain"
-                  member={this.props.replaceMember}
-                  arcanaViewStream={this.props.arcanaViewStream}/>
+                  member={this.props.replaceMember}/>
               </div>
             </div>
           </div>

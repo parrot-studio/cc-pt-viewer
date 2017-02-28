@@ -1,12 +1,11 @@
 import _ from 'lodash'
-import Bacon from 'baconjs'
 import Query from './Query'
+
+import MessageStream from './MessageStream'
 import { QueryLogCookie } from '../lib/Cookie'
 
 const __queryLog_LOG_SIZE = 10
 const __queryLog_COOKIE_NAME = 'query-log'
-
-const __queryLog_notifyStream = new Bacon.Bus()
 
 export default class QueryLogs {
 
@@ -31,7 +30,7 @@ export default class QueryLogs {
     const co = {}
     co[__queryLog_COOKIE_NAME] = cs
     QueryLogCookie.set(co)
-    __queryLog_notifyStream.push(QueryLogs.querys)
+    MessageStream.queryLogsStream.push(QueryLogs.querys)
     return q
   }
 
@@ -39,7 +38,7 @@ export default class QueryLogs {
     QueryLogs.lastQuery = null
     QueryLogs.querys = []
     QueryLogCookie.delete(__queryLog_COOKIE_NAME)
-    __queryLog_notifyStream.push([])
+    MessageStream.queryLogsStream.push([])
   }
 
   static init() {
@@ -62,5 +61,3 @@ export default class QueryLogs {
     }
   }
 }
-
-QueryLogs.notifyStream = __queryLog_notifyStream

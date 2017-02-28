@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Pager from '../../lib/Pager'
+import MessageStream from '../../model/MessageStream'
 
 export default class ResultView extends React.Component {
 
@@ -12,7 +13,7 @@ export default class ResultView extends React.Component {
       searchDetail: "",
     }
 
-    this.props.resultStream.onValue((result) => {
+    MessageStream.resultStream.onValue((result) => {
       if (result.reload) {
         const pager = Pager.create(this.state.pager.all, this.props.pagerSize)
         this.setState({pager})
