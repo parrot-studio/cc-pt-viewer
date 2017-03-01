@@ -13,20 +13,25 @@ export default class ResultView extends React.Component {
       searchDetail: "",
     }
 
-    MessageStream.resultStream.onValue((result) => {
-      if (result.reload) {
+    this.sortOrderDefault = {name: 'asc'}
+
+    MessageStream.resultStream
+      .filter((r) => r.reload)
+      .onValue(() => {
         const pager = Pager.create(this.state.pager.all, this.props.pagerSize)
         this.setState({pager})
-      } else {
-        const pager = Pager.create(result.arcanas, this.props.pagerSize)
+      })
+
+    MessageStream.resultStream
+      .filter((r) => !r.reload)
+      .onValue((r) => {
+        const pager = Pager.create(r.arcanas, this.props.pagerSize)
         this.setState({
           pager,
           sortOrder: {},
-          searchDetail: result.detail
+          searchDetail: r.detail
         })
-      }
-    })
-    this.sortOrderDefault = {name: 'asc'}
+      })
   }
 
   changePage(page) {

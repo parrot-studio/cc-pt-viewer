@@ -24,8 +24,12 @@ export default class EditModeView extends React.Component {
 
     MessageStream.partyStream.onValue((party) => {
       Parties.setLastParty(party)
-      MessageStream.historyStream.push(party.createCode())
-      this.setState({party})
+      const code = party.createCode()
+      MessageStream.historyStream.push(code)
+      this.setState({
+        party,
+        lastHistory: code
+      })
     })
 
     MessageStream.memberCodeStream.onValue((code) => {
@@ -35,19 +39,24 @@ export default class EditModeView extends React.Component {
       })
     })
 
-    MessageStream.historyStream.onValue((target) => {
-      let uri = ''
-      if (!_.isEmpty(target) ) {
-        uri = target
-      } else if (!_.isEmpty(Parties.lastParty)) {
-        uri = Parties.lastParty
-      }
-      history.replaceState('', '', `/${uri}`)
-    })
+    MessageStream.historyStream
+      .filter((t) => _.eq(t, 'reset'))
+      .onValue(() => this.replaceHistory(''))
+
+    MessageStream.historyStream
+      .filter((t) => !_.eq(t, 'reset'))
+      .onValue((t) => {
+        if (!_.isEmpty(t)) {
+          this.replaceHistory(t)
+        } else {
+          this.replaceHistory(this.state.lastHistory)
+        }
+      })
 
     this.state = {
       editMode: (_.isEmpty(this.props.ptm) ? true : false),
-      party: Party.create()
+      party: Party.create(),
+      lastHistory: this.props.ptm
     }
   }
 
@@ -68,8 +77,8 @@ export default class EditModeView extends React.Component {
     }
     if (_.isEmpty(this.props.ptm)) {
       MessageStream.memberCodeStream.push(Parties.lastParty)
-      if (!code) {
-        MessageStream.historyStream.push(Parties.lastParty)
+      if (_.isEmpty(code)){
+        MessageStream.historyStream.push('reset')
       }
     } else {
       MessageStream.memberCodeStream.push(this.props.ptm)
@@ -84,9 +93,20 @@ export default class EditModeView extends React.Component {
     }
   }
 
+  replaceHistory(uri) {
+    history.replaceState('', '', `/${uri}`)
+  }
+
   switchEditMode() {
     this.setState({editMode: !this.state.editMode}, () => {
       this.fadeArea()
+      if (this.state.editMode) {
+        MessageStream.historyStream.push('reset')
+        this.setState({lastHistory: ''})
+      } else {
+        MessageStream.historyStream.push(Parties.lastParty)
+        this.setState({lastHistory: Parties.lastParty})
+      }
     })
   }
 

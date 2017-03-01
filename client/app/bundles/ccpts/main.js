@@ -22,7 +22,7 @@ $(() => {
   const code = $("#code").val() || ''
 
   let mode = $("#mode").val()
-  let originTitle = document.title
+  let originTitle = 'Get our light! - チェンクロ パーティーシミュレーター'
 
   if (_.eq(mode, 'ptedit') && phoneDevice && _.isEmpty(ptm)) {
     mode = 'database'
