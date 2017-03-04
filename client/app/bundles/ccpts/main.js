@@ -20,6 +20,7 @@ $(() => {
   const infover = $("#info-ver").val() || ''
   const phoneDevice = (window.innerWidth < 768 ? true : false)
   const code = $("#code").val() || ''
+  const imageMode = _.eq(location.hash, '#image')
 
   let mode = $("#mode").val()
   let originTitle = 'Get our light! - チェンクロ パーティーシミュレーター'
@@ -52,7 +53,8 @@ $(() => {
         ptver,
         infover,
         code,
-        originTitle
+        originTitle,
+        imageMode
       }),
     document.getElementById('app-view')
   )

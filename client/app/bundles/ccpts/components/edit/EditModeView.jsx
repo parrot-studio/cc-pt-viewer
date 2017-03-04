@@ -53,8 +53,13 @@ export default class EditModeView extends React.Component {
         }
       })
 
+    let editMode = true
+    if (!this.props.imageMode) {
+      editMode = _.isEmpty(this.props.ptm) ? true : false
+    }
+
     this.state = {
-      editMode: (_.isEmpty(this.props.ptm) ? true : false),
+      editMode,
       party: Party.create(),
       lastHistory: this.props.ptm
     }
@@ -121,24 +126,33 @@ export default class EditModeView extends React.Component {
   }
 
   renderTargetsArea() {
-    if (this.props.phoneDevice) {
+    if (this.props.imageMode || this.props.phoneDevice) {
       return null
-    } else {
-      return <TargetsEditArea
-        phoneDevice={this.props.phoneDevice}
-        pagerSize={this.props.pagerSize}
-        switchConditionMode={this.props.switchConditionMode}/>
     }
+
+    return <TargetsEditArea
+      phoneDevice={this.props.phoneDevice}
+      pagerSize={this.props.pagerSize}
+      switchConditionMode={this.props.switchConditionMode}/>
+  }
+
+  renderAreaHeader() {
+    if (this.props.imageMode) {
+      return null
+    }
+
+    return <MemberAreaHeader party={this.state.party}/>
   }
 
   renderEditArea() {
     if (this.props.phoneDevice) {
       return null
     }
+
     return(
       <div id="edit-area" ref="editArea">
         <div id="member-area" className="well well-sm">
-          <MemberAreaHeader party={this.state.party}/>
+          {this.renderAreaHeader()}
           <MemberAreaBody party={this.state.party}/>
         </div>
         {this.renderTargetsArea()}
@@ -146,16 +160,24 @@ export default class EditModeView extends React.Component {
     )
   }
 
+  renderControlArea() {
+    if (this.props.imageMode) {
+      return null
+    }
+
+    return <MemberControlArea
+      phoneDevice={this.props.phoneDevice}
+      appPath={this.props.appPath}
+      aboutPath={this.props.aboutPath}
+      party={this.state.party}
+      editMode={this.state.editMode}
+      switchEditMode={this.switchEditMode.bind(this)}/>
+  }
+
   render() {
     return (
       <div>
-        <MemberControlArea
-          phoneDevice={this.props.phoneDevice}
-          appPath={this.props.appPath}
-          aboutPath={this.props.aboutPath}
-          party={this.state.party}
-          editMode={this.state.editMode}
-          switchEditMode={this.switchEditMode.bind(this)}/>
+        {this.renderControlArea()}
         {this.renderEditArea()}
         <div id="party-area" ref="partyArea">
           <PartyView

@@ -54,13 +54,21 @@ export default class DatabaseModeView extends React.Component {
     MessageStream.queryStream.push(Query.parse().params())
   }
 
+  renderAreaHeader() {
+    if (this.props.imageMode) {
+      return null
+    }
+
+    return <DatabaseAreaHeader
+      phoneDevice={this.props.phoneDevice}
+      appPath={this.props.appPath}
+      switchConditionMode={this.props.switchConditionMode}/>
+  }
+
   render() {
     return (
       <div>
-        <DatabaseAreaHeader
-          phoneDevice={this.props.phoneDevice}
-          appPath={this.props.appPath}
-          switchConditionMode={this.props.switchConditionMode}/>
+        {this.renderAreaHeader()}
         <DatabaseTableArea
           phoneDevice={this.props.phoneDevice}
           pagerSize={this.props.pagerSize}/>

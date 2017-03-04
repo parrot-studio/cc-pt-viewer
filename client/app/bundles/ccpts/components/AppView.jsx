@@ -120,6 +120,10 @@ export default class AppView extends React.Component {
   }
 
   renderHeadInfo() {
+    if (this.props.imageMode) {
+      return null
+    }
+
     if (this.props.mode !== 'ptedit') {
       return this.renderLatestInfo()
     }
@@ -134,6 +138,10 @@ export default class AppView extends React.Component {
   }
 
   renderWarning() {
+    if (this.props.imageMode) {
+      return null
+    }
+
     if (this.props.mode !== 'ptedit' || !this.props.phoneDevice) {
       return null
     }
@@ -141,6 +149,10 @@ export default class AppView extends React.Component {
   }
 
   renderNextVersionWarning() {
+    if (this.props.imageMode) {
+      return null
+    }
+
     return <NextVersionWarning appPath={this.props.appPath}/>
   }
 
@@ -155,18 +167,24 @@ export default class AppView extends React.Component {
           ptver={this.props.ptver}
           code={this.props.code}
           switchConditionMode={this.switchConditionMode.bind(this)}
-          pagerSize={this.state.pagerSize}/>
+          pagerSize={this.state.pagerSize}
+          imageMode={this.props.imageMode}/>
       case 'database':
         return <DatabaseModeView
           code={this.props.code}
           phoneDevice={this.props.phoneDevice}
           appPath={this.props.appPath}
           switchConditionMode={this.switchConditionMode.bind(this)}
-          pagerSize={this.state.pagerSize}/>
+          pagerSize={this.state.pagerSize}
+          imageMode={this.props.imageMode}/>
     }
   }
 
   renderNav() {
+    if (this.props.imageMode) {
+      return null
+    }
+
     if (this.props.phoneDevice) {
       return null
     }
