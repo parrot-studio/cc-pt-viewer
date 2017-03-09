@@ -238,9 +238,9 @@
 アエル・グルン,M,46,1,d,ブルーレンブリッツ,3,,attack,one_line,,,,,,
 イスレム,M,47,1,d,アイスストーム,1,,attack,range_forward,ice,add_freeze,,,,凍結は専用武器アビリティで付与
 アルドラ,M,48,1,d,ユニヴェール,3,,attack,range_all,,,,,,
-ヴェルナー,M,49,1,,ヴォルケーノ,2,,attack,range_line,fire,add_down,,,,
+ヴェルナー,M,49,1,d,ヴォルケーノ,2,,attack,range_line,fire,add_down,,,,
 カティア,M,50,1,d,ソードスペル,2,,attack,range_forward,,,,,,
-ユニ,M,51,1,,アブソリュートゼロ,2,,attack,one_combo,ice,,,,,
+ユニ,M,51,1,d,アブソリュートゼロ,2,,attack,one_combo,ice,,,,,
 メフルナーシュ,M,52,1,d,精霊の舞,2,,song_dance,dup,guard_fire,,,,,
 イザベル,M,53,1,,ブリザードニードル,2,,attack,range_line,ice,,,,,
 チアリー,M,54,1,d,トリックマジック,2,,attack,range_all,add_push,,,,,
@@ -275,7 +275,7 @@
 # 2部,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 主人公,F,82,1,d,クロノブレード,3,,attack,range_dash,add_push,,,,,
-,,,2,,ブラックナイト,1,超必殺技ゲージMAX,metamorphose,self,super_skill,adsup,guard,,,黒騎士の剣装備時のみ
+,,,2,,ブラックナイト,1,超必殺技ゲージMAX,metamorphose,self,super_skill,adsup,guard,,,装備：黒騎士の剣
 ,,,3,,クロノブレイカー・アビス,2,変身中,attack,range_forward,add_down,,,,,
 ,,,,,,forward,,attack,range_dash,add_push,,,,,変身解除
 カイン,K,51,1,d,エフォルスラッシュ,2,,attack,range_forward,,,,,,
@@ -1464,6 +1464,7 @@ SC-3000,F,254,1,,勇将明敏,2,,attack,one_short,add_push,,,,,
 # アニメ連動・2回目,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 アラム,F,296,1,d,マナスラスト,2,,attack,one_combination,add_tumble,,,,,
+,,,2,,ドラゴニック・ブレイズ,2,,attack,range_forward,super_skill,add_push,,,,装備：守護竜の焔剣
 ,,,,,,,,,,,,,,,
 # ペルソナ5コラボ,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,

@@ -4,7 +4,7 @@ export default class Ability {
 
   constructor(data) {
     this.name = (data.name || '')
-    this.weaponName = (data.weaponName  || '')
+    this.weaponName = (data.weapon_name  || '')
     this.effects = []
     if (!_.isEmpty(data.effects)){
       this.effects = _.map(data.effects, (e) => ({

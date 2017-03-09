@@ -113,7 +113,7 @@ export default class ArcanaViewModal extends React.Component {
 
     return (
       <div>
-        {ab.name}{ab.weaponName ? `（${ab.weaponName}）` : ""}
+        {ab.name}{!_.isEmpty(ab.weaponName) ? `（${ab.weaponName}）` : ""}
         <ul className='small list-unstyled ability-detail'>
           {abs}
         </ul>

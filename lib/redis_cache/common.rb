@@ -20,8 +20,10 @@ module RedisCache
       end
 
       delegate :keys, to: :redis
-      delegate :flushdb, to: :redis
-      alias_method :clear, :flushdb
+
+      def clear
+        redis.redis.flushdb
+      end
 
       def delete(names)
         keys = [names].flatten.compact

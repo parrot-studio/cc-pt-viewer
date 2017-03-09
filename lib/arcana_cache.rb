@@ -67,7 +67,7 @@ class ArcanaCache
         futures.each do |f|
           data = f.value
           a = begin
-                Marshal.load(data).with_indifferent_access
+                Oj.load(data).with_indifferent_access
               rescue
                 nil
               end
@@ -136,7 +136,7 @@ class ArcanaCache
     def update_cache(arcana)
       return unless arcana
       data = arcana.serialize
-      redis.set(arcana_cache_key(arcana.job_code), Marshal.dump(data))
+      redis.set(arcana_cache_key(arcana.job_code), Oj.dump(data))
       data.with_indifferent_access
     end
 

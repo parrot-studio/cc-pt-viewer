@@ -12,7 +12,7 @@ module RedisCache
       end
 
       def add_object_cache(name, val, time = nil)
-        add_cache(name, Marshal.dump(val), time)
+        add_cache(name, Oj.dump(val), time)
       end
 
       def read_cache(name)
@@ -22,7 +22,7 @@ module RedisCache
       def read_object_cache(name)
         val = read_cache(name)
         begin
-          val ? Marshal.load(val) : nil
+          val ? Oj.load(val) : nil
         rescue
           nil
         end
