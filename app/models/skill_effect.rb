@@ -159,7 +159,7 @@ class SkillEffect < ApplicationRecord
       }
     },
     buff: {
-      name: 'ステータス上昇',
+      name: '強化',
       sub: {
         self: '自身',
         all: '全体',
@@ -167,7 +167,9 @@ class SkillEffect < ApplicationRecord
         fighter: '戦士',
         front: '先頭の一人',
         far: '一番遠い一人',
-        random: 'ランダム'
+        random: 'ランダム',
+        restoration: '返還',
+        enchant: '付与'
       },
       effect: {
         aup: '攻撃力上昇',
@@ -184,12 +186,11 @@ class SkillEffect < ApplicationRecord
         defdown: '防御力低下',
         add_fire: '炎属性付与',
         add_ice: '氷属性付与',
-        restoration: '返還',
+        add_slow: 'スロウ付与',
         create_scrap: 'スクラップ生成',
         destroy_scrap: 'スクラップ破壊',
         super_skill: '超必殺技',
-        add_resurrection: '復活付与',
-        invincible: '無敵'
+        add_resurrection: '復活付与'
       }
     },
     barrier: {

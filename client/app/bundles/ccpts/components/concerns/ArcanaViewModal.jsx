@@ -17,6 +17,7 @@ export default class ArcanaViewModal extends React.Component {
       size: 'mini',
       onColor: 'success',
       labelText: 'お気に入り',
+      labelWidth: '70',
       onSwitchChange: (e, state) => {
         Favorites.setState($(e.target).data('jobCode'), state)
       }

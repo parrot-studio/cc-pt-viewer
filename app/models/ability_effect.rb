@@ -68,6 +68,7 @@ class AbilityEffect < ApplicationRecord
         poison_atkup: '毒ダメージ上昇',
         blind_boost: '暗闇の効果延長',
         down_boost: 'ダウンの効果延長',
+        slow_boost: 'スロウの効果延長',
         registup: '魔法ダメージ軽減',
         invisible: '見えなくなる（遠距離無効）',
         single_shoot: '単発射撃',

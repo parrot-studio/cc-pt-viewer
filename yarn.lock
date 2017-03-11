@@ -3,10 +3,8 @@
 
 
 bootstrap-switch@^3.3.2:
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/bootstrap-switch/-/bootstrap-switch-3.3.2.tgz#79ddb49fadc308fb731e257f95957af48996eea7"
-  dependencies:
-    jquery ">=1.9.0"
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/bootstrap-switch/-/bootstrap-switch-3.3.4.tgz#70e0aeb2a877c0dc766991de108e2170fc29a2ff"
 
 jquery-touchswipe@^1.6.15:
   version "1.6.15"
@@ -15,7 +13,3 @@ jquery-touchswipe@^1.6.15:
 jquery-ui-touch-punch@^0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/jquery-ui-touch-punch/-/jquery-ui-touch-punch-0.2.3.tgz#eed82242733ba243f46b3e87c1841b308191da68"
-
-jquery@>=1.9.0:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.1.1.tgz#347c1c21c7e004115e0a4da32cece041fad3c8a3"

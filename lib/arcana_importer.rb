@@ -43,7 +43,7 @@ class ArcanaImporter
     except_types = %w(buddy third)
     implemented_collabo = %w(
       konosuba persona5 utaware valkyria falcom_sen2
-      atelier_arland
+      atelier_arland maoyu loghorizon
     )
 
     except_arcanas = [
