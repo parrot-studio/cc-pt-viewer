@@ -57,8 +57,6 @@ class Arcana < ApplicationRecord
   has_many   :skills
   has_many   :abilities
 
-  scope :with_tables, -> { includes([:voice_actor, :illustrator, :skills, :abilities]) }
-
   RARITYS = (1..5).freeze
 
   JOB_NAMES = {
@@ -270,6 +268,21 @@ class Arcana < ApplicationRecord
 
   SOURCE_GROUP_CATEGORYS = [:first, :second].freeze
 
+  NOT_INHERITABLE_TYPES = [:buddy, :third].freeze
+  NOT_INHERITABLE_ARCANAS = %w(F211 F156) # ミョルン, ホーク
+  INHERITABLE_COLLABORATIONS = %w(
+    konosuba persona5 utaware valkyria falcom_sen2
+    atelier_arland maoyu loghorizon sevensins
+  )
+
+  scope :with_tables, -> { includes([:voice_actor, :illustrator, :skills, :abilities]) }
+  scope :sr_and_over, -> { where(arel_table[:rarity].gteq 4) }
+  scope :inheritable_candidates, -> {
+    sr_and_over
+      .where.not(arcana_type: NOT_INHERITABLE_TYPES)
+      .where.not(job_code: NOT_INHERITABLE_ARCANAS)
+  }
+
   validates :name,
             presence: true,
             length: { maximum: 100 }
@@ -330,6 +343,16 @@ class Arcana < ApplicationRecord
   validates :limit_hp,
             allow_nil: true,
             numericality: { only_integer: true }
+
+  class << self
+    def inheritables
+      self.inheritable_candidates.select do |a|
+        next true unless a.arcana_type == 'collaboration'
+        next true if INHERITABLE_COLLABORATIONS.include?(a.source)
+        false
+      end
+    end
+  end
 
   def skill_for(stype)
     skills.find { |a| a.skill_type == stype }
