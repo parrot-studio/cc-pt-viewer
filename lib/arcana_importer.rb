@@ -39,26 +39,7 @@ class ArcanaImporter
       end
     end
 
-    # 伝授スキルチェック
-    except_types = %w(buddy third)
-    implemented_collabo = %w(
-      konosuba persona5 utaware valkyria falcom_sen2
-      atelier_arland maoyu loghorizon
-    )
-
-    except_arcanas = [
-      'F211' # ミョルン
-    ]
-
-    Arcana.all.each do |a|
-      next if a.rarity < 4
-      next if except_types.include?(a.arcana_type)
-      next if except_arcanas.include?(a.job_code)
-      next if a.arcana_type == 'collaboration' && !implemented_collabo.include?(a.source)
-      inherit = a.skills.find_by(skill_type: 'd')
-      next if inherit
-      output_warning "warning : arcana #{a.name}(#{a.job_code}/#{a.rarity}) : lack inherit skill (#{a.arcana_type})"
-    end
+    inherit_skill_check
 
     self
   end
@@ -416,6 +397,29 @@ class ArcanaImporter
       end
       abs.each(&:destroy) # 余分なのを削除
       efs.each(&:destroy)
+    end
+  end
+
+  def inherit_skill_check
+    except_types = %w(buddy third)
+    implemented_collabo = %w(
+      konosuba persona5 utaware valkyria falcom_sen2
+      atelier_arland maoyu loghorizon sevensins
+    )
+
+    except_arcanas = [
+      'F211', # ミョルン
+      'F156'  # ホーク
+    ]
+
+    Arcana.all.each do |a|
+      next if a.rarity < 4
+      next if except_types.include?(a.arcana_type)
+      next if except_arcanas.include?(a.job_code)
+      next if a.arcana_type == 'collaboration' && !implemented_collabo.include?(a.source)
+      inherit = a.skills.find_by(skill_type: 'd')
+      next if inherit
+      output_warning "warning : arcana #{a.name}(#{a.job_code}/#{a.rarity}) : lack inherit skill (#{a.arcana_type})"
     end
   end
 end
