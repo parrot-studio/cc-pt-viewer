@@ -95,7 +95,7 @@ export default class MemberControlArea extends React.Component {
                 bsStyle="link"
                 className="act-btn"
                 onClick={this.openRequestModal.bind(this)}>
-                管理者への要望
+                管理者への要望・情報提供
               </Button>
             </ButtonToolbar>
           </div>

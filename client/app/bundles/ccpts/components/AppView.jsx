@@ -16,7 +16,6 @@ import DatabaseModeView from './database/DatabaseModeView'
 import LatestInfoArea from './concerns/LatestInfoArea'
 import ConditionView from './concerns/ConditionView'
 import ArcanaView from './concerns/ArcanaView'
-import NextVersionWarning from './concerns/NextVersionWarning'
 
 export default class AppView extends React.Component {
 
@@ -148,14 +147,6 @@ export default class AppView extends React.Component {
     return <DisplaySizeWarning appPath={this.props.appPath}/>
   }
 
-  renderNextVersionWarning() {
-    if (this.props.imageMode) {
-      return null
-    }
-
-    return <NextVersionWarning appPath={this.props.appPath}/>
-  }
-
   renderModeView() {
     switch (this.props.mode) {
       case 'ptedit':
@@ -240,7 +231,6 @@ export default class AppView extends React.Component {
         {this.renderErrorArea()}
         {this.renderWarning()}
         {this.renderHeadInfo()}
-        {this.renderNextVersionWarning()}
         <div id="main-area" ref="mainArea">
           {this.renderModeView()}
         </div>

@@ -55,6 +55,16 @@ export default class RequestFormModal extends React.Component {
           <Modal.Title>管理者への要望・情報提供</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <div className="small">
+            <p>
+              当サイトのデータは<a href='https://xn--eckfza0gxcvmna6c.gamerch.com/' target='_blank'>Wiki</a>の情報と、管理人が所有するアルカナ情報でメンテナンスしていますが、<br/>
+              それ以外の情報が足りていません。<br/>
+              <br/>
+              情報をお持ちの方は<a href='https://xn--eckfza0gxcvmna6c.gamerch.com/' target='_blank'>Wiki</a>に提供していただくか、
+              以下のフォーム・Twitterでお願いします。<br/>
+              新機能に関する要望も歓迎です。
+            </p>
+          </div>
           <div className="form-group" id="request-form">
             <label htmlFor="ptm-code">内容</label>
             <textarea
@@ -93,9 +103,62 @@ export default class RequestFormModal extends React.Component {
                 <dt>攻撃力UP等の具体的な％表示がほしい</dt>
                 <dd>「ゲーム内で確認可能な情報」ではないので、対応しません。Wikiへのリンクで確認してください。</dd>
               </dl>
+            </div>
+          </div>
+          <hr/>
+          <div>
+            <a name="info"/>
+            <h4>ATK/HPの情報がないアルカナ</h4>
+            <div className="well well-sm">
+              <small>
+                スカラデン / ガンドル / テンペスタ / ナウラ / ジーメオン / ラーナ /
+                オリュミーナ / タウィーラ
+              </small>
+            </div>
+            <h4>伝授スキルの情報がないアルカナ</h4>
+            <div className="well well-sm">
               <dl>
-                <dt>Vita版専用のアルカナも登録してほしい</dt>
-                <dd>管理人がVita版をプレイしていないので難しいです。</dd>
+                <dt>戦士</dt>
+                <dd className="small">
+                  ヨシツグ / ライア / ロレッタ（浴衣ver.） / リンリー / グララオ /
+                  マレーナ / バラクーダ（ver.1） / ニンファ（ver.2） / スーリヤ /
+                  ソーマ / コモディア / カラミティ / ブリジット / キャロ / ラントカルテ
+                </dd>
+                <dt>騎士</dt>
+                <dd className="small">
+                  スティッチア / パーシェル / モルガン / セラカ / ソール / フェーベ /
+                  ケーテ / セラフィー / リズベル / ジルヴェスター / ペローラ（3部ver.）
+                </dd>
+                <dt>弓使い</dt>
+                <dd className="small">
+                  カルネロ / ファルリン / グレタ / ボニート / バルトロ / コネリ / タチアナ /
+                  アリシア / ヨハンナ / イシュチェル / チェイス / グール＝ヴール / ダスク /
+                  バッカス / グリゼルディス / メディア / ファクト
+                </dd>
+                <dt>魔法使い</dt>
+                <dd className="small">
+                  ナイエル / シューレ / ヴェルナー（ver.2）/ イザベル /
+                  ヘリシティー / ファルベ / クララ / コラール / ピノ / ラナ / ザラ /
+                  フリーダ / アルドラ（ver.2） / クズノハ / フリージア / カティア（ver.2） /
+                  マスカルウィン / ペレキュデス / シヴァーニ / シャニ / レイチェル・アナスタシア /
+                  ストラッセ / アステリア / ケテ / エレミア（3部ver.）
+                </dd>
+                <dt>僧侶</dt>
+                <dd className="small">
+                  リヒト / ノエル（特典ver.） / トゥキリス / ヘロディア（ver.2）
+                </dd>
+                <dt>コラボ（閃の軌跡II）</dt>
+                <dd className="small">
+                  リィン / アリサ / ラウラ
+                </dd>
+                <dt>コラボ（ヴァルキュリア）</dt>
+                <dd className="small">
+                  イムカ / リエラ / ユリアナ / ウェルキン / クルト
+                </dd>
+                <dt>コラボ（ペルソナ）</dt>
+                <dd className="small">
+                  ジョーカー / クイーン / パンサー / スカル / フォックス
+                </dd>
               </dl>
             </div>
           </div>
