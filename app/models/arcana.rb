@@ -272,7 +272,7 @@ class Arcana < ApplicationRecord
   NOT_INHERITABLE_ARCANAS = %w(F211 F156) # ミョルン, ホーク
   INHERITABLE_COLLABORATIONS = %w(
     konosuba persona5 utaware valkyria falcom_sen2
-    atelier_arland maoyu loghorizon sevensins
+    atelier_arland maoyu loghorizon sevensins danmachi
   )
 
   scope :with_tables, -> { includes([:voice_actor, :illustrator, :skills, :abilities]) }

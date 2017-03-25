@@ -358,6 +358,7 @@ class AbilityEffect < ApplicationRecord
         cup: 'クリティカル率上昇',
         adup: '攻撃力/防御力上昇',
         asup: '攻撃力/移動速度上昇',
+        acup: '攻撃力/クリティカル率上昇',
         dsup: '防御力/移動速度上昇',
         scup: '移動速度/クリティカル率上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
@@ -370,8 +371,8 @@ class AbilityEffect < ApplicationRecord
       },
       target: {
         hp_worst: '一番ダメージが大きい対象',
+        nearest: '一番近い対象',
         random: 'ランダム',
-        other: '他者',
         job_f: '戦士',
         job_k: '騎士',
         job_a: '弓使い'
@@ -463,7 +464,7 @@ class AbilityEffect < ApplicationRecord
         all: '全員',
         hp_worst: '一番ダメージが大きい対象',
         lv_worst: '一番レベルが低い対象',
-        other: '他者',
+        nearest: '一番近い対象',
         job_f: '戦士',
         job_k: '騎士',
         job_fk: '戦/騎',
