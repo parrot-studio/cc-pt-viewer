@@ -185,7 +185,6 @@ class SkillEffect < ApplicationRecord
         defdown: '防御力低下',
         add_fire: '炎属性付与',
         add_ice: '氷属性付与',
-        #add_slow: 'スロウ付与',
         create_scrap: 'スクラップ生成',
         destroy_scrap: 'スクラップ破壊',
         super_skill: '超必殺技',
@@ -220,6 +219,7 @@ class SkillEffect < ApplicationRecord
         wasteland: '荒地',
         battlefield: '戦場',
         sea: '海中',
+        ship: '船上',
         night: '夜間',
         dimension: '異空間'
       },

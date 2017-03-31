@@ -171,6 +171,7 @@ class AbilityEffect < ApplicationRecord
         adsup: '攻撃力/防御力/移動速度上昇',
         adcup: '攻撃力/防御力/クリティカル率上昇',
         acrup: '攻撃力/クリティカル率/クリティカルダメージ上昇',
+        barrier: 'バリアを張る',
         super_gauge_gain: '超必殺技ゲージ上昇'
       },
       condition: {
