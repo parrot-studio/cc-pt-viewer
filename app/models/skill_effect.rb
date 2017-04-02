@@ -69,7 +69,8 @@ class SkillEffect < ApplicationRecord
         bombard: '砲撃',
         boomerang: 'ブーメラン',
         bombshoot: '爆弾付与',
-        random: 'ランダム効果'
+        random: 'ランダム効果',
+        wire_action: 'ワイヤーアクション'
       },
       effect: {
         add_blind: '暗闇追加',
