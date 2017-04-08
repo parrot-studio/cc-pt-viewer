@@ -207,7 +207,8 @@ class AbilityEffect < ApplicationRecord
       },
       condition: {
         any: 'いつでも',
-        wave_start: '各WAVE開始時'
+        wave_start: '各WAVE開始時',
+        others_skill: '味方がスキルを使った時'
       },
       target: {
         all: '全員',
