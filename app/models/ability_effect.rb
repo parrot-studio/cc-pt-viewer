@@ -249,6 +249,7 @@ class AbilityEffect < ApplicationRecord
         with_fk: '戦＋騎がいる時',
         with_fa: '戦＋弓がいる時',
         with_fm: '戦＋魔がいる時',
+        with_ka: '騎＋弓がいる時',
         with_kh: '騎＋僧がいる時',
         with_ap: '弓＋僧がいる時',
         with_kap: '騎＋弓＋僧がいる時',
@@ -460,6 +461,7 @@ class AbilityEffect < ApplicationRecord
         enemys_debuff: '敵に状態異常が多いほど',
         has_mana: '特定のマナを保持している時',
         use_mana: 'マナが使用された時',
+        mana_droped: 'マナを獲得した時',
         kill: '敵を倒した時',
         super_gauge_max: '超必殺技ゲージがMAXの時'
       },
