@@ -111,8 +111,7 @@ export default class RequestFormModal extends React.Component {
             <h4>ATK/HPの情報がないアルカナ</h4>
             <div className="well well-sm">
               <small>
-                スカラデン / ガンドル / テンペスタ / ナウラ / ジーメオン / ラーナ /
-                オリュミーナ / タウィーラ
+                （現在ありません）
               </small>
             </div>
             <h4>伝授スキルの情報がないアルカナ</h4>

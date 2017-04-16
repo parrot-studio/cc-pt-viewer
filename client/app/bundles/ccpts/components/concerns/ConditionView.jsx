@@ -160,9 +160,8 @@ export default class ConditionView extends React.Component {
   }
 
   renderArcanaCostList() {
-    const costs = _.map(_.range(4, 23).reverse(), (c) => ([`${c}D`, `${c}以下`]))
-    costs.push(["0", "0"])
-    return this.renderConditionList(costs)
+    const costs = _.map(_.range(4, 25).reverse(), (c) => ([`${c}D`, `${c}以下`]))
+    return this.renderConditionList(_.concat([["40", "40"]], costs, [["0", "0"]]))
   }
 
   renderChainCostList() {
@@ -171,8 +170,7 @@ export default class ConditionView extends React.Component {
       costs.push([c, c])
       costs.push([`${c}D`, `${c}以下`])
     })
-    costs.push(["0", "0"])
-    return this.renderConditionList(costs)
+    return this.renderConditionList(_.concat([["8", "8"]], costs, [["0", "0"]]))
   }
 
   renderAddArea() {
