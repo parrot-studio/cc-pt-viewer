@@ -67,8 +67,9 @@ class SkillEffect < ApplicationRecord
         bullets: '連射',
         chain: '周囲に連鎖',
         bombard: '砲撃',
-        boomerang: 'ブーメラン',
         bombshoot: '爆弾付与',
+        boomerang: 'ブーメラン',
+        slicer: 'スライサー',
         random: 'ランダム効果',
         wire_action: 'ワイヤーアクション'
       },
@@ -156,7 +157,8 @@ class SkillEffect < ApplicationRecord
         guard_debuff: '状態異常耐性',
         guard_fire: '炎属性軽減',
         guard_ice: '氷属性軽減',
-        guard_element: '属性軽減'
+        guard_element: '属性軽減',
+        cure_down: 'ダウン解除'
       }
     },
     buff: {

@@ -821,7 +821,7 @@
 ,,,,,,,,,,,,,,,
 # お菓子とおばけと子供たち,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
-テルー,M,138,1,d,ピーク・ア・ブゥ,1,,attack,one_random,add_curse,,,,,攻撃したあと元の位置に戻る
+テルー,M,138,1,d,ピーク・ア・ブゥ,1,,attack,one_random,add_curse,return_position,,,,
 シュガー,M,139,1,d,スウィートギフト,2,,attack,one_combo,,,,,,
 ,,,,d,,forward,,attack,one_short,add_push,,,,,
 ,,,,,,,,,,,,,,,
@@ -1041,8 +1041,8 @@
 ハハブ,F,225,1,,狂宴,2,初回のみ,buff,all,adup,,,,,
 ,,,2,d,妖艶,2,2回目以降,attack,range_blast,add_tumble,,,,,
 ,,,,,,,,,,,,,,,
-アミーナ,K,129,1,d,鶴翼の勇者,2,敵陣にいる,attack,range_line,add_down,,,,,
-,,,,d,,forward,,attack,range_dash,add_push,,,,,元の位置に戻る
+アミーナ,K,129,1,d,鶴翼の勇者,2,敵陣にいる,attack,slicer,add_down,,,,,2発
+,,,,d,,forward,,attack,range_dash,add_push,return_position,,,,
 ,,,2,,巌壁の勇者,1,自陣にいる,attack,range_self,add_push,,,,,
 ,,,,,,forward,,buff,self,dup,,,,,
 ,,,,,,,,,,,,,,,
@@ -1614,6 +1614,11 @@ SC-3000,F,254,1,,勇将明敏,2,,attack,one_short,add_push,,,,,
 ,,,,,,,,,,,,,,,
 サナオーリア,K,170,1,d,カロタ・フレースカ,2,,attack,range_dash,return_position,,,,,
 エイルニルス,A,169,1,d,アップル・ホリック,1,,attack,chain,add_poison,,,,,
+,,,,,,,,,,,,,,,
+# 3章・エシャル編,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+ラール,F,316,1,,ダンシング・スタースライサー,2,,attack,slicer,,,,,,2発
+ニール,P,100,1,,スターライト・メロディ,2,,song_dance,heal_cycle,cure_down,,,,,
 ,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
