@@ -210,7 +210,8 @@ class SkillEffect < ApplicationRecord
         guard_fire: '火属性軽減',
         guard_ice: '氷属性軽減',
         invincible: '無敵',
-        aup: '攻撃力上昇'
+        aup: '攻撃力上昇',
+        super_skill: '超必殺技'
       }
     },
     field: {
