@@ -1,7 +1,7 @@
-import React from 'react'
-import { Modal, Button, ButtonToolbar } from 'react-bootstrap'
+import React from "react"
+import { Modal, Button, ButtonToolbar } from "react-bootstrap"
 
-import Searcher from '../../lib/Searcher'
+import Searcher from "../../lib/Searcher"
 
 export default class RequestFormModal extends React.Component {
 

@@ -1,5 +1,5 @@
-import _ from 'lodash'
-import React from 'react'
+import _ from "lodash"
+import React from "react"
 
 export default class AbilityConditions extends React.Component {
 
@@ -19,6 +19,10 @@ export default class AbilityConditions extends React.Component {
 
   handleEffectChange(e) {
     this.notifier.push({abilityeffect: e.target.value})
+  }
+
+  handleTargetChange(e) {
+    this.notifier.push({abilitytarget: e.target.value})
   }
 
   renderCategoryList() {
@@ -46,6 +50,32 @@ export default class AbilityConditions extends React.Component {
     }
   }
 
+  renderTargetList() {
+    const category = this.props.abilitycategory
+    if (_.isEmpty(category)) {
+      return null
+    }
+
+    const targets = this.conditions.abilityTargetsFor(category)
+    if (_.isEmpty(targets) || targets.length <= 1) {
+      return null
+    }
+
+    const cs = _.map(targets, (c) => <option value={c[0]} key={c[0]}>{c[1]}</option>)
+    const ts = _.concat([<option value={""} key={""}>{"（全て）"}</option>], cs)
+
+    return (
+      <div className="col-sm-4 col-md-4">
+        <label htmlFor="ability-target">対象</label>
+        <select id="ability-target" className="form-control"
+            value={this.props.abilitytarget}
+            onChange={this.handleTargetChange.bind(this)}>
+            {ts}
+        </select>
+      </div>
+    )
+  }
+
   renderAddArea() {
     if (this.props.abilitycategory) {
       return (
@@ -66,6 +96,7 @@ export default class AbilityConditions extends React.Component {
               {this.renderEffectList()}
             </select>
           </div>
+          {this.renderTargetList()}
         </div>
       )
     } else {

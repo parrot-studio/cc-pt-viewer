@@ -1,17 +1,17 @@
-import _ from 'lodash'
+import _ from "lodash"
 
-import React from 'react'
-import { Button, ButtonGroup } from 'react-bootstrap'
+import React from "react"
+import { Button, ButtonGroup } from "react-bootstrap"
 
-import Favorites from '../../model/Favorites'
-import MessageStream from '../../model/MessageStream'
+import Favorites from "../../model/Favorites"
+import MessageStream from "../../model/MessageStream"
 
-import ResultView from '../concerns/ResultView'
-import PagerArea from '../concerns/PagerArea'
-import NameSearchForm from '../concerns/NameSearchForm'
-import SearchMenuButton from '../concerns/SearchMenuButton'
+import ResultView from "../concerns/ResultView"
+import PagerArea from "../concerns/PagerArea"
+import NameSearchForm from "../concerns/NameSearchForm"
+import SearchMenuButton from "../concerns/SearchMenuButton"
 
-import TargetArcana from './TargetArcana'
+import TargetArcana from "./TargetArcana"
 
 export default class TargetsEditArea extends ResultView {
 
@@ -33,7 +33,7 @@ export default class TargetsEditArea extends ResultView {
   handleSort(col, e) {
     e.stopPropagation()
 
-    const order = (this.sortOrderDefault[col] || 'desc')
+    const order = (this.sortOrderDefault[col] || "desc")
     const pager = this.state.pager
     pager.sort(col, order)
     pager.jumpPage(1)

@@ -1,8 +1,8 @@
-import _ from 'lodash'
+import _ from "lodash"
 
-import React from 'react'
+import React from "react"
 
-import FullCharacter from './FullCharacter'
+import FullCharacter from "./FullCharacter"
 
 export default class PartyView extends React.Component {
 

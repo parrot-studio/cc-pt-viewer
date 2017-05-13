@@ -1,9 +1,9 @@
-import _ from 'lodash'
+import _ from "lodash"
 
-import React from 'react'
+import React from "react"
 
-import ArcanaRenderer from './ArcanaRenderer'
-import SummaryMember from './SummaryMember'
+import ArcanaRenderer from "./ArcanaRenderer"
+import SummaryMember from "./SummaryMember"
 
 export default class FullCharacter extends ArcanaRenderer {
 
@@ -45,12 +45,12 @@ export default class FullCharacter extends ArcanaRenderer {
             <dt>Ability</dt>
             <dd>
               <ul className='list-unstyled'>
-                <li>{_.isEmpty(a.firstAbility.name) ? 'なし' : a.firstAbility.name }</li>
-                <li>{_.isEmpty(a.secondAbility.name) ? 'なし' : a.secondAbility.name}</li>
+                <li>{_.isEmpty(a.firstAbility.name) ? "なし" : a.firstAbility.name }</li>
+                <li>{_.isEmpty(a.secondAbility.name) ? "なし" : a.secondAbility.name}</li>
               </ul>
             </dd>
             <dt className='chain-ability-name'>ChainAbility</dt>
-            <dd className='small'>{this.renderChainAbility(m, 'full')}</dd>
+            <dd className='small'>{this.renderChainAbility(m, "full")}</dd>
           </dl>
         </div>
         <div className={`${a.jobClass}-footer arcana-footer`}></div>

@@ -1,9 +1,9 @@
-import _ from 'lodash'
-import React from 'react'
-import { Alert } from 'react-bootstrap'
+import _ from "lodash"
+import React from "react"
+import { Alert } from "react-bootstrap"
 
-import { Cookie } from '../../lib/Cookie'
-import Searcher from '../../lib/Searcher'
+import { Cookie } from "../../lib/Cookie"
+import Searcher from "../../lib/Searcher"
 
 export default class LatestInfoArea extends React.Component {
 
@@ -20,7 +20,7 @@ export default class LatestInfoArea extends React.Component {
     if (this.isShowLatestInfo()) {
       Searcher.loadLatestInfo().onValue((info) => {
         this.setState({info}, () => {
-          Cookie.set({'latest-info': info.version})
+          Cookie.set({"latest-info": info.version})
         })
       })
     }
@@ -38,7 +38,7 @@ export default class LatestInfoArea extends React.Component {
 
     let showed = ""
     try {
-      showed = String(Cookie.valueFor('latest-info'))
+      showed = String(Cookie.valueFor("latest-info"))
     } catch (e) {
       showed = ""
     }

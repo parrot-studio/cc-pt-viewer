@@ -1,21 +1,21 @@
-import React from 'react'
-import { Nav, NavItem, Alert } from 'react-bootstrap'
+import React from "react"
+import { Nav, NavItem, Alert } from "react-bootstrap"
 
-import Query from '../model/Query'
-import QueryLogs from '../model/QueryLogs'
-import Favorites from '../model/Favorites'
-import Conditions from '../model/Conditions'
-import MessageStream from '../model/MessageStream'
-import Searcher from '../lib/Searcher'
-import { Cookie } from '../lib/Cookie'
+import Query from "../model/Query"
+import QueryLogs from "../model/QueryLogs"
+import Favorites from "../model/Favorites"
+import Conditions from "../model/Conditions"
+import MessageStream from "../model/MessageStream"
+import Searcher from "../lib/Searcher"
+import { Cookie } from "../lib/Cookie"
 
-import EditModeView from './edit/EditModeView'
-import EditTutorialArea from './edit/EditTutorialArea'
-import DisplaySizeWarning from './edit/DisplaySizeWarning'
-import DatabaseModeView from './database/DatabaseModeView'
-import LatestInfoArea from './concerns/LatestInfoArea'
-import ConditionView from './concerns/ConditionView'
-import ArcanaView from './concerns/ArcanaView'
+import EditModeView from "./edit/EditModeView"
+import EditTutorialArea from "./edit/EditTutorialArea"
+import DisplaySizeWarning from "./edit/DisplaySizeWarning"
+import DatabaseModeView from "./database/DatabaseModeView"
+import LatestInfoArea from "./concerns/LatestInfoArea"
+import ConditionView from "./concerns/ConditionView"
+import ArcanaView from "./concerns/ArcanaView"
 
 export default class AppView extends React.Component {
 
@@ -28,11 +28,11 @@ export default class AppView extends React.Component {
     let pagerSize = 8
     let recentlySize = 32
     switch (mode) {
-      case 'ptedit':
+      case "ptedit":
         pagerSize = 8
         recentlySize = 32
         break
-      case 'database':
+      case "database":
         if (phoneDevice) {
           pagerSize = 8
           recentlySize = 16
@@ -67,7 +67,7 @@ export default class AppView extends React.Component {
   }
 
   switchMainMode() {
-    $("#search-modal").modal('hide')
+    $("#search-modal").modal("hide")
     if (this.state.showConditionArea) {
       this.setState({
         showConditionArea: false
@@ -104,10 +104,10 @@ export default class AppView extends React.Component {
     mode = (mode || this.props.mode)
     let name = ""
     switch (mode) {
-      case 'ptedit':
+      case "ptedit":
         name = "パーティー編集モード"
         break
-      case 'database':
+      case "database":
         name = "データベースモード"
         break
     }
@@ -123,11 +123,11 @@ export default class AppView extends React.Component {
       return null
     }
 
-    if (this.props.mode !== 'ptedit') {
+    if (this.props.mode !== "ptedit") {
       return this.renderLatestInfo()
     }
 
-    const tutorial = Cookie.valueFor('tutorial')
+    const tutorial = Cookie.valueFor("tutorial")
     if (!tutorial) {
       Cookie.set({tutorial: true})
       return <EditTutorialArea/>
@@ -141,7 +141,7 @@ export default class AppView extends React.Component {
       return null
     }
 
-    if (this.props.mode !== 'ptedit' || !this.props.phoneDevice) {
+    if (this.props.mode !== "ptedit" || !this.props.phoneDevice) {
       return null
     }
     return <DisplaySizeWarning appPath={this.props.appPath}/>
@@ -149,7 +149,7 @@ export default class AppView extends React.Component {
 
   renderModeView() {
     switch (this.props.mode) {
-      case 'ptedit':
+      case "ptedit":
         return <EditModeView
           phoneDevice={this.props.phoneDevice}
           appPath={this.props.appPath}
@@ -160,7 +160,7 @@ export default class AppView extends React.Component {
           switchConditionMode={this.switchConditionMode.bind(this)}
           pagerSize={this.state.pagerSize}
           imageMode={this.props.imageMode}/>
-      case 'database':
+      case "database":
         return <DatabaseModeView
           code={this.props.code}
           phoneDevice={this.props.phoneDevice}

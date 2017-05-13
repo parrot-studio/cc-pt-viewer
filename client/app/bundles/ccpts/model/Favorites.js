@@ -1,8 +1,8 @@
-import _ from 'lodash'
-import { Cookie } from '../lib/Cookie'
-import MessageStream from './MessageStream'
+import _ from "lodash"
+import { Cookie } from "../lib/Cookie"
+import MessageStream from "./MessageStream"
 
-const __favorites_COOKIE_NAME = 'fav-arcana'
+const __favorites_COOKIE_NAME = "fav-arcana"
 let __favorites = {}
 
 export default class Favorites {
@@ -30,7 +30,7 @@ export default class Favorites {
         if (s) {
           return c
         }
-        return ''
+        return ""
       }).compact().value().sort()
   }
 
@@ -44,7 +44,7 @@ export default class Favorites {
   static store() {
     const fl = Favorites.list()
     const co = {}
-    co[__favorites_COOKIE_NAME] = fl.join('/')
+    co[__favorites_COOKIE_NAME] = fl.join("/")
     Cookie.set(co)
     return __favorites
   }
@@ -56,7 +56,7 @@ export default class Favorites {
       if (!list){
         return __favorites
       }
-      __favorites = _.reduce(list.split('/'), (f, c) => {
+      __favorites = _.reduce(list.split("/"), (f, c) => {
         f[c] = true
         return f
       }, {})

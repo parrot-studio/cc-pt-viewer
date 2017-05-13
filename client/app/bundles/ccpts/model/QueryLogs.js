@@ -1,11 +1,11 @@
-import _ from 'lodash'
-import Query from './Query'
+import _ from "lodash"
+import Query from "./Query"
 
-import MessageStream from './MessageStream'
-import { QueryLogCookie } from '../lib/Cookie'
+import MessageStream from "./MessageStream"
+import { QueryLogCookie } from "../lib/Cookie"
 
 const __queryLog_LOG_SIZE = 10
-const __queryLog_COOKIE_NAME = 'query-log'
+const __queryLog_COOKIE_NAME = "query-log"
 
 export default class QueryLogs {
 

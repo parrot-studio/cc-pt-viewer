@@ -1,35 +1,35 @@
-import _ from 'lodash'
-import fastclick from 'fastclick'
+import _ from "lodash"
+import fastclick from "fastclick"
 
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from "react"
+import ReactDOM from "react-dom"
 
-import Searcher from './lib/Searcher'
-import AppView from './components/AppView'
+import Searcher from "./lib/Searcher"
+import AppView from "./components/AppView"
 
 $(() => {
   fastclick.attach(document.body)
 
-  $(document).on('keypress', (e) => !(e.which === 13 || e.keyCode === 13))
+  $(document).on("keypress", (e) => !(e.which === 13 || e.keyCode === 13))
 
   const appPath = $("#app-path").val()
   const aboutPath = $("#about-path").val()
-  const ptm = $("#ptm").val() || ''
-  const ptver = $("#pt-ver").val() || ''
-  const dataver = $("#data-ver").val() || ''
-  const infover = $("#info-ver").val() || ''
+  const ptm = $("#ptm").val() || ""
+  const ptver = $("#pt-ver").val() || ""
+  const dataver = $("#data-ver").val() || ""
+  const infover = $("#info-ver").val() || ""
   const phoneDevice = (window.innerWidth < 768 ? true : false)
-  const code = $("#code").val() || ''
-  const imageMode = _.eq(location.hash, '#image')
+  const code = $("#code").val() || ""
+  const imageMode = _.eq(location.hash, "#image")
 
   let mode = $("#mode").val()
-  let originTitle = 'Get our light! - チェンクロ パーティーシミュレーター'
+  let originTitle = "Get our light! - チェンクロ パーティーシミュレーター"
 
-  if (_.eq(mode, 'ptedit') && phoneDevice && _.isEmpty(ptm)) {
-    mode = 'database'
+  if (_.eq(mode, "ptedit") && phoneDevice && _.isEmpty(ptm)) {
+    mode = "database"
     originTitle = `データベースモード : ${originTitle}`
     document.title = originTitle
-    history.replaceState('','',`db`)
+    history.replaceState("","","db")
   }
 
   if (phoneDevice) {
@@ -56,6 +56,6 @@ $(() => {
         originTitle,
         imageMode
       }),
-    document.getElementById('app-view')
+    document.getElementById("app-view")
   )
 })

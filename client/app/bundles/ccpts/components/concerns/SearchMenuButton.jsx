@@ -1,12 +1,12 @@
-import _ from 'lodash'
+import _ from "lodash"
 
-import React from 'react'
-import { DropdownButton, MenuItem } from 'react-bootstrap'
+import React from "react"
+import { DropdownButton, MenuItem } from "react-bootstrap"
 
-import Searcher from '../../lib/Searcher'
-import Favorites from '../../model/Favorites'
-import QueryLogs from '../../model/QueryLogs'
-import MessageStream from '../../model/MessageStream'
+import Searcher from "../../lib/Searcher"
+import Favorites from "../../model/Favorites"
+import QueryLogs from "../../model/QueryLogs"
+import MessageStream from "../../model/MessageStream"
 
 export default class SearchMenuButton extends React.Component {
 
@@ -31,7 +31,7 @@ export default class SearchMenuButton extends React.Component {
 
   searchFavorite() {
     Searcher.searchCodes(Favorites.list()).onValue((result) => {
-      result.detail = 'お気に入り'
+      result.detail = "お気に入り"
       MessageStream.resultStream.push(result)
     })
   }

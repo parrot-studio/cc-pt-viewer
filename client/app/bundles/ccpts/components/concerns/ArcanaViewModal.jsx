@@ -1,25 +1,25 @@
-import _ from 'lodash'
+import _ from "lodash"
 
-import Bacon from 'baconjs'
-import React from 'react'
-import { Button, Badge, Modal, Label } from 'react-bootstrap'
+import Bacon from "baconjs"
+import React from "react"
+import { Button, Badge, Modal, Label } from "react-bootstrap"
 
-import Arcana from '../../model/Arcana'
-import Favorites from '../../model/Favorites'
-import Skill from '../../model/Skill'
-import MessageStream from '../../model/MessageStream'
+import Arcana from "../../model/Arcana"
+import Favorites from "../../model/Favorites"
+import Skill from "../../model/Skill"
+import MessageStream from "../../model/MessageStream"
 
 export default class ArcanaViewModal extends React.Component {
 
   addFavHandler(inp, a) {
     $(inp).bootstrapSwitch({
       state: Favorites.stateFor(a.jobCode),
-      size: 'mini',
-      onColor: 'success',
-      labelText: 'お気に入り',
-      labelWidth: '70',
+      size: "mini",
+      onColor: "success",
+      labelText: "お気に入り",
+      labelWidth: "70",
       onSwitchChange: (e, state) => {
-        Favorites.setState($(e.target).data('jobCode'), state)
+        Favorites.setState($(e.target).data("jobCode"), state)
       }
     })
   }
@@ -29,11 +29,11 @@ export default class ArcanaViewModal extends React.Component {
       const ef = t[0]
       let multi = ""
       switch (ef.multi_type) {
-        case 'forward':
-          multi = ' => '
+        case "forward":
+          multi = " => "
           break
-        case 'either':
-          multi = ' または '
+        case "either":
+          multi = " または "
           break
         default:
           multi = ""
@@ -48,7 +48,7 @@ export default class ArcanaViewModal extends React.Component {
       }
       let sv = ""
       if (ses.length > 0) {
-        sv = `（ ${ses.join(' / ')} ）`
+        sv = `（ ${ses.join(" / ")} ）`
       }
 
       return <li key={t[1]}>{`${multi}${ef.category} - ${ef.subcategory}${sv}`}</li>
@@ -56,7 +56,7 @@ export default class ArcanaViewModal extends React.Component {
 
     let cost = sk.cost
     if (_.isInteger(cost) && cost < 1) {
-      cost = '-'
+      cost = "-"
     }
 
     return (
@@ -96,8 +96,8 @@ export default class ArcanaViewModal extends React.Component {
   }
 
   renderAbility(ab) {
-    if (!ab || _.eq(ab.name, '？')) {
-      return '？'
+    if (!ab || _.eq(ab.name, "？")) {
+      return "？"
     }
 
     const abs = _.map(_.zip(ab.effects, _.range(ab.effects.length)), (t) => {
@@ -179,7 +179,7 @@ export default class ArcanaViewModal extends React.Component {
 
   renderCost(a) {
     if (a.isBuddy()) {
-      return 'Buddy'
+      return "Buddy"
     } else {
       return `${a.cost} ( ${a.chainCost} )`
     }
@@ -222,19 +222,19 @@ export default class ArcanaViewModal extends React.Component {
   renderArcanaType(a) {
     let cl, text;
     switch(a.arcanaType) {
-      case 'third':
-        cl = 'success'
-        text = '新世代'
+      case "third":
+        cl = "success"
+        text = "新世代"
         break
-      case 'first':
-        text = '旧世代'
+      case "first":
+        text = "旧世代"
         break
-      case 'collaboration':
-        cl = 'info'
-        text = 'コラボ'
+      case "collaboration":
+        cl = "info"
+        text = "コラボ"
         break
-      case 'demon':
-        text = '魔神'
+      case "demon":
+        text = "魔神"
         break
     }
 
@@ -242,7 +242,7 @@ export default class ArcanaViewModal extends React.Component {
       return null
     }
     if (!cl) {
-      cl = 'default'
+      cl = "default"
     }
 
     return (

@@ -895,32 +895,22 @@ class AbilityEffect < ApplicationRecord
     end
 
     def chain_ability_effects
-      cs = Ability.chain_ability_ids
-      effects = AbilityEffect.where(ability_id: cs).select(:category, :effect).distinct.pluck(:category, :effect)
-      efs = effects.each_with_object({}) do |ef, h|
-        cate = ef.first.to_sym
-        h[cate] ||= []
-        h[cate] << ef.last.to_sym
-      end
-
-      ret = {}
-      CATEGORYS.each do |k, v|
-        next if k == :unknown
-        has = efs[k]
-        next unless has
-
-        ret[k] = []
-        v.fetch(:effect, {}).each do |ef, name|
-          next unless has.include?(ef)
-          ret[k] << [ef, name]
-        end
-      end
-      ret
+      create_chain_conds(:effect)
     end
 
     def chain_ability_conditions
+      create_chain_conds(:condition)
+    end
+
+    def chain_ability_targets
+      create_chain_conds(:target)
+    end
+
+    private
+
+    def create_chain_conds(key)
       cs = Ability.chain_ability_ids
-      conds = AbilityEffect.where(ability_id: cs).select(:category, :condition).distinct.pluck(:category, :condition)
+      conds = AbilityEffect.where(ability_id: cs).select(:category, key).distinct.pluck(:category, key)
       cos = conds.each_with_object({}) do |co, h|
         cate = co.first.to_sym
         h[cate] ||= []
@@ -934,7 +924,7 @@ class AbilityEffect < ApplicationRecord
         next unless has
 
         ret[k] = []
-        v.fetch(:condition, {}).each do |co, name|
+        v.fetch(key, {}).each do |co, name|
           next unless has.include?(co)
           ret[k] << [co, name]
         end

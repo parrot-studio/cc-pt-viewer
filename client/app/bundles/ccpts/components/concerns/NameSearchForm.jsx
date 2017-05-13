@@ -1,7 +1,7 @@
-import Bacon from 'baconjs'
-import React from 'react'
+import Bacon from "baconjs"
+import React from "react"
 
-import MessageStream from '../../model/MessageStream'
+import MessageStream from "../../model/MessageStream"
 
 export default class NameSearchForm extends React.Component {
 

@@ -1,7 +1,7 @@
-import React from 'react'
-import { Button, Modal, Label } from 'react-bootstrap'
+import React from "react"
+import { Button, Modal, Label } from "react-bootstrap"
 
-import SummaryMember from './SummaryMember'
+import SummaryMember from "./SummaryMember"
 
 export default class MemberSelectModal extends React.Component {
 

@@ -18,9 +18,11 @@ class ArcanaCache
           abilitycategorys: AbilityEffect::CATEGORY_CONDS,
           abilityeffects: AbilityEffect::EFFECT_CONDS,
           abilityconditions: AbilityEffect::CONDITION_CONDS,
+          abilitytargets: AbilityEffect::TARGET_CONDS,
           chainabilitycategorys: AbilityEffect.chain_ability_categorys,
           chainabilityeffects: AbilityEffect.chain_ability_effects,
           chainabilityconditions: AbilityEffect.chain_ability_conditions,
+          chainabilitytargets: AbilityEffect.chain_ability_targets,
           voiceactors: VoiceActor.conditions,
           illustrators: Illustrator.conditions
         }

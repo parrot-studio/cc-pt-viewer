@@ -1,23 +1,23 @@
-import _ from 'lodash'
+import _ from "lodash"
 
 export default class Skill {
 
   constructor(data) {
-    this.name = (!_.isEmpty(data.name) ? data.name : '？')
-    this.cost = (_.isInteger(data.cost) ? data.cost : '？')
+    this.name = (!_.isEmpty(data.name) ? data.name : "？")
+    this.cost = (_.isInteger(data.cost) ? data.cost : "？")
     this.effects = []
     if (!_.isEmpty(data.effects)){
       this.effects = _.map(data.effects, (e) => ({
         category: e.category,
         subcategory: e.subcategory,
-        multi_type: (e.multi_type || ''),
-        multi_condition: (e.multi_condition || ''),
-        subeffect1: (e.subeffect1 || ''),
-        subeffect2: (e.subeffect2 || ''),
-        subeffect3: (e.subeffect3 || ''),
-        subeffect4: (e.subeffect4 || ''),
-        subeffect5: (e.subeffect5 || ''),
-        note: (e.note || '')
+        multi_type: (e.multi_type || ""),
+        multi_condition: (e.multi_condition || ""),
+        subeffect1: (e.subeffect1 || ""),
+        subeffect2: (e.subeffect2 || ""),
+        subeffect3: (e.subeffect3 || ""),
+        subeffect4: (e.subeffect4 || ""),
+        subeffect5: (e.subeffect5 || ""),
+        note: (e.note || "")
       }))
     }
   }

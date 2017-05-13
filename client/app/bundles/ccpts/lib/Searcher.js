@@ -1,10 +1,10 @@
-import _ from 'lodash'
-import Bacon from 'baconjs'
-import Agent from 'superagent'
+import _ from "lodash"
+import Bacon from "baconjs"
+import Agent from "superagent"
 
-import Arcana from '../model/Arcana'
-import QueryLogs from '../model/QueryLogs'
-import QueryResult from '../model/QueryResult'
+import Arcana from "../model/Arcana"
+import QueryLogs from "../model/QueryLogs"
+import QueryResult from "../model/QueryResult"
 
 const __searcher_config = {}
 const __sercher_resultCache = {}
@@ -14,8 +14,8 @@ const __sercher_memberCache = {}
 export default class Searcher {
 
   static init(dataVer, appPath) {
-    __searcher_config.ver = (dataVer || '')
-    __searcher_config.appPath = (appPath || '')
+    __searcher_config.ver = (dataVer || "")
+    __searcher_config.appPath = (appPath || "")
     __searcher_config.apiPath = `${__searcher_config.appPath}api/`
   }
 
@@ -26,7 +26,7 @@ export default class Searcher {
     params.ver = __searcher_config.ver
     const result = Bacon.fromPromise(Agent.get(url).query(params))
     result.onError(() => $("#error-area").show())
-    result.onEnd(() => $("#loading-modal").modal('hide'))
+    result.onEnd(() => $("#loading-modal").modal("hide"))
     return result.flatMap((res) => Bacon.once(res.body))
   }
 
@@ -48,7 +48,7 @@ export default class Searcher {
       return Bacon.once(QueryResult.create(as, __sercher_detailCache[key]))
     }
 
-    $("#loading-modal").modal('show')
+    $("#loading-modal").modal("show")
     const searchUrl = `${__searcher_config.apiPath}search`
     return Searcher.search(query.params(), searchUrl).flatMap((data) => {
       const as = _.map(data.result, (d) => Arcana.build(d))
@@ -86,8 +86,8 @@ export default class Searcher {
       return Bacon.once(QueryResult.create(as))
     }
 
-    $("#loading-modal").modal('show')
-    const params = {codes: unknowns.join('/')}
+    $("#loading-modal").modal("show")
+    const params = {codes: unknowns.join("/")}
     const codesUrl = `${__searcher_config.apiPath}codes`
     return Searcher.search(params, codesUrl).flatMap((data) => {
       _.forEach(data, (d) => Arcana.build(d))
@@ -98,19 +98,19 @@ export default class Searcher {
 
   static request(text) {
     $("#error-area").hide()
-    $("#loading-modal").modal('show')
+    $("#loading-modal").modal("show")
     const params = {}
     params.text = text
 
     // NOTE: add CSRF header automatically if use jQuery's Ajax with jquery-rails
     // TODO: react_on_railsの機能で取得する
-    const token = $('meta[name="csrf-token"]').attr('content')
+    const token = $("meta[name=\"csrf-token\"]").attr("content")
     const requestUrl = `${__searcher_config.apiPath}request`
-    const post = Agent.post(requestUrl).set('X-CSRF-Token', token).send(params)
+    const post = Agent.post(requestUrl).set("X-CSRF-Token", token).send(params)
 
     const result = Bacon.fromPromise(post)
     result.onError(() => $("#error-area").show())
-    result.onEnd(() => $("#loading-modal").modal('hide'))
+    result.onEnd(() => $("#loading-modal").modal("hide"))
     return result.flatMap((res) => Bacon.once(res.body))
   }
 

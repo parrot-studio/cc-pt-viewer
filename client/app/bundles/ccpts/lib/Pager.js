@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _ from "lodash"
 
 export default class Pager {
 
@@ -70,31 +70,31 @@ export default class Pager {
     return this.page
   }
 
-  sort(col, order = 'desc') {
+  sort(col, order = "desc") {
     this.all.sort((a, b) => {
       if (_.eq(a.jobCode, b.jobCode)) {
         return 0
       }
 
       let av = a[col]
-      if (_.eq(av, '-')) {
+      if (_.eq(av, "-")) {
         av = 0
       }
       let bv = b[col]
-      if (_.eq(bv, '-')) {
+      if (_.eq(bv, "-")) {
         bv = 0
       }
 
       if (_.eq(av, bv)) {
         return 0
       } else if (av < bv) {
-        if (_.eq(order, 'desc')) {
+        if (_.eq(order, "desc")) {
           return 1
         } else {
           return -1
         }
       } else {
-        if (_.eq(order, 'desc')) {
+        if (_.eq(order, "desc")) {
           return -1
         } else {
           return 1

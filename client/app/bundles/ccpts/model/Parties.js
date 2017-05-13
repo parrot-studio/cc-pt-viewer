@@ -1,12 +1,12 @@
-import _ from 'lodash'
+import _ from "lodash"
 
-import MessageStream from './MessageStream'
-import { Cookie } from '../lib/Cookie'
+import MessageStream from "./MessageStream"
+import { Cookie } from "../lib/Cookie"
 
 const __parties_PT_SIZE = 10
-const __parties_DEFAULT_MEMBER_CODE = 'V2F82F85K51NA38NP28NP24NNNNN'
-const __parties_COOKIE_NAME_LIST = 'parties'
-const __parties_COOKIE_NAME_LAST = 'last-members'
+const __parties_DEFAULT_MEMBER_CODE = "V2F82F85K51NA38NP28NP24NNNNN"
+const __parties_COOKIE_NAME_LIST = "parties"
+const __parties_COOKIE_NAME_LAST = "last-members"
 
 export default class Parties {
 
@@ -24,8 +24,8 @@ export default class Parties {
 
   static clear() {
     Parties.parties = []
-    Parties.setListCookie('')
-    Parties.setLastCookie('')
+    Parties.setListCookie("")
+    Parties.setLastCookie("")
     MessageStream.partiesStream.push([])
     return Parties.parties
   }
@@ -45,7 +45,7 @@ export default class Parties {
     if (_.isEmpty(code)) {
       return
     }
-    comment = (comment || '名無しパーティー')
+    comment = (comment || "名無しパーティー")
     if (comment.length > 10) {
       comment = comment.substr(0, 10)
     }
@@ -68,7 +68,7 @@ export default class Parties {
   static init() {
     Parties.parties = []
     try {
-      const val = Cookie.valueFor(__parties_COOKIE_NAME_LIST) || ''
+      const val = Cookie.valueFor(__parties_COOKIE_NAME_LIST) || ""
       if (!_.isEmpty(val)) {
         Parties.parties = JSON.parse(val)
       }

@@ -1,5 +1,5 @@
-import React from 'react'
-import { Alert } from 'react-bootstrap'
+import React from "react"
+import { Alert } from "react-bootstrap"
 
 export default class DisplaySizeWarning extends React.Component {
   render() {

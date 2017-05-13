@@ -1,6 +1,6 @@
-import _ from 'lodash'
-import ObjectHash from 'object-hash'
-import Conditions from './Conditions'
+import _ from "lodash"
+import ObjectHash from "object-hash"
+import Conditions from "./Conditions"
 
 export default class Query {
 
@@ -16,7 +16,7 @@ export default class Query {
 
   constructor(q) {
     this.q = (q || {})
-    this.detail = ''
+    this.detail = ""
   }
 
   reset() {
@@ -33,7 +33,7 @@ export default class Query {
 
   parse(q) {
     if(!q) {
-      q = (location.search.replace(/(^\?)/,'') || '')
+      q = (location.search.replace(/(^\?)/,"") || "")
     }
     this.reset()
     if (_.isEmpty(q)) {
@@ -49,22 +49,22 @@ export default class Query {
       const n = ss[0]
       const v = ss[1]
 
-      const val = decodeURIComponent(v).replace(r, ' ')
-      if (_.eq(n, 'ver')) {
+      const val = decodeURIComponent(v).replace(r, " ")
+      if (_.eq(n, "ver")) {
         return
       }
       switch(n) {
-        case 'recently':
+        case "recently":
           recently = true
           break
-        case 'name':
+        case "name":
           name = val
           break
-        case 'illustratorname':
-          ret['illustrator'] = Conditions.illustratorIdFor(val)
+        case "illustratorname":
+          ret["illustrator"] = Conditions.illustratorIdFor(val)
           break
-        case 'actorname':
-          ret['actor'] = Conditions.voiceactorIdFor(val)
+        case "actorname":
+          ret["actor"] = Conditions.voiceactorIdFor(val)
           break
         default:
           ret[n] = val
@@ -82,18 +82,18 @@ export default class Query {
 
   encode() {
     if (!this.q || this.q.recently) {
-      return ''
+      return ""
     }
     let query = _.transform(this.q, (ret, v, n) => {
-      if (_.eq(n, 'ver')) {
+      if (_.eq(n, "ver")) {
         return
       }
       switch(n) {
-        case 'illustrator':
-          ret['illustratorname'] = Conditions.illustratorNameFor(v)
+        case "illustrator":
+          ret["illustratorname"] = Conditions.illustratorNameFor(v)
           break
-        case 'actor':
-          ret['actorname'] = Conditions.voiceactorNameFor(v)
+        case "actor":
+          ret["actorname"] = Conditions.voiceactorNameFor(v)
           break
         default:
           if (!_.isEmpty(v)){
@@ -109,7 +109,7 @@ export default class Query {
     _.forEach(query, (v, k) => {
       rs.push(`${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
     })
-    return rs.join("&").replace(' ', "+")
+    return rs.join("&").replace(" ", "+")
   }
 
   isQueryForRecently() {
@@ -136,7 +136,7 @@ export default class Query {
   }
 
   createKey() {
-    const query = _.omit((this.q || {}), 'ver')
+    const query = _.omit((this.q || {}), "ver")
     return ObjectHash(query)
   }
 }

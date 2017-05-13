@@ -1,12 +1,12 @@
-import _ from 'lodash'
-import React from 'react'
+import _ from "lodash"
+import React from "react"
 
-import Query from '../../model/Query'
-import MessageStream from '../../model/MessageStream'
-import Searcher from '../../lib/Searcher'
+import Query from "../../model/Query"
+import MessageStream from "../../model/MessageStream"
+import Searcher from "../../lib/Searcher"
 
-import DatabaseAreaHeader from './DatabaseAreaHeader'
-import DatabaseTableArea from './DatabaseTableArea'
+import DatabaseAreaHeader from "./DatabaseAreaHeader"
+import DatabaseTableArea from "./DatabaseTableArea"
 
 export default class DatabaseModeView extends React.Component {
 
@@ -20,23 +20,23 @@ export default class DatabaseModeView extends React.Component {
     MessageStream.queryStream.onValue((q) => {
       const code = Query.create(q).encode()
       this.setState({lastQueryCode: code}, () => {
-        MessageStream.historyStream.push('')
+        MessageStream.historyStream.push("")
       })
     })
 
     MessageStream.historyStream.onValue((target) => {
-      let uri = ''
+      let uri = ""
       if (!_.isEmpty(target) ) {
         uri = target
       } else {
         const code = this.state.lastQueryCode
         if (_.isEmpty(code)) {
-          uri = 'db'
+          uri = "db"
         } else {
           uri = `db?${code}`
         }
       }
-      history.replaceState('', '', `/${uri}`)
+      history.replaceState("", "", `/${uri}`)
     })
   }
 

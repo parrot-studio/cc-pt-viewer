@@ -1,5 +1,5 @@
-import _ from 'lodash'
-import React from 'react'
+import _ from "lodash"
+import React from "react"
 
 export default class SourceConditions extends React.Component {
 
@@ -35,7 +35,7 @@ export default class SourceConditions extends React.Component {
 
   render() {
     return (
-      <div className="form-group">
+      <div>
         <div className="col-sm-4 col-md-4">
           <label htmlFor="source-category">入手先</label>
           <select id="source-category" className="form-control"

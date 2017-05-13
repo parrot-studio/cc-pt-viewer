@@ -1,5 +1,5 @@
-import React from 'react'
-import { Modal, Button } from 'react-bootstrap'
+import React from "react"
+import { Modal, Button } from "react-bootstrap"
 
 export default class TwitterShareModal extends React.Component {
 

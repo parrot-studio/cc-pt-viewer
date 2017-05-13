@@ -13,6 +13,12 @@ dd {
   text-indent: 0.5em;
 }
 
+hr.condition {
+  border: 0;
+  height: 1px;
+  background: #ccc;
+}
+
 #wallpaper {
   z-index: -1;
   background-color: white;

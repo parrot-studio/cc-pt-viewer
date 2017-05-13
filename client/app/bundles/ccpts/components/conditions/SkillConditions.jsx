@@ -1,5 +1,5 @@
-import _ from 'lodash'
-import React from 'react'
+import _ from "lodash"
+import React from "react"
 
 export default class SkillConditions extends React.Component {
 

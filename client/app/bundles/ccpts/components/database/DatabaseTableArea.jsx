@@ -1,13 +1,13 @@
-import _ from 'lodash'
+import _ from "lodash"
 
-import React from 'react'
-import { Button } from 'react-bootstrap'
+import React from "react"
+import { Button } from "react-bootstrap"
 
-import MessageStream from '../../model/MessageStream'
+import MessageStream from "../../model/MessageStream"
 
-import ResultView from '../concerns/ResultView'
-import NameSearchForm from '../concerns/NameSearchForm'
-import PagerArea from '../concerns/PagerArea'
+import ResultView from "../concerns/ResultView"
+import NameSearchForm from "../concerns/NameSearchForm"
+import PagerArea from "../concerns/PagerArea"
 
 export default class DatabaseTableArea extends ResultView {
 

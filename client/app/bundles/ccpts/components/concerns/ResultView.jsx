@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react"
 
-import Pager from '../../lib/Pager'
-import MessageStream from '../../model/MessageStream'
+import Pager from "../../lib/Pager"
+import MessageStream from "../../model/MessageStream"
 
 export default class ResultView extends React.Component {
 
@@ -13,7 +13,7 @@ export default class ResultView extends React.Component {
       searchDetail: "",
     }
 
-    this.sortOrderDefault = {name: 'asc'}
+    this.sortOrderDefault = {name: "asc"}
 
     MessageStream.resultStream
       .filter((r) => r.reload)

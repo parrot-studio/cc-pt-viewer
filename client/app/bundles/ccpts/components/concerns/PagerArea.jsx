@@ -1,5 +1,5 @@
-import React from 'react'
-import { Pagination } from 'react-bootstrap'
+import React from "react"
+import { Pagination } from "react-bootstrap"
 
 export default class PagerArea extends React.Component {
 

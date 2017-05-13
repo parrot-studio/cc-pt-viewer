@@ -1,9 +1,9 @@
-import _ from 'lodash'
+import _ from "lodash"
 
-import Arcana from './Arcana'
-import Member from './Member'
+import Arcana from "./Arcana"
+import Member from "./Member"
 
-const __party_MEMBER_KEY = ['mem1', 'mem2', 'mem3', 'mem4', 'sub1', 'sub2', 'friend']
+const __party_MEMBER_KEY = ["mem1", "mem2", "mem3", "mem4", "sub1", "sub2", "friend"]
 
 export default class Party {
 
@@ -25,7 +25,7 @@ export default class Party {
   createCode() {
     const header = `V${Party.ptver}`
     const mems = this.members
-    let code = ''
+    let code = ""
     _.forEach(__party_MEMBER_KEY, (k) => {
       const m = mems[k]
       if (m) {
@@ -41,7 +41,7 @@ export default class Party {
     })
 
     if ((/^N+$/).test(code)) {
-      return ''
+      return ""
     }
     return (header + code)
   }
@@ -102,7 +102,7 @@ export default class Party {
   }
 
   copyFromFriend(k) {
-    const fm = this.memberFor('friend')
+    const fm = this.memberFor("friend")
     if (!fm) {
       return
     }
@@ -116,7 +116,7 @@ export default class Party {
     const tc = target.chainArcana
 
     _.forEach(__party_MEMBER_KEY, (k) => {
-      if (_.eq(k, 'friend')) {
+      if (_.eq(k, "friend")) {
         return
       }
       const m = mems[k]
@@ -141,7 +141,7 @@ export default class Party {
   _costForMembers(mems) {
     let cost = 0
     _.forEach(mems, (m, k) => {
-      if (_.eq(k, 'friend') || !m) {
+      if (_.eq(k, "friend") || !m) {
         return
       }
       cost = cost + m.chainedCost()

@@ -1,4 +1,4 @@
-import Bacon from 'baconjs'
+import Bacon from "baconjs"
 
 const __queryStream = new Bacon.Bus()
 const __conditionStream = new Bacon.Bus()

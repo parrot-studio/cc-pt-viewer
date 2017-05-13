@@ -1,14 +1,14 @@
-import _ from 'lodash'
+import _ from "lodash"
 
-import React from 'react'
-import { Button, ButtonToolbar, DropdownButton, MenuItem } from 'react-bootstrap'
+import React from "react"
+import { Button, ButtonToolbar, DropdownButton, MenuItem } from "react-bootstrap"
 
-import Party from '../../model/Party'
-import Parties from '../../model/Parties'
-import MessageStream from '../../model/MessageStream'
+import Party from "../../model/Party"
+import Parties from "../../model/Parties"
+import MessageStream from "../../model/MessageStream"
 
-import MemberResetModal from './MemberResetModal'
-import MemberStoreModal from './MemberStoreModal'
+import MemberResetModal from "./MemberResetModal"
+import MemberStoreModal from "./MemberStoreModal"
 
 export default class MemberAreaHeader extends React.Component {
 

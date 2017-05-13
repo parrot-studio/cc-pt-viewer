@@ -1,9 +1,11 @@
 class ArcanaSearcher
   QUERY_CONDITION_NAMES = [
-    :recently, :job, :rarity, :weapon, :actor, :illustrator,
+    :recently, :job, :rarity, :weapon, :arcanatype, :actor, :illustrator,
     :union, :source, :sourcecategory, :skill, :skillcost,
-    :skillsub, :skilleffect, :abilitycategory, :abilityeffect, :abilitycondition,
-    :chainabilitycategory, :chainabilityeffect, :chainabilitycondition,
+    :skillsub, :skilleffect, :abilitycategory, :abilityeffect,
+    :abilitycondition, :abilitytarget,
+    :chainabilitycategory, :chainabilityeffect,
+    :chainabilitycondition, :chainabilitytarget,
     :arcanacost, :chaincost, :actorname, :illustratorname, :name
   ].freeze
 
@@ -13,6 +15,7 @@ class ArcanaSearcher
     arcanacost: :cost,
     chaincost: :chain_cost,
     sourcecategory: :source_category,
+    arcanatype: :arcana_type,
     actor: :voice_actor_id,
     illustrator: :illustrator_id
   }.freeze
@@ -30,7 +33,7 @@ class ArcanaSearcher
   end.call.freeze
 
   DETAIL_COND_LIST = [
-    :job_type, :rarity, :cost, :chain_cost, :union, :weapon_type,
+    :job_type, :rarity, :cost, :chain_cost, :union, :weapon_type, :arcana_type,
     :skill, :skillcost, :abilitycategory, :chainabilitycategory,
     :source_category, :voice_actor_id, :illustrator_id
   ].freeze
@@ -230,6 +233,8 @@ class ArcanaSearcher
         "声優 - #{ArcanaCache.voice_actor_name(q)}"
       when :illustrator_id
         "イラスト - #{ArcanaCache.illustrator_name(q)}"
+      when :arcana_type
+        "タイプ - #{Arcana::ARCANA_TYPE_NAMES[q.to_sym]}"
       when :rarity
         case q
         when Range
@@ -286,6 +291,7 @@ class ArcanaSearcher
         str += table.fetch(:name, '') unless (query[:abilitycondition] && query[:abilityeffect])
         str += (' ' + AbilityEffect::CONDITIONS.fetch(query[:abilitycondition].to_sym, '')) if query[:abilitycondition]
         str += (' ' + table.fetch(:effect, {}).fetch(query[:abilityeffect].to_sym, '')) if query[:abilityeffect]
+        str += (' ' + table.fetch(:target, {}).fetch(query[:abilitytarget].to_sym, '')) if query[:abilitytarget]
         str
       when :chainabilitycategory
         table = AbilityEffect::CATEGORYS.fetch(query[:chainabilitycategory].to_sym, {})
@@ -294,6 +300,7 @@ class ArcanaSearcher
         str += table.fetch(:name, '') unless (query[:chainabilitycondition] && query[:chainabilityeffect])
         str += (' ' + AbilityEffect::CONDITIONS.fetch(query[:chainabilitycondition].to_sym, '')) if query[:chainabilitycondition]
         str += (' ' + table.fetch(:effect, {}).fetch(query[:chainabilityeffect].to_sym, '')) if query[:chainabilityeffect]
+        str += (' ' + table.fetch(:target, {}).fetch(query[:chainabilitytarget].to_sym, '')) if query[:chainabilitytarget]
         str
       when :source_category
         table = Arcana::SOURCE_TABLE.fetch(query[:source_category].to_sym, {})
@@ -318,9 +325,11 @@ class ArcanaSearcher
     abcate = query.delete(:abilitycategory)
     abeffect = query.delete(:abilityeffect)
     abcond = query.delete(:abilitycondition)
+    abtarget = query.delete(:abilitytarget)
     cabcate = query.delete(:chainabilitycategory)
     cabeffect = query.delete(:chainabilityeffect)
     cabcond = query.delete(:chainabilitycondition)
+    cabtarget = query.delete(:chainabilitytarget)
 
     query = replace_source_query(query)
 
@@ -332,14 +341,14 @@ class ArcanaSearcher
       arel = arel.where(id: ids)
     end
 
-    unless (abcate.blank? && abeffect.blank? && abcond.blank?)
-      ids = ability_search(AbilityEffect.exclude_chain, abcate, abeffect, abcond)
+    if [abcate, abeffect, abcond, abtarget].any?(&:present?)
+      ids = ability_search(AbilityEffect.exclude_chain, abcate, abeffect, abcond, abtarget)
       return [] if ids.blank?
       arel = arel.where(id: ids)
     end
 
-    unless (cabcate.blank? && cabeffect.blank? && cabcond.blank?)
-      ids = ability_search(AbilityEffect.only_chain, cabcate, cabeffect, cabcond)
+    if [cabcate, cabeffect, cabcond, cabtarget].any?(&:present?)
+      ids = ability_search(AbilityEffect.only_chain, cabcate, cabeffect, cabcond, cabtarget)
       return [] if ids.blank?
       arel = arel.where(id: ids)
     end
@@ -369,22 +378,23 @@ class ArcanaSearcher
                    .or(SkillEffect.where(subeffect4: efs))
                    .or(SkillEffect.where(subeffect5: efs))
       end
-      arel = arel.where(category: category) unless category.blank?
-      arel = arel.where(subcategory: sub) unless sub.blank?
+      arel = arel.where(category: category) if category.present?
+      arel = arel.where(subcategory: sub) if sub.present?
       sk = sk.joins(:skill_effects).merge(arel)
     end
 
     sk.distinct.pluck(:arcana_id)
   end
 
-  def ability_search(arel, cate, effect, cond)
+  def ability_search(arel, cate, effect, cond, target)
     return [] unless arel
-    return [] if (cate.blank? && effect.blank? && cond.blank?)
+    return [] if [cate, effect, cond, target].all?(&:blank?)
     efs = effect_group_for(effect)
 
-    arel = arel.where(category: cate) unless cate.blank?
-    arel = arel.where(effect: efs) unless efs.blank?
-    arel = arel.where(condition: cond) unless cond.blank?
+    arel = arel.where(category: cate) if cate.present?
+    arel = arel.where(effect: efs) if efs.present?
+    arel = arel.where(condition: cond) if cond.present?
+    arel = arel.where(target: target) if target.present?
 
     Ability.joins(:ability_effects).merge(arel).distinct.pluck(:arcana_id)
   end

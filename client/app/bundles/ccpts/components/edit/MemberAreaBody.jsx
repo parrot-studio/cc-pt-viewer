@@ -1,13 +1,13 @@
-import _ from 'lodash'
+import _ from "lodash"
 
-import React from 'react'
+import React from "react"
 
-import Arcana from '../../model/Arcana'
-import Member from '../../model/Member'
-import MessageStream from '../../model/MessageStream'
+import Arcana from "../../model/Arcana"
+import Member from "../../model/Member"
+import MessageStream from "../../model/MessageStream"
 
-import MemberCharacter from './MemberCharacter'
-import MemberSelectModal from './MemberSelectModal'
+import MemberCharacter from "./MemberCharacter"
+import MemberSelectModal from "./MemberSelectModal"
 
 export default class MemberAreaBody extends React.Component {
 
@@ -34,12 +34,12 @@ export default class MemberAreaBody extends React.Component {
   }
 
   handleDropedArcana(orgKey, drag) {
-    const swapKey = drag.data('memberKey')
+    const swapKey = drag.data("memberKey")
     if (orgKey === swapKey) {
       return
     }
 
-    let jobCode = drag.data('jobCode')
+    let jobCode = drag.data("jobCode")
     let arcana = Arcana.forCode(jobCode)
     // drop buddy
     if (arcana.hasOwner()) {

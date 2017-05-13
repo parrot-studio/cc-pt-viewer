@@ -1,7 +1,7 @@
-import _ from 'lodash'
+import _ from "lodash"
 
-import QueryLogs from '../../model/QueryLogs'
-import TwitterShareModal from '../concerns/TwitterShareModal'
+import QueryLogs from "../../model/QueryLogs"
+import TwitterShareModal from "../concerns/TwitterShareModal"
 
 export default class DatabaseShareModal extends TwitterShareModal {
 

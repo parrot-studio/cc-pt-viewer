@@ -270,15 +270,15 @@ class Arcana < ApplicationRecord
   SOURCE_GROUP_CATEGORYS = [:first, :second].freeze
 
   NOT_INHERITABLE_TYPES = [:buddy, :third].freeze
-  NOT_INHERITABLE_ARCANAS = %w(F211 F156) # ミョルン, ホーク
+  NOT_INHERITABLE_ARCANAS = %w(F211 F156).freeze # ミョルン, ホーク
   INHERITABLE_COLLABORATIONS = %w(
     konosuba persona5 utaware valkyria falcom_sen2
     atelier_arland maoyu loghorizon sevensins danmachi titan
-  )
+  ).freeze
 
   scope :with_tables, -> { includes([:voice_actor, :illustrator, :skills, :abilities]) }
-  scope :sr_and_over, -> { where(arel_table[:rarity].gteq 4) }
-  scope :inheritable_candidates, -> {
+  scope :sr_and_over, -> { where(arel_table[:rarity].gteq(4)) }
+  scope :inheritable_candidates, lambda {
     sr_and_over
       .where.not(arcana_type: NOT_INHERITABLE_TYPES)
       .where.not(job_code: NOT_INHERITABLE_ARCANAS)

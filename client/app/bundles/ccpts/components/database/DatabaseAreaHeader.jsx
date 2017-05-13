@@ -1,9 +1,9 @@
-import React from 'react'
-import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap'
+import React from "react"
+import { Button, ButtonGroup, ButtonToolbar } from "react-bootstrap"
 
-import SearchMenuButton from '../concerns/SearchMenuButton'
-import RequestFormModal from '../concerns/RequestFormModal'
-import DatabaseShareModal from './DatabaseShareModal'
+import SearchMenuButton from "../concerns/SearchMenuButton"
+import RequestFormModal from "../concerns/RequestFormModal"
+import DatabaseShareModal from "./DatabaseShareModal"
 
 export default class DatabaseAreaHeader extends React.Component {
 

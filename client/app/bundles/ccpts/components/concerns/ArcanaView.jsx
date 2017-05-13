@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react"
 
-import MessageStream from '../../model/MessageStream'
+import MessageStream from "../../model/MessageStream"
 
-import ArcanaViewModal from './ArcanaViewModal'
-import WikiLinkModal from './WikiLinkModal'
+import ArcanaViewModal from "./ArcanaViewModal"
+import WikiLinkModal from "./WikiLinkModal"
 
 export default class ArcanaView extends React.Component {
 
@@ -38,7 +38,7 @@ export default class ArcanaView extends React.Component {
 
   closeArcanaViewModal() {
     this.changeTitle()
-    MessageStream.historyStream.push('')
+    MessageStream.historyStream.push("")
     this.setState({
       viewArcana: null,
       showArcanaViewModal: false,
@@ -55,7 +55,7 @@ export default class ArcanaView extends React.Component {
 
   closeWikiModal() {
     this.changeTitle()
-    MessageStream.historyStream.push('')
+    MessageStream.historyStream.push("")
     this.setState({
       viewArcana: null,
       showArcanaViewModal: false,

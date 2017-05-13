@@ -1,10 +1,10 @@
-import React from 'react'
-import { Button, ButtonToolbar } from 'react-bootstrap'
+import React from "react"
+import { Button, ButtonToolbar } from "react-bootstrap"
 
-import RequestFormModal from '../concerns/RequestFormModal'
+import RequestFormModal from "../concerns/RequestFormModal"
 
-import EditHelpModal from './EditHelpModal'
-import MemberShareModal from './MemberShareModal'
+import EditHelpModal from "./EditHelpModal"
+import MemberShareModal from "./MemberShareModal"
 
 export default class MemberControlArea extends React.Component {
 

@@ -1,18 +1,18 @@
-import _ from 'lodash'
-import Bacon from 'baconjs'
+import _ from "lodash"
+import Bacon from "baconjs"
 
-import React from 'react'
-import { Button, ButtonToolbar } from 'react-bootstrap'
+import React from "react"
+import { Button, ButtonToolbar } from "react-bootstrap"
 
-import MessageStream from '../../model/MessageStream'
+import MessageStream from "../../model/MessageStream"
 
-import SkillConditions from '../conditions/SkillConditions'
-import AbilityConditions from '../conditions/AbilityConditions'
-import ChainAbilityConditions from '../conditions/ChainAbilityConditions'
-import SourceConditions from '../conditions/SourceConditions'
-import NameConditions from '../conditions/NameConditions'
+import SkillConditions from "../conditions/SkillConditions"
+import AbilityConditions from "../conditions/AbilityConditions"
+import ChainAbilityConditions from "../conditions/ChainAbilityConditions"
+import SourceConditions from "../conditions/SourceConditions"
+import NameConditions from "../conditions/NameConditions"
 
-import ClearMenuButton from './ClearMenuButton'
+import ClearMenuButton from "./ClearMenuButton"
 
 export default class ConditionView extends React.Component {
 
@@ -37,6 +37,7 @@ export default class ConditionView extends React.Component {
       qs.chaincost = (query.chaincost || "")
       qs.sourcecategory = (query.sourcecategory || "")
       qs.source = (query.source || "")
+      qs.arcanatype = (query.arcanatype || "")
       qs.actor = (query.actor || "")
       qs.illustrator = (query.illustrator || "")
       qs.skill = (query.skill || "")
@@ -46,20 +47,11 @@ export default class ConditionView extends React.Component {
       qs.abilitycategory = (query.abilitycategory || "")
       qs.abilityeffect = (query.abilityeffect || "")
       qs.abilitycondition = (query.abilitycondition || "")
+      qs.abilitytarget = (query.abilitytarget || "")
       qs.chainabilitycategory = (query.chainabilitycategory || "")
       qs.chainabilityeffect = (query.chainabilityeffect || "")
       qs.chainabilitycondition = (query.chainabilitycondition || "")
-
-      const addTargets = [
-        "actor", "illustrator", "skill", "skillcost", "skillsub", "skilleffect",
-        "abilitycategory", "abilityeffect", "abilitycondition",
-        "chainabilitycategory", "chainabilityeffect", "chainabilitycondition"
-      ]
-      qs.addCondition = _.chain(addTargets)
-        .map((t) => (query[t] ? true : false))
-        .some()
-        .value()
-
+      qs.chainabilitytarget = (query.chainabilitytarget || "")
       this.setState(qs)
     })
   }
@@ -88,8 +80,8 @@ export default class ConditionView extends React.Component {
     this.setState({chaincost: e.target.value})
   }
 
-  handleAddCondition() {
-    this.setState({addCondition: true})
+  handleArcanaType(e) {
+    this.setState({arcanatype: e.target.value})
   }
 
   handleReset() {
@@ -99,10 +91,7 @@ export default class ConditionView extends React.Component {
   hundleSearch() {
     const query = {}
     _.forEach(this.state, (val, key) => {
-      if (key === "addCondition") {
-        return
-      }
-      if (val) {
+      if (!_.isEmpty(val)) {
         query[key] = val
       }
     })
@@ -173,41 +162,15 @@ export default class ConditionView extends React.Component {
     return this.renderConditionList(_.concat([["8", "8"]], costs, [["0", "0"]]))
   }
 
-  renderAddArea() {
-    if (this.state.addCondition) {
-      return (
-        <div>
-          <SkillConditions conditions={this.props.conditions}
-            skill={this.state.skill}
-            skillcost={this.state.skillcost}
-            skillsub={this.state.skillsub}
-            skilleffect={this.state.skilleffect}
-            notifier={this.notifier}/>
-          <AbilityConditions conditions={this.props.conditions}
-            abilitycategory={this.state.abilitycategory}
-            abilityeffect={this.state.abilityeffect}
-            abilitycondition={this.state.abilitycondition}
-            notifier={this.notifier}/>
-          <ChainAbilityConditions conditions={this.props.conditions}
-            chainabilitycategory={this.state.chainabilitycategory}
-            chainabilityeffect={this.state.chainabilityeffect}
-            chainabilitycondition={this.state.chainabilitycondition}
-            notifier={this.notifier}/>
-          <NameConditions conditions={this.props.conditions}
-            actor={this.state.actor}
-            illustrator={this.state.illustrator}
-            notifier={this.notifier}/>
-        </div>
-      )
-    } else {
-      return (
-        <Button
-          bsStyle="link"
-          onClick={this.handleAddCondition.bind(this)}>
-          もっと細かい条件を指定する
-        </Button>
-      )
-    }
+  renderArcanaTypeList() {
+    const atypes = [
+      ["first", "旧世代（1部・2部）"],
+      ["third", "新世代（3部）"],
+      ["demon", "魔神"],
+      ["buddy", "バディ"],
+      ["collaboration", "コラボ"]
+    ]
+    return this.renderConditionList(atypes)
   }
 
   render() {
@@ -248,6 +211,7 @@ export default class ConditionView extends React.Component {
                 <span className="help-block small">条件をクリアして検索すると、最近登録されたアルカナが検索されます。</span>
               </div>
             </div>
+            <hr className="condition"/>
             <div className="form-group">
               <div className="col-sm-4 col-md-4">
                 <label htmlFor="job" className="control-label">職業</label>
@@ -294,12 +258,65 @@ export default class ConditionView extends React.Component {
                 </select>
               </div>
             </div>
-            <SourceConditions
-              conditions={this.props.conditions}
-              sourcecategory={this.state.sourcecategory}
-              source={this.state.source}
+            <div className="form-group">
+              <SourceConditions
+                conditions={this.props.conditions}
+                sourcecategory={this.state.sourcecategory}
+                source={this.state.source}
+                notifier={this.notifier}/>
+              <div className="col-sm-4 col-md-4">
+                <label htmlFor="arcana-type">タイプ（世代/バディ等）</label>
+                <select id="arcana-type" className="form-control"
+                  value={this.state.arcanatype} onChange={this.handleArcanaType.bind(this)}>
+                  {this.renderArcanaTypeList()}
+                </select>
+              </div>
+            </div>
+            <hr className="condition"/>
+            <SkillConditions conditions={this.props.conditions}
+              skill={this.state.skill}
+              skillcost={this.state.skillcost}
+              skillsub={this.state.skillsub}
+              skilleffect={this.state.skilleffect}
               notifier={this.notifier}/>
-            {this.renderAddArea()}
+            <hr className="condition"/>
+            <AbilityConditions conditions={this.props.conditions}
+              abilitycategory={this.state.abilitycategory}
+              abilityeffect={this.state.abilityeffect}
+              abilitycondition={this.state.abilitycondition}
+              abilitytarget={this.state.abilitytarget}
+              notifier={this.notifier}/>
+            <hr className="condition"/>
+            <ChainAbilityConditions conditions={this.props.conditions}
+              chainabilitycategory={this.state.chainabilitycategory}
+              chainabilityeffect={this.state.chainabilityeffect}
+              chainabilitycondition={this.state.chainabilitycondition}
+              chainabilitytarget={this.state.chainabilitytarget}
+              notifier={this.notifier}/>
+            <hr className="condition"/>
+            <NameConditions conditions={this.props.conditions}
+              actor={this.state.actor}
+              illustrator={this.state.illustrator}
+              notifier={this.notifier}/>
+            <hr className="condition"/>
+            <div className="form-group">
+              <div className="col-sm-12 col-md-12">
+                <ButtonToolbar>
+                  <Button
+                    bsStyle="primary"
+                    data-loading-text="検索中..."
+                    onClick={this.hundleSearch.bind(this)}>
+                    <i className="fa fa-search"/> 検索
+                  </Button>
+                  <Button
+                    bsStyle="default"
+                    className="pull-right"
+                    onClick={this.handleReset.bind(this)}>
+                    <i className="fa fa-refresh"/> 条件をクリア
+                  </Button>
+                </ButtonToolbar>
+              </div>
+            </div>
           </form>
 
           <div>
@@ -315,6 +332,6 @@ export default class ConditionView extends React.Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }

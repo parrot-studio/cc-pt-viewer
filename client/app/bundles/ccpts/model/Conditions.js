@@ -1,6 +1,6 @@
-import _ from 'lodash'
-import Bacon from 'baconjs'
-import Searcher from '../lib/Searcher'
+import _ from "lodash"
+import Bacon from "baconjs"
+import Searcher from "../lib/Searcher"
 
 let __conditions = {}
 
@@ -53,6 +53,10 @@ export default class Conditions {
     return ((__conditions.abilityconditions || {})[category] || [])
   }
 
+  static abilityTargetsFor(category) {
+    return ((__conditions.abilitytargets || {})[category] || [])
+  }
+
   static chainAbirityCategorys() {
     return (__conditions.chainabilitycategorys || [])
   }
@@ -63,6 +67,10 @@ export default class Conditions {
 
   static chainAbirityConditionsFor(category) {
     return ((__conditions.chainabilityconditions || {})[category] || [])
+  }
+
+  static chainAbilityTargetsFor(category) {
+    return ((__conditions.chainabilitytargets || {})[category] || [])
   }
 
   static voiceactors() {
@@ -82,12 +90,12 @@ export default class Conditions {
 
   static voiceactorNameFor(id) {
     if (!id) {
-      return ''
+      return ""
     }
     const num = parseInt(id)
     const rsl = _.find(__conditions.voiceactors, (v) => _.eq(v[0], num))
     if (!rsl) {
-      return ''
+      return ""
     }
     return rsl[1]
   }
@@ -109,12 +117,12 @@ export default class Conditions {
 
   static illustratorNameFor(id) {
     if (!id) {
-      return ''
+      return ""
     }
     const num = parseInt(id)
     const rsl = _.find(__conditions.illustrators, (v) => _.eq(v[0], num))
     if (!rsl) {
-      return ''
+      return ""
     }
     return rsl[1]
   }

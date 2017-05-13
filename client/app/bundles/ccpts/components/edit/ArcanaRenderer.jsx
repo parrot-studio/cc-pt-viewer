@@ -1,9 +1,9 @@
-import _ from 'lodash'
+import _ from "lodash"
 
-import React from 'react'
-import { Button } from 'react-bootstrap'
+import React from "react"
+import { Button } from "react-bootstrap"
 
-import MessageStream from '../../model/MessageStream'
+import MessageStream from "../../model/MessageStream"
 
 export default class ArcanaRenderer extends React.Component {
 
@@ -79,7 +79,7 @@ export default class ArcanaRenderer extends React.Component {
     d.draggable({
       connectToSortable: false,
       containment: false,
-      helper: 'clone',
+      helper: "clone",
       opacity: 0.7,
       zIndex: 10000,
       start: () => {
@@ -113,11 +113,11 @@ export default class ArcanaRenderer extends React.Component {
     if (s3 && s3.cost !== s3.cost) {
       render += `/${s3.cost}`
     }
-    render += ')'
+    render += ")"
 
     if (render.length > maxLength) {
       render = render.substr(0, maxLength - 3)
-      render += '...'
+      render += "..."
     }
 
     return render
@@ -139,14 +139,14 @@ export default class ArcanaRenderer extends React.Component {
 
   renderChainAbilityName(a) {
     if (_.isEmpty(a.chainAbility) || _.isEmpty(a.chainAbility.name)) {
-      return 'なし'
+      return "なし"
     } else {
       return a.chainAbility.name
     }
   }
 
   renderInfoButton(a, view) {
-    if (_.eq(view, 'chain')) {
+    if (_.eq(view, "chain")) {
       return null
     }
     return (

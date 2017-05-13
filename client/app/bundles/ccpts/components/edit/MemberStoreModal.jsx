@@ -1,7 +1,7 @@
-import React from 'react'
-import { Button, Modal } from 'react-bootstrap'
+import React from "react"
+import { Button, Modal } from "react-bootstrap"
 
-import Parties from '../../model/Parties'
+import Parties from "../../model/Parties"
 
 export default class MemberStoreModal extends React.Component {
 

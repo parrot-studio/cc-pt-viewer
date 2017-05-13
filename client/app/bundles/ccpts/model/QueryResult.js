@@ -6,6 +6,6 @@ export default class QueryResult {
 
   constructor(arcanas, detail) {
     this.arcanas = (arcanas || [])
-    this.detail = (detail || '')
+    this.detail = (detail || "")
   }
 }

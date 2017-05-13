@@ -1,18 +1,18 @@
-import _ from 'lodash'
+import _ from "lodash"
 
-import React from 'react'
+import React from "react"
 
-import Query from '../../model/Query'
-import Party from '../../model/Party'
-import Parties from '../../model/Parties'
-import MessageStream from '../../model/MessageStream'
-import Searcher from '../../lib/Searcher'
+import Query from "../../model/Query"
+import Party from "../../model/Party"
+import Parties from "../../model/Parties"
+import MessageStream from "../../model/MessageStream"
+import Searcher from "../../lib/Searcher"
 
-import MemberControlArea from './MemberControlArea'
-import MemberAreaHeader from './MemberAreaHeader'
-import MemberAreaBody from './MemberAreaBody'
-import TargetsEditArea from './TargetsEditArea'
-import PartyView from './PartyView'
+import MemberControlArea from "./MemberControlArea"
+import MemberAreaHeader from "./MemberAreaHeader"
+import MemberAreaBody from "./MemberAreaBody"
+import TargetsEditArea from "./TargetsEditArea"
+import PartyView from "./PartyView"
 
 export default class EditModeView extends React.Component {
 
@@ -40,11 +40,11 @@ export default class EditModeView extends React.Component {
     })
 
     MessageStream.historyStream
-      .filter((t) => _.eq(t, 'reset'))
-      .onValue(() => this.replaceHistory(''))
+      .filter((t) => _.eq(t, "reset"))
+      .onValue(() => this.replaceHistory(""))
 
     MessageStream.historyStream
-      .filter((t) => !_.eq(t, 'reset'))
+      .filter((t) => !_.eq(t, "reset"))
       .onValue((t) => {
         if (!_.isEmpty(t)) {
           this.replaceHistory(t)
@@ -83,7 +83,7 @@ export default class EditModeView extends React.Component {
     if (_.isEmpty(this.props.ptm)) {
       MessageStream.memberCodeStream.push(Parties.lastParty)
       if (_.isEmpty(code)){
-        MessageStream.historyStream.push('reset')
+        MessageStream.historyStream.push("reset")
       }
     } else {
       MessageStream.memberCodeStream.push(this.props.ptm)
@@ -99,15 +99,15 @@ export default class EditModeView extends React.Component {
   }
 
   replaceHistory(uri) {
-    history.replaceState('', '', `/${uri}`)
+    history.replaceState("", "", `/${uri}`)
   }
 
   switchEditMode() {
     this.setState({editMode: !this.state.editMode}, () => {
       this.fadeArea()
       if (this.state.editMode) {
-        MessageStream.historyStream.push('reset')
-        this.setState({lastHistory: ''})
+        MessageStream.historyStream.push("reset")
+        this.setState({lastHistory: ""})
       } else {
         MessageStream.historyStream.push(Parties.lastParty)
         this.setState({lastHistory: Parties.lastParty})

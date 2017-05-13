@@ -1,20 +1,20 @@
-import React from 'react'
+import React from "react"
 
-import Favorites from '../../model/Favorites'
-import ArcanaRenderer from './ArcanaRenderer'
+import Favorites from "../../model/Favorites"
+import ArcanaRenderer from "./ArcanaRenderer"
 
 export default class TargetArcana extends ArcanaRenderer {
 
   addFavHandler(inp, a) {
     $(inp).bootstrapSwitch({
       state: Favorites.stateFor(a.jobCode),
-      size: 'mini',
-      onColor: 'warning',
-      onText: '☆',
-      offText: '★',
-      labelWidth: '2',
+      size: "mini",
+      onColor: "warning",
+      onText: "☆",
+      offText: "★",
+      labelWidth: "2",
       onSwitchChange: (e, state) => {
-        Favorites.setState($(e.target).data('jobCode'), state)
+        Favorites.setState($(e.target).data("jobCode"), state)
       }
     })
   }
@@ -22,7 +22,7 @@ export default class TargetArcana extends ArcanaRenderer {
   renderTargetCost() {
     const a = this.props.arcana
     if (a.isBuddy()) {
-      return 'Buddy'
+      return "Buddy"
     } else {
       return `${a.cost} ( ${a.chainCost} )`
     }
@@ -31,7 +31,7 @@ export default class TargetArcana extends ArcanaRenderer {
   render () {
     const a = this.props.arcana
     return (
-      <li className={`listed-character col-sm-3 col-md-3 col-xs-6`}
+      <li className={"listed-character col-sm-3 col-md-3 col-xs-6"}
         id={`choice-${a.jobCode}`}>
         <div className={`${a.jobClass} choice summary-size arcana`}
           ref={(div) => {

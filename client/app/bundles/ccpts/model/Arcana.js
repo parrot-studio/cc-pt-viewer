@@ -1,17 +1,17 @@
-import _ from 'lodash'
+import _ from "lodash"
 
-import Skill from './Skill'
-import Ability from './Ability'
+import Skill from "./Skill"
+import Ability from "./Ability"
 
 const __arcana_JOB_NAME_SHORT = {
-  'F': '戦',
-  'K': '騎',
-  'A': '弓',
-  'M': '魔',
-  'P': '僧'
+  "F": "戦",
+  "K": "騎",
+  "A": "弓",
+  "M": "魔",
+  "P": "僧"
 }
 
-const __arcana_WIKI_URL = 'http://xn--eckfza0gxcvmna6c.gamerch.com/'
+const __arcana_WIKI_URL = "http://xn--eckfza0gxcvmna6c.gamerch.com/"
 
 const __arcanas = {}
 
@@ -49,17 +49,17 @@ export default class Arcana {
     this.jobCode = data.job_code
     this.jobName = data.job_name
     this.jobNameShort = __arcana_JOB_NAME_SHORT[this.jobType]
-    this.rarityStars = '★★★★★★'.slice(0, this.rarity)
+    this.rarityStars = "★★★★★★".slice(0, this.rarity)
     this.jobClass = data.job_class
     this.weaponType = data.weapon_type
     this.weaponName = data.weapon_name
     this.voiceActor = data.voice_actor
     if (_.isEmpty(this.voiceActor)) {
-      this.voiceActor = '？'
+      this.voiceActor = "？"
     }
     this.illustrator = data.illustrator
     if (_.isEmpty(this.illustrator)) {
-      this.illustrator = '？'
+      this.illustrator = "？"
     }
     this.union = data.union
     this.sourceCategory = data.source_category
@@ -69,10 +69,10 @@ export default class Arcana {
     this.linkCode = data.link_code
     this.arcanaType = data.arcana_type
 
-    this.maxAtk = (data.max_atk || '-')
-    this.maxHp = (data.max_hp || '-')
-    this.limitAtk = (data.limit_atk || '-')
-    this.limitHp = (data.limit_hp || '-')
+    this.maxAtk = (data.max_atk || "-")
+    this.maxHp = (data.max_hp || "-")
+    this.limitAtk = (data.limit_atk || "-")
+    this.limitHp = (data.limit_hp || "-")
     this.wikiLinkName = data.wiki_link_name
 
     this.firstSkill = new Skill(data.first_skill)
@@ -133,7 +133,7 @@ export default class Arcana {
   }
 
   isBuddy() {
-    if (this.hasLink() && _.eq(this.arcanaType, 'buddy')) {
+    if (this.hasLink() && _.eq(this.arcanaType, "buddy")) {
       return true
     }
     return false

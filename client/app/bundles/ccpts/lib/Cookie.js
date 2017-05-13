@@ -1,5 +1,5 @@
-import _ from 'lodash'
-import Cookies from 'js-cookie'
+import _ from "lodash"
+import Cookies from "js-cookie"
 
 const __cookie_EXPIRE_DATE = 60
 
@@ -34,7 +34,7 @@ class CookieBase {
   }
 }
 
-const __cookie_BASE_KEY = 'ccpts'
+const __cookie_BASE_KEY = "ccpts"
 
 class Cookie {
 
@@ -63,7 +63,7 @@ class Cookie {
   }
 }
 
-const __cookie_LOG_KEY = 'ccpts_query_logs'
+const __cookie_LOG_KEY = "ccpts_query_logs"
 
 class QueryLogCookie {
 

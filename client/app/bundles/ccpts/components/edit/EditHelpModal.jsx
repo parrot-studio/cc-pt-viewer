@@ -1,5 +1,5 @@
-import React from 'react'
-import { Button, Modal } from 'react-bootstrap'
+import React from "react"
+import { Button, Modal } from "react-bootstrap"
 
 export default class EditHelpModal extends React.Component {
 

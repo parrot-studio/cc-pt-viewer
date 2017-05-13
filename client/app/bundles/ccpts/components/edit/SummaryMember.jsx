@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react"
 
-import ArcanaRenderer from './ArcanaRenderer'
+import ArcanaRenderer from "./ArcanaRenderer"
 
 export default class SummaryMember extends ArcanaRenderer {
   render () {

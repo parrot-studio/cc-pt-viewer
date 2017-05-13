@@ -71,7 +71,7 @@ Metrics/AbcSize:
     - 'lib/arcana_importer.rb'
 
 Metrics/CyclomaticComplexity:
-  Max: 44
+  Max: 45
 
 # Configuration parameters: AllowURI, URISchemes.
 Metrics/LineLength:
