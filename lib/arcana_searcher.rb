@@ -390,11 +390,12 @@ class ArcanaSearcher
     return [] unless arel
     return [] if [cate, effect, cond, target].all?(&:blank?)
     efs = effect_group_for(effect)
+    ts = target_group_for(target)
 
     arel = arel.where(category: cate) if cate.present?
     arel = arel.where(effect: efs) if efs.present?
     arel = arel.where(condition: cond) if cond.present?
-    arel = arel.where(target: target) if target.present?
+    arel = arel.where(target: ts) if ts.present?
 
     Ability.joins(:ability_effects).merge(arel).distinct.pluck(:arcana_id)
   end
@@ -404,6 +405,13 @@ class ArcanaSearcher
     group = AbilityEffect::EFFECT_GROUP[ef.to_sym]
     return ef if group.blank?
     [ef, group].flatten.uniq.compact
+  end
+
+  def target_group_for(t)
+    return if t.blank?
+    group = AbilityEffect::TARGET_GROUP[t.to_sym]
+    return t if group.blank?
+    [t, group].flatten.uniq.compact
   end
 
   def replace_source_query(q)

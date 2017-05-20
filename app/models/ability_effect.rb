@@ -880,6 +880,21 @@ class AbilityEffect < ApplicationRecord
     cure_down: ['cure_all']
   }.freeze
 
+  TARGET_GROUP = {
+    job_f: %w(job_fk job_fa job_fm job_fkh job_fah job_fkah),
+    job_k: %w(job_fk job_ka job_kh job_km job_fkh job_fkah job_kahm),
+    job_a: %w(job_fa job_ka job_ah job_am job_fah job_fkah job_kahm),
+    job_h: %w(job_kh job_ah job_fkh job_fah job_fkah job_kahm),
+    job_m: %w(job_fm job_km job_am job_kahm),
+    weapon_sl: ['weapon_slma'],
+    weapon_bl: ['weapon_blpi'],
+    weapon_pi: ['weapon_blpi'],
+    weapon_ar: ['weapon_argush'],
+    weapon_ma: ['weapon_slma'],
+    weapon_gu: ['weapon_argush'],
+    weapon_sh: ['weapon_argush']
+  }.freeze
+
   class << self
     def chain_ability_categorys
       cs = Ability.chain_ability_ids
