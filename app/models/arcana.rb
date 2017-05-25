@@ -274,6 +274,7 @@ class Arcana < ApplicationRecord
   INHERITABLE_COLLABORATIONS = %w(
     konosuba persona5 utaware valkyria falcom_sen2
     atelier_arland maoyu loghorizon sevensins danmachi titan
+    seiken
   ).freeze
 
   scope :with_tables, -> { includes([:voice_actor, :illustrator, :skills, :abilities]) }
