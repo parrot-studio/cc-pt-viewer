@@ -64,7 +64,7 @@ ReactOnRails.configure do |config|
   ################################################################################
 
   # Default is false, enable if your content security policy doesn't include `style-src: 'unsafe-inline'`
-  config.skip_display_none = false
+  #config.skip_display_none = false
 
   # The server render method - either ExecJS or NodeJS
   config.server_render_method = 'ExecJS'

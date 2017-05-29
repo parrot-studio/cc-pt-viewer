@@ -47,6 +47,7 @@ export default class MemberAreaHeader extends React.Component {
 
   resetParty() {
     MessageStream.partyStream.push(Party.create())
+    MessageStream.historyStream.push("reset")
   }
 
   reloadLastMembers() {

@@ -51,7 +51,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # need for app
 gem 'bootstrap-sass'
 gem 'font-awesome-sass'
-gem 'react_on_rails', '~> 6.3'
+gem 'react_on_rails', '~> 7'
 gem 'mini_racer', platforms: :ruby
 gem 'config'
 gem 'annotate'

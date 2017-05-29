@@ -2549,9 +2549,9 @@ react-dom@^15.0.0:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
 
-react-on-rails@^6.8.0:
-  version "6.8.0"
-  resolved "https://registry.yarnpkg.com/react-on-rails/-/react-on-rails-6.8.0.tgz#9172d04d7615d6beef162d10a28d0f101d4676c4"
+react-on-rails@^7.0.4:
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/react-on-rails/-/react-on-rails-7.0.4.tgz#1bbd7d41f50051c19b5d14df152270accabe0e8f"
 
 react-overlays@^0.6.12:
   version "0.6.12"
