@@ -46,6 +46,8 @@ class SkillEffect < ApplicationRecord
         one_random: '単体・ランダム',
         one_combination: '単体・コンビネーション',
         one_nearest: '単体・一番近い対象',
+        contact_combo: '接触・連続',
+        contact_combination: '接触・コンビネーション',
         range_line: '範囲・直線',
         range_dash: '範囲・ダッシュ',
         range_forward: '範囲・前方',
@@ -58,7 +60,6 @@ class SkillEffect < ApplicationRecord
         range_line2: '範囲・直線2ライン',
         range_short: '範囲・接触',
         range_shortline: '範囲・前方直線',
-        range_combination: '範囲・コンビネーション',
         range_redash: '範囲・後方ダッシュ',
         range_all: '範囲・広域',
         laser: 'レーザー',
@@ -289,7 +290,8 @@ class SkillEffect < ApplicationRecord
     enchant: {
       name: '付与',
       sub: {
-        self: '自身'
+        self: '自身',
+        all: '全体'
       },
       effect: {
         fire: '火属性',
