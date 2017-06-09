@@ -126,7 +126,7 @@ export default class RequestFormModal extends React.Component {
                 <dt>騎士</dt>
                 <dd className="small">
                   スティッチア / パーシェル / モルガン / セラカ / ソール / フェーベ /
-                  ケーテ / セラフィー / リズベル / ジルヴェスター / ペローラ（3部ver.）
+                  ケーテ / セラフィー / リズベル / ジルヴェスター
                 </dd>
                 <dt>弓使い</dt>
                 <dd className="small">
@@ -140,7 +140,7 @@ export default class RequestFormModal extends React.Component {
                   ヘリシティー / ファルベ / クララ / コラール / ピノ / ラナ / ザラ /
                   フリーダ / クズノハ / フリージア / カティア（ver.2） /
                   マスカルウィン / ペレキュデス / シヴァーニ / シャニ / レイチェル・アナスタシア /
-                  ストラッセ / アステリア / ケテ / エレミア（3部ver.）
+                  ストラッセ / アステリア / ケテ
                 </dd>
                 <dt>僧侶</dt>
                 <dd className="small">
@@ -156,11 +156,11 @@ export default class RequestFormModal extends React.Component {
                 </dd>
                 <dt>コラボ（ペルソナ）</dt>
                 <dd className="small">
-                  ジョーカー / クイーン / パンサー / スカル / フォックス
+                  パンサー / スカル / フォックス
                 </dd>
                 <dt>コラボ（ツインエンジェル）</dt>
                 <dd className="small">
-                   神無月葵 / 葉月クルミ
+                  神無月葵 / 葉月クルミ
                 </dd>
               </dl>
             </div>

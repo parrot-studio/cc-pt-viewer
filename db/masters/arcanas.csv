@@ -1427,8 +1427,12 @@ SC-3000,F,254,collaboration,,,薙刀の撫子,4,12,3,Sl,collaboration,hardgirls,相沢 
 神無月葵,A,172,collaboration,,,ブルーエンジェル,5,20,4,Ar,collaboration,twinangel,能登 麻美子,Sammy,others,Angel,7300,4400,9300,6400,
 葉月クルミ,A,173,collaboration,,,ホワイトエンジェル,5,20,4,Pu,collaboration,twinangel,釘宮 理恵,Sammy,others,Angel,7450,4250,9450,6250,
 天月めぐる,F,322,collaboration,,,エンジェルローズ,5,20,4,Bl,collaboration,twinangel,Ｍ・Ａ・Ｏ,Sammy,others,Angel,6900,6700,8900,8700,
-#如月すみれ,F,323,collaboration,,,エンジェルサファイア,5,20,4,,collaboration,twinangel,茅野 愛衣,Sammy,others,Angel,,,,,
+如月すみれ,F,323,collaboration,,,エンジェルサファイア,5,20,4,Sl,collaboration,twinangel,茅野 愛衣,Sammy,others,Angel,7000,6500,9000,8500,
 ,,,,,,,,,,,,,,,,,,,,,
+# 4章・セレステ編,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+ロスカァ,P,102,third,,K174,土塊の傀儡師,5,18,4,He,third,forest3,野川 さくら,秋津たいら,forest,Healer,6500,4000,8500,6000,土塊の傀儡師ロスカァ＆ベルダッド
+ベルダッド,K,174,buddy,,P102,（ロスカァのバディ）,5,18,4,Bl,third,forest3,野川 さくら,秋津たいら,forest,Buddy,7000,7000,9000,9000,土塊の傀儡師ロスカァ＆ベルダッド
 ,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,
 #end,,,,,,,,,,,,,,,,,,,,,
