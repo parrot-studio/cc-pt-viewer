@@ -371,6 +371,7 @@ class AbilityEffect < ApplicationRecord
         scup: '移動速度/クリティカル率上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
         adcup: '攻撃力/防御力/クリティカル率上昇',
+        scrup: '移動速度/クリティカル率/クリティカルダメージ上昇',
         adscup: '攻撃力/防御力/移動速度上昇/クリティカル率上昇',
         barrier: 'バリアを張る'
       },
