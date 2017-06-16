@@ -1438,7 +1438,7 @@ SC-3000,F,254,collaboration,,,薙刀の撫子,4,12,3,Sl,collaboration,hardgirls,相沢 
 ,,,,,,,,,,,,,,,,,,,,,
 リディア,F,324,third,,,勇名戦士,5,18,4,Bl,third,guildtown3,せき しほ,竜徹,guildtown,Warrior,7300,6700,9300,8700,
 エレクシィ,K,175,third,,,威風の聖騎士,5,18,4,Pi,third,guildtown3,野川 さくら,萩谷薫,holytown,Paladin,7000,7500,9000,9500,
-#ロベルタ,F,325,first,K6,,歴戦の女傑,5,,4,Sl,event,hunting,大原 さやか,サブロー,guildtown,,,,,,
+ロベルタ,K,176,first,K6,,歴戦の女傑,5,24,4,Sl,event,hunting,大原 さやか,サブロー,guildtown,Warrior,7080,7570,9080,9570,
 ,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,

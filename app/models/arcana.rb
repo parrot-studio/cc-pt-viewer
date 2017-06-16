@@ -190,6 +190,7 @@ class Arcana < ApplicationRecord
         demon: '魔神戦',
         score: '踏破',
         war: '討伐戦',
+        hunting: '狩猟戦',
         whirlpool: '深淵の渦',
         other: 'その他'
       }
