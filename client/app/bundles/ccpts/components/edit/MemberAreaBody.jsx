@@ -39,7 +39,13 @@ export default class MemberAreaBody extends React.Component {
       return
     }
 
+    const party = this.props.party
     let jobCode = drag.data("jobCode")
+    // drop member
+    if (swapKey) {
+      jobCode = party.memberFor(swapKey).arcana.jobCode
+    }
+
     let arcana = Arcana.forCode(jobCode)
     // drop buddy
     if (arcana.hasOwner()) {
@@ -47,7 +53,6 @@ export default class MemberAreaBody extends React.Component {
       arcana = Arcana.forCode(jobCode)
     }
 
-    const party = this.props.party
     const orgMember = party.memberFor(orgKey)
     const target = new Member(arcana)
     if (swapKey) {
