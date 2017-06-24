@@ -202,6 +202,7 @@ class Arcana < ApplicationRecord
         titan: '進撃の巨人',
         konosuba: 'このすば',
         persona5: 'ペルソナ5',
+        haecceitas: 'アニメ（ヘクセイタスの閃）',
         magica: 'まどか☆マギカ',
         taiko: '太鼓の達人',
         sakurawar: 'サクラ大戦',

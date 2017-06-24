@@ -171,6 +171,7 @@ class SkillEffect < ApplicationRecord
         fighter: '戦士',
         front: '先頭の一人',
         far: '一番遠い一人',
+        nearest: '一番近い一人',
         random: 'ランダム',
         restoration: '返還'
       },
