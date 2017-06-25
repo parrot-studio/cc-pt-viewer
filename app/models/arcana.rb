@@ -198,6 +198,7 @@ class Arcana < ApplicationRecord
     collaboration: {
       name: 'コラボ',
       details: {
+        guiltygear: 'ギルティギア',
         twinangel: 'ツインエンジェル',
         titan: '進撃の巨人',
         konosuba: 'このすば',
@@ -277,7 +278,7 @@ class Arcana < ApplicationRecord
   INHERITABLE_COLLABORATIONS = %w(
     konosuba persona5 utaware valkyria falcom_sen2
     atelier_arland maoyu loghorizon sevensins danmachi titan
-    seiken twinangel
+    seiken twinangel guiltygear
   ).freeze
 
   scope :with_tables, -> { includes([:voice_actor, :illustrator, :skills, :abilities]) }
