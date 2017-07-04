@@ -162,6 +162,10 @@ export default class RequestFormModal extends React.Component {
                 <dd className="small">
                   神無月葵 / 葉月クルミ
                 </dd>
+                <dt>コラボ（ギルティギア）</dt>
+                <dd className="small">
+                  シン＝キスク / 梅喧 /  蔵土縁紗夢
+                </dd>
               </dl>
             </div>
           </div>

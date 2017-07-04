@@ -115,6 +115,7 @@ class AbilityEffect < ApplicationRecord
         with_gu: '<<銃>>がいる時',
         with_sh: '<<狙>>がいる時',
         with_guildtown: '所属：副都がいる時',
+        with_holytown: '所属：聖都がいる時',
         with_forest: '所属：精霊島がいる時',
         with_volcano: '所属：九領がいる時',
         with_beasts: '所属：ケ者がいる時',
@@ -688,7 +689,7 @@ class AbilityEffect < ApplicationRecord
         adcup: '攻撃力/防御力/クリティカル率上昇'
       },
       condition: {
-        in_town: '街中で戦闘時',
+        in_town: '市街で戦闘時',
         in_forest: '森林で戦闘時',
         in_cave: '洞窟で戦闘時',
         in_castle: '城中で戦闘時',
