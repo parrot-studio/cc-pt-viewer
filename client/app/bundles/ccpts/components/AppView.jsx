@@ -1,5 +1,7 @@
+import _ from "lodash"
+
 import React from "react"
-import { Nav, NavItem, Alert } from "react-bootstrap"
+import { Alert } from "react-bootstrap"
 
 import Query from "../model/Query"
 import QueryLogs from "../model/QueryLogs"
@@ -7,13 +9,10 @@ import Favorites from "../model/Favorites"
 import Conditions from "../model/Conditions"
 import MessageStream from "../model/MessageStream"
 import Searcher from "../lib/Searcher"
-import { Cookie } from "../lib/Cookie"
 
 import EditModeView from "./edit/EditModeView"
-import EditTutorialArea from "./edit/EditTutorialArea"
-import DisplaySizeWarning from "./edit/DisplaySizeWarning"
 import DatabaseModeView from "./database/DatabaseModeView"
-import LatestInfoArea from "./concerns/LatestInfoArea"
+import NavHeader from "./concerns/NavHeader"
 import ConditionView from "./concerns/ConditionView"
 import ArcanaView from "./concerns/ArcanaView"
 
@@ -22,8 +21,12 @@ export default class AppView extends React.Component {
   constructor(props) {
     super(props)
 
+    Searcher.init(this.props.dataver, this.props.appPath)
+    QueryLogs.init()
+    Favorites.init()
+
     const mode = this.props.mode
-    const phoneDevice = this.props.phoneDevice
+    this.phoneDevice = (window.innerWidth < 768 ? true : false)
 
     let pagerSize = 8
     let recentlySize = 32
@@ -33,7 +36,7 @@ export default class AppView extends React.Component {
         recentlySize = 32
         break
       case "database":
-        if (phoneDevice) {
+        if (this.phoneDevice) {
           pagerSize = 8
           recentlySize = 16
         } else {
@@ -42,9 +45,6 @@ export default class AppView extends React.Component {
         }
         break
     }
-
-    QueryLogs.init()
-    Favorites.init()
 
     const recentlyQuery = Query.create({recently: recentlySize})
     const searchStream = MessageStream.queryStream
@@ -56,13 +56,21 @@ export default class AppView extends React.Component {
 
     this.state = {
       pagerSize,
-      showConditionArea: false
+      showConditionArea: false,
+      phoneRedirect: false
+    }
+  }
+
+  componentWillMount() {
+    if (_.eq(this.props.mode, "ptedit") && this.phoneDevice && _.isEmpty(this.props.ptm)) {
+      location.href=`${this.props.appPath}/db`
+      this.setState({phoneRedirect: true})
     }
   }
 
   componentDidMount() {
-    $(this.refs.errorArea).hide()
-    $(this.refs.conditionArea).hide()
+    $(this.errorArea).hide()
+    $(this.conditionArea).hide()
     $("#pre-header").hide()
   }
 
@@ -92,59 +100,12 @@ export default class AppView extends React.Component {
 
   fadeModeArea () {
     if (this.state.showConditionArea) {
-      $(this.refs.mainArea).hide()
-      $(this.refs.conditionArea).fadeIn("slow")
+      $(this.mainArea).hide()
+      $(this.conditionArea).fadeIn("slow")
     } else {
-      $(this.refs.conditionArea).hide()
-      $(this.refs.mainArea).fadeIn("slow")
+      $(this.conditionArea).hide()
+      $(this.mainArea).fadeIn("slow")
     }
-  }
-
-  modeName(mode) {
-    mode = (mode || this.props.mode)
-    let name = ""
-    switch (mode) {
-      case "ptedit":
-        name = "パーティー編集モード"
-        break
-      case "database":
-        name = "データベースモード"
-        break
-    }
-    return name
-  }
-
-  renderLatestInfo() {
-    return <LatestInfoArea ver={this.props.infover}/>
-  }
-
-  renderHeadInfo() {
-    if (this.props.imageMode) {
-      return null
-    }
-
-    if (this.props.mode !== "ptedit") {
-      return this.renderLatestInfo()
-    }
-
-    const tutorial = Cookie.valueFor("tutorial")
-    if (!tutorial) {
-      Cookie.set({tutorial: true})
-      return <EditTutorialArea/>
-    } else {
-      return this.renderLatestInfo()
-    }
-  }
-
-  renderWarning() {
-    if (this.props.imageMode) {
-      return null
-    }
-
-    if (this.props.mode !== "ptedit" || !this.props.phoneDevice) {
-      return null
-    }
-    return <DisplaySizeWarning appPath={this.props.appPath}/>
   }
 
   renderModeView() {
@@ -171,44 +132,9 @@ export default class AppView extends React.Component {
     }
   }
 
-  renderNav() {
-    if (this.props.imageMode) {
-      return null
-    }
-
-    if (this.props.phoneDevice) {
-      return null
-    }
-
-    const rootPath = this.props.appPath
-    const dbPath = `${this.props.appPath}db`
-    return (
-      <Nav bsStyle="tabs" justified activeKey={this.props.mode}>
-        <NavItem eventKey="ptedit" href={rootPath}>{this.modeName("ptedit")}</NavItem>
-        <NavItem eventKey="database" href={dbPath}>{this.modeName("database")}</NavItem>
-      </Nav>
-    )
-  }
-
-  renderHeader() {
-    return (
-      <div className="header">
-        <h1>
-          Get our light!
-          <span className="hidden-sm hidden-md hidden-lg"><br/></span>
-          &nbsp;
-          <small className="text-muted lead">チェンクロ パーティーシミュレーター</small>
-        </h1>
-        <p className="pull-right">
-          <small className="text-muted">【{this.modeName()}】</small>
-        </p>
-      </div>
-    )
-  }
-
   renderErrorArea() {
     return (
-      <div id="error-area" ref="errorArea">
+      <div id="error-area" ref={(d) => { this.errorArea = d }}>
         <div className="row">
           <div className="col-xs-12 col-md-12 col-sm-12">
             <Alert bsStyle="danger">
@@ -224,17 +150,21 @@ export default class AppView extends React.Component {
   }
 
   render() {
+    if (this.state.phoneRedirect) {
+      return
+    }
+
     return (
       <div>
-        {this.renderNav()}
-        {this.renderHeader()}
+        <NavHeader
+          appPath={this.props.appPath}
+          mode={this.props.mode}
+          latestInfo={this.props.latestInfo}/>
         {this.renderErrorArea()}
-        {this.renderWarning()}
-        {this.renderHeadInfo()}
-        <div id="main-area" ref="mainArea">
+        <div id="main-area" ref={(d) => { this.mainArea = d }}>
           {this.renderModeView()}
         </div>
-        <div id="condition-area" ref="conditionArea">
+        <div id="condition-area" ref={(d) => { this.conditionArea = d }}>
           <ConditionView
             conditions={Conditions}
             switchMainMode={this.switchMainMode.bind(this)}/>

@@ -1,12 +1,12 @@
 class ArcanaSearcher
-  QUERY_CONDITION_NAMES = [
-    :recently, :job, :rarity, :weapon, :arcanatype, :actor, :illustrator,
-    :union, :source, :sourcecategory, :skill, :skillcost,
-    :skillsub, :skilleffect, :abilitycategory, :abilityeffect,
-    :abilitycondition, :abilitytarget,
-    :chainabilitycategory, :chainabilityeffect,
-    :chainabilitycondition, :chainabilitytarget,
-    :arcanacost, :chaincost, :actorname, :illustratorname, :name
+  QUERY_CONDITION_NAMES = %i[
+    recently job rarity weapon arcanatype actor illustrator
+    union source sourcecategory skill skillcost
+    skillsub skilleffect abilitycategory abilityeffect
+    abilitycondition abilitytarget
+    chainabilitycategory chainabilityeffect
+    chainabilitycondition chainabilitytarget
+    arcanacost chaincost actorname illustratorname name
   ].freeze
 
   CONVERT_TABLE = {
@@ -32,10 +32,10 @@ class ArcanaSearcher
     QUERY_CONDITION_NAMES.map { |n| CONVERT_TABLE[n] ? CONVERT_TABLE[n] : n }
   end.call.freeze
 
-  DETAIL_COND_LIST = [
-    :job_type, :rarity, :cost, :chain_cost, :union, :weapon_type, :arcana_type,
-    :skill, :skillcost, :abilitycategory, :chainabilitycategory,
-    :source_category, :voice_actor_id, :illustrator_id
+  DETAIL_COND_LIST = %i[
+    job_type rarity cost chain_cost union weapon_type arcana_type
+    skill skillcost abilitycategory chainabilitycategory
+    source_category voice_actor_id illustrator_id
   ].freeze
 
   class << self
@@ -127,7 +127,7 @@ class ArcanaSearcher
           r = val.to_i
           Arcana::RARITYS.include?(r) ? r : nil
         end
-        query[name] = rarity unless rarity.blank?
+        query[name] = rarity if rarity.present?
       when :skillcost
         cost = case val
         when /\A(\d)D\z/
@@ -137,13 +137,13 @@ class ArcanaSearcher
           r = val.to_i
           Skill::COSTS.include?(r) ? r : nil
         end
-        query[name] = cost unless cost.blank?
+        query[name] = cost if cost.present?
       when :job_type
         job = [val].flatten.uniq.compact.map(&:upcase).select { |j| Arcana::JOB_TYPES.include?(j) }
-        query[name] = job.first unless job.blank?
+        query[name] = job.first if job.present?
       when :weapon_type
         weapon = [val].flatten.uniq.compact.select { |j| Arcana::WEAPON_TYPES.include?(j) }
-        query[name] = weapon.first unless weapon.blank?
+        query[name] = weapon.first if weapon.present?
       when :actorname
         aid = ArcanaCache.voice_actor_id(val)
         next unless aid
@@ -280,7 +280,7 @@ class ArcanaSearcher
           ss << table.fetch(:sub, {}).fetch(query[:skillsub].to_sym, nil) if query[:skillsub]
           ss << table.fetch(:effect, {}).fetch(query[:skilleffect].to_sym, nil) if query[:skilleffect]
           text = ss.compact.join(' + ')
-          str += "（#{text}）" unless text.blank?
+          str += "（#{text}）" if text.present?
         end
         skill = true
         str
@@ -366,11 +366,11 @@ class ArcanaSearcher
     return [] if (category.blank? && cost.blank? && sub.blank? && ef.blank?)
 
     sk = Skill.all
-    sk = sk.where(cost: cost) unless cost.blank?
+    sk = sk.where(cost: cost) if cost.present?
 
     if category.present? || sub.present? || ef.present?
       arel = SkillEffect.all
-      unless ef.blank?
+      if ef.present?
         efs = [ef].flatten.uniq.compact
         arel = arel.where(subeffect1: efs)
                    .or(SkillEffect.where(subeffect2: efs))

@@ -128,9 +128,4 @@ export default class Searcher {
     const condsUrl = `${__searcher_config.apiPath}conditions`
     return Searcher.search({}, condsUrl)
   }
-
-  static loadLatestInfo() {
-    const infoUrl = `${__searcher_config.apiPath}latestinfo`
-    return Searcher.search({}, infoUrl)
-  }
 }

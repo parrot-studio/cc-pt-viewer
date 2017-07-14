@@ -381,7 +381,7 @@ class SkillEffect < ApplicationRecord
             length: { maximum: 100 }
 
   def serialize
-    excepts = %w(id skill_id created_at updated_at)
+    excepts = %w[id skill_id created_at updated_at]
     se = self.as_json(except: excepts)
 
     se['category'] = CATEGORYS.fetch(self.category.to_sym, {}).fetch(:name, '')

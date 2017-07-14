@@ -198,7 +198,7 @@ class ArcanaImporter
     arcana.limit_hp = (lhp.positive? ? lhp : nil)
     arcana.wiki_name = wikiname
 
-    unless vname.blank?
+    if vname.present?
       actor = actors[vname] || lambda do |na|
         va = VoiceActor.new
         va.name = na
@@ -209,7 +209,7 @@ class ArcanaImporter
       arcana.voice_actor = actor
     end
 
-    unless iname.blank?
+    if iname.present?
       illust = illusts[iname] || lambda do |na|
         il = Illustrator.new
         il.name = na

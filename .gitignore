@@ -13,11 +13,20 @@
 !/log/.keep
 !/tmp/.keep
 
-# Ignore Byebug command history file.
+#/node_modules
+/yarn-error.log
+
 .byebug_history
 
-/vendor/bundle
+# React on Rails
+npm-debug.log*
 node_modules
+
+# Generated js bundles
+/public/webpack/*
+
+# app
+/vendor/bundle
 
 .envrc
 
@@ -27,10 +36,3 @@ config/environments/*.local.yml
 
 sitemap.xml
 sitemap.xml.gz
-
-# React on Rails
-npm-debug.log*
-node_modules
-
-# Generated js bundles
-/app/assets/webpack/*

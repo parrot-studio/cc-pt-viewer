@@ -271,17 +271,17 @@ class Arcana < ApplicationRecord
     ret
   end.call.freeze
 
-  SOURCE_GROUP_CATEGORYS = [:first, :second].freeze
+  SOURCE_GROUP_CATEGORYS = %i[first second].freeze
 
-  NOT_INHERITABLE_TYPES = [:buddy, :third].freeze
-  NOT_INHERITABLE_ARCANAS = %w(F211 F156).freeze # ミョルン, ホーク
-  INHERITABLE_COLLABORATIONS = %w(
+  NOT_INHERITABLE_TYPES = %i[buddy third].freeze
+  NOT_INHERITABLE_ARCANAS = %w[F211 F156].freeze # ミョルン, ホーク
+  INHERITABLE_COLLABORATIONS = %w[
     konosuba persona5 utaware valkyria falcom_sen2
     atelier_arland maoyu loghorizon sevensins danmachi titan
     seiken twinangel guiltygear shiningresonance
-  ).freeze
+  ].freeze
 
-  scope :with_tables, -> { includes([:voice_actor, :illustrator, :skills, :abilities]) }
+  scope :with_tables, -> { includes(%i[voice_actor illustrator skills abilities]) }
   scope :sr_and_over, -> { where(arel_table[:rarity].gteq(4)) }
   scope :inheritable_candidates, lambda {
     sr_and_over
@@ -370,7 +370,7 @@ class Arcana < ApplicationRecord
 
   def wiki_link_name
     return self.wiki_name if self.wiki_name.present?
-    return '' if self.title =~ /調査中/
+    return '' if self.title.match?(/調査中/)
     "#{self.title}#{self.name}"
   end
 
@@ -395,7 +395,7 @@ class Arcana < ApplicationRecord
   end
 
   def serialize(nolink: false) # rubocop:disable Metrics/PerceivedComplexity
-    excepts = %w(id voice_actor_id illustrator_id wiki_name created_at updated_at)
+    excepts = %w[id voice_actor_id illustrator_id wiki_name created_at updated_at]
     ret = self.as_json(except: excepts)
 
     ret['weapon_name'] = WEAPON_NAMES.fetch(self.weapon_type.to_sym, '')

@@ -12,7 +12,7 @@ export default class TwitterShareModal extends React.Component {
   }
 
   handleFocus() {
-    this.refs.shareUrl.select()
+    this.shareUrlForm.select()
   }
 
   renderShareForm(text) {
@@ -24,7 +24,7 @@ export default class TwitterShareModal extends React.Component {
         <label>共有用URL</label>
         <input type="text"
           className="form-control"
-          ref="shareUrl"
+          ref={(d) => { this.shareUrlForm = d }}
           defaultValue={this.shareUrl()}
           onFocus={this.handleFocus.bind(this)}/>
         <span className="help-block small">

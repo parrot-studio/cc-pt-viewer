@@ -46,7 +46,7 @@ class Ability < ApplicationRecord
   end
 
   def serialize
-    excepts = %w(id arcana_id job_code ability_type created_at updated_at)
+    excepts = %w[id arcana_id job_code ability_type created_at updated_at]
     ab = self.as_json(except: excepts)
     ab['effects'] = ability_effects.sort_by(&:order).map(&:serialize)
     ab

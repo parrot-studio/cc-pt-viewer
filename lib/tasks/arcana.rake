@@ -22,7 +22,7 @@ namespace :arcana do
       uri = URI.join('https://xn--eckfza0gxcvmna6c.gamerch.com', ERB::Util.url_encode(a.wiki_link_name))
       res = `curl -I -s #{uri}`
 
-      if res.match(reg)
+      if res.match?(reg)
         puts "now: #{i}/#{count}" if (i % 50).zero?
         next
       else

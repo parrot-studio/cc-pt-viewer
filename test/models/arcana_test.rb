@@ -1,3 +1,56 @@
+# == Schema Information
+#
+# Table name: arcanas
+#
+#  id              :integer          not null, primary key
+#  name            :string(100)      not null
+#  title           :string(100)      not null
+#  arcana_type     :string(20)       not null
+#  rarity          :integer          not null
+#  cost            :integer          default(0), not null
+#  chain_cost      :integer          default(0), not null
+#  weapon_type     :string(10)       not null
+#  job_type        :string(10)       not null
+#  job_index       :integer          not null
+#  job_code        :string(10)       not null
+#  job_detail      :string(50)
+#  source_category :string(50)       not null
+#  source          :string(50)       not null
+#  union           :string(20)       not null
+#  person_code     :string(10)       not null
+#  link_code       :string(10)
+#  max_atk         :integer
+#  max_hp          :integer
+#  limit_atk       :integer
+#  limit_hp        :integer
+#  voice_actor_id  :integer          default(0), not null
+#  illustrator_id  :integer          default(0), not null
+#  wiki_name       :string(50)       not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+# Indexes
+#
+#  index_arcanas_on_arcana_type                 (arcana_type)
+#  index_arcanas_on_chain_cost                  (chain_cost)
+#  index_arcanas_on_cost                        (cost)
+#  index_arcanas_on_illustrator_id              (illustrator_id)
+#  index_arcanas_on_job_code                    (job_code) UNIQUE
+#  index_arcanas_on_job_type                    (job_type)
+#  index_arcanas_on_job_type_and_job_index      (job_type,job_index) UNIQUE
+#  index_arcanas_on_job_type_and_rarity         (job_type,rarity)
+#  index_arcanas_on_name                        (name)
+#  index_arcanas_on_person_code                 (person_code)
+#  index_arcanas_on_rarity                      (rarity)
+#  index_arcanas_on_source_category             (source_category)
+#  index_arcanas_on_source_category_and_source  (source_category,source)
+#  index_arcanas_on_title                       (title)
+#  index_arcanas_on_union                       (union)
+#  index_arcanas_on_union_and_job_type          (union,job_type)
+#  index_arcanas_on_voice_actor_id              (voice_actor_id)
+#  index_arcanas_on_weapon_type                 (weapon_type)
+#
+
 require 'test_helper'
 
 class ArcanaTest < ActiveSupport::TestCase

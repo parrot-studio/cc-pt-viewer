@@ -90,11 +90,11 @@ export default class EditModeView extends React.Component {
     }
 
     if (this.state.editMode)  {
-      $(this.refs.partyArea).hide()
-      $(this.refs.editArea).show()
+      $(this.partyArea).hide()
+      $(this.editArea).show()
     } else {
-      $(this.refs.editArea).hide()
-      $(this.refs.partyArea).show()
+      $(this.editArea).hide()
+      $(this.partyArea).show()
     }
   }
 
@@ -117,11 +117,11 @@ export default class EditModeView extends React.Component {
 
   fadeArea() {
     if (this.state.editMode)  {
-      $(this.refs.partyArea).hide()
-      $(this.refs.editArea).fadeIn()
+      $(this.partyArea).hide()
+      $(this.editArea).fadeIn()
     } else {
-      $(this.refs.editArea).hide()
-      $(this.refs.partyArea).fadeIn()
+      $(this.editArea).hide()
+      $(this.partyArea).fadeIn()
     }
   }
 
@@ -150,7 +150,7 @@ export default class EditModeView extends React.Component {
     }
 
     return(
-      <div id="edit-area" ref="editArea">
+      <div id="edit-area" ref={(d) => { this.editArea = d }}>
         <div id="member-area" className="well well-sm">
           {this.renderAreaHeader()}
           <MemberAreaBody party={this.state.party}/>
@@ -179,7 +179,7 @@ export default class EditModeView extends React.Component {
       <div>
         {this.renderControlArea()}
         {this.renderEditArea()}
-        <div id="party-area" ref="partyArea">
+        <div id="party-area" ref={(d) => { this.partyArea = d }}>
           <PartyView
             phoneDevice={this.props.phoneDevice}
             party={this.state.party}/>

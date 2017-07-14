@@ -1,5 +1,5 @@
 class ViewerController < ApplicationController
-  before_action only: [:ptedit, :database, :detail] do
+  before_action only: %i[ptedit database detail] do
     @mode =
       case action_name.to_s
       when 'database'
@@ -54,7 +54,7 @@ class ViewerController < ApplicationController
   private
 
   def create_member_title(mems)
-    keys = [:mem1, :mem2, :mem3, :mem4, :sub1, :sub2, :friend]
+    keys = %i[mem1 mem2 mem3 mem4 sub1 sub2 friend]
     codes = keys.map { |k| mems[k] }.compact
     as = from_arcana_cache(codes)
     as.map { |a| a['name'] }.join(', ')

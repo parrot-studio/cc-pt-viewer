@@ -3,7 +3,6 @@ Rails.application.routes.draw do
 
   namespace :api do
     get  'conditions' => 'arcanas#conditions'
-    get  'latestinfo' => 'arcanas#latestinfo'
     get  'search'  => 'arcanas#search'
     get  'ptm'     => 'arcanas#ptm'
     get  'codes'   => 'arcanas#codes'

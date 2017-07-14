@@ -68,9 +68,9 @@ export default class ChainAbilityConditions extends React.Component {
       <div className="col-sm-4 col-md-4">
         <label htmlFor="chain-ability-target">対象</label>
         <select id="chain-ability-target" className="form-control"
-            value={this.props.chainabilitytarget}
-            onChange={this.handleTargetChange.bind(this)}>
-            {ts}
+          value={this.props.chainabilitytarget}
+          onChange={this.handleTargetChange.bind(this)}>
+          {ts}
         </select>
       </div>
     )

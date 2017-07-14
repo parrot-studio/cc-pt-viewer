@@ -7,12 +7,6 @@ module ViewerHelper
     ServerSettings.pt_version
   end
 
-  def info_version
-    info = ArcanaCache.latestinfo
-    return info['version'] if info
-    Changelog.latest.try(:version)
-  end
-
   def mode_name(mode = nil)
     mode ||= action_name
     case mode
@@ -21,6 +15,10 @@ module ViewerHelper
     when 'database'
       'データベースモード'
     end
+  end
+
+  def site_title
+    'Get our light! - チェンクロ パーティーシミュレーター'
   end
 
   def ptedit_mode?

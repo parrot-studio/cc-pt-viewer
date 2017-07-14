@@ -57,10 +57,10 @@ export default class RequestFormModal extends React.Component {
         <Modal.Body>
           <div className="small">
             <p>
-              当サイトのデータは<a href='https://xn--eckfza0gxcvmna6c.gamerch.com/' target='_blank'>Wiki</a>の情報と、管理人が所有するアルカナ情報でメンテナンスしていますが、<br/>
+              当サイトのデータは<a href='https://xn--eckfza0gxcvmna6c.gamerch.com/' target='_blank' rel='noopener noreferrer'>Wiki</a>の情報と、管理人が所有するアルカナ情報でメンテナンスしていますが、<br/>
               それ以外の情報が足りていません。<br/>
               <br/>
-              情報をお持ちの方は<a href='https://xn--eckfza0gxcvmna6c.gamerch.com/' target='_blank'>Wiki</a>に提供していただくか、
+              情報をお持ちの方は<a href='https://xn--eckfza0gxcvmna6c.gamerch.com/' target='_blank' rel='noopener noreferrer'>Wiki</a>に提供していただくか、
               以下のフォーム・Twitterでお願いします。<br/>
               新機能に関する要望も歓迎です。
             </p>

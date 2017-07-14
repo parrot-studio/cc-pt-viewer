@@ -6,7 +6,7 @@ import Parties from "../../model/Parties"
 export default class MemberStoreModal extends React.Component {
 
   storeParty() {
-    const comment = this.refs.ptname.value
+    const comment = this.ptname.value
     const party = this.props.party
     Parties.addParty(party, comment)
     this.props.closeModal()
@@ -27,7 +27,7 @@ export default class MemberStoreModal extends React.Component {
           </p>
           <div className="form-group" id="store-pt-form">
             <label htmlFor="member-comment">パーティーの名前（10文字まで）</label>
-            <input type="text" ref="ptname" className="form-control"
+            <input type="text" ref={(d) => { this.ptname = d }} className="form-control"
               maxLength="10" placeholder="例：ストーリー用PT"/>
             <span className="help-block small">
               保存されたパーティーは古いものから消えていきます。<br/>

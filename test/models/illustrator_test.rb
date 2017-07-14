@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: illustrators
+#
+#  id         :integer          not null, primary key
+#  name       :string(100)      not null
+#  count      :integer          default(0), not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+# Indexes
+#
+#  index_illustrators_on_name  (name) UNIQUE
+#
+
 require 'test_helper'
 
 class IllustratorTest < ActiveSupport::TestCase

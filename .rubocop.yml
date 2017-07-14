@@ -6,7 +6,7 @@ AllCops:
     - 'vendor/**/*'
     - 'test/**/*'
     - 'tmp/**/*'
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.4
   DisplayCopNames: true
 
 Bundler/OrderedGems:
@@ -15,7 +15,7 @@ Bundler/OrderedGems:
 Lint/EndAlignment:
   Enabled: false
 
-Style/CaseIndentation:
+Layout/CaseIndentation:
   Enabled: false
 
 Style/ClassAndModuleChildren:
@@ -24,7 +24,7 @@ Style/ClassAndModuleChildren:
 Style/Documentation:
   Enabled: false
 
-Style/ElseAlignment:
+Layout/ElseAlignment:
   Enabled: false
 
 Style/ParenthesesAroundCondition:
@@ -93,7 +93,7 @@ Metrics/PerceivedComplexity:
     - 'lib/arcana_importer.rb'
 
 # Configuration parameters: Width.
-Style/IndentationWidth:
+Layout/IndentationWidth:
   Exclude:
     - 'lib/arcana_searcher.rb'
 

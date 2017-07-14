@@ -3,10 +3,6 @@ class Api::ArcanasController < ApplicationController
     render json: ArcanaCache.conditions
   end
 
-  def latestinfo
-    render json: ArcanaCache.latestinfo
-  end
-
   def search
     as = search_arcanas(query_params)
     render json: (as || {})

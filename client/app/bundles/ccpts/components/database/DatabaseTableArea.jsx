@@ -13,7 +13,7 @@ export default class DatabaseTableArea extends ResultView {
 
   componentDidMount() {
     if (this.props.phoneDevice) {
-      $(this.refs.arcanaTable).swipe ({
+      $(this.arcanaTable).swipe ({
         swipeLeft: ((e) => {
           if (this.state.pager.hasPrevPage()) {
             this.changePage(this.state.pager.prevPage())
@@ -37,7 +37,7 @@ export default class DatabaseTableArea extends ResultView {
   }
 
   fadeTable() {
-    const table = $(this.refs.arcanaTable)
+    const table = $(this.arcanaTable)
     table.hide()
     table.fadeIn("fast")
   }
@@ -179,7 +179,7 @@ export default class DatabaseTableArea extends ResultView {
           <div className="table-responsive">
             <table id="arcana-table"
               className="table table-bordered table-condensed"
-              ref="arcanaTable">
+              ref={(d) => { this.arcanaTable = d }}>
               <thead>{this.renderTableHeader()}</thead>
               <tbody>{this.renderArcanas()}</tbody>
             </table>

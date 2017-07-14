@@ -68,9 +68,9 @@ export default class AbilityConditions extends React.Component {
       <div className="col-sm-4 col-md-4">
         <label htmlFor="ability-target">対象</label>
         <select id="ability-target" className="form-control"
-            value={this.props.abilitytarget}
-            onChange={this.handleTargetChange.bind(this)}>
-            {ts}
+          value={this.props.abilitytarget}
+          onChange={this.handleTargetChange.bind(this)}>
+          {ts}
         </select>
       </div>
     )
@@ -83,16 +83,16 @@ export default class AbilityConditions extends React.Component {
           <div className="col-sm-4 col-md-4">
             <label htmlFor="ability-condition">条件</label>
             <select id="ability-condition" className="form-control"
-                value={this.props.abilitycondition}
-                onChange={this.handleConditionChange.bind(this)}>
+              value={this.props.abilitycondition}
+              onChange={this.handleConditionChange.bind(this)}>
               {this.renderConditionList()}
             </select>
           </div>
           <div className="col-sm-4 col-md-4">
             <label htmlFor="ability-effect">効果</label>
             <select id="ability-effect" className="form-control"
-                value={this.props.abilityeffect}
-                onChange={this.handleEffectChange.bind(this)}>
+              value={this.props.abilityeffect}
+              onChange={this.handleEffectChange.bind(this)}>
               {this.renderEffectList()}
             </select>
           </div>

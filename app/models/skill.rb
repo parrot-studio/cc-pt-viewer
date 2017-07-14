@@ -39,7 +39,7 @@ class Skill < ApplicationRecord
             numericality: { only_integer: true }
 
   def serialize
-    excepts = %w(id created_at updated_at)
+    excepts = %w[id created_at updated_at]
     sk = self.as_json(except: excepts)
     sk['effects'] = skill_effects.sort_by(&:order).map(&:serialize)
     sk

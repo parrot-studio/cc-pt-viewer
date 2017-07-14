@@ -27,7 +27,7 @@ export default class TargetsEditArea extends ResultView {
   }
 
   componentDidMount() {
-    $(this.refs.helpArea).hide()
+    $(this.helpArea).hide()
   }
 
   handleSort(col, e) {
@@ -108,7 +108,7 @@ export default class TargetsEditArea extends ResultView {
       <div id="edit-area">
         <div className="row">
           <div className="col-sm-12 col-md-12">
-            <div id="help-area" ref="helpArea">
+            <div id="help-area" ref={(d) => { this.helpArea = d }}>
               <div className="alert alert-warning small" role="alert">
                 <ul className="list-unstyled">
                   <li>空いたところにドロップ -&gt; パーティーメンバーとしてセット</li>

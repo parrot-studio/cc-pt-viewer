@@ -3,26 +3,16 @@ import React from "react"
 import { Alert } from "react-bootstrap"
 
 import { Cookie } from "../../lib/Cookie"
-import Searcher from "../../lib/Searcher"
 
 export default class LatestInfoArea extends React.Component {
 
   constructor(props) {
     super(props)
 
-    this.state = {
-      visible: true,
-      info: null
-    }
-  }
+    this.ver = this.props.latestInfo.version
 
-  componentDidMount() {
-    if (this.isShowLatestInfo()) {
-      Searcher.loadLatestInfo().onValue((info) => {
-        this.setState({info}, () => {
-          Cookie.set({"latest-info": info.version})
-        })
-      })
+    this.state = {
+      visible: true
     }
   }
 
@@ -31,7 +21,7 @@ export default class LatestInfoArea extends React.Component {
   }
 
   isShowLatestInfo() {
-    const ver = String(this.props.ver)
+    const ver = String(this.ver)
     if (_.isEmpty(ver)) {
       return false
     }
@@ -55,10 +45,15 @@ export default class LatestInfoArea extends React.Component {
       return null
     }
 
-    const info = this.state.info
+    const info = this.props.latestInfo
     if (_.isEmpty(info)){
       return null
     }
+
+    if (!this.isShowLatestInfo()){
+      return null
+    }
+    Cookie.set({"latest-info": this.ver})
 
     return (
       <div className="row">
