@@ -46,6 +46,7 @@ class SkillEffect < ApplicationRecord
         one_random: '単体・ランダム',
         one_combination: '単体・コンビネーション',
         one_nearest: '単体・一番近い対象',
+        one_most: '単体・HPが一番多い対象',
         contact_combo: '接触・連続',
         contact_combination: '接触・コンビネーション',
         range_line: '範囲・直線',

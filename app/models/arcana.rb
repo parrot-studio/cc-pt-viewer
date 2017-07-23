@@ -252,6 +252,13 @@ class Arcana < ApplicationRecord
         chronicle: '年代記の大陸・酒場',
         bookshelf: '書架・酒場'
       }
+    },
+    other: {
+      name: 'その他',
+      details: {
+        quest: '探索',
+        ring: 'リング交換'
+      }
     }
   }.freeze
 

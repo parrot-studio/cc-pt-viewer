@@ -293,6 +293,7 @@ class AbilityEffect < ApplicationRecord
         asup: '攻撃力/移動速度上昇',
         acup: '攻撃力/クリティカル率上昇',
         scup: '移動速度/クリティカル率上昇',
+        crup: 'クリティカル率/クリティカルダメージ上昇',
         adsup: '攻撃力/防御力/移動速度上昇'
       },
       condition: {
