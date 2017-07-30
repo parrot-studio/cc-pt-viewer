@@ -206,6 +206,7 @@ class SkillEffect < ApplicationRecord
         knight: '騎士'
       },
       effect: {
+        guard_poison: '毒耐性',
         guard_blind: '暗闇耐性',
         guard_freeze: '凍結耐性',
         guard_slow: 'スロウ耐性',
@@ -215,6 +216,7 @@ class SkillEffect < ApplicationRecord
         guard_ice: '氷属性軽減',
         invincible: '無敵',
         aup: '攻撃力上昇',
+        reflect_attack: '攻撃反射',
         super_skill: '超必殺技'
       }
     },
