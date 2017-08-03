@@ -327,7 +327,7 @@ class AbilityEffect < ApplicationRecord
         scup: '移動速度/クリティカル率上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
         adcup: '攻撃力/防御力/クリティカル率上昇',
-        adscup: '攻撃力/防御力/移動速度上昇/クリティカル率上昇',
+        adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
         add_down: '対象の攻撃にダウンを付与',
         add_slow: '対象の攻撃にスロウを付与',
         add_poison: '対象の攻撃に毒を付与',
@@ -378,7 +378,8 @@ class AbilityEffect < ApplicationRecord
         adsup: '攻撃力/防御力/移動速度上昇',
         adcup: '攻撃力/防御力/クリティカル率上昇',
         scrup: '移動速度/クリティカル率/クリティカルダメージ上昇',
-        adscup: '攻撃力/防御力/移動速度上昇/クリティカル率上昇',
+        adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
+        adscrup: '攻撃力/防御力/移動速度/クリティカル率/クリティカルダメージ上昇',
         barrier: 'バリアを張る'
       },
       condition: {

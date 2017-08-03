@@ -261,7 +261,8 @@ class SkillEffect < ApplicationRecord
         add_tumble: '転倒付与',
         fire: '火属性',
         against_dropout: '戦闘不能にならない',
-        create_scrap: 'スクラップ生成'
+        create_scrap: 'スクラップ生成',
+        super_skill: '超必殺技'
       }
     },
     metamorphose: {
