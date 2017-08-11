@@ -192,6 +192,7 @@ class AbilityEffect < ApplicationRecord
         dropout_member: '味方が脱落した時',
         mana_charged: 'マナが多いほど',
         mana_slot_many: 'マナスロットが多いほど',
+        mana_droped: 'マナを獲得した時',
         kill: '敵を倒した時',
         super_gauge_max: '超必殺技ゲージがMAXの時'
       },
@@ -391,7 +392,8 @@ class AbilityEffect < ApplicationRecord
         random: 'ランダム',
         job_f: '戦士',
         job_k: '騎士',
-        job_a: '弓使い'
+        job_a: '弓使い',
+        job_m: '魔法使い'
       }
     },
     skillup: {
