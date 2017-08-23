@@ -53,6 +53,7 @@ class SkillEffect < ApplicationRecord
         range_dash: '範囲・ダッシュ',
         range_forward: '範囲・前方',
         range_self: '範囲・自分中心',
+        range_self_combo: '範囲・自分中心/連続',
         range_explosion: '範囲・自爆',
         range_drop: '範囲・落下物',
         range_jump: '範囲・ジャンプ',
@@ -260,6 +261,7 @@ class SkillEffect < ApplicationRecord
         add_freeze: '凍結追加',
         add_tumble: '転倒付与',
         fire: '火属性',
+        ice: '氷属性',
         against_dropout: '戦闘不能にならない',
         create_scrap: 'スクラップ生成',
         super_skill: '超必殺技'
