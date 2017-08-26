@@ -312,7 +312,9 @@ class AbilityEffect < ApplicationRecord
         weapon_gu: '<<銃>>',
         weapon_sh: '<<狙>>',
         weapon_slma: '<<斬/魔>>',
-        weapon_blpi: '<<打/突>>'
+        weapon_blpi: '<<打/突>>',
+        weapon_gush: '<<銃/狙>>',
+        weapon_slblpipu: '<<斬/打/突/拳>>'
       }
     },
     buff_group: {
@@ -899,13 +901,14 @@ class AbilityEffect < ApplicationRecord
     job_a: %w[job_fa job_ka job_ah job_am job_fah job_fkah job_kahm],
     job_h: %w[job_kh job_ah job_fkh job_fah job_fkah job_kahm],
     job_m: %w[job_fm job_km job_am job_kahm],
-    weapon_sl: ['weapon_slma'],
-    weapon_bl: ['weapon_blpi'],
-    weapon_pi: ['weapon_blpi'],
-    weapon_ar: ['weapon_argush'],
-    weapon_ma: ['weapon_slma'],
-    weapon_gu: ['weapon_argush'],
-    weapon_sh: ['weapon_argush']
+    weapon_sl: %w[weapon_slma weapon_slblpipu],
+    weapon_bl: %w[weapon_blpi weapon_slblpipu],
+    weapon_pi: %w[weapon_blpi weapon_slblpipu],
+    weapon_pu: %w[weapon_slblpipu],
+    weapon_ar: %w[weapon_argush],
+    weapon_ma: %w[weapon_slma],
+    weapon_gu: %w[weapon_gush weapon_argush],
+    weapon_sh: %w[weapon_gush weapon_argush]
   }.freeze
 
   class << self
