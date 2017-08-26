@@ -15,6 +15,7 @@ import DatabaseModeView from "./database/DatabaseModeView"
 import NavHeader from "./concerns/NavHeader"
 import ConditionView from "./concerns/ConditionView"
 import ArcanaView from "./concerns/ArcanaView"
+import DisplaySizeWarning from "./concerns/DisplaySizeWarning"
 
 export default class AppView extends React.Component {
 
@@ -56,15 +57,7 @@ export default class AppView extends React.Component {
 
     this.state = {
       pagerSize,
-      showConditionArea: false,
-      phoneRedirect: false
-    }
-  }
-
-  componentWillMount() {
-    if (_.eq(this.props.mode, "ptedit") && this.phoneDevice && _.isEmpty(this.props.ptm)) {
-      location.href=`${this.props.appPath}/db`
-      this.setState({phoneRedirect: true})
+      showConditionArea: false
     }
   }
 
@@ -108,28 +101,49 @@ export default class AppView extends React.Component {
     }
   }
 
+  renderWarning() {
+    if (this.props.imageMode) {
+      return null
+    }
+
+    if (!_.eq(this.props.mode, "ptedit") || !this.phoneDevice) {
+      return null
+    }
+
+    return <DisplaySizeWarning appPath={this.props.appPath}/>
+  }
+
   renderModeView() {
     switch (this.props.mode) {
       case "ptedit":
         return <EditModeView
-          phoneDevice={this.props.phoneDevice}
+          phoneDevice={this.phoneDevice}
           appPath={this.props.appPath}
           aboutPath={this.props.aboutPath}
-          ptm={this.props.ptm}
+          initParty={this.props.party}
           ptver={this.props.ptver}
-          code={this.props.code}
+          arcana={this.props.arcana}
           switchConditionMode={this.switchConditionMode.bind(this)}
           pagerSize={this.state.pagerSize}
           imageMode={this.props.imageMode}/>
       case "database":
         return <DatabaseModeView
-          code={this.props.code}
-          phoneDevice={this.props.phoneDevice}
+          phoneDevice={this.phoneDevice}
           appPath={this.props.appPath}
           switchConditionMode={this.switchConditionMode.bind(this)}
           pagerSize={this.state.pagerSize}
           imageMode={this.props.imageMode}/>
     }
+  }
+
+  renderConditionView() {
+    if (_.eq(this.props.mode, "ptedit") && this.phoneDevice) {
+      return null
+    }
+
+    return <ConditionView
+      conditions={Conditions}
+      switchMainMode={this.switchMainMode.bind(this)}/>
   }
 
   renderErrorArea() {
@@ -150,10 +164,6 @@ export default class AppView extends React.Component {
   }
 
   render() {
-    if (this.state.phoneRedirect) {
-      return
-    }
-
     return (
       <div>
         <NavHeader
@@ -161,13 +171,12 @@ export default class AppView extends React.Component {
           mode={this.props.mode}
           latestInfo={this.props.latestInfo}/>
         {this.renderErrorArea()}
+        {this.renderWarning()}
         <div id="main-area" ref={(d) => { this.mainArea = d }}>
           {this.renderModeView()}
         </div>
         <div id="condition-area" ref={(d) => { this.conditionArea = d }}>
-          <ConditionView
-            conditions={Conditions}
-            switchMainMode={this.switchMainMode.bind(this)}/>
+          {this.renderConditionView()}
         </div>
         <ArcanaView originTitle={this.props.originTitle}/>
       </div>

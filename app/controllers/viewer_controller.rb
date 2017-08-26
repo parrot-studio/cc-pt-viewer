@@ -16,9 +16,10 @@ class ViewerController < ApplicationController
       redirect_to root_url
       return
     end
-    @ptm = mems ? code : ''
-    @uri = (@ptm.present? ? URI.join(root_url, @ptm).to_s : root_url)
-    @title = (@ptm.present? ? create_member_title(mems) : '')
+    ptm = mems ? code : ''
+    @party = search_members(ptm)
+    @uri = (ptm.present? ? URI.join(root_url, ptm).to_s : root_url)
+    @title = (ptm.present? ? create_member_title(mems) : '')
     render :app
   end
 
@@ -30,12 +31,12 @@ class ViewerController < ApplicationController
   end
 
   def detail
-    arcana = from_arcana_cache(params[:code]).first
+    arcana = from_arcana_cache(params[:code]).try(:first)
     if arcana.blank?
       redirect_to root_url
       return
     end
-    @code = arcana['job_code']
+    @arcana = arcana
     @uri = root_url
     @title = arcana['wiki_link_name']
     render :app

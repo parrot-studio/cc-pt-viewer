@@ -3,7 +3,6 @@ import React from "react"
 
 import Query from "../../model/Query"
 import MessageStream from "../../model/MessageStream"
-import Searcher from "../../lib/Searcher"
 
 import DatabaseAreaHeader from "./DatabaseAreaHeader"
 import DatabaseTableArea from "./DatabaseTableArea"
@@ -41,16 +40,6 @@ export default class DatabaseModeView extends React.Component {
   }
 
   componentDidMount() {
-    const code = this.props.code
-    if (code) {
-      Searcher.searchCodes([code]).onValue((result) => {
-        const a = result.arcanas[0]
-        if (a) {
-          MessageStream.queryStream.push({name: a.name})
-          MessageStream.arcanaViewStream.push(a)
-        }
-      })
-    }
     MessageStream.queryStream.push(Query.parse().params())
   }
 

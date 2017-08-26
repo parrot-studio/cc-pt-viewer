@@ -71,4 +71,22 @@ class ApplicationController < ActionController::Base
       friendc: selector.call(m[14])
     }
   end
+
+  def search_members(ptm)
+    return {} if ptm.blank?
+    mems = parse_pt_code(ptm)
+    return {} unless mems
+
+    cs = mems.values.uniq.compact
+    return {} if cs.empty?
+    as = from_arcana_cache(cs).each_with_object({}) { |o, h| h[o['job_code']] = o }
+
+    ret = {}
+    mems.each do |po, co|
+      a = as[co]
+      next unless a
+      ret[po] = as[co]
+    end
+    ret
+  end
 end

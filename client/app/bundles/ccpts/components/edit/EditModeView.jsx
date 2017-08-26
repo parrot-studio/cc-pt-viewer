@@ -2,7 +2,7 @@ import _ from "lodash"
 
 import React from "react"
 
-import Query from "../../model/Query"
+import Arcana from "../../model/Arcana"
 import Party from "../../model/Party"
 import Parties from "../../model/Parties"
 import MessageStream from "../../model/MessageStream"
@@ -33,8 +33,7 @@ export default class EditModeView extends React.Component {
     })
 
     MessageStream.memberCodeStream.onValue((code) => {
-      Searcher.searchMembers(code).onValue((as) => {
-        const party = Party.build(as)
+      Searcher.searchMembers(code).onValue((party) => {
         this.setState({party})
       })
     })
@@ -54,48 +53,58 @@ export default class EditModeView extends React.Component {
       })
 
     let editMode = true
+    let targetInitialized = true
     if (!this.props.imageMode) {
-      editMode = _.isEmpty(this.props.ptm) ? true : false
+      editMode = _.isEmpty(this.props.initParty)
+      targetInitialized = !_.isEmpty(this.props.arcana)
+    }
+
+    let initPt = Party.create()
+    let lastHistory = ""
+    if (!_.isEmpty(this.props.initParty)) {
+      initPt = Party.build(this.props.initParty)
+      lastHistory = initPt.createCode()
     }
 
     this.state = {
       editMode,
-      party: Party.create(),
-      lastHistory: this.props.ptm
+      lastHistory,
+      targetInitialized,
+      party: initPt
     }
   }
 
   componentDidMount() {
-    const code = this.props.code
-    if (code) {
-      Searcher.searchCodes([code]).onValue((result) => {
-        const a = result.arcanas[0]
-        if (a) {
-          MessageStream.queryStream.push({name: a.name})
-          MessageStream.arcanaViewStream.push(a)
-        }
-      })
+    const arcana = this.props.arcana
+    if (!_.isEmpty(arcana)) {
+      const a = Arcana.build(arcana)
+      MessageStream.queryStream.push({name: a.name})
+      MessageStream.arcanaViewStream.push(a)
     }
 
-    if (!this.props.phoneDevice) {
-      MessageStream.queryStream.push(Query.parse().params())
-    }
-    if (_.isEmpty(this.props.ptm)) {
+    if (_.isEmpty(this.props.initParty)) {
       MessageStream.memberCodeStream.push(Parties.lastParty)
-      if (_.isEmpty(code)){
+      if (_.isEmpty(arcana)){
         MessageStream.historyStream.push("reset")
       }
-    } else {
-      MessageStream.memberCodeStream.push(this.props.ptm)
     }
 
     if (this.state.editMode)  {
       $(this.partyArea).hide()
       $(this.editArea).show()
+
+      if (!this.props.phoneDevice && !this.state.targetInitialized) {
+        this.initSearchTarget()
+      }
     } else {
       $(this.editArea).hide()
       $(this.partyArea).show()
     }
+  }
+
+  initSearchTarget() {
+    MessageStream.queryStream.push("")
+    this.setState({targetInitialized: true})
   }
 
   replaceHistory(uri) {
@@ -108,6 +117,10 @@ export default class EditModeView extends React.Component {
       if (this.state.editMode) {
         MessageStream.historyStream.push("reset")
         this.setState({lastHistory: ""})
+
+        if (!this.state.targetInitialized) {
+          this.initSearchTarget()
+        }
       } else {
         MessageStream.historyStream.push(Parties.lastParty)
         this.setState({lastHistory: Parties.lastParty})

@@ -3,6 +3,7 @@ import Bacon from "baconjs"
 import Agent from "superagent"
 
 import Arcana from "../model/Arcana"
+import Party from "../model/Party"
 import QueryLogs from "../model/QueryLogs"
 import QueryResult from "../model/QueryResult"
 
@@ -64,15 +65,14 @@ export default class Searcher {
   static searchMembers(code) {
     const cache = __sercher_memberCache[code]
     if (cache) {
-      return Bacon.once(cache)
+      return Bacon.once(Party.build(cache))
     }
 
     const params = {ptm: code}
     const ptmUrl = `${__searcher_config.apiPath}ptm`
     return Searcher.search(params, ptmUrl).flatMap((data) => {
-      const as = _.mapValues(data, (d) => Arcana.build(d))
-      __sercher_memberCache[code] = as
-      return Bacon.once(as)
+      __sercher_memberCache[code] = data
+      return Bacon.once(Party.build(data))
     })
   }
 
