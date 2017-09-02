@@ -244,6 +244,8 @@ class AbilityEffect < ApplicationRecord
         acup: '攻撃力/クリティカル率上昇',
         scup: '移動速度/クリティカル率上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
+        adcup: '攻撃力/防御力/クリティカル率上昇',
+        adrup: '攻撃力/防御力/クリティカルダメージ上昇',
         ascup: '攻撃力/移動速度/クリティカル率上昇',
         add_slow: '対象の攻撃にスロウを付与',
         barrier: 'バリアを張る'
@@ -280,7 +282,8 @@ class AbilityEffect < ApplicationRecord
         job_am: '弓/魔',
         job_fkh: '戦/騎/僧',
         job_fah: '戦/弓/僧',
-        job_fkah: '戦/騎/弓/僧'
+        job_fkah: '戦/騎/弓/僧',
+        job_ahm: '弓/僧/魔'
       }
     },
     buff_weapons: {
@@ -327,6 +330,7 @@ class AbilityEffect < ApplicationRecord
         adup: '攻撃力/防御力上昇',
         asup: '攻撃力/移動速度上昇',
         acup: '攻撃力/クリティカル率上昇',
+        dcup: '防御力/クリティカル率上昇',
         scup: '移動速度/クリティカル率上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
         adcup: '攻撃力/防御力/クリティカル率上昇',
@@ -508,6 +512,7 @@ class AbilityEffect < ApplicationRecord
         defdown: '防御力低下',
         speeddown: '移動速度低下',
         atkdefdown: '攻撃力/防御力低下',
+        atkspeeddown: '攻撃力/移動速度低下',
         defspeeddown: '防御力/移動速度低下',
         fulldown: '攻撃力/防御力/移動速度低下',
         delayup: '攻撃速度低下',
