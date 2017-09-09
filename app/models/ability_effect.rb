@@ -348,6 +348,7 @@ class AbilityEffect < ApplicationRecord
         group_oasis: '湖都所属',
         group_forest: '精霊島所属',
         group_volcano: '九領所属',
+        group_dawnsea: '大海所属',
         group_beasts: 'ケ者所属',
         group_criminal: '罪の大陸所属',
         group_machine: '鉄煙所属',
