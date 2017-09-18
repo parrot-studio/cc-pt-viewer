@@ -247,6 +247,7 @@ class AbilityEffect < ApplicationRecord
         adcup: '攻撃力/防御力/クリティカル率上昇',
         adrup: '攻撃力/防御力/クリティカルダメージ上昇',
         ascup: '攻撃力/移動速度/クリティカル率上昇',
+        adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
         add_slow: '対象の攻撃にスロウを付与',
         barrier: 'バリアを張る'
       },
