@@ -163,7 +163,8 @@ class SkillEffect < ApplicationRecord
         guard_fire: '炎属性軽減',
         guard_ice: '氷属性軽減',
         guard_element: '属性軽減',
-        cure_down: 'ダウン解除'
+        cure_down: 'ダウン解除',
+        super_skill: '超必殺技'
       }
     },
     buff: {
