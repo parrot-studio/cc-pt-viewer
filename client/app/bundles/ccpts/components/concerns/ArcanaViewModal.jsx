@@ -233,6 +233,10 @@ export default class ArcanaViewModal extends React.Component {
         cl = "info"
         text = "コラボ"
         break
+      case "collabo_newgene":
+        cl = "info"
+        text = "コラボ（新世代）"
+        break
       case "demon":
         text = "魔神"
         break

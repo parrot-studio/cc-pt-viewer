@@ -82,7 +82,8 @@ class Arcana < ApplicationRecord
     third: '新世代（3部）',
     demon: '魔神',
     buddy: 'バディ',
-    collaboration: 'コラボ'
+    collaboration: 'コラボ',
+    collabo_newgene: 'コラボ（新世代）'
   }.freeze
 
   ARCANA_TYPES = ARCANA_TYPE_NAMES.keys.map(&:to_s).freeze
@@ -199,6 +200,7 @@ class Arcana < ApplicationRecord
     collaboration: {
       name: 'コラボ',
       details: {
+        swordoratoria: 'ソード・オラトリア',
         nanoha: 'リリカルなのは',
         guiltygear: 'ギルティギア',
         twinangel: 'ツインエンジェル',
@@ -282,12 +284,12 @@ class Arcana < ApplicationRecord
 
   SOURCE_GROUP_CATEGORYS = %i[first second].freeze
 
-  NOT_INHERITABLE_TYPES = %i[buddy third].freeze
+  NOT_INHERITABLE_TYPES = %i[buddy third collabo_newgene].freeze
   NOT_INHERITABLE_ARCANAS = %w[F211 F156].freeze # ミョルン, ホーク
   INHERITABLE_COLLABORATIONS = %w[
     konosuba persona5 utaware valkyria falcom_sen2
     atelier_arland maoyu loghorizon sevensins danmachi titan
-    seiken twinangel guiltygear shiningresonance nanoha
+    seiken twinangel guiltygear shiningresonance nanoha swordoratoria
   ].freeze
 
   scope :with_tables, -> { includes(%i[voice_actor illustrator skills abilities]) }

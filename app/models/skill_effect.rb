@@ -57,6 +57,7 @@ class SkillEffect < ApplicationRecord
         range_explosion: '範囲・自爆',
         range_drop: '範囲・落下物',
         range_jump: '範囲・ジャンプ',
+        range_jump_combo: '範囲・ジャンプ/連続',
         range_blast: '範囲・爆発',
         range_random: '範囲・ランダム',
         range_line2: '範囲・直線2ライン',

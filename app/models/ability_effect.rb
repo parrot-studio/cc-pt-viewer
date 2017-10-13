@@ -301,7 +301,8 @@ class AbilityEffect < ApplicationRecord
         acup: '攻撃力/クリティカル率上昇',
         scup: '移動速度/クリティカル率上昇',
         crup: 'クリティカル率/クリティカルダメージ上昇',
-        adsup: '攻撃力/防御力/移動速度上昇'
+        adsup: '攻撃力/防御力/移動速度上昇',
+        adcup: '攻撃力/防御力/クリティカル率上昇'
       },
       condition: {
         any: 'いつでも',
@@ -317,6 +318,7 @@ class AbilityEffect < ApplicationRecord
         weapon_pu: '<<拳>>',
         weapon_gu: '<<銃>>',
         weapon_sh: '<<狙>>',
+        weapon_slpi: '<<斬/突>>',
         weapon_slma: '<<斬/魔>>',
         weapon_blpi: '<<打/突>>',
         weapon_gush: '<<銃/狙>>',
