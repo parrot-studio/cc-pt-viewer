@@ -1749,6 +1749,7 @@ SC-3000,F,254,1,,勇将明敏,2,,attack,one_short,add_push,,,,,
 シェダ,A,176,1,d,トゥルーブラストアロー,1,,attack,one_most,add_down,,,,,
 ,,,,,,,,,,,,,,,
 ヒザルビン,F,335,1,d,ファウンタイド・ルクレクリエム,3,,barrier,all,guard_poison,guard_weaken,guard_freeze,reflect_attack,,反射時に毒/凍結付与
+,,,2,,ザ・ファウンタイド・ルクレクリエム,2,初回のみ,barrier,all,guard_poison,guard_weaken,guard_freeze,reflect_attack,,反射時に毒/凍結付与
 ,,,,,,,,,,,,,,,
 # レジェンドフェス7/31,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
