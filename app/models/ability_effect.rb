@@ -120,6 +120,7 @@ class AbilityEffect < ApplicationRecord
         with_forest: '所属：精霊島がいる時',
         with_volcano: '所属：九領がいる時',
         with_beasts: '所属：ケ者がいる時',
+        with_criminal: '所属：罪の大陸がいる時',
         with_demon: '所属：魔神がいる時',
         same_abilities: '同じアビリティを持った味方がいる時',
         kill: '敵を倒した時',
