@@ -175,6 +175,7 @@ class SkillEffect < ApplicationRecord
         all: '全体',
         others: '自分以外の全員',
         fighter: '戦士',
+        archer: '弓使い',
         front: '先頭の一人',
         far: '一番遠い一人',
         nearest: '一番近い一人',
@@ -306,7 +307,8 @@ class SkillEffect < ApplicationRecord
       name: '付与',
       sub: {
         self: '自身',
-        all: '全体'
+        all: '全体',
+        archer: '弓使い'
       },
       effect: {
         fire: '火属性',
