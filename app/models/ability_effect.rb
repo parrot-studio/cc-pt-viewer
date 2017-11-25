@@ -309,7 +309,8 @@ class AbilityEffect < ApplicationRecord
       condition: {
         any: 'いつでも',
         with_f: '戦士がいる時',
-        with_a: '弓使いがいる時'
+        with_a: '弓使いがいる時',
+        with_slpu: '<<斬/拳>>がいる時'
       },
       target: {
         weapon_sl: '<<斬>>',
@@ -322,7 +323,9 @@ class AbilityEffect < ApplicationRecord
         weapon_sh: '<<狙>>',
         weapon_slpi: '<<斬/突>>',
         weapon_slma: '<<斬/魔>>',
+        weapon_slpu: '<<斬/拳>>',
         weapon_blpi: '<<打/突>>',
+        weapon_argu: '<<弓/銃>>',
         weapon_gush: '<<銃/狙>>',
         weapon_slblpipu: '<<斬/打/突/拳>>'
       }
