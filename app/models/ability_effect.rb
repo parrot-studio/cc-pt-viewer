@@ -117,6 +117,7 @@ class AbilityEffect < ApplicationRecord
         with_guildtown: '所属：副都がいる時',
         with_holytown: '所属：聖都がいる時',
         with_academy: '所属：賢者の塔がいる時',
+        with_mountain: '所属：迷宮山脈がいる時',
         with_oasis: '所属：湖都がいる時',
         with_forest: '所属：精霊島がいる時',
         with_volcano: '所属：九領がいる時',
@@ -325,6 +326,7 @@ class AbilityEffect < ApplicationRecord
         weapon_slma: '<<斬/魔>>',
         weapon_slpu: '<<斬/拳>>',
         weapon_blpi: '<<打/突>>',
+        weapon_arpu: '<<弓/拳>>',
         weapon_argu: '<<弓/銃>>',
         weapon_gush: '<<銃/狙>>',
         weapon_slblpipu: '<<斬/打/突/拳>>'
@@ -444,7 +446,8 @@ class AbilityEffect < ApplicationRecord
       },
       condition: {
         attack: '通常攻撃時',
-        skill: 'スキル使用時'
+        skill: 'スキル使用時',
+        in_awakening: '覚醒ゲージがMAXの時'
       },
       target: {
         self: '自分'

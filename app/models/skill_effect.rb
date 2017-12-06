@@ -52,6 +52,7 @@ class SkillEffect < ApplicationRecord
         range_line: '範囲・直線',
         range_dash: '範囲・ダッシュ',
         range_forward: '範囲・前方',
+        range_forward_combo: '範囲・前方/連続',
         range_self: '範囲・自分中心',
         range_self_combo: '範囲・自分中心/連続',
         range_explosion: '範囲・自爆',
@@ -104,7 +105,9 @@ class SkillEffect < ApplicationRecord
         pain: '自分もダメージ',
         return_position: '元の位置に戻る',
         chain: '周辺の敵に広がる',
-        cure_blind: '暗闇解除'
+        cure_blind: '暗闇解除',
+        cure_freeze: '凍結解除',
+        cure_weaken: '衰弱解除'
       }
     },
     heal: {
