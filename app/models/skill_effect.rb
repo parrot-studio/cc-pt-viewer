@@ -244,7 +244,8 @@ class SkillEffect < ApplicationRecord
         dimension: '異空間'
       },
       effect: {
-        aup: '攻撃力上昇'
+        aup: '攻撃力上昇',
+        super_skill: '超必殺技'
       }
     },
     area: {
