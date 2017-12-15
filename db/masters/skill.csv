@@ -54,7 +54,7 @@
 ソウジロウ＝セタ,F,53,1,d,旋風飯綱,2,,attack,range_self,add_down,,,,,
 イブキ,F,54,1,d,円月殺法,2,,attack,range_self,,,,,,
 ヒロチ,F,55,1,d,ヴィテアタック,1,,attack,one_dash,add_blind,,,,,
-ヨシツグ,F,56,1,,散華繚乱,2,,attack,range_explosion,,,,,,
+ヨシツグ,F,56,1,d,散華繚乱,2,,attack,range_explosion,,,,,,
 オリョウ,F,57,1,d,呪詛の鬼魂,2,,attack,one_short,add_curse,,,,,
 カミナヅキ,F,58,1,d,鈴音天昇,3,,attack,range_self,,,,,,
 テレサ,F,59,1,d,殺戮剣術,2,,attack,one_combo,,,,,,
@@ -121,7 +121,7 @@
 バリエナ,K,40,1,d,ヴォルフハウリング,1,,barrier,all,guard_fire,guard_ice,guard_debuff,,,
 リフレット,K,41,1,d,サンプレッシャー,2,,attack,range_self,add_push,,,,,
 フィー・グレア,K,42,1,d,シュトゥルムドラッヘ,2,,attack,range_forward,,,,,,
-パーシェル,K,43,1,,ゴッデスティアー,1,,heal,one_self,,,,,,
+パーシェル,K,43,1,d,ゴッデスティアー,1,,heal,one_self,,,,,,
 ウェイン,K,44,1,d,ジャスティレイ,3,,attack,range_forward,,,,,,
 ディード,K,45,1,d,フライハイトヴィント,2,,attack,one_combo,add_slow,,,,,
 ミリエル,K,46,1,d,ブランディッシュスピア,2,,attack,range_forward,,,,,,
@@ -153,14 +153,14 @@
 ムジカ,A,25,1,d,伝説の歌声,3,,song_dance,adup,,,,,,
 サーシャ,A,26,1,d,太陽の舞,2,,song_dance,aup,guard_element,guard_debuff,,,,
 ハジャダ,A,27,1,d,エスピアツィオーネ,3,,attack,range_random,add_blind,,,,,
-ファルリン,A,28,1,,砂城の詩,1,,song_dance,dup,,,,,,
+ファルリン,A,28,1,d,砂城の詩,1,,song_dance,dup,,,,,,
 ブリサ,A,29,1,d,アンラッキーギフト,2,,attack,range_random,add_poison,,,,,
 カタリス,A,30,1,d,ダークフレイザー,2,,attack,range_random,fire,,,,,
 ニーナ,A,31,1,d,サドゥンインパクト,3,,attack,one_rear,,,,,,
 ティグレ,A,32,1,d,タイガーファング,2,,attack,one_rear,add_poison,,,,,
 パロマ,A,33,1,d,プリマヴェーラ,1,,attack,one_line,add_slow,,,,,
-アルティナ,A,34,1,,翠の森の精霊詩,2,,song_dance,dup,guard_blind,,,,,
-グレタ,A,35,1,,アローサービス,2,,attack,range_random,,,,,,
+アルティナ,A,34,1,d,翠の森の精霊詩,2,,song_dance,dup,guard_blind,,,,,
+グレタ,A,35,1,d,アローサービス,2,,attack,range_random,,,,,,
 ,,,,,,,,,,,,,,,
 カトリ,P,1,1,,キュア,1,,heal,one_worst,,,,,,
 マリナ,P,2,1,,ヒール,1,,heal,all_instant,,,,,,
@@ -234,7 +234,7 @@
 ミイナ,M,42,1,d,シュポル・ボンボン,2,,attack,range_explosion,,,,,,
 ブルワリー,M,43,1,d,アイスクラッシュ,2,,attack,range_drop,ice,,,,,
 フィリアナ,M,44,1,d,アルディスペル,2,,attack,range_forward,,,,,,
-シューレ,M,45,1,,ブラウニーカット,2,,attack,one_short,add_push,,,,,
+シューレ,M,45,1,d,ブラウニーカット,2,,attack,one_short,add_push,,,,,
 アエル・グルン,M,46,1,d,ブルーレンブリッツ,3,,attack,one_line,,,,,,
 イスレム,M,47,1,d,アイスストーム,1,,attack,range_forward,ice,add_freeze,,,,凍結は専用武器アビリティで付与
 アルドラ,M,48,1,d,ユニヴェール,3,,attack,range_all,,,,,,
@@ -288,7 +288,7 @@
 ルーラ,F,83,1,d,オリジナルエイト,3,,attack,range_short,add_slow,,,,,スロウはアビリティで付与
 サーポ,M,67,1,d,竜神の怒り,2,,attack,range_line,,,,,,
 ,,,,,,either,フィールドが砂浜/船上/海中,attack,range_line2,add_push,,,,,
-ライア,F,84,1,,ラ・リュミエール,2,,attack,one_short,add_push,add_poison,,,,毒はアビリティで付与
+ライア,F,84,1,d,ラ・リュミエール,2,,attack,one_short,add_push,add_poison,,,,毒はアビリティで付与
 ,,,,,,,,,,,,,,,
 ペイシェ,F,85,1,d,セイレーネスインパクト,2,,attack,one_short,add_push,,,,,
 オルデル,K,53,1,d,ヘビーバッシュ,2,,attack,range_self,add_push,,,,,
@@ -310,7 +310,7 @@
 ,,,,,,,,,,,,,,,
 クラウディア,M,70,1,d,パッションスペル,1,,attack,range_line,,,,,,
 シェアラ,F,90,1,d,ウェルスエッジ,2,,attack,range_self,,,,,,
-ベラ,M,71,1,,ブルームーン,2,,attack,range_all,ice,charge,,,,
+ベラ,M,71,1,d,ブルームーン,2,,attack,range_all,ice,charge,,,,
 モアネット,F,91,1,d,オーダーアッパー,2,,attack,one_short,add_push,,,,,
 ,,,,,,,,,,,,,,,
 マリーダ,F,92,1,d,グランドクラッシュ,3,,attack,one_short,,,,,,
@@ -326,7 +326,7 @@
 アンジェリカ,F,94,1,d,デモンスマイル,2,,attack,one_short,add_down,,,,,
 ベルナデット,F,95,1,d,ラブボンバー,1,,attack,range_explosion,,,,,,
 トウカ,F,96,1,d,無音の剣,2,,attack,one_dash,add_push,,,,,
-ロレッタ,F,97,1,,デストロイスマッシュ,3,,attack,one_short,add_down,,,,,
+ロレッタ,F,97,1,d,デストロイスマッシュ,3,,attack,one_short,add_down,,,,,
 ソーニャ,F,98,1,d,プロミネンスドライブ,2,,attack,range_dash,fire,,,,,
 リフレット,K,56,1,d,サンプレッシャー,2,,attack,range_self,add_push,,,,,
 ツル,F,99,1,d,姫の一喝,1,,buff,all,aup,,,,,
@@ -339,11 +339,11 @@
 ,,,,,,,,,,,,,,,
 # 2部2章,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
-リンリー,F,101,1,,六陽大招拳,2,,attack,one_combination,add_push,,,,,HP80%以下で1回だけ消費マナ1
-モルガン,K,58,1,,ヴァーミリオンヒット,1,,attack,range_self,,,,,,
-バルトロ,A,44,1,,ジェネラス・バースト,3,,attack,one_line,fire,shield_break,add_push,,,弾き飛ばしはアビリティで付与
+リンリー,F,101,1,d,六陽大招拳,2,,attack,one_combination,add_push,,,,,HP80%以下で1回だけ消費マナ1
+モルガン,K,58,1,d,ヴァーミリオンヒット,1,,attack,range_self,,,,,,
+バルトロ,A,44,1,d,ジェネラス・バースト,3,,attack,one_line,fire,shield_break,add_push,,,弾き飛ばしはアビリティで付与
 ミラ,A,45,1,d,クイックシルエット,2,,buff,self,aup,delayoff,,,,
-ヘリシティー,M,74,1,,ヴォルテックス,3,,attack,range_forward,ice,add_down,,,,ダウン追加は砂浜/船上/海中のみ
+ヘリシティー,M,74,1,d,ヴォルテックス,3,,attack,range_forward,ice,add_down,,,,ダウン追加は砂浜/船上/海中のみ
 ,,,,,,,,,,,,,,,
 キオラ,F,102,1,d,アサルトステップ,2,,attack,range_dash,add_push,,,,,
 グローリア,F,103,1,d,ファンデヴ・ジェーレ,1,,attack,one_short,add_push,,,,,
@@ -396,7 +396,7 @@
 レアーオ,K,63,1,d,リュミエルシュペア,1,,attack,range_line,add_blind,,,,,
 トレランシア,P,34,1,d,フォレストヒール,1,,heal,all_instant,aup,cure_slow,,,,
 キャン,F,118,1,d,マッハルーヴ,1,,attack,one_dash,add_slow,,,,,
-コネリ,A,54,1,,ホワイトインパクト,2,,attack,one_line,,,,,,
+コネリ,A,54,1,d,ホワイトインパクト,2,,attack,one_line,,,,,,
 ,,,,,,,,,,,,,,,
 パメラス,K,64,1,d,ロイヤリティスラッシュ,3,,attack,one_short,,,,,,
 メガドライブ,M,82,1,,ショックトライアングル,2,,attack,one_combo,add_slow,,,,,
@@ -416,7 +416,7 @@
 ゲームギア,M,84,1,,レインボウビジョン,3,,attack,range_forward,fire,,,,,
 ,,,,,,,,,,,,,,,
 シャーリー,M,85,1,d,ブラステッド,3,,attack,range_drop,,,,,,
-セラカ,K,65,1,,エインシェントクロス,3,,attack,range_self,add_push,,,,,
+セラカ,K,65,1,d,エインシェントクロス,3,,attack,range_self,add_push,,,,,
 バリキ,F,123,1,d,剛爆熱波紅蓮斬,3,,attack,one_short,fire,,,,,
 キャス,M,86,1,d,クリムゾンロッド,2,,attack,range_dash,,,,,,
 エフィメラ,M,87,1,d,エアリアル,3,,attack,range_self,add_push,,,,,
@@ -432,11 +432,11 @@
 ,,,,,,,,,,,,,,,
 # 閃の軌跡IIコラボ,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
-リィン,F,126,1,,蒼焔の太刀,2,,attack,one_combination,fire,add_push,,,,
-アリサ,A,58,1,,ジャッジメントアロー,2,,attack,range_random,,,,,,
-,,,,,,forward,,attack,one_line,,,,,,
-ラウラ,K,67,1,,真・洸刃乱舞,3,,attack,one_combo,,,,,,
-,,,,,,forward,,attack,range_self,,,,,,
+リィン,F,126,1,d,蒼焔の太刀,2,,attack,one_combination,fire,add_push,,,,
+アリサ,A,58,1,d,ジャッジメントアロー,2,,attack,range_random,,,,,,
+,,,,d,,forward,,attack,one_line,,,,,,
+ラウラ,K,67,1,d,真・洸刃乱舞,3,,attack,one_combo,,,,,,
+,,,,d,,forward,,attack,range_self,,,,,,
 フィー,F,127,1,d,シルフィードダンス,2,,attack,one_dash,,,,,,
 ,,,,,,forward,,attack,range_self,,,,,,
 トワ,A,59,1,d,レインボーショット,1,,attack,range_line,,,,,,
@@ -452,7 +452,7 @@
 テリリア,F,129,1,d,コマンドフェッチ,1,,attack,range_dash,,,,,,
 シェギギム,F,130,1,d,ローリングフェイス,3,,attack,range_self,add_down,,,,,
 ,,,,d,,forward,マナ4つ以下,attack,range_self,add_down,,,,,
-グララオ,F,131,1,,タイガーアッパー,2,,attack,one_short,add_down,add_push,,,,
+グララオ,F,131,1,d,タイガーアッパー,2,,attack,one_short,add_down,add_push,,,,
 ,,,,,,,,,,,,,,,
 チロルル,F,132,1,d,オーダーメイド,1,,buff,all,aup,,,,,
 オウララ,F,133,1,d,クールランス,2,,attack,range_dash,ice,,,,,
@@ -510,8 +510,8 @@
 ,,,,,,,,,,,,,,,
 # ラジオコラボ,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
-リヒト,P,40,1,,グランツァイト,1,,attack,range_forward,,,,,,
-ファルベ,M,96,1,,シーセン・ハイト,2,,attack,range_line,heal_all,,,,,
+リヒト,P,40,1,d,グランツァイト,1,,attack,range_forward,,,,,,
+ファルベ,M,96,1,d,シーセン・ハイト,2,,attack,range_line,heal_all,,,,,
 ハンフ,F,149,1,d,フォル・モーント,2,,attack,range_jump,add_push,,,,,
 ロッソ＝ロッソ,F,150,1,d,シアリングブラッド,2,,attack,range_self,fire,add_push,,,,
 レミラ,K,72,1,d,兵糧補給,2,,heal,all_instant,cure_poison,,,,,
@@ -524,7 +524,7 @@
 ,,,,,,,,,,,,,,,
 ミノア,K,74,1,d,ピュリファイスピア,2,,attack,range_dash,add_push,,,,,
 レリアン,K,75,1,d,イグゼキュート,2,,attack,range_forward,,,,,,
-ソール,K,76,1,,ラストスタンド,1,,buff,all,dup,,,,,HP半分以下で効果時間延長
+ソール,K,76,1,d,ラストスタンド,1,,buff,all,dup,,,,,HP半分以下で効果時間延長
 ディード,K,77,1,d,スカイハイトヴィント,3,,attack,one_combo,add_slow,,,,,
 ,,,,d,,forward,,attack,range_dash,add_push,,,,,
 ,,,,,,,,,,,,,,,
@@ -533,9 +533,9 @@
 ,,,,,,,,,,,,,,,
 # 2部4章,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
-タチアナ,A,71,1,,ポイズンプリズン,1,,area,continual,add_poison,,,,,
-アリシア,A,72,1,,デス・ガンプリズン,2,,area,continual,add_slow,,,,,
-,,,,,,forward,,attack,range_random,,,,,,
+タチアナ,A,71,1,d,ポイズンプリズン,1,,area,continual,add_poison,,,,,
+アリシア,A,72,1,d,デス・ガンプリズン,2,,area,continual,add_slow,,,,,
+,,,,d,,forward,,attack,range_random,,,,,,
 ボムボマー,A,73,1,d,カタストロフ,1,,area,trap,fire,add_blind,,,,最初の3回のみ2個設置
 ドーリィ,A,74,1,d,イノセンクロス,2,,attack,one_line,,,,,,
 ,,,,d,,forward,,attack,range_blast,,,,,,
@@ -599,10 +599,10 @@
 # 大海チェインストーリーフェス,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 マレーナ,F,161,1,d,ライトニングピアス,2,,attack,one_dash,return_position,,,,,
-クララ,M,104,1,,パロスパルサー,2,,attack,one_line,heal_all,,,,,
+クララ,M,104,1,d,パロスパルサー,2,,attack,one_line,heal_all,,,,,
 オーガスタス,A,84,1,d,ダブルアクション,1,,buff,self,delayoff,atkdown,,,,
 ,,,,,,,,,,,,,,,
-ノエル,P,44,1,,オートハイヒール,2,,heal,all_cycle,,,,,,
+ノエル,P,44,1,d,オートハイヒール,2,,heal,all_cycle,,,,,,
 ,,,,,,,,,,,,,,,
 # 魔神アルフィン戦,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
@@ -616,8 +616,8 @@
 # 監獄カジノオープン,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 キャンディス,A,86,1,d,ピンホールショット,1,,attack,one_line,kill_pierce,,,,,
-バラクーダ,F,162,1,,シガントテラー,2,,attack,range_dash,add_poison,,,,,砂浜/船上/海中だとダッシュ距離増加
-コラール,M,107,1,,バーストコルノ,1,,attack,range_forward,,,,,,
+バラクーダ,F,162,1,d,シガントテラー,2,,attack,range_dash,add_poison,,,,,砂浜/船上/海中だとダッシュ距離増加
+コラール,M,107,1,d,バーストコルノ,1,,attack,range_forward,,,,,,
 ,,,,,,,,,,,,,,,
 # 迷宮山脈とゴブリンの王国,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
@@ -637,9 +637,9 @@
 # 2部5章,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 リン,M,110,1,d,アレティスク,3,,attack,range_random,,,,,,
-ピノ,M,111,1,,レクスフラング,2,,buff,restoration,aup,,,,,3体で1つ
+ピノ,M,111,1,d,レクスフラング,2,,buff,restoration,aup,,,,,3体で1つ
 セト,M,112,1,d,ミラージュファンタズム,2,,field,beach,aup,,,,,
-,,,,,,either,フィールドが砂浜,attack,range_line2,,,,,,
+,,,2,,ミラージュショット,2,フィールドが砂浜,attack,range_line2,,,,,,
 ラナ,M,113,1,,シャイニーボルト,1,,attack,range_drop,add_slow,,,,,
 ,,,,,,forward,マナ4つ以上,attack,one_nearest,add_slow,,,,,
 ザラ,M,114,1,,リミットフレイム,3,,attack,range_explosion,add_down,add_push,,,,HP30%以下で消費マナ2 / 状態異常はアビリティで付与
@@ -689,6 +689,8 @@
 ロレッタ,F,173,1,d,デストロイブレーカー,2,,attack,one_short,,,,,,
 ,,,,d,,forward,,attack,range_drop,shield_break,,,,,
 ニンファ,F,174,1,,ハッピーブレイズ,1,,attack,range_self,,,,,,
+,,,,,,either,マナ7つ以上,attack,one_short,,,,,,
+,,,d,,ハッピーブレイズ,1,,attack,range_self,,,,,,
 ,,,,,,either,マナ7つ以上,attack,one_short,,,,,,
 アルドラ,M,131,1,d,ヴィレユニヴェール,2,,attack,range_all,,,,,,
 ,,,,d,,forward,,area,buff,aup,,,,,
@@ -745,8 +747,8 @@
 # 罪の大陸新キャラ追加,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 ホルスト,A,89,1,d,双銃闘術・衝式,3,,attack,contact_combination,add_push,,,,,敵陣だと消費マナ2
-ヨハンナ,A,90,1,,ドラマティックプリズン,2,,area,continual,add_blind,,,,,
-,,,,,,forward,,attack,range_line,,,,,,
+ヨハンナ,A,90,1,d,ドラマティックプリズン,2,,area,continual,add_blind,,,,,
+,,,,d,,forward,,attack,range_line,,,,,,
 ユディト,A,91,1,d,サン・ルヴァンシュ,2,,attack,one_line,add_down,kill_pierce,,,,
 ベッツィー,F,186,1,d,ブラッドレイン,1,,attack,range_dash,,,,,,
 ,,,,,,,,,,,,,,,
@@ -773,9 +775,9 @@
 ,,,,,,,,,,,,,,,
 # 2部6章,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
-フェーベ,K,99,1,,ラーゼンヴィント,3,,attack,range_random,add_down,destroy_scrap,,,,2個
+フェーベ,K,99,1,d,ラーゼンヴィント,3,,attack,range_random,add_down,destroy_scrap,,,,2個
 エレメンガルト,K,100,1,d,ツェーレシュトロム,1,,area,echo,create_scrap,,,,,1個
-ケーテ,K,101,1,,ヴァイガーン,1,,attack,range_blast,create_scrap,,,,,2個
+ケーテ,K,101,1,d,ヴァイガーン,1,,attack,range_blast,create_scrap,,,,,2個
 ハンネス,A,95,1,d,ヴルカーン,2,,attack,bombard,create_scrap,,,,,1個
 オリヴィア,A,96,1,d,ハイリヒトゥーム,1,,area,trap,create_scrap,,,,,1個
 ,,,,,,,,,,,,,,,
@@ -810,14 +812,16 @@
 ,,,,d,,forward,,buff,self,,,,,,
 ムラクモ,F,196,1,d,紫雲の太刀,2,,attack,one_combo,add_down,,,,,ダウンはアビリティで付与
 ,,,,d,,forward,,attack,one_combo,add_down,,,,,一番近い敵の前に移動 / ダウンはアビリティで付与
-クズノハ,M,136,1,,呪式・昏々祟り,1,,attack,range_line,add_curse,,,,,
-キョウカ,F,197,1,d,献妻の一撃,2,,attack,one_short,,,,,,
-,,,,d,,either,マナ4つ以下,attack,one_short,add_down,,,,,ダメージ増加
+クズノハ,M,136,1,d,呪式・昏々祟り,1,,attack,range_line,add_curse,,,,,
+キョウカ,F,197,1,,献妻の一撃,2,,attack,one_short,,,,,,
+,,,,,,either,マナ4つ以下,attack,one_short,add_down,,,,,ダメージ増加
+,,,d,,献妻の一撃,2,,attack,one_short,,,,,,
+,,,,,,either,マナ4つ以下,attack,one_short,add_down,,,,,
 エンクウ,P,56,1,d,鬼僧の馳走,1,,heal,all_instant,cure_down,,,,,
 ,,,,,,,,,,,,,,,
 # 竜徹フェス,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
-フリージア,M,137,1,,コキュートスドライブ,2,,attack,range_all,add_freeze,,,,,凍結はアビリティで付与
+フリージア,M,137,1,d,コキュートスドライブ,2,,attack,range_all,add_freeze,,,,,凍結はアビリティで付与
 ,,,,,,,,,,,,,,,
 # お菓子とおばけと子供たち,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
@@ -828,8 +832,10 @@
 # アトリエ「アーランドシリーズ」コラボ,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 トトリ,M,140,1,d,デュプリケイト,2,,buff,restoration,acup,,,,,4体で2つ
-メルル,M,141,1,d,パワーアイテム,2,,attack,range_drop,,,,,,
-,,,,d,,either,マナ4つ以上,attack,range_drop,,,,,,ダメージ増加
+メルル,M,141,1,,パワーアイテム,2,,attack,range_drop,,,,,,
+,,,,,,either,マナ4つ以上,attack,range_drop,,,,,,ダメージ増加
+,,,d,,パワーアイテム,2,,attack,range_drop,,,,,,
+,,,,,,either,マナ4つ以上,attack,range_drop,,,,,,
 ステルク,K,112,1,d,ガイアブレイク,3,,attack,one_combo,,,,,,
 ,,,,,,forward,,attack,one_short,charge,add_push,add_down,,,
 ミミ,F,198,1,d,ブリッツシュトース,2,,attack,range_forward,,,,,,
@@ -837,8 +843,10 @@
 ケイナ,P,57,1,d,幸せの歌,1,,heal,all_instant,acup,,,,,能力UPは魔のみ
 ,,,,,,,,,,,,,,,
 ロロナ,M,142,1,d,エンゼルシュート,2,,attack,range_forward,,,,,,
-ロロナ,M,143,1,d,錬金術士のひらめき,1,,attack,range_forward,,,,,,
-,,,,d,,either,3Chain以上,attack,range_forward,,,,,,ダメージ・効果範囲増加
+ロロナ,M,143,1,,錬金術士のひらめき,1,,attack,range_forward,,,,,,
+,,,,,,either,3Chain以上,attack,range_forward,,,,,,ダメージ・効果範囲増加
+,,,d,,錬金術士のひらめき,1,,attack,range_forward,,,,,,
+,,,,,,either,3Chain以上,attack,range_forward,,,,,,
 ,,,,,,,,,,,,,,,
 リュドミラ,F,199,1,d,ブラッディプリズン,1,,area,continual,,,,,,
 ナナイ,M,144,1,d,マイトトキシン,1,,attack,range_line,add_poison,,,,,
@@ -971,17 +979,17 @@
 ,,,,,,,,,,,,,,,
 # 戦場のヴァルキュリアコラボ,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
-イムカ,F,218,1,,武装開放,3,,attack,bombard,,,,,,
+イムカ,F,218,1,d,武装開放,3,,attack,bombard,,,,,,
 セルベリア,K,124,1,d,ヴァルキュリアの閃光,2,,attack,laser,,,,,,
 アリシア,A,112,1,,ヴァルキュリア化,2,,metamorphose,self,adrup,delayoff,guard,,,移動速度低下
 ,,,d,,力の解放,2,,buff,self,adup,delayoff,,,,
 リエラ,A,113,1,,ヴァルキュリア化,1,,metamorphose,self,adcup,guard,,,,
-,,,2,,ヴァルキュリアの光,1,変身中,attack,laser,,,,,,変身解除
+,,,2,d,ヴァルキュリアの光,1,変身中,attack,laser,,,,,,変身解除
 ,,,,,,,,,,,,,,,
-ユリアナ,K,125,1,,才女の一閃,1,,attack,one_short,add_push,,,,,
-ウェルキン,A,114,1,,オーダー【支援爆撃要請】,2,,area,trap,,,,,,
+ユリアナ,K,125,1,d,才女の一閃,1,,attack,one_short,add_push,,,,,
+ウェルキン,A,114,1,d,オーダー【支援爆撃要請】,2,,area,trap,,,,,,
 イーディ,A,115,1,d,麗しき銃撃,2,,attack,bullets,,,,,,
-クルト,A,116,1,,オーダー【一斉全力攻撃】,1,,buff,all,aup,,,,,
+クルト,A,116,1,d,オーダー【一斉全力攻撃】,1,,buff,all,aup,,,,,
 ,,,,,,,,,,,,,,,
 # 大海新キャラ,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
@@ -1007,12 +1015,12 @@
 ,,,,,,,,,,,,,,,
 ラベゼリン,F,219,1,d,フェイクソウル,2,自陣にいる,attack,range_line,charge,add_push,,,,
 ,,,2,,トゥルーハーツ,2,敵陣にいる,attack,one_combination,add_push,,,,,
-スーリヤ,F,220,1,,サティヤ,1,,attack,boomerang,,,,,,2発
+スーリヤ,F,220,1,d,サティヤ,1,,attack,boomerang,,,,,,2発
 ,,,2,,サマーティ,1,超必殺技ゲージMAX,attack,boomerang,super_skill,,,,,5発
 セレン,K,126,1,d,ハーデススラッシュ,1,,attack,range_forward,charge,add_down,,,,
 アストライア,K,127,1,d,トーメント,1,,attack,range_explosion,,,,,,
 ,,,2,,インフリクト,1,超必殺技ゲージMAX,attack,one_short,super_skill,,,,,
-グール＝ヴール,A,118,1,,ダークチェイン,1,,attack,one_line,chain,add_poison,add_blind,,,2体
+グール＝ヴール,A,118,1,d,ダークチェイン,1,,attack,one_line,chain,add_poison,add_blind,,,2体
 ,,,2,,ヒドゥンテラー,1,超必殺技ゲージMAX,attack,one_line,super_skill,chain,add_poison,add_blind,,4体
 マスカルウィン,M,158,1,,ネクロエリア,2,,area,buff,aup,against_dropout,,,,
 ,,,2,,霊魂召喚,1,超必殺技ゲージMAX,attack,summon,super_skill,add_down,,,,
@@ -1023,7 +1031,7 @@
 ,,,,,,,,,,,,,,,
 スカレット,F,221,1,,ヴィヴラ・モルティス,2,,metamorphose,self,asrup,,,,,防御力低下
 ,,,d,,フラン・モルティス,2,,buff,self,adsup,,,,,自身に毒
-ソーマ,F,222,1,,アルクス・フロンス,1,,attack,range_short,,,,,,
+ソーマ,F,222,1,d,アルクス・フロンス,1,,attack,range_short,,,,,,
 ,,,2,,アルクス・ウェルサ,1,超必殺技ゲージMAX,attack,boomerang,super_skill,,,,,3発
 クライド,F,223,1,d,纏光烈破,2,,attack,one_combo,,,,,,
 ,,,2,,真・纏光烈破,2,超必殺技ゲージMAX,attack,one_combo,super_skill,,,,,
@@ -1048,8 +1056,8 @@
 ,,,,,,,,,,,,,,,
 # カジノディーラーフェス,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
-コモディア,F,226,1,,フィーリングハート,2,,attack,range_dash,add_slow,,,,,
-,,,,,,forward,,attack,cycle_shoot,add_slow,,,,,
+コモディア,F,226,1,d,フィーリングハート,2,,attack,range_dash,add_slow,,,,,
+,,,,d,,forward,,attack,cycle_shoot,add_slow,,,,,
 トリッシュ,A,120,1,,ギフト・ヴェノム,1,,attack,range_blast,add_poison,,,,,
 ,,,2,d,ギフト・ポイズン,1,最後列にいる,buff,all,asup,,,,,味方に毒を与える
 シース,F,227,1,d,ジャッジメント・ストライク,3,,attack,range_short,add_push,,,,,
@@ -1066,7 +1074,7 @@
 レイチェル・アナスタシア,M,163,1,,トリック・マジック・トリガー,3,,attack,range_blast,,,,,,
 ストラッセ,M,164,1,,スタンプフォール,1,,attack,range_drop,,,,,,
 ,,,,,,,,,,,,,,,
-キャロ,F,230,1,,ヒーローラリアット,2,,attack,range_dash,add_push,,,,,
+キャロ,F,230,1,d,ヒーローラリアット,2,,attack,range_dash,add_push,,,,,
 カロラッカ,K,131,1,d,リジェクションセイバー,2,,attack,range_self,add_push,,,,,
 バッカス,A,122,1,,キリングアロー,2,,attack,one_line,add_down,,,,,
 トゥキリス,P,67,1,,アルケオ旋風陣,2,,attack,one_combination,,,,,,
@@ -1122,7 +1130,7 @@
 ,,,,,,,,,,,,,,,
 ベレ,F,240,1,d,ナストレグ,2,,attack,range_dash,add_push,add_down,,,,ダウンは魔マナ所持時のみ/アビリティで付与
 イド,M,172,1,d,プリズムソードダンス,2,,buff,restoration,crup,,,,,4体で1つ
-ケテ,M,173,1,,アイ・ラブ,1,,attack,one_line,heal_all,,,,,
+ケテ,M,173,1,d,アイ・ラブ,1,,attack,one_line,heal_all,,,,,
 スウ,P,71,1,d,コールソング・ナイト,1,,field,night,,,,,,
 ,,,2,,コールソング・ヒール,1,フィールドが夜,heal,all_instant,dup,,,,,
 ムニ,M,174,1,d,ディレクォーム,2,,attack,range_random,add_down,,,,,ダウンはアビリティで付与
@@ -1471,11 +1479,11 @@ SC-3000,F,254,1,,勇将明敏,2,,attack,one_short,add_push,,,,,
 ジョーカー,F,297,1,d,マハエイガオン,2,,attack,range_forward,add_curse,,,,,
 クイーン,K,163,1,,フラッシュボム,1,敵陣にいる,attack,range_explosion,add_blind,,,,,
 ,,,2,d,マハフレイダイン,2,自陣にいる,attack,chain,,,,,,凍結かダウン状態に攻撃力UP
-パンサー,A,158,1,,マハラギダイン,2,マナ4以下,attack,range_drop,fire,,,,,
+パンサー,A,158,1,d,マハラギダイン,2,マナ4以下,attack,range_drop,fire,,,,,
 ,,,2,,大炎上,3,マナ5以上,attack,range_all,fire,,,,,
 ,,,,,,,,,,,,,,,
-スカル,F,298,1,,マハジオダイン,2,,attack,range_drop,add_down,,,,,
-フォックス,F,299,1,,レイズスラッシュ,2,,attack,range_short,,,,,,チェインが増えるほど攻撃力UP
+スカル,F,298,1,d,マハジオダイン,2,,attack,range_drop,add_down,,,,,
+フォックス,F,299,1,d,レイズスラッシュ,2,,attack,range_short,,,,,,チェインが増えるほど攻撃力UP
 ノワール,A,159,1,d,マハサイダイン,3,,attack,range_blast,,,,,,
 モナ,P,93,1,d,メディラマ,1,,heal,all_instant,,,,,,
 ナビ,P,94,1,d,モラルサポート,2,,heal,all_instant,,,,,,
@@ -1670,7 +1678,7 @@ SC-3000,F,254,1,,勇将明敏,2,,attack,one_short,add_push,,,,,
 ,,,,d,,forward,,buff,self,adup,,,,,効果は3種類からランダム
 ,,,2,,エンジェル・トルネード,2,2Chain以上,attack,range_jump,add_push,add_down,,,,
 神無月葵,A,172,1,,エンジェル・アロー,1,1Chain以下,attack,range_forward,add_slow,,,,,
-,,,2,,エンジェル・サウザンドアロー,2,2Chain以上,attack,bullets,,,,,,
+,,,2,d,エンジェル・サウザンドアロー,2,2Chain以上,attack,bullets,,,,,,
 葉月クルミ,A,173,1,,エンジェル・ボム,1,1Chain以下,attack,bombshoot,fire,,,,,
 ,,,2,,超エンジェル・ボム,2,2Chain以上,attack,range_drop,fire,,,,,
 天月めぐる,F,322,1,,エンジェルローズ変身！,1,,metamorphose,self,acup,,,,,
