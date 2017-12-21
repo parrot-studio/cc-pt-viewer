@@ -9,11 +9,9 @@
       <h2>更新履歴</h2>
       <hr>
       <dl>
-        <% cache do %>
-          <% Changelog.all.each do |l| %>
-            <dt>Ver.<%= l.version %></dt>
-            <dd><%= l.body %></dd>
-          <% end %>
+        <% Changelog.all.each do |l| %>
+          <dt>Ver.<%= l.version %></dt>
+          <dd><%= l.body %></dd>
         <% end %>
       </dl>
     </div>
