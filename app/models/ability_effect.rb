@@ -694,6 +694,7 @@ class AbilityEffect < ApplicationRecord
         boss_wave: 'BOSS WAVE時',
         wave_span: '一定WAVE進むごとに',
         kill: '敵を倒した時',
+        kill_count: '一定数の敵を倒した時',
         dropout_self: '自身が脱落した時',
         own_skill: '自分がスキルを使った時',
         in_chain: 'チェイン発動中'
