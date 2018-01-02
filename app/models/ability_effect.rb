@@ -184,7 +184,8 @@ class AbilityEffect < ApplicationRecord
         adcup: '攻撃力/防御力/クリティカル率上昇',
         acrup: '攻撃力/クリティカル率/クリティカルダメージ上昇',
         barrier: 'バリアを張る',
-        super_gauge_gain: '超必殺技ゲージ上昇'
+        super_gauge_gain: '超必殺技ゲージ上昇',
+        extend_chain: 'チェイン受け付け時間延長'
       },
       condition: {
         any: 'いつでも',
