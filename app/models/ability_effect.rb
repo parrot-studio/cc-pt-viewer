@@ -81,7 +81,8 @@ class AbilityEffect < ApplicationRecord
         barrier: 'バリアを張る',
         skill_once: '一度だけスキルが使える',
         mana_cost_down: 'スキルの消費マナ低下',
-        super_skill: '超必殺技使用可能'
+        super_skill: '超必殺技使用可能',
+        extra_attack: '追撃発生'
       },
       condition: {
         any: 'いつでも',
@@ -89,6 +90,7 @@ class AbilityEffect < ApplicationRecord
         hp_downto: 'HPが一定以下の時',
         hp_full: 'HPが満タンの時',
         attack: '通常攻撃時',
+        critical: 'クリティカル時',
         heal: '回復した時',
         in_move: '移動中',
         in_pierce: '貫通した時',
