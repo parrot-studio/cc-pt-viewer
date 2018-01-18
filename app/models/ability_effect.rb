@@ -274,7 +274,8 @@ class AbilityEffect < ApplicationRecord
         with_ap: '弓＋僧がいる時',
         with_kap: '騎＋弓＋僧がいる時',
         wave_start: '各WAVE開始時',
-        in_sub: 'サブパーティーにいる時'
+        in_sub: 'サブパーティーにいる時',
+        any_skill: '誰かがスキルを使った時'
       },
       target: {
         job_f: '戦士',
@@ -408,7 +409,8 @@ class AbilityEffect < ApplicationRecord
         barrier: 'バリアを張る'
       },
       condition: {
-        wave_start: '各WAVE開始時'
+        wave_start: '各WAVE開始時',
+        in_sub: 'サブパーティーにいる時'
       },
       target: {
         hp_worst: '一番ダメージが大きい対象',
