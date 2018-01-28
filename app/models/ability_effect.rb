@@ -310,7 +310,8 @@ class AbilityEffect < ApplicationRecord
         scup: '移動速度/クリティカル率上昇',
         crup: 'クリティカル率/クリティカルダメージ上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
-        adcup: '攻撃力/防御力/クリティカル率上昇'
+        adcup: '攻撃力/防御力/クリティカル率上昇',
+        ascup: '攻撃力/移動速度/クリティカル率上昇'
       },
       condition: {
         any: 'いつでも',
@@ -476,6 +477,7 @@ class AbilityEffect < ApplicationRecord
         boss_wave: 'BOSS WAVE時',
         attack: '通常攻撃時',
         critical: 'クリティカル時',
+        guard: 'ガードした時',
         in_base_area: '自陣にいる時',
         in_enemy_area: '敵陣にいる時',
         in_enemy_back: '敵陣の奥にいる時',
