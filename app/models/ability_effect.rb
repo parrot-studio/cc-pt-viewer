@@ -423,6 +423,18 @@ class AbilityEffect < ApplicationRecord
         job_m: '魔法使い'
       }
     },
+    buff_area: {
+      name: '範囲内を強化',
+      effect: {
+        adsup: '攻撃力防御力/移動速度上昇'
+      },
+      condition: {
+        heal_action: '回復行動時'
+      },
+      target: {
+        heal_area_member: '回復範囲内の味方'
+      }
+    },
     skillup: {
       name: '自分のスキルを強化',
       effect: {
@@ -550,10 +562,12 @@ class AbilityEffect < ApplicationRecord
         add_blind: '暗闇を与えた時',
         add_slow: 'スロウを与えた時',
         add_down: 'ダウンさせた時',
-        add_curse: '呪いを与えた時'
+        add_curse: '呪いを与えた時',
+        heal_action: '回復行動時'
       },
       target: {
-        enemy: '敵'
+        enemy: '敵',
+        heal_area_enemy: '回復範囲内の敵'
       }
     },
     against_debuff: {
