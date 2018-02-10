@@ -187,7 +187,8 @@ class AbilityEffect < ApplicationRecord
         acrup: '攻撃力/クリティカル率/クリティカルダメージ上昇',
         barrier: 'バリアを張る',
         super_gauge_gain: '超必殺技ゲージ上昇',
-        extend_chain: 'チェイン受け付け時間延長'
+        extend_chain: 'チェイン受け付け時間延長',
+        enhance_chain: 'チェイン倍率上昇'
       },
       condition: {
         any: 'いつでも',
@@ -196,6 +197,7 @@ class AbilityEffect < ApplicationRecord
         boss_wave: 'BOSS WAVE時',
         own_skill: '自分がスキルを使った時',
         others_skill: '味方がスキルを使った時',
+        job_skill: '特定の職がスキルを使った時',
         any_skill: '誰かがスキルを使った時',
         dropout_self: '自身が脱落した時',
         dropout_member: '味方が脱落した時',
