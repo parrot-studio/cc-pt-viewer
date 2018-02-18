@@ -200,6 +200,7 @@ class Arcana < ApplicationRecord
     collaboration: {
       name: 'コラボ',
       details: {
+        overload2: 'オーバーロードII',
         swordoratoria: 'ソード・オラトリア',
         nanoha: 'リリカルなのは',
         guiltygear: 'ギルティギア',
@@ -290,6 +291,7 @@ class Arcana < ApplicationRecord
     konosuba persona5 utaware valkyria falcom_sen2
     atelier_arland maoyu loghorizon sevensins danmachi titan
     seiken twinangel guiltygear shiningresonance nanoha swordoratoria
+    overload2
   ].freeze
 
   scope :with_tables, -> { includes(%i[voice_actor illustrator skills abilities]) }
