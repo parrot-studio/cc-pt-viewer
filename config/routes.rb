@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   root 'viewer#ptedit'
 
   namespace :api do
-    get  'conditions' => 'arcanas#conditions'
     get  'search'  => 'arcanas#search'
     get  'ptm'     => 'arcanas#ptm'
     get  'codes'   => 'arcanas#codes'

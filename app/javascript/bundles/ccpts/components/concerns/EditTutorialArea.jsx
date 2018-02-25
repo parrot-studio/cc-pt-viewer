@@ -27,8 +27,7 @@ export default class EditTutorialArea extends React.Component {
             <ol>
               <li>上が「メンバーエリア」、下が「検索エリア」です。</li>
               <li>「検索する」ボタンで条件を指定して、パーティーに入れたいアルカナを探します。</li>
-              <li>検索エリアのアルカナを
-                <strong>ドラッグアンドドロップして</strong>、メンバーエリアに追加します。</li>
+              <li>検索エリアのアルカナを<strong>ドラッグアンドドロップして</strong>、メンバーエリアに追加します。</li>
               <li>好みのパーティーが組めたら、「共有する」ボタンからみんなと共有しましょう！</li>
             </ol>
             <p>

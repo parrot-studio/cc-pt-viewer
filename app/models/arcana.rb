@@ -126,16 +126,16 @@ class Arcana < ApplicationRecord
 
   SOURCE_TABLE = {
     yggd: {
-      name: 'ユグド大陸',
+      name: 'ユグド大陸（1・2部）',
       details: {
-        guildtown: '副都・酒場',
-        holytown: '聖都・酒場',
-        academy: '賢者の塔・酒場',
-        mountain: '迷宮山脈・酒場',
-        oasis: '湖都・酒場',
-        forest: '精霊島・酒場',
-        volcano: '九領・酒場',
-        forest_sea: '海風の港・酒場',
+        guildtown: '副都・酒場（1・2部）',
+        holytown: '聖都・酒場（1・2部）',
+        academy: '賢者の塔・酒場（1・2部）',
+        mountain: '迷宮山脈・酒場（1・2部）',
+        oasis: '湖都・酒場（1・2部）',
+        forest: '精霊島・酒場（1・2部）',
+        volcano: '九領・酒場（1・2部）',
+        forest_sea: '海風の港・酒場（1・2部）',
         other: 'その他'
       }
     },

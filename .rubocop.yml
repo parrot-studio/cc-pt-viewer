@@ -2,11 +2,12 @@ AllCops:
   Exclude:
     - 'db/**/*'
     - 'config/unicorn.rb'
-    - 'bin/setup'
+    - 'bin/**/*'
     - 'vendor/**/*'
     - 'test/**/*'
     - 'tmp/**/*'
-  TargetRubyVersion: 2.4
+    - 'node_modules/**/*'
+  TargetRubyVersion: 2.5
   DisplayCopNames: true
 
 Bundler/OrderedGems:
@@ -46,8 +47,14 @@ Style/AsciiComments:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+Style/RescueStandardError:
+  Enabled: false
+
 Rails:
   Enabled: true
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
 
 # ----------------
 

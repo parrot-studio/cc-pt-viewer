@@ -1,14 +1,36 @@
 {
   "name": "ccpts",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "private": true,
   "dependencies": {
+    "@rails/webpacker": "^3.2.2",
+    "babel-preset-react": "^6.24.1",
+    "baconjs": "^2.0.5",
     "bootstrap-switch": "^3.3.4",
     "fastclick": "^1.0.6",
-    "jquery-touchswipe": "^1.6.15",
-    "jquery-ui-touch-punch": "^0.2.3"
+    "jquery-touchswipe": "^1.6.18",
+    "jquery-ui-touch-punch": "^0.2.3",
+    "js-cookie": "^2.2.0",
+    "lodash": "^4.17.5",
+    "object-hash": "^1.2.0",
+    "prop-types": "^15.6.0",
+    "react": "^16.2.0",
+    "react-bootstrap": "^0.32.1",
+    "react-dom": "^16.2.0",
+    "react-on-rails": "^10.1.1",
+    "react-ultimate-pagination": "^1.2.0",
+    "superagent": "^3.8.2"
   },
   "devDependencies": {
-    "eslint": "^4.2.0"
+    "eslint": "^4.18.1",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-react": "^7.7.0",
+    "eslint-plugin-security": "^1.4.0",
+    "webpack-dev-server": "^2.11.1"
+  },
+  "scripts": {
+    "eslint": "eslint app/javascript/**/*.js app/javascript/**/*.jsx",
+    "eslint:fix": "eslint app/javascript/**/*.js app/javascript/**/*.jsx --fix"
   }
 }

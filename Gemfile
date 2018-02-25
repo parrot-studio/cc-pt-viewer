@@ -15,6 +15,8 @@ gem 'puma', '~> 3.7'
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
+# Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
+gem 'webpacker'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
@@ -56,9 +58,8 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'bootstrap-sass'
 gem 'font-awesome-sass'
-gem 'react_on_rails', '~> 8'
+gem 'react_on_rails', '~> 10'
 gem 'mini_racer', platforms: :ruby
-gem 'webpacker_lite'
 
 # server
 gem 'pry'
@@ -74,3 +75,5 @@ gem 'redis', '>= 3.2.0', require: ['redis', 'redis/connection/hiredis']
 gem 'redis-namespace'
 gem 'oj'
 gem 'oj_mimic_json'
+
+gem 'bootsnap', require: false

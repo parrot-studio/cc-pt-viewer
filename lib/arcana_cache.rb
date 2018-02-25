@@ -89,7 +89,7 @@ class ArcanaCache
     end
 
     def voice_actor_name(id)
-      voice_actor_name_table[id]
+      voice_actor_name_table[id.to_s]
     end
 
     def voice_actor_id(name)
@@ -97,7 +97,7 @@ class ArcanaCache
     end
 
     def illustrator_name(id)
-      illustrator_name_table[id]
+      illustrator_name_table[id.to_s]
     end
 
     def illustrator_id(name)

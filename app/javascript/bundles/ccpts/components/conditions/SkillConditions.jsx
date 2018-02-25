@@ -10,7 +10,15 @@ export default class SkillConditions extends React.Component {
   }
 
   handleCategoryChange(e) {
-    this.notifier.push({skill: e.target.value})
+    const val = e.target.value
+    if (!_.isEqual(this.props.skill, val)) {
+      this.notifier.push({
+        skill: val,
+        skillcost: "",
+        skillsub: "",
+        skilleffect: ""
+      })
+    }
   }
 
   handleCostChange(e) {

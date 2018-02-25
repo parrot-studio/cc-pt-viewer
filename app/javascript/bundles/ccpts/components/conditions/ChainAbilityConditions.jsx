@@ -10,7 +10,15 @@ export default class ChainAbilityConditions extends React.Component {
   }
 
   handleCategoryChange(e) {
-    this.notifier.push({chainabilitycategory: e.target.value})
+    const val = e.target.value
+    if (!_.isEqual(this.props.chainabilitycategory, val)) {
+      this.notifier.push({
+        chainabilitycategory: val,
+        chainabilitycondition: "",
+        chainabilityeffect: "",
+        chainabilitytarget: ""
+      })
+    }
   }
 
   handleConditionChange(e) {

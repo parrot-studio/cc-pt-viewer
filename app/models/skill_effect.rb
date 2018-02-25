@@ -343,7 +343,7 @@ class SkillEffect < ApplicationRecord
 
   SUBCATEGORYS = lambda do
     ret = {}
-    CATEGORYS.values.each do |v|
+    CATEGORYS.each_value do |v|
       ret.merge!(v.fetch(:sub, {}))
     end
     ret
@@ -359,7 +359,7 @@ class SkillEffect < ApplicationRecord
 
   SUBEFFECTS = lambda do
     ret = {}
-    CATEGORYS.values.each do |v|
+    CATEGORYS.each_value do |v|
       ret.merge!(v.fetch(:effect, {}))
     end
     ret
@@ -372,6 +372,22 @@ class SkillEffect < ApplicationRecord
     end
     ret
   end.call.freeze
+
+  BUFF_TYPES = lambda do
+    ret = []
+    CATEGORYS.each_value do |cv|
+      ret << cv[:effect].keys.select { |k| k.match(/\A[a|d|s|c|r]+up\z/) }
+    end
+    ret.flatten.uniq.compact.map(&:to_s)
+  end.call.freeze
+
+  EFFECT_GROUP = {
+    aup: BUFF_TYPES.select { |s| s.match(/a/) },
+    dup: BUFF_TYPES.select { |s| s.match(/d/) },
+    sup: BUFF_TYPES.select { |s| s.match(/s/) },
+    cup: BUFF_TYPES.select { |s| s.match(/c/) },
+    rup: BUFF_TYPES.select { |s| s.match(/r/) }
+  }.freeze
 
   validates :order,
             presence: true,

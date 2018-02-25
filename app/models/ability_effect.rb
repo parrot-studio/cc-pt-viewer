@@ -848,7 +848,7 @@ class AbilityEffect < ApplicationRecord
 
   EFFECTS = lambda do
     ret = {}
-    CATEGORYS.values.each do |v|
+    CATEGORYS.each_value do |v|
       ret.merge!(v.fetch(:effect, {}))
     end
     ret
@@ -856,7 +856,7 @@ class AbilityEffect < ApplicationRecord
 
   CONDITIONS = lambda do
     ret = {}
-    CATEGORYS.values.each do |v|
+    CATEGORYS.each_value do |v|
       ret.merge!(v.fetch(:condition, {}))
     end
     ret
@@ -864,7 +864,7 @@ class AbilityEffect < ApplicationRecord
 
   TARGETS = lambda do
     ret = {}
-    CATEGORYS.values.each do |v|
+    CATEGORYS.each_value do |v|
       ret.merge!(v.fetch(:target, {}))
     end
     ret
@@ -907,8 +907,12 @@ class AbilityEffect < ApplicationRecord
   end.call.freeze
 
   BUFF_TYPES = lambda do
-    CATEGORYS[:buff_self][:effect].keys.select { |k| k.match(/\A[a|d|s|c|r]+up\z/) }.map(&:to_s)
-  end.call
+    ret = []
+    CATEGORYS.each_value do |cv|
+      ret << cv[:effect].keys.select { |k| k.match(/\A[a|d|s|c|r]+up\z/) }
+    end
+    ret.flatten.uniq.compact.map(&:to_s)
+  end.call.freeze
 
   EFFECT_GROUP = {
     aup: BUFF_TYPES.select { |s| s.match(/a/) },
@@ -940,20 +944,32 @@ class AbilityEffect < ApplicationRecord
     cure_down: ['cure_all']
   }.freeze
 
+  ALL_TARGETS = lambda do
+    ret = []
+    CATEGORYS.each_value do |cv|
+      ret << cv[:target].keys
+    end
+    ret.flatten.uniq.map(&:to_s)
+  end.call.freeze
+
+  JOB_TARGETS = ALL_TARGETS.select { |t| t.start_with?('job_') }.freeze
+  WEAPON_TARGETS = ALL_TARGETS.select { |t| t.start_with?('weapon_') }.freeze
+
   TARGET_GROUP = {
-    job_f: %w[job_fk job_fa job_fm job_fkh job_fah job_fkah],
-    job_k: %w[job_fk job_ka job_kh job_km job_fkh job_fkah job_kahm],
-    job_a: %w[job_fa job_ka job_ah job_am job_fah job_fkah job_kahm],
-    job_h: %w[job_kh job_ah job_fkh job_fah job_fkah job_kahm],
-    job_m: %w[job_fm job_km job_am job_kahm],
-    weapon_sl: %w[weapon_slma weapon_slblpipu],
-    weapon_bl: %w[weapon_blpi weapon_slblpipu],
-    weapon_pi: %w[weapon_blpi weapon_slblpipu],
-    weapon_pu: %w[weapon_slblpipu],
-    weapon_ar: %w[weapon_argush],
-    weapon_ma: %w[weapon_slma],
-    weapon_gu: %w[weapon_gush weapon_argush],
-    weapon_sh: %w[weapon_gush weapon_argush]
+    job_f: JOB_TARGETS.select { |t| t.match(/f/) },
+    job_k: JOB_TARGETS.select { |t| t.match(/k/) },
+    job_a: JOB_TARGETS.select { |t| t.match(/a/) },
+    job_h: JOB_TARGETS.select { |t| t.match(/h/) },
+    job_m: JOB_TARGETS.select { |t| t.match(/m/) },
+    weapon_sl: WEAPON_TARGETS.select { |t| t.match(/sl/) },
+    weapon_bl: WEAPON_TARGETS.select { |t| t.match(/bl/) },
+    weapon_pi: WEAPON_TARGETS.select { |t| t.match(/pi/) },
+    weapon_ar: WEAPON_TARGETS.select { |t| t.match(/ar/) },
+    weapon_ma: WEAPON_TARGETS.select { |t| t.match(/ma/) },
+    weapon_he: WEAPON_TARGETS.select { |t| t.match(/he/) },
+    weapon_pu: WEAPON_TARGETS.select { |t| t.match(/pu/) },
+    weapon_gu: WEAPON_TARGETS.select { |t| t.match(/gu/) },
+    weapon_sh: WEAPON_TARGETS.select { |t| t.match(/sh/) }
   }.freeze
 
   class << self

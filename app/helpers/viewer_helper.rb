@@ -22,11 +22,11 @@ module ViewerHelper
   end
 
   def ptedit_mode?
-    action_name == 'ptedit' ? true : false
+    action_name == 'ptedit'
   end
 
   def database_mode?
-    action_name == 'database' ? true : false
+    action_name == 'database'
   end
 
   def main_view?

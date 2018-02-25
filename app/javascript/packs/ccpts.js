@@ -1,6 +1,6 @@
 import ReactOnRails from "react-on-rails"
 
-import AppView from "./components/AppView"
+import AppView from "../bundles/ccpts/components/AppView"
 
 ReactOnRails.register({
   AppView

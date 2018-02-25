@@ -1,8 +1,4 @@
 class Api::ArcanasController < ApplicationController
-  def conditions
-    render json: ArcanaCache.conditions
-  end
-
   def search
     as = search_arcanas(query_params)
     render json: (as || {})

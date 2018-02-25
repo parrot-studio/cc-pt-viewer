@@ -371,7 +371,7 @@ class ArcanaSearcher
     if category.present? || sub.present? || ef.present?
       arel = SkillEffect.all
       if ef.present?
-        efs = [ef].flatten.uniq.compact
+        efs = [ef].flatten.map { |e| skill_effect_group_for(e) }.uniq.compact
         arel = arel.where(subeffect1: efs)
                    .or(SkillEffect.where(subeffect2: efs))
                    .or(SkillEffect.where(subeffect3: efs))
@@ -389,7 +389,7 @@ class ArcanaSearcher
   def ability_search(arel, cate, effect, cond, target)
     return [] unless arel
     return [] if [cate, effect, cond, target].all?(&:blank?)
-    efs = effect_group_for(effect)
+    efs = ability_effect_group_for(effect)
     ts = target_group_for(target)
 
     arel = arel.where(category: cate) if cate.present?
@@ -400,7 +400,14 @@ class ArcanaSearcher
     Ability.joins(:ability_effects).merge(arel).distinct.pluck(:arcana_id)
   end
 
-  def effect_group_for(ef)
+  def skill_effect_group_for(ef)
+    return if ef.blank?
+    group = SkillEffect::EFFECT_GROUP[ef.to_sym]
+    return ef if group.blank?
+    [ef, group].flatten.uniq.compact
+  end
+
+  def ability_effect_group_for(ef)
     return if ef.blank?
     group = AbilityEffect::EFFECT_GROUP[ef.to_sym]
     return ef if group.blank?

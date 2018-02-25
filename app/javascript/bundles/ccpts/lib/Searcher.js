@@ -123,9 +123,4 @@ export default class Searcher {
       return Bacon.once(QueryResult.create(as, query.detail))
     })
   }
-
-  static loadConditions() {
-    const condsUrl = `${__searcher_config.apiPath}conditions`
-    return Searcher.search({}, condsUrl)
-  }
 }

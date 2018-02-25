@@ -13,7 +13,7 @@
 !/log/.keep
 !/tmp/.keep
 
-#/node_modules
+/node_modules
 /yarn-error.log
 
 .byebug_history
@@ -36,3 +36,7 @@ config/environments/*.local.yml
 
 sitemap.xml
 sitemap.xml.gz
+
+/public/packs
+/public/packs-test
+/node_modules

@@ -10,7 +10,15 @@ export default class AbilityConditions extends React.Component {
   }
 
   handleCategoryChange(e) {
-    this.notifier.push({abilitycategory: e.target.value})
+    const val = e.target.value
+    if (!_.isEqual(this.props.abilitycategory, val)) {
+      this.notifier.push({
+        abilitycategory: val,
+        abilitycondition: "",
+        abilityeffect: "",
+        abilitytarget: ""
+      })
+    }
   }
 
   handleConditionChange(e) {

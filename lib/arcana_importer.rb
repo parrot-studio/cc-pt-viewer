@@ -120,7 +120,7 @@ class ArcanaImporter
   end
 
   def valid_arcana?(code, name)
-    id_table[code] == name ? true : false
+    id_table[code] == name
   end
 
   def actors
@@ -185,7 +185,7 @@ class ArcanaImporter
     raise "source_category not found => #{arcana.name} #{arcana.source_category}" unless sct
     arcana.source = source
     raise "source not found => #{arcana.name} #{arcana.source}" unless sct.fetch(:details).fetch(arcana.source.to_sym)
-    arcana.union = (union.blank? ? 'unknown' : union)
+    arcana.union = (union.presence || 'unknown')
     raise "union not found => #{arcana.name} #{arcana.union}" unless Arcana::UNION_NAMES.key?(arcana.union.to_sym)
     arcana.job_type = job_type
     raise "job_type not found => #{arcana.name} #{arcana.job_type}" unless Arcana::JOB_NAMES.key?(arcana.job_type.to_sym)
@@ -225,9 +225,7 @@ class ArcanaImporter
     arcana.title = '絶✝影' if arcana.job_code == 'A136'
 
     output_warning "warning : arcana #{arcana.name} : #{arcana.changes}" if arcana.changed?
-    if arcana.max_atk.nil? || arcana.max_hp.nil?
-      output_warning "warning : arcana #{arcana.name} : lack max_atk/max_hp"
-    end
+    output_warning "warning : arcana #{arcana.name} : lack max_atk/max_hp" if arcana.max_atk.nil? || arcana.max_hp.nil?
 
     arcana.save!
     arcana

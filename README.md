@@ -8,9 +8,9 @@ Description
 
 個人的には初めて、PCだけでなくタブレットやスマートフォンでの閲覧性も考慮しています。
 
-- Ruby 2.4
+- Ruby 2.5
 - Rails 5.1
-- ReactOnRails 8.0
+- ReactOnRails 10.0
 - React.js
 - Bacon.js
 - MariaDB

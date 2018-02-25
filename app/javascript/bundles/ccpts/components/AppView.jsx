@@ -23,6 +23,7 @@ export default class AppView extends React.Component {
     super(props)
 
     Searcher.init(this.props.dataver, this.props.appPath)
+    Conditions.init(this.props.conditions)
     QueryLogs.init()
     Favorites.init()
 
@@ -81,12 +82,10 @@ export default class AppView extends React.Component {
 
   switchConditionMode() {
     if (!this.state.showConditionArea) {
-      Conditions.init().onValue(() => {
-        this.setState({
-          showConditionArea: true
-        }, () => {
-          this.fadeModeArea()
-        })
+      this.setState({
+        showConditionArea: true
+      }, () => {
+        this.fadeModeArea()
       })
     }
   }

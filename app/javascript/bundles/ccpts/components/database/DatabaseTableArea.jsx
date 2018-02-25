@@ -72,9 +72,9 @@ export default class DatabaseTableArea extends ResultView {
     const order = this.state.sortOrder[col]
     switch (order) {
       case "asc":
-        return (<i className='fa fa-sort-amount-asc active'/>)
+        return (<i className='fa fa-sort-amount-up active'/>)
       case "desc":
-        return (<i className='fa fa-sort-amount-desc active'/>)
+        return (<i className='fa fa-sort-amount-down active'/>)
       default:
         return (<i className='fa fa-sort'/>)
     }
