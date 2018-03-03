@@ -188,6 +188,7 @@ class Arcana < ApplicationRecord
       name: 'イベント限定',
       details: {
         festival: 'フェス',
+        legend: 'レジェンドフェス',
         demon: '魔神戦',
         score: '踏破',
         war: '討伐戦',

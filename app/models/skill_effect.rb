@@ -322,7 +322,9 @@ class SkillEffect < ApplicationRecord
         ice: '氷属性',
         add_slow: 'スロウ追加',
         add_freeze: '凍結追加',
-        shield_break: '盾破壊'
+        add_poison: '毒追加',
+        shield_break: '盾破壊',
+        super_skill: '超必殺技'
       }
     }
   }.freeze
