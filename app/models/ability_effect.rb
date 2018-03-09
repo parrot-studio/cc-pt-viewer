@@ -408,6 +408,7 @@ class AbilityEffect < ApplicationRecord
         adcup: '攻撃力/防御力/クリティカル率上昇',
         scrup: '移動速度/クリティカル率/クリティカルダメージ上昇',
         adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
+        ascrup: '攻撃力/移動速度/クリティカル率/クリティカルダメージ上昇',
         adscrup: '攻撃力/防御力/移動速度/クリティカル率/クリティカルダメージ上昇',
         barrier: 'バリアを張る'
       },
@@ -428,7 +429,8 @@ class AbilityEffect < ApplicationRecord
     buff_area: {
       name: '範囲内を強化',
       effect: {
-        adsup: '攻撃力防御力/移動速度上昇'
+        adup: '攻撃力/防御力上昇',
+        adsup: '攻撃力/防御力/移動速度上昇'
       },
       condition: {
         heal_action: '回復行動時'
