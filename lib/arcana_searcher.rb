@@ -2,8 +2,8 @@ class ArcanaSearcher
   QUERY_CONDITION_NAMES = %i[
     recently job rarity weapon arcanatype actor illustrator
     union source sourcecategory skill skillcost
-    skillsub skilleffect abilitycategory abilityeffect
-    abilitycondition abilitytarget
+    skillsub skilleffect skillinheritable
+    abilitycategory abilityeffect abilitycondition abilitytarget
     chainabilitycategory chainabilityeffect
     chainabilitycondition chainabilitytarget
     arcanacost chaincost actorname illustratorname name
@@ -218,7 +218,6 @@ class ArcanaSearcher
     return "最新 #{query[:recently]}件" if query[:recently]
     return "名前 - #{query[:name]}" if query[:name]
 
-    skill = false
     list = DETAIL_COND_LIST.map do |k|
       q = query[k]
       next unless q
@@ -260,29 +259,31 @@ class ArcanaSearcher
           q.to_s
         end
         str
-      when :skill, :skillcost
-        next if skill
+      when :skill
         str = 'スキル - '
         str += SkillEffect::CATEGORYS.fetch(query[:skill].to_sym, {}).fetch(:name, '') if query[:skill]
-        if query[:skillcost]
-          str += ' マナ'
-          str += case query[:skillcost]
-          when Range
-            "#{query[:skillcost].last}以下"
-          else
-            query[:skillcost].to_s
-          end
-        end
-        if query[:skillsub] || query[:skilleffect]
+
+        if query[:skillcost] || query[:skillsub] || query[:skilleffect] || query[:skillinheritable]
           table = SkillEffect::CATEGORYS.fetch(query[:skill].to_sym, {})
           next if table.blank?
           ss = []
+
+          ss <<
+            case query[:skillcost]
+            when nil, ''
+              nil
+            when Range
+              "マナ#{query[:skillcost].last}以下"
+            else
+              "マナ#{query[:skillcost]}"
+            end
+
           ss << table.fetch(:sub, {}).fetch(query[:skillsub].to_sym, nil) if query[:skillsub]
           ss << table.fetch(:effect, {}).fetch(query[:skilleffect].to_sym, nil) if query[:skilleffect]
+          ss << '伝授のみ' if query[:skillinheritable]
           text = ss.compact.join(' + ')
           str += "（#{text}）" if text.present?
         end
-        skill = true
         str
       when :abilitycategory
         table = AbilityEffect::CATEGORYS.fetch(query[:abilitycategory].to_sym, {})
@@ -322,6 +323,7 @@ class ArcanaSearcher
     skillcost = query.delete(:skillcost)
     skillsub = query.delete(:skillsub)
     skilleffect = query.delete(:skilleffect)
+    skillinheritable = query.delete(:skillinheritable)
     abcate = query.delete(:abilitycategory)
     abeffect = query.delete(:abilityeffect)
     abcond = query.delete(:abilitycondition)
@@ -335,8 +337,8 @@ class ArcanaSearcher
 
     arel = Arcana.all
 
-    unless skill.blank? && skillcost.blank?
-      ids = skill_search(skill, skillcost, skillsub, skilleffect)
+    if skill.present?
+      ids = skill_search(skill, skillcost, skillsub, skilleffect, skillinheritable)
       return [] if ids.blank?
       arel = arel.where(id: ids)
     end
@@ -362,11 +364,12 @@ class ArcanaSearcher
     ).distinct.pluck(:job_code)
   end
 
-  def skill_search(category, cost, sub, ef)
-    return [] if (category.blank? && cost.blank? && sub.blank? && ef.blank?)
+  def skill_search(category, cost, sub, ef, inherit)
+    return [] if (category.blank? && cost.blank? && sub.blank? && ef.blank? && inherit.blank?)
 
     sk = Skill.all
     sk = sk.where(cost: cost) if cost.present?
+    sk = sk.inheritable_only if inherit.present?
 
     if category.present? || sub.present? || ef.present?
       arel = SkillEffect.all

@@ -23,7 +23,8 @@ class Skill < ApplicationRecord
   default_scope { includes(:skill_effects) }
   has_many :skill_effects
 
-  COSTS = (1..3).to_a
+  COSTS = (0..3).to_a
+  INHERITABLE_SKILL_TYPE = 'd'.freeze
 
   validates :job_code,
             presence: true,
@@ -37,6 +38,8 @@ class Skill < ApplicationRecord
   validates :cost,
             presence: true,
             numericality: { only_integer: true }
+
+  scope :inheritable_only, -> { where(skill_type: INHERITABLE_SKILL_TYPE) }
 
   def serialize
     excepts = %w[id created_at updated_at]

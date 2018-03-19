@@ -44,6 +44,7 @@ export default class ConditionView extends React.Component {
       qs.skillcost = (query.skillcost || "")
       qs.skillsub = (query.skillsub || "")
       qs.skilleffect = (query.skilleffect || "")
+      qs.skillinheritable = (query.skillinheritable || "")
       qs.abilitycategory = (query.abilitycategory || "")
       qs.abilityeffect = (query.abilityeffect || "")
       qs.abilitycondition = (query.abilitycondition || "")
@@ -278,6 +279,7 @@ export default class ConditionView extends React.Component {
               skillcost={this.state.skillcost}
               skillsub={this.state.skillsub}
               skilleffect={this.state.skilleffect}
+              skillinheritable={this.state.skillinheritable}
               notifier={this.notifier}/>
             <hr className="condition"/>
             <AbilityConditions conditions={this.props.conditions}

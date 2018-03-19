@@ -288,11 +288,9 @@ class Arcana < ApplicationRecord
 
   NOT_INHERITABLE_TYPES = %i[buddy third collabo_newgene].freeze
   NOT_INHERITABLE_ARCANAS = %w[F211 F156].freeze # ミョルン, ホーク
-  INHERITABLE_COLLABORATIONS = %w[
-    konosuba persona5 utaware valkyria falcom_sen2
-    atelier_arland maoyu loghorizon sevensins danmachi titan
-    seiken twinangel guiltygear shiningresonance nanoha swordoratoria
-    overload2
+  NOT_INHERITABLE_COLLABORATIONS = %w[
+    magica taiko sakurawar falcom_sorasc brave monokuma
+    atelier_twilight hardgirls trefle shiningblade other
   ].freeze
 
   scope :with_tables, -> { includes(%i[voice_actor illustrator skills abilities]) }
@@ -368,7 +366,7 @@ class Arcana < ApplicationRecord
     def inheritables
       self.inheritable_candidates.select do |a|
         next true unless a.arcana_type == 'collaboration'
-        next true if INHERITABLE_COLLABORATIONS.include?(a.source)
+        next true unless NOT_INHERITABLE_COLLABORATIONS.include?(a.source)
         false
       end
     end

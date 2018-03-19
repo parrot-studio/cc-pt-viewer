@@ -9,6 +9,19 @@ export default class SkillConditions extends React.Component {
     this.notifier = this.props.notifier
   }
 
+  addInheritableHandler(inp, self) {
+    $(inp).bootstrapSwitch({
+      onSwitchChange: (e, state) => {
+        let val = ""
+        if (state) {
+          val = "1"
+        }
+        self.notifier.push({skillinheritable: val})
+      }
+    })
+    $(inp).bootstrapSwitch("state", !_.isEmpty(self.props.skillinheritable))
+  }
+
   handleCategoryChange(e) {
     const val = e.target.value
     if (!_.isEqual(this.props.skill, val)) {
@@ -49,6 +62,7 @@ export default class SkillConditions extends React.Component {
       ["2", "2"],
       ["2D", "2以下"],
       ["1", "1"],
+      ["0", "0（バディ）"]
     ]
     return this.renderConditionList(list)
   }
@@ -77,6 +91,14 @@ export default class SkillConditions extends React.Component {
     if (this.props.skill) {
       return (
         <div>
+          <div className="col-sm-2 col-md-2">
+            <label htmlFor="skill-cost">マナ</label>
+            <select id="skill-cost" className="form-control"
+              value={this.props.skillcost}
+              onChange={this.handleCostChange.bind(this)}>
+              {this.renderCostList()}
+            </select>
+          </div>
           <div className="col-sm-4 col-md-4">
             <label htmlFor="skill-sub">対象範囲</label>
             <select id="skill-sub" className="form-control"
@@ -85,7 +107,7 @@ export default class SkillConditions extends React.Component {
               {this.renderSubList()}
             </select>
           </div>
-          <div className="col-sm-3 col-md-3">
+          <div className="col-sm-4 col-md-4">
             <label htmlFor="skill-effect">追加効果</label>
             <select id="skill-effect" className="form-control"
               value={this.props.skilleffect}
@@ -112,12 +134,12 @@ export default class SkillConditions extends React.Component {
           </select>
         </div>
         <div className="col-sm-2 col-md-2">
-          <label htmlFor="skill-cost">マナ</label>
-          <select id="skill-cost" className="form-control"
-            value={this.props.skillcost}
-            onChange={this.handleCostChange.bind(this)}>
-            {this.renderCostList()}
-          </select>
+          <label htmlFor="skill-inheritable">伝授のみ</label>
+          <input
+            type='checkbox'
+            ref={(inp) => {
+              this.addInheritableHandler(inp, this)
+            }}/>
         </div>
         {this.renderAddArea()}
       </div>

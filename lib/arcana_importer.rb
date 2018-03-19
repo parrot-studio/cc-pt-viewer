@@ -265,7 +265,9 @@ class ArcanaImporter
           sk.job_code = code
           sk.skill_type = stype.to_s
           sk.name = sname
-          sk.cost = data.shift.to_i
+          cost = data.shift
+          raise "skill: cost not found => #{arcana.name}/#{sname}" if cost.blank?
+          sk.cost = cost.to_i
           arcana.skills << sk if sk.new_record?
           sk.save!
 
