@@ -201,6 +201,7 @@ class Arcana < ApplicationRecord
     collaboration: {
       name: 'コラボ',
       details: {
+        bloodbeyond: '血界戦線＆BEYOND',
         overload2: 'オーバーロードII',
         swordoratoria: 'ソード・オラトリア',
         nanoha: 'リリカルなのは',
