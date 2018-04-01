@@ -307,6 +307,7 @@ class SkillEffect < ApplicationRecord
         pierce: '貫通する',
         wide_attack: '範囲攻撃',
         guard: '遠距離ガード可能',
+        destroy_scrap: 'スクラップ破壊',
         super_skill: '超必殺技'
       }
     },
