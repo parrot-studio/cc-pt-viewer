@@ -82,7 +82,8 @@ class AbilityEffect < ApplicationRecord
         skill_once: '一度だけスキルが使える',
         mana_cost_down: 'スキルの消費マナ低下',
         super_skill: '超必殺技使用可能',
-        extra_attack: '追撃発生'
+        extra_attack: '追撃発生',
+        blast_attack: '範囲攻撃化'
       },
       condition: {
         any: 'いつでも',
@@ -163,7 +164,8 @@ class AbilityEffect < ApplicationRecord
         add_debuff: '状態異常を付与した時',
         after_move: '一定距離を移動した時',
         in_awakening: '覚醒ゲージがMAXの時',
-        from_sub: 'サブから戦場に移動したとき'
+        from_sub: 'サブから戦場に移動したとき',
+        waiting_charge: '何もせずに一定時間経過した時'
       },
       target: {
         self: '自分'
