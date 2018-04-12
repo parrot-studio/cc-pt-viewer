@@ -242,6 +242,7 @@ class SkillEffect < ApplicationRecord
         sea: '海中',
         ship: '船上',
         night: '夜間',
+        snow: '雪山',
         dimension: '異空間'
       },
       effect: {

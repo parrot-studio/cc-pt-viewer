@@ -375,6 +375,7 @@ class AbilityEffect < ApplicationRecord
         group_dawnsea: '大海所属',
         group_beasts: 'ケ者所属',
         group_criminal: '罪の大陸所属',
+        group_life: '薄命所属',
         group_machine: '鉄煙所属',
         group_chronicle: '年代記所属',
         group_remless: 'レムレス島所属',
