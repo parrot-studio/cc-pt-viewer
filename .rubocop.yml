@@ -13,7 +13,7 @@ AllCops:
 Bundler/OrderedGems:
   Enabled: false
 
-Lint/EndAlignment:
+Layout/EndAlignment:
   Enabled: false
 
 Layout/CaseIndentation:
@@ -48,6 +48,9 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 
 Style/RescueStandardError:
+  Enabled: false
+
+Naming/UncommunicativeMethodParamName:
   Enabled: false
 
 Rails:

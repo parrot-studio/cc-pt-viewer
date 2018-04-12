@@ -9,7 +9,7 @@ Description
 個人的には初めて、PCだけでなくタブレットやスマートフォンでの閲覧性も考慮しています。
 
 - Ruby 2.5
-- Rails 5.1
+- Rails 5.2
 - ReactOnRails 10.0
 - React.js
 - Bacon.js
