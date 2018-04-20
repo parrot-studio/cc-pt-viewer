@@ -510,6 +510,7 @@ class AbilityEffect < ApplicationRecord
         in_sub: 'サブパーティーにいる時',
         skill: 'スキル使用時',
         others_skill: '味方がスキルを使った時',
+        job_skill: '特定の職がスキルを使った時',
         any_skill: '誰かがスキルを使った時',
         with_f: '戦士がいる時',
         with_k: '騎士がいる時',
