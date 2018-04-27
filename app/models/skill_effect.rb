@@ -57,6 +57,7 @@ class SkillEffect < ApplicationRecord
         range_self_combo: '範囲・自分中心/連続',
         range_explosion: '範囲・自爆',
         range_drop: '範囲・落下物',
+        range_drop_combo: '範囲・落下物/連続',
         range_jump: '範囲・ジャンプ',
         range_jump_combo: '範囲・ジャンプ/連続',
         range_blast: '範囲・爆発',

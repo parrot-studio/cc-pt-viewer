@@ -1748,6 +1748,13 @@ K・K,A,195,collaboration,,,隻眼の狙撃手,5,20,4,Sh,collaboration,bloodbeyond,折笠
 リディア,K,198,third,,,勇名バニー,5,18,4,Sl,event,festival,せき しほ,竜徹,guildtown,BunnyGirl,6800,7400,8800,9400,
 ケーテ,A,199,first,,,一日警邏隊,5,20,4,Gu,event,festival,内田 彩,竜徹,machine,Guard,7700,4500,9700,6500,
 ,,,,,,,,,,,,,,,,,,,,,
+# ドラマチックバディフェス,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+カイン,K,199,first,K7,F382,背中合わせの絆,5,20,4,Sl,event,festival,内田真礼,竜徹,volunteers,Combination,8000,8100,10000,10100,背中合わせの絆カインwithヘリオス
+ヘリオス,F,382,buddy,F272,K199,（カインのバディ）,5,0,0,Sl,event,festival,内山昂輝,竜徹,volunteers,Buddy,7000,7000,9000,9000,背中合わせの絆カインwithヘリオス
+,,,,,,,,,,,,,,,,,,,,,
+フィーナ,M,261,first,P24,,絆を記す者,5,20,4,Ma,third,quest,佐倉 綾音,toi8,volunteers,Heroine,8600,5800,,,
+,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,
 #end,,,,,,,,,,,,,,,,,,,,,

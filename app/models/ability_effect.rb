@@ -207,6 +207,7 @@ class AbilityEffect < ApplicationRecord
         mana_charged: 'マナが多いほど',
         mana_slot_many: 'マナスロットが多いほど',
         mana_droped: 'マナを獲得した時',
+        use_mana: 'マナが使用された時',
         kill: '敵を倒した時',
         super_gauge_max: '超必殺技ゲージがMAXの時'
       },

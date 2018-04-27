@@ -171,6 +171,9 @@ export default class Arcana {
     if (!this.hasBuddy()){
       return this.name
     }
+    if (!_.isEmpty(this.buddy().personCode)) {
+      return `${this.name}with${this.buddy().name}`
+    }
     return `${this.name}＆${this.buddy().name}`
   }
 }
