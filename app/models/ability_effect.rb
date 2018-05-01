@@ -76,6 +76,7 @@ class AbilityEffect < ApplicationRecord
         registup: '魔法ダメージ軽減',
         invisible: '姿を消す（遠距離無効）',
         single_shoot: '単発射撃',
+        twin_shoot: '二連射撃',
         bullet_speedup: '弾速上昇',
         rapid_shoot: '弾数増加',
         barrier: 'バリアを張る',
