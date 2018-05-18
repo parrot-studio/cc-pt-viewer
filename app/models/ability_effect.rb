@@ -318,13 +318,15 @@ class AbilityEffect < ApplicationRecord
         crup: 'クリティカル率/クリティカルダメージ上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
         adcup: '攻撃力/防御力/クリティカル率上昇',
-        ascup: '攻撃力/移動速度/クリティカル率上昇'
+        ascup: '攻撃力/移動速度/クリティカル率上昇',
+        barrier: 'バリアを張る'
       },
       condition: {
         any: 'いつでも',
         with_f: '戦士がいる時',
         with_a: '弓使いがいる時',
-        with_slpu: '<<斬/拳>>がいる時'
+        with_slpu: '<<斬/拳>>がいる時',
+        wave_start: '各WAVE開始時'
       },
       target: {
         weapon_sl: '<<斬>>',
