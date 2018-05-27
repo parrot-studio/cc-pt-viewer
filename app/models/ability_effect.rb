@@ -385,7 +385,6 @@ class AbilityEffect < ApplicationRecord
         group_remless: 'レムレス島所属',
         group_volunteers: '義勇軍所属',
         group_demon: '魔神所属',
-        group_sakurawar: '華劇団所属',
         group_others: '旅人所属'
       },
       target: {

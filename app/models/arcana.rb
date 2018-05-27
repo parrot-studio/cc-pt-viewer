@@ -119,7 +119,6 @@ class Arcana < ApplicationRecord
     remless: 'レムレス島',
     volunteers: '義勇軍',
     demon: '魔神',
-    sakurawar: '華劇団',
     others: '旅人',
     unknown: '（調査中）'
   }.freeze

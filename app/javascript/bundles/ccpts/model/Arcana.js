@@ -171,9 +171,10 @@ export default class Arcana {
     if (!this.hasBuddy()){
       return this.name
     }
-    if (!_.isEmpty(this.buddy().personCode)) {
-      return `${this.name}with${this.buddy().name}`
+    const buddy = this.buddy()
+    if (!_.isEqual(buddy.personCode, buddy.jobCode)) { // NOTE: 暫定対応
+      return `${this.name}with${buddy.name}`
     }
-    return `${this.name}＆${this.buddy().name}`
+    return `${this.name}＆${buddy.name}`
   }
 }
