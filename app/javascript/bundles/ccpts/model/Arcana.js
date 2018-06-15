@@ -22,7 +22,7 @@ export default class Arcana {
   }
 
   static build(d) {
-    if (!d){
+    if (!d) {
       return null
     }
     const a = new Arcana(d)
@@ -168,11 +168,11 @@ export default class Arcana {
   }
 
   nameWithBuddy() {
-    if (!this.hasBuddy()){
+    if (!this.hasBuddy()) {
       return this.name
     }
     const buddy = this.buddy()
-    if (!_.isEqual(buddy.personCode, buddy.jobCode)) { // NOTE: 暫定対応
+    if (_.isEqual(this.jobCode, "K199")) { // NOTE: 暫定対応
       return `${this.name}with${buddy.name}`
     }
     return `${this.name}＆${buddy.name}`

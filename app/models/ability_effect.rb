@@ -277,7 +277,7 @@ class AbilityEffect < ApplicationRecord
         with_fa: '戦＋弓がいる時',
         with_fm: '戦＋魔がいる時',
         with_ka: '騎＋弓がいる時',
-        with_kh: '騎＋僧がいる時',
+        with_kp: '騎＋僧がいる時',
         with_ap: '弓＋僧がいる時',
         with_kap: '騎＋弓＋僧がいる時',
         wave_start: '各WAVE開始時',
@@ -294,7 +294,7 @@ class AbilityEffect < ApplicationRecord
         job_fa: '戦/弓',
         job_fm: '戦/魔',
         job_ka: '騎/弓',
-        job_kh: '騎/僧',
+        job_kp: '騎/僧',
         job_km: '騎/魔',
         job_ah: '弓/僧',
         job_am: '弓/魔',
@@ -520,6 +520,7 @@ class AbilityEffect < ApplicationRecord
         with_k: '騎士がいる時',
         with_a: '弓使いがいる時',
         with_p: '僧侶がいる時',
+        with_kp: '騎＋僧がいる時',
         with_gu: '<<銃>>がいる時',
         with_sh: '<<狙>>がいる時',
         link: '複数で一緒に攻撃した時',
@@ -543,6 +544,7 @@ class AbilityEffect < ApplicationRecord
         job_f: '戦士',
         job_k: '騎士',
         job_fk: '戦/騎',
+        job_kp: '騎/僧',
         weapon_sl: '<<斬>>',
         weapon_blpi: '<<打/突>>'
       }
