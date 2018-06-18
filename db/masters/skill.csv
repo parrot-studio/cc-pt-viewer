@@ -2209,5 +2209,12 @@ K・K,A,195,1,,FB‐202 ファイアブロウ,1,初回のみ,attack,summon,,,,,,
 シーシャン,P,118,1,,グリフォンズ・エイル,0,,heal,all_instant,,,,,,
 ,,,,,,forward,,buff,all,asup,,,,,騎士はクリティカル発生率・クリティカルダメージUP
 ,,,,,,,,,,,,,,,
+# クロニクルコレクション2018/6,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+アリエッタ,K,201,1,d,ブライドヴェール,1,,attack,range_dash_combo,add_push,return_position,,,,
+,,,,d,,forward,,barrier,all,guard_slow,guard_down,,,,
+オリヴィア,K,202,1,,ヴァール・ブラウト,2,,attack,range_drop_combo,create_scrap,,,,,1個　スクラップ3個以上で威力上昇
+,,,d,,ヴァール・ブラウト,2,,attack,range_drop_combo,create_scrap,,,,,1個
+,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 # end,,,,,,,,,,,,,,,

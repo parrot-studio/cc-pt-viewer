@@ -221,6 +221,7 @@ class SkillEffect < ApplicationRecord
         guard_blind: '暗闇耐性',
         guard_freeze: '凍結耐性',
         guard_slow: 'スロウ耐性',
+        guard_down: 'ダウン耐性',
         guard_weaken: '衰弱耐性',
         guard_debuff: '状態異常耐性',
         guard_fire: '火属性軽減',
