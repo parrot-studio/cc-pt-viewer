@@ -275,6 +275,7 @@ class AbilityEffect < ApplicationRecord
         with_m: '魔法使いがいる時',
         with_fk: '戦＋騎がいる時',
         with_fa: '戦＋弓がいる時',
+        with_fp: '戦＋僧がいる時',
         with_fm: '戦＋魔がいる時',
         with_ka: '騎＋弓がいる時',
         with_kp: '騎＋僧がいる時',
@@ -292,6 +293,7 @@ class AbilityEffect < ApplicationRecord
         job_m: '魔法使い',
         job_fk: '戦/騎',
         job_fa: '戦/弓',
+        job_fp: '戦/僧',
         job_fm: '戦/魔',
         job_ka: '騎/弓',
         job_kp: '騎/僧',
@@ -544,6 +546,7 @@ class AbilityEffect < ApplicationRecord
         job_f: '戦士',
         job_k: '騎士',
         job_fk: '戦/騎',
+        job_fp: '戦/僧',
         job_kp: '騎/僧',
         weapon_sl: '<<斬>>',
         weapon_blpi: '<<打/突>>'
@@ -680,7 +683,8 @@ class AbilityEffect < ApplicationRecord
       target: {
         self: '自分',
         all: '全員',
-        job_k: '騎士'
+        job_k: '騎士',
+        job_fp: '戦/僧'
       }
     },
     killer: {

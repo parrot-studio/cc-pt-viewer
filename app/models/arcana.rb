@@ -200,6 +200,7 @@ class Arcana < ApplicationRecord
     collaboration: {
       name: 'コラボ',
       details: {
+        utaware_requiem: 'うたわれるもの・散りゆく者への子守唄',
         bloodbeyond: '血界戦線＆BEYOND',
         overload2: 'オーバーロードII',
         swordoratoria: 'ソード・オラトリア',
@@ -214,7 +215,7 @@ class Arcana < ApplicationRecord
         taiko: '太鼓の達人',
         sakurawar: 'サクラ大戦',
         danmachi: 'ダンまち',
-        utaware: 'うたわれるもの',
+        utaware: 'うたわれるもの・偽りの仮面',
         valkyria: '戦場のヴァルキュリア',
         falcom_sorasc: '空の軌跡SC',
         seiken: '聖剣伝説',
