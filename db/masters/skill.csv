@@ -2226,5 +2226,15 @@ K・K,A,195,1,,FB‐202 ファイアブロウ,1,初回のみ,attack,summon,,,,,,
 エルルゥ,P,119,1,d,宝珠光,1,,heal,all_instant,aup,,,,,
 アルルゥ,P,120,1,,ハチミツ,0,,heal,all_cycle,cure_seal,,,,,
 ,,,,,,,,,,,,,,,
+# レジェンドフェス6/25,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+ジークルーン,P,121,1,,システム・フリーデン,1,,heal,all_instant,adup,cure_slow,cure_blind,create_scrap,,1個
+,,,2,,システム・レヴォルツィオン,1,超必殺技ゲージMAX,heal,all_instant,super_skill,excess,aup,,,
+,,,,,,forward,,attack,summon,super_skill,create_scrap,,,,1個
+,,,d,,イミテイト・レヴォルツィオン,1,,heal,all_instant,aup,,,,,
+,,,,,,forward,,attack,summon,create_scrap,,,,,1個
+アイザック,M,267,1,d,ミッシングマインド,2,,area,continual,defdown,,,,,
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 # end,,,,,,,,,,,,,,,
