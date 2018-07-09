@@ -549,6 +549,7 @@ class AbilityEffect < ApplicationRecord
         job_fp: '戦/僧',
         job_kp: '騎/僧',
         weapon_sl: '<<斬>>',
+        weapon_pi: '<<突>>',
         weapon_blpi: '<<打/突>>'
       }
     },

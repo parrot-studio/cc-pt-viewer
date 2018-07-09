@@ -184,6 +184,7 @@ class SkillEffect < ApplicationRecord
         front: '先頭の一人',
         far: '一番遠い一人',
         nearest: '一番近い一人',
+        hp_worst: '一番HPが低い一人',
         random: 'ランダム',
         restoration: '返還'
       },
