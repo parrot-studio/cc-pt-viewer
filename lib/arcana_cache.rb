@@ -17,8 +17,11 @@ class ArcanaCache
           skilleffects: SkillEffect::SUBEFFECT_CONDS,
           abilitycategorys: AbilityEffect::CATEGORY_CONDS,
           abilityeffects: AbilityEffect::EFFECT_CONDS,
+          abilitysubeffects: AbilityEffect::SUB_EFFECT_CONDS,
           abilityconditions: AbilityEffect::CONDITION_CONDS,
+          abilitysubconditions: AbilityEffect::SUB_CONDITION_CONDS,
           abilitytargets: AbilityEffect::TARGET_CONDS,
+          abilitysubtargets: AbilityEffect::SUB_TARGET_CONDS,
           chainabilitycategorys: AbilityEffect.chain_ability_categorys,
           chainabilityeffects: AbilityEffect.chain_ability_effects,
           chainabilityconditions: AbilityEffect.chain_ability_conditions,
@@ -104,12 +107,6 @@ class ArcanaCache
       illustrator_id_table[name]
     end
 
-    def chain_ability_ids
-      with_object_cache("chain_ability:#{ServerSettings.data_version}") do
-        Ability.chain_abilities.pluck(:id)
-      end
-    end
-
     def rebuild
       clear
       conditions
@@ -119,7 +116,6 @@ class ArcanaCache
       voice_actor_id_table
       illustrator_name_table
       illustrator_id_table
-      chain_ability_ids
       recently
     end
 

@@ -40,14 +40,14 @@ export default class TargetsEditArea extends ResultView {
 
     this.setState({
       pager,
-      sortOrder: {[col]: order}
+      sortOrder: { [col]: order }
     })
   }
 
   renderArcanas() {
     const as = _.map(this.state.pager.get(), (a) => <TargetArcana
       key={a.jobCode}
-      arcana={a}/>)
+      arcana={a} />)
     return <ul id="choice-characters" className="list-inline">{as}</ul>
   }
 
@@ -64,7 +64,7 @@ export default class TargetsEditArea extends ResultView {
       const name = cl[0]
       const col = cl[1]
 
-      if (this.state.sortOrder[col]){
+      if (this.state.sortOrder[col]) {
         return (
           <ButtonGroup key={l[1]}>
             <Button
@@ -122,9 +122,9 @@ export default class TargetsEditArea extends ResultView {
                   <Button
                     bsStyle="primary"
                     onClick={this.props.switchConditionMode}>
-                    <i className="fa fa-search"/> 検索
+                    <i className="fa fa-search" /> 検索
                   </Button>
-                  <SearchMenuButton phoneDevice={this.props.phoneDevice}/>
+                  <SearchMenuButton phoneDevice={this.props.phoneDevice} />
                 </ButtonGroup>
                 &nbsp;表示中：{this.state.searchDetail}
                 <span className="pager-count">{this.renderPageCount()}</span>
@@ -141,9 +141,9 @@ export default class TargetsEditArea extends ResultView {
             <PagerArea
               pager={this.state.pager}
               phoneDevice={this.props.phoneDevice}
-              changePage={this.changePage.bind(this)}/>
+              changePage={this.changePage.bind(this)} />
             {this.renderSortArea()}
-            <NameSearchForm/>
+            <NameSearchForm />
           </div>
         </div>
       </div>

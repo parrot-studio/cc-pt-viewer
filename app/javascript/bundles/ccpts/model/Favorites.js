@@ -53,14 +53,14 @@ export default class Favorites {
     __favorites = {}
     try {
       const list = Cookie.valueFor(__favorites_COOKIE_NAME)
-      if (!list){
+      if (!list) {
         return __favorites
       }
       __favorites = _.reduce(list.split("/"), (f, c) => {
         f[c] = true
         return f
       }, {})
-    } catch(e) {
+    } catch (e) {
       __favorites = {}
     }
   }

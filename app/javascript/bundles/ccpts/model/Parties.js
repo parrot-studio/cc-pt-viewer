@@ -4,7 +4,7 @@ import MessageStream from "./MessageStream"
 import { Cookie } from "../lib/Cookie"
 
 const __parties_PT_SIZE = 10
-const __parties_DEFAULT_MEMBER_CODE = "V2F82F85K51NA38NP28NP24NNNNN"
+const __parties_DEFAULT_MEMBER_CODE = "V2F362NM261NK160NA157NP95P24F305F82F272N"
 const __parties_COOKIE_NAME_LIST = "parties"
 const __parties_COOKIE_NAME_LAST = "last-members"
 
@@ -37,7 +37,7 @@ export default class Parties {
   }
 
   static partyFor(order) {
-    return Parties.parties[order-1] || {}
+    return Parties.parties[order - 1] || {}
   }
 
   static addParty(party, comment) {
@@ -72,14 +72,14 @@ export default class Parties {
       if (!_.isEmpty(val)) {
         Parties.parties = JSON.parse(val)
       }
-    } catch(e) {
+    } catch (e) {
       Parties.parties = []
     }
 
     Parties.lastParty = __parties_DEFAULT_MEMBER_CODE
     try {
       Parties.lastParty = Cookie.valueFor(__parties_COOKIE_NAME_LAST) || __parties_DEFAULT_MEMBER_CODE
-    } catch(e) {
+    } catch (e) {
       Parties.lastParty = __parties_DEFAULT_MEMBER_CODE
     }
   }

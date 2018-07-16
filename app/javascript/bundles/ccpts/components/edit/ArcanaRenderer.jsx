@@ -9,12 +9,12 @@ export default class ArcanaRenderer extends React.Component {
 
   shouldComponentUpdate(nextProps) {
     if (!_.isUndefined(this.props.member)) {
-      if (this.isSameMember(this.props.member, nextProps.member)){
+      if (this.isSameMember(this.props.member, nextProps.member)) {
         return false
       }
       return true
     } else if (!_.isUndefined(this.props.arcana)) {
-      if (this.isSameArcana(this.props.arcana, nextProps.arcana)){
+      if (this.isSameArcana(this.props.arcana, nextProps.arcana)) {
         return false
       }
       return true
@@ -67,13 +67,13 @@ export default class ArcanaRenderer extends React.Component {
   }
 
   setDraggable(code, k) {
-    if (!this._div){
+    if (!this._div) {
       return
     }
 
     const d = $(this._div)
     d.attr("data-job-code", code)
-    if (k){
+    if (k) {
       d.attr("data-member-key", k)
     }
     d.draggable({
@@ -134,7 +134,7 @@ export default class ArcanaRenderer extends React.Component {
       abName2 = "なし"
     }
 
-    return <span>{abName1}<br/>{abName2}</span>
+    return <span>{abName1}<br />{abName2}</span>
   }
 
   renderChainAbilityName(a) {
@@ -205,7 +205,7 @@ export default class ArcanaRenderer extends React.Component {
 
     render.push(<span key={key++}> / </span>)
 
-    if (m.canUseChainAbility()){
+    if (m.canUseChainAbility()) {
       render.push(
         <span key={key++} className='chained-ability'>{c.chainAbility.name}</span>
       )

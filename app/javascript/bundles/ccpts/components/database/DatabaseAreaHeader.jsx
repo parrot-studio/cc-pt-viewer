@@ -19,19 +19,19 @@ export default class DatabaseAreaHeader extends React.Component {
   }
 
   openShareModal() {
-    this.setState({showShareModal: true})
+    this.setState({ showShareModal: true })
   }
 
   closeShareModal() {
-    this.setState({showShareModal: false})
+    this.setState({ showShareModal: false })
   }
 
   openRequestModal() {
-    this.setState({showRequestModal: true})
+    this.setState({ showRequestModal: true })
   }
 
   closeRequestModal() {
-    this.setState({showRequestModal: false})
+    this.setState({ showRequestModal: false })
   }
 
   renderRequest() {
@@ -56,14 +56,14 @@ export default class DatabaseAreaHeader extends React.Component {
               <Button
                 bsStyle="primary"
                 onClick={this.props.switchConditionMode}>
-                <i className="fa fa-search"/> 検索
+                <i className="fa fa-search" /> 検索
               </Button>
-              <SearchMenuButton phoneDevice={this.props.phoneDevice}/>
+              <SearchMenuButton phoneDevice={this.props.phoneDevice} />
             </ButtonGroup>
             <Button
               bsStyle="info"
               onClick={this.openShareModal.bind(this)}>
-              <i className="fa fa-cloud"/> 共有
+              <i className="fa fa-cloud" /> 共有
             </Button>
             {this.renderRequest()}
           </ButtonToolbar>
@@ -72,10 +72,10 @@ export default class DatabaseAreaHeader extends React.Component {
             appPath={this.props.appPath}
             phoneDevice={this.props.phoneDevice}
             showModal={this.state.showShareModal}
-            closeModal={this.closeShareModal}/>
+            closeModal={this.closeShareModal} />
           <RequestFormModal
             showModal={this.state.showRequestModal}
-            closeModal={this.closeRequestModal}/>
+            closeModal={this.closeRequestModal} />
         </div>
       </div>
     )

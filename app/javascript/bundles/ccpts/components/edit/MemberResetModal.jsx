@@ -18,20 +18,20 @@ export default class MemberResetModal extends React.Component {
         </Modal.Header>
         <Modal.Body>
           <p>
-            現在のパーティーをリセットして、メンバーを削除します。<br/>
+            現在のパーティーをリセットして、メンバーを削除します。<br />
             よろしければ以下のボタンを押してください。
           </p>
           <p>
             <Button
               bsStyle="danger"
               onClick={this.resetParty.bind(this)}>
-              <i className="fa fa-trash"/> リセット
+              <i className="fa fa-trash" /> リセット
             </Button>
           </p>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.closeModal}>
-            <i className="fa fa-remove"/> 閉じる
+            <i className="fa fa-remove" /> 閉じる
           </Button>
         </Modal.Footer>
       </Modal>

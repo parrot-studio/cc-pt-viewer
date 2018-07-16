@@ -26,7 +26,7 @@ export default class TwitterShareModal extends React.Component {
           className="form-control"
           ref={(d) => { this.shareUrlForm = d }}
           defaultValue={this.shareUrl()}
-          onFocus={this.handleFocus.bind(this)}/>
+          onFocus={this.handleFocus.bind(this)} />
         <span className="help-block small">
           このURLでアクセスすると、{text}が表示されます。コピーして使ってください。
         </span>
@@ -51,9 +51,9 @@ export default class TwitterShareModal extends React.Component {
                 className="btn btn-primary"
                 role="button"
                 id="twitter-share">Twitterで共有する</a>
-              <br/>
+              <br />
               <span className="help-block small">
-                {text}をTwitterに投稿できます。自由にコメントを追加できます。<br/>
+                {text}をTwitterに投稿できます。自由にコメントを追加できます。<br />
                 ※Twitterのサイトを開きます
               </span>
             </p>
@@ -61,7 +61,7 @@ export default class TwitterShareModal extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.closeModal}>
-            <i className="fa fa-remove"/> 閉じる
+            <i className="fa fa-remove" /> 閉じる
           </Button>
         </Modal.Footer>
       </Modal>

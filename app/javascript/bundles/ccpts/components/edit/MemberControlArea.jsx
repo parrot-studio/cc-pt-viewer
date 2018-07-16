@@ -22,28 +22,28 @@ export default class MemberControlArea extends React.Component {
     this.closeRequestModal = this.closeRequestModal.bind(this)
   }
 
-  openShareModal(){
-    this.setState({showShareModal: true})
+  openShareModal() {
+    this.setState({ showShareModal: true })
   }
 
-  closeShareModal(){
-    this.setState({showShareModal: false})
+  closeShareModal() {
+    this.setState({ showShareModal: false })
   }
 
-  openHelpModal(){
-    this.setState({showHelpModal: true})
+  openHelpModal() {
+    this.setState({ showHelpModal: true })
   }
 
-  closeHelpModal(){
-    this.setState({showHelpModal: false})
+  closeHelpModal() {
+    this.setState({ showHelpModal: false })
   }
 
-  openRequestModal(){
-    this.setState({showRequestModal: true})
+  openRequestModal() {
+    this.setState({ showRequestModal: true })
   }
 
-  closeRequestModal(){
-    this.setState({showRequestModal: false})
+  closeRequestModal() {
+    this.setState({ showRequestModal: false })
   }
 
   renderModeButton() {
@@ -57,7 +57,7 @@ export default class MemberControlArea extends React.Component {
           bsStyle="primary"
           className="act-btn"
           onClick={this.props.switchEditMode}>
-          <i className="fa fa-check"/> 編集終了
+          <i className="fa fa-check" /> 編集終了
         </Button>
       )
     } else {
@@ -66,7 +66,7 @@ export default class MemberControlArea extends React.Component {
           bsStyle="primary"
           className="act-btn"
           onClick={this.props.switchEditMode}>
-          <i className="fa fa-edit"/> 編集する
+          <i className="fa fa-edit" /> 編集する
         </Button>
       )
     }
@@ -83,7 +83,7 @@ export default class MemberControlArea extends React.Component {
                 bsStyle="info"
                 className="act-btn"
                 onClick={this.openShareModal.bind(this)}>
-                <i className="fa fa-cloud"/> 共有
+                <i className="fa fa-cloud" /> 共有
               </Button>
               <Button
                 bsStyle="link"
@@ -102,17 +102,17 @@ export default class MemberControlArea extends React.Component {
 
           <RequestFormModal
             showModal={this.state.showRequestModal}
-            closeModal={this.closeRequestModal}/>
+            closeModal={this.closeRequestModal} />
           <EditHelpModal
             aboutPath={this.props.aboutPath}
             showModal={this.state.showHelpModal}
-            closeModal={this.closeHelpModal}/>
+            closeModal={this.closeHelpModal} />
           <MemberShareModal
             phoneDevice={this.props.phoneDevice}
             appPath={this.props.appPath}
             party={this.props.party}
             showModal={this.state.showShareModal}
-            closeModal={this.closeShareModal}/>
+            closeModal={this.closeShareModal} />
         </div>
       </div>
     )

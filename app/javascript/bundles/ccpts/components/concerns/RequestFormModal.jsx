@@ -15,7 +15,7 @@ export default class RequestFormModal extends React.Component {
 
   handleChange(e) {
     const text = e.target.value.substr(0, 100)
-    this.setState({requestText: text})
+    this.setState({ requestText: text })
   }
 
   twitterUrl() {
@@ -42,7 +42,7 @@ export default class RequestFormModal extends React.Component {
     this.props.closeModal()
     Searcher.request(text).onValue(() => {
       window.alert("メッセージを送信しました")
-      this.setState({requestText: ""})
+      this.setState({ requestText: "" })
     })
   }
 
@@ -57,11 +57,11 @@ export default class RequestFormModal extends React.Component {
         <Modal.Body>
           <div className="small">
             <p>
-              当サイトのデータは<a href='https://xn--eckfza0gxcvmna6c.gamerch.com/' target='_blank' rel='noopener noreferrer'>Wiki</a>の情報と、管理人が所有するアルカナ情報でメンテナンスしていますが、<br/>
-              それ以外の情報が足りていません。<br/>
-              <br/>
+              当サイトのデータは<a href='https://xn--eckfza0gxcvmna6c.gamerch.com/' target='_blank' rel='noopener noreferrer'>Wiki</a>の情報と、管理人が所有するアルカナ情報でメンテナンスしていますが、<br />
+              それ以外の情報が足りていません。<br />
+              <br />
               情報をお持ちの方は<a href='https://xn--eckfza0gxcvmna6c.gamerch.com/' target='_blank' rel='noopener noreferrer'>Wiki</a>に提供していただくか、
-              以下のフォーム・Twitterでお願いします。<br/>
+              以下のフォーム・Twitterでお願いします。<br />
               新機能に関する要望も歓迎です。
             </p>
           </div>
@@ -70,7 +70,7 @@ export default class RequestFormModal extends React.Component {
             <textarea
               className="form-control"
               value={this.state.requestText}
-              onChange={this.handleChange.bind(this)}/>
+              onChange={this.handleChange.bind(this)} />
             <span className="help-block small">100文字まで入力できます。</span>
           </div>
           <div className="form-group">
@@ -88,15 +88,15 @@ export default class RequestFormModal extends React.Component {
                   フォームで送る
                 </Button>
                 <Button onClick={this.props.closeModal}>
-                  <i className="fa fa-remove"/> 閉じる
+                  <i className="fa fa-remove" /> 閉じる
                 </Button>
               </ButtonToolbar>
             </div>
           </div>
-          <p className="clearfix"/>
-          <hr/>
+          <p className="clearfix" />
+          <hr />
           <div>
-            <a name="fr"/>
+            <a name="fr" />
             <h4>よくある要望</h4>
             <div className="small">
               <dl>
@@ -105,9 +105,9 @@ export default class RequestFormModal extends React.Component {
               </dl>
             </div>
           </div>
-          <hr/>
+          <hr />
           <div>
-            <a name="info"/>
+            <a name="info" />
             <h4>ATK/HPの情報がないアルカナ</h4>
             <div className="well well-sm">
               <small>
@@ -153,7 +153,7 @@ export default class RequestFormModal extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.closeModal}>
-            <i className="fa fa-remove"/> 閉じる
+            <i className="fa fa-remove" /> 閉じる
           </Button>
         </Modal.Footer>
       </Modal>

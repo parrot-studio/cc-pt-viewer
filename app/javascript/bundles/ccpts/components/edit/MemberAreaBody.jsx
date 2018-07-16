@@ -150,7 +150,7 @@ export default class MemberAreaBody extends React.Component {
             member={party.memberFor(code)}
             name={l[1]}
             removeMember={this.removeMember.bind(this, code)}
-            removeChain={this.removeChain.bind(this, code)}/>
+            removeChain={this.removeChain.bind(this, code)} />
         </li>
       )
     })
@@ -164,7 +164,7 @@ export default class MemberAreaBody extends React.Component {
             {this.renderMembers()}
             <li className="col-xs-6 col-sm-3 col-md-3 member-list">
               <p className="text-center">
-                <label htmlFor="cost">Total Cost</label><br/>
+                <label htmlFor="cost">Total Cost</label><br />
                 <span id="cost" className="cost">{this.props.party.cost}</span>
               </p>
             </li>
@@ -177,7 +177,7 @@ export default class MemberAreaBody extends React.Component {
           replaceMember={this.state.replaceMember}
           closeModal={this.closeModal.bind(this)}
           selectChain={this.selectChain.bind(this)}
-          selectReplace={this.selectReplace.bind(this)}/>
+          selectReplace={this.selectReplace.bind(this)} />
       </div>
     )
   }

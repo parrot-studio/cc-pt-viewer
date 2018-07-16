@@ -40,12 +40,36 @@ export default class Conditions {
     return ((__conditions.abilityeffects || {})[category] || [])
   }
 
+  static abilitySubEffectsFor(category, effect) {
+    const base = (__conditions.abilitysubeffects || {})[category]
+    if (_.isEmpty(base)) {
+      return []
+    }
+    return (base[effect] || [])
+  }
+
   static abilityConditionsFor(category) {
     return ((__conditions.abilityconditions || {})[category] || [])
   }
 
+  static abilitySubConditionsFor(category, cond) {
+    const base = (__conditions.abilitysubconditions || {})[category]
+    if (_.isEmpty(base)) {
+      return []
+    }
+    return (base[cond] || [])
+  }
+
   static abilityTargetsFor(category) {
     return ((__conditions.abilitytargets || {})[category] || [])
+  }
+
+  static abilitySubTargetsFor(category, target) {
+    const base = (__conditions.abilitysubtargets || {})[category]
+    if (_.isEmpty(base)) {
+      return []
+    }
+    return (base[target] || [])
   }
 
   static chainAbirityCategorys() {

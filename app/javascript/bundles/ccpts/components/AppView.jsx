@@ -48,7 +48,7 @@ export default class AppView extends React.Component {
         break
     }
 
-    const recentlyQuery = Query.create({recently: recentlySize})
+    const recentlyQuery = Query.create({ recently: recentlySize })
     const searchStream = MessageStream.queryStream
       .doAction(() => this.switchMainMode())
       .map((q) => Query.create(q))
@@ -74,7 +74,7 @@ export default class AppView extends React.Component {
       this.setState({
         showConditionArea: false
       }, () => {
-        MessageStream.resultStream.push({reload: true})
+        MessageStream.resultStream.push({ reload: true })
         this.fadeModeArea()
       })
     }
@@ -90,7 +90,7 @@ export default class AppView extends React.Component {
     }
   }
 
-  fadeModeArea () {
+  fadeModeArea() {
     if (this.state.showConditionArea) {
       $(this.mainArea).hide()
       $(this.conditionArea).fadeIn("slow")
@@ -109,7 +109,7 @@ export default class AppView extends React.Component {
       return null
     }
 
-    return <DisplaySizeWarning appPath={this.props.appPath}/>
+    return <DisplaySizeWarning appPath={this.props.appPath} />
   }
 
   renderModeView() {
@@ -124,14 +124,15 @@ export default class AppView extends React.Component {
           arcana={this.props.arcana}
           switchConditionMode={this.switchConditionMode.bind(this)}
           pagerSize={this.state.pagerSize}
-          imageMode={this.props.imageMode}/>
+          originTitle={this.props.originTitle}
+          imageMode={this.props.imageMode} />
       case "database":
         return <DatabaseModeView
           phoneDevice={this.phoneDevice}
           appPath={this.props.appPath}
           switchConditionMode={this.switchConditionMode.bind(this)}
           pagerSize={this.state.pagerSize}
-          imageMode={this.props.imageMode}/>
+          imageMode={this.props.imageMode} />
     }
   }
 
@@ -142,7 +143,8 @@ export default class AppView extends React.Component {
 
     return <ConditionView
       conditions={Conditions}
-      switchMainMode={this.switchMainMode.bind(this)}/>
+      originTitle={this.props.originTitle}
+      switchMainMode={this.switchMainMode.bind(this)} />
   }
 
   renderErrorArea() {
@@ -168,7 +170,7 @@ export default class AppView extends React.Component {
         <NavHeader
           appPath={this.props.appPath}
           mode={this.props.mode}
-          latestInfo={this.props.latestInfo}/>
+          latestInfo={this.props.latestInfo} />
         {this.renderErrorArea()}
         {this.renderWarning()}
         <div id="main-area" ref={(d) => { this.mainArea = d }}>
@@ -177,7 +179,7 @@ export default class AppView extends React.Component {
         <div id="condition-area" ref={(d) => { this.conditionArea = d }}>
           {this.renderConditionView()}
         </div>
-        <ArcanaView originTitle={this.props.originTitle}/>
+        <ArcanaView originTitle={this.props.originTitle} />
       </div>
     )
   }

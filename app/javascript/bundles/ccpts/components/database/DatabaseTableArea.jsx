@@ -13,7 +13,7 @@ export default class DatabaseTableArea extends ResultView {
 
   componentDidMount() {
     if (this.props.phoneDevice) {
-      $(this.arcanaTable).swipe ({
+      $(this.arcanaTable).swipe({
         swipeLeft: ((e) => {
           if (this.state.pager.hasPrevPage()) {
             this.changePage(this.state.pager.prevPage())
@@ -59,7 +59,7 @@ export default class DatabaseTableArea extends ResultView {
 
     this.setState({
       pager,
-      sortOrder: {[col]: order},
+      sortOrder: { [col]: order },
     })
   }
 
@@ -72,11 +72,11 @@ export default class DatabaseTableArea extends ResultView {
     const order = this.state.sortOrder[col]
     switch (order) {
       case "asc":
-        return (<i className='fa fa-sort-amount-up active'/>)
+        return (<i className='fa fa-sort-amount-up active' />)
       case "desc":
-        return (<i className='fa fa-sort-amount-down active'/>)
+        return (<i className='fa fa-sort-amount-down active' />)
       default:
-        return (<i className='fa fa-sort'/>)
+        return (<i className='fa fa-sort' />)
     }
   }
 
@@ -140,7 +140,7 @@ export default class DatabaseTableArea extends ResultView {
         <td className='arcana-header' key={`${a.jobCode}.header`}>
           <div className={a.jobClass}>
             {cost}
-            <span className='text-muted small' key={`${a.jobCode}.title`}>{a.title}</span><br/>
+            <span className='text-muted small' key={`${a.jobCode}.title`}>{a.title}</span><br />
             <a href="#"
               key={`${a.jobCode}.header.view`}
               onClick={this.openArcanaViewModal.bind(this, a)}>
@@ -171,7 +171,7 @@ export default class DatabaseTableArea extends ResultView {
           <PagerArea
             pager={this.state.pager}
             phoneDevice={this.props.phoneDevice}
-            changePage={this.changePage.bind(this)}/>
+            changePage={this.changePage.bind(this)} />
           <div className="well well-sm small text-muted">
             {this.state.searchDetail}
             <span className="pager-count">{this.renderPageCount()}</span>
@@ -184,7 +184,7 @@ export default class DatabaseTableArea extends ResultView {
               <tbody>{this.renderArcanas()}</tbody>
             </table>
           </div>
-          <NameSearchForm/>
+          <NameSearchForm />
           <div className="well well-sm small text-muted">
             {this.state.searchDetail}
             <span className="pager-count">{this.renderPageCount()}</span>
@@ -192,7 +192,7 @@ export default class DatabaseTableArea extends ResultView {
           <PagerArea
             pager={this.state.pager}
             phoneDevice={this.props.phoneDevice}
-            changePage={this.changePage.bind(this)}/>
+            changePage={this.changePage.bind(this)} />
         </div>
       </div>
     )

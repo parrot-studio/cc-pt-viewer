@@ -38,37 +38,37 @@ export default class MemberSelectModal extends React.Component {
               <Button
                 bsStyle="primary"
                 onClick={this.props.selectChain}>
-                <i className="fa fa-link"/> 絆として追加する
+                <i className="fa fa-link" /> 絆として追加する
               </Button>
-              <p className="clearfix"/>
+              <p className="clearfix" />
               <label>絆設定後</label>
               <div className="col-sm-10 col-md-10">
                 <SummaryMember
                   view="chain"
-                  member={this.props.chainMember}/>
+                  member={this.props.chainMember} />
               </div>
-              <p className="clearfix"/>
+              <p className="clearfix" />
               {this.renderLabels()}
             </div>
             <div className="col-sm-6 col-md-6">
               <Button
                 bsStyle="info"
                 onClick={this.props.selectReplace}>
-                <i className="fa fa-user"/> メンバーとして置き換える
+                <i className="fa fa-user" /> メンバーとして置き換える
               </Button>
-              <p className="clearfix"/>
+              <p className="clearfix" />
               <label>置き換え後</label>
               <div className="col-sm-10 col-md-10">
                 <SummaryMember
                   view="chain"
-                  member={this.props.replaceMember}/>
+                  member={this.props.replaceMember} />
               </div>
             </div>
           </div>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.closeModal}>
-            <i className="fa fa-remove"/> セットしないで閉じる
+            <i className="fa fa-remove" /> セットしないで閉じる
           </Button>
         </Modal.Footer>
       </Modal>

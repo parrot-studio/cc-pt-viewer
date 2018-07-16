@@ -7,7 +7,7 @@ class CookieBase {
 
   static set(base, data) {
     const d = _.merge(CookieBase.get(base), (data || {}))
-    Cookies.set(base, d, {expires: __cookie_EXPIRE_DATE})
+    Cookies.set(base, d, { expires: __cookie_EXPIRE_DATE })
   }
 
   static get(base) {
@@ -19,7 +19,7 @@ class CookieBase {
   }
 
   static replace(base, data) {
-    Cookies.set(base, (data || {}), {expires: __cookie_EXPIRE_DATE})
+    Cookies.set(base, (data || {}), { expires: __cookie_EXPIRE_DATE })
   }
 
   static delete(base, key) {

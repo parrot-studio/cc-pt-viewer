@@ -68,7 +68,7 @@ export default class Searcher {
       return Bacon.once(Party.build(cache))
     }
 
-    const params = {ptm: code}
+    const params = { ptm: code }
     const ptmUrl = `${__searcher_config.apiPath}ptm`
     return Searcher.search(params, ptmUrl).flatMap((data) => {
       __sercher_memberCache[code] = data
@@ -87,7 +87,7 @@ export default class Searcher {
     }
 
     $("#loading-modal").modal("show")
-    const params = {codes: unknowns.join("/")}
+    const params = { codes: unknowns.join("/") }
     const codesUrl = `${__searcher_config.apiPath}codes`
     return Searcher.search(params, codesUrl).flatMap((data) => {
       _.forEach(data, (d) => Arcana.build(d))

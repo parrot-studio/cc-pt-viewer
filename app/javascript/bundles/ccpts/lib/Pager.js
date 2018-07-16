@@ -37,7 +37,7 @@ export default class Pager {
 
   nextPage() {
     this.page = this.page + 1
-    if (this.page > this.maxPage){
+    if (this.page > this.maxPage) {
       this.page = this.maxPage
     }
     return this.page
@@ -45,7 +45,7 @@ export default class Pager {
 
   prevPage() {
     this.page = this.page - 1
-    if (this.page < 0){
+    if (this.page < 0) {
       this.page = 1
     }
     return this.page

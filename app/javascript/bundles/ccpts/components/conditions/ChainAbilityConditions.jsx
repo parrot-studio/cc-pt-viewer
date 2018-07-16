@@ -22,15 +22,15 @@ export default class ChainAbilityConditions extends React.Component {
   }
 
   handleConditionChange(e) {
-    this.notifier.push({chainabilitycondition: e.target.value})
+    this.notifier.push({ chainabilitycondition: e.target.value })
   }
 
   handleEffectChange(e) {
-    this.notifier.push({chainabilityeffect: e.target.value})
+    this.notifier.push({ chainabilityeffect: e.target.value })
   }
 
   handleTargetChange(e) {
-    this.notifier.push({chainabilitytarget: e.target.value})
+    this.notifier.push({ chainabilitytarget: e.target.value })
   }
 
   renderCategoryList() {
@@ -112,7 +112,7 @@ export default class ChainAbilityConditions extends React.Component {
     )
   }
 
-  render () {
+  render() {
     return (
       <div className="form-group">
         <div className="col-sm-4 col-md-4">

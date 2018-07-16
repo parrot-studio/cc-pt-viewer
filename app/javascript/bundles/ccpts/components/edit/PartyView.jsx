@@ -26,7 +26,7 @@ export default class PartyView extends React.Component {
             code={code}
             member={party.memberFor(code)}
             name={l[1]}
-            phoneDevice={this.props.phoneDevice}/>
+            phoneDevice={this.props.phoneDevice} />
         </li>
       )
     })
@@ -40,7 +40,7 @@ export default class PartyView extends React.Component {
             {this.renderMembers()}
             <li className="col-xs-6 col-sm-3 col-md-3 member-list">
               <p className="text-center">
-                <label htmlFor="cost">Total Cost</label><br/>
+                <label htmlFor="cost">Total Cost</label><br />
                 <span id="cost" className="cost">{this.props.party.cost}</span>
               </p>
             </li>

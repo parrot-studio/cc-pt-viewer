@@ -21,7 +21,7 @@ export default class MemberAreaHeader extends React.Component {
     }
 
     MessageStream.partiesStream.onValue((parties) => {
-      this.setState({parties})
+      this.setState({ parties })
     })
 
     this.closeResetModal = this.closeResetModal.bind(this)
@@ -30,19 +30,19 @@ export default class MemberAreaHeader extends React.Component {
   }
 
   openResetModal() {
-    this.setState({showResetModal: true})
+    this.setState({ showResetModal: true })
   }
 
   closeResetModal() {
-    this.setState({showResetModal: false})
+    this.setState({ showResetModal: false })
   }
 
   openStoreModal() {
-    this.setState({showStoreModal: true})
+    this.setState({ showStoreModal: true })
   }
 
   closeStoreModal() {
-    this.setState({showStoreModal: false})
+    this.setState({ showStoreModal: false })
   }
 
   resetParty() {
@@ -78,16 +78,16 @@ export default class MemberAreaHeader extends React.Component {
             <Button
               bsStyle="danger"
               onClick={this.openResetModal.bind(this)}>
-              <i className="fa fa-trash"/> リセット
+              <i className="fa fa-trash" /> リセット
             </Button>
             <Button
               bsStyle="primary"
               onClick={this.openStoreModal.bind(this)}>
-              <i className="fa fa-save-file"/> 保存
+              <i className="fa fa-save-file" /> 保存
             </Button>
             <DropdownButton bsStyle="info" title="呼び出し" id="load-members">
               <MenuItem onClick={this.reloadLastMembers.bind(this)}>
-                <i className="fa fa-export"/> 最後に作ったパーティー構成
+                <i className="fa fa-export" /> 最後に作ったパーティー構成
               </MenuItem>
               <MenuItem divider />
               {this.renderParties()}
@@ -98,11 +98,11 @@ export default class MemberAreaHeader extends React.Component {
           <MemberResetModal
             showModal={this.state.showResetModal}
             closeModal={this.closeResetModal}
-            resetParty={this.resetParty}/>
+            resetParty={this.resetParty} />
           <MemberStoreModal
             party={this.props.party}
             showModal={this.state.showStoreModal}
-            closeModal={this.closeStoreModal}/>
+            closeModal={this.closeStoreModal} />
         </div>
       </div>
     )

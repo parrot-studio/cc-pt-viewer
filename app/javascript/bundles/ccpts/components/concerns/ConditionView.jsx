@@ -47,8 +47,11 @@ export default class ConditionView extends React.Component {
       qs.skillinheritable = (query.skillinheritable || "")
       qs.abilitycategory = (query.abilitycategory || "")
       qs.abilityeffect = (query.abilityeffect || "")
+      qs.abilitysubeffect = (query.abilitysubeffect || "")
       qs.abilitycondition = (query.abilitycondition || "")
+      qs.abilitysubcondition = (query.abilitysubcondition || "")
       qs.abilitytarget = (query.abilitytarget || "")
+      qs.abilitysubtarget = (query.abilitysubtarget || "")
       qs.chainabilitycategory = (query.chainabilitycategory || "")
       qs.chainabilityeffect = (query.chainabilityeffect || "")
       qs.chainabilitycondition = (query.chainabilitycondition || "")
@@ -58,31 +61,31 @@ export default class ConditionView extends React.Component {
   }
 
   handleJob(e) {
-    this.setState({job: e.target.value})
+    this.setState({ job: e.target.value })
   }
 
   handleRarity(e) {
-    this.setState({rarity: e.target.value})
+    this.setState({ rarity: e.target.value })
   }
 
   handleWeapon(e) {
-    this.setState({weapon: e.target.value})
+    this.setState({ weapon: e.target.value })
   }
 
   handleUnion(e) {
-    this.setState({union: e.target.value})
+    this.setState({ union: e.target.value })
   }
 
   handleArcanaCost(e) {
-    this.setState({arcanacost: e.target.value})
+    this.setState({ arcanacost: e.target.value })
   }
 
   handleChainCost(e) {
-    this.setState({chaincost: e.target.value})
+    this.setState({ chaincost: e.target.value })
   }
 
   handleArcanaType(e) {
-    this.setState({arcanatype: e.target.value})
+    this.setState({ arcanatype: e.target.value })
   }
 
   handleReset() {
@@ -97,6 +100,7 @@ export default class ConditionView extends React.Component {
       }
     })
     MessageStream.queryStream.push(query)
+    document.title = this.props.originTitle
   }
 
   renderConditionList(list) {
@@ -187,7 +191,7 @@ export default class ConditionView extends React.Component {
               bsStyle="danger"
               className="pull-right"
               onClick={this.props.switchMainMode}>
-              <i className="fa fa-remove"/> 閉じる
+              <i className="fa fa-remove" /> 閉じる
             </Button>
             <h2>アルカナ検索</h2>
           </div>
@@ -200,19 +204,19 @@ export default class ConditionView extends React.Component {
                     bsStyle="primary"
                     data-loading-text="検索中..."
                     onClick={this.hundleSearch.bind(this)}>
-                    <i className="fa fa-search"/> 検索
+                    <i className="fa fa-search" /> 検索
                   </Button>
                   <Button
                     bsStyle="default"
                     className="pull-right"
                     onClick={this.handleReset.bind(this)}>
-                    <i className="fa fa-refresh"/> 条件をクリア
+                    <i className="fa fa-refresh" /> 条件をクリア
                   </Button>
                 </ButtonToolbar>
                 <span className="help-block small">条件をクリアして検索すると、最近登録されたアルカナが検索されます。</span>
               </div>
             </div>
-            <hr className="condition"/>
+            <hr className="condition" />
             <div className="form-group">
               <div className="col-sm-4 col-md-4">
                 <label htmlFor="job" className="control-label">職業</label>
@@ -264,7 +268,7 @@ export default class ConditionView extends React.Component {
                 conditions={this.props.conditions}
                 sourcecategory={this.state.sourcecategory}
                 source={this.state.source}
-                notifier={this.notifier}/>
+                notifier={this.notifier} />
               <div className="col-sm-4 col-md-4">
                 <label htmlFor="arcana-type">タイプ（世代/バディ等）</label>
                 <select id="arcana-type" className="form-control"
@@ -273,34 +277,37 @@ export default class ConditionView extends React.Component {
                 </select>
               </div>
             </div>
-            <hr className="condition"/>
+            <hr className="condition" />
             <SkillConditions conditions={this.props.conditions}
               skill={this.state.skill}
               skillcost={this.state.skillcost}
               skillsub={this.state.skillsub}
               skilleffect={this.state.skilleffect}
               skillinheritable={this.state.skillinheritable}
-              notifier={this.notifier}/>
-            <hr className="condition"/>
+              notifier={this.notifier} />
+            <hr className="condition" />
             <AbilityConditions conditions={this.props.conditions}
               abilitycategory={this.state.abilitycategory}
               abilityeffect={this.state.abilityeffect}
+              abilitysubeffect={this.state.abilitysubeffect}
               abilitycondition={this.state.abilitycondition}
+              abilitysubcondition={this.state.abilitysubcondition}
               abilitytarget={this.state.abilitytarget}
-              notifier={this.notifier}/>
-            <hr className="condition"/>
+              abilitysubtarget={this.state.abilitysubtarget}
+              notifier={this.notifier} />
+            <hr className="condition" />
             <ChainAbilityConditions conditions={this.props.conditions}
               chainabilitycategory={this.state.chainabilitycategory}
               chainabilityeffect={this.state.chainabilityeffect}
               chainabilitycondition={this.state.chainabilitycondition}
               chainabilitytarget={this.state.chainabilitytarget}
-              notifier={this.notifier}/>
-            <hr className="condition"/>
+              notifier={this.notifier} />
+            <hr className="condition" />
             <NameConditions conditions={this.props.conditions}
               actor={this.state.actor}
               illustrator={this.state.illustrator}
-              notifier={this.notifier}/>
-            <hr className="condition"/>
+              notifier={this.notifier} />
+            <hr className="condition" />
             <div className="form-group">
               <div className="col-sm-12 col-md-12">
                 <ButtonToolbar>
@@ -308,13 +315,13 @@ export default class ConditionView extends React.Component {
                     bsStyle="primary"
                     data-loading-text="検索中..."
                     onClick={this.hundleSearch.bind(this)}>
-                    <i className="fa fa-search"/> 検索
+                    <i className="fa fa-search" /> 検索
                   </Button>
                   <Button
                     bsStyle="default"
                     className="pull-right"
                     onClick={this.handleReset.bind(this)}>
-                    <i className="fa fa-refresh"/> 条件をクリア
+                    <i className="fa fa-refresh" /> 条件をクリア
                   </Button>
                 </ButtonToolbar>
               </div>
@@ -323,12 +330,12 @@ export default class ConditionView extends React.Component {
 
           <div>
             <ButtonToolbar>
-              <ClearMenuButton/>
+              <ClearMenuButton />
               <Button
                 bsStyle="danger"
                 className="pull-right"
                 onClick={this.props.switchMainMode}>
-                <i className="fa fa-remove"/> 閉じる
+                <i className="fa fa-remove" /> 閉じる
               </Button>
             </ButtonToolbar>
           </div>

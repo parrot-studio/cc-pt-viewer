@@ -11,11 +11,11 @@ export default class SourceConditions extends React.Component {
   }
 
   handleCategoryChange(e) {
-    this.notifier.push({sourcecategory: e.target.value})
+    this.notifier.push({ sourcecategory: e.target.value })
   }
 
   handleSourceChange(e) {
-    this.notifier.push({source: e.target.value})
+    this.notifier.push({ source: e.target.value })
   }
 
   renderSourceCategorys() {

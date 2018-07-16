@@ -25,7 +25,11 @@ class Ability < ApplicationRecord
   belongs_to :arcana
   has_many   :ability_effects
 
-  scope :chain_abilities, -> { where(ability_type: 'c') }
+  TYPE_NORMAL = %w[1 2 p].freeze
+  TYPE_CHAIN = 'c'.freeze
+
+  scope :normal_abilities, -> { where(ability_type: TYPE_NORMAL) }
+  scope :chain_abilities, -> { where(ability_type: TYPE_CHAIN) }
 
   validates :job_code,
             presence: true,
@@ -38,12 +42,6 @@ class Ability < ApplicationRecord
   validates :weapon_name,
             allow_nil: true,
             length: { maximum: 100 }
-
-  class << self
-    def chain_ability_ids
-      ArcanaCache.chain_ability_ids
-    end
-  end
 
   def serialize
     excepts = %w[id arcana_id job_code ability_type created_at updated_at]

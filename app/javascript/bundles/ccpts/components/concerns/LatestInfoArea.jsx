@@ -17,7 +17,7 @@ export default class LatestInfoArea extends React.Component {
   }
 
   handleAlertDismiss() {
-    this.setState({visible: false})
+    this.setState({ visible: false })
   }
 
   isShowLatestInfo() {
@@ -41,19 +41,19 @@ export default class LatestInfoArea extends React.Component {
   }
 
   render() {
-    if (!this.state.visible){
+    if (!this.state.visible) {
       return null
     }
 
     const info = this.props.latestInfo
-    if (_.isEmpty(info)){
+    if (_.isEmpty(info)) {
       return null
     }
 
-    if (!this.isShowLatestInfo()){
+    if (!this.isShowLatestInfo()) {
       return null
     }
-    Cookie.set({"latest-info": this.ver})
+    Cookie.set({ "latest-info": this.ver })
 
     return (
       <div className="row">
@@ -62,7 +62,7 @@ export default class LatestInfoArea extends React.Component {
             closeLabel={"&times; Close"}
             onDismiss={this.handleAlertDismiss.bind(this)}>
             <p>
-              <i className="fa fa-info-circle"/> {`更新：${info.body} (${info.date})`}
+              <i className="fa fa-info-circle" /> {`更新：${info.body} (${info.date})`}
             </p>
           </Alert>
         </div>

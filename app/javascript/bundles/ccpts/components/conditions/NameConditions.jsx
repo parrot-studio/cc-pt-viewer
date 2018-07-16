@@ -10,11 +10,11 @@ export default class NameConditions extends React.Component {
   }
 
   handleActorChange(e) {
-    this.notifier.push({actor: e.target.value})
+    this.notifier.push({ actor: e.target.value })
   }
 
   handleIllustratorChange(e) {
-    this.notifier.push({illustrator: e.target.value})
+    this.notifier.push({ illustrator: e.target.value })
   }
 
   renderConditionList(list) {

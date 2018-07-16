@@ -3,7 +3,7 @@ import React from "react"
 import ArcanaRenderer from "./ArcanaRenderer"
 
 export default class SummaryMember extends ArcanaRenderer {
-  render () {
+  render() {
     const m = this.props.member
     const a = m.arcana
 
@@ -19,11 +19,11 @@ export default class SummaryMember extends ArcanaRenderer {
               {this.renderInfoButton(a, this.props.view)}
             </div>
             <div className='pull-left overflow'>
-              <span className='text-muted small'>{a.title}</span><br/>
+              <span className='text-muted small'>{a.title}</span><br />
               <strong>{a.nameWithBuddy()}</strong>
             </div>
           </small>
-          <p className='clearfix'/>
+          <p className='clearfix' />
           <small>
             <ul className='small text-muted list-unstyled summary-detail overflow'>
               <li>{`${a.maxAtk} / ${a.maxHp}`}</li>

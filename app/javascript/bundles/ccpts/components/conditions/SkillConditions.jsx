@@ -16,7 +16,7 @@ export default class SkillConditions extends React.Component {
         if (state) {
           val = "1"
         }
-        self.notifier.push({skillinheritable: val})
+        self.notifier.push({ skillinheritable: val })
       }
     })
     $(inp).bootstrapSwitch("state", !_.isEmpty(self.props.skillinheritable))
@@ -35,15 +35,15 @@ export default class SkillConditions extends React.Component {
   }
 
   handleCostChange(e) {
-    this.notifier.push({skillcost: e.target.value})
+    this.notifier.push({ skillcost: e.target.value })
   }
 
   handleSubChange(e) {
-    this.notifier.push({skillsub: e.target.value})
+    this.notifier.push({ skillsub: e.target.value })
   }
 
   handleEffectChange(e) {
-    this.notifier.push({skilleffect: e.target.value})
+    this.notifier.push({ skilleffect: e.target.value })
   }
 
   renderConditionList(list) {
@@ -139,7 +139,7 @@ export default class SkillConditions extends React.Component {
             type='checkbox'
             ref={(inp) => {
               this.addInheritableHandler(inp, this)
-            }}/>
+            }} />
         </div>
         {this.renderAddArea()}
       </div>

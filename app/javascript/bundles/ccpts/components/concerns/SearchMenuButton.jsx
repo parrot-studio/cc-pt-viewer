@@ -17,7 +17,7 @@ export default class SearchMenuButton extends React.Component {
     }
 
     MessageStream.queryLogsStream.onValue((querys) => {
-      this.setState({querys})
+      this.setState({ querys })
     })
   }
 
@@ -44,7 +44,7 @@ export default class SearchMenuButton extends React.Component {
       const q = m[0]
       let text = q.detail || ""
       if (text.length > limit) {
-        text = `${text.slice(0, limit-3)}...`
+        text = `${text.slice(0, limit - 3)}...`
       }
       return (
         <MenuItem key={m[1]} onClick={this.search.bind(this, q.params())}>
@@ -54,14 +54,14 @@ export default class SearchMenuButton extends React.Component {
     })
   }
 
-  render () {
+  render() {
     return (
       <DropdownButton bsStyle="default" title="履歴" id="search-menu">
         <MenuItem onClick={this.searchRecently.bind(this)}>
-          <i className="fa fa-refresh"/> 最新のアルカナ
+          <i className="fa fa-refresh" /> 最新のアルカナ
         </MenuItem>
         <MenuItem onClick={this.searchFavorite.bind(this)}>
-          <i className="fa fa-star"/> お気に入り
+          <i className="fa fa-star" /> お気に入り
         </MenuItem>
         <MenuItem divider />
         <MenuItem header>検索履歴</MenuItem>

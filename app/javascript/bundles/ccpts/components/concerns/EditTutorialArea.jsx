@@ -5,15 +5,15 @@ export default class EditTutorialArea extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {visible: true}
+    this.state = { visible: true }
   }
 
   handleAlertDismiss() {
-    this.setState({visible: false})
+    this.setState({ visible: false })
   }
 
   render() {
-    if (!this.state.visible){
+    if (!this.state.visible) {
       return null
     }
 

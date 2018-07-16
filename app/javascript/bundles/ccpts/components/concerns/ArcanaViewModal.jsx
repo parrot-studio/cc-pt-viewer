@@ -102,9 +102,19 @@ export default class ArcanaViewModal extends React.Component {
 
     const abs = _.map(_.zip(ab.effects, _.range(ab.effects.length)), (t) => {
       const e = t[0]
-      let str = `${e.condition} - ${e.effect}`
+      let str = `${e.condition}`
+      if (!_.isEmpty(e.subCondition)) {
+        str = str.concat(`(${e.subCondition})`)
+      }
+      str = str.concat(` - ${e.effect}`)
+      if (!_.isEmpty(e.subEffect)) {
+        str = str.concat(`/${e.subEffect}`)
+      }
       if (!_.isEmpty(e.target)) {
         str = str.concat(`:${e.target}`)
+      }
+      if (!_.isEmpty(e.subTarget)) {
+        str = str.concat(`/${e.subTarget}`)
       }
       if (!_.isEmpty(e.note)) {
         str = str.concat(` (${e.note})`)
@@ -221,7 +231,7 @@ export default class ArcanaViewModal extends React.Component {
 
   renderArcanaType(a) {
     let cl, text;
-    switch(a.arcanaType) {
+    switch (a.arcanaType) {
       case "third":
         cl = "success"
         text = "新世代"
@@ -270,7 +280,7 @@ export default class ArcanaViewModal extends React.Component {
           <button type="button" className="close" onClick={this.props.closeModal}>
             <span aria-hidden="true">&times; Close</span>
           </button>
-          <br/>
+          <br />
           <div className={`arcana ${a.jobClass}`}>
             <div className={`arcana-title ${a.jobClass}-title`}>
               {`${a.jobName} : ${a.rarityStars}`}
@@ -292,7 +302,7 @@ export default class ArcanaViewModal extends React.Component {
                       data-job-code={a.jobCode}
                       ref={(inp) => {
                         this.addFavHandler(inp, a)
-                      }}/>
+                      }} />
                   </p>
                 </div>
                 <div className='col-xs-12 col-sm-4 col-md-4'>
@@ -302,7 +312,7 @@ export default class ArcanaViewModal extends React.Component {
                     <dt>ATK / HP</dt>
                     <dd>
                       {`${a.maxAtk} / ${a.maxHp}`}
-                      <br/>
+                      <br />
                       {`( ${a.limitAtk} / ${a.limitHp} )`}
                     </dd>
                     <dt>武器タイプ</dt>
@@ -335,7 +345,7 @@ export default class ArcanaViewModal extends React.Component {
                       bsStyle="default"
                       bsSize="small"
                       onClick={this.props.openWikiModal}>
-                      <i className="fa fa-search"/> Wikiで確認
+                      <i className="fa fa-search" /> Wikiで確認
                     </Button>
                   </p>
                   <p className='pull-right hidden-xs'>
@@ -344,7 +354,7 @@ export default class ArcanaViewModal extends React.Component {
                       data-job-code={a.jobCode}
                       ref={(inp) => {
                         this.addFavHandler(inp, a)
-                      }}/>
+                      }} />
                   </p>
                 </div>
               </div>
@@ -353,7 +363,7 @@ export default class ArcanaViewModal extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.closeModal}>
-            <i className="fa fa-remove"/>閉じる
+            <i className="fa fa-remove" />閉じる
           </Button>
         </Modal.Footer>
       </Modal>

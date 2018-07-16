@@ -22,7 +22,7 @@ export default class ArcanaView extends React.Component {
   }
 
   openArcanaViewModal(a) {
-    if (!a){
+    if (!a) {
       return
     }
     const uri = `data/${a.jobCode}/${a.wikiLinkName}`
@@ -67,18 +67,18 @@ export default class ArcanaView extends React.Component {
     document.title = (title || this.props.originTitle)
   }
 
-  render () {
+  render() {
     return (
       <div>
         <ArcanaViewModal
           showModal={this.state.showArcanaViewModal}
           viewArcana={this.state.viewArcana}
           closeModal={this.closeArcanaViewModal.bind(this)}
-          openWikiModal={this.openWikiModal.bind(this)}/>
+          openWikiModal={this.openWikiModal.bind(this)} />
         <WikiLinkModal
           showModal={this.state.showWikiModal}
           viewArcana={this.state.viewArcana}
-          closeModal={this.closeWikiModal.bind(this)}/>
+          closeModal={this.closeWikiModal.bind(this)} />
       </div>
     )
   }

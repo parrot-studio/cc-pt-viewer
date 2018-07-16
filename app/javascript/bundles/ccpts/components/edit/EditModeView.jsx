@@ -34,7 +34,7 @@ export default class EditModeView extends React.Component {
 
     MessageStream.memberCodeStream.onValue((code) => {
       Searcher.searchMembers(code).onValue((party) => {
-        this.setState({party})
+        this.setState({ party })
       })
     })
 
@@ -78,18 +78,18 @@ export default class EditModeView extends React.Component {
     const arcana = this.props.arcana
     if (!_.isEmpty(arcana)) {
       const a = Arcana.build(arcana)
-      MessageStream.queryStream.push({name: a.name})
+      MessageStream.queryStream.push({ name: a.name })
       MessageStream.arcanaViewStream.push(a)
     }
 
     if (_.isEmpty(this.props.initParty)) {
       MessageStream.memberCodeStream.push(Parties.lastParty)
-      if (_.isEmpty(arcana)){
+      if (_.isEmpty(arcana)) {
         MessageStream.historyStream.push("reset")
       }
     }
 
-    if (this.state.editMode)  {
+    if (this.state.editMode) {
       $(this.partyArea).hide()
       $(this.editArea).show()
 
@@ -104,7 +104,7 @@ export default class EditModeView extends React.Component {
 
   initSearchTarget() {
     MessageStream.queryStream.push("")
-    this.setState({targetInitialized: true})
+    this.setState({ targetInitialized: true })
   }
 
   replaceHistory(uri) {
@@ -112,24 +112,26 @@ export default class EditModeView extends React.Component {
   }
 
   switchEditMode() {
-    this.setState({editMode: !this.state.editMode}, () => {
+    this.setState({ editMode: !this.state.editMode }, () => {
       this.fadeArea()
       if (this.state.editMode) {
         MessageStream.historyStream.push("reset")
-        this.setState({lastHistory: ""})
+        this.setState({ lastHistory: "" })
+
+        document.title = this.props.originTitle
 
         if (!this.state.targetInitialized) {
           this.initSearchTarget()
         }
       } else {
         MessageStream.historyStream.push(Parties.lastParty)
-        this.setState({lastHistory: Parties.lastParty})
+        this.setState({ lastHistory: Parties.lastParty })
       }
     })
   }
 
   fadeArea() {
-    if (this.state.editMode)  {
+    if (this.state.editMode) {
       $(this.partyArea).hide()
       $(this.editArea).fadeIn()
     } else {
@@ -146,7 +148,7 @@ export default class EditModeView extends React.Component {
     return <TargetsEditArea
       phoneDevice={this.props.phoneDevice}
       pagerSize={this.props.pagerSize}
-      switchConditionMode={this.props.switchConditionMode}/>
+      switchConditionMode={this.props.switchConditionMode} />
   }
 
   renderAreaHeader() {
@@ -154,7 +156,7 @@ export default class EditModeView extends React.Component {
       return null
     }
 
-    return <MemberAreaHeader party={this.state.party}/>
+    return <MemberAreaHeader party={this.state.party} />
   }
 
   renderEditArea() {
@@ -162,11 +164,11 @@ export default class EditModeView extends React.Component {
       return null
     }
 
-    return(
+    return (
       <div id="edit-area" ref={(d) => { this.editArea = d }}>
         <div id="member-area" className="well well-sm">
           {this.renderAreaHeader()}
-          <MemberAreaBody party={this.state.party}/>
+          <MemberAreaBody party={this.state.party} />
         </div>
         {this.renderTargetsArea()}
       </div>
@@ -184,7 +186,7 @@ export default class EditModeView extends React.Component {
       aboutPath={this.props.aboutPath}
       party={this.state.party}
       editMode={this.state.editMode}
-      switchEditMode={this.switchEditMode.bind(this)}/>
+      switchEditMode={this.switchEditMode.bind(this)} />
   }
 
   render() {
@@ -195,7 +197,7 @@ export default class EditModeView extends React.Component {
         <div id="party-area" ref={(d) => { this.partyArea = d }}>
           <PartyView
             phoneDevice={this.props.phoneDevice}
-            party={this.state.party}/>
+            party={this.state.party} />
         </div>
       </div>
     )

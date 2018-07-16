@@ -4,6 +4,7 @@ class ArcanaSearcher
     union source sourcecategory skill skillcost
     skillsub skilleffect skillinheritable
     abilitycategory abilityeffect abilitycondition abilitytarget
+    abilitysubeffect abilitysubcondition abilitysubtarget
     chainabilitycategory chainabilityeffect
     chainabilitycondition chainabilitytarget
     arcanacost chaincost actorname illustratorname name
@@ -286,14 +287,7 @@ class ArcanaSearcher
         end
         str
       when :abilitycategory
-        table = AbilityEffect::CATEGORYS.fetch(query[:abilitycategory].to_sym, {})
-        next if table.blank?
-        str = 'アビリティ - '
-        str += table.fetch(:name, '') unless (query[:abilitycondition] && query[:abilityeffect])
-        str += (' ' + AbilityEffect::CONDITIONS.fetch(query[:abilitycondition].to_sym, '')) if query[:abilitycondition]
-        str += (' ' + table.fetch(:effect, {}).fetch(query[:abilityeffect].to_sym, '')) if query[:abilityeffect]
-        str += (' ' + table.fetch(:target, {}).fetch(query[:abilitytarget].to_sym, '')) if query[:abilitytarget]
-        str
+        create_query_detail_for_ability(query)
       when :chainabilitycategory
         table = AbilityEffect::CATEGORYS.fetch(query[:chainabilitycategory].to_sym, {})
         next if table.blank?
@@ -315,42 +309,93 @@ class ArcanaSearcher
     list.reject(&:blank?).join(' / ')
   end
 
+  def create_query_detail_for_ability(query)
+    table = AbilityEffect::CATEGORYS.fetch(query[:abilitycategory].to_sym, {})
+    return if table.blank?
+    str = 'アビリティ - '
+    str += table.fetch(:name, '') unless (query[:abilitycondition] && query[:abilityeffect])
+
+    if query[:abilitycondition]
+      str += (' ' + AbilityEffect::CONDITIONS.fetch(query[:abilitycondition].to_sym, ''))
+      if query[:abilitysubcondition]
+        sname = table.fetch(:sub_condition, {})
+                     .fetch(query[:abilitycondition].to_sym, {})
+                     .fetch(query[:abilitysubcondition].to_sym, '')
+        str += "(#{sname})" if sname.present?
+      end
+    end
+
+    if query[:abilityeffect]
+      str += (' ' + table.fetch(:effect, {}).fetch(query[:abilityeffect].to_sym, ''))
+      if query[:abilitysubeffect]
+        sname = table.fetch(:sub_effect, {})
+                     .fetch(query[:abilityeffect].to_sym, {})
+                     .fetch(query[:abilitysubeffect].to_sym, '')
+        str += "/#{sname}" if sname.present?
+      end
+    end
+
+    if query[:abilitytarget]
+      str += (' ' + table.fetch(:target, {}).fetch(query[:abilitytarget].to_sym, ''))
+      if query[:abilitysubtarget]
+        sname = table.fetch(:sub_target, {})
+                     .fetch(query[:abilitytarget].to_sym, {})
+                     .fetch(query[:abilitysubtarget].to_sym, '')
+        str += "/#{sname}" if sname.present?
+      end
+    end
+
+    str
+  end
+
   def arcana_search_from_query(org)
     return [] if org.blank?
 
     query = org.dup
-    skill = query.delete(:skill)
-    skillcost = query.delete(:skillcost)
-    skillsub = query.delete(:skillsub)
-    skilleffect = query.delete(:skilleffect)
-    skillinheritable = query.delete(:skillinheritable)
-    abcate = query.delete(:abilitycategory)
-    abeffect = query.delete(:abilityeffect)
-    abcond = query.delete(:abilitycondition)
-    abtarget = query.delete(:abilitytarget)
-    cabcate = query.delete(:chainabilitycategory)
-    cabeffect = query.delete(:chainabilityeffect)
-    cabcond = query.delete(:chainabilitycondition)
-    cabtarget = query.delete(:chainabilitytarget)
+
+    squery = {
+      category: query.delete(:skill),
+      cost: query.delete(:skillcost),
+      sub: query.delete(:skillsub),
+      effect: query.delete(:skilleffect),
+      inheritable: query.delete(:skillinheritable)
+    }.reject { |_, v| v.blank? }
+
+    aquery = {
+      category: query.delete(:abilitycategory),
+      effect: query.delete(:abilityeffect),
+      subeffect: query.delete(:abilitysubeffect),
+      condition: query.delete(:abilitycondition),
+      subcondition: query.delete(:abilitysubcondition),
+      target: query.delete(:abilitytarget),
+      subtarget: query.delete(:abilitysubtarget)
+    }.reject { |_, v| v.blank? }
+
+    cquery = {
+      category: query.delete(:chainabilitycategory),
+      effect: query.delete(:chainabilityeffect),
+      condition: query.delete(:chainabilitycondition),
+      target: query.delete(:chainabilitytarget)
+    }.reject { |_, v| v.blank? }
 
     query = replace_source_query(query)
 
     arel = Arcana.all
 
-    if skill.present?
-      ids = skill_search(skill, skillcost, skillsub, skilleffect, skillinheritable)
+    if squery.present?
+      ids = skill_search(squery)
       return [] if ids.blank?
       arel = arel.where(id: ids)
     end
 
-    if [abcate, abeffect, abcond, abtarget].any?(&:present?)
-      ids = ability_search(AbilityEffect.exclude_chain, abcate, abeffect, abcond, abtarget)
+    if aquery.present?
+      ids = ability_search(Ability.normal_abilities, aquery)
       return [] if ids.blank?
       arel = arel.where(id: ids)
     end
 
-    if [cabcate, cabeffect, cabcond, cabtarget].any?(&:present?)
-      ids = ability_search(AbilityEffect.only_chain, cabcate, cabeffect, cabcond, cabtarget)
+    if cquery.present?
+      ids = ability_search(Ability.chain_abilities, cquery)
       return [] if ids.blank?
       arel = arel.where(id: ids)
     end
@@ -364,43 +409,47 @@ class ArcanaSearcher
     ).distinct.pluck(:job_code)
   end
 
-  def skill_search(category, cost, sub, ef, inherit)
-    return [] if (category.blank? && cost.blank? && sub.blank? && ef.blank? && inherit.blank?)
+  def skill_search(squery)
+    return [] if squery.blank?
 
     sk = Skill.all
-    sk = sk.where(cost: cost) if cost.present?
-    sk = sk.inheritable_only if inherit.present?
+    sk = sk.where(cost: squery[:cost]) if squery[:cost].present?
+    sk = sk.inheritable_only if squery[:inheritable].present?
 
-    if category.present? || sub.present? || ef.present?
+    if squery[:category].present? || squery[:sub].present? || squery[:effect].present?
       arel = SkillEffect.all
-      if ef.present?
-        efs = [ef].flatten.map { |e| skill_effect_group_for(e) }.uniq.compact
+      if squery[:effect].present?
+        efs = [squery[:effect]].flatten.map { |e| skill_effect_group_for(e) }.uniq.compact
         arel = arel.where(subeffect1: efs)
                    .or(SkillEffect.where(subeffect2: efs))
                    .or(SkillEffect.where(subeffect3: efs))
                    .or(SkillEffect.where(subeffect4: efs))
                    .or(SkillEffect.where(subeffect5: efs))
       end
-      arel = arel.where(category: category) if category.present?
-      arel = arel.where(subcategory: sub) if sub.present?
+      arel = arel.where(category: squery[:category]) if squery[:category].present?
+      arel = arel.where(subcategory: squery[:sub]) if squery[:sub].present?
       sk = sk.joins(:skill_effects).merge(arel)
     end
 
     sk.distinct.pluck(:arcana_id)
   end
 
-  def ability_search(arel, cate, effect, cond, target)
-    return [] unless arel
-    return [] if [cate, effect, cond, target].all?(&:blank?)
-    efs = ability_effect_group_for(effect)
-    ts = target_group_for(target)
+  def ability_search(base, query)
+    return [] unless base
+    return [] if query.blank?
+    efs = ability_effect_group_for(query[:effect])
+    ts = target_group_for(query[:target])
 
-    arel = arel.where(category: cate) if cate.present?
+    arel = AbilityEffect.all
+    arel = arel.where(category: query[:category]) if query[:category].present?
     arel = arel.where(effect: efs) if efs.present?
-    arel = arel.where(condition: cond) if cond.present?
+    arel = arel.where(condition: query[:condition]) if query[:condition].present?
     arel = arel.where(target: ts) if ts.present?
+    arel = arel.where(sub_effect: query[:subeffect]) if query[:subeffect].present?
+    arel = arel.where(sub_condition: query[:subcondition]) if query[:subcondition].present?
+    arel = arel.where(sub_target: query[:subtarget]) if query[:subtarget].present?
 
-    Ability.joins(:ability_effects).merge(arel).distinct.pluck(:arcana_id)
+    base.joins(:ability_effects).merge(arel).distinct.pluck(:arcana_id)
   end
 
   def skill_effect_group_for(ef)

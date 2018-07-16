@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170211011500) do
+ActiveRecord::Schema.define(version: 2018_05_02_043630) do
 
-  create_table "abilities", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
+  create_table "abilities", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "arcana_id", null: false
     t.string "job_code", limit: 10, null: false
     t.string "ability_type", limit: 20, null: false
@@ -26,13 +26,16 @@ ActiveRecord::Schema.define(version: 20170211011500) do
     t.index ["name"], name: "index_abilities_on_name"
   end
 
-  create_table "ability_effects", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
+  create_table "ability_effects", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "ability_id", null: false
     t.integer "order", null: false
     t.string "category", limit: 100, null: false
     t.string "condition", limit: 100, null: false
+    t.string "sub_condition", limit: 100, null: false
     t.string "effect", limit: 100, null: false
+    t.string "sub_effect", limit: 100, null: false
     t.string "target", limit: 100, null: false
+    t.string "sub_target", limit: 100, null: false
     t.string "note", limit: 300, default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -43,7 +46,7 @@ ActiveRecord::Schema.define(version: 20170211011500) do
     t.index ["category"], name: "index_ability_effects_on_category"
   end
 
-  create_table "arcanas", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
+  create_table "arcanas", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.string "name", limit: 100, null: false
     t.string "title", limit: 100, null: false
     t.string "arcana_type", limit: 20, null: false
@@ -89,7 +92,7 @@ ActiveRecord::Schema.define(version: 20170211011500) do
     t.index ["weapon_type"], name: "index_arcanas_on_weapon_type"
   end
 
-  create_table "illustrators", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
+  create_table "illustrators", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.string "name", limit: 100, null: false
     t.integer "count", default: 0, null: false
     t.datetime "created_at", null: false
@@ -97,7 +100,7 @@ ActiveRecord::Schema.define(version: 20170211011500) do
     t.index ["name"], name: "index_illustrators_on_name", unique: true
   end
 
-  create_table "skill_effects", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
+  create_table "skill_effects", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "skill_id", null: false
     t.integer "order", null: false
     t.string "category", limit: 100, null: false
@@ -122,7 +125,7 @@ ActiveRecord::Schema.define(version: 20170211011500) do
     t.index ["subeffect5"], name: "index_skill_effects_on_subeffect5"
   end
 
-  create_table "skills", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
+  create_table "skills", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "arcana_id", null: false
     t.string "job_code", limit: 10, null: false
     t.string "skill_type", limit: 20, null: false
@@ -136,7 +139,7 @@ ActiveRecord::Schema.define(version: 20170211011500) do
     t.index ["name"], name: "index_skills_on_name"
   end
 
-  create_table "voice_actors", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
+  create_table "voice_actors", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.string "name", limit: 100, null: false
     t.integer "count", default: 0, null: false
     t.datetime "created_at", null: false

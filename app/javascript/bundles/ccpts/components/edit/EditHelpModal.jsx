@@ -16,7 +16,7 @@ export default class EditHelpModal extends React.Component {
           <button type="button" className="close" onClick={this.props.closeModal}>
             <span aria-hidden="true">&times; Close</span>
           </button>
-          <br/>
+          <br />
           <h3>基本的な使い方</h3>
           <div className="embed-responsive embed-responsive-16by9">
             <iframe className="embed-responsive-item" src="//www.youtube.com/embed/j5NG-3cTlPs"></iframe>
@@ -30,7 +30,7 @@ export default class EditHelpModal extends React.Component {
             <li>
               <strong>アルカナをドラッグして、パーティーに追加したい位置でドロップします</strong>
               <ul>
-                <li>すでにアルカナが存在する位置にドロップした場合、<br/>「絆」か「置き換え」の選択が出ます</li>
+                <li>すでにアルカナが存在する位置にドロップした場合、<br />「絆」か「置き換え」の選択が出ます</li>
               </ul>
             </li>
             <li>納得いく編成ができたら、「共有する」をタップします</li>
@@ -41,7 +41,7 @@ export default class EditHelpModal extends React.Component {
           <ul className="help">
             <li>スマートフォン等、小さい画面では編集ができません（構成の確認のみ）</li>
             <li>編成を一度クリアしたい場合、「パーティーをリセット」をタップすると、パーティーが空になります</li>
-            <li>編成すると自動的にブラウザのURLが変わります<br/>こちらのURLをSNS等で共有することが可能です</li>
+            <li>編成すると自動的にブラウザのURLが変わります<br />こちらのURLをSNS等で共有することが可能です</li>
             <li>Twitterに投稿する際、自由に文章を追加できますが、URLを書き換えると正しく共有できません</li>
             <li>
               <strong>データはスマートフォン版（Android/iOS）のもの</strong>です。Vita版には対応していません</li>
@@ -53,7 +53,7 @@ export default class EditHelpModal extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.closeModal}>
-            <i className="fa fa-remove"/> 閉じる
+            <i className="fa fa-remove" /> 閉じる
           </Button>
         </Modal.Footer>
       </Modal>

@@ -32,8 +32,8 @@ export default class Query {
   }
 
   parse(q) {
-    if(!q) {
-      q = (location.search.replace(/(^\?)/,"") || "")
+    if (!q) {
+      q = (location.search.replace(/(^\?)/, "") || "")
     }
     this.reset()
     if (_.isEmpty(q)) {
@@ -53,7 +53,7 @@ export default class Query {
       if (_.eq(n, "ver")) {
         return
       }
-      switch(n) {
+      switch (n) {
         case "recently":
           recently = true
           break
@@ -74,7 +74,7 @@ export default class Query {
       return
     }
     if (!_.isEmpty(name)) {
-      ret = {name}
+      ret = { name }
     }
     this.q = ret
     return this.q
@@ -88,7 +88,7 @@ export default class Query {
       if (_.eq(n, "ver")) {
         return
       }
-      switch(n) {
+      switch (n) {
         case "illustrator":
           ret["illustratorname"] = Conditions.illustratorNameFor(v)
           break
@@ -96,13 +96,13 @@ export default class Query {
           ret["actorname"] = Conditions.voiceactorNameFor(v)
           break
         default:
-          if (!_.isEmpty(v)){
+          if (!_.isEmpty(v)) {
             ret[n] = v
           }
       }
     })
     if (!_.isEmpty(query.name)) {
-      query = {name: query.name}
+      query = { name: query.name }
     }
 
     const rs = []

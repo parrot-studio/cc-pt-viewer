@@ -28,7 +28,7 @@ export default class TargetArcana extends ArcanaRenderer {
     }
   }
 
-  render () {
+  render() {
     const a = this.props.arcana
     return (
       <li className={"listed-character col-sm-3 col-md-3 col-xs-6"}
@@ -50,15 +50,15 @@ export default class TargetArcana extends ArcanaRenderer {
                   data-job-code={a.jobCode}
                   ref={(inp) => {
                     this.addFavHandler(inp, a)
-                  }}/>
+                  }} />
                 {this.renderInfoButton(a)}
               </div>
               <div className='pull-left overflow'>
-                <span className='text-muted small'>{a.title}</span><br/>
+                <span className='text-muted small'>{a.title}</span><br />
                 <strong>{a.name}</strong>
               </div>
             </small>
-            <p className='clearfix'/>
+            <p className='clearfix' />
             <small>
               <ul className='small text-muted list-unstyled summary-detail overflow'>
                 <li>{`${a.maxAtk} / ${a.maxHp}`}</li>

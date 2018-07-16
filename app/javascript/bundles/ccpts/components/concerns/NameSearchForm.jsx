@@ -16,17 +16,17 @@ export default class NameSearchForm extends React.Component {
 
     const arcanaNameStream = this.nameStream
       .filter((n) => n.length > 1)
-      .map((n) => ({name: n}))
+      .map((n) => ({ name: n }))
 
     MessageStream.queryStream.plug(arcanaNameStream)
 
     MessageStream.conditionStream.onValue((q) => {
-      this.setState({name: (q.name || "")})
+      this.setState({ name: (q.name || "") })
     })
   }
 
   handleChange(e) {
-    this.setState({name: e.target.value})
+    this.setState({ name: e.target.value })
   }
 
   handleClick() {
@@ -42,7 +42,7 @@ export default class NameSearchForm extends React.Component {
             <div className="col-sm-5 col-md-5">
               <input type="text" className="form-control" id="arcana-name"
                 value={this.state.name} placeholder="名前を入力（2文字以上）"
-                onChange={this.handleChange.bind(this)}/>
+                onChange={this.handleChange.bind(this)} />
             </div>
             <div>
               <button type="button" className="btn btn-primary"

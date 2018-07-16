@@ -34,7 +34,7 @@ export default class WikiLinkModal extends React.Component {
         </Modal.Header>
         <Modal.Body>
           <p>
-            リンク先は外部サイト（チェインクロニクル攻略・交流Wiki）になります。<br/>
+            リンク先は外部サイト（チェインクロニクル攻略・交流Wiki）になります。<br />
             よろしければ以下のボタンを押してください。
           </p>
           <p>
@@ -43,7 +43,7 @@ export default class WikiLinkModal extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.closeModal}>
-            <i className="fa fa-remove"/> 閉じる
+            <i className="fa fa-remove" /> 閉じる
           </Button>
         </Modal.Footer>
       </Modal>

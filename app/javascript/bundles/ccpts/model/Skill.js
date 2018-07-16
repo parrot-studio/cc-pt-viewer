@@ -6,7 +6,7 @@ export default class Skill {
     this.name = (!_.isEmpty(data.name) ? data.name : "？")
     this.cost = (_.isInteger(data.cost) ? data.cost : "？")
     this.effects = []
-    if (!_.isEmpty(data.effects)){
+    if (!_.isEmpty(data.effects)) {
       this.effects = _.map(data.effects, (e) => ({
         category: e.category,
         subcategory: e.subcategory,

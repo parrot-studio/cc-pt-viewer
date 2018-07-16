@@ -14,7 +14,7 @@ export default class FullCharacter extends ArcanaRenderer {
       if (m) {
         return <SummaryMember
           view="full"
-          member={m}/>
+          member={m} />
       } else {
         return <div className='none summary-size arcana'></div>
       }
@@ -34,7 +34,7 @@ export default class FullCharacter extends ArcanaRenderer {
         <div className='arcana-body'>
           <p className='arcana-name overflow'>
             <span className="pull-right">{this.renderInfoButton(a)}</span>
-            <span className='text-muted small'>{a.title}</span><br/>
+            <span className='text-muted small'>{a.title}</span><br />
             <strong>{a.nameWithBuddy()}</strong>
           </p>
           <dl className='small text-muted arcana-detail overflow'>
@@ -45,7 +45,7 @@ export default class FullCharacter extends ArcanaRenderer {
             <dt>Ability</dt>
             <dd>
               <ul className='list-unstyled'>
-                <li>{_.isEmpty(a.firstAbility.name) ? "なし" : a.firstAbility.name }</li>
+                <li>{_.isEmpty(a.firstAbility.name) ? "なし" : a.firstAbility.name}</li>
                 <li>{_.isEmpty(a.secondAbility.name) ? "なし" : a.secondAbility.name}</li>
               </ul>
             </dd>
@@ -58,7 +58,7 @@ export default class FullCharacter extends ArcanaRenderer {
     )
   }
 
-  render () {
+  render() {
     return (
       <div>
         <label className="member-label">{this.props.name}</label>

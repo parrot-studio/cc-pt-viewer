@@ -27,11 +27,11 @@ export default class MemberCharacter extends ArcanaRenderer {
               {this.renderInfoButton(a)}
             </div>
             <div className='pull-left overflow'>
-              <span className='text-muted small'>{a.title}</span><br/>
+              <span className='text-muted small'>{a.title}</span><br />
               <strong>{a.nameWithBuddy()}</strong>
             </div>
           </small>
-          <p className='clearfix'/>
+          <p className='clearfix' />
           <small>
             <ul className='small text-muted list-unstyled summary-detail overflow'>
               <li>{`${a.maxAtk} / ${a.maxHp}`}</li>

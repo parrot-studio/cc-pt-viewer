@@ -48,7 +48,7 @@ export default class NavHeader extends React.Component {
       <div className="header">
         <h1>
           Get our light!
-          <span className="hidden-sm hidden-md hidden-lg"><br/></span>
+          <span className="hidden-sm hidden-md hidden-lg"><br /></span>
           &nbsp;
           <small className="text-muted lead">チェンクロ パーティーシミュレーター</small>
         </h1>
@@ -60,7 +60,7 @@ export default class NavHeader extends React.Component {
   }
 
   renderLatestInfo() {
-    return <LatestInfoArea latestInfo={this.props.latestInfo}/>
+    return <LatestInfoArea latestInfo={this.props.latestInfo} />
   }
 
   renderHeadInfo() {
@@ -74,14 +74,14 @@ export default class NavHeader extends React.Component {
 
     const tutorial = Cookie.valueFor("tutorial")
     if (!tutorial) {
-      Cookie.set({tutorial: true})
-      return <EditTutorialArea/>
+      Cookie.set({ tutorial: true })
+      return <EditTutorialArea />
     } else {
       return this.renderLatestInfo()
     }
   }
 
-  render(){
+  render() {
     return (
       <div>
         {this.renderNav()}

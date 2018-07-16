@@ -2,16 +2,19 @@
 #
 # Table name: ability_effects
 #
-#  id         :integer          not null, primary key
-#  ability_id :integer          not null
-#  order      :integer          not null
-#  category   :string(100)      not null
-#  condition  :string(100)      not null
-#  effect     :string(100)      not null
-#  target     :string(100)      not null
-#  note       :string(300)      default(""), not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id            :integer          not null, primary key
+#  ability_id    :integer          not null
+#  order         :integer          not null
+#  category      :string(100)      not null
+#  condition     :string(100)      not null
+#  sub_condition :string(100)      not null
+#  effect        :string(100)      not null
+#  sub_effect    :string(100)      not null
+#  target        :string(100)      not null
+#  sub_target    :string(100)      not null
+#  note          :string(300)      default(""), not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
 #
 # Indexes
 #
@@ -24,9 +27,6 @@
 
 class AbilityEffect < ApplicationRecord
   belongs_to :ability
-
-  scope :exclude_chain, -> { where.not(ability_id: Ability.chain_ability_ids) }
-  scope :only_chain, -> { where(ability_id: Ability.chain_ability_ids) }
 
   CATEGORYS = {
     buff_self: {
@@ -85,6 +85,36 @@ class AbilityEffect < ApplicationRecord
         super_skill: '超必殺技使用可能',
         extra_attack: '追撃発生',
         blast_attack: '範囲攻撃化'
+      },
+      sub_effect: {
+        aup: {
+          boost_with_enemys: '敵が多いほど効果上昇',
+          defdown_self: '自身の防御力低下'
+        },
+        dup: {
+          boost_with_enemys: '敵が多いほど効果上昇',
+          atkdown_self: '自身の攻撃力低下'
+        },
+        sup: {
+          defdown_self: '自身の防御力低下'
+        },
+        adup: {
+          boost_with_enemys: '敵が多いほど効果上昇',
+          speeddown_self: '自身の移動速度低下'
+        },
+        asup: {
+          defdown_self: '自身の防御力低下'
+        },
+        ascup: {
+          defdown_self: '自身の防御力低下'
+        },
+        healup: {
+          areadown_self: '自身の回復範囲減少',
+          defdown_self: '自身の防御力低下'
+        },
+        healareaup: {
+          defdown_self: '自身の防御力低下'
+        }
       },
       condition: {
         any: 'いつでも',
@@ -168,6 +198,78 @@ class AbilityEffect < ApplicationRecord
         from_sub: 'サブから戦場に移動したとき',
         waiting_charge: '何もせずに一定時間経過した時'
       },
+      sub_condition: {
+        wave_start: {
+          hp_upto: 'HPが一定以上',
+          hp_downto: 'HPが一定以下',
+          hp_full: 'HPが満タンの時'
+        },
+        with_f: {
+          include_self: '自身を含む'
+        },
+        with_k: {
+          include_self: '自身を含む'
+        },
+        with_m: {
+          include_self: '自身を含む'
+        },
+        with_fa: {
+          include_self: '自身を含む'
+        },
+        kill: {
+          skill: 'スキル使用時'
+        },
+        link: {
+          with_f: '戦士',
+          with_fp: '戦/僧'
+        },
+        in_front: {
+          with_k: '騎士',
+          with_a: '弓使い',
+          with_p: '僧侶',
+          with_m: '魔法使い'
+        },
+        in_rear: {
+          with_f: '戦士'
+        },
+        has_mana: {
+          mana_f: '戦マナ',
+          mana_k: '騎マナ',
+          mana_p: '僧マナ',
+          mana_m: '魔マナ',
+          mana_fk: '戦/騎マナ',
+          mana_fm: '戦/魔マナ',
+          mana_ka: '騎/弓マナ',
+          mana_fk_all: '戦＋騎マナ',
+          mana_fm_all: '戦＋魔マナ'
+        },
+        mana_droped: {
+          mana_f: '戦マナ',
+          mana_k: '騎マナ',
+          mana_a: '弓マナ',
+          mana_p: '僧マナ',
+          mana_m: '魔マナ',
+          mana_fa: '戦/弓マナ',
+          mana_fm: '戦/魔マナ',
+          mana_ka: '騎/弓マナ',
+          mana_fkap: '魔マナ以外'
+        },
+        mana_charged: {
+          mana_ka: '騎/弓マナ'
+        },
+        use_mana: {
+          self: '自分'
+        },
+        own_skill: {
+          enemy_appeared: '敵が多いほど',
+          with_mana_empty: 'マナが空で発動したとき'
+        },
+        others_skill: {
+          job_a: '弓使い',
+          job_p: '僧侶',
+          with_f: '戦士がいる時'
+        }
+      },
       target: {
         self: '自分'
       }
@@ -194,6 +296,14 @@ class AbilityEffect < ApplicationRecord
         extend_chain: 'チェイン受け付け時間延長',
         enhance_chain: 'チェイン倍率上昇'
       },
+      sub_effect: {
+        aup: {
+          defdown_all: '全体の防御力低下'
+        },
+        asup: {
+          defdown_all: '全体の防御力低下'
+        }
+      },
       condition: {
         any: 'いつでも',
         in_sub: 'サブパーティーにいる時',
@@ -211,6 +321,28 @@ class AbilityEffect < ApplicationRecord
         use_mana: 'マナが使用された時',
         kill: '敵を倒した時',
         super_gauge_max: '超必殺技ゲージがMAXの時'
+      },
+      sub_condition: {
+        in_sub: {
+          field: '特定のフィールド'
+        },
+        others_skill: {
+          job_f: '戦士',
+          job_k: '騎士',
+          job_a: '弓使い',
+          job_p: '僧侶',
+          job_m: '魔法使い',
+          job_fm: '戦/魔'
+        },
+        job_skill: {
+          job_m: '魔法使い'
+        },
+        mana_droped: {
+          mana_f: '戦マナ',
+          mana_p: '僧マナ',
+          mana_m: '魔マナ',
+          mana_kapm: '戦マナ以外'
+        }
       },
       target: {
         all: '全員'
@@ -234,6 +366,11 @@ class AbilityEffect < ApplicationRecord
         wave_start: '各WAVE開始時',
         others_skill: '味方がスキルを使った時'
       },
+      sub_condition: {
+        others_skill: {
+          job_k: '騎士'
+        }
+      },
       target: {
         all: '全員',
         job_f: '戦士',
@@ -243,7 +380,7 @@ class AbilityEffect < ApplicationRecord
         job_fk: '戦/騎',
         job_fa: '戦/弓',
         job_fm: '戦/魔',
-        job_kahm: '騎/弓/僧/魔'
+        job_kapm: '騎/弓/僧/魔'
       }
     },
     buff_jobs: {
@@ -264,8 +401,15 @@ class AbilityEffect < ApplicationRecord
         adrup: '攻撃力/防御力/クリティカルダメージ上昇',
         ascup: '攻撃力/移動速度/クリティカル率上昇',
         adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
+        ascrup: '攻撃力/移動速度/クリティカル率/クリティカルダメージ上昇',
+        adscrup: '攻撃力/防御力/移動速度/クリティカル率/クリティカルダメージ上昇',
         add_slow: '対象の攻撃にスロウを付与',
         barrier: 'バリアを張る'
+      },
+      sub_effect: {
+        aup: {
+          defdown_targets: '対象の防御力低下'
+        }
       },
       condition: {
         any: 'いつでも',
@@ -280,16 +424,57 @@ class AbilityEffect < ApplicationRecord
         with_ka: '騎＋弓がいる時',
         with_kp: '騎＋僧がいる時',
         with_ap: '弓＋僧がいる時',
-        with_kap: '騎＋弓＋僧がいる時',
+        with_fkap: '戦＋騎＋弓＋僧がいる時',
         wave_start: '各WAVE開始時',
         in_sub: 'サブパーティーにいる時',
-        any_skill: '誰かがスキルを使った時'
+        job_skill: '特定の職がスキルを使った時'
+      },
+      sub_condition: {
+        with_f: {
+          include_self: '自身を含む'
+        },
+        with_k: {
+          include_self: '自身を含む'
+        },
+        with_m: {
+          include_self: '自身を含む'
+        },
+        with_fa: {
+          include_self: '自身を含む'
+        },
+        with_fk: {
+          include_self: '自身を含む'
+        },
+        with_fp: {
+          include_self: '自身を含む'
+        },
+        with_fm: {
+          include_self: '自身を含む'
+        },
+        with_ka: {
+          include_self: '自身を含む'
+        },
+        with_kp: {
+          include_self: '自身を含む'
+        },
+        with_ap: {
+          include_self: '自身を含む'
+        },
+        with_fkap: {
+          include_self: '自身を含む'
+        },
+        in_sub: {
+          wave_start: '各WAVE開始時'
+        },
+        job_skill: {
+          job_fm: '戦/魔'
+        }
       },
       target: {
         job_f: '戦士',
         job_k: '騎士',
         job_a: '弓使い',
-        job_h: '僧侶',
+        job_p: '僧侶',
         job_m: '魔法使い',
         job_fk: '戦/騎',
         job_fa: '戦/弓',
@@ -298,12 +483,42 @@ class AbilityEffect < ApplicationRecord
         job_ka: '騎/弓',
         job_kp: '騎/僧',
         job_km: '騎/魔',
-        job_ah: '弓/僧',
+        job_ap: '弓/僧',
         job_am: '弓/魔',
-        job_fkh: '戦/騎/僧',
-        job_fah: '戦/弓/僧',
-        job_fkah: '戦/騎/弓/僧',
-        job_ahm: '弓/僧/魔'
+        job_fkp: '戦/騎/僧',
+        job_fap: '戦/弓/僧',
+        job_fkap: '戦/騎/弓/僧',
+        job_apm: '弓/僧/魔'
+      },
+      sub_target: {
+        job_f: {
+          nearest: '一番近い対象',
+          hp_best: '一番HPが大きい対象',
+          atk_best: '一番攻撃力が大きい対象'
+        },
+        job_k: {
+          nearest: '一番近い対象',
+          hp_worst: '一番ダメージが大きい対象'
+        },
+        job_a: {
+          nearest: '一番近い対象',
+          farthest: '一番遠い対象',
+          hp_worst: '一番ダメージが大きい対象'
+        },
+        job_m: {
+          nearest: '一番近い対象',
+          farthest: '一番遠い対象',
+          atk_best: '一番攻撃力が大きい対象'
+        },
+        job_fk: {
+          nearest: '一番近い対象',
+          hp_best: '一番HPが大きい対象',
+          hp_worst: '一番ダメージが大きい対象',
+          atk_best: '一番攻撃力が大きい対象'
+        },
+        job_fa: {
+          random: 'ランダム'
+        }
       }
     },
     buff_weapons: {
@@ -329,6 +544,11 @@ class AbilityEffect < ApplicationRecord
         with_a: '弓使いがいる時',
         with_slpu: '<<斬/拳>>がいる時',
         wave_start: '各WAVE開始時'
+      },
+      sub_condition: {
+        with_slpu: {
+          include_self: '自身を含む'
+        }
       },
       target: {
         weapon_sl: '<<斬>>',
@@ -371,6 +591,17 @@ class AbilityEffect < ApplicationRecord
         add_shield_break: '盾破壊付与'
       },
       condition: {
+        any: 'いつでも',
+        wave_start: '各WAVE開始時',
+        in_sub: 'サブパーティーにいる時',
+        with_machine: '所属：鉄煙がいる時'
+      },
+      sub_condition: {
+        with_machine: {
+          include_self: '自身を含む'
+        }
+      },
+      target: {
         group_guildtown: '副都所属',
         group_holytown: '聖都所属',
         group_academy: '賢者の塔所属',
@@ -389,17 +620,42 @@ class AbilityEffect < ApplicationRecord
         group_demon: '魔神所属',
         group_others: '旅人所属'
       },
-      target: {
-        all: '全員',
-        job_f: '戦士',
-        job_k: '騎士',
-        job_a: '弓使い',
-        job_m: '魔法使い',
-        job_fk: '戦/騎',
-        job_fa: '戦/弓',
-        job_fm: '戦/魔',
-        job_am: '弓/魔',
-        weapon_argush: '<<弓/銃/狙>>'
+      sub_target: {
+        group_guildtown: {
+          job_fm: '戦/魔',
+          random: 'ランダム'
+        },
+        group_holytown: {
+          job_k: '騎士'
+        },
+        group_academy: {
+          random: 'ランダム'
+        },
+        group_mountain: {
+          job_f: '戦士'
+        },
+        group_oasis: {
+          job_f: '戦士',
+          job_a: '弓使い',
+          random: 'ランダム'
+        },
+        group_forest: {
+          job_f: '戦士',
+          job_m: '魔法使い',
+          job_fk: '戦/騎',
+          job_am: '弓/魔',
+          random: 'ランダム'
+        },
+        group_volcano: {
+          random: 'ランダム'
+        },
+        group_criminal: {
+          job_fa: '戦/弓'
+        },
+        group_machine: {
+          nearest: '一番近い対象',
+          weapon_argush: '<<弓/銃/狙>>'
+        }
       }
     },
     buff_one: {
@@ -419,8 +675,6 @@ class AbilityEffect < ApplicationRecord
         adcup: '攻撃力/防御力/クリティカル率上昇',
         scrup: '移動速度/クリティカル率/クリティカルダメージ上昇',
         adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
-        ascrup: '攻撃力/移動速度/クリティカル率/クリティカルダメージ上昇',
-        adscrup: '攻撃力/防御力/移動速度/クリティカル率/クリティカルダメージ上昇',
         barrier: 'バリアを張る'
       },
       condition: {
@@ -428,13 +682,9 @@ class AbilityEffect < ApplicationRecord
         in_sub: 'サブパーティーにいる時'
       },
       target: {
-        hp_worst: '一番ダメージが大きい対象',
         nearest: '一番近い対象',
-        random: 'ランダム',
-        job_f: '戦士',
-        job_k: '騎士',
-        job_a: '弓使い',
-        job_m: '魔法使い'
+        hp_worst: '一番ダメージが大きい対象',
+        random: 'ランダム'
       }
     },
     buff_area: {
@@ -482,6 +732,11 @@ class AbilityEffect < ApplicationRecord
         attack: '通常攻撃時',
         skill: 'スキル使用時',
         in_awakening: '覚醒ゲージがMAXの時'
+      },
+      sub_condition: {
+        skill: {
+          has_mana_f: '戦マナを所持'
+        }
       },
       target: {
         self: '自分'
@@ -537,12 +792,40 @@ class AbilityEffect < ApplicationRecord
         kill: '敵を倒した時',
         super_gauge_max: '超必殺技ゲージがMAXの時'
       },
+      sub_condition: {
+        in_front: {
+          with_p: '僧侶',
+          with_m: '魔法使い'
+        },
+        others_skill: {
+          job_f: '戦士',
+          job_a: '弓使い'
+        },
+        with_f: {
+          include_self: '自身を含む'
+        },
+        with_kp: {
+          include_self: '自身を含む'
+        },
+        has_mana: {
+          mana_f: '戦マナ',
+          mana_p: '僧マナ'
+        },
+        mana_droped: {
+          mana_k: '騎マナ',
+          mana_p: '僧マナ',
+          mana_fm: '戦/魔マナ'
+        },
+        job_skill: {
+          job_ka: '騎/弓'
+        }
+      },
       target: {
         self: '自分',
         all: '全員',
+        nearest: '一番近い対象',
         hp_worst: '一番ダメージが大きい対象',
         lv_worst: '一番レベルが低い対象',
-        nearest: '一番近い対象',
         job_f: '戦士',
         job_k: '騎士',
         job_fk: '戦/騎',
@@ -551,6 +834,19 @@ class AbilityEffect < ApplicationRecord
         weapon_sl: '<<斬>>',
         weapon_pi: '<<突>>',
         weapon_blpi: '<<打/突>>'
+      },
+      sub_target: {
+        job_f: {
+          nearest: '一番近い対象'
+        },
+        job_k: {
+          nearest: '一番近い対象',
+          hp_worst: '一番ダメージが大きい対象'
+        },
+        job_fk: {
+          hp_worst: '一番ダメージが大きい対象',
+          atk_best: '一番攻撃力が大きい対象'
+        }
       }
     },
     add_debuff: {
@@ -584,6 +880,15 @@ class AbilityEffect < ApplicationRecord
         add_down: 'ダウンさせた時',
         add_curse: '呪いを与えた時',
         heal_action: '回復行動時'
+      },
+      sub_condition: {
+        skill: {
+          in_combo: 'コンボ中のみ',
+          has_mana_m: '魔マナを所持',
+          has_mana_fk: '戦/騎マナを所持',
+          has_mana_fkap: '魔マナ以外を所持',
+          has_mana_fkap_all: '戦＋騎＋弓＋僧マナを所持'
+        }
       },
       target: {
         enemy: '敵',
@@ -681,11 +986,22 @@ class AbilityEffect < ApplicationRecord
         wave_start: '各WAVE開始時',
         use_mana: 'マナが使用された時'
       },
+      sub_condition: {
+        skill: {
+          has_mana_m: '魔マナを所持',
+          has_mana_fk: '戦/騎マナを所持'
+        }
+      },
       target: {
         self: '自分',
         all: '全員',
         job_k: '騎士',
         job_fp: '戦/僧'
+      },
+      sub_target: {
+        job_k: {
+          nearest: '一番近い対象'
+        }
       }
     },
     killer: {
@@ -729,6 +1045,49 @@ class AbilityEffect < ApplicationRecord
         recycle_scrap: 'スクラップをマナに変換',
         destroy_scrap: 'スクラップを破壊'
       },
+      sub_effect: {
+        mana_charge: {
+          mana_f: '戦マナ',
+          mana_k: '騎マナ',
+          mana_a: '弓マナ',
+          mana_p: '僧マナ',
+          mana_m: '魔マナ',
+          mana_fk: '戦＋騎',
+          mana_fa: '戦＋弓',
+          mana_fm: '戦＋魔',
+          mana_fp: '戦＋僧',
+          mana_ka: '騎＋弓',
+          mana_kp: '騎＋僧',
+          mana_ap: '弓＋僧',
+          mana_pm: '僧＋魔',
+          mana_all: '虹色'
+        },
+        mana_boost: {
+          mana_triple: '3つ出やすい'
+        },
+        mana_drop: {
+          mana_f: '戦マナ',
+          mana_k: '騎マナ',
+          mana_p: '僧マナ',
+          mana_m: '魔マナ'
+        },
+        composite: {
+          mana_fk: '戦＋騎',
+          mana_fa: '戦＋弓',
+          mana_fp: '戦＋僧',
+          mana_fm: '戦＋魔',
+          mana_ka: '騎＋弓',
+          mana_kp: '騎＋僧',
+          mana_km: '騎＋魔',
+          mana_ap: '弓＋僧',
+          mana_am: '弓＋魔',
+          mana_pm: '僧＋魔'
+        },
+        recycle_scrap: {
+          mana_k: '騎マナ',
+          mana_a: '弓マナ'
+        }
+      },
       condition: {
         any: 'いつでも',
         battle_start: '戦闘開始時',
@@ -740,6 +1099,18 @@ class AbilityEffect < ApplicationRecord
         dropout_self: '自身が脱落した時',
         own_skill: '自分がスキルを使った時',
         in_chain: 'チェイン発動中'
+      },
+      sub_condition: {
+        wave_start: {
+          field: '特定のフィールド'
+        },
+        kill: {
+          critical: 'クリティカル時',
+          skill: 'スキル使用時'
+        },
+        dropout_self: {
+          mana_f: '戦マナ'
+        }
       },
       target: {
         resource: ''
@@ -786,6 +1157,12 @@ class AbilityEffect < ApplicationRecord
       effect: {
         combat: '接近戦可能'
       },
+      sub_effect: {
+        combat: {
+          combat_only: '遠距離攻撃不能',
+          atkdown_shoot: '遠距離威力低下'
+        }
+      },
       condition: {
         attack: '通常攻撃時'
       },
@@ -797,6 +1174,11 @@ class AbilityEffect < ApplicationRecord
       name: '貫通',
       effect: {
         pierce: '貫通する'
+      },
+      sub_effect: {
+        pierce: {
+          bullet_speeddown: '弾速低下'
+        }
       },
       condition: {
         attack: '通常攻撃時',
@@ -812,10 +1194,21 @@ class AbilityEffect < ApplicationRecord
       name: 'カウンター',
       effect: {
         counterattack: 'カウンター攻撃',
+        counterattack_contact: 'カウンター攻撃（接触）',
         reflect_arrow: '遠距離反射',
         reflect_magic: '魔法反射'
       },
+      sub_effect: {
+        counterattack: {
+          ice: '氷属性'
+        },
+        reflect_arrow: {
+          fire: '火属性',
+          ice: '氷属性'
+        }
+      },
       condition: {
+        any: 'いつでも',
         defend: '攻撃を受けた時',
         guard: 'ガードした時'
       },
@@ -873,6 +1266,16 @@ class AbilityEffect < ApplicationRecord
     ret
   end.call.freeze
 
+  SUB_EFFECTS = lambda do
+    ret = {}
+    CATEGORYS.each_value do |v|
+      v.fetch(:sub_effect, {}).values.each do |s|
+        ret.merge!(s)
+      end
+    end
+    ret
+  end.call.freeze
+
   CONDITIONS = lambda do
     ret = {}
     CATEGORYS.each_value do |v|
@@ -881,10 +1284,30 @@ class AbilityEffect < ApplicationRecord
     ret
   end.call.freeze
 
+  SUB_CONDITIONS = lambda do
+    ret = {}
+    CATEGORYS.each_value do |v|
+      v.fetch(:sub_condition, {}).values.each do |s|
+        ret.merge!(s)
+      end
+    end
+    ret
+  end.call.freeze
+
   TARGETS = lambda do
     ret = {}
     CATEGORYS.each_value do |v|
       ret.merge!(v.fetch(:target, {}))
+    end
+    ret
+  end.call.freeze
+
+  SUB_TARGETS = lambda do
+    ret = {}
+    CATEGORYS.each_value do |v|
+      v.fetch(:sub_target, {}).values.each do |s|
+        ret.merge!(s)
+      end
     end
     ret
   end.call.freeze
@@ -907,6 +1330,19 @@ class AbilityEffect < ApplicationRecord
     ret
   end.call.freeze
 
+  SUB_EFFECT_CONDS = lambda do
+    ret = {}
+    CATEGORYS.each do |k, v|
+      next if k == :unknown
+      sret = {}
+      v.fetch(:sub_effect, {}).each do |sk, sv|
+        sret[sk] = sv.to_a
+      end
+      ret[k] = sret
+    end
+    ret
+  end.call.freeze
+
   CONDITION_CONDS = lambda do
     ret = {}
     CATEGORYS.each do |k, v|
@@ -916,11 +1352,37 @@ class AbilityEffect < ApplicationRecord
     ret
   end.call.freeze
 
+  SUB_CONDITION_CONDS = lambda do
+    ret = {}
+    CATEGORYS.each do |k, v|
+      next if k == :unknown
+      sret = {}
+      v.fetch(:sub_condition, {}).each do |sk, sv|
+        sret[sk] = sv.to_a
+      end
+      ret[k] = sret
+    end
+    ret
+  end.call.freeze
+
   TARGET_CONDS = lambda do
     ret = {}
     CATEGORYS.each do |k, v|
       next if k == :unknown
       ret[k] = v.fetch(:target, {}).to_a
+    end
+    ret
+  end.call.freeze
+
+  SUB_TARGET_CONDS = lambda do
+    ret = {}
+    CATEGORYS.each do |k, v|
+      next if k == :unknown
+      sret = {}
+      v.fetch(:sub_target, {}).each do |sk, sv|
+        sret[sk] = sv.to_a
+      end
+      ret[k] = sret
     end
     ret
   end.call.freeze
@@ -978,7 +1440,7 @@ class AbilityEffect < ApplicationRecord
     job_f: JOB_TARGETS.select { |t| t.match(/f/) },
     job_k: JOB_TARGETS.select { |t| t.match(/k/) },
     job_a: JOB_TARGETS.select { |t| t.match(/a/) },
-    job_h: JOB_TARGETS.select { |t| t.match(/h/) },
+    job_p: JOB_TARGETS.select { |t| t.match(/p/) },
     job_m: JOB_TARGETS.select { |t| t.match(/m/) },
     weapon_sl: WEAPON_TARGETS.select { |t| t.match(/sl/) },
     weapon_bl: WEAPON_TARGETS.select { |t| t.match(/bl/) },
@@ -993,8 +1455,10 @@ class AbilityEffect < ApplicationRecord
 
   class << self
     def chain_ability_categorys
-      cs = Ability.chain_ability_ids
-      keys = AbilityEffect.where(ability_id: cs).uniq.pluck(:category)
+      keys = AbilityEffect.joins(:ability)
+                          .merge(Ability.chain_abilities)
+                          .distinct
+                          .pluck(:category)
 
       ret = []
       CATEGORYS.each do |k, v|
@@ -1017,11 +1481,26 @@ class AbilityEffect < ApplicationRecord
       create_chain_conds(:target)
     end
 
+    def chain_ability_sub_effects
+      create_chain_sub_conds(:effect)
+    end
+
+    def chain_ability_sub_conditions
+      create_chain_sub_conds(:condition)
+    end
+
+    def chain_ability_sub_targets
+      create_chain_sub_conds(:target)
+    end
+
     private
 
     def create_chain_conds(key)
-      cs = Ability.chain_ability_ids
-      conds = AbilityEffect.where(ability_id: cs).select(:category, key).distinct.pluck(:category, key)
+      conds = AbilityEffect.joins(:ability)
+                           .merge(Ability.chain_abilities)
+                           .distinct
+                           .pluck(:category, key)
+
       cos = conds.each_with_object({}) do |co, h|
         cate = co.first.to_sym
         h[cate] ||= []
@@ -1039,6 +1518,42 @@ class AbilityEffect < ApplicationRecord
           next unless has.include?(co)
           ret[k] << [co, name]
         end
+      end
+      ret
+    end
+
+    # NOTE: 今のところ未使用
+    def create_chain_sub_conds(key)
+      sub_key = "sub_#{key}".to_sym
+      conds = AbilityEffect.joins(:ability)
+                           .merge(Ability.chain_abilities)
+                           .distinct
+                           .pluck(:category, key, sub_key)
+
+      cos = conds.each_with_object({}) do |co, h|
+        cate, fk, sk = co.map(&:to_sym)
+        h[cate] ||= {}
+        h[cate][fk] ||= []
+        h[cate][fk] << sk
+      end
+
+      ret = {}
+      CATEGORYS.each do |k, v|
+        next if k == :unknown
+        has = cos[k]
+        next unless has
+
+        sret = {}
+        v.fetch(sub_key, {}).each do |sk, sv|
+          next unless has[sk]
+          li = []
+          sv.each do |ssk, name|
+            next unless has[sk].include?(ssk)
+            li << [ssk, name]
+          end
+          sret[sk] = li if li.present?
+        end
+        ret[k] = sret if sret.present?
       end
       ret
     end
@@ -1066,9 +1581,12 @@ class AbilityEffect < ApplicationRecord
     ef = {}
     ef['category'] = CATEGORYS.fetch(self.category.to_sym, {}).fetch(:name, '')
     ef['condition'] = CONDITIONS.fetch(self.condition.to_sym, '')
+    ef['sub_condition'] = SUB_CONDITIONS.fetch(self.sub_condition.to_sym, '')
     ef['effect'] = EFFECTS.fetch(self.effect.to_sym, '')
+    ef['sub_effect'] = SUB_EFFECTS.fetch(self.sub_effect.to_sym, '')
     ef['target'] = TARGETS.fetch(self.target.to_sym, '')
-    ef['note'] = self.note
+    ef['sub_target'] = SUB_TARGETS.fetch(self.sub_target.to_sym, '')
+    ef['note'] = self.note.to_s
     ef
   end
 end
