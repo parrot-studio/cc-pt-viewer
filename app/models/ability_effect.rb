@@ -1068,6 +1068,7 @@ class AbilityEffect < ApplicationRecord
         mana_drop: {
           mana_f: '戦マナ',
           mana_k: '騎マナ',
+          mana_a: '弓マナ',
           mana_p: '僧マナ',
           mana_m: '魔マナ'
         },
@@ -1106,6 +1107,9 @@ class AbilityEffect < ApplicationRecord
         },
         kill: {
           critical: 'クリティカル時',
+          skill: 'スキル使用時'
+        },
+        kill_count: {
           skill: 'スキル使用時'
         },
         dropout_self: {
