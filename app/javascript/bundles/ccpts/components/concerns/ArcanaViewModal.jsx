@@ -32,9 +32,6 @@ export default class ArcanaViewModal extends React.Component {
         case "forward":
           multi = " => "
           break
-        case "either":
-          multi = " または "
-          break
         default:
           multi = ""
       }
@@ -103,21 +100,25 @@ export default class ArcanaViewModal extends React.Component {
     const abs = _.map(_.zip(ab.effects, _.range(ab.effects.length)), (t) => {
       const e = t[0]
       let str = `${e.condition}`
-      if (!_.isEmpty(e.subCondition)) {
-        str = str.concat(`(${e.subCondition})`)
+      const cs = _.compact([e.subCondition, e.conditionNote])
+      if (!_.isEmpty(cs)) {
+        str = str.concat(`( ${cs.join(" / ")} )`)
       }
       str = str.concat(` - ${e.effect}`)
       if (!_.isEmpty(e.subEffect)) {
-        str = str.concat(`/${e.subEffect}`)
+        str = str.concat(` / ${e.subEffect}`)
+      }
+      if (!_.isEmpty(e.effectNote)) {
+        str = str.concat(`( ${e.effectNote} )`)
       }
       if (!_.isEmpty(e.target)) {
-        str = str.concat(`:${e.target}`)
+        str = str.concat(` : ${e.target}`)
       }
       if (!_.isEmpty(e.subTarget)) {
-        str = str.concat(`/${e.subTarget}`)
+        str = str.concat(` / ${e.subTarget}`)
       }
-      if (!_.isEmpty(e.note)) {
-        str = str.concat(` (${e.note})`)
+      if (!_.isEmpty(e.targetNote)) {
+        str = str.concat(` ( ${e.targetNote} )`)
       }
       return <li key={t[1]}>{str}</li>
     })

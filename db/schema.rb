@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_02_043630) do
+ActiveRecord::Schema.define(version: 2018_07_18_072459) do
 
   create_table "abilities", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "arcana_id", null: false
@@ -32,10 +32,13 @@ ActiveRecord::Schema.define(version: 2018_05_02_043630) do
     t.string "category", limit: 100, null: false
     t.string "condition", limit: 100, null: false
     t.string "sub_condition", limit: 100, null: false
+    t.string "condition_note", limit: 100, null: false
     t.string "effect", limit: 100, null: false
     t.string "sub_effect", limit: 100, null: false
+    t.string "effect_note", limit: 100, null: false
     t.string "target", limit: 100, null: false
     t.string "sub_target", limit: 100, null: false
+    t.string "target_note", limit: 100, null: false
     t.string "note", limit: 300, default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

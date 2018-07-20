@@ -31,7 +31,7 @@ public/images/ 以下の素材画像はSEGAのガイドラインに従う形で�
   &copy; SEGA / &copy; SEGA Networks
 
   >『セガR&D1サポーターズサイト』ガイドライン
-  http://rd1supporters.sega.jp/guideline/
+  http://rd1supporters.sega.jp/guideline/ （閉鎖）
 
 Author
 ---------------

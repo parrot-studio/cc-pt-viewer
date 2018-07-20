@@ -376,6 +376,8 @@ class ArcanaImporter
           subcond = AbilityEffect::CATEGORYS.dig(effect.category.to_sym, :sub_condition, effect.condition.to_sym) || {}
           raise "sub_condition not found => #{abi.name} #{effect.category}-#{effect.condition}-#{effect.sub_condition}" unless subcond.key?(effect.sub_condition.to_sym)
         end
+        effect.condition_note = data.shift.to_s
+
         effect.effect = data.shift.to_s
         raise "effect not found => #{abi.name} #{effect.category}-#{effect.effect}" unless AbilityEffect::EFFECTS.key?(effect.effect.to_sym)
         effect.sub_effect = data.shift.to_s
@@ -387,6 +389,8 @@ class ArcanaImporter
         elsif effect.effect == 'mana_charge'
           effect.sub_effect = "mana_#{abi.job_code[0].downcase}" # 自身のマナ指定
         end
+        effect.effect_note = data.shift.to_s
+
         effect.target = data.shift.to_s
         raise "target not found => #{abi.name} #{effect.category}-#{effect.target}" unless AbilityEffect::TARGETS.key?(effect.target.to_sym)
         effect.sub_target = data.shift.to_s
@@ -394,6 +398,8 @@ class ArcanaImporter
           subtarget = AbilityEffect::CATEGORYS.dig(effect.category.to_sym, :sub_target, effect.target.to_sym) || {}
           raise "sub_target not found => #{abi.name} #{effect.category}-#{effect.target}-#{effect.sub_target}" unless subtarget.key?(effect.sub_target.to_sym)
         end
+        effect.target_note = data.shift.to_s
+
         effect.note = data.shift.to_s
 
         # 組み合わせチェック

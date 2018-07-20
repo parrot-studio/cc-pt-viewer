@@ -11,11 +11,13 @@ export default class Ability {
         category: e.category,
         condition: e.condition,
         subCondition: e.sub_condition,
+        conditionNote: e.condition_note,
         effect: e.effect,
         subEffect: e.sub_effect,
+        effectNote: e.effect_note,
         target: e.target,
         subTarget: e.sub_target,
-        note: (e.note || "")
+        targetNote: e.target_note
       }))
     }
   }

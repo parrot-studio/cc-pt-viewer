@@ -2,19 +2,22 @@
 #
 # Table name: ability_effects
 #
-#  id            :integer          not null, primary key
-#  ability_id    :integer          not null
-#  order         :integer          not null
-#  category      :string(100)      not null
-#  condition     :string(100)      not null
-#  sub_condition :string(100)      not null
-#  effect        :string(100)      not null
-#  sub_effect    :string(100)      not null
-#  target        :string(100)      not null
-#  sub_target    :string(100)      not null
-#  note          :string(300)      default(""), not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  id             :integer          not null, primary key
+#  ability_id     :integer          not null
+#  order          :integer          not null
+#  category       :string(100)      not null
+#  condition      :string(100)      not null
+#  sub_condition  :string(100)      not null
+#  condition_note :string(100)      not null
+#  effect         :string(100)      not null
+#  sub_effect     :string(100)      not null
+#  effect_note    :string(100)      not null
+#  target         :string(100)      not null
+#  sub_target     :string(100)      not null
+#  target_note    :string(100)      not null
+#  note           :string(300)      default(""), not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
 #
 # Indexes
 #
@@ -240,6 +243,7 @@ class AbilityEffect < ApplicationRecord
           mana_fk: '戦/騎マナ',
           mana_fm: '戦/魔マナ',
           mana_ka: '騎/弓マナ',
+          mana_pm: '僧/魔マナ',
           mana_fk_all: '戦＋騎マナ',
           mana_fm_all: '戦＋魔マナ'
         },
@@ -341,6 +345,7 @@ class AbilityEffect < ApplicationRecord
           mana_f: '戦マナ',
           mana_p: '僧マナ',
           mana_m: '魔マナ',
+          mana_pm: '僧/魔マナ',
           mana_kapm: '戦マナ以外'
         }
       },
@@ -542,10 +547,14 @@ class AbilityEffect < ApplicationRecord
         any: 'いつでも',
         with_f: '戦士がいる時',
         with_a: '弓使いがいる時',
+        with_slma: '<<斬/魔>>がいる時',
         with_slpu: '<<斬/拳>>がいる時',
         wave_start: '各WAVE開始時'
       },
       sub_condition: {
+        with_slma: {
+          include_self: '自身を含む'
+        },
         with_slpu: {
           include_self: '自身を含む'
         }
@@ -814,7 +823,8 @@ class AbilityEffect < ApplicationRecord
         mana_droped: {
           mana_k: '騎マナ',
           mana_p: '僧マナ',
-          mana_fm: '戦/魔マナ'
+          mana_fm: '戦/魔マナ',
+          mana_pm: '僧/魔マナ'
         },
         job_skill: {
           job_ka: '騎/弓'
@@ -1102,6 +1112,12 @@ class AbilityEffect < ApplicationRecord
         in_chain: 'チェイン発動中'
       },
       sub_condition: {
+        battle_start: {
+          with_f: '戦士がいる特',
+          with_k: '騎士がいる時',
+          with_p: '僧侶がいる時',
+          with_m: '魔法使いがいる時'
+        },
         wave_start: {
           field: '特定のフィールド'
         },
@@ -1586,11 +1602,13 @@ class AbilityEffect < ApplicationRecord
     ef['category'] = CATEGORYS.fetch(self.category.to_sym, {}).fetch(:name, '')
     ef['condition'] = CONDITIONS.fetch(self.condition.to_sym, '')
     ef['sub_condition'] = SUB_CONDITIONS.fetch(self.sub_condition.to_sym, '')
+    ef['condition_note'] = self.condition_note.to_s
     ef['effect'] = EFFECTS.fetch(self.effect.to_sym, '')
     ef['sub_effect'] = SUB_EFFECTS.fetch(self.sub_effect.to_sym, '')
+    ef['effect_note'] = self.effect_note.to_s
     ef['target'] = TARGETS.fetch(self.target.to_sym, '')
     ef['sub_target'] = SUB_TARGETS.fetch(self.sub_target.to_sym, '')
-    ef['note'] = self.note.to_s
+    ef['target_note'] = self.target_note.to_s
     ef
   end
 end
