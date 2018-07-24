@@ -163,6 +163,7 @@ class AbilityEffect < ApplicationRecord
         with_criminal: '所属：罪の大陸がいる時',
         with_machine: '所属：鉄煙がいる時',
         with_demon: '所属：魔神がいる時',
+        with_others: '所属：旅人がいる時',
         same_abilities: '同じアビリティを持った味方がいる時',
         kill: '敵を倒した時',
         kill_debuff: '状態異常の敵を倒した時',
@@ -315,7 +316,6 @@ class AbilityEffect < ApplicationRecord
         boss_wave: 'BOSS WAVE時',
         own_skill: '自分がスキルを使った時',
         others_skill: '味方がスキルを使った時',
-        job_skill: '特定の職がスキルを使った時',
         any_skill: '誰かがスキルを使った時',
         dropout_self: '自身が脱落した時',
         dropout_member: '味方が脱落した時',
@@ -338,15 +338,18 @@ class AbilityEffect < ApplicationRecord
           job_m: '魔法使い',
           job_fm: '戦/魔'
         },
-        job_skill: {
-          job_m: '魔法使い'
-        },
         mana_droped: {
           mana_f: '戦マナ',
           mana_p: '僧マナ',
           mana_m: '魔マナ',
           mana_pm: '僧/魔マナ',
           mana_kapm: '戦マナ以外'
+        },
+        use_mana: {
+          self: '自身',
+          other: '味方',
+          mana_m: '魔マナ',
+          mana_fpm: '戦/僧/魔マナ'
         }
       },
       target: {
