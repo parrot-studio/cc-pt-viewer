@@ -667,6 +667,9 @@ class AbilityEffect < ApplicationRecord
         group_machine: {
           nearest: '一番近い対象',
           weapon_argush: '<<弓/銃/狙>>'
+        },
+        group_demon: {
+          nearest: '一番近い対象'
         }
       }
     },
@@ -761,6 +764,7 @@ class AbilityEffect < ApplicationRecord
         heal_cycle: '徐々に回復',
         heal_one: '一人を回復',
         heal_jobs: '特定の職を回復',
+        heal_group: '特定の所属を回復',
         heal_all: '全員を回復',
         absorb: '与えたダメージを吸収',
         heal_action: '回復行動を取る'
@@ -846,7 +850,8 @@ class AbilityEffect < ApplicationRecord
         job_kp: '騎/僧',
         weapon_sl: '<<斬>>',
         weapon_pi: '<<突>>',
-        weapon_blpi: '<<打/突>>'
+        weapon_blpi: '<<打/突>>',
+        group_demon: '魔神所属'
       },
       sub_target: {
         job_f: {
