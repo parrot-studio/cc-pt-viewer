@@ -41,7 +41,7 @@ class ArcanaCache
     def recently(size = nil)
       size ||= ServerSettings.recently
       with_object_cache("recently:#{ServerSettings.data_version}:#{size}") do
-        codes = Arcana.order(Arcana.arel_table[:id].desc).limit(size).distinct.pluck(:job_code)
+        codes = Arcana.order(id: :desc).limit(size).pluck(:job_code)
         for_codes(codes)
       end
     end

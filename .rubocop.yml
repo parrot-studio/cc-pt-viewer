@@ -1,12 +1,13 @@
 AllCops:
   Exclude:
     - 'db/**/*'
-    - 'config/unicorn.rb'
     - 'bin/**/*'
     - 'vendor/**/*'
     - 'test/**/*'
     - 'tmp/**/*'
     - 'node_modules/**/*'
+    - 'config/deploy.rb'
+    - 'config/deploy/*'
   TargetRubyVersion: 2.5
   DisplayCopNames: true
 

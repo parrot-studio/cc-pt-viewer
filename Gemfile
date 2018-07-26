@@ -80,3 +80,13 @@ gem 'redis', '>= 3.2.0', require: ['redis', 'redis/connection/hiredis']
 gem 'redis-namespace'
 gem 'oj'
 gem 'oj_mimic_json'
+
+# deploy
+group :deployment do
+  gem 'capistrano', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rbenv', require: false
+  gem 'capistrano3-puma', require: false
+  gem 'capistrano-yarn', require: false
+end
