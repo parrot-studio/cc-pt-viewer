@@ -137,6 +137,7 @@ class AbilityEffect < ApplicationRecord
         counter: 'カウンター発生時',
         wave_start: '各WAVE開始時',
         boss_wave: 'BOSS WAVE時',
+        wave_span: '一定WAVE進むごとに',
         with_f: '戦士がいる時',
         with_k: '騎士がいる時',
         with_a: '弓使いがいる時',

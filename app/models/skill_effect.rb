@@ -76,6 +76,7 @@ class SkillEffect < ApplicationRecord
         bullets: '連射',
         chain: '周囲に連鎖',
         bombard: '砲撃',
+        slashing: '斬撃',
         bombshoot: '爆弾付与',
         boomerang: 'ブーメラン',
         slicer: 'スライサー',
@@ -280,6 +281,7 @@ class SkillEffect < ApplicationRecord
         ice: '氷属性',
         heal_cycle: '徐々に回復',
         against_dropout: '戦闘不能にならない',
+        kill_mana: '倒したらマナドロップ',
         create_scrap: 'スクラップ生成',
         super_skill: '超必殺技'
       }
