@@ -18,6 +18,7 @@ export default class WikiLinkModal extends React.Component {
       <a id="outside-link" href={a.wikiUrl}
         className="btn btn-primary"
         target="_blank"
+        rel="noopener noreferrer"
         onClick={this.props.closeModal}>
         {btnName}
       </a>
