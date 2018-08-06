@@ -100,18 +100,18 @@ export default class ArcanaRenderer extends React.Component {
     const maxLength = 17
 
     let render = s1.name
-    if (s2 && !_.isEmpty(s2.name)) {
+    if (s2) {
       render += `/${s2.name}`
     }
-    if (s3 && !_.isEmpty(s3.name)) {
+    if (s3) {
       render += `/${s3.name}`
     }
-    render += `(${s1.cost}`
-    if (s2 && s1.cost !== s2.cost) {
-      render += `/${s2.cost}`
+    render += `(${s1.costForView()}`
+    if (s2) {
+      render += `/${s2.costForView()}`
     }
-    if (s3 && s3.cost !== s3.cost) {
-      render += `/${s3.cost}`
+    if (s3) {
+      render += `/${s3.costForView()}`
     }
     render += ")"
 
@@ -124,14 +124,13 @@ export default class ArcanaRenderer extends React.Component {
   }
 
   renderAbilityNames(a) {
-    let abName1 = a.firstAbility.name
-    if (_.isEmpty(abName1)) {
-      abName1 = "なし"
+    let abName1 = "なし"
+    if (a.firstAbility) {
+      abName1 = a.firstAbility.name
     }
-
-    let abName2 = a.secondAbility.name
-    if (_.isEmpty(abName2)) {
-      abName2 = "なし"
+    let abName2 = "なし"
+    if (a.secondAbility) {
+      abName2 = a.secondAbility.name
     }
 
     return <span>{abName1}<br />{abName2}</span>

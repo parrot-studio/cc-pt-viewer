@@ -39,7 +39,7 @@ export default class FullCharacter extends ArcanaRenderer {
           </p>
           <dl className='small text-muted arcana-detail overflow'>
             <dt>ATK / HP</dt>
-            <dd>{`${a.maxAtk} (${a.limitAtk}) / ${a.maxHp} (${a.limitHp})`}</dd>
+            <dd>{`${a.maxAtkForView()} (${a.limitAtkForView()}) / ${a.maxHpForView()} (${a.limitHpForView()})`}</dd>
             <dt>Skill</dt>
             <dd>{this.renderSkill(a)}</dd>
             <dt>Ability</dt>

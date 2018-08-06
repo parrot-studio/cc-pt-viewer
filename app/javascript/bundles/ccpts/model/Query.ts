@@ -1,38 +1,41 @@
-import _ from "lodash"
-import ObjectHash from "object-hash"
+import * as _ from "lodash"
+import * as ObjectHash from "object-hash"
 import Conditions from "./Conditions"
 
 export default class Query {
-
-  static create(param) {
+  public static create(param: { [key: string]: any }): Query {
     return new Query(param)
   }
 
-  static parse(q) {
-    const query = new Query()
+  public static parse(q: string): Query {
+    const query = new Query({})
     query.parse(q)
     return query
   }
 
-  constructor(q) {
+  public q: { [key: string]: any } = {}
+  public detail: string
+
+  constructor(q: { [key: string]: any }) {
     this.q = (q || {})
     this.detail = ""
   }
 
-  reset() {
+  public reset(): void {
     this.q = {}
+    this.detail = ""
   }
 
-  params() {
+  public params(): { [key: string]: any } {
     return (this.q || {})
   }
 
-  isEmpty() {
+  public isEmpty(): boolean {
     return (Object.keys(this.q || {}).length <= 0)
   }
 
-  parse(q) {
-    if (!q) {
+  public parse(q: string): { [key: string]: any } {
+    if (_.isEmpty(q)) {
       q = (location.search.replace(/(^\?)/, "") || "")
     }
     this.reset()
@@ -40,9 +43,9 @@ export default class Query {
       return {}
     }
 
-    let ret = {}
+    let ret: { [key: string]: any } = {}
     let recently = false
-    let name = null
+    let name: string = ""
     const r = /\+/g
     _.forEach(q.split("&"), (qs) => {
       const ss = qs.split("=")
@@ -50,7 +53,7 @@ export default class Query {
       const v = ss[1]
 
       const val = decodeURIComponent(v).replace(r, " ")
-      if (_.eq(n, "ver")) {
+      if (n === "ver") {
         return
       }
       switch (n) {
@@ -61,17 +64,17 @@ export default class Query {
           name = val
           break
         case "illustratorname":
-          ret["illustrator"] = Conditions.illustratorIdFor(val)
+          ret.illustrator = Conditions.illustratorIdFor(val)
           break
         case "actorname":
-          ret["actor"] = Conditions.voiceactorIdFor(val)
+          ret.actor = Conditions.voiceactorIdFor(val)
           break
         default:
           ret[n] = val
       }
     })
     if (recently) {
-      return
+      return {}
     }
     if (!_.isEmpty(name)) {
       ret = { name }
@@ -80,20 +83,20 @@ export default class Query {
     return this.q
   }
 
-  encode() {
+  public encode(): string {
     if (!this.q || this.q.recently) {
       return ""
     }
-    let query = _.transform(this.q, (ret, v, n) => {
-      if (_.eq(n, "ver")) {
+    let query: { [key: string]: any } = _.transform(this.q, (ret: { [key: string]: any }, v, n) => {
+      if (n === "ver") {
         return
       }
       switch (n) {
         case "illustrator":
-          ret["illustratorname"] = Conditions.illustratorNameFor(v)
+          ret.illustratorname = Conditions.illustratorNameFor(v)
           break
         case "actor":
-          ret["actorname"] = Conditions.voiceactorNameFor(v)
+          ret.actorname = Conditions.voiceactorNameFor(v)
           break
         default:
           if (!_.isEmpty(v)) {
@@ -105,14 +108,14 @@ export default class Query {
       query = { name: query.name }
     }
 
-    const rs = []
+    const rs: string[] = []
     _.forEach(query, (v, k) => {
       rs.push(`${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
     })
     return rs.join("&").replace(" ", "+")
   }
 
-  isQueryForRecently() {
+  public isQueryForRecently(): boolean {
     if (!this.q) {
       return false
     }
@@ -122,7 +125,7 @@ export default class Query {
     return false
   }
 
-  isQueryForName() {
+  public isQueryForName(): boolean {
     if (!this.q) {
       return false
     }
@@ -135,7 +138,7 @@ export default class Query {
     return false
   }
 
-  createKey() {
+  public createKey(): string {
     const query = _.omit((this.q || {}), "ver")
     return ObjectHash(query)
   }

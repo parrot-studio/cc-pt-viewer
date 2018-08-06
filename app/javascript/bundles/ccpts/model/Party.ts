@@ -1,35 +1,40 @@
-import _ from "lodash"
+import * as _ from "lodash"
 
 import Arcana from "./Arcana"
 import Member from "./Member"
 
-const __party_MEMBER_KEY = ["mem1", "mem2", "mem3", "mem4", "sub1", "sub2", "friend"]
-
 export default class Party {
+  public static ptver: string
 
-  static create() {
+  public static create(): Party {
     const pt = new Party()
     pt.build({})
     return pt
   }
 
-  static build(data) {
-    const as = _.mapValues(data, (d) => Arcana.build(d))
+  public static build(data: any): Party {
+    const as = _.mapValues(data, (d: any) => Arcana.build(d))
     const pt = new Party()
     pt.build(as)
     return pt
   }
+
+  private static readonly FRIEND_KEY: string = "friend"
+  private static readonly MEMBER_KEY: string[] = ["mem1", "mem2", "mem3", "mem4", "sub1", "sub2", Party.FRIEND_KEY]
+
+  public members: { [key: string]: Member | null } = {}
+  public cost: number
 
   constructor() {
     this.members = {}
     this.cost = 0
   }
 
-  createCode() {
+  public createCode(): string {
     const header = `V${Party.ptver}`
     const mems = this.members
     let code = ""
-    _.forEach(__party_MEMBER_KEY, (k) => {
+    _.forEach(Party.MEMBER_KEY, (k) => {
       const m = mems[k]
       if (m) {
         code = code + m.arcana.jobCode
@@ -49,8 +54,8 @@ export default class Party {
     return (header + code)
   }
 
-  build(as) {
-    _.forEach(__party_MEMBER_KEY, (k) => {
+  public build(as: any): void {
+    _.forEach(Party.MEMBER_KEY, (k) => {
       const mb = as[k]
       const mc = as[`${k}c`]
       if (mb) {
@@ -65,26 +70,26 @@ export default class Party {
     })
   }
 
-  memberFor(key) {
+  public memberFor(key: string): Member | null {
     return this.members[key]
   }
 
-  addMember(key, m) {
-    if (m && key != "friend") {
-      this.members = this._removeDuplicateMember(this.members, m)
+  public addMember(key: string, m: Member | null): void {
+    if (m && key !== Party.FRIEND_KEY) {
+      this.removeDuplicateMember(m)
     }
     if (m) {
       m.memberKey = key
     }
     this.members[key] = m
-    this.cost = this._costForMembers(this.members)
+    this.cost = this.costForMembers()
   }
 
-  removeMember(key) {
+  public removeMember(key: string): void {
     this.addMember(key, null)
   }
 
-  removeChain(key) {
+  public removeChain(key: string): void {
     const m = this.memberFor(key)
     if (!m) {
       return
@@ -92,20 +97,20 @@ export default class Party {
     this.addMember(key, new Member(m.arcana))
   }
 
-  reset() {
+  public reset(): void {
     this.members = {}
     this.cost = 0
   }
 
-  swap(ak, bk) {
+  public swap(ak: string, bk: string): void {
     const am = this.memberFor(ak)
     const bm = this.memberFor(bk)
     this.addMember(ak, bm)
     this.addMember(bk, am)
   }
 
-  copyFromFriend(k) {
-    const fm = this.memberFor("friend")
+  public copyFromFriend(k: string): void {
+    const fm = this.memberFor(Party.FRIEND_KEY)
     if (!fm) {
       return
     }
@@ -114,19 +119,20 @@ export default class Party {
     this.addMember(k, m)
   }
 
-  _removeDuplicateMember(mems, target) {
+  private removeDuplicateMember(target: Member): void {
     const ta = target.arcana
     const tc = target.chainArcana
 
-    _.forEach(__party_MEMBER_KEY, (k) => {
-      if (_.eq(k, "friend")) {
+    const mems = this.members
+    _.forEach(Party.MEMBER_KEY, (k) => {
+      if (k === Party.FRIEND_KEY) {
         return
       }
       const m = mems[k]
       if (!m) {
         return
       }
-      if (Arcana.sameCharacter(m.arcana, ta) || Arcana.sameArcana(m.arcana, tc)) {
+      if (Arcana.sameArcana(m.arcana, ta) || Arcana.sameArcana(m.arcana, tc)) {
         mems[k] = null
         return
       }
@@ -134,17 +140,17 @@ export default class Party {
       if (!m.chainArcana) {
         return
       }
-      if (Arcana.sameArcana(m.chainArcana, ta) || Arcana.sameCharacter(m.chainArcana, tc)) {
+      if (Arcana.sameArcana(m.chainArcana, ta) || Arcana.sameArcana(m.chainArcana, tc)) {
         mems[k] = new Member(m.arcana)
       }
     })
-    return mems
+    this.members = mems
   }
 
-  _costForMembers(mems) {
+  private costForMembers(): number {
     let cost = 0
-    _.forEach(mems, (m, k) => {
-      if (_.eq(k, "friend") || !m) {
+    _.forEach(this.members, (m, k) => {
+      if (k === Party.FRIEND_KEY || !m) {
         return
       }
       cost = cost + m.chainedCost()

@@ -28,15 +28,15 @@ export default class ArcanaViewModal extends React.Component {
     const ss = _.map(_.zip(sk.effects, _.range(sk.effects.length)), (t) => {
       const ef = t[0]
       let multi = ""
-      switch (ef.multi_type) {
+      switch (ef.multiType) {
         case "forward":
           multi = " => "
           break
         default:
           multi = ""
       }
-      if (!_.isEmpty(ef.multi_condition)) {
-        multi = `（${multi} ${ef.multi_condition} ）`
+      if (!_.isEmpty(ef.multiCondition)) {
+        multi = `（${multi} ${ef.multiCondition} ）`
       }
 
       const ses = Skill.subEffectForEffect(ef)
@@ -51,14 +51,9 @@ export default class ArcanaViewModal extends React.Component {
       return <li key={t[1]}>{`${multi}${ef.category} - ${ef.subcategory}${sv}`}</li>
     })
 
-    let cost = sk.cost
-    if (_.isInteger(cost) && cost < 1) {
-      cost = "-"
-    }
-
     return (
       <div key={ind}>
-        {sk.name}（{cost}）
+        {sk.name}（{sk.costForView()}）
         <ul className='small list-unstyled ability-detail'>
           {ss}
         </ul>
@@ -312,9 +307,9 @@ export default class ArcanaViewModal extends React.Component {
                     <dd>{a.jobDetail}</dd>
                     <dt>ATK / HP</dt>
                     <dd>
-                      {`${a.maxAtk} / ${a.maxHp}`}
+                      {`${a.maxAtkForView()} / ${a.maxHpForView()}`}
                       <br />
-                      {`( ${a.limitAtk} / ${a.limitHp} )`}
+                      {`( ${a.limitAtkForView()} / ${a.limitHpForView()} )`}
                     </dd>
                     <dt>武器タイプ</dt>
                     <dd>{a.weaponName}</dd>

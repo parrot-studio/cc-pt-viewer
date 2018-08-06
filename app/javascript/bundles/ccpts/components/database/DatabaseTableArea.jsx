@@ -154,10 +154,10 @@ export default class DatabaseTableArea extends ResultView {
       if (!phone) {
         body.push(<td key={`${a.jobCode}.cost`}>{`${a.cost} ( ${a.chainCost} )`}</td>)
         body.push(<td key={`${a.jobCode}.weaponName`}>{a.weaponName}</td>)
-        body.push(<td key={`${a.jobCode}.maxAtk`}>{a.maxAtk}</td>)
-        body.push(<td key={`${a.jobCode}.maxHp`}>{a.maxHp}</td>)
-        body.push(<td key={`${a.jobCode}.limitAtk`}>{a.limitAtk}</td>)
-        body.push(<td key={`${a.jobCode}.limitHp`}>{a.limitHp}</td>)
+        body.push(<td key={`${a.jobCode}.maxAtk`}>{a.maxAtkForView()}</td>)
+        body.push(<td key={`${a.jobCode}.maxHp`}>{a.maxHpForView()}</td>)
+        body.push(<td key={`${a.jobCode}.limitAtk`}>{a.limitAtkForView()}</td>)
+        body.push(<td key={`${a.jobCode}.limitHp`}>{a.limitHpForView()}</td>)
         body.push(<td key={`${a.jobCode}.union`}>{a.union}</td>)
       }
       return (<tr key={a.jobCode}>{body}</tr>)

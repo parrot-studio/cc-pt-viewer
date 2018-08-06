@@ -48,6 +48,7 @@ export default class AppView extends React.Component {
         break
     }
 
+    MessageStream.conditionStream.plug(MessageStream.queryStream)
     const recentlyQuery = Query.create({ recently: recentlySize })
     const searchStream = MessageStream.queryStream
       .doAction(() => this.switchMainMode())

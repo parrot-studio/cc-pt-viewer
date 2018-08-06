@@ -1,12 +1,18 @@
-import _ from "lodash"
+import * as _ from "lodash"
+import Arcana from "../model/Arcana"
 
-export default class Pager {
-
-  static create(list = [], psize = 8) {
+export default class Pager<T extends Arcana> {
+  public static create(list: Arcana[] = [], psize = 8): Pager<Arcana> {
     return new Pager(list, psize)
   }
 
-  constructor(list = [], psize = 8) {
+  public all: T[] = []
+  public size: number
+  public pageSize: number
+  public maxPage: number
+  public page: number
+
+  constructor(list: T[] = [], psize = 8) {
     this.all = list
     this.size = list.length
     this.pageSize = psize
@@ -17,11 +23,11 @@ export default class Pager {
     this.page = 1
   }
 
-  head() {
+  public head(): number {
     return ((this.page - 1) * this.pageSize) + 1
   }
 
-  tail() {
+  public tail(): number {
     let t = (this.page * this.pageSize)
     if (t >= this.all.length) {
       t = this.all.length
@@ -29,13 +35,13 @@ export default class Pager {
     return t
   }
 
-  get() {
+  public get(): T[] {
     const h = this.head() - 1
     const t = this.tail()
     return _.slice(this.all, h, t)
   }
 
-  nextPage() {
+  public nextPage(): number {
     this.page = this.page + 1
     if (this.page > this.maxPage) {
       this.page = this.maxPage
@@ -43,7 +49,7 @@ export default class Pager {
     return this.page
   }
 
-  prevPage() {
+  public prevPage(): number {
     this.page = this.page - 1
     if (this.page < 0) {
       this.page = 1
@@ -51,16 +57,21 @@ export default class Pager {
     return this.page
   }
 
-  hasNextPage() {
+  public hasNextPage(): boolean {
     return (this.page < this.maxPage)
   }
 
-  hasPrevPage() {
+  public hasPrevPage(): boolean {
     return (this.page > 1)
   }
 
-  jumpPage(p) {
-    this.page = parseInt(p)
+  public jumpPage(p: number | string): number {
+    if (typeof p === "number") {
+      this.page = p
+    } else {
+      this.page = parseInt(p, 10)
+    }
+
     if (this.page > this.maxPage) {
       this.page = this.maxPage
     }
@@ -70,31 +81,24 @@ export default class Pager {
     return this.page
   }
 
-  sort(col, order = "desc") {
+  public sort(col: string, order: string = "desc"): T[] {
     this.all.sort((a, b) => {
-      if (_.eq(a.jobCode, b.jobCode)) {
+      if (a.jobCode === b.jobCode) {
         return 0
       }
 
-      let av = a[col]
-      if (_.eq(av, "-")) {
-        av = 0
-      }
-      let bv = b[col]
-      if (_.eq(bv, "-")) {
-        bv = 0
-      }
-
+      const av = a.valueForSort(col)
+      const bv = b.valueForSort(col)
       if (_.eq(av, bv)) {
         return 0
       } else if (av < bv) {
-        if (_.eq(order, "desc")) {
+        if (order === "desc") {
           return 1
         } else {
           return -1
         }
       } else {
-        if (_.eq(order, "desc")) {
+        if (order === "desc") {
           return -1
         } else {
           return 1

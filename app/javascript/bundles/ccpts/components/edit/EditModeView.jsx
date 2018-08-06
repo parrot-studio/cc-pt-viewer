@@ -103,7 +103,7 @@ export default class EditModeView extends React.Component {
   }
 
   initSearchTarget() {
-    MessageStream.queryStream.push("")
+    MessageStream.queryStream.push({})
     this.setState({ targetInitialized: true })
   }
 

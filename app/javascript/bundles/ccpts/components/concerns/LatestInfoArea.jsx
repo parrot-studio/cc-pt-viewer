@@ -2,7 +2,7 @@ import _ from "lodash"
 import React from "react"
 import { Alert } from "react-bootstrap"
 
-import { Cookie } from "../../lib/Cookie"
+import Cookie from "../../lib/Cookie"
 
 export default class LatestInfoArea extends React.Component {
 

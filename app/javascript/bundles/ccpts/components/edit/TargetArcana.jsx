@@ -61,7 +61,7 @@ export default class TargetArcana extends ArcanaRenderer {
             <p className='clearfix' />
             <small>
               <ul className='small text-muted list-unstyled summary-detail overflow'>
-                <li>{`${a.maxAtk} / ${a.maxHp}`}</li>
+                <li>{`${a.maxAtkForView()} / ${a.maxHpForView()}`}</li>
                 <li>{this.renderSkill(a)}</li>
                 <li>{this.renderAbilityNames(a)}</li>
                 <li className='chain-ability-name'>{`（${this.renderChainAbilityName(a)}）`}</li>

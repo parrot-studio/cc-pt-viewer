@@ -1,7 +1,7 @@
 import React from "react"
 import { Nav, NavItem } from "react-bootstrap"
 
-import { Cookie } from "../../lib/Cookie"
+import Cookie from "../../lib/Cookie"
 
 import EditTutorialArea from "./EditTutorialArea"
 import LatestInfoArea from "./LatestInfoArea"

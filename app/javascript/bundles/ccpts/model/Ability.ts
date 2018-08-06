@@ -1,8 +1,24 @@
-import _ from "lodash"
+import * as _ from "lodash"
+
+export interface AbilityEffect {
+  category: string
+  condition: string
+  subCondition: string
+  conditionNote: string
+  effect: string
+  subEffect: string
+  effectNote: string
+  target: string
+  subTarget: string
+  targetNote: string
+}
 
 export default class Ability {
+  public name: string
+  public weaponName: string
+  public effects: AbilityEffect[]
 
-  constructor(data) {
+  constructor(data: any) {
     this.name = (data.name || "")
     this.weaponName = (data.weapon_name || "")
     this.effects = []
