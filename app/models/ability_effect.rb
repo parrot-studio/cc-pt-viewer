@@ -261,6 +261,7 @@ class AbilityEffect < ApplicationRecord
           mana_fkap: '魔マナ以外'
         },
         mana_charged: {
+          mana_fm: '戦/魔マナ',
           mana_ka: '騎/弓マナ'
         },
         use_mana: {
@@ -596,6 +597,7 @@ class AbilityEffect < ApplicationRecord
         scup: '移動速度/クリティカル率上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
         adcup: '攻撃力/防御力/クリティカル率上昇',
+        adrup: '攻撃力/防御力/クリティカルダメージ上昇',
         ascup: '攻撃力/移動速度/クリティカル率上昇',
         adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
         add_down: '対象の攻撃にダウンを付与',
@@ -901,6 +903,9 @@ class AbilityEffect < ApplicationRecord
         heal_action: '回復行動時'
       },
       sub_condition: {
+        attack: {
+          in_awakening: '覚醒ゲージがMAXの時'
+        },
         skill: {
           in_combo: 'コンボ中のみ',
           has_mana_m: '魔マナを所持',
