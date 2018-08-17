@@ -243,6 +243,7 @@ class AbilityEffect < ApplicationRecord
           mana_p: '僧マナ',
           mana_m: '魔マナ',
           mana_fk: '戦/騎マナ',
+          mana_fp: '戦/僧マナ',
           mana_fm: '戦/魔マナ',
           mana_ka: '騎/弓マナ',
           mana_pm: '僧/魔マナ',
@@ -837,6 +838,7 @@ class AbilityEffect < ApplicationRecord
           mana_pm: '僧/魔マナ'
         },
         job_skill: {
+          job_fm: '戦/魔',
           job_ka: '騎/弓'
         }
       },
@@ -1161,7 +1163,8 @@ class AbilityEffect < ApplicationRecord
         acup: '攻撃力/クリティカル率上昇',
         dsup: '防御力/移動速度上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
-        adcup: '攻撃力/防御力/クリティカル率上昇'
+        adcup: '攻撃力/防御力/クリティカル率上昇',
+        ascup: '攻撃力/移動速度/クリティカル率上昇'
       },
       condition: {
         in_town: '市街で戦闘時',
