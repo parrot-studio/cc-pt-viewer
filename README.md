@@ -9,6 +9,7 @@ Description
 個人的には初めて、PCだけでなくタブレットやスマートフォンでの閲覧性も考慮しています。
 
 - Ruby 2.5
+- TypeScript
 - Rails 5.2
 - ReactOnRails 10.0
 - React.js

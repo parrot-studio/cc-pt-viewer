@@ -5,9 +5,25 @@ declare var $
 
 import Arcana from "../model/Arcana"
 import Party from "../model/Party"
-import Query from "../model/Query"
+import Query, { QueryParam } from "../model/Query"
 import QueryLogs from "../model/QueryLogs"
 import QueryResult from "../model/QueryResult"
+
+interface SearchConfig {
+  [key: string]: string
+}
+
+interface SearchDetailCache {
+  [key: string]: string
+}
+
+interface SearchResultCache {
+  [key: string]: string[]
+}
+
+interface SearchMemberCache {
+  [key: string]: any
+}
 
 export default class Searcher {
   public static init(dataVer: string, appPath: string): void {
@@ -86,7 +102,7 @@ export default class Searcher {
   public static request(text: string): Bacon.EventStream<{}, any> {
     $("#error-area").hide()
     $("#loading-modal").modal("show")
-    const params: { [key: string]: string } = {}
+    const params: QueryParam = {}
     params.text = text
 
     // NOTE: add CSRF header automatically if use jQuery's Ajax with jquery-rails
@@ -111,10 +127,10 @@ export default class Searcher {
     })
   }
 
-  private static config: { [key: string]: string } = {}
-  private static resultCache: { [key: string]: string[] } = {}
-  private static detailCache: { [key: string]: string } = {}
-  private static memberCache: { [key: string]: any } = {}
+  private static config: SearchConfig = {}
+  private static resultCache: SearchResultCache = {}
+  private static detailCache: SearchDetailCache = {}
+  private static memberCache: SearchMemberCache = {}
 
   private static search(params: any, url: string): Bacon.EventStream<{}, any> {
     $("#error-area").hide()

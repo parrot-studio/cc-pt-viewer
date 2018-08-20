@@ -2,6 +2,10 @@ import * as _ from "lodash"
 import Cookie from "../lib/Cookie"
 import MessageStream from "./MessageStream"
 
+export interface FavoritesParams {
+  [key: string]: boolean
+}
+
 export default class Favorites {
   public static stateFor(code: string): boolean {
     if (!code) {
@@ -30,14 +34,14 @@ export default class Favorites {
       }).compact().value().sort()
   }
 
-  public static clear(): { [key: string]: boolean } {
+  public static clear(): FavoritesParams {
     Favorites.favorites = {}
     Cookie.delete(Favorites.COOKIE_NAME)
     MessageStream.favoritesStream.push(Favorites.favorites)
     return Favorites.favorites
   }
 
-  public static store(): { [key: string]: boolean } {
+  public static store(): FavoritesParams {
     const fl = Favorites.list()
     const co: { [key: string]: string } = {}
     co[Favorites.COOKIE_NAME] = fl.join("/")
@@ -63,5 +67,5 @@ export default class Favorites {
 
   private static readonly COOKIE_NAME: string = "fav-arcana"
 
-  private static favorites: { [key: string]: boolean } = {}
+  private static favorites: FavoritesParams = {}
 }

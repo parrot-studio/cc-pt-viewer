@@ -2,8 +2,12 @@ import * as _ from "lodash"
 import * as ObjectHash from "object-hash"
 import Conditions from "./Conditions"
 
+export interface QueryParam {
+  [key: string]: any
+}
+
 export default class Query {
-  public static create(param: { [key: string]: any }): Query {
+  public static create(param: QueryParam): Query {
     return new Query(param)
   }
 
@@ -13,10 +17,10 @@ export default class Query {
     return query
   }
 
-  public q: { [key: string]: any } = {}
+  public q: QueryParam = {}
   public detail: string
 
-  constructor(q: { [key: string]: any }) {
+  constructor(q: QueryParam) {
     this.q = (q || {})
     this.detail = ""
   }
@@ -26,7 +30,7 @@ export default class Query {
     this.detail = ""
   }
 
-  public params(): { [key: string]: any } {
+  public params(): QueryParam {
     return (this.q || {})
   }
 
@@ -34,7 +38,7 @@ export default class Query {
     return (Object.keys(this.q || {}).length <= 0)
   }
 
-  public parse(q: string): { [key: string]: any } {
+  public parse(q: string): QueryParam {
     if (_.isEmpty(q)) {
       q = (location.search.replace(/(^\?)/, "") || "")
     }
@@ -43,7 +47,7 @@ export default class Query {
       return {}
     }
 
-    let ret: { [key: string]: any } = {}
+    let ret: QueryParam = {}
     let recently = false
     let name: string = ""
     const r = /\+/g
@@ -87,7 +91,7 @@ export default class Query {
     if (!this.q || this.q.recently) {
       return ""
     }
-    let query: { [key: string]: any } = _.transform(this.q, (ret: { [key: string]: any }, v, n) => {
+    let query: QueryParam = _.transform(this.q, (ret: QueryParam, v, n) => {
       if (n === "ver") {
         return
       }

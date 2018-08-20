@@ -2,7 +2,7 @@ import * as _ from "lodash"
 import Arcana from "../model/Arcana"
 
 export default class Pager<T extends Arcana> {
-  public static create(list: Arcana[] = [], psize = 8): Pager<Arcana> {
+  public static create(list: Arcana[], psize = 8): Pager<Arcana> {
     return new Pager(list, psize)
   }
 
@@ -12,7 +12,7 @@ export default class Pager<T extends Arcana> {
   public maxPage: number
   public page: number
 
-  constructor(list: T[] = [], psize = 8) {
+  constructor(list: T[], psize = 8) {
     this.all = list
     this.size = list.length
     this.pageSize = psize

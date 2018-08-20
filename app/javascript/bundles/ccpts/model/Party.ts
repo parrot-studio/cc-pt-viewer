@@ -3,6 +3,10 @@ import * as _ from "lodash"
 import Arcana from "./Arcana"
 import Member from "./Member"
 
+interface PartyMember {
+  [key: string]: Member | null
+}
+
 export default class Party {
   public static ptver: string
 
@@ -22,7 +26,7 @@ export default class Party {
   private static readonly FRIEND_KEY: string = "friend"
   private static readonly MEMBER_KEY: string[] = ["mem1", "mem2", "mem3", "mem4", "sub1", "sub2", Party.FRIEND_KEY]
 
-  public members: { [key: string]: Member | null } = {}
+  public members: PartyMember = {}
   public cost: number
 
   constructor() {
