@@ -84,12 +84,15 @@ export default class Arcana {
   public secondSkill: Skill | null = null
   public thirdSkill: Skill | null = null
   public inheritSkill: Skill | null = null
+  public heroicSkill: Skill | null = null
 
   public firstAbility: Ability | null = null
   public secondAbility: Ability | null = null
   public weaponAbility: Ability | null = null
   public chainAbility: Ability | null = null
   public partyAbility: Ability | null = null
+  public firstGunkiAbility: Ability | null = null
+  public secondGunkiAbility: Ability | null = null
 
   constructor(data: any) {
     this.name = data.name
@@ -137,6 +140,9 @@ export default class Arcana {
     if (!_.isEmpty(data.inherit_skill)) {
       this.inheritSkill = new Skill(data.inherit_skill)
     }
+    if (!_.isEmpty(data.heroic_skill)) {
+      this.heroicSkill = new Skill(data.heroic_skill)
+    }
 
     if (!_.isEmpty(data.first_ability)) {
       this.firstAbility = new Ability(data.first_ability)
@@ -152,6 +158,12 @@ export default class Arcana {
     }
     if (!_.isEmpty(data.party_ability)) {
       this.partyAbility = new Ability(data.party_ability)
+    }
+    if (!_.isEmpty(data.first_gunki_ability)) {
+      this.firstGunkiAbility = new Ability(data.first_gunki_ability)
+    }
+    if (!_.isEmpty(data.second_gunki_ability)) {
+      this.secondGunkiAbility = new Ability(data.second_gunki_ability)
     }
 
     if (_.isEmpty(this.wikiLinkName)) {
@@ -185,6 +197,14 @@ export default class Arcana {
       return false
     }
     return true
+  }
+
+  public hasGunkiAbility(): boolean {
+    if (this.firstGunkiAbility || this.secondGunkiAbility) {
+      return true
+    } else {
+      return false
+    }
   }
 
   public isBuddy(): boolean {
@@ -227,7 +247,8 @@ export default class Arcana {
     if (!buddy) {
       return this.name
     }
-    if (this.jobCode === "K199" || this.jobCode === "A207") { // NOTE: 暫定対応
+
+    if (this.jobDetail === "Combination") {
       return `${this.name}with${buddy.name}`
     }
     return `${this.name}＆${buddy.name}`

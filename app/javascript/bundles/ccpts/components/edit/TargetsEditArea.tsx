@@ -5,7 +5,7 @@ import { Button, ButtonGroup } from "react-bootstrap"
 declare var $
 
 import Favorites from "../../model/Favorites"
-import MessageStream from "../../model/MessageStream"
+import MessageStream from "../../lib/MessageStream"
 
 import { ResultView, ResultViewProps } from "../concerns/ResultView"
 import PagerArea from "../concerns/PagerArea"

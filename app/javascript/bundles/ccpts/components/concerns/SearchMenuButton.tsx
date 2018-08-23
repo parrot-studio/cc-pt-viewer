@@ -7,7 +7,7 @@ import Searcher from "../../lib/Searcher"
 import Favorites from "../../model/Favorites"
 import Query, { QueryParam } from "../../model/Query"
 import QueryLogs from "../../model/QueryLogs"
-import MessageStream from "../../model/MessageStream"
+import MessageStream from "../../lib/MessageStream"
 
 interface SearchMenuButtonProps {
   phoneDevice: boolean

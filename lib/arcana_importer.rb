@@ -237,7 +237,7 @@ class ArcanaImporter
         next
       end
 
-      sks = arcana.skills.sort_by(&:skill_type)
+      sks = arcana.skills.to_a
       sk = nil
       efs = []
 
@@ -259,7 +259,10 @@ class ArcanaImporter
         raise "skill: skill_type or name not found => #{arcana.name}" if (stype.present? && sname.blank?) || (stype.blank? && sname.present?)
 
         if stype.present? && sname.present?
-          sk = sks.shift || Skill.new
+          sk = sks.find { |s| s.skill_type == stype }
+          sks.delete(sk) if sk
+          sk ||= Skill.new
+
           sk.job_code = code
           sk.skill_type = stype.to_s
           sk.name = sname
@@ -351,7 +354,10 @@ class ArcanaImporter
         raise "ability: type or name not found => #{arcana.name}" if (at.present? && at != 'p' && aname.blank?) || (at.blank? && aname.present?)
         eindex += 1
         if at.present? && at != atype
-          abi = abs.shift || Ability.new
+          abi = abs.find { |a| a.ability_type == at }
+          abs.delete(abi) if abi
+          abi ||= Ability.new
+
           abi.job_code = code
           abi.ability_type = at
           abi.name = aname.to_s

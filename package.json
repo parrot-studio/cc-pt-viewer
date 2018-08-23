@@ -1,9 +1,9 @@
 {
   "name": "ccpts",
-  "version": "5.6.0",
+  "version": "6.0.0",
   "private": true,
   "dependencies": {
-    "@rails/webpacker": "^3.2.2",
+    "@rails/webpacker": "^3.5.5",
     "@types/baconjs": "^0.7.33",
     "@types/bootstrap": "^4.1.2",
     "@types/bootstrap-switch": "^0.0.31",
@@ -26,10 +26,10 @@
     "react": "^16.2.0",
     "react-bootstrap": "0.32.1",
     "react-dom": "^16.2.0",
-    "react-on-rails": "^10.1.1",
+    "react-on-rails": "^11.1.2",
     "react-ultimate-pagination": "^1.2.0",
     "superagent": "^3.8.2",
-    "ts-loader": "3.5.0",
+    "ts-loader": "^3.5.0",
     "typescript": "^3.0.1"
   },
   "devDependencies": {

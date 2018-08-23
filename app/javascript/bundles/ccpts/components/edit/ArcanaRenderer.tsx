@@ -3,7 +3,7 @@ import * as React from "react"
 import { Button } from "react-bootstrap"
 
 import Arcana from "../../model/Arcana"
-import MessageStream from "../../model/MessageStream"
+import MessageStream from "../../lib/MessageStream"
 
 export default abstract class ArcanaRenderer<T> extends React.Component<T> {
 

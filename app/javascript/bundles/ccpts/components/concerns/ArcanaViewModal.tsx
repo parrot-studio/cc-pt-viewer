@@ -2,18 +2,19 @@ import * as _ from "lodash"
 
 import * as Bacon from "baconjs"
 import * as React from "react"
-import { Button, Badge, Modal, Label } from "react-bootstrap"
+import { Button, Badge, Modal, Label, Tab, Tabs } from "react-bootstrap"
 declare var $
 
 import Arcana from "../../model/Arcana"
 import Favorites from "../../model/Favorites"
 import Skill from "../../model/Skill"
-import MessageStream from "../../model/MessageStream"
+import MessageStream from "../../lib/MessageStream"
 import Ability from "../../model/Ability"
 
 interface ArcanaViewModalProps {
   viewArcana: Arcana | null
   showModal: boolean
+  phoneDevice: boolean
   closeModal(): void
   openWikiModal(): void
 }
@@ -109,6 +110,17 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
       return ([
         <dt key="isdt">伝授スキル</dt>,
         <dd key="isdd">{this.renderEachSkill(a.inheritSkill, 1)}</dd>
+      ])
+    } else {
+      return null
+    }
+  }
+
+  private renderHeroicSkill(a: Arcana): JSX.Element[] | null {
+    if (a.heroicSkill) {
+      return ([
+        <dt key="isdt">ヒロイックスキル</dt>,
+        <dd key="isdd">{this.renderEachSkill(a.heroicSkill, 1)}</dd>
       ])
     } else {
       return null
@@ -218,6 +230,23 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
     }
   }
 
+  private renderGunkiAbility(a: Arcana): JSX.Element[] | null {
+    const abs: Ability[] = _.compact([a.firstGunkiAbility, a.secondGunkiAbility])
+    if (abs.length < 1) {
+      return null
+    }
+
+    let ind = 1
+    const ret: JSX.Element[] = []
+    abs.forEach((g) => {
+      ret.push(
+        <dt key={ind++}>義勇軍記</dt>,
+        <dd key={ind++}>{this.renderAbility(g)}</dd>
+      )
+    })
+    return ret
+  }
+
   private renderCost(a: Arcana): string {
     if (a.isBuddy()) {
       return "Buddy"
@@ -304,6 +333,56 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
     )
   }
 
+  private renderNoramlDetail(a: Arcana): JSX.Element {
+    return (
+      <dl className="small arcana-view-detail">
+        <dt>スキル</dt>
+        <dd>{this.renderSkill(a)}</dd>
+        {this.renderInheritSkill(a)}
+        {this.renderFirstAbility(a)}
+        {this.renderSecondAbility(a)}
+        {this.renderPartyAbility(a)}
+        {this.renderWeaponAbility(a)}
+        {this.renderChainAbility(a)}
+      </dl>
+    )
+  }
+
+  private renderGunkiDetail(a: Arcana): JSX.Element {
+    return (
+      <dl className="small arcana-view-detail">
+        {this.renderHeroicSkill(a)}
+        {this.renderGunkiAbility(a)}
+      </dl>
+    )
+  }
+
+  private renderArcanaDetail(a: Arcana): JSX.Element {
+    if (!a.hasGunkiAbility()) {
+      return this.renderNoramlDetail(a)
+    }
+
+    if (this.props.phoneDevice) {
+      return (
+        <div>
+          {this.renderNoramlDetail(a)}
+          {this.renderGunkiDetail(a)}
+        </div>
+      )
+    } else {
+      return (
+        <Tabs defaultActiveKey="normal" id="arcana-detail-tabs">
+          <Tab eventKey="normal" title="通常アビリティ" tabClassName="small">
+            {this.renderNoramlDetail(a)}
+          </Tab>
+          <Tab eventKey="gunki" title="義勇軍記" tabClassName="small">
+            {this.renderGunkiDetail(a)}
+          </Tab>
+        </Tabs>
+      )
+    }
+  }
+
   private openArcanaViewModal(a: Arcana, e: Event): void {
     e.preventDefault()
     MessageStream.arcanaViewStream.plug(Bacon.sequentially(50, [null, a]))
@@ -336,7 +415,16 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
                 {this.renderBuddy(a)}
               </h4>
               <div className="row">
-                <div className="col-xs-12 hidden-sm hidden-md hidden-lg">
+                <div className="col-xs-12 col-sm-12 col-md-12">
+                  <p className="pull-left">
+                    <Button
+                      bsStyle="default"
+                      bsSize="small"
+                      onClick={this.props.openWikiModal}
+                    >
+                      <i className="fa fa-search" /> Wikiで確認
+                    </Button>
+                  </p>
                   <p className="pull-right">
                     <input
                       type="checkbox"
@@ -368,34 +456,7 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
                   </dl>
                 </div>
                 <div className="col-xs-12 col-sm-8 col-md-8">
-                  <dl className="small arcana-view-detail">
-                    <dt>スキル</dt>
-                    <dd>{this.renderSkill(a)}</dd>
-                    {this.renderInheritSkill(a)}
-                    {this.renderFirstAbility(a)}
-                    {this.renderSecondAbility(a)}
-                    {this.renderPartyAbility(a)}
-                    {this.renderWeaponAbility(a)}
-                    {this.renderChainAbility(a)}
-                  </dl>
-                </div>
-                <div className="col-xs-12 col-sm-12 col-md-12">
-                  <p className="pull-left">
-                    <Button
-                      bsStyle="default"
-                      bsSize="small"
-                      onClick={this.props.openWikiModal}
-                    >
-                      <i className="fa fa-search" /> Wikiで確認
-                    </Button>
-                  </p>
-                  <p className="pull-right hidden-xs">
-                    <input
-                      type="checkbox"
-                      data-job-code={a.jobCode}
-                      ref={(inp) => { this.addFavHandler(inp, a) }}
-                    />
-                  </p>
+                  {this.renderArcanaDetail(a)}
                 </div>
               </div>
             </div>

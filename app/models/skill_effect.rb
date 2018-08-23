@@ -106,13 +106,14 @@ class SkillEffect < ApplicationRecord
         absorb: '与えたダメージを吸収',
         create_scrap: 'スクラップ生成',
         destroy_scrap: 'スクラップ破壊',
-        super_skill: '超必殺技',
         pain: '自分もダメージ',
         return_position: '元の位置に戻る',
         chain: '周辺の敵に広がる',
         cure_blind: '暗闇解除',
         cure_freeze: '凍結解除',
-        cure_weaken: '衰弱解除'
+        cure_weaken: '衰弱解除',
+        super_skill: '超必殺技',
+        heroic_skill: 'ヒロイックスキル'
       }
     },
     heal: {

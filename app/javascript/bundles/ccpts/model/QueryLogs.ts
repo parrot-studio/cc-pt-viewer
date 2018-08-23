@@ -1,7 +1,7 @@
 import * as _ from "lodash"
 import Query from "./Query"
 
-import MessageStream from "./MessageStream"
+import MessageStream from "../lib/MessageStream"
 import QueryLogCookie from "../lib/QueryLogCookie"
 
 interface QueryLog {

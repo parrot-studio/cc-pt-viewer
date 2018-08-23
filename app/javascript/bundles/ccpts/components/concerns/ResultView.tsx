@@ -1,7 +1,7 @@
 import * as React from "react"
 
 import Pager from "../../lib/Pager"
-import MessageStream from "../../model/MessageStream"
+import MessageStream from "../../lib/MessageStream"
 import Arcana from "../../model/Arcana"
 
 export interface ResultViewProps {

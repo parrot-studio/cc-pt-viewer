@@ -201,7 +201,8 @@ class AbilityEffect < ApplicationRecord
         after_move: '一定距離を移動した時',
         in_awakening: '覚醒ゲージがMAXの時',
         from_sub: 'サブから戦場に移動したとき',
-        waiting_charge: '何もせずに一定時間経過した時'
+        waiting_charge: '何もせずに一定時間経過した時',
+        in_heroic: '援軍として参戦した時'
       },
       sub_condition: {
         wave_start: {
@@ -1259,7 +1260,8 @@ class AbilityEffect < ApplicationRecord
         invincible: '無敵になる'
       },
       condition: {
-        dropout_self: '自身が脱落した時'
+        dropout_self: '自身が脱落した時',
+        in_heroic: '援軍として参戦した時'
       },
       target: {
         self: '自分'
@@ -1276,6 +1278,18 @@ class AbilityEffect < ApplicationRecord
       condition: {
         battle_start: '戦闘開始時',
         battle_end: '戦闘終了時'
+      },
+      target: {
+        resource: ''
+      }
+    },
+    heroic: {
+      name: 'ヒロイックスキル',
+      effect: {
+        heroic: 'ヒロイックスキルに設定可能'
+      },
+      condition: {
+        in_ptedit: 'パーティー編成時'
       },
       target: {
         resource: ''

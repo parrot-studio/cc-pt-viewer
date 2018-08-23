@@ -5,7 +5,7 @@ declare var $
 import Arcana from "../../model/Arcana"
 import Member from "../../model/Member"
 import Party from "../../model/Party"
-import MessageStream from "../../model/MessageStream"
+import MessageStream from "../../lib/MessageStream"
 
 import MemberCharacter from "./MemberCharacter"
 import MemberSelectModal from "./MemberSelectModal"

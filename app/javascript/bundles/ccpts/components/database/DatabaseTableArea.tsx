@@ -4,7 +4,7 @@ import * as React from "react"
 import { Button } from "react-bootstrap"
 declare var $
 
-import MessageStream from "../../model/MessageStream"
+import MessageStream from "../../lib/MessageStream"
 import Arcana from "../../model/Arcana"
 
 import { ResultView, ResultViewProps } from "../concerns/ResultView"

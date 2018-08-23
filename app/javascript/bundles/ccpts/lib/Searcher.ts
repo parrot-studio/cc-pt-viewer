@@ -106,7 +106,6 @@ export default class Searcher {
     params.text = text
 
     // NOTE: add CSRF header automatically if use jQuery's Ajax with jquery-rails
-    // TODO: react_on_railsの機能で取得する
     const token = $("meta[name=\"csrf-token\"]").attr("content") || ""
     const requestUrl = `${Searcher.config.apiPath}request`
     const post = Agent.post(requestUrl).set("X-CSRF-Token", token).send(params)

@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@rails/webpacker@^3.2.2":
+"@rails/webpacker@^3.5.5":
   version "3.5.5"
   resolved "https://registry.yarnpkg.com/@rails/webpacker/-/webpacker-3.5.5.tgz#8911c66bcefc8bc6b91270e92f0d39e3c2d43116"
   dependencies:
@@ -4777,9 +4777,9 @@ react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
 
-react-on-rails@^10.1.1:
-  version "10.1.4"
-  resolved "https://registry.yarnpkg.com/react-on-rails/-/react-on-rails-10.1.4.tgz#50e1b7596928746cff2ef90c00adb8e7cd41fe98"
+react-on-rails@^11.1.2:
+  version "11.1.2"
+  resolved "https://registry.yarnpkg.com/react-on-rails/-/react-on-rails-11.1.2.tgz#17691f919ba84a1eabc2e8247592aca6eeb49f5a"
 
 react-overlays@^0.8.0:
   version "0.8.3"
@@ -5730,7 +5730,7 @@ trim-right@^1.0.1:
   dependencies:
     glob "^6.0.4"
 
-ts-loader@3.5.0:
+ts-loader@^3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-3.5.0.tgz#151d004dcddb4cf8e381a3bf9d6b74c2d957a9c0"
   dependencies:

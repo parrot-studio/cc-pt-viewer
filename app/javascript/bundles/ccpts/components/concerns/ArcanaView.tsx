@@ -1,12 +1,13 @@
 import * as React from "react"
 
 import Arcana from "../../model/Arcana"
-import MessageStream from "../../model/MessageStream"
+import MessageStream from "../../lib/MessageStream"
 
 import ArcanaViewModal from "./ArcanaViewModal"
 import WikiLinkModal from "./WikiLinkModal"
 
 interface ArcanaViewProps {
+  phoneDevice: boolean
   originTitle: string
 }
 
@@ -38,6 +39,7 @@ export default class ArcanaView extends React.Component<ArcanaViewProps, ArcanaV
         <ArcanaViewModal
           showModal={this.state.showArcanaViewModal}
           viewArcana={this.state.viewArcana}
+          phoneDevice={this.props.phoneDevice}
           closeModal={this.closeArcanaViewModal.bind(this)}
           openWikiModal={this.openWikiModal.bind(this)}
         />

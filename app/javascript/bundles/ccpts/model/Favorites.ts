@@ -1,6 +1,6 @@
 import * as _ from "lodash"
 import Cookie from "../lib/Cookie"
-import MessageStream from "./MessageStream"
+import MessageStream from "../lib/MessageStream"
 
 export interface FavoritesParams {
   [key: string]: boolean

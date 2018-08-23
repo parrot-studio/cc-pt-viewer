@@ -8,7 +8,7 @@ import QueryLogs from "../model/QueryLogs"
 import Favorites from "../model/Favorites"
 import LatestInfo from "../model/LatestInfo"
 import Conditions, { ConditionParams } from "../model/Conditions"
-import MessageStream from "../model/MessageStream"
+import MessageStream from "../lib/MessageStream"
 import Searcher from "../lib/Searcher"
 
 import EditModeView from "./edit/EditModeView"
@@ -112,7 +112,10 @@ export default class AppView extends React.Component<AppViewProps, AppViewState>
         <div id="condition-area" ref={(d) => { this.conditionArea = d }}>
           {this.renderConditionView()}
         </div>
-        <ArcanaView originTitle={this.props.originTitle} />
+        <ArcanaView
+          phoneDevice={this.phoneDevice}
+          originTitle={this.props.originTitle}
+        />
       </div>
     )
   }
@@ -150,11 +153,11 @@ export default class AppView extends React.Component<AppViewProps, AppViewState>
   }
 
   private renderWarning(): JSX.Element | null {
-    if (this.props.mode === "ptedit" || !this.phoneDevice) {
+    if (this.props.mode === "ptedit" && this.phoneDevice) {
+      return <DisplaySizeWarning appPath={this.props.appPath} />
+    } else {
       return null
     }
-
-    return (<DisplaySizeWarning appPath={this.props.appPath} />)
   }
 
   private renderModeView(): JSX.Element | null {

@@ -6,7 +6,7 @@ declare var history
 import Arcana from "../../model/Arcana"
 import Party from "../../model/Party"
 import Parties from "../../model/Parties"
-import MessageStream from "../../model/MessageStream"
+import MessageStream from "../../lib/MessageStream"
 import Searcher from "../../lib/Searcher"
 
 import MemberControlArea from "./MemberControlArea"

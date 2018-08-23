@@ -4,7 +4,7 @@ import * as React from "react"
 import { Button, ButtonToolbar } from "react-bootstrap"
 
 import Conditions from "../../model/Conditions"
-import MessageStream from "../../model/MessageStream"
+import MessageStream from "../../lib/MessageStream"
 import { QueryParam } from "../../model/Query"
 
 import SkillConditions from "../conditions/SkillConditions"

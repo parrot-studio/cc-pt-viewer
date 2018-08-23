@@ -106,7 +106,25 @@ namespace :deploy do
     end
   end
 
+  desc 'Upload public files'
+  task :upload_files do
+    on roles(:app) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute "mkdir #{shared_path}/public/images -p"
+          public_path = "#{shared_path}/public"
+
+          Dir.glob('./public/images/*').each do |f|
+            upload! f, "#{public_path}/images"
+          end
+          Dir.glob('./public/*.{html,ico,txt}').each do |f|
+            upload! f, public_path
+          end
+        end
+      end
+    end
+  end
+
+  before :compile_assets, :upload_files
   after  :migrate, 'arcana:import'
-  after  :finishing, :compile_assets
-  after  :finishing, :cleanup
 end

@@ -407,7 +407,7 @@ class Arcana < ApplicationRecord
     ].flatten.compact.max
   end
 
-  def serialize(nolink: false) # rubocop:disable Metrics/PerceivedComplexity
+  def serialize(nolink: false) # rubocop:disable Metrics/PerceivedComplexity, Metrics/AbcSize
     excepts = %w[id voice_actor_id illustrator_id wiki_name created_at updated_at]
     ret = self.as_json(except: excepts)
 
@@ -431,6 +431,8 @@ class Arcana < ApplicationRecord
     ret['third_skill'] = (third_skill ? third_skill.serialize : {})
     inherit_skill = skill_for('d')
     ret['inherit_skill'] = (inherit_skill ? inherit_skill.serialize : {})
+    heroic_skill = skill_for('h')
+    ret['heroic_skill'] = (heroic_skill ? heroic_skill.serialize : {})
 
     first_ability = ability_for('1')
     ret['first_ability'] = (first_ability ? first_ability.serialize : {})
@@ -442,6 +444,10 @@ class Arcana < ApplicationRecord
     ret['chain_ability'] = (chain_ability ? chain_ability.serialize : {})
     weapon_ability = ability_for('w')
     ret['weapon_ability'] = (weapon_ability ? weapon_ability.serialize : {})
+    first_gunki_ability = ability_for('g1')
+    ret['first_gunki_ability'] = (first_gunki_ability ? first_gunki_ability.serialize : {})
+    second_gunki_ability = ability_for('g2')
+    ret['second_gunki_ability'] = (second_gunki_ability ? second_gunki_ability.serialize : {})
 
     linked = linked_arcana
     ret['linked_arcana'] = (!nolink && linked ? linked.serialize(nolink: true) : {})

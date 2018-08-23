@@ -4,7 +4,7 @@ import { Button, ButtonToolbar, DropdownButton, MenuItem } from "react-bootstrap
 
 import Party from "../../model/Party"
 import Parties, { PartyLog } from "../../model/Parties"
-import MessageStream from "../../model/MessageStream"
+import MessageStream from "../../lib/MessageStream"
 
 import MemberResetModal from "./MemberResetModal"
 import MemberStoreModal from "./MemberStoreModal"

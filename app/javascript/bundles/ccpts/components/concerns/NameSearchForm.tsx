@@ -2,7 +2,7 @@ import * as Bacon from "baconjs"
 import * as React from "react"
 
 import { QueryParam } from "../../model/Query"
-import MessageStream from "../../model/MessageStream"
+import MessageStream from "../../lib/MessageStream"
 
 interface NameSearchFormState {
   name: string

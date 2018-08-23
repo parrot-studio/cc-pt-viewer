@@ -1,7 +1,7 @@
 import * as _ from "lodash"
 
 import Party from "./Party"
-import MessageStream from "./MessageStream"
+import MessageStream from "../lib/MessageStream"
 import Cookie from "../lib/Cookie"
 
 export interface PartyLog {

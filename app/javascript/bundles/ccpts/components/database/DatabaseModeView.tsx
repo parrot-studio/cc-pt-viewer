@@ -3,7 +3,7 @@ import * as React from "react"
 declare var history
 
 import Query from "../../model/Query"
-import MessageStream from "../../model/MessageStream"
+import MessageStream from "../../lib/MessageStream"
 
 import DatabaseAreaHeader from "./DatabaseAreaHeader"
 import DatabaseTableArea from "./DatabaseTableArea"
