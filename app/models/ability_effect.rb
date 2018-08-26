@@ -182,6 +182,7 @@ class AbilityEffect < ApplicationRecord
         in_invisible: '姿を消している時',
         own_skill: '自分がスキルを使った時',
         others_skill: '味方がスキルを使った時',
+        any_skill: '誰かがスキルを使った時',
         skill_hit: 'スキルが当たる毎に',
         in_chain: 'チェイン発動中',
         mana_charged: 'マナが多いほど',
@@ -198,6 +199,7 @@ class AbilityEffect < ApplicationRecord
         enemys_debuff: '敵に状態異常が多いほど',
         super_gauge_max: '超必殺技ゲージがMAXの時',
         add_debuff: '状態異常を付与した時',
+        add_defdown: '防御力低下を付与した時',
         after_move: '一定距離を移動した時',
         in_awakening: '覚醒ゲージがMAXの時',
         from_sub: 'サブから戦場に移動したとき',
@@ -835,6 +837,7 @@ class AbilityEffect < ApplicationRecord
         mana_droped: {
           mana_k: '騎マナ',
           mana_p: '僧マナ',
+          mana_m: '魔マナ',
           mana_fm: '戦/魔マナ',
           mana_pm: '僧/魔マナ'
         },
