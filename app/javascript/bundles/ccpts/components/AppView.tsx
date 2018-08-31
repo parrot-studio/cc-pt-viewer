@@ -1,7 +1,7 @@
 import * as _ from "lodash"
 import * as React from "react"
 import { Alert } from "react-bootstrap"
-declare var $
+declare var $: JQueryStatic
 
 import Query from "../model/Query"
 import QueryLogs from "../model/QueryLogs"
@@ -28,7 +28,8 @@ interface AppViewProps {
   aboutPath: string
   originTitle: string
   arcana: string
-  party: string
+  party: { [key: string]: any }
+  heroes: string[]
 }
 
 interface AppViewState {
@@ -43,7 +44,7 @@ export default class AppView extends React.Component<AppViewProps, AppViewState>
   private mainArea: HTMLDivElement | null = null
   private conditionArea: HTMLDivElement | null = null
 
-  constructor(props) {
+  constructor(props: AppViewProps) {
     super(props)
 
     Searcher.init(this.props.dataver, this.props.appPath)
@@ -90,8 +91,12 @@ export default class AppView extends React.Component<AppViewProps, AppViewState>
   }
 
   public componentDidMount(): void {
-    $(this.errorArea).hide()
-    $(this.conditionArea).hide()
+    if (this.errorArea) {
+      $(this.errorArea).hide()
+    }
+    if (this.conditionArea) {
+      $(this.conditionArea).hide()
+    }
     $("#pre-header").hide()
   }
 
@@ -144,11 +149,19 @@ export default class AppView extends React.Component<AppViewProps, AppViewState>
 
   private fadeModeArea(): void {
     if (this.state.showConditionArea) {
-      $(this.mainArea).hide()
-      $(this.conditionArea).fadeIn("slow")
+      if (this.mainArea) {
+        $(this.mainArea).hide()
+      }
+      if (this.conditionArea) {
+        $(this.conditionArea).fadeIn("slow")
+      }
     } else {
-      $(this.conditionArea).hide()
-      $(this.mainArea).fadeIn("slow")
+      if (this.conditionArea) {
+        $(this.conditionArea).hide()
+      }
+      if (this.mainArea) {
+        $(this.mainArea).fadeIn("slow")
+      }
     }
   }
 
@@ -174,6 +187,7 @@ export default class AppView extends React.Component<AppViewProps, AppViewState>
             switchConditionMode={this.switchConditionMode.bind(this)}
             pagerSize={this.state.pagerSize}
             originTitle={this.props.originTitle}
+            heroes={this.props.heroes}
           />
         )
       case "database":

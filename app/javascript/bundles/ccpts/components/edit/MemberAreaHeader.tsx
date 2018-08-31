@@ -64,7 +64,12 @@ export default class MemberAreaHeader extends React.Component<MemberAreaHeaderPr
               {this.renderParties()}
             </DropdownButton>
           </ButtonToolbar>
-          <h2>パーティー編集</h2>
+          <div className="pull-left">
+            <h2>パーティー編集</h2>
+          </div>
+          <div className="pull-right">
+            <label htmlFor="cost">Total Cost</label><span id="cost" className="cost-mini">{this.props.party.cost}</span>
+          </div>
 
           <MemberResetModal
             showModal={this.state.showResetModal}

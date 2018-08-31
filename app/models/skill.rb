@@ -25,6 +25,7 @@ class Skill < ApplicationRecord
 
   COSTS = (0..3).to_a
   INHERITABLE_SKILL_TYPE = 'd'.freeze
+  HEROIC_SKILL_TYPE = 'h'.freeze
 
   validates :job_code,
             presence: true,
@@ -40,6 +41,7 @@ class Skill < ApplicationRecord
             numericality: { only_integer: true }
 
   scope :inheritable_only, -> { where(skill_type: INHERITABLE_SKILL_TYPE) }
+  scope :heroic_only, -> { where(skill_type: HEROIC_SKILL_TYPE) }
 
   def serialize
     excepts = %w[id created_at updated_at]

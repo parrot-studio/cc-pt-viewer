@@ -46,6 +46,12 @@ class ArcanaCache
       end
     end
 
+    def heroes
+      with_object_cache("heroes:#{ServerSettings.data_version}") do
+        Arcana.joins(:skills).merge(Skill.heroic_only).order(:id).pluck(:job_code)
+      end
+    end
+
     def search_result(query_key)
       key = "search:#{ServerSettings.data_version}:#{query_key}"
       with_object_cache(key) do

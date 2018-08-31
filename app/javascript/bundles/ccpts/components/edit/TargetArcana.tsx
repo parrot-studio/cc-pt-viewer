@@ -1,5 +1,5 @@
 import * as React from "react"
-declare var $
+declare var $: JQueryStatic
 
 import Arcana from "../../model/Arcana"
 import Favorites from "../../model/Favorites"
@@ -63,6 +63,10 @@ export default class TargetArcana extends ArcanaRenderer<TargetArcanaProps> {
   }
 
   private addFavHandler(inp: HTMLInputElement | null, a: Arcana): void {
+    if (!inp) {
+      return
+    }
+
     $(inp).bootstrapSwitch({
       state: Favorites.stateFor(a.jobCode),
       size: "mini",

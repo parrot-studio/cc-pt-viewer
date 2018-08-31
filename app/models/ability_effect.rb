@@ -126,6 +126,7 @@ class AbilityEffect < ApplicationRecord
         hp_full: 'HPが満タンの時',
         attack: '通常攻撃時',
         critical: 'クリティカル時',
+        shoot: '遠距離攻撃時',
         heal: '回復した時',
         in_move: '移動中',
         in_pierce: '貫通した時',
@@ -910,6 +911,7 @@ class AbilityEffect < ApplicationRecord
       },
       sub_condition: {
         attack: {
+          in_combo: 'コンボ中のみ',
           in_awakening: '覚醒ゲージがMAXの時'
         },
         skill: {
@@ -1222,7 +1224,7 @@ class AbilityEffect < ApplicationRecord
         }
       },
       condition: {
-        attack: '通常攻撃時',
+        shoot: '遠距離攻撃時',
         kill: '敵を倒した時',
         skill: 'スキル使用時',
         in_combo: '攻撃を一定回数当てた時'

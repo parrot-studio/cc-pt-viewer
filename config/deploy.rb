@@ -125,6 +125,5 @@ namespace :deploy do
     end
   end
 
-  before :compile_assets, :upload_files
   after  :migrate, 'arcana:import'
 end

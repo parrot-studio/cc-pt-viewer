@@ -85,7 +85,7 @@ export default class Parties {
   }
 
   private static readonly PT_SIZE = 10
-  private static readonly DEFAULT_MEMBER_CODE = "V2F362NM261NK160NA157NP95P24F305F82F272N"
+  private static readonly DEFAULT_MEMBER_CODE = "V3F362NK160K151A157NP95NF305F273M194NF272F274M261"
   private static readonly COOKIE_NAME_LIST = "parties"
   private static readonly COOKIE_NAME_LAST = "last-members"
 }

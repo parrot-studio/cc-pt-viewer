@@ -1,7 +1,7 @@
 import * as _ from "lodash"
 import * as React from "react"
-declare var $
-declare var history
+declare var $: JQueryStatic
+declare var history: History
 
 import Arcana from "../../model/Arcana"
 import Party from "../../model/Party"
@@ -23,7 +23,8 @@ interface EditModeViewProps {
   phoneDevice: boolean
   pagerSize: number
   arcana: string
-  initParty: string
+  initParty: { [key: string]: any }
+  heroes: string[]
   switchConditionMode(): void
 }
 
@@ -112,15 +113,23 @@ export default class EditModeView extends React.Component<EditModeViewProps, Edi
     }
 
     if (this.state.editMode) {
-      $(this.partyArea).hide()
-      $(this.editArea).show()
+      if (this.partyArea) {
+        $(this.partyArea).hide()
+      }
+      if (this.editArea) {
+        $(this.editArea).show()
+      }
 
       if (!this.props.phoneDevice && !this.state.targetInitialized) {
         this.initSearchTarget()
       }
     } else {
-      $(this.editArea).hide()
-      $(this.partyArea).show()
+      if (this.editArea) {
+        $(this.editArea).hide()
+      }
+      if (this.partyArea) {
+        $(this.partyArea).show()
+      }
     }
   }
 
@@ -148,7 +157,9 @@ export default class EditModeView extends React.Component<EditModeViewProps, Edi
 
   private initSearchTarget(): void {
     MessageStream.queryStream.push({})
-    this.setState({ targetInitialized: true })
+    Searcher.searchCodes(this.props.heroes).onValue(() => {
+      this.setState({ targetInitialized: true })
+    })
   }
 
   private replaceHistory(uri: string): void {
@@ -176,11 +187,19 @@ export default class EditModeView extends React.Component<EditModeViewProps, Edi
 
   private fadeArea(): void {
     if (this.state.editMode) {
-      $(this.partyArea).hide()
-      $(this.editArea).fadeIn()
+      if (this.partyArea) {
+        $(this.partyArea).hide()
+      }
+      if (this.editArea) {
+        $(this.editArea).fadeIn()
+      }
     } else {
-      $(this.editArea).hide()
-      $(this.partyArea).fadeIn()
+      if (this.editArea) {
+        $(this.editArea).hide()
+      }
+      if (this.partyArea) {
+        $(this.partyArea).fadeIn()
+      }
     }
   }
 
@@ -207,7 +226,10 @@ export default class EditModeView extends React.Component<EditModeViewProps, Edi
       <div id="edit-area" ref={(d) => { this.editArea = d }}>
         <div id="member-area" className="well well-sm">
           <MemberAreaHeader party={this.state.party} />
-          <MemberAreaBody party={this.state.party} />
+          <MemberAreaBody
+            party={this.state.party}
+            heroes={this.props.heroes}
+          />
         </div>
         {this.renderTargetsArea()}
       </div>

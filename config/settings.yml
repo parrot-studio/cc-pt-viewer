@@ -1,6 +1,6 @@
 api:
   recently: 32
-  pt_version: 2
+  pt_version: 3
 mail:
   use: <%= ENV['MAIL_USE'].to_i > 0 ? true : false %>
   from: <%= ENV['MAIL_FROM'] %>

@@ -24,52 +24,66 @@ class ApplicationController < ActionController::Base
       parse_pt_code_not_chained(part)
     when 2
       parse_pt_code_with_chain(part)
+    when 3
+      parse_pt_code_with_hero(part)
     end
   end
 
   def parse_pt_code_not_chained(code)
-    return if code.blank?
-    part = "([#{Arcana::JOB_TYPES.join}]\\d+|N)"
-    parser = /\A#{part * 7}\z/
-    m = code.upcase.match(parser)
+    m = split_pt_code(code, 7)
     return unless m
 
-    selector = ->(c) { c == 'N' ? nil : c }
     {
-      mem1: selector.call(m[1]),
-      mem2: selector.call(m[2]),
-      mem3: selector.call(m[3]),
-      mem4: selector.call(m[4]),
-      sub1: selector.call(m[5]),
-      sub2: selector.call(m[6]),
-      friend: selector.call(m[7])
+      mem1: code_for_member(m[1]),
+      mem1c: nil,
+      mem2: code_for_member(m[2]),
+      mem2c: nil,
+      mem3: code_for_member(m[3]),
+      mem3c: nil,
+      mem4: code_for_member(m[4]),
+      mem4c: nil,
+      sub1: code_for_member(m[5]),
+      sub1c: nil,
+      sub2: code_for_member(m[6]),
+      sub2c: nil,
+      friend: code_for_member(m[7]),
+      friendc: nil,
+      hero: nil
     }
   end
 
   def parse_pt_code_with_chain(code)
-    return if code.blank?
-    part = "([#{Arcana::JOB_TYPES.join}]\\d+|N)"
-    parser = /\A#{part * 14}\z/
-    m = code.upcase.match(parser)
+    parse_pt_code_with_hero("#{code}N")
+  end
+
+  def parse_pt_code_with_hero(code)
+    m = split_pt_code(code, 15)
     return unless m
 
-    selector = ->(c) { c == 'N' ? nil : c }
     {
-      mem1: selector.call(m[1]),
-      mem1c: selector.call(m[2]),
-      mem2: selector.call(m[3]),
-      mem2c: selector.call(m[4]),
-      mem3: selector.call(m[5]),
-      mem3c: selector.call(m[6]),
-      mem4: selector.call(m[7]),
-      mem4c: selector.call(m[8]),
-      sub1: selector.call(m[9]),
-      sub1c: selector.call(m[10]),
-      sub2: selector.call(m[11]),
-      sub2c: selector.call(m[12]),
-      friend: selector.call(m[13]),
-      friendc: selector.call(m[14])
+      mem1: code_for_member(m[1]),
+      mem1c: code_for_member(m[2]),
+      mem2: code_for_member(m[3]),
+      mem2c: code_for_member(m[4]),
+      mem3: code_for_member(m[5]),
+      mem3c: code_for_member(m[6]),
+      mem4: code_for_member(m[7]),
+      mem4c: code_for_member(m[8]),
+      sub1: code_for_member(m[9]),
+      sub1c: code_for_member(m[10]),
+      sub2: code_for_member(m[11]),
+      sub2c: code_for_member(m[12]),
+      friend: code_for_member(m[13]),
+      friendc: code_for_member(m[14]),
+      hero: code_for_member(m[15])
     }
+  end
+
+  def split_pt_code(code, size)
+    return if code.blank? || size < 1
+    part = "([#{Arcana::JOB_TYPES.join}]\\d+|N)"
+    parser = /\A#{part * size}\z/
+    code.upcase.match(parser)
   end
 
   def search_members(ptm)
@@ -88,5 +102,10 @@ class ApplicationController < ActionController::Base
       ret[po] = as[co]
     end
     ret
+  end
+
+  def code_for_member(c)
+    return unless c
+    c == 'N' ? nil : c
   end
 end

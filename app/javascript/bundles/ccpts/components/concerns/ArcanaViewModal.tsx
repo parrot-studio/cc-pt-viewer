@@ -3,7 +3,7 @@ import * as _ from "lodash"
 import * as Bacon from "baconjs"
 import * as React from "react"
 import { Button, Badge, Modal, Label, Tab, Tabs } from "react-bootstrap"
-declare var $
+declare var $: JQueryStatic
 
 import Arcana from "../../model/Arcana"
 import Favorites from "../../model/Favorites"

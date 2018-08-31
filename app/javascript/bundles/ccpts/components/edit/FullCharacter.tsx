@@ -1,15 +1,12 @@
 import * as _ from "lodash"
-
 import * as React from "react"
 
-import Member from "../../model/Member"
 import Ability from "../../model/Ability"
 
 import { MemberRenderer, MemberRendererProps } from "./MemberRenderer"
 import SummaryMember from "./SummaryMember"
 
 interface FullCharacterProps extends MemberRendererProps {
-  title: string
   phoneDevice: boolean
 }
 
@@ -17,11 +14,8 @@ export default class FullCharacter extends MemberRenderer<FullCharacterProps> {
 
   public render(): JSX.Element {
     return (
-      <div>
-        <label className="member-label">{this.props.title}</label>
-        <div className="member-character">
-          {this.renderMember()}
-        </div>
+      <div className="member-character">
+        {this.renderMember()}
       </div>
     )
   }

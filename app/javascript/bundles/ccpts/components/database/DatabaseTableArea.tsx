@@ -1,8 +1,7 @@
 import * as _ from "lodash"
-
 import * as React from "react"
 import { Button } from "react-bootstrap"
-declare var $
+declare var $ // NOTE: jquery-touchswipeの型定義が存在しない
 
 import MessageStream from "../../lib/MessageStream"
 import Arcana from "../../model/Arcana"
@@ -81,9 +80,11 @@ export default class DatabaseTableArea extends ResultView<DatabaseTableAreaProps
   }
 
   private fadeTable(): void {
-    const table = $(this.arcanaTable)
-    table.hide()
-    table.fadeIn("fast")
+    if (this.arcanaTable) {
+      const table = $(this.arcanaTable)
+      table.hide()
+      table.fadeIn("fast")
+    }
   }
 
   private handleSort(col: string, e: Event) {

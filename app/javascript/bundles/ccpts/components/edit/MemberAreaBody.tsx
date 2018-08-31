@@ -1,6 +1,7 @@
 import * as _ from "lodash"
 import * as React from "react"
-declare var $
+import { FormGroup, ControlLabel, FormControl } from "react-bootstrap"
+declare var $: JQueryStatic
 
 import Arcana from "../../model/Arcana"
 import Member from "../../model/Member"
@@ -9,9 +10,11 @@ import MessageStream from "../../lib/MessageStream"
 
 import MemberCharacter from "./MemberCharacter"
 import MemberSelectModal from "./MemberSelectModal"
+import HeroCharacter from "./HeroCharacter"
 
 interface MemberAreaBodyProps {
   party: Party
+  heroes: string[]
 }
 
 interface MemberAreaBodyState {
@@ -43,10 +46,7 @@ export default class MemberAreaBody extends React.Component<MemberAreaBodyProps,
           <ul className="list-inline">
             {this.renderMembers()}
             <li className="col-xs-6 col-sm-3 col-md-3 member-list">
-              <p className="text-center">
-                <label htmlFor="cost">Total Cost</label><br />
-                <span id="cost" className="cost">{this.props.party.cost}</span>
-              </p>
+              {this.renderHeroicArea()}
             </li>
           </ul>
         </div>
@@ -172,7 +172,7 @@ export default class MemberAreaBody extends React.Component<MemberAreaBodyProps,
 
   private replaceMemberArea(targetKey: string, target: Member | null) {
     const party = this.props.party
-    if (target && target.memberKey && targetKey !== "friend") {
+    if (target && target.memberKey && targetKey !== Party.FRIEND_KEY) {
       party.swap(targetKey, target.memberKey)
     } else {
       party.addMember(targetKey, target)
@@ -194,6 +194,12 @@ export default class MemberAreaBody extends React.Component<MemberAreaBodyProps,
     MessageStream.partyStream.push(party)
   }
 
+  private changeHeroicSKill(e: React.FormEvent<HTMLSelectElement>): void {
+    const party = this.props.party
+    party.addHero(e.currentTarget.value)
+    MessageStream.partyStream.push(party)
+  }
+
   private renderMembers(): JSX.Element[] {
     const list = [
       ["mem1", "Leader"],
@@ -202,7 +208,7 @@ export default class MemberAreaBody extends React.Component<MemberAreaBodyProps,
       ["mem4", "4th"],
       ["sub1", "Sub1"],
       ["sub2", "Sub2"],
-      ["friend", "Friend"]
+      [Party.FRIEND_KEY, "Friend"]
     ]
 
     const party = this.props.party
@@ -223,5 +229,37 @@ export default class MemberAreaBody extends React.Component<MemberAreaBodyProps,
         </li>
       )
     })
+  }
+
+  private renderHeroicArea(): JSX.Element {
+    const hero = this.props.party.memberFor(Party.HERO_KEY)
+    let hcode = ""
+    if (hero) {
+      hcode = hero.arcana.jobCode
+    }
+
+    const opts: JSX.Element[] = _.chain(this.props.heroes)
+      .map((h) => Arcana.forCode(h))
+      .compact()
+      .map((a) => <option key={a.jobCode} value={a.jobCode}>{a.title} {a.name}</option>)
+      .value()
+
+    return (
+      <div>
+        <FormGroup controlId="heroic-skill">
+          <ControlLabel>Heroic Skill</ControlLabel>
+          <FormControl
+            componentClass="select"
+            placeholder="ヒロイックスキル"
+            value={hcode}
+            onChange={this.changeHeroicSKill.bind(this)}
+          >
+            <option key="none" value="">（なし）</option>
+            {opts}
+          </FormControl>
+        </FormGroup>
+        <HeroCharacter member={hero} mode="edit" />
+      </div>
+    )
   }
 }

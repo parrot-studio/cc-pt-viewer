@@ -8,6 +8,9 @@ interface PartyMember {
 }
 
 export default class Party {
+  public static readonly FRIEND_KEY: string = "friend"
+  public static readonly HERO_KEY: string = "hero"
+
   public static ptver: string
 
   public static create(): Party {
@@ -16,15 +19,16 @@ export default class Party {
     return pt
   }
 
-  public static build(data: any): Party {
-    const as = _.mapValues(data, (d: any) => Arcana.build(d))
+  public static build(data: { [key: string]: any }): Party {
+    const as = _.mapValues(data, (d) => Arcana.build(d))
     const pt = new Party()
     pt.build(as)
     return pt
   }
 
-  private static readonly FRIEND_KEY: string = "friend"
-  private static readonly MEMBER_KEY: string[] = ["mem1", "mem2", "mem3", "mem4", "sub1", "sub2", Party.FRIEND_KEY]
+  private static readonly MEMBER_KEY: string[] = [
+    "mem1", "mem2", "mem3", "mem4", "sub1", "sub2", Party.FRIEND_KEY, Party.HERO_KEY
+  ]
 
   public members: PartyMember = {}
   public cost: number
@@ -40,15 +44,23 @@ export default class Party {
     let code = ""
     _.forEach(Party.MEMBER_KEY, (k) => {
       const m = mems[k]
-      if (m) {
-        code = code + m.arcana.jobCode
-        if (m.chainArcana) {
-          code = code + m.chainArcana.jobCode
+      if (k === Party.HERO_KEY) {
+        if (m) {
+          code = `${code}${m.arcana.jobCode}`
         } else {
           code = `${code}N`
         }
       } else {
-        code = `${code}NN`
+        if (m) {
+          code = `${code}${m.arcana.jobCode}`
+          if (m.chainArcana) {
+            code = `${code}${m.chainArcana.jobCode}`
+          } else {
+            code = `${code}N`
+          }
+        } else {
+          code = `${code}NN`
+        }
       }
     })
 
@@ -58,7 +70,7 @@ export default class Party {
     return (header + code)
   }
 
-  public build(as: any): void {
+  public build(as: { [key: string]: Arcana | null }): void {
     _.forEach(Party.MEMBER_KEY, (k) => {
       const mb = as[k]
       const mc = as[`${k}c`]
@@ -79,6 +91,9 @@ export default class Party {
   }
 
   public addMember(key: string, m: Member | null): void {
+    if (m && key === Party.HERO_KEY) {
+      m.chainArcana = null
+    }
     if (m && key !== Party.FRIEND_KEY) {
       this.removeDuplicateMember(m)
     }
@@ -123,6 +138,21 @@ export default class Party {
     this.addMember(k, m)
   }
 
+  public addHero(code: string): void {
+    if (_.isEmpty(code)) {
+      this.addMember(Party.HERO_KEY, null)
+      return
+    }
+
+    const a = Arcana.forCode(code)
+    if (!a) {
+      this.addMember(Party.HERO_KEY, null)
+      return
+    }
+
+    this.addMember(Party.HERO_KEY, new Member(a))
+  }
+
   private removeDuplicateMember(target: Member): void {
     const ta = target.arcana
     const tc = target.chainArcana
@@ -154,7 +184,7 @@ export default class Party {
   private costForMembers(): number {
     let cost = 0
     _.forEach(this.members, (m, k) => {
-      if (k === Party.FRIEND_KEY || !m) {
+      if (k === Party.FRIEND_KEY || k === Party.HERO_KEY || !m) {
         return
       }
       cost = cost + m.chainedCost()

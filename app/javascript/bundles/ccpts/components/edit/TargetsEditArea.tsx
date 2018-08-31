@@ -2,7 +2,7 @@ import * as _ from "lodash"
 
 import * as React from "react"
 import { Button, ButtonGroup } from "react-bootstrap"
-declare var $
+declare var $: JQueryStatic
 
 import Favorites from "../../model/Favorites"
 import MessageStream from "../../lib/MessageStream"

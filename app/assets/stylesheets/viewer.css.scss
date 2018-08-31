@@ -95,6 +95,13 @@ footer {
   background-color: white;
 }
 
+.arcana-hero {
+  padding: 2px;
+  height: 78px;
+  border-radius: 0px 0px 2px 2px;
+  background-color: white;
+}
+
 .arcana-view-body {
   padding: 6px;
 }
@@ -122,12 +129,21 @@ footer {
   color: #d33;
 }
 
+.heroic-skill {
+  font-weight: bold;
+  color: #e63;
+}
+
 .full-size {
   height: 270px;
 }
 
 .summary-size {
   height: 150px;
+}
+
+.hero-size {
+  height: 104px;
 }
 
 .summary-detail {
@@ -236,6 +252,15 @@ footer {
 .cost {
   font-weight: bold;
   font-size: 50px;
+  background-color: snow;
+  border-radius: 8px 8px 8px 8px;
+  padding: 10px;
+  margin: 10px;
+}
+
+.cost-mini {
+  font-weight: bold;
+  font-size: 20px;
   background-color: snow;
   border-radius: 8px 8px 8px 8px;
   padding: 10px;

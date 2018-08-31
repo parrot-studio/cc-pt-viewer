@@ -1,6 +1,6 @@
 import * as _ from "lodash"
 import * as React from "react"
-declare var history
+declare var history: History
 
 import Query from "../../model/Query"
 import MessageStream from "../../lib/MessageStream"

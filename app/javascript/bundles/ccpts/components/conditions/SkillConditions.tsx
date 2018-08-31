@@ -1,6 +1,6 @@
 import * as _ from "lodash"
 import * as React from "react"
-declare var $
+declare var $: JQueryStatic
 
 import Conditions, { ConditionsNotifier } from "../../model/Conditions"
 

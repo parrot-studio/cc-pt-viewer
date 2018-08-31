@@ -1,11 +1,9 @@
 import * as React from "react"
 
-import Member from "../../model/Member"
-
 import { MemberRenderer, MemberRendererProps } from "./MemberRenderer"
 
 interface SummaryMemberProps extends MemberRendererProps {
-  view: string // "full" or "chain"
+  view: "full" | "chain"
 }
 
 export default class SummaryMember extends MemberRenderer<SummaryMemberProps> {

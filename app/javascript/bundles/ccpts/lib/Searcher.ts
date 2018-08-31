@@ -1,7 +1,7 @@
 import * as _ from "lodash"
 import * as Bacon from "baconjs"
 import * as Agent from "superagent"
-declare var $
+declare var $: JQueryStatic
 
 import Arcana from "../model/Arcana"
 import Party from "../model/Party"
