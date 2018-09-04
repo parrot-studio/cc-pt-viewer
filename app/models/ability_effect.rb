@@ -198,6 +198,7 @@ class AbilityEffect < ApplicationRecord
         dropout_self: '自身が脱落した時',
         members_debuff: '味方に状態異常が多いほど',
         enemys_debuff: '敵に状態異常が多いほど',
+        any_debuff: 'フィールドに状態異常が多いほど',
         super_gauge_max: '超必殺技ゲージがMAXの時',
         add_debuff: '状態異常を付与した時',
         add_defdown: '防御力低下を付与した時',
@@ -810,6 +811,7 @@ class AbilityEffect < ApplicationRecord
         in_debuff: '自分が状態異常の時',
         members_debuff: '味方に状態異常が多いほど',
         enemys_debuff: '敵に状態異常が多いほど',
+        any_debuff: 'フィールドに状態異常が多いほど',
         has_mana: 'マナを保持している時',
         use_mana: 'マナが使用された時',
         mana_droped: 'マナを獲得した時',
@@ -833,7 +835,8 @@ class AbilityEffect < ApplicationRecord
         },
         has_mana: {
           mana_f: '戦マナ',
-          mana_p: '僧マナ'
+          mana_p: '僧マナ',
+          mana_fm: '戦/魔マナ'
         },
         mana_droped: {
           mana_k: '騎マナ',
