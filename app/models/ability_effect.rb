@@ -184,6 +184,7 @@ class AbilityEffect < ApplicationRecord
         own_skill: '自分がスキルを使った時',
         others_skill: '味方がスキルを使った時',
         any_skill: '誰かがスキルを使った時',
+        job_skill: '特定の職がスキルを使った時',
         skill_hit: 'スキルが当たる毎に',
         in_chain: 'チェイン発動中',
         mana_charged: 'マナが多いほど',
@@ -225,6 +226,9 @@ class AbilityEffect < ApplicationRecord
         },
         with_fa: {
           include_self: '自身を含む'
+        },
+        with_volcano: {
+          job_f: '戦士'
         },
         kill: {
           skill: 'スキル使用時'
@@ -281,6 +285,9 @@ class AbilityEffect < ApplicationRecord
           job_a: '弓使い',
           job_p: '僧侶',
           with_f: '戦士がいる時'
+        },
+        job_skill: {
+          job_f: '戦士'
         }
       },
       target: {
@@ -846,6 +853,7 @@ class AbilityEffect < ApplicationRecord
           mana_pm: '僧/魔マナ'
         },
         job_skill: {
+          job_f: '戦士',
           job_fm: '戦/魔',
           job_ka: '騎/弓'
         }
