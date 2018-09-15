@@ -62,6 +62,7 @@ class AbilityEffect < ApplicationRecord
         adsrup: '攻撃力/防御力/移動速度/クリティカルダメージ上昇',
         adcrup: '攻撃力/防御力/クリティカル率/クリティカルダメージ上昇',
         ascrup: '攻撃力/移動速度/クリティカル率/クリティカルダメージ上昇',
+        adscrup: '攻撃力/防御力/移動速度/クリティカル率/クリティカルダメージ上昇',
         guardup: '遠距離ダメージカット上昇',
         delayoff: '攻撃速度上昇',
         maxhpup: '最大HP増加',
@@ -872,6 +873,7 @@ class AbilityEffect < ApplicationRecord
         weapon_sl: '<<斬>>',
         weapon_pi: '<<突>>',
         weapon_blpi: '<<打/突>>',
+        group_guildtown: '副都所属',
         group_demon: '魔神所属'
       },
       sub_target: {
