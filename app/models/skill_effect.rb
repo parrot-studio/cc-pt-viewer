@@ -123,7 +123,8 @@ class SkillEffect < ApplicationRecord
         all_cycle: '全体・徐々に回復',
         all_reaction: '全体・ダメージ反応',
         one_self: '単体・自分',
-        one_worst: '単体・一番HPが低い対象'
+        one_worst: '単体・一番HPが低い対象',
+        one_owner: '単体・主人'
       },
       effect: {
         cure_blind: '暗闇解除',
@@ -189,6 +190,7 @@ class SkillEffect < ApplicationRecord
         far: '一番遠い一人',
         nearest: '一番近い一人',
         hp_worst: '一番HPが低い一人',
+        owner: '主人',
         random: 'ランダム',
         restoration: '返還'
       },

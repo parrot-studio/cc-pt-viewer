@@ -257,6 +257,7 @@ class AbilityEffect < ApplicationRecord
           mana_fm: '戦/魔マナ',
           mana_ka: '騎/弓マナ',
           mana_pm: '僧/魔マナ',
+          mana_kapm: '戦マナ以外',
           mana_fk_all: '戦＋騎マナ',
           mana_fm_all: '戦＋魔マナ'
         },
