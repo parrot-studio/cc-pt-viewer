@@ -852,6 +852,7 @@ class AbilityEffect < ApplicationRecord
           mana_k: '騎マナ',
           mana_p: '僧マナ',
           mana_m: '魔マナ',
+          mana_fa: '戦/弓マナ',
           mana_fm: '戦/魔マナ',
           mana_pm: '僧/魔マナ'
         },
