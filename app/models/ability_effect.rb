@@ -846,7 +846,8 @@ class AbilityEffect < ApplicationRecord
         has_mana: {
           mana_f: '戦マナ',
           mana_p: '僧マナ',
-          mana_fm: '戦/魔マナ'
+          mana_fm: '戦/魔マナ',
+          mana_pm: '僧/魔マナ'
         },
         mana_droped: {
           mana_k: '騎マナ',

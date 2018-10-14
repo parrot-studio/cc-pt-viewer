@@ -49,6 +49,7 @@ class SkillEffect < ApplicationRecord
         one_most: '単体・HPが一番多い対象',
         contact_combo: '接触・連続',
         contact_combination: '接触・コンビネーション',
+        contact_self: '接触・範囲・自分中心',
         range_line: '範囲・直線',
         range_dash: '範囲・ダッシュ',
         range_forward: '範囲・前方',
