@@ -146,6 +146,7 @@ class AbilityEffect < ApplicationRecord
         with_p: '僧侶がいる時',
         with_m: '魔法使いがいる時',
         with_fa: '戦＋弓がいる時',
+        with_various_jobs: '職の種類が多いほど',
         with_sl: '<<斬>>がいる時',
         with_bl: '<<打>>がいる時',
         with_pi: '<<突>>がいる時',
@@ -869,6 +870,7 @@ class AbilityEffect < ApplicationRecord
         nearest: '一番近い対象',
         hp_worst: '一番ダメージが大きい対象',
         lv_worst: '一番レベルが低い対象',
+        owner: '主人',
         job_f: '戦士',
         job_k: '騎士',
         job_fk: '戦/騎',
@@ -1270,7 +1272,13 @@ class AbilityEffect < ApplicationRecord
       condition: {
         any: 'いつでも',
         defend: '攻撃を受けた時',
-        guard: 'ガードした時'
+        guard: 'ガードした時',
+        random: '一定確率で'
+      },
+      sub_condition: {
+        any: {
+          with_span: '連続では発動しない'
+        }
       },
       target: {
         enemy: '敵'
