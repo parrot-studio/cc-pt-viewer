@@ -714,11 +714,13 @@ class AbilityEffect < ApplicationRecord
       },
       condition: {
         wave_start: '各WAVE開始時',
-        in_sub: 'サブパーティーにいる時'
+        in_sub: 'サブパーティーにいる時',
+        in_combo: '攻撃を一定回数当てた時'
       },
       target: {
         nearest: '一番近い対象',
         hp_worst: '一番ダメージが大きい対象',
+        owner: '主人',
         random: 'ランダム'
       }
     },
