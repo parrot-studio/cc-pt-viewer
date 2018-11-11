@@ -88,7 +88,8 @@ class AbilityEffect < ApplicationRecord
         mana_cost_down: 'スキルの消費マナ低下',
         super_skill: '超必殺技使用可能',
         extra_attack: '追撃発生',
-        blast_attack: '範囲攻撃化'
+        blast_attack: '範囲攻撃化',
+        shoot_available: '遠距離攻撃可能'
       },
       sub_effect: {
         aup: {
@@ -559,6 +560,7 @@ class AbilityEffect < ApplicationRecord
         adup: '攻撃力/防御力上昇',
         asup: '攻撃力/移動速度上昇',
         acup: '攻撃力/クリティカル率上昇',
+        arup: '攻撃力/クリティカルダメージ上昇',
         scup: '移動速度/クリティカル率上昇',
         crup: 'クリティカル率/クリティカルダメージ上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
@@ -598,7 +600,8 @@ class AbilityEffect < ApplicationRecord
         weapon_arpu: '<<弓/拳>>',
         weapon_argu: '<<弓/銃>>',
         weapon_gush: '<<銃/狙>>',
-        weapon_slblpipu: '<<斬/打/突/拳>>'
+        weapon_slblpipu: '<<斬/打/突/拳>>',
+        weapon_exclude_sl: '<<斬>>以外'
       }
     },
     buff_group: {
