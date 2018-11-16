@@ -275,6 +275,7 @@ class AbilityEffect < ApplicationRecord
           mana_fkap: '魔マナ以外'
         },
         mana_charged: {
+          mana_k: '騎マナ',
           mana_fm: '戦/魔マナ',
           mana_ka: '騎/弓マナ'
         },
@@ -360,6 +361,7 @@ class AbilityEffect < ApplicationRecord
         },
         mana_droped: {
           mana_f: '戦マナ',
+          mana_k: '騎マナ',
           mana_p: '僧マナ',
           mana_m: '魔マナ',
           mana_pm: '僧/魔マナ',
@@ -429,6 +431,7 @@ class AbilityEffect < ApplicationRecord
         adcup: '攻撃力/防御力/クリティカル率上昇',
         adrup: '攻撃力/防御力/クリティカルダメージ上昇',
         ascup: '攻撃力/移動速度/クリティカル率上昇',
+        acrup: '攻撃力/クリティカル率/クリティカルダメージ上昇',
         adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
         ascrup: '攻撃力/移動速度/クリティカル率/クリティカルダメージ上昇',
         adscrup: '攻撃力/防御力/移動速度/クリティカル率/クリティカルダメージ上昇',
@@ -572,6 +575,7 @@ class AbilityEffect < ApplicationRecord
         any: 'いつでも',
         with_f: '戦士がいる時',
         with_a: '弓使いがいる時',
+        with_slpi: '<<斬/突>>がいる時',
         with_slma: '<<斬/魔>>がいる時',
         with_slpu: '<<斬/拳>>がいる時',
         wave_start: '各WAVE開始時'
@@ -927,6 +931,7 @@ class AbilityEffect < ApplicationRecord
         critical: 'クリティカル時',
         skill: 'スキル使用時',
         counter: 'カウンター発生時',
+        extra_attack: '追撃発生時',
         add_poison: '毒を与えた時',
         add_blind: '暗闇を与えた時',
         add_slow: 'スロウを与えた時',
