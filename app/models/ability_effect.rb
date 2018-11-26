@@ -729,6 +729,7 @@ class AbilityEffect < ApplicationRecord
         nearest: '一番近い対象',
         hp_worst: '一番ダメージが大きい対象',
         owner: '主人',
+        buddy: 'バディ',
         random: 'ランダム'
       }
     },
@@ -840,6 +841,9 @@ class AbilityEffect < ApplicationRecord
         super_gauge_max: '超必殺技ゲージがMAXの時'
       },
       sub_condition: {
+        wave_start: {
+          repeat: '繰り返し発動'
+        },
         in_front: {
           with_p: '僧侶',
           with_m: '魔法使い'
@@ -1161,7 +1165,8 @@ class AbilityEffect < ApplicationRecord
         kill_count: '一定数の敵を倒した時',
         dropout_self: '自身が脱落した時',
         own_skill: '自分がスキルを使った時',
-        in_chain: 'チェイン発動中'
+        in_chain: 'チェイン発動中',
+        in_maxchain: 'MAXChain時'
       },
       sub_condition: {
         battle_start: {

@@ -2430,5 +2430,13 @@ K・K,A,195,1,,FB‐202 ファイアブロウ,1,初回のみ,attack,summon,,,,,,
 ルーノ,K,210,1,d,ホーリーバースト,2,,attack,range_drop,,,,,,
 ,,,,d,,forward,,barrier,all,,,,,,
 ,,,,,,,,,,,,,,,
+# 3部2周年・ヘリオス編9章,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+エシャル,P,125,1,,ウォーデンバースト,1,,attack,range_shortline,add_push,,,,,使用する度に効果上昇
+,,,,,,forward,,buff,all,aup,,,,,使用する度に効果上昇
+ベニガサ,P,126,1,,黒狗郷愁,1,,heal,all_instant,aup,excess,,,,超過はMAXChain時のみ
+ヘリオス,F,412,1,,クロス・ブレイブ,2,,attack,range_dash,add_push,return_position,,,,
+,,,h,,グラン・レディエンス,0,,attack,range_forward,,,,,,2Chain以上で効果と範囲上昇
+,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 # end,,,,,,,,,,,,,,,
