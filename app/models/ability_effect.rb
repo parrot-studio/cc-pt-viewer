@@ -87,6 +87,7 @@ class AbilityEffect < ApplicationRecord
         skill_once: '一度だけスキルが使える',
         mana_cost_down: 'スキルの消費マナ低下',
         super_skill: '超必殺技使用可能',
+        super_gauge_gain: '超必殺技ゲージ上昇',
         extra_attack: '追撃発生',
         blast_attack: '範囲攻撃化',
         shoot_available: '遠距離攻撃可能'
@@ -219,10 +220,14 @@ class AbilityEffect < ApplicationRecord
           hp_full: 'HPが満タンの時'
         },
         with_f: {
-          include_self: '自身を含む'
+          include_self: '自身を含む',
+          group_oasis: '湖都所属'
         },
         with_k: {
           include_self: '自身を含む'
+        },
+        with_a: {
+          group_oasis: '湖都所属'
         },
         with_m: {
           include_self: '自身を含む'
@@ -345,6 +350,7 @@ class AbilityEffect < ApplicationRecord
         mana_droped: 'マナを獲得した時',
         use_mana: 'マナが使用された時',
         kill: '敵を倒した時',
+        kill_debuff: '状態異常の敵を倒した時',
         super_gauge_max: '超必殺技ゲージがMAXの時'
       },
       sub_condition: {
