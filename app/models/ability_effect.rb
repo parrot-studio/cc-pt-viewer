@@ -42,12 +42,12 @@ class AbilityEffect < ApplicationRecord
         rup: 'クリティカルダメージ上昇',
         adup: '攻撃力/防御力上昇',
         asup: '攻撃力/移動速度上昇',
+        arup: '攻撃力/クリティカルダメージ上昇',
         dsup: '防御力/移動速度上昇',
         drup: '防御力/クリティカルダメージ上昇',
         acup: '攻撃力/クリティカル率上昇',
         dcup: '防御力/クリティカル率上昇',
         scup: '移動速度/クリティカル率上昇',
-        arup: '攻撃力/クリティカルダメージ上昇',
         srup: '移動速度/クリティカルダメージ上昇',
         crup: 'クリティカル率/クリティカルダメージ上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
@@ -87,10 +87,35 @@ class AbilityEffect < ApplicationRecord
         skill_once: '一度だけスキルが使える',
         mana_cost_down: 'スキルの消費マナ低下',
         super_skill: '超必殺技使用可能',
+        heal_action: '回復行動を取る',
         super_gauge_gain: '超必殺技ゲージ上昇',
         extra_attack: '追撃発生',
         blast_attack: '範囲攻撃化',
-        shoot_available: '遠距離攻撃可能'
+        shoot_available: '遠距離攻撃可能',
+        aup_m: '攻撃力上昇 / 一定時間',
+        dup_m: '防御力上昇 / 一定時間',
+        sup_m: '移動速度上昇 / 一定時間',
+        cup_m: 'クリティカル率上昇 / 一定時間',
+        adup_m: '攻撃力/防御力上昇 / 一定時間',
+        asup_m: '攻撃力/移動速度上昇 / 一定時間',
+        acup_m: '攻撃力/クリティカル率上昇 / 一定時間',
+        arup_m: '攻撃力/クリティカルダメージ上昇 / 一定時間',
+        dsup_m: '防御力/移動速度上昇 / 一定時間',
+        dcup_m: '防御力/クリティカル率上昇 / 一定時間',
+        drup_m: '防御力/クリティカルダメージ上昇 / 一定時間',
+        scup_m: '移動速度/クリティカル率上昇 / 一定時間',
+        crup_m: 'クリティカル率/クリティカルダメージ上昇 / 一定時間',
+        adsup_m: '攻撃力/防御力/移動速度上昇 / 一定時間',
+        adcup_m: '攻撃力/防御力/クリティカル率上昇 / 一定時間',
+        adrup_m: '攻撃力/防御力/クリティカルダメージ上昇 / 一定時間',
+        ascup_m: '攻撃力/移動速度/クリティカル率上昇 / 一定時間',
+        asrup_m: '攻撃力/移動速度/クリティカルダメージ上昇 / 一定時間',
+        acrup_m: '攻撃力/クリティカル率/クリティカルダメージ上昇 / 一定時間',
+        scrup_m: '移動速度/クリティカル率/クリティカルダメージ上昇 / 一定時間',
+        adscup_m: '攻撃力/防御力/移動速度/クリティカル率上昇 / 一定時間',
+        adcrup_m: '攻撃力/防御力/クリティカル率/クリティカルダメージ上昇 / 一定時間',
+        ascrup_m: '攻撃力/移動速度/クリティカル率/クリティカルダメージ上昇 / 一定時間',
+        adscrup_m: '攻撃力/防御力/移動速度/クリティカル率/クリティカルダメージ上昇 / 一定時間'
       },
       sub_effect: {
         aup: {
@@ -105,20 +130,39 @@ class AbilityEffect < ApplicationRecord
           defdown_self: '自身の防御力低下'
         },
         adup: {
-          boost_with_enemys: '敵が多いほど効果上昇',
-          speeddown_self: '自身の移動速度低下'
+          boost_with_enemys: '敵が多いほど効果上昇'
         },
         asup: {
           defdown_self: '自身の防御力低下'
         },
-        ascup: {
-          defdown_self: '自身の防御力低下'
+        delayoff: {
+          momentary: '一定時間'
         },
         healup: {
           areadown_self: '自身の回復範囲減少',
           defdown_self: '自身の防御力低下'
         },
         healareaup: {
+          defdown_self: '自身の防御力低下'
+        },
+        aup_m: {
+          boost_with_enemys: '敵が多いほど効果上昇',
+          defdown_self: '自身の防御力低下'
+        },
+        dup_m: {
+          boost_with_enemys: '敵が多いほど効果上昇'
+        },
+        adup_m: {
+          boost_with_enemys: '敵が多いほど効果上昇',
+          speeddown_self: '自身の移動速度低下'
+        },
+        asup_m: {
+          defdown_self: '自身の防御力低下'
+        },
+        adsup_m: {
+          boost_with_enemys: '敵が多いほど効果上昇'
+        },
+        ascup_m: {
           defdown_self: '自身の防御力低下'
         }
       },
@@ -130,7 +174,6 @@ class AbilityEffect < ApplicationRecord
         attack: '通常攻撃時',
         critical: 'クリティカル時',
         shoot: '遠距離攻撃時',
-        heal: '回復した時',
         in_move: '移動中',
         in_pierce: '貫通した時',
         link: '複数で一緒に攻撃した時',
@@ -158,6 +201,10 @@ class AbilityEffect < ApplicationRecord
         with_pu: '<<拳>>がいる時',
         with_gu: '<<銃>>がいる時',
         with_sh: '<<狙>>がいる時',
+        with_slpu: '<<斬/拳>>がいる時',
+        with_blpi: '<<打/突>>がいる時',
+        with_armahe: '<<弓/魔/聖>>がいる時',
+        with_gush: '<<銃/狙>>がいる時',
         with_guildtown: '所属：副都がいる時',
         with_holytown: '所属：聖都がいる時',
         with_academy: '所属：賢者の塔がいる時',
@@ -206,6 +253,7 @@ class AbilityEffect < ApplicationRecord
         any_debuff: 'フィールドに状態異常が多いほど',
         super_gauge_max: '超必殺技ゲージがMAXの時',
         add_debuff: '状態異常を付与した時',
+        add_atkdown: '攻撃力低下を付与した時',
         add_defdown: '防御力低下を付与した時',
         after_move: '一定距離を移動した時',
         in_awakening: '覚醒ゲージがMAXの時',
@@ -285,10 +333,10 @@ class AbilityEffect < ApplicationRecord
           mana_ka: '騎/弓マナ'
         },
         use_mana: {
-          self: '自分'
+          self: '自分',
+          self_once: '自分/一度だけ'
         },
         own_skill: {
-          enemy_appeared: '敵が多いほど',
           with_mana_empty: 'マナが空で発動したとき'
         },
         others_skill: {
@@ -325,7 +373,21 @@ class AbilityEffect < ApplicationRecord
         barrier: 'バリアを張る',
         super_gauge_gain: '超必殺技ゲージ上昇',
         extend_chain: 'チェイン受け付け時間延長',
-        enhance_chain: 'チェイン倍率上昇'
+        enhance_chain: 'チェイン倍率上昇',
+        aup_m: '攻撃力上昇 / 一定時間',
+        dup_m: '防御力上昇 / 一定時間',
+        sup_m: '移動速度上昇 / 一定時間',
+        cup_m: 'クリティカル率上昇 / 一定時間',
+        adup_m: '攻撃力/防御力上昇 / 一定時間',
+        asup_m: '攻撃力/移動速度上昇 / 一定時間',
+        acup_m: '攻撃力/クリティカル率上昇 / 一定時間',
+        arup_m: '攻撃力/クリティカルダメージ上昇 / 一定時間',
+        dsup_m: '防御力/移動速度上昇 / 一定時間',
+        dcup_m: '防御力/クリティカル率上昇 / 一定時間',
+        scup_m: '移動速度/クリティカル率上昇 / 一定時間',
+        crup_m: 'クリティカル率/クリティカルダメージ上昇 / 一定時間',
+        adsup_m: '攻撃力/防御力/移動速度上昇 / 一定時間',
+        adcup_m: '攻撃力/防御力/クリティカル率上昇 / 一定時間'
       },
       sub_effect: {
         aup: {
@@ -395,7 +457,10 @@ class AbilityEffect < ApplicationRecord
         asup: '攻撃力/移動速度上昇',
         acup: '攻撃力/クリティカル率上昇',
         dsup: '防御力/移動速度上昇',
-        adsup: '攻撃力/防御力/移動速度上昇'
+        adsup: '攻撃力/防御力/移動速度上昇',
+        aup_m: '攻撃力上昇 / 一定時間',
+        adup_m: '攻撃力/防御力上昇 / 一定時間',
+        acup_m: '攻撃力/クリティカル率上昇 / 一定時間'
       },
       condition: {
         any: 'いつでも',
@@ -442,10 +507,28 @@ class AbilityEffect < ApplicationRecord
         ascrup: '攻撃力/移動速度/クリティカル率/クリティカルダメージ上昇',
         adscrup: '攻撃力/防御力/移動速度/クリティカル率/クリティカルダメージ上昇',
         add_slow: '対象の攻撃にスロウを付与',
-        barrier: 'バリアを張る'
+        barrier: 'バリアを張る',
+        aup_m: '攻撃力上昇 / 一定時間',
+        dup_m: '防御力上昇 / 一定時間',
+        sup_m: '移動速度上昇 / 一定時間',
+        cup_m: 'クリティカル率上昇 / 一定時間',
+        adup_m: '攻撃力/防御力上昇 / 一定時間',
+        asup_m: '攻撃力/移動速度上昇 / 一定時間',
+        acup_m: '攻撃力/クリティカル率上昇 / 一定時間',
+        dsup_m: '防御力/移動速度上昇 / 一定時間',
+        scup_m: '移動速度/クリティカル率上昇 / 一定時間',
+        adsup_m: '攻撃力/防御力/移動速度上昇 / 一定時間',
+        adcup_m: '攻撃力/防御力/クリティカル率上昇 / 一定時間',
+        ascup_m: '攻撃力/移動速度/クリティカル率上昇 / 一定時間',
+        adscup_m: '攻撃力/防御力/移動速度/クリティカル率上昇 / 一定時間',
+        ascrup_m: '攻撃力/移動速度/クリティカル率/クリティカルダメージ上昇 / 一定時間',
+        adscrup_m: '攻撃力/防御力/移動速度/クリティカル率/クリティカルダメージ上昇 / 一定時間'
       },
       sub_effect: {
         aup: {
+          defdown_targets: '対象の防御力低下'
+        },
+        aup_m: {
           defdown_targets: '対象の防御力低下'
         }
       },
@@ -634,7 +717,14 @@ class AbilityEffect < ApplicationRecord
         add_down: '対象の攻撃にダウンを付与',
         add_slow: '対象の攻撃にスロウを付与',
         add_poison: '対象の攻撃に毒を付与',
-        add_shield_break: '盾破壊付与'
+        add_shield_break: '盾破壊付与',
+        adup_m: '攻撃力/防御力上昇 / 一定時間',
+        asup_m: '攻撃力/移動速度上昇 / 一定時間',
+        scup_m: '移動速度/クリティカル率上昇 / 一定時間',
+        adsup_m: '攻撃力/防御力/移動速度上昇 / 一定時間',
+        adcup_m: '攻撃力/防御力/クリティカル率上昇 / 一定時間',
+        adrup_m: '攻撃力/防御力/クリティカルダメージ上昇 / 一定時間',
+        adscup_m: '攻撃力/防御力/移動速度/クリティカル率上昇 / 一定時間'
       },
       condition: {
         any: 'いつでも',
@@ -724,7 +814,18 @@ class AbilityEffect < ApplicationRecord
         adcup: '攻撃力/防御力/クリティカル率上昇',
         scrup: '移動速度/クリティカル率/クリティカルダメージ上昇',
         adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
-        barrier: 'バリアを張る'
+        barrier: 'バリアを張る',
+        aup_m: '攻撃力上昇 / 一定時間',
+        dup_m: '防御力上昇 / 一定時間',
+        adup_m: '攻撃力/防御力上昇 / 一定時間',
+        acup_m: '攻撃力/クリティカル率上昇 / 一定時間',
+        asup_m: '攻撃力/移動速度上昇 / 一定時間',
+        scup_m: '移動速度/クリティカル率上昇 / 一定時間',
+        crup_m: 'クリティカル率/クリティカルダメージ上昇 / 一定時間',
+        adsup_m: '攻撃力/防御力/移動速度上昇 / 一定時間',
+        adcup_m: '攻撃力/防御力/クリティカル率上昇 / 一定時間',
+        scrup_m: '移動速度/クリティカル率/クリティカルダメージ上昇 / 一定時間',
+        adscup_m: '攻撃力/防御力/移動速度/クリティカル率上昇 / 一定時間'
       },
       condition: {
         wave_start: '各WAVE開始時',
@@ -743,7 +844,9 @@ class AbilityEffect < ApplicationRecord
       name: '範囲内を強化',
       effect: {
         adup: '攻撃力/防御力上昇',
-        adsup: '攻撃力/防御力/移動速度上昇'
+        adsup: '攻撃力/防御力/移動速度上昇',
+        adup_m: '攻撃力/防御力上昇 / 一定時間',
+        adsup_m: '攻撃力/防御力/移動速度上昇 / 一定時間'
       },
       condition: {
         heal_action: '回復行動時'
@@ -759,6 +862,14 @@ class AbilityEffect < ApplicationRecord
         skill_boost: 'スキル強化',
         charge_reduce: '溜め時間減少',
         skill_spread: 'スキル範囲拡大'
+      },
+      sub_effect: {
+        skill_atkup: {
+          momentary: '一定時間'
+        },
+        skill_spread: {
+          momentary: '一定時間'
+        }
       },
       condition: {
         any: 'いつでも',
@@ -803,8 +914,7 @@ class AbilityEffect < ApplicationRecord
         heal_jobs: '特定の職を回復',
         heal_group: '特定の所属を回復',
         heal_all: '全員を回復',
-        absorb: '与えたダメージを吸収',
-        heal_action: '回復行動を取る'
+        absorb: '与えたダメージを吸収'
       },
       condition: {
         any: 'いつでも',
@@ -867,6 +977,7 @@ class AbilityEffect < ApplicationRecord
         has_mana: {
           mana_f: '戦マナ',
           mana_p: '僧マナ',
+          mana_m: '魔マナ',
           mana_fm: '戦/魔マナ',
           mana_pm: '僧/魔マナ'
         },
@@ -1142,7 +1253,8 @@ class AbilityEffect < ApplicationRecord
           mana_k: '騎マナ',
           mana_a: '弓マナ',
           mana_p: '僧マナ',
-          mana_m: '魔マナ'
+          mana_m: '魔マナ',
+          mana_fm: '戦＋魔'
         },
         composite: {
           mana_fk: '戦＋騎',
@@ -1261,6 +1373,7 @@ class AbilityEffect < ApplicationRecord
       },
       sub_effect: {
         pierce: {
+          momentary: '一定時間',
           bullet_speeddown: '弾速低下'
         }
       },
@@ -1428,7 +1541,7 @@ class AbilityEffect < ApplicationRecord
     ret = {}
     CATEGORYS.each do |k, v|
       next if k == :unknown
-      ret[k] = v.fetch(:effect, {}).to_a
+      ret[k] = v.fetch(:effect, {}).to_a.reject { |d| d.first.to_s.end_with?('up_m') }
     end
     ret
   end.call.freeze
@@ -1437,8 +1550,20 @@ class AbilityEffect < ApplicationRecord
     ret = {}
     CATEGORYS.each do |k, v|
       next if k == :unknown
-      sret = {}
+
+      base = {}
       v.fetch(:sub_effect, {}).each do |sk, sv|
+        m = sk.to_s.match(/\A(.+up)_m\z/)
+        if m
+          key = m[1].to_sym
+          base[key] = (base[key] || {}).merge(sv)
+        else
+          base[sk] = sv
+        end
+      end
+
+      sret = {}
+      base.each do |sk, sv|
         sret[sk] = sv.to_a
       end
       ret[k] = sret
@@ -1493,21 +1618,21 @@ class AbilityEffect < ApplicationRecord
   BUFF_TYPES = lambda do
     ret = []
     CATEGORYS.each_value do |cv|
-      ret << cv[:effect].keys.select { |k| k.match(/\A[a|d|s|c|r]+up\z/) }
+      ret << cv[:effect].keys.select { |k| k.match?(/\A[a|d|s|c|r]+up\z/) }
     end
     ret.flatten.uniq.compact.map(&:to_s)
   end.call.freeze
 
   EFFECT_GROUP = {
-    aup: BUFF_TYPES.select { |s| s.match(/a/) },
-    dup: BUFF_TYPES.select { |s| s.match(/d/) },
-    sup: BUFF_TYPES.select { |s| s.match(/s/) },
-    cup: BUFF_TYPES.select { |s| s.match(/c/) },
-    rup: BUFF_TYPES.select { |s| s.match(/r/) },
+    aup: BUFF_TYPES.select { |s| s.match?(/a/) },
+    dup: BUFF_TYPES.select { |s| s.match?(/d/) },
+    sup: BUFF_TYPES.select { |s| s.match?(/s/) },
+    cup: BUFF_TYPES.select { |s| s.match?(/c/) },
+    rup: BUFF_TYPES.select { |s| s.match?(/r/) },
     areaup: %w[healareaup areashift],
     healup: %w[healareaup],
     atkdown: %w[atkdefdown atkspeeddown fulldown],
-    defdown:  %w[atkdefdown defspeeddown fulldown],
+    defdown: %w[atkdefdown defspeeddown fulldown],
     speeddown: %w[atkspeeddown defspeeddown fulldown],
     guard_blind: ['guard_all'],
     guard_curse: ['guard_all'],

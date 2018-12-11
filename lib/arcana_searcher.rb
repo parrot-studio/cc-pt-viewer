@@ -462,8 +462,11 @@ class ArcanaSearcher
   def ability_effect_group_for(ef)
     return if ef.blank?
     group = AbilityEffect::EFFECT_GROUP[ef.to_sym]
-    return ef if group.blank?
-    [ef, group].flatten.uniq.compact
+    efs = [ef, group].flatten.uniq.compact
+
+    efs.map do |e|
+      AbilityEffect::BUFF_TYPES.include?(e) ? [e, "#{e}_m"] : e
+    end.flatten.uniq.compact
   end
 
   def target_group_for(t)

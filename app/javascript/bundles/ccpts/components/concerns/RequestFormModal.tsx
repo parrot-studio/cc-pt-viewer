@@ -101,29 +101,15 @@ export default class RequestFormModal extends React.Component<RequestFormModalPr
               <dl>
                 <dt>戦士</dt>
                 <dd className="small">
-                  カラミティ / ブリジット / ラントカルテ
-                </dd>
-                <dt>騎士</dt>
-                <dd className="small">
-                  セラフィー / リズベル / ジルヴェスター
+                  セラフィー / カラミティ / ブリジット
                 </dd>
                 <dt>弓使い</dt>
                 <dd className="small">
-                  イシュチェル / ダスク / バッカス / メディア / ファクト
+                  イシュチェル / ダスク
                 </dd>
                 <dt>魔法使い</dt>
                 <dd className="small">
-                  ラナ / ザラ / カティア（ver.2） /
-                  マスカルウィン / ペレキュデス / シャニ / レイチェル・アナスタシア /
-                  ストラッセ / アステリア
-                </dd>
-                <dt>僧侶</dt>
-                <dd className="small">
-                  ヘロディア（ver.2）
-                </dd>
-                <dt>コラボ（ツインエンジェル）</dt>
-                <dd className="small">
-                  葉月クルミ
+                  ザラ / カティア（ver.2） / マスカルウィン（ver.1） / ペレキュデス / シャニ / ストラッセ
                 </dd>
                 <dt>コラボ（ギルティギア）</dt>
                 <dd className="small">
