@@ -93,9 +93,10 @@ class SkillEffect < ApplicationRecord
         add_slow: 'スロウ追加',
         add_push: '弾き飛ばし',
         add_tumble: '転倒付与',
-        add_defdown: '防御力低下',
-        add_atkdefdown: '攻撃力/防御力低下',
-        add_defspeeddown: '防御力/移動速度低下',
+        add_defdown: '防御力低下付与',
+        add_atkdefdown: '攻撃力/防御力低下付与',
+        add_defspeeddown: '防御力/移動速度低下付与',
+        add_fulldown: '攻撃力/防御力/移動速度低下付与',
         fire: '火属性',
         ice: '氷属性',
         need_charge: '溜め後に発動',
@@ -321,6 +322,7 @@ class SkillEffect < ApplicationRecord
         pierce: '貫通する',
         wide_attack: '範囲攻撃',
         guard: '遠距離ガード可能',
+        guardup: '遠距離ダメージカット上昇',
         destroy_scrap: 'スクラップ破壊',
         super_skill: '超必殺技'
       }

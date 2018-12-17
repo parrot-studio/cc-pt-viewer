@@ -201,6 +201,7 @@ class Arcana < ApplicationRecord
     collaboration: {
       name: 'コラボ',
       details: {
+        index3: 'とある魔術の禁書目録IIIコラボ',
         persona3: 'ペルソナ3',
         utaware_requiem: 'うたわれるもの・散りゆく者への子守唄',
         bloodbeyond: '血界戦線＆BEYOND',

@@ -413,7 +413,8 @@ class AbilityEffect < ApplicationRecord
         use_mana: 'マナが使用された時',
         kill: '敵を倒した時',
         kill_debuff: '状態異常の敵を倒した時',
-        super_gauge_max: '超必殺技ゲージがMAXの時'
+        super_gauge_max: '超必殺技ゲージがMAXの時',
+        from_sub: 'サブから戦場に移動したとき'
       },
       sub_condition: {
         in_sub: {
@@ -1037,14 +1038,14 @@ class AbilityEffect < ApplicationRecord
         push: '弾き飛ばし付与',
         slow: 'スロウ付与',
         tumble: '転倒付与',
-        atkdown: '攻撃力低下',
-        defdown: '防御力低下',
-        speeddown: '移動速度低下',
-        atkdefdown: '攻撃力/防御力低下',
-        atkspeeddown: '攻撃力/移動速度低下',
-        defspeeddown: '防御力/移動速度低下',
-        fulldown: '攻撃力/防御力/移動速度低下',
-        delayup: '攻撃速度低下',
+        atkdown: '攻撃力低下付与',
+        defdown: '防御力低下付与',
+        speeddown: '移動速度低下付与',
+        atkdefdown: '攻撃力/防御力低下付与',
+        atkspeeddown: '攻撃力/移動速度低下付与',
+        defspeeddown: '防御力/移動速度低下付与',
+        fulldown: '攻撃力/防御力/移動速度低下付与',
+        delayup: '攻撃速度低下付与',
         shield_break: '盾を破壊する'
       },
       condition: {
