@@ -370,6 +370,7 @@ class AbilityEffect < ApplicationRecord
         adsup: '攻撃力/防御力/移動速度上昇',
         adcup: '攻撃力/防御力/クリティカル率上昇',
         acrup: '攻撃力/クリティカル率/クリティカルダメージ上昇',
+        dsrup: '防御力/移動速度/クリティカルダメージ上昇',
         barrier: 'バリアを張る',
         super_gauge_gain: '超必殺技ゲージ上昇',
         extend_chain: 'チェイン受け付け時間延長',
@@ -387,7 +388,8 @@ class AbilityEffect < ApplicationRecord
         scup_m: '移動速度/クリティカル率上昇 / 一定時間',
         crup_m: 'クリティカル率/クリティカルダメージ上昇 / 一定時間',
         adsup_m: '攻撃力/防御力/移動速度上昇 / 一定時間',
-        adcup_m: '攻撃力/防御力/クリティカル率上昇 / 一定時間'
+        adcup_m: '攻撃力/防御力/クリティカル率上昇 / 一定時間',
+        dsrup_m: '防御力/移動速度/クリティカルダメージ上昇 / 一定時間'
       },
       sub_effect: {
         aup: {
@@ -549,6 +551,7 @@ class AbilityEffect < ApplicationRecord
         with_fkap: '戦＋騎＋弓＋僧がいる時',
         wave_start: '各WAVE開始時',
         in_sub: 'サブパーティーにいる時',
+        own_skill: '自分がスキルを使った時',
         job_skill: '特定の職がスキルを使った時'
       },
       sub_condition: {
@@ -933,6 +936,7 @@ class AbilityEffect < ApplicationRecord
         in_tail: '後ろに仲間がいない時',
         in_back: '一番後列にいる時',
         in_sub: 'サブパーティーにいる時',
+        in_field: '特定のフィールドにいる時',
         skill: 'スキル使用時',
         others_skill: '味方がスキルを使った時',
         job_skill: '特定の職がスキルを使った時',

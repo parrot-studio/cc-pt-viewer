@@ -126,6 +126,7 @@ class SkillEffect < ApplicationRecord
         all_reaction: '全体・ダメージ反応',
         one_self: '単体・自分',
         one_worst: '単体・一番HPが低い対象',
+        one_random: '単体・ランダム',
         one_owner: '単体・主人'
       },
       effect: {
