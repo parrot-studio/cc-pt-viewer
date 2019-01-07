@@ -68,6 +68,7 @@ class SkillEffect < ApplicationRecord
         range_line2: '範囲・直線2ライン',
         range_short: '範囲・接触',
         range_shortline: '範囲・前方直線',
+        range_shortline_combo: '範囲・前方直線/連続',
         range_redash: '範囲・後方ダッシュ',
         range_dash_combo: '範囲・ダッシュ/連続',
         range_all: '範囲・広域',
