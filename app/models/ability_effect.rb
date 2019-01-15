@@ -247,6 +247,7 @@ class AbilityEffect < ApplicationRecord
         mana_mixed: 'マナの種類が多いほど',
         use_mana: 'マナが使用された時',
         scrap_charged: 'スクラップが多いほど',
+        scrap_lost: 'スクラップが少ないほど',
         has_mana: 'マナを保持している時',
         dropout_member: '味方が脱落した時',
         dropout_self: '自身が脱落した時',

@@ -2495,6 +2495,15 @@ K・K,A,195,1,,FB‐202 ファイアブロウ,1,初回のみ,attack,summon,,,,,,
 フリージア,M,282,1,d,グレイシャル・ドライブ,1,,attack,range_all,ice,,,,,
 ,,,,d,,forward,,attack,summon,ice,,,,,
 ,,,,,,,,,,,,,,,
+# エマに願いを,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
+ジークルーン,A,215,1,d,システム・ヴァクストゥーム,1,,attack,range_drop,add_down,,,,,
+,,,,d,,forward,,buff,all,adup,create_scrap,,,,3個
+エーリヒ,A,216,1,d,ラオベン,2,,attack,range_line,add_push,create_scrap,,,,1個
+,,,2,,シャルフ・ユーバーファル,1,スクラップ4個以上,buff,self,aup,,,,,
+,,,,,,forward,,attack,range_forward,add_push,destroy_scrap,,,,4個
+ランドルフ,A,217,1,d,ドゥルヒブルフ,1,,attack,range_forward_combo,create_scrap,,,,,1個
+,,,2,,シュネル・トルンプ,1,,attack,range_forward_combo,,,,,,
+,,,,,,forward,スクラップ2個以上,attack,range_jump,add_push,destroy_scrap,,,,2個
 ,,,,,,,,,,,,,,,
 # end,,,,,,,,,,,,,,,
