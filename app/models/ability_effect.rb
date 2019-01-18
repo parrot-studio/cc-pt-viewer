@@ -334,6 +334,7 @@ class AbilityEffect < ApplicationRecord
         },
         mana_charged: {
           mana_k: '騎マナ',
+          mana_m: '魔マナ',
           mana_fm: '戦/魔マナ',
           mana_ka: '騎/弓マナ'
         },
@@ -1060,7 +1061,8 @@ class AbilityEffect < ApplicationRecord
       },
       sub_effect: {
         weak_element: {
-          fireice: '火/氷'
+          ice: '氷属性',
+          fireice: '火/氷属性'
         }
       },
       condition: {
