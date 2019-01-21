@@ -3,18 +3,17 @@ import * as _ from "lodash"
 import * as Bacon from "baconjs"
 import * as React from "react"
 import { Button, Badge, Modal, Label, Tab, Tabs } from "react-bootstrap"
-declare var $: JQueryStatic
 
 import Arcana from "../../model/Arcana"
-import Favorites from "../../model/Favorites"
 import Skill from "../../model/Skill"
-import MessageStream from "../../lib/MessageStream"
 import Ability from "../../model/Ability"
+import Favorites from "../../model/Favorites"
+import MessageStream from "../../lib/MessageStream"
+import Browser from "../../lib/BrowserProxy"
 
 interface ArcanaViewModalProps {
   viewArcana: Arcana | null
   showModal: boolean
-  phoneDevice: boolean
   closeModal(): void
   openWikiModal(): void
 }
@@ -33,16 +32,24 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
       return
     }
 
-    $(inp).bootstrapSwitch({
-      state: Favorites.stateFor(a.jobCode),
-      size: "mini",
-      onColor: "success",
-      labelText: "お気に入り",
-      labelWidth: "70",
-      onSwitchChange: (e, state) => {
-        Favorites.setState($(e.target).data("jobCode"), state)
+    Browser.addSwitchHandler(
+      inp,
+      Favorites.stateFor(a.jobCode),
+      this.hundleFavoriteSwitch.bind(this),
+      {
+        size: "mini",
+        onColor: "success",
+        labelText: "お気に入り",
+        labelWidth: "70"
       }
-    })
+    )
+  }
+
+  private hundleFavoriteSwitch(state: boolean): void {
+    const a = this.props.viewArcana
+    if (a) {
+      Favorites.setState(a.jobCode, state)
+    }
   }
 
   private renderEachSkill(sk: Skill, ind: number): JSX.Element {
@@ -362,28 +369,27 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
       return this.renderNoramlDetail(a)
     }
 
-    if (this.props.phoneDevice) {
-      return (
-        <div>
+    return (
+      <div>
+        <div className="hidden-sm hidden-md hidden-lg">
           {this.renderNoramlDetail(a)}
           {this.renderGunkiDetail(a)}
         </div>
-      )
-    } else {
-      return (
-        <Tabs defaultActiveKey="normal" id="arcana-detail-tabs">
-          <Tab eventKey="normal" title="通常アビリティ" tabClassName="small">
-            {this.renderNoramlDetail(a)}
-          </Tab>
-          <Tab eventKey="gunki" title="義勇軍記" tabClassName="small">
-            {this.renderGunkiDetail(a)}
-          </Tab>
-        </Tabs>
-      )
-    }
+        <div className="hidden-xs">
+          <Tabs defaultActiveKey="normal" id="arcana-detail-tabs">
+            <Tab eventKey="normal" title="通常アビリティ" tabClassName="small">
+              {this.renderNoramlDetail(a)}
+            </Tab>
+            <Tab eventKey="gunki" title="義勇軍記" tabClassName="small">
+              {this.renderGunkiDetail(a)}
+            </Tab>
+          </Tabs>
+        </div>
+      </div>
+    )
   }
 
-  private openArcanaViewModal(a: Arcana, e: Event): void {
+  private openArcanaViewModal(a: Arcana | null, e): void {
     e.preventDefault()
     MessageStream.arcanaViewStream.plug(Bacon.sequentially(50, [null, a]))
   }

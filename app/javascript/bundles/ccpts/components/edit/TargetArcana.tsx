@@ -1,8 +1,8 @@
 import * as React from "react"
-declare var $: JQueryStatic
 
 import Arcana from "../../model/Arcana"
 import Favorites from "../../model/Favorites"
+import Browser from "../../lib/BrowserProxy"
 import ArcanaRenderer from "./ArcanaRenderer"
 
 export interface TargetArcanaProps {
@@ -67,17 +67,25 @@ export default class TargetArcana extends ArcanaRenderer<TargetArcanaProps> {
       return
     }
 
-    $(inp).bootstrapSwitch({
-      state: Favorites.stateFor(a.jobCode),
-      size: "mini",
-      onColor: "warning",
-      onText: "☆",
-      offText: "★",
-      labelWidth: "2",
-      onSwitchChange: (e, state) => {
-        Favorites.setState($(e.target).data("jobCode"), state)
+    Browser.addSwitchHandler(
+      inp,
+      Favorites.stateFor(a.jobCode),
+      this.hundleFavoriteSwitch.bind(this),
+      {
+        size: "mini",
+        onColor: "warning",
+        onText: "☆",
+        offText: "★",
+        labelWidth: "2"
       }
-    })
+    )
+  }
+
+  private hundleFavoriteSwitch(state: boolean): void {
+    const a = this.props.arcana
+    if (a) {
+      Favorites.setState(a.jobCode, state)
+    }
   }
 
   private renderTargetCost(): string {

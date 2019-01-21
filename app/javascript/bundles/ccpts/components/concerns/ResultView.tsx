@@ -1,11 +1,14 @@
+import * as _ from "lodash"
 import * as React from "react"
 
 import Pager from "../../lib/Pager"
 import MessageStream from "../../lib/MessageStream"
 import Arcana from "../../model/Arcana"
+import QueryResult from "../../model/QueryResult"
 
 export interface ResultViewProps {
   pagerSize: number
+  firstResults: any
 }
 
 interface ResultViewState {
@@ -21,10 +24,11 @@ export abstract class ResultView<P extends ResultViewProps> extends React.Compon
   constructor(props: P) {
     super(props)
 
+    const firstResult = this.parseFirstResults()
     this.state = {
-      pager: Pager.create([], this.props.pagerSize),
+      pager: Pager.create(firstResult.arcanas, this.props.pagerSize),
       sortOrder: {},
-      searchDetail: ""
+      searchDetail: firstResult.detail
     }
 
     MessageStream.resultStream.onValue((r) => {
@@ -54,6 +58,17 @@ export abstract class ResultView<P extends ResultViewProps> extends React.Compon
       return `（${pager.head()} - ${pager.tail()} / ${pager.size}件）`
     } else {
       return "（0件）"
+    }
+  }
+
+  private parseFirstResults(): QueryResult {
+    const data = this.props.firstResults
+    try {
+      const as = _.chain(_.map(data.result, (d) => Arcana.build(d))).compact().value()
+      const detail = data.detail || ""
+      return QueryResult.create(as, detail)
+    } catch (e) {
+      return QueryResult.create([], "")
     }
   }
 }

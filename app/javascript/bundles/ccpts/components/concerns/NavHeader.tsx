@@ -1,17 +1,10 @@
+import * as _ from "lodash"
 import * as React from "react"
 import { Nav, NavItem } from "react-bootstrap"
-
-import Cookie from "../../lib/Cookie"
-import LatestInfo from "../../model/LatestInfo"
-
-import EditTutorialArea from "./EditTutorialArea"
-import LatestInfoArea from "./LatestInfoArea"
 
 interface NavHeaderProps {
   mode: string
   appPath: string
-  phoneDevice: boolean
-  latestInfo: LatestInfo
 }
 
 export default class NavHeader extends React.Component<NavHeaderProps> {
@@ -21,7 +14,6 @@ export default class NavHeader extends React.Component<NavHeaderProps> {
       <div>
         {this.renderNav()}
         {this.renderHeader()}
-        {this.renderHeadInfo()}
       </div>
     )
   }
@@ -40,14 +32,10 @@ export default class NavHeader extends React.Component<NavHeaderProps> {
   }
 
   private renderNav(): JSX.Element | null {
-    if (this.props.phoneDevice) {
-      return null
-    }
-
     const rootPath = this.props.appPath
     const dbPath = `${this.props.appPath}db`
     return (
-      <Nav bsStyle="tabs" justified={true} activeKey={this.props.mode}>
+      <Nav bsStyle="tabs" className="hidden-xs" justified={true} activeKey={this.props.mode}>
         <NavItem eventKey="ptedit" href={rootPath}>{this.modeName("ptedit")}</NavItem>
         <NavItem eventKey="database" href={dbPath}>{this.modeName("database")}</NavItem>
       </Nav>
@@ -68,23 +56,5 @@ export default class NavHeader extends React.Component<NavHeaderProps> {
         </p>
       </div>
     )
-  }
-
-  private renderLatestInfo(): JSX.Element | null {
-    return <LatestInfoArea latestInfo={this.props.latestInfo} />
-  }
-
-  private renderHeadInfo(): JSX.Element | null {
-    if (this.props.mode !== "ptedit") {
-      return this.renderLatestInfo()
-    }
-
-    const tutorial = Cookie.valueFor("tutorial")
-    if (!tutorial) {
-      Cookie.set({ tutorial: true })
-      return <EditTutorialArea />
-    } else {
-      return this.renderLatestInfo()
-    }
   }
 }

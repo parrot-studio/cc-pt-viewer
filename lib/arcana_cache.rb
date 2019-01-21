@@ -32,12 +32,6 @@ class ArcanaCache
       end
     end
 
-    def latestinfo
-      with_object_cache("latestinfo:#{ServerSettings.data_version}") do
-        Changelog.latest.as_json
-      end
-    end
-
     def recently(size = nil)
       size ||= ServerSettings.recently
       with_object_cache("recently:#{ServerSettings.data_version}:#{size}") do
@@ -48,7 +42,8 @@ class ArcanaCache
 
     def heroes
       with_object_cache("heroes:#{ServerSettings.data_version}") do
-        Arcana.joins(:skills).merge(Skill.heroic_only).order(:id).pluck(:job_code)
+        codes = Arcana.joins(:skills).merge(Skill.heroic_only).order(:id).pluck(:job_code)
+        for_codes(codes)
       end
     end
 
@@ -116,7 +111,6 @@ class ArcanaCache
     def rebuild
       clear
       conditions
-      latestinfo
       Arcana.with_tables.each { |a| update_cache(a) }
       voice_actor_name_table
       voice_actor_id_table

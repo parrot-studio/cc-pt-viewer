@@ -4,17 +4,29 @@ import { Button } from "react-bootstrap"
 
 import Arcana from "../../model/Arcana"
 import MessageStream from "../../lib/MessageStream"
+import Browser from "../../lib/BrowserProxy"
 
 export default abstract class ArcanaRenderer<T> extends React.Component<T> {
 
   protected div: HTMLDivElement | null = null
 
   public componentDidMount(): void {
-    this.fadeDiv()
+    if (this.div) {
+      Browser.hide(this.div)
+      Browser.fadeIn(this.div)
+    }
+  }
+
+  public componentWillUpdate(): void {
+    if (this.div) {
+      Browser.hide(this.div)
+    }
   }
 
   public componentDidUpdate(): void {
-    this.fadeDiv()
+    if (this.div) {
+      Browser.fadeIn(this.div)
+    }
   }
 
   protected isSameArcana(ba: Arcana | null, na: Arcana | null) {
@@ -28,7 +40,7 @@ export default abstract class ArcanaRenderer<T> extends React.Component<T> {
     return false
   }
 
-  protected openArcanaViewModal(a: Arcana, e: Event): void {
+  protected openArcanaViewModal(a: Arcana, e): void {
     e.preventDefault()
     MessageStream.arcanaViewStream.push(a)
   }
@@ -37,26 +49,7 @@ export default abstract class ArcanaRenderer<T> extends React.Component<T> {
     if (!this.div) {
       return
     }
-
-    const d = $(this.div)
-    d.attr("data-job-code", code)
-    if (memkey) {
-      d.attr("data-member-key", memkey)
-    }
-    d.draggable({
-      containment: false,
-      helper: "clone",
-      opacity: 0.7,
-      zIndex: 10000,
-      start: () => {
-        $("#search-area").hide()
-        $("#help-area").show()
-      },
-      stop: () => {
-        $("#search-area").show()
-        $("#help-area").hide()
-      }
-    })
+    Browser.setDraggable(this.div, code, memkey)
   }
 
   protected renderSkill(a: Arcana): string {
@@ -121,12 +114,5 @@ export default abstract class ArcanaRenderer<T> extends React.Component<T> {
         Info
       </Button>
     )
-  }
-
-  private fadeDiv(): void {
-    if (this.div) {
-      $(this.div).hide()
-      $(this.div).fadeIn()
-    }
   }
 }

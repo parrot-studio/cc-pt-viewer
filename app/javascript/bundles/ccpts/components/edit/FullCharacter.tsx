@@ -2,15 +2,12 @@ import * as _ from "lodash"
 import * as React from "react"
 
 import Ability from "../../model/Ability"
+import Member from "../../model/Member"
 
 import { MemberRenderer, MemberRendererProps } from "./MemberRenderer"
 import SummaryMember from "./SummaryMember"
 
-interface FullCharacterProps extends MemberRendererProps {
-  phoneDevice: boolean
-}
-
-export default class FullCharacter extends MemberRenderer<FullCharacterProps> {
+export default class FullCharacter extends MemberRenderer<MemberRendererProps> {
 
   public render(): JSX.Element {
     return (
@@ -27,21 +24,7 @@ export default class FullCharacter extends MemberRenderer<FullCharacterProps> {
     return a.name
   }
 
-  private renderMember(): JSX.Element {
-    const m = this.props.member
-
-    if (this.props.phoneDevice) {
-      if (m) {
-        return <SummaryMember view="full" member={m} />
-      } else {
-        return <div className="none summary-size arcana" />
-      }
-    }
-
-    if (!m) {
-      return <div className="none full-size arcana" />
-    }
-
+  private renderFullSizeArcana(m: Member): JSX.Element {
     const a = m.arcana
     return (
       <div className={`${a.jobClass} full-size arcana`}>
@@ -74,5 +57,30 @@ export default class FullCharacter extends MemberRenderer<FullCharacterProps> {
         <div className={`${a.jobClass}-footer arcana-footer`} />
       </div>
     )
+  }
+
+  private renderMember(): JSX.Element {
+    const m = this.props.member
+
+    if (!m) {
+      return (
+        <div>
+          <div className="none hidden-sm hidden-md hidden-lg summary-size arcana" />
+          <div className="none hidden-xs full-size arcana" />
+        </div>
+      )
+    }
+
+    return (
+      <div>
+        <div className="hidden-sm hidden-md hidden-lg">
+          <SummaryMember view="full" member={m} />
+        </div>
+        <div className="hidden-xs">
+          {this.renderFullSizeArcana(m)}
+        </div>
+      </div>
+    )
+
   }
 }

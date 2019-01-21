@@ -1,46 +1,37 @@
 import * as _ from "lodash"
 import * as React from "react"
 import { Button } from "react-bootstrap"
-declare var $ // NOTE: jquery-touchswipeの型定義が存在しない
 
 import MessageStream from "../../lib/MessageStream"
+import Browser from "../../lib/BrowserProxy"
 import Arcana from "../../model/Arcana"
 
 import { ResultView, ResultViewProps } from "../concerns/ResultView"
 import NameSearchForm from "../concerns/NameSearchForm"
 import PagerArea from "../concerns/PagerArea"
 
-interface DatabaseTableAreaProps extends ResultViewProps {
-  phoneDevice: boolean
-}
-
-export default class DatabaseTableArea extends ResultView<DatabaseTableAreaProps> {
+export default class DatabaseTableArea extends ResultView<ResultViewProps> {
 
   private arcanaTable: HTMLTableElement | null = null
 
   public componentDidMount(): void {
-    if (this.props.phoneDevice && this.arcanaTable) {
-      $(this.arcanaTable).swipe({
-        swipeLeft: ((e: Event) => {
-          if (this.state.pager.hasPrevPage()) {
-            this.changePage(this.state.pager.prevPage())
-          }
-          e.preventDefault()
-        }),
-        swipeRight: ((e: Event) => {
-          if (this.state.pager.hasNextPage()) {
-            this.changePage(this.state.pager.nextPage())
-          }
-          e.preventDefault()
-        })
-      })
-    }
+    Browser.addSwipeHandler(
+      this.arcanaTable,
+      this.handleLeftSwipe.bind(this),
+      this.handleRightSwipe.bind(this)
+    )
+  }
 
-    this.fadeTable()
+  public componentWillUpdate(): void {
+    if (this.arcanaTable) {
+      Browser.hide(this.arcanaTable)
+    }
   }
 
   public componentDidUpdate(): void {
-    this.fadeTable()
+    if (this.arcanaTable) {
+      Browser.fadeIn(this.arcanaTable)
+    }
   }
 
   public render(): JSX.Element {
@@ -66,28 +57,34 @@ export default class DatabaseTableArea extends ResultView<DatabaseTableAreaProps
             </table>
           </div>
           <NameSearchForm />
-          <div className="well well-sm small text-muted">
-            {this.state.searchDetail}
-            <span className="pager-count">{this.renderPageCount()}</span>
+          <div className="hidden-xs">
+            <div className="well well-sm small text-muted">
+              {this.state.searchDetail}
+              <span className="pager-count">{this.renderPageCount()}</span>
+            </div>
+            <PagerArea
+              pager={this.state.pager}
+              changePage={this.changePage.bind(this)}
+            />
           </div>
-          <PagerArea
-            pager={this.state.pager}
-            changePage={this.changePage.bind(this)}
-          />
         </div>
-      </div>
+      </div >
     )
   }
 
-  private fadeTable(): void {
-    if (this.arcanaTable) {
-      const table = $(this.arcanaTable)
-      table.hide()
-      table.fadeIn("fast")
+  private handleLeftSwipe(): void {
+    if (this.state.pager.hasPrevPage()) {
+      this.changePage(this.state.pager.prevPage())
     }
   }
 
-  private handleSort(col: string, e: Event) {
+  private handleRightSwipe(): void {
+    if (this.state.pager.hasNextPage()) {
+      this.changePage(this.state.pager.nextPage())
+    }
+  }
+
+  private handleSort(col: string, e) {
     e.stopPropagation()
 
     const orgOrder = this.state.sortOrder[col]
@@ -108,7 +105,7 @@ export default class DatabaseTableArea extends ResultView<DatabaseTableAreaProps
     })
   }
 
-  private openArcanaViewModal(a: Arcana, e: Event) {
+  private openArcanaViewModal(a: Arcana, e) {
     e.preventDefault()
     MessageStream.arcanaViewStream.push(a)
   }
@@ -126,34 +123,24 @@ export default class DatabaseTableArea extends ResultView<DatabaseTableAreaProps
   }
 
   private renderTableHeader(): JSX.Element {
-    const mainCols = [
-      ["名前", "name"],
-      ["職", ""],
-      ["★", ""]
+    const cols = [
+      ["名前", "name", ""],
+      ["職", "", ""],
+      ["★", "", ""],
+      ["コスト", "cost", ""],
+      ["武器", "", "hidden-xs"],
+      ["最大ATK", "maxAtk", "hidden-xs"],
+      ["最大HP", "maxHp", "hidden-xs"],
+      ["限界ATK", "limitAtk", "hidden-xs"],
+      ["限界HP", "limitHp", "hidden-xs"],
+      ["所属", "", ""]
     ]
-
-    const exCols = [
-      ["コスト", "cost"],
-      ["武器", ""],
-      ["最大ATK", "maxAtk"],
-      ["最大HP", "maxHp"],
-      ["限界ATK", "limitAtk"],
-      ["限界HP", "limitHp"],
-      ["所属", ""]
-    ]
-
-    let cols: string[][] = []
-    if (this.props.phoneDevice) {
-      cols = mainCols
-    } else {
-      cols = mainCols.concat(exCols)
-    }
 
     const cs = _.map(cols, (col) => {
-      if (col[1]) {
+      if (!_.isEmpty(col[1])) {
         return (
           <th
-            className="sortable"
+            className={`sortable ${col[2]}`}
             key={col[1]}
             onClick={this.handleSort.bind(this, col[1])}
           >
@@ -161,6 +148,7 @@ export default class DatabaseTableArea extends ResultView<DatabaseTableAreaProps
             <Button
               bsStyle="default"
               bsSize="xsmall"
+              className="hidden-xs"
               onClick={this.handleSort.bind(this, col[1])}
             >
               {this.renderSortIcon(col[1])}
@@ -169,7 +157,7 @@ export default class DatabaseTableArea extends ResultView<DatabaseTableAreaProps
         )
       } else {
         return (
-          <th key={col[0]}>{col[0]}</th>
+          <th key={col[0]} className={`${col[2]}`}>{col[0]}</th>
         )
       }
     })
@@ -177,25 +165,12 @@ export default class DatabaseTableArea extends ResultView<DatabaseTableAreaProps
   }
 
   private renderArcanas(): JSX.Element[] {
-    const phone = this.props.phoneDevice
     return _.map(this.state.pager.get(), (a) => {
-      let cost: JSX.Element | null = null
-      if (phone) {
-        cost = (
-          <span
-            className="badge badge-sm pull-right"
-            key={`${a.jobCode}.header.cost`}
-          >
-            {`${a.cost}  ( ${a.chainCost} )`}
-          </span>
-        )
-      }
-
       const body: JSX.Element[] = []
+
       body.push(
         <td className="arcana-header" key={`${a.jobCode}.header`}>
           <div className={a.jobClass}>
-            {cost}
             <span className="text-muted small" key={`${a.jobCode}.title`}>{a.title}</span><br />
             <a
               href="#"
@@ -209,15 +184,13 @@ export default class DatabaseTableArea extends ResultView<DatabaseTableAreaProps
       )
       body.push(<td key={`${a.jobCode}.jobNameShort`}>{a.jobNameShort}</td>)
       body.push(<td key={`${a.jobCode}.rarity`}>{a.rarity}</td>)
-      if (!phone) {
-        body.push(<td key={`${a.jobCode}.cost`}>{`${a.cost} ( ${a.chainCost} )`}</td>)
-        body.push(<td key={`${a.jobCode}.weaponName`}>{a.weaponName}</td>)
-        body.push(<td key={`${a.jobCode}.maxAtk`}>{a.maxAtkForView()}</td>)
-        body.push(<td key={`${a.jobCode}.maxHp`}>{a.maxHpForView()}</td>)
-        body.push(<td key={`${a.jobCode}.limitAtk`}>{a.limitAtkForView()}</td>)
-        body.push(<td key={`${a.jobCode}.limitHp`}>{a.limitHpForView()}</td>)
-        body.push(<td key={`${a.jobCode}.union`}>{a.union}</td>)
-      }
+      body.push(<td key={`${a.jobCode}.cost`}>{`${a.cost} (${a.chainCost} )`}</td>)
+      body.push(<td key={`${a.jobCode}.weaponName`} className="hidden-xs">{a.weaponName}</td>)
+      body.push(<td key={`${a.jobCode}.maxAtk`} className="hidden-xs">{a.maxAtkForView()}</td>)
+      body.push(<td key={`${a.jobCode}.maxHp`} className="hidden-xs">{a.maxHpForView()}</td>)
+      body.push(<td key={`${a.jobCode}.limitAtk`} className="hidden-xs">{a.limitAtkForView()}</td>)
+      body.push(<td key={`${a.jobCode}.limitHp`} className="hidden-xs">{a.limitHpForView()}</td>)
+      body.push(<td key={`${a.jobCode}.union`}>{a.union}</td>)
       return (<tr key={a.jobCode}>{body}</tr>)
     })
   }

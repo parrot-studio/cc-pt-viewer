@@ -1,30 +1,39 @@
 import * as _ from "lodash"
 import * as React from "react"
-declare var $: JQueryStatic
-declare var history: History
 
 import Arcana from "../../model/Arcana"
 import Party from "../../model/Party"
-import Parties from "../../model/Parties"
+import Parties, { PartyLog } from "../../model/Parties"
+import LatestInfo from "../../model/LatestInfo"
 import MessageStream from "../../lib/MessageStream"
 import Searcher from "../../lib/Searcher"
+import Browser from "../../lib/BrowserProxy"
+
+import LatestInfoArea from "../concerns/LatestInfoArea"
 
 import MemberControlArea from "./MemberControlArea"
 import MemberAreaHeader from "./MemberAreaHeader"
 import MemberAreaBody from "./MemberAreaBody"
 import TargetsEditArea from "./TargetsEditArea"
 import PartyView from "./PartyView"
+import EditTutorialArea from "./EditTutorialArea"
+import NameSearchForm from "../concerns/NameSearchForm"
 
 interface EditModeViewProps {
   appPath: string
   aboutPath: string
   ptver: string
   originTitle: string
-  phoneDevice: boolean
   pagerSize: number
   arcana: string
   initParty: { [key: string]: any }
-  heroes: string[]
+  heroes: any[]
+  partyView: boolean
+  latestInfo: LatestInfo | null
+  firstResults: any
+  tutorial: boolean
+  lastMembers: string
+  parties: PartyLog[]
   switchConditionMode(): void
 }
 
@@ -32,7 +41,7 @@ interface EditModeViewState {
   party: Party
   lastHistory: string
   editMode: boolean
-  targetInitialized: boolean
+  showHeader: boolean
 }
 
 export default class EditModeView extends React.Component<EditModeViewProps, EditModeViewState> {
@@ -44,7 +53,7 @@ export default class EditModeView extends React.Component<EditModeViewProps, Edi
     super(props)
 
     Party.ptver = this.props.ptver
-    Parties.init()
+    Parties.init(this.props.parties, this.props.lastMembers)
 
     MessageStream.partyStream.onValue((party) => {
       Parties.setLastParty(party)
@@ -76,68 +85,28 @@ export default class EditModeView extends React.Component<EditModeViewProps, Edi
         }
       })
 
-    const editMode = _.isEmpty(this.props.initParty)
-    const targetInitialized = !_.isEmpty(this.props.arcana)
-
-    let initPt = Party.create()
+    const editMode = !this.props.partyView
+    const initPt = Party.build(this.props.initParty)
     let lastHistory = ""
-    if (!_.isEmpty(this.props.initParty)) {
-      initPt = Party.build(this.props.initParty)
+    let showHeader = true
+    if (this.props.partyView) {
       lastHistory = initPt.createCode()
+      showHeader = false
     }
 
     this.state = {
       editMode,
       lastHistory,
-      targetInitialized,
+      showHeader,
       party: initPt
-    }
-  }
-
-  public componentDidMount(): void {
-    const arcana = this.props.arcana
-    if (!_.isEmpty(arcana)) {
-      const a = Arcana.build(arcana)
-      if (!a) {
-        return
-      }
-      MessageStream.queryStream.push({ name: a.name })
-      MessageStream.arcanaViewStream.push(a)
-    }
-
-    if (_.isEmpty(this.props.initParty)) {
-      MessageStream.memberCodeStream.push(Parties.lastParty)
-      if (_.isEmpty(arcana)) {
-        MessageStream.historyStream.push("reset")
-      }
-    }
-
-    if (this.state.editMode) {
-      if (this.partyArea) {
-        $(this.partyArea).hide()
-      }
-      if (this.editArea) {
-        $(this.editArea).show()
-      }
-
-      if (!this.props.phoneDevice && !this.state.targetInitialized) {
-        this.initSearchTarget()
-      }
-    } else {
-      if (this.editArea) {
-        $(this.editArea).hide()
-      }
-      if (this.partyArea) {
-        $(this.partyArea).show()
-      }
     }
   }
 
   public render(): JSX.Element {
     return (
       <div>
+        {this.renderHeadInfo()}
         <MemberControlArea
-          phoneDevice={this.props.phoneDevice}
           appPath={this.props.appPath}
           aboutPath={this.props.aboutPath}
           party={this.state.party}
@@ -145,39 +114,26 @@ export default class EditModeView extends React.Component<EditModeViewProps, Edi
           switchEditMode={this.switchEditMode.bind(this)}
         />
         {this.renderEditArea()}
-        <div id="party-area" ref={(d) => { this.partyArea = d }}>
-          <PartyView
-            phoneDevice={this.props.phoneDevice}
-            party={this.state.party}
-          />
-        </div>
+        {this.renderPartyArea()}
       </div>
     )
   }
 
-  private initSearchTarget(): void {
-    MessageStream.queryStream.push({})
-    Searcher.searchCodes(this.props.heroes).onValue(() => {
-      this.setState({ targetInitialized: true })
-    })
-  }
-
   private replaceHistory(uri: string): void {
-    history.replaceState("", "", `/${uri}`)
+    Browser.changeUrl(`/${uri}`)
   }
 
   private switchEditMode(): void {
-    this.setState({ editMode: !this.state.editMode }, () => {
+    this.setState({
+      editMode: !this.state.editMode,
+      showHeader: true
+    }, () => {
       this.fadeArea()
       if (this.state.editMode) {
         MessageStream.historyStream.push("reset")
         this.setState({ lastHistory: "" })
 
-        document.title = this.props.originTitle
-
-        if (!this.state.targetInitialized) {
-          this.initSearchTarget()
-        }
+        Browser.changeTitle(this.props.originTitle)
       } else {
         MessageStream.historyStream.push(Parties.lastParty)
         this.setState({ lastHistory: Parties.lastParty })
@@ -188,42 +144,40 @@ export default class EditModeView extends React.Component<EditModeViewProps, Edi
   private fadeArea(): void {
     if (this.state.editMode) {
       if (this.partyArea) {
-        $(this.partyArea).hide()
+        Browser.hide(this.partyArea)
       }
       if (this.editArea) {
-        $(this.editArea).fadeIn()
+        Browser.fadeIn(this.editArea)
       }
     } else {
       if (this.editArea) {
-        $(this.editArea).hide()
+        Browser.hide(this.editArea)
       }
       if (this.partyArea) {
-        $(this.partyArea).fadeIn()
+        Browser.fadeIn(this.partyArea)
       }
     }
   }
 
-  private renderTargetsArea(): JSX.Element | null {
-    if (this.props.phoneDevice) {
+  private renderHeadInfo(): JSX.Element | null {
+    if (!this.state.showHeader) {
       return null
     }
 
-    return (
-      <TargetsEditArea
-        phoneDevice={this.props.phoneDevice}
-        pagerSize={this.props.pagerSize}
-        switchConditionMode={this.props.switchConditionMode}
-      />
-    )
+    if (!this.props.tutorial) {
+      return <EditTutorialArea />
+    } else {
+      return <LatestInfoArea latestInfo={this.props.latestInfo} />
+    }
   }
 
   private renderEditArea(): JSX.Element | null {
-    if (this.props.phoneDevice) {
+    if (!this.state.editMode) {
       return null
     }
 
     return (
-      <div id="edit-area" ref={(d) => { this.editArea = d }}>
+      <div id="edit-area" className="hidden-xs" ref={(d) => { this.editArea = d }}>
         <div id="member-area" className="well well-sm">
           <MemberAreaHeader party={this.state.party} />
           <MemberAreaBody
@@ -231,7 +185,26 @@ export default class EditModeView extends React.Component<EditModeViewProps, Edi
             heroes={this.props.heroes}
           />
         </div>
-        {this.renderTargetsArea()}
+        <TargetsEditArea
+          pagerSize={this.props.pagerSize}
+          switchConditionMode={this.props.switchConditionMode}
+          firstResults={this.props.firstResults}
+        />
+        <NameSearchForm />
+      </div>
+    )
+  }
+
+  private renderPartyArea(): JSX.Element | null {
+    if (this.state.editMode) {
+      return null
+    }
+
+    return (
+      <div id="party-area" ref={(d) => { this.partyArea = d }}>
+        <PartyView
+          party={this.state.party}
+        />
       </div>
     )
   }

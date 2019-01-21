@@ -2,13 +2,14 @@ import * as React from "react"
 
 import Arcana from "../../model/Arcana"
 import MessageStream from "../../lib/MessageStream"
+import Browser from "../../lib/BrowserProxy"
 
 import ArcanaViewModal from "./ArcanaViewModal"
 import WikiLinkModal from "./WikiLinkModal"
 
 interface ArcanaViewProps {
-  phoneDevice: boolean
   originTitle: string
+  firstArcana: Arcana | null
 }
 
 interface ArcanaViewState {
@@ -22,9 +23,15 @@ export default class ArcanaView extends React.Component<ArcanaViewProps, ArcanaV
   constructor(props: ArcanaViewProps) {
     super(props)
 
+    const viewArcana = this.props.firstArcana
+    let showArcanaViewModal = false
+    if (viewArcana) {
+      showArcanaViewModal = true
+    }
+
     this.state = {
-      viewArcana: null,
-      showArcanaViewModal: false,
+      viewArcana,
+      showArcanaViewModal,
       showWikiModal: false
     }
 
@@ -39,7 +46,6 @@ export default class ArcanaView extends React.Component<ArcanaViewProps, ArcanaV
         <ArcanaViewModal
           showModal={this.state.showArcanaViewModal}
           viewArcana={this.state.viewArcana}
-          phoneDevice={this.props.phoneDevice}
           closeModal={this.closeArcanaViewModal.bind(this)}
           openWikiModal={this.openWikiModal.bind(this)}
         />
@@ -95,6 +101,6 @@ export default class ArcanaView extends React.Component<ArcanaViewProps, ArcanaV
   }
 
   private changeTitle(title: string | null): void {
-    document.title = (title || this.props.originTitle)
+    Browser.changeTitle((title || this.props.originTitle))
   }
 }

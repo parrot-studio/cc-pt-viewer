@@ -34,8 +34,8 @@ export default class NameSearchForm extends React.Component<{}, NameSearchFormSt
       <div id="name-search">
         <form className="form-horizontal">
           <div className="form-group">
-            <label className="control-label col-sm-3 col-md-3" htmlFor="arcana-name">名前から検索</label>
-            <div className="col-sm-5 col-md-5">
+            <label className="control-label col-xs-12 col-sm-3 col-md-3" htmlFor="arcana-name">名前から検索</label>
+            <div className="col-xs-10 col-sm-5 col-md-5">
               <input
                 type="text"
                 className="form-control"

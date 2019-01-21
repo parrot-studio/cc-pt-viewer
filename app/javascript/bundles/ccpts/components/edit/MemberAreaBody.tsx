@@ -1,7 +1,6 @@
 import * as _ from "lodash"
 import * as React from "react"
 import { FormGroup, ControlLabel, FormControl } from "react-bootstrap"
-declare var $: JQueryStatic
 
 import Arcana from "../../model/Arcana"
 import Member from "../../model/Member"
@@ -11,10 +10,11 @@ import MessageStream from "../../lib/MessageStream"
 import MemberCharacter from "./MemberCharacter"
 import MemberSelectModal from "./MemberSelectModal"
 import HeroCharacter from "./HeroCharacter"
+import Browser from "../../lib/BrowserProxy"
 
 interface MemberAreaBodyProps {
   party: Party
-  heroes: string[]
+  heroes: any[]
 }
 
 interface MemberAreaBodyState {
@@ -67,13 +67,7 @@ export default class MemberAreaBody extends React.Component<MemberAreaBodyProps,
     if (!div) {
       return
     }
-
-    $(div).droppable({
-      drop: (e, ui) => {
-        e.preventDefault()
-        this.handleDropedArcana(code, ui.draggable)
-      }
-    })
+    Browser.addDropHandler(div, code, this.handleDropedArcana)
   }
 
   private handleDropedArcana(targetKey: string, drag) {
@@ -180,21 +174,19 @@ export default class MemberAreaBody extends React.Component<MemberAreaBodyProps,
     MessageStream.partyStream.push(party)
   }
 
-  private removeMember(code: string, e: Event): void {
-    e.preventDefault()
+  private removeMember(code: string): void {
     const party = this.props.party
     party.removeMember(code)
     MessageStream.partyStream.push(party)
   }
 
-  private removeChain(code: string, e: Event) {
-    e.preventDefault()
+  private removeChain(code: string) {
     const party = this.props.party
     party.removeChain(code)
     MessageStream.partyStream.push(party)
   }
 
-  private changeHeroicSKill(e: React.FormEvent<HTMLSelectElement>): void {
+  private changeHeroicSKill(e): void {
     const party = this.props.party
     party.addHero(e.currentTarget.value)
     MessageStream.partyStream.push(party)
@@ -239,7 +231,7 @@ export default class MemberAreaBody extends React.Component<MemberAreaBodyProps,
     }
 
     const opts: JSX.Element[] = _.chain(this.props.heroes)
-      .map((h) => Arcana.forCode(h))
+      .map((h) => Arcana.build(h))
       .compact()
       .map((a) => <option key={a.jobCode} value={a.jobCode}>{a.title} {a.name}</option>)
       .value()

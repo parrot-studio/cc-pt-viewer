@@ -1,6 +1,8 @@
 import * as React from "react"
 import { Alert } from "react-bootstrap"
 
+import Cookie from "../../lib/Cookie"
+
 interface EditTutorialAreaState {
   visible: boolean
 }
@@ -9,6 +11,7 @@ export default class EditTutorialArea extends React.Component<{}, EditTutorialAr
 
   constructor(props) {
     super(props)
+    Cookie.set({ tutorial: true })
     this.state = { visible: true }
   }
 
@@ -19,7 +22,7 @@ export default class EditTutorialArea extends React.Component<{}, EditTutorialAr
 
     return (
       <div className="row">
-        <div className="col-xs-12 col-sm-12 col-md-12">
+        <div className="hidden-xs col-sm-12 col-md-12">
           <Alert
             bsStyle="success"
             closeLabel={"&times; Close"}

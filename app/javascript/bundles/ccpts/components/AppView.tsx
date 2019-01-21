@@ -1,15 +1,17 @@
 import * as _ from "lodash"
 import * as React from "react"
-import { Alert } from "react-bootstrap"
-declare var $: JQueryStatic
+import { Alert, Modal } from "react-bootstrap"
 
+import Arcana from "../model/Arcana"
 import Query from "../model/Query"
-import QueryLogs from "../model/QueryLogs"
+import QueryLogs, { QueryLog } from "../model/QueryLogs"
 import Favorites from "../model/Favorites"
+import { PartyLog } from "../model/Parties"
 import LatestInfo from "../model/LatestInfo"
 import Conditions, { ConditionParams } from "../model/Conditions"
 import MessageStream from "../lib/MessageStream"
 import Searcher from "../lib/Searcher"
+import Browser from "../lib/BrowserProxy"
 
 import EditModeView from "./edit/EditModeView"
 import DatabaseModeView from "./database/DatabaseModeView"
@@ -20,7 +22,7 @@ import DisplaySizeWarning from "./concerns/DisplaySizeWarning"
 
 interface AppViewProps {
   conditions: ConditionParams
-  latestInfo: LatestInfo
+  latestInfo: LatestInfo | null
   mode: string
   ptver: string
   dataver: string
@@ -29,49 +31,57 @@ interface AppViewProps {
   originTitle: string
   arcana: string
   party: { [key: string]: any }
-  heroes: string[]
+  heroes: any[]
+  partyView: boolean
+  queryLogs: QueryLog[]
+  queryString: string
+  firstResults: any
+  tutorial: boolean
+  favorites: string[]
+  lastMembers: string
+  parties: PartyLog[]
 }
 
 interface AppViewState {
   pagerSize: number
   showConditionArea: boolean
+  showErrorArea: boolean
+  loading: boolean
 }
 
 export default class AppView extends React.Component<AppViewProps, AppViewState> {
 
-  private phoneDevice: boolean
-  private errorArea: HTMLDivElement | null = null
   private mainArea: HTMLDivElement | null = null
   private conditionArea: HTMLDivElement | null = null
+  private firstArcana: Arcana | null = null
+  private query: Query | null = null
 
   constructor(props: AppViewProps) {
     super(props)
 
-    Searcher.init(this.props.dataver, this.props.appPath)
+    Searcher.init(
+      this.props.dataver,
+      this.props.appPath,
+      Browser.csrfToken(),
+      this.showLoadingModal.bind(this),
+      this.showErrorArea.bind(this)
+    )
     Conditions.init(this.props.conditions)
-    QueryLogs.init()
-    Favorites.init()
+    QueryLogs.init(this.props.queryLogs)
+    Favorites.init(this.props.favorites)
 
-    const mode = this.props.mode
-    this.phoneDevice = (window.innerWidth < 768 ? true : false)
-
+    const recentlySize = 32
     let pagerSize = 8
-    let recentlySize = 32
-    switch (mode) {
-      case "ptedit":
-        pagerSize = 8
-        recentlySize = 32
-        break
-      case "database":
-        if (this.phoneDevice) {
-          pagerSize = 8
-          recentlySize = 16
-        } else {
-          pagerSize = 16
-          recentlySize = 32
-        }
-        break
+    if (this.props.mode === "database") {
+      pagerSize = 16
     }
+
+    const arcana = this.props.arcana
+    if (!_.isEmpty(arcana)) {
+      this.firstArcana = Arcana.build(arcana)
+    }
+
+    this.query = Query.parse(this.props.queryString)
 
     // search stream
     MessageStream.conditionStream.plug(MessageStream.queryStream)
@@ -83,21 +93,14 @@ export default class AppView extends React.Component<AppViewProps, AppViewState>
       .onValue((q) => {
         Searcher.searchArcanas(q).onValue((r) => MessageStream.resultStream.push(r))
       })
+    MessageStream.conditionStream.onValue((q) => this.query = Query.create(q))
 
     this.state = {
       pagerSize,
-      showConditionArea: false
+      showConditionArea: false,
+      showErrorArea: false,
+      loading: false
     }
-  }
-
-  public componentDidMount(): void {
-    if (this.errorArea) {
-      $(this.errorArea).hide()
-    }
-    if (this.conditionArea) {
-      $(this.conditionArea).hide()
-    }
-    $("#pre-header").hide()
   }
 
   public render(): JSX.Element {
@@ -106,8 +109,6 @@ export default class AppView extends React.Component<AppViewProps, AppViewState>
         <NavHeader
           appPath={this.props.appPath}
           mode={this.props.mode}
-          phoneDevice={this.phoneDevice}
-          latestInfo={this.props.latestInfo}
         />
         {this.renderErrorArea()}
         {this.renderWarning()}
@@ -118,18 +119,22 @@ export default class AppView extends React.Component<AppViewProps, AppViewState>
           {this.renderConditionView()}
         </div>
         <ArcanaView
-          phoneDevice={this.phoneDevice}
           originTitle={this.props.originTitle}
+          firstArcana={this.firstArcana}
+        />
+        <Modal
+          show={this.state.loading}
+          onHide={this.showLoadingModal.bind(this, false)}
         />
       </div>
     )
   }
 
   private switchMainMode(): void {
-    $("#search-modal").modal("hide")
     if (this.state.showConditionArea) {
       this.setState({
-        showConditionArea: false
+        showConditionArea: false,
+        loading: false
       }, () => {
         MessageStream.resultStream.push(null)
         this.fadeModeArea()
@@ -150,23 +155,31 @@ export default class AppView extends React.Component<AppViewProps, AppViewState>
   private fadeModeArea(): void {
     if (this.state.showConditionArea) {
       if (this.mainArea) {
-        $(this.mainArea).hide()
+        Browser.hide(this.mainArea)
       }
       if (this.conditionArea) {
-        $(this.conditionArea).fadeIn("slow")
+        Browser.fadeIn(this.conditionArea)
       }
     } else {
       if (this.conditionArea) {
-        $(this.conditionArea).hide()
+        Browser.hide(this.conditionArea)
       }
       if (this.mainArea) {
-        $(this.mainArea).fadeIn("slow")
+        Browser.fadeIn(this.mainArea)
       }
     }
   }
 
+  private showLoadingModal(state: boolean): void {
+    this.setState({ loading: state })
+  }
+
+  private showErrorArea(state: boolean): void {
+    this.setState({ showErrorArea: state })
+  }
+
   private renderWarning(): JSX.Element | null {
-    if (this.props.mode === "ptedit" && this.phoneDevice) {
+    if (this.props.mode === "ptedit") {
       return <DisplaySizeWarning appPath={this.props.appPath} />
     } else {
       return null
@@ -178,25 +191,32 @@ export default class AppView extends React.Component<AppViewProps, AppViewState>
       case "ptedit":
         return (
           <EditModeView
-            phoneDevice={this.phoneDevice}
             appPath={this.props.appPath}
             aboutPath={this.props.aboutPath}
             initParty={this.props.party}
             ptver={this.props.ptver}
             arcana={this.props.arcana}
+            partyView={this.props.partyView}
             switchConditionMode={this.switchConditionMode.bind(this)}
             pagerSize={this.state.pagerSize}
             originTitle={this.props.originTitle}
             heroes={this.props.heroes}
+            latestInfo={this.props.latestInfo}
+            firstResults={this.props.firstResults}
+            tutorial={this.props.tutorial}
+            lastMembers={this.props.lastMembers}
+            parties={this.props.parties}
           />
         )
       case "database":
         return (
           <DatabaseModeView
-            phoneDevice={this.phoneDevice}
             appPath={this.props.appPath}
             switchConditionMode={this.switchConditionMode.bind(this)}
             pagerSize={this.state.pagerSize}
+            latestInfo={this.props.latestInfo}
+            firstQuery={this.query}
+            firstResults={this.props.firstResults}
           />
         )
       default:
@@ -205,27 +225,32 @@ export default class AppView extends React.Component<AppViewProps, AppViewState>
   }
 
   private renderConditionView(): JSX.Element | null {
-    if (this.props.mode === "ptedit" && this.phoneDevice) {
+    if (!this.state.showConditionArea) {
       return null
     }
 
     return (
       <ConditionView
         originTitle={this.props.originTitle}
+        query={this.query}
         switchMainMode={this.switchMainMode.bind(this)}
       />
     )
   }
 
-  private renderErrorArea(): JSX.Element {
+  private renderErrorArea(): JSX.Element | null {
+    if (!this.state.showErrorArea) {
+      return null
+    }
+
     return (
-      <div id="error-area" ref={(d) => { this.errorArea = d }}>
+      <div id="error-area">
         <div className="row">
           <div className="col-xs-12 col-md-12 col-sm-12">
             <Alert bsStyle="danger">
               <p>
                 <strong>データの取得に失敗しました。</strong>
-                <a href={window.location.href} className="alert-link">リロードする</a>か、もう一度検索してください。
+                <a href={Browser.thisPage()} className="alert-link">リロードする</a>か、もう一度検索してください。
               </p>
             </Alert>
           </div>

@@ -7,7 +7,6 @@ import DatabaseShareModal from "./DatabaseShareModal"
 
 interface DatabaseAreaHeaderProps {
   appPath: string
-  phoneDevice: boolean
   switchConditionMode(): void
 }
 
@@ -41,7 +40,7 @@ export default class DatabaseAreaHeader extends React.Component<DatabaseAreaHead
               >
                 <i className="fa fa-search" /> 検索
               </Button>
-              <SearchMenuButton phoneDevice={this.props.phoneDevice} />
+              <SearchMenuButton />
             </ButtonGroup>
             <Button
               bsStyle="info"
@@ -49,12 +48,17 @@ export default class DatabaseAreaHeader extends React.Component<DatabaseAreaHead
             >
               <i className="fa fa-cloud" /> 共有
             </Button>
-            {this.renderRequest()}
+            <Button
+              bsStyle="link"
+              className="hidden-xs"
+              onClick={this.openRequestModal.bind(this)}
+            >
+              管理者への要望
+            </Button>
           </ButtonToolbar>
 
           <DatabaseShareModal
             appPath={this.props.appPath}
-            phoneDevice={this.props.phoneDevice}
             showModal={this.state.showShareModal}
             closeModal={this.closeShareModal}
           />
@@ -81,20 +85,5 @@ export default class DatabaseAreaHeader extends React.Component<DatabaseAreaHead
 
   private closeRequestModal(): void {
     this.setState({ showRequestModal: false })
-  }
-
-  private renderRequest(): JSX.Element | null {
-    if (this.props.phoneDevice) {
-      return null
-    }
-
-    return (
-      <Button
-        bsStyle="link"
-        onClick={this.openRequestModal.bind(this)}
-      >
-        管理者への要望
-      </Button>
-    )
   }
 }

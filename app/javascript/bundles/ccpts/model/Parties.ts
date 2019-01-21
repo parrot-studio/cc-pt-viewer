@@ -66,26 +66,12 @@ export default class Parties {
     MessageStream.partiesStream.push(Parties.parties)
   }
 
-  public static init(): void {
-    Parties.parties = []
-    try {
-      const val = Cookie.valueFor(Parties.COOKIE_NAME_LIST) || ""
-      if (!_.isEmpty(val)) {
-        Parties.parties = JSON.parse(val)
-      }
-    } catch (e) {
-      Parties.parties = []
-    }
-
-    try {
-      Parties.lastParty = Cookie.valueFor(Parties.COOKIE_NAME_LAST) || Parties.DEFAULT_MEMBER_CODE
-    } catch (e) {
-      Parties.lastParty = Parties.DEFAULT_MEMBER_CODE
-    }
+  public static init(ps: PartyLog[], code: string): void {
+    Parties.parties = ps
+    Parties.lastParty = code
   }
 
   private static readonly PT_SIZE = 10
-  private static readonly DEFAULT_MEMBER_CODE = "V3F362NK160K151A157NP95NF305F273M194NF272F274M261"
   private static readonly COOKIE_NAME_LIST = "parties"
   private static readonly COOKIE_NAME_LAST = "last-members"
 }

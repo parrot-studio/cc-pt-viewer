@@ -13,6 +13,19 @@ dd {
   text-indent: 0.5em;
 }
 
+.hide {
+  display: none;
+}
+
+.fadeIn {
+  animation: fadeIn 1s ease 0s 1 normal;
+}
+
+@keyframes fadeIn {
+  0% {opacity: 0}
+  100% {opacity: 1}
+}
+
 hr.condition {
   border: 0;
   height: 1px;

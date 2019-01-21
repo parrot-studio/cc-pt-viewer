@@ -1,7 +1,6 @@
 import * as _ from "lodash"
 import * as Bacon from "baconjs"
 import * as Agent from "superagent"
-declare var $: JQueryStatic
 
 import Arcana from "../model/Arcana"
 import Party from "../model/Party"
@@ -26,10 +25,20 @@ interface SearchMemberCache {
 }
 
 export default class Searcher {
-  public static init(dataVer: string, appPath: string): void {
+  public static init(
+    dataVer: string,
+    appPath: string,
+    csrfToken: string,
+    showModal: (state: boolean) => void,
+    showError: (state: boolean) => void
+  ): void {
+
     Searcher.config.ver = (dataVer || "")
     Searcher.config.appPath = (appPath || "")
     Searcher.config.apiPath = `${Searcher.config.appPath}api/`
+    Searcher.config.csrfToken = csrfToken
+    Searcher.showModal = showModal
+    Searcher.showError = showError
   }
 
   public static searchArcanas(query: Query): Bacon.EventStream<{}, QueryResult> {
@@ -51,7 +60,7 @@ export default class Searcher {
       return Bacon.once(QueryResult.create(as, detail))
     }
 
-    $("#loading-modal").modal("show")
+    Searcher.showModal(true)
     const searchUrl = `${Searcher.config.apiPath}search`
     return Searcher.search(query.params(), searchUrl).flatMap((data) => {
       const as = _.chain(_.map(data.result, (d) => Arcana.build(d))).compact().value()
@@ -89,7 +98,7 @@ export default class Searcher {
       return Bacon.once(QueryResult.create(as, ""))
     }
 
-    $("#loading-modal").modal("show")
+    Searcher.showModal(true)
     const params = { codes: unknowns.join("/") }
     const codesUrl = `${Searcher.config.apiPath}codes`
     return Searcher.search(params, codesUrl).flatMap((data) => {
@@ -100,27 +109,28 @@ export default class Searcher {
   }
 
   public static request(text: string): Bacon.EventStream<{}, any> {
-    $("#error-area").hide()
-    $("#loading-modal").modal("show")
+    Searcher.showError(false)
+    Searcher.showModal(true)
     const params: QueryParam = {}
     params.text = text
 
     // NOTE: add CSRF header automatically if use jQuery's Ajax with jquery-rails
-    const token = $("meta[name=\"csrf-token\"]").attr("content") || ""
     const requestUrl = `${Searcher.config.apiPath}request`
-    const post = Agent.post(requestUrl).set("X-CSRF-Token", token).send(params)
+    const post = Agent.post(requestUrl)
+      .set("X-CSRF-Token", Searcher.config.csrfToken)
+      .send(params)
 
     const result = Bacon.fromPromise(post)
-    result.onError(() => $("#error-area").show())
-    result.onEnd(() => $("#loading-modal").modal("hide"))
+    result.onError(() => Searcher.showError(true))
+    result.onEnd(() => Searcher.showModal(false))
     return result.flatMap((res) => Bacon.once(res.body))
   }
 
   public static searchFromName(query: Query): Bacon.EventStream<{}, QueryResult> {
     const nameUrl = `${Searcher.config.apiPath}name`
     return Searcher.search(query.params(), nameUrl).flatMap((data) => {
-      const as = _.chain(_.map(data, (d) => Arcana.build(d))).compact().value()
-      query.detail = `名前から検索 : ${query.params().name}`
+      const as = _.chain(_.map(data.result, (d) => Arcana.build(d))).compact().value()
+      query.detail = data.detail || ""
       QueryLogs.add(query)
       return Bacon.once(QueryResult.create(as, query.detail))
     })
@@ -130,15 +140,17 @@ export default class Searcher {
   private static resultCache: SearchResultCache = {}
   private static detailCache: SearchDetailCache = {}
   private static memberCache: SearchMemberCache = {}
+  private static showModal: (state: boolean) => void
+  private static showError: (state: boolean) => void
 
   private static search(params: any, url: string): Bacon.EventStream<{}, any> {
-    $("#error-area").hide()
+    Searcher.showError(false)
 
     params = (params || {})
     params.ver = Searcher.config.ver
     const result = Bacon.fromPromise(Agent.get(url).query(params))
-    result.onError(() => $("#error-area").show())
-    result.onEnd(() => $("#loading-modal").modal("hide"))
+    result.onError(() => Searcher.showError(true))
+    result.onEnd(() => Searcher.showModal(false))
     return result.flatMap((res) => Bacon.once(res.body))
   }
 }

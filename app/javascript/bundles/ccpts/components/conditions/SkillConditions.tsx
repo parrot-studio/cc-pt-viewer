@@ -1,8 +1,8 @@
 import * as _ from "lodash"
 import * as React from "react"
-declare var $: JQueryStatic
 
 import Conditions, { ConditionsNotifier } from "../../model/Conditions"
+import Browser from "../../lib/BrowserProxy"
 
 interface SkillConditionsProps extends ConditionsNotifier {
   skill: string
@@ -32,7 +32,7 @@ export default class SkillConditions extends React.Component<SkillConditionsProp
           <label htmlFor="skill-inheritable">伝授のみ</label>
           <input
             type="checkbox"
-            ref={(inp) => { this.addInheritableHandler(inp, this) }}
+            ref={(inp) => { this.addInheritableHandler(inp) }}
           />
         </div>
         {this.renderAddArea()}
@@ -40,20 +40,17 @@ export default class SkillConditions extends React.Component<SkillConditionsProp
     )
   }
 
-  private addInheritableHandler(inp: HTMLInputElement | null, self: SkillConditions): void {
+  private addInheritableHandler(inp: HTMLInputElement | null): void {
     if (!inp) {
       return
     }
-    $(inp).bootstrapSwitch({
-      onSwitchChange: (e: Event, state: boolean) => {
-        let val = ""
-        if (state) {
-          val = "1"
-        }
-        self.props.notifier.push({ skillinheritable: val })
-      }
-    })
-    $(inp).bootstrapSwitch("state", !_.isEmpty(self.props.skillinheritable))
+
+    Browser.addSwitchHandler(
+      inp,
+      !_.isEmpty(this.props.skillinheritable),
+      this.handleInheritableSwitch.bind(this),
+      {}
+    )
   }
 
   private handleCategoryChange(e: React.FormEvent<HTMLSelectElement>): void {
@@ -87,6 +84,14 @@ export default class SkillConditions extends React.Component<SkillConditionsProp
 
   private renderCategoryList(): JSX.Element[] {
     return this.renderConditionList(Conditions.skillCategorys())
+  }
+
+  private handleInheritableSwitch(state: boolean): void {
+    let val = ""
+    if (state) {
+      val = "1"
+    }
+    this.props.notifier.push({ skillinheritable: val })
   }
 
   private renderCostList(): JSX.Element[] {

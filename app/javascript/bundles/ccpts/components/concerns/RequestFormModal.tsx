@@ -2,6 +2,7 @@ import * as React from "react"
 import { Modal, Button, ButtonToolbar } from "react-bootstrap"
 
 import Searcher from "../../lib/Searcher"
+import Browser from "../../lib/BrowserProxy"
 
 interface RequestFormModalProps {
   showModal: boolean
@@ -109,7 +110,7 @@ export default class RequestFormModal extends React.Component<RequestFormModalPr
                 </dd>
                 <dt>魔法使い</dt>
                 <dd className="small">
-                  ザラ / カティア（ver.2） / マスカルウィン（ver.1） / ペレキュデス / シャニ / ストラッセ
+                  ザラ / カティア（ver.2） / マスカルウィン（ver.1） / ペレキュデス / ストラッセ
                 </dd>
                 <dt>コラボ（ギルティギア）</dt>
                 <dd className="small">
@@ -141,23 +142,24 @@ export default class RequestFormModal extends React.Component<RequestFormModalPr
     return url
   }
 
-  private sendForm(e: Event): void {
+  private sendForm(e): void {
     e.preventDefault()
 
     const text = this.state.requestText
     if (text.length <= 0) {
-      window.alert("メッセージを入力してください")
+      Browser.alert("メッセージを入力してください")
       return
     }
 
-    if (!window.confirm("メッセージを送信します。よろしいですか？")) {
+    if (!Browser.confirm("メッセージを送信します。よろしいですか？")) {
       return
     }
 
-    this.props.closeModal()
     Searcher.request(text).onValue(() => {
-      window.alert("メッセージを送信しました")
-      this.setState({ requestText: "" })
+      this.props.closeModal()
+      this.setState({ requestText: "" }, () => {
+        Browser.alert("メッセージを送信しました")
+      })
     })
   }
 }

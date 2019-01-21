@@ -2,11 +2,11 @@ import * as _ from "lodash"
 import * as React from "react"
 import { Alert } from "react-bootstrap"
 
-import Cookie from "../../lib/Cookie"
 import LatestInfo from "../../model/LatestInfo"
+import Cookie from "../../lib/Cookie"
 
 interface LatestInfoAreaProps {
-  latestInfo: LatestInfo
+  latestInfo: LatestInfo | null
 }
 
 interface LatestInfoAreaState {
@@ -15,15 +15,22 @@ interface LatestInfoAreaState {
 
 export default class LatestInfoArea extends React.Component<LatestInfoAreaProps, LatestInfoAreaState> {
 
-  private ver: string = ""
+  private static COOKIE_NAME = "latest-info"
 
   constructor(props: LatestInfoAreaProps) {
     super(props)
 
-    this.ver = String(this.props.latestInfo.version)
+    let visible = false
+    if (this.props.latestInfo) {
+      const ver = String(this.props.latestInfo.version) || ""
+      const cs: any = {}
+      cs[LatestInfoArea.COOKIE_NAME] = ver
+      Cookie.set(cs)
+      visible = true
+    }
 
     this.state = {
-      visible: true
+      visible
     }
   }
 
@@ -33,14 +40,9 @@ export default class LatestInfoArea extends React.Component<LatestInfoAreaProps,
     }
 
     const info = this.props.latestInfo
-    if (_.isEmpty(info)) {
+    if (!info) {
       return null
     }
-
-    if (!this.isShowLatestInfo()) {
-      return null
-    }
-    Cookie.set({ "latest-info": this.ver })
 
     return (
       <div className="row">
@@ -61,24 +63,5 @@ export default class LatestInfoArea extends React.Component<LatestInfoAreaProps,
 
   private handleAlertDismiss(): void {
     this.setState({ visible: false })
-  }
-
-  private isShowLatestInfo(): boolean {
-    if (_.isEmpty(this.ver)) {
-      return false
-    }
-
-    let showed = ""
-    try {
-      showed = String(Cookie.valueFor("latest-info")) || ""
-    } catch (e) {
-      showed = ""
-    }
-
-    if (_.isEmpty(showed)) {
-      return true
-    }
-
-    return (this.ver === showed ? false : true)
   }
 }

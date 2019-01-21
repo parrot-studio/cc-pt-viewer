@@ -4,8 +4,9 @@ import * as React from "react"
 import { Button, ButtonToolbar } from "react-bootstrap"
 
 import Conditions from "../../model/Conditions"
+import Query, { QueryParam } from "../../model/Query"
 import MessageStream from "../../lib/MessageStream"
-import { QueryParam } from "../../model/Query"
+import Browser from "../../lib/BrowserProxy"
 
 import SkillConditions from "../conditions/SkillConditions"
 import AbilityConditions from "../conditions/AbilityConditions"
@@ -17,6 +18,7 @@ import ClearMenuButton from "./ClearMenuButton"
 
 interface ConditionViewProps {
   originTitle: string
+  query: Query | null
   switchMainMode(): void
 }
 
@@ -56,45 +58,18 @@ export default class ConditionView extends React.Component<ConditionViewProps, C
 
   constructor(props) {
     super(props)
-    this.state = {}
+    let q = {}
+    if (this.props.query) {
+      q = this.props.query.params()
+    }
+    this.state = this.buildStateParam(q)
 
     // from children
     this.notifier = new Bacon.Bus()
     this.notifier.onValue((s) => {
-      this.setState(s)
-    })
-
-    // subscribe query
-    MessageStream.conditionStream.onValue((query) => {
-      const qs: QueryParam = {}
-      qs.job = (query.job || "")
-      qs.rarity = (query.rarity || "")
-      qs.weapon = (query.weapon || "")
-      qs.union = (query.union || "")
-      qs.arcanacost = (query.arcanacost || "")
-      qs.chaincost = (query.chaincost || "")
-      qs.sourcecategory = (query.sourcecategory || "")
-      qs.source = (query.source || "")
-      qs.arcanatype = (query.arcanatype || "")
-      qs.actor = (query.actor || "")
-      qs.illustrator = (query.illustrator || "")
-      qs.skill = (query.skill || "")
-      qs.skillcost = (query.skillcost || "")
-      qs.skillsub = (query.skillsub || "")
-      qs.skilleffect = (query.skilleffect || "")
-      qs.skillinheritable = (query.skillinheritable || "")
-      qs.abilitycategory = (query.abilitycategory || "")
-      qs.abilityeffect = (query.abilityeffect || "")
-      qs.abilitysubeffect = (query.abilitysubeffect || "")
-      qs.abilitycondition = (query.abilitycondition || "")
-      qs.abilitysubcondition = (query.abilitysubcondition || "")
-      qs.abilitytarget = (query.abilitytarget || "")
-      qs.abilitysubtarget = (query.abilitysubtarget || "")
-      qs.chainabilitycategory = (query.chainabilitycategory || "")
-      qs.chainabilityeffect = (query.chainabilityeffect || "")
-      qs.chainabilitycondition = (query.chainabilitycondition || "")
-      qs.chainabilitytarget = (query.chainabilitytarget || "")
-      this.setState(qs)
+      this.setState(s, () => {
+        MessageStream.conditionStream.push(this.state)
+      })
     })
   }
 
@@ -298,36 +273,37 @@ export default class ConditionView extends React.Component<ConditionViewProps, C
     )
   }
 
-  private handleJob(e: React.FormEvent<HTMLInputElement>): void {
-    this.setState({ job: e.currentTarget.value })
+  private handleJob(e: React.FormEvent<HTMLSelectElement>): void {
+    this.notifier.push({ job: e.currentTarget.value })
   }
 
-  private handleRarity(e: React.FormEvent<HTMLInputElement>): void {
-    this.setState({ rarity: e.currentTarget.value })
+  private handleRarity(e: React.FormEvent<HTMLSelectElement>): void {
+    this.notifier.push({ rarity: e.currentTarget.value })
   }
 
-  private handleWeapon(e: React.FormEvent<HTMLInputElement>): void {
-    this.setState({ weapon: e.currentTarget.value })
+  private handleWeapon(e: React.FormEvent<HTMLSelectElement>): void {
+    this.notifier.push({ weapon: e.currentTarget.value })
   }
 
-  private handleUnion(e: React.FormEvent<HTMLInputElement>): void {
-    this.setState({ union: e.currentTarget.value })
+  private handleUnion(e: React.FormEvent<HTMLSelectElement>): void {
+    this.notifier.push({ union: e.currentTarget.value })
   }
 
-  private handleArcanaCost(e: React.FormEvent<HTMLInputElement>): void {
-    this.setState({ arcanacost: e.currentTarget.value })
+  private handleArcanaCost(e: React.FormEvent<HTMLSelectElement>): void {
+    this.notifier.push({ arcanacost: e.currentTarget.value })
   }
 
-  private handleChainCost(e: React.FormEvent<HTMLInputElement>): void {
-    this.setState({ chaincost: e.currentTarget.value })
+  private handleChainCost(e: React.FormEvent<HTMLSelectElement>): void {
+    this.notifier.push({ chaincost: e.currentTarget.value })
   }
 
-  private handleArcanaType(e: React.FormEvent<HTMLInputElement>): void {
-    this.setState({ arcanatype: e.currentTarget.value })
+  private handleArcanaType(e: React.FormEvent<HTMLSelectElement>): void {
+    this.notifier.push({ arcanatype: e.currentTarget.value })
   }
 
   private handleReset(): void {
-    MessageStream.conditionStream.push({})
+    const q = this.buildStateParam({})
+    this.notifier.push(q)
   }
 
   private hundleSearch(): void {
@@ -338,7 +314,7 @@ export default class ConditionView extends React.Component<ConditionViewProps, C
       }
     })
     MessageStream.queryStream.push(query)
-    document.title = this.props.originTitle
+    Browser.changeTitle(this.props.originTitle)
   }
 
   private renderConditionList(list: Array<[string, string]> | string[][]): JSX.Element[] {
@@ -414,5 +390,37 @@ export default class ConditionView extends React.Component<ConditionViewProps, C
       ["collaboration", "コラボ"]
     ]
     return this.renderConditionList(atypes)
+  }
+
+  private buildStateParam(query: QueryParam): QueryParam {
+    const qs: QueryParam = {}
+    qs.job = (query.job || "")
+    qs.rarity = (query.rarity || "")
+    qs.weapon = (query.weapon || "")
+    qs.union = (query.union || "")
+    qs.arcanacost = (query.arcanacost || "")
+    qs.chaincost = (query.chaincost || "")
+    qs.sourcecategory = (query.sourcecategory || "")
+    qs.source = (query.source || "")
+    qs.arcanatype = (query.arcanatype || "")
+    qs.actor = (query.actor || "")
+    qs.illustrator = (query.illustrator || "")
+    qs.skill = (query.skill || "")
+    qs.skillcost = (query.skillcost || "")
+    qs.skillsub = (query.skillsub || "")
+    qs.skilleffect = (query.skilleffect || "")
+    qs.skillinheritable = (query.skillinheritable || "")
+    qs.abilitycategory = (query.abilitycategory || "")
+    qs.abilityeffect = (query.abilityeffect || "")
+    qs.abilitysubeffect = (query.abilitysubeffect || "")
+    qs.abilitycondition = (query.abilitycondition || "")
+    qs.abilitysubcondition = (query.abilitysubcondition || "")
+    qs.abilitytarget = (query.abilitytarget || "")
+    qs.abilitysubtarget = (query.abilitysubtarget || "")
+    qs.chainabilitycategory = (query.chainabilitycategory || "")
+    qs.chainabilityeffect = (query.chainabilityeffect || "")
+    qs.chainabilitycondition = (query.chainabilitycondition || "")
+    qs.chainabilitytarget = (query.chainabilitytarget || "")
+    return qs
   }
 }

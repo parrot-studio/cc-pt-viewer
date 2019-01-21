@@ -8,7 +8,6 @@ import HeroCharacter from "./HeroCharacter"
 
 interface PartyViewProps {
   party: Party
-  phoneDevice: boolean
 }
 
 export default class PartyView extends React.Component<PartyViewProps> {
@@ -43,12 +42,7 @@ export default class PartyView extends React.Component<PartyViewProps> {
 
       let body: JSX.Element | null = null
       if (code !== Party.HERO_KEY) {
-        body = (
-          <FullCharacter
-            member={party.memberFor(code)}
-            phoneDevice={this.props.phoneDevice}
-          />
-        )
+        body = <FullCharacter member={party.memberFor(code)} />
       } else {
         body = (
           <div>

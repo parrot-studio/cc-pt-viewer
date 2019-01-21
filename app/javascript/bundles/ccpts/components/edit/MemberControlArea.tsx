@@ -13,7 +13,6 @@ interface MemberControlAreaProps {
   appPath: string
   aboutPath: string
   editMode: boolean
-  phoneDevice: boolean
   switchEditMode(): void
 }
 
@@ -41,8 +40,8 @@ export default class MemberControlArea extends React.Component<MemberControlArea
 
   public render(): JSX.Element {
     return (
-      <div>
-        <div className="row hidden-xs">
+      <div className="hidden-xs">
+        <div className="row">
           <div className="col-sm-12 col-md-12">
             <ButtonToolbar>
               {this.renderModeButton()}
@@ -80,7 +79,6 @@ export default class MemberControlArea extends React.Component<MemberControlArea
             closeModal={this.closeHelpModal}
           />
           <MemberShareModal
-            phoneDevice={this.props.phoneDevice}
             appPath={this.props.appPath}
             party={this.props.party}
             showModal={this.state.showShareModal}
@@ -116,10 +114,6 @@ export default class MemberControlArea extends React.Component<MemberControlArea
   }
 
   private renderModeButton(): JSX.Element | null {
-    if (this.props.phoneDevice) {
-      return null
-    }
-
     if (this.props.editMode) {
       return (
         <Button

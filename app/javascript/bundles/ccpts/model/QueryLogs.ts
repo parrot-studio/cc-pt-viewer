@@ -4,7 +4,7 @@ import Query from "./Query"
 import MessageStream from "../lib/MessageStream"
 import QueryLogCookie from "../lib/QueryLogCookie"
 
-interface QueryLog {
+export interface QueryLog {
   query: string,
   detail: string
 }
@@ -44,24 +44,19 @@ export default class QueryLogs {
     MessageStream.queryLogsStream.push([])
   }
 
-  public static init(): void {
+  public static init(cs: QueryLog[]): void {
     QueryLogs.querys = []
-    try {
-      const cs: QueryLog[] = QueryLogCookie.valueFor(QueryLogs.COOKIE_NAME)
-      if (!cs) {
-        return
-      }
-      const qs: Query[] = _.chain(
-        _.map(cs, (c) => {
-          const q = Query.parse(c.query)
-          q.detail = c.detail
-          return q
-        })
-      ).reject((q) => q.isEmpty() || q.isQueryForRecently()).value()
-      QueryLogs.querys = qs
-    } catch (e) {
-      QueryLogs.querys = []
+    if (!cs) {
+      return
     }
+    const qs: Query[] = _.chain(
+      _.map(cs, (c) => {
+        const q = Query.parse(c.query)
+        q.detail = c.detail
+        return q
+      })
+    ).reject((q) => q.isEmpty() || q.isQueryForRecently()).value()
+    QueryLogs.querys = qs
   }
 
   private static readonly LOG_SIZE = 10

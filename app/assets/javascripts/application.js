@@ -18,11 +18,12 @@
 //= require jquery-touchswipe/jquery.touchSwipe
 //= require bootstrap-switch/dist/js/bootstrap-switch
 //= require bootstrap-sprockets
+//= require browser
 
-$(function(){
+$(function () {
   FastClick.attach(document.body);
 
-  $(document).on("keypress", function(e) {
+  $(document).on("keypress", function (e) {
     return !(e.which === 13 || e.keyCode === 13);
   });
 

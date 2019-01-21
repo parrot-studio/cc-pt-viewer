@@ -8,17 +8,13 @@ import Query, { QueryParam } from "../../model/Query"
 import QueryLogs from "../../model/QueryLogs"
 import MessageStream from "../../lib/MessageStream"
 
-interface SearchMenuButtonProps {
-  phoneDevice: boolean
-}
-
 interface SearchMenuButtonState {
   querys: Query[]
 }
 
-export default class SearchMenuButton extends React.Component<SearchMenuButtonProps, SearchMenuButtonState> {
+export default class SearchMenuButton extends React.Component<{}, SearchMenuButtonState> {
 
-  constructor(props: SearchMenuButtonProps) {
+  constructor(props) {
     super(props)
     this.state = {
       querys: QueryLogs.querys
@@ -61,7 +57,7 @@ export default class SearchMenuButton extends React.Component<SearchMenuButtonPr
   }
 
   private renderQueryLogs(): JSX.Element[] {
-    const limit = (this.props.phoneDevice ? 20 : 30)
+    const limit = 25
     const querys = this.state.querys
 
     return _.chain(_.zip(querys, _.range(querys.length))

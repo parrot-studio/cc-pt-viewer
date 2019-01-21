@@ -2,7 +2,6 @@ import * as React from "react"
 import { Modal, Button } from "react-bootstrap"
 
 export interface TwitterShareModalProps {
-  phoneDevice: boolean
   showModal: boolean
   closeModal(): void
 }
@@ -23,7 +22,19 @@ export abstract class TwitterShareModal<T extends TwitterShareModalProps> extend
           <Modal.Title>{text}を共有する</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {this.renderShareForm(text)}
+          <div className="form-group hidden-xs">
+            <label>共有用URL</label>
+            <input
+              type="text"
+              className="form-control"
+              ref={(d) => { this.shareUrlForm = d }}
+              defaultValue={this.shareUrl()}
+              onFocus={this.handleFocus.bind(this)}
+            />
+            <span className="help-block small">
+              このURLでアクセスすると、{text}が表示されます。コピーして使ってください。
+            </span>
+          </div>
           <div className="form-group">
             <p>
               <a
@@ -63,26 +74,5 @@ export abstract class TwitterShareModal<T extends TwitterShareModalProps> extend
     if (this.shareUrlForm) {
       this.shareUrlForm.select()
     }
-  }
-
-  private renderShareForm(text): JSX.Element | null {
-    if (this.props.phoneDevice) {
-      return null
-    }
-    return (
-      <div className="form-group">
-        <label>共有用URL</label>
-        <input
-          type="text"
-          className="form-control"
-          ref={(d) => { this.shareUrlForm = d }}
-          defaultValue={this.shareUrl()}
-          onFocus={this.handleFocus.bind(this)}
-        />
-        <span className="help-block small">
-          このURLでアクセスすると、{text}が表示されます。コピーして使ってください。
-        </span>
-      </div>
-    )
   }
 }

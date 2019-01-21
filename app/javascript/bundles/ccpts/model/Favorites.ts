@@ -49,14 +49,10 @@ export default class Favorites {
     return Favorites.favorites
   }
 
-  public static init(): void {
+  public static init(list: string[]): void {
     Favorites.favorites = {}
     try {
-      const list: string | null = Cookie.valueFor(Favorites.COOKIE_NAME)
-      if (!list) {
-        return
-      }
-      Favorites.favorites = _.reduce(list.split("/"), (f, c) => {
+      Favorites.favorites = _.reduce(list, (f, c) => {
         f[c] = true
         return f
       }, Favorites.favorites)

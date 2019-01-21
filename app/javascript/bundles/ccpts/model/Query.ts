@@ -2,6 +2,8 @@ import * as _ from "lodash"
 import * as ObjectHash from "object-hash"
 import Conditions from "./Conditions"
 
+import Browser from "../lib/BrowserProxy"
+
 export interface QueryParam {
   [key: string]: any
 }
@@ -39,9 +41,6 @@ export default class Query {
   }
 
   public parse(q: string): QueryParam {
-    if (_.isEmpty(q)) {
-      q = (location.search.replace(/(^\?)/, "") || "")
-    }
     this.reset()
     if (_.isEmpty(q)) {
       return {}

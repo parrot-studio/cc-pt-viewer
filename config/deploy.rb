@@ -40,7 +40,7 @@ set :local_user, -> { ENV['DEPLOY_USER'] }
 # set :ssh_options, verify_host_key: :secure
 
 # puma
-set :puma_threads,    [4, 16]
+set :puma_threads,    [5, 5]
 set :puma_workers,    0
 set :puma_bind,       "unix://#{shared_path}/tmp/sockets/puma.sock"
 set :puma_state,      "#{shared_path}/tmp/pids/puma.state"

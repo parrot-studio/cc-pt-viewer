@@ -2,50 +2,25 @@ import * as _ from "lodash"
 
 import * as React from "react"
 import { Button, ButtonGroup } from "react-bootstrap"
-declare var $: JQueryStatic
-
-import Favorites from "../../model/Favorites"
-import MessageStream from "../../lib/MessageStream"
 
 import { ResultView, ResultViewProps } from "../concerns/ResultView"
 import PagerArea from "../concerns/PagerArea"
-import NameSearchForm from "../concerns/NameSearchForm"
 import SearchMenuButton from "../concerns/SearchMenuButton"
 
 import TargetArcana from "./TargetArcana"
 
 interface TargetsEditAreaProps extends ResultViewProps {
-  phoneDevice: boolean
   switchConditionMode(): void
 }
 
 export default class TargetsEditArea extends ResultView<TargetsEditAreaProps> {
-
-  private helpArea: HTMLDivElement | null = null
-
-  constructor(props: TargetsEditAreaProps) {
-    super(props)
-
-    MessageStream.favoritesStream.onValue(() => {
-      _.forEach(this.state.pager.get(), (a) => {
-        const code = a.jobCode
-        $(`#fav-${code}`).bootstrapSwitch("state", Favorites.stateFor(code))
-      })
-    })
-  }
-
-  public componentDidMount(): void {
-    if (this.helpArea) {
-      $(this.helpArea).hide()
-    }
-  }
 
   public render(): JSX.Element {
     return (
       <div id="edit-area">
         <div className="row">
           <div className="col-sm-12 col-md-12">
-            <div id="help-area" ref={(d) => { this.helpArea = d }}>
+            <div id="help-area" className="hide">
               <div className="alert alert-warning small" role="alert">
                 <ul className="list-unstyled">
                   <li>空いたところにドロップ -&gt; パーティーメンバーとしてセット</li>
@@ -62,7 +37,7 @@ export default class TargetsEditArea extends ResultView<TargetsEditAreaProps> {
                   >
                     <i className="fa fa-search" /> 検索
                   </Button>
-                  <SearchMenuButton phoneDevice={this.props.phoneDevice} />
+                  <SearchMenuButton />
                 </ButtonGroup>
                 &nbsp;表示中：{this.state.searchDetail}
                 <span className="pager-count">{this.renderPageCount()}</span>
@@ -81,14 +56,13 @@ export default class TargetsEditArea extends ResultView<TargetsEditAreaProps> {
               changePage={this.changePage.bind(this)}
             />
             {this.renderSortArea()}
-            <NameSearchForm />
           </div>
         </div>
       </div>
     )
   }
 
-  private handleSort(col: string, e: Event): void {
+  private handleSort(col: string, e): void {
     e.stopPropagation()
 
     const order = (TargetsEditArea.DEFAULT_SORT_ORDER[col] || "desc")

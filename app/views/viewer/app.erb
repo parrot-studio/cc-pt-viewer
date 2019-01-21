@@ -1,26 +1,27 @@
-<div class="header" id="pre-header">
-  <%= render 'viewer/header' %>
-  <div class="well well-lg">
-    <h2 class="text-muted">Now loading...</h2>
-  </div>
-</div>
-
 <%=
-  react_component("AppView",
-      props: {
-        conditions: ArcanaCache.conditions,
-        appPath: root_url,
-        aboutPath: about_path,
-        mode: @mode,
-        dataver: data_version,
-        ptver: pt_version,
-        arcana: @arcana,
-        party: @party,
-        latestInfo: ArcanaCache.latestinfo,
-        heroes: ArcanaCache.heroes,
-        originTitle: site_title
-  })
+  react_component(
+    "AppView",
+    props: {
+      conditions: ArcanaCache.conditions,
+      appPath: root_url,
+      aboutPath: about_path,
+      mode: (@mode || ""),
+      dataver: data_version,
+      ptver: pt_version,
+      arcana: @arcana,
+      party: @party,
+      partyView: (@party_view ? true : false),
+      latestInfo: @latest_info,
+      heroes: ArcanaCache.heroes,
+      originTitle: site_title,
+      queryLogs: (@query_logs || []),
+      queryString: (@query || ""),
+      firstResults: (@results || {}),
+      tutorial: (@tutorial ? true : false),
+      favorites: (@favorites || []),
+      lastMembers: (@last_members || ""),
+      parties: (@parties || [])
+    },
+    prerender: true
+  )
 %>
-
-<div class="modal fade" id="loading-modal" tabindex="-1" role="dialog" aria-labelledby="loading-modal-label" aria-hidden="true">
-</div>
