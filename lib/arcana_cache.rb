@@ -117,6 +117,7 @@ class ArcanaCache
       illustrator_name_table
       illustrator_id_table
       recently
+      heroes
     end
 
     private

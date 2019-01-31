@@ -1,4 +1,3 @@
-import * as _ from "lodash"
 declare var window
 declare var Browser
 

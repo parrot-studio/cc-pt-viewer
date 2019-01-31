@@ -98,6 +98,7 @@ class SkillEffect < ApplicationRecord
         add_atkdefdown: '攻撃力/防御力低下付与',
         add_defspeeddown: '防御力/移動速度低下付与',
         add_fulldown: '攻撃力/防御力/移動速度低下付与',
+        add_defdown_with_aup: '防御力低下付与/自身の攻撃力上昇',
         fire: '火属性',
         ice: '氷属性',
         need_charge: '溜め後に発動',
