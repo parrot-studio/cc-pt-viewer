@@ -193,6 +193,7 @@ class Arcana < ApplicationRecord
         score: '踏破',
         war: '討伐戦',
         hunting: '狩猟戦',
+        medal: 'メダルハント',
         warfare: '大出撃',
         whirlpool: '深淵の渦',
         other: 'その他'

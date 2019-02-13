@@ -2532,4 +2532,13 @@ K・K,A,195,1,,FB‐202 ファイアブロウ,1,初回のみ,attack,summon,,,,,,
 ,,,3,,シュメルツェン・ヴァフェ,1,超必殺技ゲージMAXでスクラップ4個以上,attack,range_forward,super_skill,add_down,add_defdown_with_aup,kill_mana,destroy_scrap,全部
 ,,,d,,イミテイト・パトローネ,1,,attack,range_forward,add_push,add_defdown_with_aup,,,,
 ,,,,,,,,,,,,,,,
+# 追儺の奉演武,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+ヒトリ,F,422,1,,大旋風・金剛,1,,attack,range_forward,add_push,,,,,
+,,,,,,forward,,area,continual,add_down,,,,,
+ベニガサ,A,219,1,,破邪弓・華四天,2,,attack,laser,,,,,,
+アマツ,K,212,1,,鬼神槍・一閃,1,,barrier,self,invincible,,,,,
+,,,,,,forward,,attack,range_forward,charge_boost,add_push,add_down,,,状態異常付与は最大まで溜めた場合のみ
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
 # end,,,,,,,,,,,,,,,

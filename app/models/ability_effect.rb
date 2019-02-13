@@ -305,7 +305,8 @@ class AbilityEffect < ApplicationRecord
         },
         in_rear: {
           with_f: '戦士',
-          with_fa: '戦/弓'
+          with_fa: '戦/弓',
+          with_fk: '戦/騎'
         },
         has_mana: {
           mana_f: '戦マナ',
@@ -554,6 +555,7 @@ class AbilityEffect < ApplicationRecord
         with_ka: '騎＋弓がいる時',
         with_kp: '騎＋僧がいる時',
         with_ap: '弓＋僧がいる時',
+        with_fka: '戦＋騎＋弓がいる時',
         with_fkap: '戦＋騎＋弓＋僧がいる時',
         wave_start: '各WAVE開始時',
         in_sub: 'サブパーティーにいる時',
@@ -591,6 +593,9 @@ class AbilityEffect < ApplicationRecord
         with_ap: {
           include_self: '自身を含む'
         },
+        with_fka: {
+          include_self: '自身を含む'
+        },
         with_fkap: {
           include_self: '自身を含む'
         },
@@ -616,6 +621,7 @@ class AbilityEffect < ApplicationRecord
         job_km: '騎/魔',
         job_ap: '弓/僧',
         job_am: '弓/魔',
+        job_fka: '戦/騎/弓',
         job_fkp: '戦/騎/僧',
         job_fap: '戦/弓/僧',
         job_fkap: '戦/騎/弓/僧',
@@ -990,6 +996,7 @@ class AbilityEffect < ApplicationRecord
           mana_p: '僧マナ',
           mana_m: '魔マナ',
           mana_fm: '戦/魔マナ',
+          mana_ka: '騎/弓マナ',
           mana_pm: '僧/魔マナ'
         },
         mana_droped: {
@@ -1285,7 +1292,8 @@ class AbilityEffect < ApplicationRecord
           mana_km: '騎＋魔',
           mana_ap: '弓＋僧',
           mana_am: '弓＋魔',
-          mana_pm: '僧＋魔'
+          mana_pm: '僧＋魔',
+          mana_fka: '戦＋騎＋弓'
         },
         recycle_scrap: {
           mana_k: '騎マナ',
