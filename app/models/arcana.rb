@@ -202,7 +202,8 @@ class Arcana < ApplicationRecord
     collaboration: {
       name: 'コラボ',
       details: {
-        index3: 'とある魔術の禁書目録IIIコラボ',
+        slime: '転生したらスライムだった件',
+        index3: 'とある魔術の禁書目録III',
         persona3: 'ペルソナ3',
         utaware_requiem: 'うたわれるもの・散りゆく者への子守唄',
         bloodbeyond: '血界戦線＆BEYOND',
@@ -292,7 +293,7 @@ class Arcana < ApplicationRecord
   SOURCE_GROUP_CATEGORYS = %i[first second].freeze
 
   NOT_INHERITABLE_TYPES = %i[buddy third collabo_newgene].freeze
-  NOT_INHERITABLE_ARCANAS = %w[F211 F156].freeze # ミョルン, ホーク
+  NOT_INHERITABLE_ARCANAS = %w[F211 F156 M288].freeze # ミョルン, ホーク, リムル
   NOT_INHERITABLE_COLLABORATIONS = %w[
     magica taiko sakurawar falcom_sorasc brave monokuma
     atelier_twilight hardgirls trefle shiningblade other

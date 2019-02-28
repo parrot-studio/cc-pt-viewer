@@ -259,6 +259,7 @@ class AbilityEffect < ApplicationRecord
         add_debuff: '状態異常を付与した時',
         add_atkdown: '攻撃力低下を付与した時',
         add_defdown: '防御力低下を付与した時',
+        add_atkdefdown: '攻撃力/防御力低下を付与した時',
         after_move: '一定距離を移動した時',
         in_awakening: '覚醒ゲージがMAXの時',
         from_sub: 'サブから戦場に移動したとき',
@@ -449,7 +450,8 @@ class AbilityEffect < ApplicationRecord
           self: '自身',
           other: '味方',
           mana_m: '魔マナ',
-          mana_fpm: '戦/僧/魔マナ'
+          mana_fpm: '戦/僧/魔マナ',
+          job_f: '戦士'
         }
       },
       target: {
@@ -709,6 +711,7 @@ class AbilityEffect < ApplicationRecord
         weapon_arpu: '<<弓/拳>>',
         weapon_argu: '<<弓/銃>>',
         weapon_gush: '<<銃/狙>>',
+        weapon_slmapu: '<<斬/魔/拳>>',
         weapon_slblpipu: '<<斬/打/突/拳>>',
         weapon_exclude_sl: '<<斬>>以外'
       }
