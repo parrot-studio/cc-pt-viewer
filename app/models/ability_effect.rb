@@ -882,7 +882,8 @@ class AbilityEffect < ApplicationRecord
         skill_atkup: 'スキル威力上昇',
         skill_boost: 'スキル強化',
         charge_reduce: '溜め時間減少',
-        skill_spread: 'スキル範囲拡大'
+        skill_spread: 'スキル範囲拡大',
+        add_shield_break: 'スキルに盾破壊を追加'
       },
       sub_effect: {
         skill_atkup: {
@@ -900,7 +901,13 @@ class AbilityEffect < ApplicationRecord
         mana_charged: 'マナが多いほど',
         mana_lost: 'マナが少ないほど',
         guard: 'ガードした時',
-        scrap_charged: 'スクラップが多いほど'
+        scrap_charged: 'スクラップが多いほど',
+        has_mana: 'マナを保持している時'
+      },
+      sub_condition: {
+        has_mana: {
+          mana_m: '魔マナ'
+        }
       },
       target: {
         self: '自分'
@@ -1276,6 +1283,7 @@ class AbilityEffect < ApplicationRecord
           mana_kp: '騎＋僧',
           mana_ap: '弓＋僧',
           mana_pm: '僧＋魔',
+          mana_fam: '戦＋弓＋魔',
           mana_all: '虹色'
         },
         mana_boost: {
@@ -1300,7 +1308,8 @@ class AbilityEffect < ApplicationRecord
           mana_ap: '弓＋僧',
           mana_am: '弓＋魔',
           mana_pm: '僧＋魔',
-          mana_fka: '戦＋騎＋弓'
+          mana_fka: '戦＋騎＋弓',
+          mana_fam: '戦＋弓＋魔'
         },
         recycle_scrap: {
           mana_k: '騎マナ',

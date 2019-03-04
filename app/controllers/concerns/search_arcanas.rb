@@ -64,6 +64,6 @@ module SearchArcanas
     codes = arel.distinct.pluck(:job_code)
     as = from_arcana_cache(codes)
 
-    { detail: "名前 - #{name}", result:as}
+    { detail: "名前 - #{name}", result: as }
   end
 end
