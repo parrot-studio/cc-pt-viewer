@@ -218,6 +218,7 @@ class AbilityEffect < ApplicationRecord
         with_machine: '所属：鉄煙がいる時',
         with_demon: '所属：魔神がいる時',
         with_others: '所属：旅人がいる時',
+        with_volunteers: '所属：義勇軍がいる時',
         same_abilities: '同じアビリティを持った味方がいる時',
         kill: '敵を倒した時',
         kill_debuff: '状態異常の敵を倒した時',
@@ -290,6 +291,9 @@ class AbilityEffect < ApplicationRecord
         },
         with_volcano: {
           job_f: '戦士'
+        },
+        with_volunteers: {
+          job_m: '魔法使い'
         },
         kill: {
           skill: 'スキル使用時'
@@ -1366,7 +1370,8 @@ class AbilityEffect < ApplicationRecord
         dsup: '防御力/移動速度上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
         adcup: '攻撃力/防御力/クリティカル率上昇',
-        ascup: '攻撃力/移動速度/クリティカル率上昇'
+        ascup: '攻撃力/移動速度/クリティカル率上昇',
+        adsrup: '攻撃力/防御力/移動速度/クリティカル威力上昇'
       },
       condition: {
         in_town: '市街で戦闘時',

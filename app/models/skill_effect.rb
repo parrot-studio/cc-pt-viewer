@@ -44,6 +44,7 @@ class SkillEffect < ApplicationRecord
         one_rear: '単体・最後列',
         one_jump: '単体・ジャンプ',
         one_random: '単体・ランダム',
+        one_random_blast: '単体・ランダム/爆発',
         one_combination: '単体・コンビネーション',
         one_nearest: '単体・一番近い対象',
         one_most: '単体・HPが一番多い対象',
@@ -196,6 +197,7 @@ class SkillEffect < ApplicationRecord
         nearest: '一番近い一人',
         hp_worst: '一番HPが低い一人',
         owner: '主人',
+        owner_and_buddy: '主人とバディ',
         random: 'ランダム',
         restoration: '返還'
       },

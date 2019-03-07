@@ -2011,6 +2011,15 @@ K・K,A,195,collaboration,,隻眼の狙撃手,5,20,4,Sh,collaboration,bloodbeyond,折笠 
 コモディア,F,428,first,,華やぐカジノの支配人,5,20,4,Sl,event,legend,沢城 みゆき,NPA,guildtown,Dealer,8700,9300,10700,11300,
 ボムボマー,A,220,first,,激昂の爆弾魔,5,20,4,Gu,event,legend,緑川 光,萩谷薫,criminal,Criminal,8200,7000,10200,9000,
 ,,,,,,,,,,,,,,,,,,,,
+# ドラマチックバディフェス3/6,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,
+ペイシェ,F,429,first,K213,紺碧と蒼穹の絆,5,20,4,Pu,event,festival,花澤 香菜,富岡二郎（RED FS）,volunteers,Combination,8300,7500,10300,9500,紺碧と蒼穹の絆ペイシェwithセレステ
+セレステ,K,213,buddy,F429,（ペイシェのバディ）,5,0,0,Pi,event,festival,川澄 綾子,富岡二郎（RED FS）,volunteers,Buddy,5950,6750,7950,8950,紺碧と蒼穹の絆ペイシェwithセレステ
+フィリアナ,M,290,first,M291,師弟の絆,5,20,4,Ma,event,festival,佐倉 綾音,煎茶,volunteers,Combination,8020,4510,10020,6510,師弟の絆フィリアナwithアリーチェ
+アリーチェ,M,291,buddy,M290,（フィリアナのバディ）,5,0,0,Pi,event,festival,高木 友梨香,煎茶,volunteers,Buddy,5840,5040,7840,6840,師弟の絆フィリアナwithアリーチェ
+,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,
 #end,,,,,,,,,,,,,,,,,,,,
