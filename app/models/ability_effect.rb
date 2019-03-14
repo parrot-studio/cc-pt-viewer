@@ -870,8 +870,10 @@ class AbilityEffect < ApplicationRecord
       effect: {
         adup: '攻撃力/防御力上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
+        acrup: '攻撃力/クリティカル率/クリティカル威力上昇',
         adup_m: '攻撃力/防御力上昇 / 一定時間',
-        adsup_m: '攻撃力/防御力/移動速度上昇 / 一定時間'
+        adsup_m: '攻撃力/防御力/移動速度上昇 / 一定時間',
+        acrup_m: '攻撃力/クリティカル率/クリティカル威力上昇 / 一定時間'
       },
       condition: {
         heal_action: '回復行動時'
