@@ -2348,7 +2348,7 @@ K・K,A,195,1,,FB‐202 ファイアブロウ,1,初回のみ,attack,summon,,,,,,
 ,,,,,,,,,,,,,,,
 レオン,F,400,1,d,ペナルティバインド,1,,attack,range_drop,add_slow,add_defdown,,,,
 キララネ,M,272,1,,ソラトリウス・フテラ,1,,attack,range_blast,add_push,,,,,
-,,,2,,イノデウス・オドゥス,1,超必殺技ゲージMAX,metamorphose,self,super_skill,adcup,guard,,,
+,,,2,,イノデウス・オドゥス,1,超必殺技ゲージMAX,metamorphose,self,super_skill,adcrup,guard,,,
 ,,,,,,forward,,attack,range_self,super_skill,add_push,,,,
 ,,,3,,マディス・カタストロフィ,1,変身中,attack,range_drop_combo,,,,,,変身解除
 ,,,d,,イミテイト・カタストロフィ,1,,attack,range_drop_combo,,,,,,
@@ -2591,5 +2591,20 @@ K・K,A,195,1,,FB‐202 ファイアブロウ,1,初回のみ,attack,summon,,,,,,
 イナミ,P,130,1,d,ディカプルスノーフレイム,1,,attack,chain,fire,,,,,
 ,,,,d,,forward,,heal,all_instant,aup,,,,,
 ,,,,,,,,,,,,,,,
+# けものフレンズ2コラボ,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+サーバル,F,431,1,d,狩りごっこ,1,,field,night,,,,,,
+,,,2,,みゃみゃみゃパンチ,1,,attack,contact_combination,add_push,,,,,
+,,,,,,forward,,attack,contact_combination,add_push,,,,,一番HPが高い対象へ移動
+オオアルマジロ,F,432,1,,アーマー・スケイル,1,,attack,range_dash,return_position,,,,,マナ3つ以上で威力上昇
+,,,,,,forward,,barrier,all,guard_debuff,,,,,状態異常耐性はマナ3つ以上の時
+,,,d,,アーマー・スケイル,1,,attack,range_dash,return_position,,,,,
+,,,,,,forward,,barrier,all,,,,,,
+オオセンザンコウ,F,433,1,,アイアン・テイル,1,,attack,range_forward,add_push,,,,,マナ3つ以上で威力上昇
+,,,,,,forward,,buff,all,adup,,,,,防御力上昇はマナ3つ以上の時
+,,,d,,アイアン・テイル,1,,attack,range_forward,add_push,,,,,
+,,,,,,forward,,buff,all,aup,,,,,
+カラカル,F,434,1,,大ジャンプ,3,,attack,range_jump_combo,add_down,,,,,フィールドが夜の時威力上昇・ダウン追加
+,,,d,,大ジャンプ,3,,attack,range_jump_combo,,,,,,
 ,,,,,,,,,,,,,,,
 # end,,,,,,,,,,,,,,,

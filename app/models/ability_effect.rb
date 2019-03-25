@@ -275,7 +275,9 @@ class AbilityEffect < ApplicationRecord
         },
         with_f: {
           include_self: '自身を含む',
-          group_oasis: '湖都所属'
+          group_oasis: '湖都所属',
+          group_beasts: 'ケ者所属',
+          group_others: '旅人所属'
         },
         with_k: {
           include_self: '自身を含む'
@@ -288,6 +290,10 @@ class AbilityEffect < ApplicationRecord
         },
         with_fa: {
           include_self: '自身を含む'
+        },
+        with_pu: {
+          group_beasts: 'ケ者所属',
+          group_others: '旅人所属'
         },
         with_volcano: {
           job_f: '戦士'
@@ -715,6 +721,7 @@ class AbilityEffect < ApplicationRecord
         weapon_arpu: '<<弓/拳>>',
         weapon_argu: '<<弓/銃>>',
         weapon_gush: '<<銃/狙>>',
+        weapon_slblpu: '<<斬/打/拳>>',
         weapon_slmapu: '<<斬/魔/拳>>',
         weapon_slblpipu: '<<斬/打/突/拳>>',
         weapon_exclude_sl: '<<斬>>以外'
@@ -1020,6 +1027,7 @@ class AbilityEffect < ApplicationRecord
           mana_pm: '僧/魔マナ'
         },
         mana_droped: {
+          mana_f: '戦マナ',
           mana_k: '騎マナ',
           mana_p: '僧マナ',
           mana_m: '魔マナ',
@@ -1373,6 +1381,7 @@ class AbilityEffect < ApplicationRecord
         adsup: '攻撃力/防御力/移動速度上昇',
         adcup: '攻撃力/防御力/クリティカル率上昇',
         ascup: '攻撃力/移動速度/クリティカル率上昇',
+        acrup: '攻撃力/クリティカル率/クリティカル威力上昇',
         adsrup: '攻撃力/防御力/移動速度/クリティカル威力上昇'
       },
       condition: {

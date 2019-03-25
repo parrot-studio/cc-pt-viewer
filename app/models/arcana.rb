@@ -202,6 +202,7 @@ class Arcana < ApplicationRecord
     collaboration: {
       name: 'コラボ',
       details: {
+        friends2: 'けものフレンズ2',
         slime: '転生したらスライムだった件',
         index3: 'とある魔術の禁書目録III',
         persona3: 'ペルソナ3',

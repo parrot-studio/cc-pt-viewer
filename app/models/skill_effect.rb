@@ -320,6 +320,7 @@ class SkillEffect < ApplicationRecord
         asrup: '攻撃力/移動速度/クリティカルダメージ上昇',
         acrup: '攻撃力/クリティカル率/クリティカルダメージ上昇',
         adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
+        adcrup: '攻撃力/防御力/クリティカル率/クリティカルダメージ上昇',
         adscrup: '攻撃力/防御力/移動速度/クリ率/クリダメ上昇',
         healareaup: '回復範囲/効果上昇',
         delayoff: '攻撃速度上昇',
