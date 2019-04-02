@@ -111,6 +111,7 @@ class AbilityEffect < ApplicationRecord
         ascup_m: '攻撃力/移動速度/クリティカル率上昇 / 一定時間',
         asrup_m: '攻撃力/移動速度/クリティカル威力上昇 / 一定時間',
         acrup_m: '攻撃力/クリティカル率/クリティカル威力上昇 / 一定時間',
+        dcrup_m: '防御力/クリティカル率/クリティカル威力上昇 / 一定時間',
         scrup_m: '移動速度/クリティカル率/クリティカル威力上昇 / 一定時間',
         adscup_m: '攻撃力/防御力/移動速度/クリティカル率上昇 / 一定時間',
         adsrup_m: '攻撃力/防御力/移動速度/クリティカル威力上昇 / 一定時間',
@@ -135,6 +136,9 @@ class AbilityEffect < ApplicationRecord
         },
         asup: {
           defdown_self: '自身の防御力低下'
+        },
+        adsup: {
+          boost_with_jobs: '特定の職の数が多いほど'
         },
         delayoff: {
           momentary: '一定時間'
@@ -222,6 +226,7 @@ class AbilityEffect < ApplicationRecord
         same_abilities: '同じアビリティを持った味方がいる時',
         kill: '敵を倒した時',
         kill_debuff: '状態異常の敵を倒した時',
+        kill_count: '一定数の敵を倒した時',
         combat: '近接戦闘時',
         in_head: '先頭にいる時',
         in_front: '仲間より前にいる時',
