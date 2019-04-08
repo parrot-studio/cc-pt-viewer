@@ -2621,8 +2621,16 @@ K・K,A,195,1,,FB‐202 ファイアブロウ,1,初回のみ,attack,summon,,,,,,
 ,,,,,,forward,,buff,all,aup,,,,,
 シンフォニア,K,214,1,d,アーティライト・シンフォニー,1,,attack,range_line,add_push,,,,,
 ,,,,,,,,,,,,,,,
+# 魔神ハプス戦,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,
+フェーベ,K,215,1,d,ラーゼンフリューゲル,3,,attack,range_forward,add_push,add_down,create_scrap,,,2個
+,,,2,,フォトンフリューゲル,3,スクラップ2個以上,attack,range_forward,add_push,add_down,destroy_scrap,,,2個
+,,,,,,forward,,buff,self,acrup,,,,,
+イドゥベルガ,K,216,1,,シュタークナーゲル,1,,attack,range_forward,create_scrap,,,,,1個
+,,,2,,ヘルツナーゲル,1,スクラップ2個以上,buff,all,adup,destroy_scrap,,,,2個
+,,,,,,forward,,attack,range_forward,,,,,,
+ハプス,A,221,1,,ゼーレシュトローム,1,,attack,laser,add_defspeeddown,create_scrap,,,,3個
+,,,2,d,アイゼンシュトローム,1,スクラップ2個以上,attack,range_line,add_defdown,,,,,
 ,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 # end,,,,,,,,,,,,,,,
