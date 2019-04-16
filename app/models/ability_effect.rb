@@ -430,6 +430,7 @@ class AbilityEffect < ApplicationRecord
         own_skill: '自分がスキルを使った時',
         others_skill: '味方がスキルを使った時',
         any_skill: '誰かがスキルを使った時',
+        job_skill: '特定の職がスキルを使った時',
         dropout_self: '自身が脱落した時',
         dropout_member: '味方が脱落した時',
         mana_charged: 'マナが多いほど',
@@ -445,13 +446,19 @@ class AbilityEffect < ApplicationRecord
         in_sub: {
           field: '特定のフィールド'
         },
-        others_skill: {
+        any_skill: {
           job_f: '戦士',
           job_k: '騎士',
-          job_a: '弓使い',
           job_p: '僧侶',
+          job_m: '魔法使い'
+        },
+        others_skill: {
+          job_k: '騎士',
           job_m: '魔法使い',
           job_fm: '戦/魔'
+        },
+        job_skill: {
+          job_p: '僧侶'
         },
         mana_droped: {
           mana_f: '戦マナ',
@@ -573,6 +580,7 @@ class AbilityEffect < ApplicationRecord
         with_kp: '騎＋僧がいる時',
         with_ap: '弓＋僧がいる時',
         with_fka: '戦＋騎＋弓がいる時',
+        with_fpm: '戦＋僧＋魔がいる時',
         with_fkap: '戦＋騎＋弓＋僧がいる時',
         wave_start: '各WAVE開始時',
         in_sub: 'サブパーティーにいる時',
@@ -613,6 +621,9 @@ class AbilityEffect < ApplicationRecord
         with_fka: {
           include_self: '自身を含む'
         },
+        with_fpm: {
+          include_self: '自身を含む'
+        },
         with_fkap: {
           include_self: '自身を含む'
         },
@@ -641,8 +652,9 @@ class AbilityEffect < ApplicationRecord
         job_fka: '戦/騎/弓',
         job_fkp: '戦/騎/僧',
         job_fap: '戦/弓/僧',
-        job_fkap: '戦/騎/弓/僧',
-        job_apm: '弓/僧/魔'
+        job_fpm: '戦/僧/魔',
+        job_apm: '弓/僧/魔',
+        job_fkap: '戦/騎/弓/僧'
       },
       sub_target: {
         job_f: {
@@ -725,6 +737,7 @@ class AbilityEffect < ApplicationRecord
         weapon_blpi: '<<打/突>>',
         weapon_arpu: '<<弓/拳>>',
         weapon_argu: '<<弓/銃>>',
+        weapon_mapu: '<<魔/拳>>',
         weapon_gush: '<<銃/狙>>',
         weapon_slblpu: '<<斬/打/拳>>',
         weapon_slmapu: '<<斬/魔/拳>>',
@@ -1598,6 +1611,7 @@ class AbilityEffect < ApplicationRecord
     ret = []
     CATEGORYS.each do |k, v|
       next if k == :unknown
+
       ret << [k, v[:name]]
     end
     ret
@@ -1607,6 +1621,7 @@ class AbilityEffect < ApplicationRecord
     ret = {}
     CATEGORYS.each do |k, v|
       next if k == :unknown
+
       ret[k] = v.fetch(:effect, {}).to_a.reject { |d| d.first.to_s.end_with?('up_m') }
     end
     ret
@@ -1641,6 +1656,7 @@ class AbilityEffect < ApplicationRecord
     ret = {}
     CATEGORYS.each do |k, v|
       next if k == :unknown
+
       ret[k] = v.fetch(:condition, {}).to_a
     end
     ret
@@ -1650,6 +1666,7 @@ class AbilityEffect < ApplicationRecord
     ret = {}
     CATEGORYS.each do |k, v|
       next if k == :unknown
+
       sret = {}
       v.fetch(:sub_condition, {}).each do |sk, sv|
         sret[sk] = sv.to_a
@@ -1663,6 +1680,7 @@ class AbilityEffect < ApplicationRecord
     ret = {}
     CATEGORYS.each do |k, v|
       next if k == :unknown
+
       ret[k] = v.fetch(:target, {}).to_a
     end
     ret
@@ -1672,6 +1690,7 @@ class AbilityEffect < ApplicationRecord
     ret = {}
     CATEGORYS.each do |k, v|
       next if k == :unknown
+
       sret = {}
       v.fetch(:sub_target, {}).each do |sk, sv|
         sret[sk] = sv.to_a
@@ -1758,6 +1777,7 @@ class AbilityEffect < ApplicationRecord
       CATEGORYS.each do |k, v|
         next if k == :unknown
         next unless keys.include?(k.to_s)
+
         ret << [k, v[:name]]
       end
       ret
@@ -1804,12 +1824,14 @@ class AbilityEffect < ApplicationRecord
       ret = {}
       CATEGORYS.each do |k, v|
         next if k == :unknown
+
         has = cos[k]
         next unless has
 
         ret[k] = []
         v.fetch(key, {}).each do |co, name|
           next unless has.include?(co)
+
           ret[k] << [co, name]
         end
       end
@@ -1834,15 +1856,18 @@ class AbilityEffect < ApplicationRecord
       ret = {}
       CATEGORYS.each do |k, v|
         next if k == :unknown
+
         has = cos[k]
         next unless has
 
         sret = {}
         v.fetch(sub_key, {}).each do |sk, sv|
           next unless has[sk]
+
           li = []
           sv.each do |ssk, name|
             next unless has[sk].include?(ssk)
+
             li << [ssk, name]
           end
           sret[sk] = li if li.present?

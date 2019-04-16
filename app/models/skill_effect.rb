@@ -95,6 +95,7 @@ class SkillEffect < ApplicationRecord
         add_slow: 'スロウ追加',
         add_push: '弾き飛ばし',
         add_tumble: '転倒付与',
+        add_atkdown: '攻撃力低下付与',
         add_defdown: '防御力低下付与',
         add_atkdefdown: '攻撃力/防御力低下付与',
         add_defspeeddown: '防御力/移動速度低下付与',
@@ -362,6 +363,7 @@ class SkillEffect < ApplicationRecord
     ret = []
     CATEGORYS.each do |k, v|
       next if k == :unknown
+
       ret << [k, v[:name]]
     end
     ret
