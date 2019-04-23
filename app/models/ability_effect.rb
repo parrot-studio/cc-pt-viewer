@@ -742,7 +742,8 @@ class AbilityEffect < ApplicationRecord
         weapon_slblpu: '<<斬/打/拳>>',
         weapon_slmapu: '<<斬/魔/拳>>',
         weapon_slblpipu: '<<斬/打/突/拳>>',
-        weapon_exclude_sl: '<<斬>>以外'
+        weapon_exclude_sl: '<<斬>>以外',
+        weapon_exclude_ma: '<<魔>>以外'
       }
     },
     buff_group: {
@@ -1076,6 +1077,7 @@ class AbilityEffect < ApplicationRecord
         weapon_sl: '<<斬>>',
         weapon_pi: '<<突>>',
         weapon_blpi: '<<打/突>>',
+        weapon_exclude_ma: '<<魔>>以外',
         group_guildtown: '副都所属',
         group_demon: '魔神所属'
       },
