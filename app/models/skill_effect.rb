@@ -166,6 +166,7 @@ class SkillEffect < ApplicationRecord
         dsup: '防御力/移動速度上昇',
         scup: '移動速度/クリティカル率上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
+        adcup: '攻撃力/防御力/クリティカル率上昇',
         add_blind: '暗闇追加',
         add_poison: '毒追加',
         add_slow: 'スロウ追加',

@@ -1474,6 +1474,7 @@ class AbilityEffect < ApplicationRecord
         counterattack: 'カウンター攻撃',
         counterattack_contact: 'カウンター攻撃（接触）',
         reflect_arrow: '遠距離反射',
+        reflect_arrow_pierce: '遠距離反射（貫通）',
         reflect_magic: '魔法反射'
       },
       sub_effect: {
@@ -1493,6 +1494,9 @@ class AbilityEffect < ApplicationRecord
       },
       sub_condition: {
         any: {
+          with_span: '連続では発動しない'
+        },
+        guard: {
           with_span: '連続では発動しない'
         }
       },
