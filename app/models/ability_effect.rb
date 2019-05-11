@@ -712,6 +712,7 @@ class AbilityEffect < ApplicationRecord
         with_slpi: '<<斬/突>>がいる時',
         with_slma: '<<斬/魔>>がいる時',
         with_slpu: '<<斬/拳>>がいる時',
+        with_blpush: '<<打/銃/狙>>がいる時',
         wave_start: '各WAVE開始時'
       },
       sub_condition: {
@@ -719,6 +720,9 @@ class AbilityEffect < ApplicationRecord
           include_self: '自身を含む'
         },
         with_slpu: {
+          include_self: '自身を含む'
+        },
+        with_blpush: {
           include_self: '自身を含む'
         }
       },
@@ -741,6 +745,7 @@ class AbilityEffect < ApplicationRecord
         weapon_gush: '<<銃/狙>>',
         weapon_slblpu: '<<斬/打/拳>>',
         weapon_slmapu: '<<斬/魔/拳>>',
+        weapon_blpush: '<<打/銃/狙>>',
         weapon_slblpipu: '<<斬/打/突/拳>>',
         weapon_exclude_sl: '<<斬>>以外',
         weapon_exclude_ma: '<<魔>>以外'
@@ -1028,6 +1033,9 @@ class AbilityEffect < ApplicationRecord
         in_front: {
           with_p: '僧侶',
           with_m: '魔法使い'
+        },
+        in_sub: {
+          field: '特定のフィールド'
         },
         others_skill: {
           job_f: '戦士',
@@ -1331,7 +1339,8 @@ class AbilityEffect < ApplicationRecord
           mana_a: '弓マナ',
           mana_p: '僧マナ',
           mana_m: '魔マナ',
-          mana_fm: '戦＋魔'
+          mana_fm: '戦＋魔',
+          mana_ka: '騎＋弓'
         },
         composite: {
           mana_fk: '戦＋騎',
