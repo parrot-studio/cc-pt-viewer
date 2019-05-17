@@ -1122,7 +1122,8 @@ class AbilityEffect < ApplicationRecord
         fulldown: '攻撃力/防御力/移動速度低下付与',
         delayup: '攻撃速度低下付与',
         shield_break: '盾を破壊する',
-        weak_element: '属性弱点付与'
+        weak_element: '属性弱点付与',
+        element_defdown: '属性防御力低下付与'
       },
       sub_effect: {
         weak_element: {
