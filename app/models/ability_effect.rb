@@ -861,6 +861,7 @@ class AbilityEffect < ApplicationRecord
         adup: '攻撃力/防御力上昇',
         asup: '攻撃力/移動速度上昇',
         acup: '攻撃力/クリティカル率上昇',
+        arup: '攻撃力/クリティカル威力上昇',
         dsup: '防御力/移動速度上昇',
         scup: '移動速度/クリティカル率上昇',
         crup: 'クリティカル率/クリティカル威力上昇',
@@ -886,7 +887,8 @@ class AbilityEffect < ApplicationRecord
       condition: {
         wave_start: '各WAVE開始時',
         in_sub: 'サブパーティーにいる時',
-        in_combo: '攻撃を一定回数当てた時'
+        in_combo: '攻撃を一定回数当てた時',
+        with_volcano: '所属：九領がいる時'
       },
       target: {
         nearest: '一番近い対象',
