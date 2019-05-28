@@ -1965,7 +1965,7 @@ SC-3000,F,254,1,,勇将明敏,2,,attack,one_short,add_push,,,,,
 ケーテ,K,190,1,d,ヴァイゲルング,1,自陣にいる,attack,range_blast,charge_boost,create_scrap,,,,2個
 ,,,2,,プラル・グレンツェ,1,敵陣にいる,attack,range_forward,create_scrap,,,,,1個
 ソーニャ,M,247,1,,イグニッション・ドライブ,1,,attack,range_forward,fire,add_push,,,,
-,,,2,,イグニッション・オーバードライブ,2,超必殺技ゲージMAX,attack,range_forward,super_skill,fire,add_push,,,
+,,,2,,イグニッション・オーバードライブ,2,超必殺技ゲージMAX,attack,range_forward,super_skill,fire,add_push,,,1Chain以上で1マナ
 ,,,,,,forward,,barrier,all,super_skill,guard_ice,,,,
 ,,,d,,イミテイト・オーバードライブ,2,,attack,range_forward,fire,add_push,,,,
 ,,,,,,forward,,barrier,all,guard_ice,,,,,
