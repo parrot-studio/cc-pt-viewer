@@ -251,6 +251,7 @@ class AbilityEffect < ApplicationRecord
         mana_droped: 'マナを獲得した時',
         mana_empty: 'マナがない時',
         mana_mixed: 'マナの種類が多いほど',
+        mana_slot_many: 'マナスロットで多く獲得するほど',
         use_mana: 'マナが使用された時',
         scrap_charged: 'スクラップが多いほど',
         scrap_lost: 'スクラップが少ないほど',
@@ -294,7 +295,8 @@ class AbilityEffect < ApplicationRecord
           include_self: '自身を含む'
         },
         with_fa: {
-          include_self: '自身を含む'
+          include_self: '自身を含む',
+          group_oasis: '湖都所属'
         },
         with_pu: {
           group_beasts: 'ケ者所属',
@@ -434,7 +436,7 @@ class AbilityEffect < ApplicationRecord
         dropout_self: '自身が脱落した時',
         dropout_member: '味方が脱落した時',
         mana_charged: 'マナが多いほど',
-        mana_slot_many: 'マナスロットが多いほど',
+        mana_slot_many: 'マナスロットで多く獲得するほど',
         mana_droped: 'マナを獲得した時',
         use_mana: 'マナが使用された時',
         kill: '敵を倒した時',
@@ -827,7 +829,9 @@ class AbilityEffect < ApplicationRecord
         group_oasis: {
           job_f: '戦士',
           job_a: '弓使い',
-          random: 'ランダム'
+          random: 'ランダム',
+          in_enemy_area: '敵陣にいる対象',
+          in_base_area: '自陣にいる対象'
         },
         group_forest: {
           job_f: '戦士',
@@ -1089,6 +1093,7 @@ class AbilityEffect < ApplicationRecord
         weapon_blpi: '<<打/突>>',
         weapon_exclude_ma: '<<魔>>以外',
         group_guildtown: '副都所属',
+        group_oasis: '湖都所属',
         group_demon: '魔神所属'
       },
       sub_target: {
@@ -1139,6 +1144,7 @@ class AbilityEffect < ApplicationRecord
         skill: 'スキル使用時',
         counter: 'カウンター発生時',
         extra_attack: '追撃発生時',
+        blast_attack: '範囲攻撃発生時',
         add_blind: '暗闇を与えた時',
         add_down: 'ダウンさせた時',
         add_freeze: '凍結を与えた時',
