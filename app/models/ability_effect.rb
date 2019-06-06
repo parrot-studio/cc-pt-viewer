@@ -396,7 +396,7 @@ class AbilityEffect < ApplicationRecord
         adsup: '攻撃力/防御力/移動速度上昇',
         adcup: '攻撃力/防御力/クリティカル率上昇',
         acrup: '攻撃力/クリティカル率/クリティカル威力上昇',
-        dsrup: '防御力/移動速度/クリティカル威力上昇',
+        adsrup: '攻撃力/防御力/移動速度/クリティカル威力上昇',
         barrier: 'バリアを張る',
         super_gauge_gain: '超必殺技ゲージ上昇',
         extend_chain: 'チェイン受け付け時間延長',
@@ -415,7 +415,7 @@ class AbilityEffect < ApplicationRecord
         crup_m: 'クリティカル率/クリティカル威力上昇 / 一定時間',
         adsup_m: '攻撃力/防御力/移動速度上昇 / 一定時間',
         adcup_m: '攻撃力/防御力/クリティカル率上昇 / 一定時間',
-        dsrup_m: '防御力/移動速度/クリティカル威力上昇 / 一定時間'
+        adsrup_m: '攻撃力/防御力/移動速度/クリティカル威力上昇 / 一定時間'
       },
       sub_effect: {
         aup: {

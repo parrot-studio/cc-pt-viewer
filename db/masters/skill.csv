@@ -1865,7 +1865,7 @@ SC-3000,F,254,1,,勇将明敏,2,,attack,one_short,add_push,,,,,
 レミラ,K,184,1,d,ロール印のビックリ特製鍋,2,,attack,range_line,heal_all,,,,,
 ムジカ,A,182,1,,ハーモナイズ・メロディ,1,,attack,summon,,,,,,
 ,,,,,,forward,,song_dance,adsup,,,,,,
-,,,2,,ハーモナイズ・オーケストラ,2,超必殺技ゲージMAX,attack,summon,super_skill,,,,,
+,,,2,,ハーモナイズ・オーケストラ,2,超必殺技ゲージMAX,attack,summon,super_skill,,,,,初回のみ1マナ
 ,,,,,,forward,,song_dance,adsup,super_skill,,,,,
 ,,,d,,イミテイト・オーケストラ,2,,attack,summon,,,,,,
 ,,,,,,forward,,song_dance,adsup,,,,,,
