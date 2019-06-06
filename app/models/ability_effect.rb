@@ -197,6 +197,7 @@ class AbilityEffect < ApplicationRecord
         with_m: '魔法使いがいる時',
         with_fa: '戦＋弓がいる時',
         with_various_jobs: '職の種類が多いほど',
+        with_many_f: '戦士が多いほど',
         with_sl: '<<斬>>がいる時',
         with_bl: '<<打>>がいる時',
         with_pi: '<<突>>がいる時',
@@ -460,7 +461,8 @@ class AbilityEffect < ApplicationRecord
           job_fm: '戦/魔'
         },
         job_skill: {
-          job_p: '僧侶'
+          job_p: '僧侶',
+          job_fa: '戦/弓'
         },
         mana_droped: {
           mana_f: '戦マナ',
