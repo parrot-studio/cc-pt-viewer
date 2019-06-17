@@ -2714,6 +2714,21 @@ K・K,A,195,1,,FB‐202 ファイアブロウ,1,初回のみ,attack,summon,,,,,,
 ニキ,A,224,1,d,ラバーズダンス,3,,attack,range_forward,add_down,,,,,
 ,,,,d,,forward,,heal,all_instant,excess,asup,,,,
 ,,,,,,,,,,,,,,,
+# 盾の勇者の成り上がりコラボ,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+岩谷尚文,K,219,1,d,シールドプリズン,1,2Chain以下,attack,range_random_blast,add_blind,add_slow,,,,
+,,,,d,,forward,,barrier,all,,,,,,
+,,,2,,ブラッドサクリファイス,3,3Chain以上,attack,range_forward,fire,add_down,pain,,,
+ラフタリア,F,443,1,,ハイド・ミラージュ,1,,attack,range_shortline,add_atkdefdown,add_down,,,,ダウン追加は1Chain以上の時
+,,,d,,ハイド・ミラージュ,1,,attack,range_shortline,add_atkdefdown,,,,,
+フィーロ,F,444,1,,スパイラルストライク,1,,attack,range_dash,add_push,return_position,,,,2Chain以上で効果上昇
+,,,,,,forward,,buff,all,asup,,,,,2Chain以上で効果上昇
+,,,d,,スパイラルストライク,1,,attack,range_dash,add_push,return_position,,,,
+,,,,,,forward,,buff,all,asup,,,,,
+グラス,F,445,1,,輪舞零ノ型・逆式雪月花,2,,attack,range_forward_combo,add_push,,,,,マナが多いほど効果上昇/初回のみ1マナ
+,,,d,,輪舞零ノ型・逆式雪月花,2,,attack,range_forward_combo,add_push,,,,,マナが多いほど効果上昇
+ラルクベルク,F,446,1,d,一ノ型・風薙ぎ,2,,attack,range_forward,add_slow,add_push,,,,
+リーシア,F,447,1,d,ファスト・ウォーターショット,2,,attack,range_line,ice,add_freeze,add_push,,,
 ,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 # end,,,,,,,,,,,,,,,

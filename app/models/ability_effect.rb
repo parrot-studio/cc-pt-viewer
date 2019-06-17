@@ -56,6 +56,7 @@ class AbilityEffect < ApplicationRecord
         ascup: '攻撃力/移動速度/クリティカル率上昇',
         asrup: '攻撃力/移動速度/クリティカル威力上昇',
         acrup: '攻撃力/クリティカル率/クリティカル威力上昇',
+        dscup: '防御力/移動速度/クリティカル率上昇',
         dcrup: '防御力/クリティカル率/クリティカル威力上昇',
         scrup: '移動速度/クリティカル率/クリティカル威力上昇',
         adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
@@ -558,6 +559,7 @@ class AbilityEffect < ApplicationRecord
         adsup_m: '攻撃力/防御力/移動速度上昇 / 一定時間',
         adcup_m: '攻撃力/防御力/クリティカル率上昇 / 一定時間',
         ascup_m: '攻撃力/移動速度/クリティカル率上昇 / 一定時間',
+        acrup_m: '攻撃力/クリティカル率/クリティカル威力上昇 / 一定時間',
         adscup_m: '攻撃力/防御力/移動速度/クリティカル率上昇 / 一定時間',
         ascrup_m: '攻撃力/移動速度/クリティカル率/クリティカル威力上昇 / 一定時間',
         adscrup_m: '攻撃力/防御力/移動速度/クリティカル率/クリティカル威力上昇 / 一定時間'
@@ -1500,6 +1502,9 @@ class AbilityEffect < ApplicationRecord
       sub_effect: {
         counterattack: {
           ice: '氷属性'
+        },
+        counterattack_contact: {
+          fire: '火属性'
         },
         reflect_arrow: {
           fire: '火属性',
