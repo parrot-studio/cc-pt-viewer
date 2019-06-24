@@ -193,6 +193,7 @@ class SkillEffect < ApplicationRecord
         all: '全体',
         others: '自分以外の全員',
         fighter: '戦士',
+        knight: '騎士',
         archer: '弓使い',
         front: '先頭の一人',
         far: '一番遠い一人',

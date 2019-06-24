@@ -265,12 +265,12 @@ class AbilityEffect < ApplicationRecord
         with_enemy_debuff: '状態異常の敵がいる時',
         any_debuff: 'フィールドに状態異常が多いほど',
         super_gauge_max: '超必殺技ゲージがMAXの時',
+        in_awakening: '覚醒している時',
         add_debuff: '状態異常を付与した時',
         add_atkdown: '攻撃力低下を付与した時',
         add_defdown: '防御力低下を付与した時',
         add_atkdefdown: '攻撃力/防御力低下を付与した時',
         after_move: '一定距離を移動した時',
-        in_awakening: '覚醒ゲージがMAXの時',
         from_sub: 'サブから戦場に移動したとき',
         waiting_charge: '何もせずに一定時間経過した時',
         in_heroic: '援軍として参戦した時'
@@ -402,6 +402,7 @@ class AbilityEffect < ApplicationRecord
         super_gauge_gain: '超必殺技ゲージ上昇',
         extend_chain: 'チェイン受け付け時間延長',
         enhance_chain: 'チェイン倍率上昇',
+        hp_excess: 'HP超過状態になる',
         aup_m: '攻撃力上昇 / 一定時間',
         dup_m: '防御力上昇 / 一定時間',
         sup_m: '移動速度上昇 / 一定時間',
@@ -444,7 +445,8 @@ class AbilityEffect < ApplicationRecord
         kill: '敵を倒した時',
         kill_debuff: '状態異常の敵を倒した時',
         super_gauge_max: '超必殺技ゲージがMAXの時',
-        from_sub: 'サブから戦場に移動したとき'
+        from_sub: 'サブから戦場に移動したとき',
+        battle_start: '戦闘開始時'
       },
       sub_condition: {
         in_sub: {
@@ -479,6 +481,9 @@ class AbilityEffect < ApplicationRecord
           mana_m: '魔マナ',
           mana_fpm: '戦/僧/魔マナ',
           job_f: '戦士'
+        },
+        battle_start: {
+          in_sub: 'サブパーティーにいる時'
         }
       },
       target: {
@@ -749,6 +754,7 @@ class AbilityEffect < ApplicationRecord
         weapon_argu: '<<弓/銃>>',
         weapon_mapu: '<<魔/拳>>',
         weapon_gush: '<<銃/狙>>',
+        weapon_slpibl: '<<斬/突/打>>',
         weapon_slblpu: '<<斬/打/拳>>',
         weapon_slmapu: '<<斬/魔/拳>>',
         weapon_blpush: '<<打/銃/狙>>',
@@ -1095,6 +1101,7 @@ class AbilityEffect < ApplicationRecord
         weapon_sl: '<<斬>>',
         weapon_pi: '<<突>>',
         weapon_blpi: '<<打/突>>',
+        weapon_slpibl: '<<斬/突/打>>',
         weapon_exclude_ma: '<<魔>>以外',
         group_guildtown: '副都所属',
         group_oasis: '湖都所属',
