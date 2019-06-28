@@ -35,6 +35,7 @@ module ViewerHelper
 
   def show_ads?
     return true unless ptedit_mode?
+
     @ptm.blank? ? false : true
   end
 end

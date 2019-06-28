@@ -73,13 +73,16 @@ class ArcanaImporter
 
   def each_table_lines(file)
     raise "file not found => #{file}" unless File.exist?(file)
+
     f = File.open(file, 'rt:Shift_JIS')
     f.readlines.each do |line|
       break if line.start_with?('#end')
       next if line.start_with?('#')
+
       data = line.split(',').map(&:strip)
       next if data.empty?
       next if data.all?(&:blank?)
+
       yield(data)
     end
     file
@@ -112,6 +115,7 @@ class ArcanaImporter
       each_table_lines(id_table_file) do |data|
         name, job, index = data
         next if (name.blank? || job.blank? || index.blank?)
+
         ret["#{job}#{index}"] = name
       end
       ret
@@ -171,6 +175,7 @@ class ArcanaImporter
     arcana.title = title
     arcana.arcana_type = arcana_type
     raise "arcana_type not found => #{arcana.name} #{arcana.arcana_type}" unless Arcana::ARCANA_TYPE_NAMES.key?(arcana.arcana_type.to_sym)
+
     arcana.person_code = code # TODO: 廃止
     arcana.link_code = link
     arcana.rarity = rarity
@@ -178,15 +183,20 @@ class ArcanaImporter
     arcana.chain_cost = chain_cost
     arcana.weapon_type = weapon
     raise "weapon_type not found => #{arcana.name} #{arcana.weapon_type}" unless Arcana::WEAPON_NAMES.key?(arcana.weapon_type.to_sym)
+
     arcana.source_category = source_category
     sct = Arcana::SOURCE_TABLE[arcana.source_category.to_sym]
     raise "source_category not found => #{arcana.name} #{arcana.source_category}" unless sct
+
     arcana.source = source
     raise "source not found => #{arcana.name} #{arcana.source}" unless sct.fetch(:details).fetch(arcana.source.to_sym)
+
     arcana.union = (union.presence || 'unknown')
     raise "union not found => #{arcana.name} #{arcana.union}" unless Arcana::UNION_NAMES.key?(arcana.union.to_sym)
+
     arcana.job_type = job_type
     raise "job_type not found => #{arcana.name} #{arcana.job_type}" unless Arcana::JOB_NAMES.key?(arcana.job_type.to_sym)
+
     arcana.job_index = job_index
     arcana.job_code = code
     arcana.job_detail = job_detail
@@ -245,6 +255,7 @@ class ArcanaImporter
       inherit = []
       lines.each do |data|
         next if data[1].blank?
+
         i = data.dup
         i[0] = 'd' if inherit.blank?
         i[4] = ''  unless i[3] == 'forward' # drop condition
@@ -268,6 +279,7 @@ class ArcanaImporter
           sk.name = sname
           cost = data.shift
           raise "skill: cost not found => #{arcana.name}/#{sname}" if cost.blank?
+
           sk.cost = cost.to_i
           arcana.skills << sk if sk.new_record?
           sk.save!
@@ -279,6 +291,7 @@ class ArcanaImporter
           multi_cond = data.shift.to_s
         else
           next unless sk
+
           multi_type = data.shift.to_s
           multi_cond = data.shift.to_s
           raise "multi_type not found => #{sk.name}" if multi_type.blank?
@@ -352,6 +365,7 @@ class ArcanaImporter
         at = data.shift
         aname = data.shift
         raise "ability: type or name not found => #{arcana.name}" if (at.present? && at != 'p' && aname.blank?) || (at.blank? && aname.present?)
+
         eindex += 1
         if at.present? && at != atype
           abi = abs.find { |a| a.ability_type == at }
@@ -373,8 +387,10 @@ class ArcanaImporter
         effect.order = eindex
         effect.category = data.shift.to_s
         raise "category not found => #{abi.name} #{effect.category}" unless AbilityEffect::CATEGORYS.key?(effect.category.to_sym)
+
         effect.condition = data.shift.to_s
         raise "condition not found => #{abi.name} #{effect.category}-#{effect.condition}" unless AbilityEffect::CONDITIONS.key?(effect.condition.to_sym)
+
         effect.sub_condition = data.shift.to_s
         if effect.sub_condition.present?
           subcond = AbilityEffect::CATEGORYS.dig(effect.category.to_sym, :sub_condition, effect.condition.to_sym) || {}
@@ -384,6 +400,7 @@ class ArcanaImporter
 
         effect.effect = data.shift.to_s
         raise "effect not found => #{abi.name} #{effect.category}-#{effect.effect}" unless AbilityEffect::EFFECTS.key?(effect.effect.to_sym)
+
         effect.sub_effect = data.shift.to_s
         if effect.sub_effect.present?
           subeffect = AbilityEffect::CATEGORYS.dig(effect.category.to_sym, :sub_effect, effect.effect.to_sym) || {}
@@ -397,6 +414,7 @@ class ArcanaImporter
 
         effect.target = data.shift.to_s
         raise "target not found => #{abi.name} #{effect.category}-#{effect.target}" unless AbilityEffect::TARGETS.key?(effect.target.to_sym)
+
         effect.sub_target = data.shift.to_s
         if effect.sub_target.present?
           subtarget = AbilityEffect::CATEGORYS.dig(effect.category.to_sym, :sub_target, effect.target.to_sym) || {}
@@ -409,8 +427,10 @@ class ArcanaImporter
         # 組み合わせチェック
         effcheck = AbilityEffect::CATEGORYS.dig(effect.category.to_sym, :effect, effect.effect.to_sym)
         raise "effect undefined =>  #{abi.name} #{effect.category} #{effect.effect}" unless effcheck
+
         condcheck = AbilityEffect::CATEGORYS.dig(effect.category.to_sym, :condition, effect.condition.to_sym)
         raise "condition undefined =>  #{abi.name} #{effect.category} #{effect.condition}" unless condcheck
+
         targetcheck = AbilityEffect::CATEGORYS.dig(effect.category.to_sym, :target, effect.target.to_sym)
         raise "target undefined =>  #{abi.name} #{effect.category} #{effect.target}" unless targetcheck
 
@@ -433,6 +453,7 @@ class ArcanaImporter
     Arcana.inheritables.each do |a|
       inherit = a.skills.find_by(skill_type: 'd')
       next if inherit
+
       output_warning "warning : arcana #{a.name}(#{a.job_code}/#{a.rarity}) : lack inherit skill (#{a.arcana_type})"
     end
   end

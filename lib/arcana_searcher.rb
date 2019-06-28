@@ -30,7 +30,7 @@ class ArcanaSearcher
   end.call.freeze
 
   QUERY_KEYS = lambda do
-    QUERY_CONDITION_NAMES.map { |n| CONVERT_TABLE[n] ? CONVERT_TABLE[n] : n }
+    QUERY_CONDITION_NAMES.map { |n| CONVERT_TABLE[n] || n }
   end.call.freeze
 
   DETAIL_COND_LIST = %i[
@@ -61,24 +61,28 @@ class ArcanaSearcher
 
   def query_key
     return '' if empty?
+
     @query_key ||= Digest::MD5.hexdigest(query_string)
     @query_key
   end
 
   def query_string
     return '' if empty?
+
     @query_string ||= create_query_string(@query)
     @query_string
   end
 
   def query_detail
     return '' if empty?
+
     @query_detail ||= create_query_detail(@query)
     @query_detail
   end
 
   def search
     return [] if empty?
+
     @result = if @query[:recently]
       re = @query[:recently].to_i
       re = ServerSettings.recently if re < 1
@@ -99,14 +103,16 @@ class ArcanaSearcher
 
   def condition_name(n)
     return if n.blank?
+
     name = CONVERT_TABLE[n]
-    name ? name : n
+    name || n
   end
 
   def query_name(n)
     return if n.blank?
+
     name = REVERSE_CONVERT_TABLE[n]
-    name ? name : n
+    name || n
   end
 
   def parse_params(org)
@@ -116,6 +122,7 @@ class ArcanaSearcher
     QUERY_CONDITION_NAMES.each do |n|
       val = org[n]
       next unless val
+
       name = condition_name(n)
 
       case name
@@ -148,10 +155,12 @@ class ArcanaSearcher
       when :actorname
         aid = ArcanaCache.voice_actor_id(val)
         next unless aid
+
         query[:voice_actor_id] = aid
       when :illustratorname
         iid = ArcanaCache.illustrator_id(val)
         next unless iid
+
         query[:illustrator_id] = iid
       else
         v = case val
@@ -163,6 +172,7 @@ class ArcanaSearcher
           val
         end
         next if v.blank?
+
         query[name] = v
       end
     end
@@ -174,6 +184,7 @@ class ArcanaSearcher
     QUERY_KEYS.each do |k|
       q = query[k]
       next unless q
+
       yield(k, q)
     end
   end
@@ -196,10 +207,12 @@ class ArcanaSearcher
       when :voice_actor_id
         name = ArcanaCache.voice_actor_name(q)
         next unless name
+
         ret[:actorname] = name
       when :illustrator_id
         name = ArcanaCache.illustrator_name(q)
         next unless name
+
         ret[:illustratorname] = name
       else
         v = case q
@@ -222,6 +235,7 @@ class ArcanaSearcher
     list = DETAIL_COND_LIST.map do |k|
       q = query[k]
       next unless q
+
       case k
       when :job_type
         Arcana::JOB_NAMES[q.to_sym]
@@ -267,6 +281,7 @@ class ArcanaSearcher
         if query[:skillcost] || query[:skillsub] || query[:skilleffect] || query[:skillinheritable]
           table = SkillEffect::CATEGORYS.fetch(query[:skill].to_sym, {})
           next if table.blank?
+
           ss = []
 
           ss <<
@@ -291,6 +306,7 @@ class ArcanaSearcher
       when :chainabilitycategory
         table = AbilityEffect::CATEGORYS.fetch(query[:chainabilitycategory].to_sym, {})
         next if table.blank?
+
         str = '絆アビリティ - '
         str += table.fetch(:name, '') unless (query[:chainabilitycondition] && query[:chainabilityeffect])
         str += (' ' + AbilityEffect::CONDITIONS.fetch(query[:chainabilitycondition].to_sym, '')) if query[:chainabilitycondition]
@@ -300,6 +316,7 @@ class ArcanaSearcher
       when :source_category
         table = Arcana::SOURCE_TABLE.fetch(query[:source_category].to_sym, {})
         next if table.blank?
+
         str = '入手先 - '
         str += table.fetch(:name, '')
         str += (' ' + table.fetch(:details, {}).fetch(query[:source].to_sym, '')) if query[:source]
@@ -312,6 +329,7 @@ class ArcanaSearcher
   def create_query_detail_for_ability(query)
     table = AbilityEffect::CATEGORYS.fetch(query[:abilitycategory].to_sym, {})
     return if table.blank?
+
     str = 'アビリティ - '
     str += table.fetch(:name, '') unless (query[:abilitycondition] && query[:abilityeffect])
 
@@ -385,18 +403,21 @@ class ArcanaSearcher
     if squery.present?
       ids = skill_search(squery)
       return [] if ids.blank?
+
       arel = arel.where(id: ids)
     end
 
     if aquery.present?
       ids = ability_search(Ability.normal_abilities, aquery)
       return [] if ids.blank?
+
       arel = arel.where(id: ids)
     end
 
     if cquery.present?
       ids = ability_search(Ability.chain_abilities, cquery)
       return [] if ids.blank?
+
       arel = arel.where(id: ids)
     end
 
@@ -437,6 +458,7 @@ class ArcanaSearcher
   def ability_search(base, query)
     return [] unless base
     return [] if query.blank?
+
     efs = ability_effect_group_for(query[:effect])
     ts = target_group_for(query[:target])
 
@@ -454,13 +476,16 @@ class ArcanaSearcher
 
   def skill_effect_group_for(ef)
     return if ef.blank?
+
     group = SkillEffect::EFFECT_GROUP[ef.to_sym]
     return ef if group.blank?
+
     [ef, group].flatten.uniq.compact
   end
 
   def ability_effect_group_for(ef)
     return if ef.blank?
+
     group = AbilityEffect::EFFECT_GROUP[ef.to_sym]
     efs = [ef, group].flatten.uniq.compact
 
@@ -471,18 +496,23 @@ class ArcanaSearcher
 
   def target_group_for(t)
     return if t.blank?
+
     group = AbilityEffect::TARGET_GROUP[t.to_sym]
     return t if group.blank?
+
     [t, group].flatten.uniq.compact
   end
 
   def replace_source_query(q)
     return q if q[:source_category].blank?
     return q unless Arcana::SOURCE_GROUP_CATEGORYS.include?(q[:source_category].to_sym)
+
     cate = q.delete(:source_category)
     return q if q[:source].present?
+
     ss = Arcana::SOURCE_TABLE.fetch(cate.to_sym, {}).fetch(:details, {}).keys
     return q if ss.blank?
+
     q[:source] = ss
     q
   end

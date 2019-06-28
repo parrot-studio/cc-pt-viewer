@@ -23,6 +23,7 @@ class ServerSettings
 
     def data_update_time
       return Time.current unless Rails.env.production?
+
       @data_update_time ||= Time.zone.parse(data_version)
       @data_update_time
     end

@@ -11,6 +11,7 @@ module RedisCache
 
       def connect?
         return false unless redis
+
         begin
           redis.ping
           true

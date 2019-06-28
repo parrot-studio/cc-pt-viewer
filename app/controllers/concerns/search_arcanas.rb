@@ -14,17 +14,20 @@ module SearchArcanas
 
   def search_members(ptm)
     return {} if ptm.blank?
+
     mems = parse_pt_code(ptm)
     return {} unless mems
 
     cs = mems.values.uniq.compact
     return {} if cs.empty?
+
     as = from_arcana_cache(cs).each_with_object({}) { |o, h| h[o['job_code']] = o }
 
     ret = {}
     mems.each do |po, co|
       a = as[co]
       next unless a
+
       ret[po] = as[co]
     end
     ret
@@ -32,6 +35,7 @@ module SearchArcanas
 
   def code_for_member(c)
     return unless c
+
     c == 'N' ? nil : c
   end
 
@@ -39,14 +43,17 @@ module SearchArcanas
     searcher = ArcanaSearcher.parse(query)
     rsl = { detail: searcher.query_detail, result: [] }
     return rsl if searcher.blank? || searcher.query_key.blank?
+
     rsl[:result] = searcher.search
     rsl
   end
 
   def specified_arcanas(codes)
     return [] if codes.blank?
+
     cs = codes.split('/')
     return [] if cs.blank?
+
     from_arcana_cache(cs)
   end
 

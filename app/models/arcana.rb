@@ -375,6 +375,7 @@ class Arcana < ApplicationRecord
       self.inheritable_candidates.select do |a|
         next true unless a.arcana_type == 'collaboration'
         next true unless NOT_INHERITABLE_COLLABORATIONS.include?(a.source)
+
         false
       end
     end
@@ -391,16 +392,19 @@ class Arcana < ApplicationRecord
   def wiki_link_name
     return self.wiki_name if self.wiki_name.present?
     return '' if self.title.match?(/調査中/)
+
     "#{self.title}#{self.name}"
   end
 
   def origin_name
     return wiki_link_name unless self.arcana_type == 'buddy'
+
     "#{self.title}#{self.name}"
   end
 
   def linked_arcana
     return if self.link_code.blank?
+
     Arcana.find_by(job_code: self.link_code)
   end
 

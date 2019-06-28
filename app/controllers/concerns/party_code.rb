@@ -8,6 +8,7 @@ module PartyCode
 
   def parse_pt_code(code)
     return if code.blank?
+
     parser = /\AV(\d+)(.+)\z/
     m = code.upcase.match(parser)
     return unless m
@@ -76,6 +77,7 @@ module PartyCode
 
   def split_pt_code(code, size)
     return if code.blank? || size < 1
+
     part = "([#{Arcana::JOB_TYPES.join}]\\d+|N)"
     parser = /\A#{part * size}\z/
     code.upcase.match(parser)

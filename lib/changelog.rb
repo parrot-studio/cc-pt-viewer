@@ -13,6 +13,7 @@ class Changelog
 
     def summary(n)
       return logs if n.to_i < 1
+
       logs.take(n)
     end
 

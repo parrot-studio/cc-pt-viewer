@@ -33,6 +33,7 @@ module RedisCache
         val = read_cache(name)
         return val if val.present?
         return unless block_given?
+
         val = yield
         add_cache(name, val, time)
         val
@@ -43,6 +44,7 @@ module RedisCache
         obj = read_object_cache(name)
         return obj if obj.present?
         return unless block_given?
+
         obj = yield
         add_object_cache(name, obj, time)
         obj

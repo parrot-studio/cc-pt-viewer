@@ -134,6 +134,7 @@ class ArcanaCache
 
     def update_cache(arcana)
       return unless arcana
+
       data = arcana.serialize
       redis.set(arcana_cache_key(arcana.job_code), Oj.dump(data))
       data.with_indifferent_access
