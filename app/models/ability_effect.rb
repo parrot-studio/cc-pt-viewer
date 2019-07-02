@@ -67,6 +67,7 @@ class AbilityEffect < ApplicationRecord
         guardup: '遠距離ダメージカット上昇',
         delayoff: '攻撃速度上昇',
         maxhpup: '最大HP増加',
+        hp_excess: 'HP超過状態になる',
         guard_fire: '火属性を軽減する',
         guard_ice: '氷属性を軽減する',
         areaup: '回復範囲増加',
@@ -273,6 +274,7 @@ class AbilityEffect < ApplicationRecord
         after_move: '一定距離を移動した時',
         from_sub: 'サブから戦場に移動したとき',
         waiting_charge: '何もせずに一定時間経過した時',
+        battle_start: '戦闘開始時',
         in_heroic: '援軍として参戦した時'
       },
       sub_condition: {
@@ -373,6 +375,9 @@ class AbilityEffect < ApplicationRecord
         },
         job_skill: {
           job_f: '戦士'
+        },
+        battle_start: {
+          in_main: 'メインパーティーにいる時'
         }
       },
       target: {
@@ -780,6 +785,7 @@ class AbilityEffect < ApplicationRecord
         adrup: '攻撃力/防御力/クリティカル威力上昇',
         ascup: '攻撃力/移動速度/クリティカル率上昇',
         adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
+        hp_excess: 'HP超過状態になる',
         add_down: '対象の攻撃にダウンを付与',
         add_slow: '対象の攻撃にスロウを付与',
         add_poison: '対象の攻撃に毒を付与',
@@ -795,10 +801,15 @@ class AbilityEffect < ApplicationRecord
       condition: {
         any: 'いつでも',
         wave_start: '各WAVE開始時',
+        battle_start: '戦闘開始時',
         in_sub: 'サブパーティーにいる時',
-        with_machine: '所属：鉄煙がいる時'
+        with_machine: '所属：鉄煙がいる時',
+        in_excess: 'HP超過状態の時'
       },
       sub_condition: {
+        battle_start: {
+          in_main: 'メインパーティーにいる時'
+        },
         with_machine: {
           include_self: '自身を含む'
         }
@@ -1036,6 +1047,7 @@ class AbilityEffect < ApplicationRecord
         members_debuff: '味方に状態異常が多いほど',
         enemys_debuff: '敵に状態異常が多いほど',
         any_debuff: 'フィールドに状態異常が多いほど',
+        with_enemy_debuff: '状態異常の敵がいる時',
         has_mana: 'マナを保持している時',
         use_mana: 'マナが使用された時',
         mana_droped: 'マナを獲得した時',
@@ -1154,6 +1166,8 @@ class AbilityEffect < ApplicationRecord
         critical: 'クリティカル時',
         skill: 'スキル使用時',
         counter: 'カウンター発生時',
+        shoot: '遠距離攻撃時',
+        combat: '近接攻撃時',
         extra_attack: '追撃発生時',
         blast_attack: '範囲攻撃発生時',
         add_blind: '暗闇を与えた時',
