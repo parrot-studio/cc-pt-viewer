@@ -25,11 +25,11 @@
     "react": "^16.2.0",
     "react-bootstrap": "0.32.1",
     "react-dom": "^16.2.0",
-    "react-on-rails": "^11.2.2",
+    "react-on-rails": "^11.3.0",
     "react-ultimate-pagination": "^1.2.0",
     "superagent": "^3.8.2",
     "ts-loader": "^3.5.0",
-    "typescript": "^3.0.1"
+    "typescript": "^3.5.3"
   },
   "devDependencies": {
     "tslint": "^5.11.0",

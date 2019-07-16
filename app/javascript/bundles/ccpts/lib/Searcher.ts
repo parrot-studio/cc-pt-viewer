@@ -41,7 +41,7 @@ export default class Searcher {
     Searcher.showError = showError
   }
 
-  public static searchArcanas(query: Query): Bacon.EventStream<{}, QueryResult> {
+  public static searchArcanas(query: Query): Bacon.EventStream<unknown, QueryResult> {
     if (!query) {
       return Bacon.never()
     }
@@ -74,7 +74,7 @@ export default class Searcher {
     })
   }
 
-  public static searchMembers(code: string): Bacon.EventStream<{}, Party> {
+  public static searchMembers(code: string): Bacon.EventStream<unknown, Party> {
     const cache = Searcher.memberCache[code]
     if (cache) {
       return Bacon.once(Party.build(cache))
@@ -88,7 +88,7 @@ export default class Searcher {
     })
   }
 
-  public static searchCodes(targets: string[]): Bacon.EventStream<{}, QueryResult> {
+  public static searchCodes(targets: string[]): Bacon.EventStream<unknown, QueryResult> {
     if (_.isEmpty(targets)) {
       return Bacon.once(QueryResult.create([], ""))
     }
@@ -108,7 +108,7 @@ export default class Searcher {
     })
   }
 
-  public static request(text: string): Bacon.EventStream<{}, any> {
+  public static request(text: string): Bacon.EventStream<unknown, any> {
     Searcher.showError(false)
     Searcher.showModal(true)
     const params: QueryParam = {}
@@ -126,7 +126,7 @@ export default class Searcher {
     return result.flatMap((res) => Bacon.once(res.body))
   }
 
-  public static searchFromName(query: Query): Bacon.EventStream<{}, QueryResult> {
+  public static searchFromName(query: Query): Bacon.EventStream<unknown, QueryResult> {
     const nameUrl = `${Searcher.config.apiPath}name`
     return Searcher.search(query.params(), nameUrl).flatMap((data) => {
       const as = _.chain(_.map(data.result, (d) => Arcana.build(d))).compact().value()
@@ -143,7 +143,7 @@ export default class Searcher {
   private static showModal: (state: boolean) => void
   private static showError: (state: boolean) => void
 
-  private static search(params: any, url: string): Bacon.EventStream<{}, any> {
+  private static search(params: any, url: string): Bacon.EventStream<unknown, any> {
     Searcher.showError(false)
 
     params = (params || {})

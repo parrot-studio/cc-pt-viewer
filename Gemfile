@@ -64,7 +64,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'bootstrap-sass'
 gem 'font-awesome-sass'
-gem 'react_on_rails', '~> 11.1'
+gem 'react_on_rails', '~> 11.3'
 
 # server
 gem 'pry'
