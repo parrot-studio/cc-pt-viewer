@@ -54,7 +54,7 @@ interface ConditionViewState {
 
 export default class ConditionView extends React.Component<ConditionViewProps, ConditionViewState> {
 
-  private notifier: Bacon.Bus<Bacon.EventStream<{}, QueryParam>, QueryParam>
+  private notifier: Bacon.Bus<QueryParam>
 
   constructor(props) {
     super(props)

@@ -9,11 +9,11 @@ Description
 個人的には初めて、PCだけでなくタブレットやスマートフォンでの閲覧性も考慮しています。
 
 - Ruby 2.5
-- TypeScript 3.0
+- TypeScript 3.x
 - Rails 5.2
-- ReactOnRails 11.0
+- ReactOnRails 11.x
 - React.js
-- Bacon.js
+- Bacon.js 3.x
 - MariaDB
 - Redis
 

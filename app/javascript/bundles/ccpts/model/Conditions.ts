@@ -4,7 +4,7 @@ import * as Bacon from "baconjs"
 import { QueryParam } from "./Query"
 
 export interface ConditionsNotifier {
-  notifier: Bacon.Bus<Bacon.EventStream<{}, QueryParam>, QueryParam>
+  notifier: Bacon.Bus<QueryParam>
 }
 
 export interface ConditionParams {

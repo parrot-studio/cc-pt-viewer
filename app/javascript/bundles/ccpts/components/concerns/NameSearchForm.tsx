@@ -10,7 +10,7 @@ interface NameSearchFormState {
 
 export default class NameSearchForm extends React.Component<{}, NameSearchFormState> {
 
-  private nameStream: Bacon.Bus<Bacon.EventStream<{}, QueryParam>, QueryParam> = new Bacon.Bus()
+  private nameStream: Bacon.Bus<QueryParam> = new Bacon.Bus()
 
   constructor(props) {
     super(props)
