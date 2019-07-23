@@ -52,6 +52,7 @@ module PartyCode
     parse_pt_code_with_hero("#{code}N")
   end
 
+  # rubocop:disable Metrics/AbcSize
   def parse_pt_code_with_hero(code)
     m = split_pt_code(code, 15)
     return unless m
@@ -74,6 +75,7 @@ module PartyCode
       hero: code_for_member(m[15])
     }
   end
+  # rubocop:enable Metrics/AbcSize
 
   def split_pt_code(code, size)
     return if code.blank? || size < 1

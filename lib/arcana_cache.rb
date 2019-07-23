@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/AbcSize, Metrics/ClassLength, Metrics/MethodLength
 class ArcanaCache
   include RedisCache::Common
   include RedisCache::Cache
@@ -191,3 +192,4 @@ class ArcanaCache
     end
   end
 end
+# rubocop:enable Metrics/AbcSize, Metrics/ClassLength, Metrics/MethodLength

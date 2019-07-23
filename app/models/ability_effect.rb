@@ -28,6 +28,7 @@
 #  index_ability_effects_on_category_and_effect                (category,effect)
 #
 
+# rubocop:disable Metrics/ClassLength, Metrics/MethodLength, Metrics/AbcSize
 class AbilityEffect < ApplicationRecord
   belongs_to :ability
 
@@ -1962,3 +1963,4 @@ class AbilityEffect < ApplicationRecord
     ef
   end
 end
+# rubocop:enable Metrics/ClassLength, Metrics/MethodLength, Metrics/AbcSize

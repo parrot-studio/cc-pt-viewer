@@ -30,6 +30,7 @@
 #  index_skill_effects_on_subeffect5                (subeffect5)
 #
 
+# rubocop:disable Metrics/ClassLength, Metrics/AbcSize
 class SkillEffect < ApplicationRecord
   belongs_to :skill
 
@@ -461,3 +462,4 @@ class SkillEffect < ApplicationRecord
     se
   end
 end
+# rubocop:enable Metrics/ClassLength, Metrics/AbcSize

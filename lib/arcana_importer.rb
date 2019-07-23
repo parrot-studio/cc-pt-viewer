@@ -1,3 +1,6 @@
+# rubocop:disable Metrics/PerceivedComplexity, Metrics/AbcSize, Rails/Output
+# rubocop:disable Metrics/CyclomaticComplexity, Metrics/LineLength
+# rubocop:disable Metrics/BlockLength, Metrics/MethodLength, Metrics/ClassLength
 class ArcanaImporter
   attr_writer :file_dir
 
@@ -458,3 +461,6 @@ class ArcanaImporter
     end
   end
 end
+# rubocop:enable Metrics/PerceivedComplexity, Metrics/AbcSize, Rails/Output
+# rubocop:enable Metrics/CyclomaticComplexity, Metrics/LineLength
+# rubocop:enable Metrics/BlockLength, Metrics/MethodLength, Metrics/ClassLength

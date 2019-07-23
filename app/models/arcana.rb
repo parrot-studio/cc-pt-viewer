@@ -51,6 +51,8 @@
 #  index_arcanas_on_weapon_type                 (weapon_type)
 #
 
+# rubocop:disable Metrics/ClassLength, Metrics/MethodLength
+# rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
 class Arcana < ApplicationRecord
   belongs_to :voice_actor
   belongs_to :illustrator
@@ -466,3 +468,5 @@ class Arcana < ApplicationRecord
     ret
   end
 end
+# rubocop:enable Metrics/ClassLength, Metrics/MethodLength
+# rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity

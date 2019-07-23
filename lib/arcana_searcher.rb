@@ -1,3 +1,6 @@
+# rubocop:disable Metrics/PerceivedComplexity, Metrics/AbcSize
+# rubocop:disable Metrics/CyclomaticComplexity, Metrics/LineLength
+# rubocop:disable Metrics/BlockLength, Metrics/MethodLength, Metrics/ClassLength
 class ArcanaSearcher
   QUERY_CONDITION_NAMES = %i[
     recently job rarity weapon arcanatype actor illustrator
@@ -83,15 +86,16 @@ class ArcanaSearcher
   def search
     return [] if empty?
 
-    @result = if @query[:recently]
-      re = @query[:recently].to_i
-      re = ServerSettings.recently if re < 1
-      ArcanaCache.recently(re)
-    else
-      ArcanaCache.search_result(query_key) do
-        arcana_search_from_query(@query)
+    @result =
+      if @query[:recently]
+        re = @query[:recently].to_i
+        re = ServerSettings.recently if re < 1
+        ArcanaCache.recently(re)
+      else
+        ArcanaCache.search_result(query_key) do
+          arcana_search_from_query(@query)
+        end
       end
-    end
     @result
   end
 
@@ -517,3 +521,6 @@ class ArcanaSearcher
     q
   end
 end
+# rubocop:enable Metrics/PerceivedComplexity, Metrics/AbcSize
+# rubocop:enable Metrics/CyclomaticComplexity, Metrics/LineLength
+# rubocop:enable Metrics/BlockLength, Metrics/MethodLength, Metrics/ClassLength

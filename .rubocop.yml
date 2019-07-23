@@ -1,3 +1,6 @@
+require: 
+  - rubocop-rails
+
 AllCops:
   Exclude:
     - 'db/**/*'
@@ -60,57 +63,19 @@ Rails:
 Rails/HasManyOrHasOneDependent:
   Enabled: false
 
-# ----------------
+# Metrics --------------------
 
-# Configuration parameters: CountComments.
-Metrics/ClassLength:
-  Exclude:
-    - 'app/models/*'
-    - 'lib/arcana_searcher.rb'
-    - 'lib/arcana_importer.rb'
-    - 'lib/arcana_cache.rb'
-
-# Configuration parameters: Include.
-Rails/Output:
-  Exclude:
-    - 'lib/arcana_importer.rb'
-
-Metrics/AbcSize:
-  Max: 60
-  Exclude:
-    - 'lib/arcana_searcher.rb'
-    - 'lib/arcana_importer.rb'
-
-Metrics/CyclomaticComplexity:
-  Max: 48
-
-# Configuration parameters: AllowURI, URISchemes.
 Metrics/LineLength:
-  Max: 140
-  Exclude:
-    - 'lib/arcana_importer.rb'
-
-# Configuration parameters: CountComments.
-Metrics/MethodLength:
-  Max: 60
-  Exclude:
-    - 'lib/arcana_searcher.rb'
-    - 'lib/arcana_importer.rb'
-
-Metrics/PerceivedComplexity:
-  Max: 10
-  Exclude:
-    - 'lib/arcana_searcher.rb'
-    - 'lib/arcana_importer.rb'
-
-# Configuration parameters: Width.
-Layout/IndentationWidth:
-  Exclude:
-    - 'lib/arcana_searcher.rb'
+  Max: 120
 
 Metrics/BlockLength:
-  Exclude:
-    - 'lib/arcana_searcher.rb'
-    - 'lib/arcana_importer.rb'
-    - 'lib/tasks/*'
-    - 'lib/redis_cache/*'
+  Max: 45
+
+Metrics/AbcSize:
+  Max: 25
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/CyclomaticComplexity:
+  Max: 10

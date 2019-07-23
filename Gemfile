@@ -54,6 +54,7 @@ group :development do
 
   gem 'i18n_generators'
   gem 'rubocop'
+  gem 'rubocop-rails'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

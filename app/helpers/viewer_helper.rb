@@ -33,9 +33,9 @@ module ViewerHelper
     ptedit_mode? || database_mode? ? true : false
   end
 
-  def show_ads?
+  def show_ads?(ptm)
     return true unless ptedit_mode?
 
-    @ptm.blank? ? false : true
+    ptm.blank? ? false : true
   end
 end

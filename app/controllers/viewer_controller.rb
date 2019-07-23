@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength, Metrics/MethodLength, Metrics/PerceivedComplexity
 class ViewerController < ApplicationController
   include SearchArcanas
 
@@ -123,3 +124,4 @@ class ViewerController < ApplicationController
     search_members(ptm)
   end
 end
+# rubocop:enable Metrics/ClassLength, Metrics/MethodLength, Metrics/PerceivedComplexity
