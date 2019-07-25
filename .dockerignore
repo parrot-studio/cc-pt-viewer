@@ -1,0 +1,7 @@
+# NOTE: not work on docker-compose, but work on docker
+node_modules
+tmp
+vendor
+log
+.envrc
+.git

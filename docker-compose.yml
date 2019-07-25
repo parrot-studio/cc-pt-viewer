@@ -1,0 +1,70 @@
+version: '3'
+services:
+  db:
+    image: mariadb:10.0
+    ports:
+      - "3316:3306"
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    restart: always
+  redis:
+    image: redis:5.0
+    ports:
+      - "6389:${REDIS_PORT}"
+    volumes:
+      - redis:/data
+    command: redis-server --appendonly yes
+    restart: always
+  web:
+    build: .
+    command: /bin/sh -c "rm -f ./tmp/pids/server.pid && rails arcana:rebuild && foreman start -f Procfile.dev"
+    volumes:
+      - .:/home/ccpts
+      - node:/home/ccpts/node_modules
+      - vendor:/home/ccpts/vendor
+      - tmp:/home/ccpts/tmp
+      - log:/home/ccpts/log
+      - packs:/home/ccpts/public/packs
+      - webpack:/home/ccpts/public/webpack
+      - git:/home/ccpts/.git
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - redis
+    tty: true
+    stdin_open: true
+    environment:
+      RAILS_ENV: development
+      SECRET_KEY_BASE:  ${SECRET_KEY_BASE}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_HOST: db
+      MAIL_USE: ${MAIL_USE}
+      MAIL_METHOD: ${MAIL_METHOD}
+      MAIL_FROM: ${MAIL_FROM}
+      MAIL_ADMIN_TO: ${MAIL_ADMIN_TO}
+      REDIS_HOST: redis
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_DB: ${REDIS_DB}
+volumes:
+  mysql:
+    driver: local
+  redis:
+    driver: local
+  node:
+    driver: local
+  vendor:
+    driver: local
+  tmp:
+    driver: local
+  log:
+    driver: local
+  packs:
+    driver: local
+  webpack:
+    driver: local
+  git:
+    driver: local

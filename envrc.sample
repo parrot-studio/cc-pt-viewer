@@ -1,6 +1,6 @@
 export SECRET_KEY_BASE=32d109abbbe5b5d0f623a52694dd80ffb8c6c60d288856dcd963b8084c674cc9ef15e07f3854290b8dc3f547c6cfd40b76fd9abb6ea8790c27160674fa03aee5
-export DATABASE_USER=chain
-export DATABASE_PASSWORD=chain
+export DATABASE_USER=root
+export DATABASE_PASSWORD=
 export DATABASE_HOST=localhost
 export DATABASE_NAME_PRODUCTION=ccpts_production
 export MAIL_USE=1
@@ -10,3 +10,4 @@ export MAIL_ADMIN_TO=hoge@example.com
 export REDIS_HOST=localhost
 export REDIS_PORT=6379
 export REDIS_DB=0
+export COMPOSE_PROJECT_NAME=ccpts
