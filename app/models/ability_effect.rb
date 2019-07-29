@@ -95,6 +95,7 @@ class AbilityEffect < ApplicationRecord
         extra_attack: '追撃発生',
         blast_attack: '範囲攻撃化',
         shoot_available: '遠距離攻撃可能',
+        multi_gauge: '複数ゲージ所持',
         aup_m: '攻撃力上昇 / 一定時間',
         dup_m: '防御力上昇 / 一定時間',
         sup_m: '移動速度上昇 / 一定時間',
@@ -141,7 +142,10 @@ class AbilityEffect < ApplicationRecord
           defdown_self: '自身の防御力低下'
         },
         adsup: {
-          boost_with_jobs: '特定の職の数が多いほど'
+          boost_with_jobs: '職の数が多いほど効果上昇'
+        },
+        adrup: {
+          boost_with_groups: '所属の数が多いほど効果上昇'
         },
         delayoff: {
           momentary: '一定時間'
@@ -275,6 +279,7 @@ class AbilityEffect < ApplicationRecord
         after_move: '一定距離を移動した時',
         from_sub: 'サブから戦場に移動したとき',
         waiting_charge: '何もせずに一定時間経過した時',
+        targeted_self: '自身を選択中',
         battle_start: '戦闘開始時',
         in_heroic: '援軍として参戦した時'
       },
@@ -309,6 +314,9 @@ class AbilityEffect < ApplicationRecord
         },
         with_volcano: {
           job_f: '戦士'
+        },
+        with_demon: {
+          include_self: '自身を含む'
         },
         with_volunteers: {
           job_m: '魔法使い'
@@ -423,6 +431,7 @@ class AbilityEffect < ApplicationRecord
         crup_m: 'クリティカル率/クリティカル威力上昇 / 一定時間',
         adsup_m: '攻撃力/防御力/移動速度上昇 / 一定時間',
         adcup_m: '攻撃力/防御力/クリティカル率上昇 / 一定時間',
+        acrup_m: '攻撃力/クリティカル率/クリティカル威力上昇 / 一定時間',
         adsrup_m: '攻撃力/防御力/移動速度/クリティカル威力上昇 / 一定時間'
       },
       sub_effect: {
@@ -452,7 +461,8 @@ class AbilityEffect < ApplicationRecord
         kill_debuff: '状態異常の敵を倒した時',
         super_gauge_max: '超必殺技ゲージがMAXの時',
         from_sub: 'サブから戦場に移動したとき',
-        battle_start: '戦闘開始時'
+        battle_start: '戦闘開始時',
+        targeted_self: '自身を選択中'
       },
       sub_condition: {
         in_sub: {
@@ -1055,7 +1065,8 @@ class AbilityEffect < ApplicationRecord
         use_mana: 'マナが使用された時',
         mana_droped: 'マナを獲得した時',
         kill: '敵を倒した時',
-        super_gauge_max: '超必殺技ゲージがMAXの時'
+        super_gauge_max: '超必殺技ゲージがMAXの時',
+        targeted_self: '自身を選択中'
       },
       sub_condition: {
         wave_start: {
@@ -1365,7 +1376,8 @@ class AbilityEffect < ApplicationRecord
           mana_ap: '弓＋僧',
           mana_pm: '僧＋魔',
           mana_fam: '戦＋弓＋魔',
-          mana_all: '虹色'
+          mana_all: '虹色',
+          compressed_mana_m: '圧縮魔マナ（任意スキル発動可）'
         },
         mana_boost: {
           mana_triple: '3つ出やすい'
@@ -1450,6 +1462,7 @@ class AbilityEffect < ApplicationRecord
         adcup: '攻撃力/防御力/クリティカル率上昇',
         ascup: '攻撃力/移動速度/クリティカル率上昇',
         acrup: '攻撃力/クリティカル率/クリティカル威力上昇',
+        adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
         adsrup: '攻撃力/防御力/移動速度/クリティカル威力上昇'
       },
       condition: {

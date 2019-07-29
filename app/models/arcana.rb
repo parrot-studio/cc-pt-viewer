@@ -121,6 +121,7 @@ class Arcana < ApplicationRecord
     remless: 'レムレス島',
     volunteers: '義勇軍',
     demon: '魔神',
+    spirit: '幻霊',
     others: '旅人',
     unknown: '（調査中）'
   }.freeze
@@ -183,7 +184,8 @@ class Arcana < ApplicationRecord
       name: 'ガチャ系',
       details: {
         coin: 'アルカナコイン',
-        ring: 'リング'
+        ring: 'リング',
+        spirit: '幻霊'
       }
     },
     event: {

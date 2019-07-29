@@ -265,6 +265,7 @@ class SkillEffect < ApplicationRecord
         ship: '船上',
         night: '夜',
         night_beach: '夜の砂浜',
+        night_battlefield: '夜の戦場',
         snow: '雪山',
         dimension: '異空間'
       },
