@@ -3908,6 +3908,9 @@
 ,,,,,heal,kill,,,heal_self,,,self,,,,
 ,,,,,buff_self,with_m,,2名以上,acup,,,self,,,,
 ,,,c,止まぬ探究,buff_self,any,,,acup,,,self,,,,
+,,,w,超賢者の加護,buff_all,in_sub,,,adup,,所属が賢者の塔だと効果上昇,all,,,,ネオ・オブシティウム
+,,,,,buff_self,from_sub,,,adsup_m,,,self,,,,
+,,,,,buff_self,from_sub,,,skill_once,,,self,,,,
 ,,,,,,,,,,,,,,,,
 ジュリア,K,140,1,巨人の花嫁,against_debuff,any,,,guard_slow,,,self,,,,
 ,,,,,against_debuff,any,,,guard_down,,,self,,,,
