@@ -183,6 +183,7 @@ class AbilityEffect < ApplicationRecord
         hp_upto: 'HPが一定以上の時',
         hp_downto: 'HPが一定以下の時',
         hp_full: 'HPが満タンの時',
+        hp_excess: 'HP超過状態の時',
         attack: '通常攻撃時',
         critical: 'クリティカル時',
         shoot: '遠距離攻撃時',
@@ -658,6 +659,7 @@ class AbilityEffect < ApplicationRecord
           wave_start: '各WAVE開始時'
         },
         job_skill: {
+          job_fk: '戦/騎',
           job_fm: '戦/魔'
         }
       },
@@ -729,6 +731,7 @@ class AbilityEffect < ApplicationRecord
         crup: 'クリティカル率/クリティカル威力上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
         adcup: '攻撃力/防御力/クリティカル率上昇',
+        adrup: '攻撃力/防御力/クリティカル威力上昇',
         ascup: '攻撃力/移動速度/クリティカル率上昇',
         barrier: 'バリアを張る'
       },
@@ -739,6 +742,7 @@ class AbilityEffect < ApplicationRecord
         with_slpi: '<<斬/突>>がいる時',
         with_slma: '<<斬/魔>>がいる時',
         with_slpu: '<<斬/拳>>がいる時',
+        with_slblpu: '<<斬/打/拳>>がいる時',
         with_blpush: '<<打/銃/狙>>がいる時',
         wave_start: '各WAVE開始時'
       },
@@ -747,6 +751,9 @@ class AbilityEffect < ApplicationRecord
           include_self: '自身を含む'
         },
         with_slpu: {
+          include_self: '自身を含む'
+        },
+        with_slblpu: {
           include_self: '自身を含む'
         },
         with_blpush: {
@@ -815,7 +822,7 @@ class AbilityEffect < ApplicationRecord
         battle_start: '戦闘開始時',
         in_sub: 'サブパーティーにいる時',
         with_machine: '所属：鉄煙がいる時',
-        in_excess: 'HP超過状態の時'
+        hp_excess: 'HP超過状態の時'
       },
       sub_condition: {
         battle_start: {
@@ -1388,6 +1395,7 @@ class AbilityEffect < ApplicationRecord
           mana_a: '弓マナ',
           mana_p: '僧マナ',
           mana_m: '魔マナ',
+          mana_fk: '戦＋騎',
           mana_fm: '戦＋魔',
           mana_ka: '騎＋弓'
         },
