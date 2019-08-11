@@ -346,6 +346,7 @@ class AbilityEffect < ApplicationRecord
           mana_p: '僧マナ',
           mana_m: '魔マナ',
           mana_fk: '戦/騎マナ',
+          mana_fa: '戦/弓マナ',
           mana_fp: '戦/僧マナ',
           mana_fm: '戦/魔マナ',
           mana_ka: '騎/弓マナ',
@@ -796,6 +797,7 @@ class AbilityEffect < ApplicationRecord
         adup: '攻撃力/防御力上昇',
         asup: '攻撃力/移動速度上昇',
         acup: '攻撃力/クリティカル率上昇',
+        arup: '攻撃力/クリティカル威力上昇',
         dcup: '防御力/クリティカル率上昇',
         scup: '移動速度/クリティカル率上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
@@ -946,6 +948,7 @@ class AbilityEffect < ApplicationRecord
       effect: {
         dup: '防御力上昇',
         adup: '攻撃力/防御力上昇',
+        acup: '攻撃力/クリティカル率上昇',
         dsup: '防御力/移動速度上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
         acrup: '攻撃力/クリティカル率/クリティカル威力上昇',
@@ -956,9 +959,12 @@ class AbilityEffect < ApplicationRecord
         acrup_m: '攻撃力/クリティカル率/クリティカル威力上昇 / 一定時間'
       },
       condition: {
+        any: 'いつでも',
         heal_action: '回復行動時'
       },
       target: {
+        base_area_member: '自陣にいる味方',
+        enemy_area_member: '敵陣にいる味方',
         heal_area_member: '回復範囲内の味方'
       }
     },
