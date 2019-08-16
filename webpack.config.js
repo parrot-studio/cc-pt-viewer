@@ -9,9 +9,7 @@ const zopfli = require('@gfx/zopfli');
 const config = {
     context: path.resolve(__dirname, 'app/javascript/packs'),
     entry: {
-        application: './application.js',
-        'images/ccpts': './images/ccpts.png',
-        'images/favicon': './images/favicon.ico'
+        application: './application.js'
     },
     output: {
         path: path.resolve(__dirname, 'public/packs'),
