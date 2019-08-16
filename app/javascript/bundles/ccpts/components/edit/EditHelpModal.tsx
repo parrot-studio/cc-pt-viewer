@@ -1,5 +1,7 @@
 import * as React from "react"
 import { Button, Modal } from "react-bootstrap"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faTimes } from "@fortawesome/free-solid-svg-icons"
 
 interface EditHelpModalProps {
   aboutPath: string
@@ -58,7 +60,7 @@ export default class EditHelpModal extends React.Component<EditHelpModalProps> {
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.closeModal}>
-            <i className="fa fa-remove" /> 閉じる
+            <FontAwesomeIcon icon={faTimes} /> 閉じる
           </Button>
         </Modal.Footer>
       </Modal>

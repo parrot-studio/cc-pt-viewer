@@ -3,6 +3,8 @@ import * as _ from "lodash"
 import * as Bacon from "baconjs"
 import * as React from "react"
 import { Button, Badge, Modal, Label, Tab, Tabs } from "react-bootstrap"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faTimes, faSearch } from "@fortawesome/free-solid-svg-icons"
 
 import Arcana from "../../model/Arcana"
 import Skill from "../../model/Skill"
@@ -115,7 +117,7 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
   private renderInheritSkill(a: Arcana): JSX.Element[] | null {
     if (a.inheritSkill) {
       return ([
-        <dt key="isdt">伝授スキル</dt>,
+        <dt key="isdt">伝授必殺技</dt>,
         <dd key="isdd">{this.renderEachSkill(a.inheritSkill, 1)}</dd>
       ])
     } else {
@@ -343,7 +345,7 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
   private renderNoramlDetail(a: Arcana): JSX.Element {
     return (
       <dl className="small arcana-view-detail">
-        <dt>スキル</dt>
+        <dt>必殺技</dt>
         <dd>{this.renderSkill(a)}</dd>
         {this.renderInheritSkill(a)}
         {this.renderFirstAbility(a)}
@@ -428,7 +430,7 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
                       bsSize="small"
                       onClick={this.props.openWikiModal}
                     >
-                      <i className="fa fa-search" /> Wikiで確認
+                      <FontAwesomeIcon icon={faSearch} /> Wikiで確認
                     </Button>
                   </p>
                   <p className="pull-right">
@@ -470,7 +472,7 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.closeModal}>
-            <i className="fa fa-remove" />閉じる
+            <FontAwesomeIcon icon={faTimes} /> 閉じる
           </Button>
         </Modal.Footer>
       </Modal>

@@ -19,7 +19,7 @@ services:
     restart: always
   web:
     build: .
-    command: /bin/sh -c "rm -f ./tmp/pids/server.pid && rails arcana:rebuild && foreman start -f Procfile.dev"
+    command: /bin/sh -c "rm -f ./tmp/pids/server.pid && rails arcana:rebuild && foreman start"
     volumes:
       - .:/home/ccpts
       - node:/home/ccpts/node_modules
@@ -27,10 +27,10 @@ services:
       - tmp:/home/ccpts/tmp
       - log:/home/ccpts/log
       - packs:/home/ccpts/public/packs
-      - webpack:/home/ccpts/public/webpack
       - git:/home/ccpts/.git
     ports:
       - "3000:3000"
+      - "3035:3035"
     depends_on:
       - db
       - redis

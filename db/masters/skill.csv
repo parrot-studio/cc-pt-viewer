@@ -1938,7 +1938,7 @@ SC-3000,F,254,1,,勇将明敏,2,,attack,one_short,add_push,,,,,
 ,,,,,,,,,,,,,,,
 # 3部1周年記念,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
-ベニガサ,F,354,1,,黒狗顕現,1,,metamorphose,self,acrup,guard,,,,伝授スキル使用不可
+ベニガサ,F,354,1,,黒狗顕現,1,,metamorphose,self,acrup,guard,,,,伝授必殺技使用不可
 ,,,2,,黒閃・血祭,1,変身中,attack,contact_combination,add_push,add_down,,,,
 ドゥルダナ,A,186,1,,ブラスティング・タイガー,2,,attack,bombard,,,,,,2Chain以上で4発
 ,,,,,,,,,,,,,,,

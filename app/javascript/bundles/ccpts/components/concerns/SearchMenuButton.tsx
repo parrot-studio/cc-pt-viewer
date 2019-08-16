@@ -1,6 +1,8 @@
 import * as _ from "lodash"
 import * as React from "react"
 import { DropdownButton, MenuItem } from "react-bootstrap"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faRedo, faStar } from "@fortawesome/free-solid-svg-icons"
 
 import Searcher from "../../lib/Searcher"
 import Favorites from "../../model/Favorites"
@@ -29,10 +31,10 @@ export default class SearchMenuButton extends React.Component<{}, SearchMenuButt
     return (
       <DropdownButton bsStyle="default" title="履歴" id="search-menu">
         <MenuItem onClick={this.searchRecently.bind(this)}>
-          <i className="fa fa-refresh" /> 最新のアルカナ
+          <FontAwesomeIcon icon={faRedo} /> 最新のアルカナ
         </MenuItem>
         <MenuItem onClick={this.searchFavorite.bind(this)}>
-          <i className="fa fa-star" /> お気に入り
+          <FontAwesomeIcon icon={faStar} /> お気に入り
         </MenuItem>
         <MenuItem divider={true} />
         <MenuItem header={true}>検索履歴</MenuItem>

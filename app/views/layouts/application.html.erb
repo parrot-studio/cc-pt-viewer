@@ -11,16 +11,16 @@
     <meta property="og:site_name" content="<%= site_title %>" />
     <meta property="og:title" content="<%= "#{truncate(@title, length: 30)} : " unless @title.blank? %><%= site_title %>" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="<%= image_url("ccpts.png") %>" />
+    <meta property="og:image" content="<%= asset_pack_path 'images/ccpts.png' %>" />
     <meta property="og:url" content="<%= @uri %>" />
-    <meta property="og:description" content="チェンクロのパーティーを構成したり共有したりできます。アビリティやスキルからのアルカナ検索も可能" />
+    <meta property="og:description" content="チェンクロのパーティーを構成したり共有したりできます。アビリティや必殺技からのアルカナ検索も可能" />
     <meta name="twitter:site" content="@parrot_studio">
     <meta name="twitter:card" content="summary">
     <link rel="canonical" href="<%= @uri %>" />
     <link itemprop="author" href="https://twitter.com/parrot_studio" />
     <title><%= "#{truncate(@title, length: 30)} : " unless @title.blank? %><%= site_title %></title>
-    <%= stylesheet_link_tag 'application', media: 'all' %>
-    <%= favicon_link_tag %>
+    <%= stylesheet_pack_tag 'application' %>
+    <link rel="shortcut icon" type="image/x-icon" href="<%= asset_pack_path 'images/favicon.ico' %>" />
     <%= csrf_meta_tags %>
   </head>
   <body>
@@ -36,7 +36,9 @@
 
         <div class="hidden-xs hidden-sm col-md-1"></div>
       </div>
+    </div>
 
+    <div>
       <footer>
         <p class="small">
           <strong>チェインクロニクル</strong> &copy; SEGA <%= link_to 'http://chronicle.sega-net.com/', 'http://chronicle.sega-net.com/' %>
@@ -63,8 +65,7 @@
       <% end %>
     </div>
 
-    <%= javascript_include_tag 'application' %>
-    <%= javascript_pack_tag 'ccpts' %>
+    <%= javascript_pack_tag 'application' %>
     <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
     <% cache do %>
       <%=raw analytics %>

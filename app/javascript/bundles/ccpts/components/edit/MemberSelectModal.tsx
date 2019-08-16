@@ -1,5 +1,7 @@
 import * as React from "react"
 import { Button, Modal, Label } from "react-bootstrap"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faLink, faUser, faTimes } from "@fortawesome/free-solid-svg-icons"
 
 import Member from "../../model/Member"
 
@@ -61,7 +63,7 @@ export default class MemberSelectModal extends React.Component<MemberSelectModal
                 bsStyle="primary"
                 onClick={this.props.selectChain}
               >
-                <i className="fa fa-link" /> 絆として追加する
+                <FontAwesomeIcon icon={faLink} /> 絆として追加する
               </Button>
               <p className="clearfix" />
               <label>絆設定後</label>
@@ -79,7 +81,7 @@ export default class MemberSelectModal extends React.Component<MemberSelectModal
                 bsStyle="info"
                 onClick={this.props.selectReplace}
               >
-                <i className="fa fa-user" /> メンバーとして置き換える
+                <FontAwesomeIcon icon={faUser} /> メンバーとして置き換える
               </Button>
               <p className="clearfix" />
               <label>置き換え後</label>
@@ -94,7 +96,7 @@ export default class MemberSelectModal extends React.Component<MemberSelectModal
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.closeModal}>
-            <i className="fa fa-remove" /> セットしないで閉じる
+            <FontAwesomeIcon icon={faTimes} /> セットしないで閉じる
           </Button>
         </Modal.Footer>
       </Modal>

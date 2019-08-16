@@ -2,7 +2,7 @@
 #
 # Table name: voice_actors
 #
-#  id         :integer          not null, primary key
+#  id         :bigint(8)        not null, primary key
 #  name       :string(100)      not null
 #  count      :integer          default(0), not null
 #  created_at :datetime         not null

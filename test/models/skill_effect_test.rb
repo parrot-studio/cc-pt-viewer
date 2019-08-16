@@ -2,7 +2,7 @@
 #
 # Table name: skill_effects
 #
-#  id              :integer          not null, primary key
+#  id              :bigint(8)        not null, primary key
 #  skill_id        :integer          not null
 #  order           :integer          not null
 #  category        :string(100)      not null

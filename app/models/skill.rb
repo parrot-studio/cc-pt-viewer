@@ -2,7 +2,7 @@
 #
 # Table name: skills
 #
-#  id         :integer          not null, primary key
+#  id         :bigint(8)        not null, primary key
 #  arcana_id  :integer          not null
 #  job_code   :string(10)       not null
 #  skill_type :string(20)       not null
@@ -13,15 +13,18 @@
 #
 # Indexes
 #
-#  index_skills_on_arcana_id  (arcana_id)
-#  index_skills_on_cost       (cost)
-#  index_skills_on_job_code   (job_code)
-#  index_skills_on_name       (name)
+#  index_skills_on_arcana_id   (arcana_id)
+#  index_skills_on_cost        (cost)
+#  index_skills_on_job_code    (job_code)
+#  index_skills_on_name        (name)
+#  index_skills_on_skill_type  (skill_type)
 #
 
 class Skill < ApplicationRecord
+  belongs_to :arcana, inverse_of: :skills
+  has_many   :skill_effects, inverse_of: :skill
+
   default_scope { includes(:skill_effects) }
-  has_many :skill_effects
 
   COSTS = (0..3).to_a
   INHERITABLE_SKILL_TYPE = 'd'.freeze

@@ -1,5 +1,7 @@
 import * as React from "react"
 import { Modal, Button } from "react-bootstrap"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faTimes } from "@fortawesome/free-solid-svg-icons"
 
 export interface TwitterShareModalProps {
   showModal: boolean
@@ -55,7 +57,7 @@ export abstract class TwitterShareModal<T extends TwitterShareModalProps> extend
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.closeModal}>
-            <i className="fa fa-remove" /> 閉じる
+            <FontAwesomeIcon icon={faTimes} /> 閉じる
           </Button>
         </Modal.Footer>
       </Modal>

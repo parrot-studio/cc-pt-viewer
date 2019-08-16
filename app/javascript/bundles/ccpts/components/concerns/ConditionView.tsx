@@ -2,6 +2,8 @@ import * as _ from "lodash"
 import * as Bacon from "baconjs"
 import * as React from "react"
 import { Button, ButtonToolbar } from "react-bootstrap"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faTimes, faSearch, faRedo } from "@fortawesome/free-solid-svg-icons"
 
 import Conditions from "../../model/Conditions"
 import Query, { QueryParam } from "../../model/Query"
@@ -83,7 +85,7 @@ export default class ConditionView extends React.Component<ConditionViewProps, C
               className="pull-right"
               onClick={this.props.switchMainMode}
             >
-              <i className="fa fa-remove" /> 閉じる
+              <FontAwesomeIcon icon={faTimes} /> 閉じる
             </Button>
             <h2>アルカナ検索</h2>
           </div>
@@ -97,14 +99,14 @@ export default class ConditionView extends React.Component<ConditionViewProps, C
                     data-loading-text="検索中..."
                     onClick={this.hundleSearch.bind(this)}
                   >
-                    <i className="fa fa-search" /> 検索
+                    <FontAwesomeIcon icon={faSearch} /> 検索
                   </Button>
                   <Button
                     bsStyle="default"
                     className="pull-right"
                     onClick={this.handleReset.bind(this)}
                   >
-                    <i className="fa fa-refresh" /> 条件をクリア
+                    <FontAwesomeIcon icon={faRedo} /> 条件をクリア
                   </Button>
                 </ButtonToolbar>
                 <span className="help-block small">条件をクリアして検索すると、最近登録されたアルカナが検索されます。</span>
@@ -242,14 +244,14 @@ export default class ConditionView extends React.Component<ConditionViewProps, C
                     data-loading-text="検索中..."
                     onClick={this.hundleSearch.bind(this)}
                   >
-                    <i className="fa fa-search" /> 検索
+                    <FontAwesomeIcon icon={faSearch} /> 検索
                   </Button>
                   <Button
                     bsStyle="default"
                     className="pull-right"
                     onClick={this.handleReset.bind(this)}
                   >
-                    <i className="fa fa-refresh" /> 条件をクリア
+                    <FontAwesomeIcon icon={faRedo} /> 条件をクリア
                   </Button>
                 </ButtonToolbar>
               </div>
@@ -264,7 +266,7 @@ export default class ConditionView extends React.Component<ConditionViewProps, C
                 className="pull-right"
                 onClick={this.props.switchMainMode}
               >
-                <i className="fa fa-remove" /> 閉じる
+                <FontAwesomeIcon icon={faTimes} /> 閉じる
               </Button>
             </ButtonToolbar>
           </div>

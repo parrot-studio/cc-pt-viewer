@@ -1,5 +1,7 @@
 import * as React from "react"
 import { Button, ButtonGroup, ButtonToolbar } from "react-bootstrap"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSearch, faCloud } from "@fortawesome/free-solid-svg-icons"
 
 import SearchMenuButton from "../concerns/SearchMenuButton"
 import RequestFormModal from "../concerns/RequestFormModal"
@@ -38,7 +40,7 @@ export default class DatabaseAreaHeader extends React.Component<DatabaseAreaHead
                 bsStyle="primary"
                 onClick={this.props.switchConditionMode}
               >
-                <i className="fa fa-search" /> 検索
+                <FontAwesomeIcon icon={faSearch} /> 検索
               </Button>
               <SearchMenuButton />
             </ButtonGroup>
@@ -46,7 +48,7 @@ export default class DatabaseAreaHeader extends React.Component<DatabaseAreaHead
               bsStyle="info"
               onClick={this.openShareModal.bind(this)}
             >
-              <i className="fa fa-cloud" /> 共有
+              <FontAwesomeIcon icon={faCloud} /> 共有
             </Button>
             <Button
               bsStyle="link"

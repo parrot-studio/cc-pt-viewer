@@ -1,27 +1,32 @@
-<%=
-  react_component(
-    "AppView",
-    props: {
-      conditions: ArcanaCache.conditions,
-      appPath: root_url,
-      aboutPath: about_path,
-      mode: (@mode || ""),
-      dataver: data_version,
-      ptver: pt_version,
-      arcana: @arcana,
-      party: @party,
-      partyView: (@party_view ? true : false),
-      latestInfo: @latest_info,
-      heroes: ArcanaCache.heroes,
-      originTitle: site_title,
-      queryLogs: (@query_logs || []),
-      queryString: (@query || ""),
-      firstResults: (@results || {}),
-      tutorial: (@tutorial ? true : false),
-      favorites: (@favorites || []),
-      lastMembers: (@last_members || ""),
-      parties: (@parties || [])
-    },
-    prerender: true
-  )
+<%
+app_params = {
+  conditions: ArcanaCache.conditions,
+  appPath: root_url,
+  aboutPath: about_path,
+  mode: (@mode || ""),
+  dataver: data_version,
+  ptver: pt_version,
+  arcana: @arcana,
+  party: @party,
+  partyView: (@party_view ? true : false),
+  latestInfo: @latest_info,
+  heroes: ArcanaCache.heroes,
+  originTitle: site_title,
+  queryLogs: (@query_logs || []),
+  queryString: (@query || ""),
+  firstResults: (@results || {}),
+  tutorial: (@tutorial ? true : false),
+  favorites: (@favorites || []),
+  lastMembers: (@last_members || ""),
+  parties: (@parties || [])
+}
 %>
+<div id="ccpts-app">
+  <div id="ccpts-loading" class="jumbotron row" style="opacity: 0.7;">
+    <div class="span12">
+      <h2>ccpts now loading...</h2>
+      <img src="<%= asset_pack_path 'images/ccpts.png' %>" width="100%" style="opacity: 0.5;">
+    </div>
+  </div>
+</div>
+<div id="app-params" data-params="<%= app_params.to_json %>">

@@ -1,6 +1,8 @@
 import * as _ from "lodash"
 import * as React from "react"
 import { Button } from "react-bootstrap"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSort, faSortAmountUp, faSortAmountDown } from "@fortawesome/free-solid-svg-icons"
 
 import MessageStream from "../../lib/MessageStream"
 import Browser from "../../lib/BrowserProxy"
@@ -114,11 +116,11 @@ export default class DatabaseTableArea extends ResultView<ResultViewProps> {
     const order = this.state.sortOrder[col]
     switch (order) {
       case "asc":
-        return (<i className="fa fa-sort-amount-up active" />)
+        return (<FontAwesomeIcon icon={faSortAmountUp} className="active" />)
       case "desc":
-        return (<i className="fa fa-sort-amount-down active" />)
+        return (<FontAwesomeIcon icon={faSortAmountDown} className="active" />)
       default:
-        return (<i className="fa fa-sort" />)
+        return (<FontAwesomeIcon icon={faSort} />)
     }
   }
 

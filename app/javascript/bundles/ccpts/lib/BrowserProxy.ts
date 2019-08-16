@@ -1,5 +1,7 @@
 declare var window
-declare var Browser
+
+// NOTE: SSRするなら切り離す
+import Browser from "../../browser"
 
 export default class BrowserProxy {
 

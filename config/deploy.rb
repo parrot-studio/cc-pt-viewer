@@ -25,7 +25,7 @@ set :use_sudo, false
 # append :linked_files, "config/database.yml"
 
 # Default value for linked_dirs is []
-append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'node_modules', 'public'
+append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public'
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -60,11 +60,6 @@ set :rbenv_map_bins, %w[rake gem bundle ruby rails]
 
 # rails
 set :migration_role, :app
-set :assets_roles, :app
-
-# yarn
-set :yarn_roles, :app
-set :yarn_flags, '--prefer-offline --silent --no-progress --production'
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
@@ -93,6 +88,52 @@ namespace :deploy do
     end
   end
 
+  namespace :webpack do
+    desc 'build packs'
+    task :build do
+      run_locally do
+        execute "yarn run build:production"
+      end
+    end
+
+    desc 'upload packs'
+    task :upload do
+      on roles(:app) do
+        within release_path do
+          with rails_env: fetch(:rails_env) do
+            execute "mkdir #{shared_path}/public/packs/images -p"
+  
+            files = []
+            Dir.glob('public/packs/*').each do |f|
+              files << f if File.file?(f)
+            end
+
+            images = []
+            Dir.glob('public/packs/images/*').each do |f|
+              images << f if File.file?(f)
+            end
+
+            pack_path = "#{shared_path}/public/packs"
+            files.each do |f|
+              upload! f, pack_path
+            end
+
+            image_path = "#{shared_path}/public/packs/images"
+            images.each do |f|
+              upload! f, image_path
+            end
+          end
+        end
+      end
+    end
+
+    desc 'build, upload with webpack'
+    task :precompile do
+      invoke 'deploy:webpack:build'
+      invoke 'deploy:webpack:upload'
+    end
+  end
+
   namespace :arcana do
     desc 'Master import'
     task :import do
@@ -111,13 +152,9 @@ namespace :deploy do
     on roles(:app) do
       within release_path do
         with rails_env: fetch(:rails_env) do
-          execute "mkdir #{shared_path}/public/images -p"
           public_path = "#{shared_path}/public"
 
-          Dir.glob('./public/images/*').each do |f|
-            upload! f, "#{public_path}/images"
-          end
-          Dir.glob('./public/*.{html,ico,txt}').each do |f|
+          Dir.glob('./public/*.{html,ico,txt,png}').each do |f|
             upload! f, public_path
           end
         end
@@ -125,5 +162,6 @@ namespace :deploy do
     end
   end
 
+  before :migrate, 'webpack:precompile'
   after  :migrate, 'arcana:import'
 end

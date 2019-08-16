@@ -1,4 +1,4 @@
-class CreateArcanas < ActiveRecord::Migration[5.0]
+class CreateArcanas < ActiveRecord::Migration[6.0]
   def change
     create_table :arcanas do |t|
       t.string  :name,        null: false, limit: 100
@@ -16,13 +16,14 @@ class CreateArcanas < ActiveRecord::Migration[5.0]
       t.string  :source,          null: false, limit: 50
       t.string  :union,           null: false, limit: 20
       t.string  :person_code,     null: false, limit: 10
-      t.string  :owner_code,      null: true,  limit: 10
+      t.string  :link_code,       null: true,  limit: 10
       t.integer :max_atk,   null: true
       t.integer :max_hp,    null: true
       t.integer :limit_atk, null: true
       t.integer :limit_hp,  null: true
-      t.integer :voice_actor_id,    null: false, default: 0
-      t.integer :illustrator_id,    null: false, default: 0
+      t.integer :voice_actor_id,  null: false, default: 0
+      t.integer :illustrator_id,  null: false, default: 0
+      t.string  :wiki_name, null: true, limit: 50
       t.timestamps
 
       t.index :name

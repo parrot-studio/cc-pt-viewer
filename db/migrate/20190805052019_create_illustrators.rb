@@ -1,4 +1,4 @@
-class CreateIllustrators < ActiveRecord::Migration[5.0]
+class CreateIllustrators < ActiveRecord::Migration[6.0]
   def change
     create_table :illustrators do |t|
       t.string  :name,  null: false, limit: 100

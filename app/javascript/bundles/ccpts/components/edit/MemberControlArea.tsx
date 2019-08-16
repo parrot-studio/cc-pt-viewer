@@ -1,5 +1,7 @@
 import * as React from "react"
 import { Button, ButtonToolbar } from "react-bootstrap"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCloud, faCheck, faEdit } from "@fortawesome/free-solid-svg-icons"
 
 import Party from "../../model/Party"
 
@@ -50,7 +52,7 @@ export default class MemberControlArea extends React.Component<MemberControlArea
                 className="act-btn"
                 onClick={this.openShareModal.bind(this)}
               >
-                <i className="fa fa-cloud" /> 共有
+                <FontAwesomeIcon icon={faCloud} /> 共有
               </Button>
               <Button
                 bsStyle="link"
@@ -121,7 +123,7 @@ export default class MemberControlArea extends React.Component<MemberControlArea
           className="act-btn"
           onClick={this.props.switchEditMode}
         >
-          <i className="fa fa-check" /> 編集終了
+          <FontAwesomeIcon icon={faCheck} /> 編集終了
         </Button>
       )
     } else {
@@ -131,7 +133,7 @@ export default class MemberControlArea extends React.Component<MemberControlArea
           className="act-btn"
           onClick={this.props.switchEditMode}
         >
-          <i className="fa fa-edit" /> 編集する
+          <FontAwesomeIcon icon={faEdit} /> 編集する
         </Button>
       )
     }

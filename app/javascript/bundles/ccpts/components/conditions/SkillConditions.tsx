@@ -18,7 +18,7 @@ export default class SkillConditions extends React.Component<SkillConditionsProp
     return (
       <div className="form-group">
         <div className="col-sm-3 col-md-3">
-          <label htmlFor="skill">スキル・効果</label>
+          <label htmlFor="skill">必殺技・効果</label>
           <select
             id="skill"
             className="form-control"

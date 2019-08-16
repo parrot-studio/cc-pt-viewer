@@ -1,5 +1,7 @@
 import * as React from "react"
 import { Button, Modal } from "react-bootstrap"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faTrash, faTimes } from "@fortawesome/free-solid-svg-icons"
 
 interface MemberResetModalProps {
   showModal: boolean
@@ -28,13 +30,13 @@ export default class MemberResetModal extends React.Component<MemberResetModalPr
               bsStyle="danger"
               onClick={this.resetParty.bind(this)}
             >
-              <i className="fa fa-trash" /> リセット
+              <FontAwesomeIcon icon={faTrash} /> リセット
             </Button>
           </p>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.closeModal}>
-            <i className="fa fa-remove" /> 閉じる
+            <FontAwesomeIcon icon={faTimes} /> 閉じる
           </Button>
         </Modal.Footer>
       </Modal>

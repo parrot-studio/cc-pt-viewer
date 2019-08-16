@@ -1,5 +1,7 @@
 import * as React from "react"
 import { Modal, Button, ButtonToolbar } from "react-bootstrap"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faTimes } from "@fortawesome/free-solid-svg-icons"
 
 import Searcher from "../../lib/Searcher"
 import Browser from "../../lib/BrowserProxy"
@@ -71,7 +73,7 @@ export default class RequestFormModal extends React.Component<RequestFormModalPr
                   フォームで送る
                 </Button>
                 <Button onClick={this.props.closeModal}>
-                  <i className="fa fa-remove" /> 閉じる
+                  <FontAwesomeIcon icon={faTimes} /> 閉じる
                 </Button>
               </ButtonToolbar>
             </div>
@@ -97,7 +99,7 @@ export default class RequestFormModal extends React.Component<RequestFormModalPr
                 （現在ありません）
               </small>
             </div>
-            <h4>伝授スキルの情報がないアルカナ</h4>
+            <h4>伝授必殺技の情報がないアルカナ</h4>
             <div className="well well-sm">
               <dl>
                 <dt>戦士</dt>
@@ -122,7 +124,7 @@ export default class RequestFormModal extends React.Component<RequestFormModalPr
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.closeModal}>
-            <i className="fa fa-remove" /> 閉じる
+            <FontAwesomeIcon icon={faTimes} /> 閉じる
           </Button>
         </Modal.Footer>
       </Modal>

@@ -13,20 +13,24 @@
 !/log/.keep
 !/tmp/.keep
 
-/node_modules
-/yarn-error.log
 
+/public/assets
 .byebug_history
 
-# React on Rails
-npm-debug.log*
-node_modules
+# Ignore master key for decrypting credentials and more.
+/config/master.key
 
-# Generated js bundles
-/public/webpack/*
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+
 
 # app
 /vendor/bundle
+/public/webpack/*
 
 .envrc
 
@@ -36,10 +40,3 @@ config/environments/*.local.yml
 
 sitemap.xml
 sitemap.xml.gz
-
-/public/packs
-/public/packs-test
-
-/yarn-error.log
-yarn-debug.log*
-.yarn-integrity

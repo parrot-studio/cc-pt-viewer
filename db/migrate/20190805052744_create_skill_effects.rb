@@ -1,4 +1,4 @@
-class CreateSkillEffects < ActiveRecord::Migration[5.0]
+class CreateSkillEffects < ActiveRecord::Migration[6.0]
   def change
     create_table :skill_effects do |t|
       t.integer :skill_id, null: false

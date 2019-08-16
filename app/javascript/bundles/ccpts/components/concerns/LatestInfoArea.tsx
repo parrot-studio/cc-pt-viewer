@@ -1,6 +1,8 @@
 import * as _ from "lodash"
 import * as React from "react"
 import { Alert } from "react-bootstrap"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons"
 
 import LatestInfo from "../../model/LatestInfo"
 import Cookie from "../../lib/Cookie"
@@ -53,7 +55,7 @@ export default class LatestInfoArea extends React.Component<LatestInfoAreaProps,
             onDismiss={this.handleAlertDismiss.bind(this)}
           >
             <p>
-              <i className="fa fa-info-circle" /> {`更新：${info.body} (${info.date})`}
+              <FontAwesomeIcon icon={faInfoCircle} /> {`更新：${info.body} (${info.date})`}
             </p>
           </Alert>
         </div>

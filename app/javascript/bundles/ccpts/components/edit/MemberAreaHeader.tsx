@@ -1,6 +1,8 @@
 import * as _ from "lodash"
 import * as React from "react"
 import { Button, ButtonToolbar, DropdownButton, MenuItem } from "react-bootstrap"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faTrash, faSave, faFileDownload } from "@fortawesome/free-solid-svg-icons"
 
 import Party from "../../model/Party"
 import Parties, { PartyLog } from "../../model/Parties"
@@ -48,17 +50,17 @@ export default class MemberAreaHeader extends React.Component<MemberAreaHeaderPr
               bsStyle="danger"
               onClick={this.openResetModal.bind(this)}
             >
-              <i className="fa fa-trash" /> リセット
+              <FontAwesomeIcon icon={faTrash} /> リセット
             </Button>
             <Button
               bsStyle="primary"
               onClick={this.openStoreModal.bind(this)}
             >
-              <i className="fa fa-save-file" /> 保存
+              <FontAwesomeIcon icon={faSave} /> 保存
             </Button>
             <DropdownButton bsStyle="info" title="呼び出し" id="load-members">
               <MenuItem onClick={this.reloadLastMembers.bind(this)}>
-                <i className="fa fa-export" /> 最後に作ったパーティー構成
+                <FontAwesomeIcon icon={faFileDownload} /> 最後に作ったパーティー構成
               </MenuItem>
               <MenuItem divider={true} />
               {this.renderParties()}

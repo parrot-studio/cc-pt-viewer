@@ -279,7 +279,7 @@ class ArcanaSearcher
         end
         str
       when :skill
-        str = 'スキル - '
+        str = '必殺技 - '
         str += SkillEffect::CATEGORYS.fetch(query[:skill].to_sym, {}).fetch(:name, '') if query[:skill]
 
         if query[:skillcost] || query[:skillsub] || query[:skilleffect] || query[:skillinheritable]
@@ -465,11 +465,12 @@ class ArcanaSearcher
 
     efs = ability_effect_group_for(query[:effect])
     ts = target_group_for(query[:target])
+    cs = condition_group_for(query[:condition])
 
     arel = AbilityEffect.all
     arel = arel.where(category: query[:category]) if query[:category].present?
     arel = arel.where(effect: efs) if efs.present?
-    arel = arel.where(condition: query[:condition]) if query[:condition].present?
+    arel = arel.where(condition: cs) if cs.present?
     arel = arel.where(target: ts) if ts.present?
     arel = arel.where(sub_effect: query[:subeffect]) if query[:subeffect].present?
     arel = arel.where(sub_condition: query[:subcondition]) if query[:subcondition].present?
@@ -496,6 +497,15 @@ class ArcanaSearcher
     efs.map do |e|
       AbilityEffect::BUFF_TYPES.include?(e) ? [e, "#{e}_m"] : e
     end.flatten.uniq.compact
+  end
+
+  def condition_group_for(c)
+    return if c.blank?
+
+    group = AbilityEffect::CONDITION_GROUP[c.to_sym]
+    return c if group.blank?
+
+    [c, group].flatten.uniq.compact
   end
 
   def target_group_for(t)

@@ -2,7 +2,7 @@
 #
 # Table name: arcanas
 #
-#  id              :integer          not null, primary key
+#  id              :bigint(8)        not null, primary key
 #  name            :string(100)      not null
 #  title           :string(100)      not null
 #  arcana_type     :string(20)       not null
@@ -25,7 +25,7 @@
 #  limit_hp        :integer
 #  voice_actor_id  :integer          default(0), not null
 #  illustrator_id  :integer          default(0), not null
-#  wiki_name       :string(50)       not null
+#  wiki_name       :string(50)
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
@@ -54,10 +54,10 @@
 # rubocop:disable Metrics/ClassLength, Metrics/MethodLength
 # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
 class Arcana < ApplicationRecord
-  belongs_to :voice_actor
-  belongs_to :illustrator
-  has_many   :skills
-  has_many   :abilities
+  belongs_to :voice_actor, inverse_of: :arcanas
+  belongs_to :illustrator, inverse_of: :arcanas
+  has_many   :skills,      inverse_of: :arcana
+  has_many   :abilities,   inverse_of: :arcana
 
   RARITYS = (1..5).freeze
 

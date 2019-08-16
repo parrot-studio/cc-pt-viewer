@@ -2,7 +2,7 @@
 #
 # Table name: abilities
 #
-#  id           :integer          not null, primary key
+#  id           :bigint(8)        not null, primary key
 #  arcana_id    :integer          not null
 #  job_code     :string(10)       not null
 #  ability_type :string(20)       not null
@@ -20,10 +20,10 @@
 #
 
 class Ability < ApplicationRecord
-  default_scope { includes(:ability_effects) }
+  belongs_to :arcana, inverse_of: :abilities
+  has_many   :ability_effects, inverse_of: :ability
 
-  belongs_to :arcana
-  has_many   :ability_effects
+  default_scope { includes(:ability_effects) }
 
   TYPE_NORMAL = %w[1 2 p].freeze
   TYPE_CHAIN = 'c'.freeze

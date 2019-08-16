@@ -21,7 +21,7 @@ module SearchArcanas
     cs = mems.values.uniq.compact
     return {} if cs.empty?
 
-    as = from_arcana_cache(cs).each_with_object({}) { |o, h| h[o['job_code']] = o }
+    as = from_arcana_cache(cs).each_with_object({}) { |o, h| h[o['job_code']] = o if o }
 
     ret = {}
     mems.each do |po, co|

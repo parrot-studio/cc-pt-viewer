@@ -2,35 +2,35 @@
 #
 # Table name: ability_effects
 #
-#  id             :integer          not null, primary key
+#  id             :bigint(8)        not null, primary key
 #  ability_id     :integer          not null
 #  order          :integer          not null
 #  category       :string(100)      not null
 #  condition      :string(100)      not null
 #  sub_condition  :string(100)      not null
-#  condition_note :string(100)      not null
+#  condition_note :string(100)      default(""), not null
 #  effect         :string(100)      not null
 #  sub_effect     :string(100)      not null
-#  effect_note    :string(100)      not null
+#  effect_note    :string(100)      default(""), not null
 #  target         :string(100)      not null
 #  sub_target     :string(100)      not null
-#  target_note    :string(100)      not null
+#  target_note    :string(100)      default(""), not null
 #  note           :string(300)      default(""), not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #
 # Indexes
 #
-#  index_ability_effects_on_ability_id                         (ability_id)
-#  index_ability_effects_on_category                           (category)
-#  index_ability_effects_on_category_and_condition             (category,condition)
-#  index_ability_effects_on_category_and_condition_and_effect  (category,condition,effect)
-#  index_ability_effects_on_category_and_effect                (category,effect)
+#  condition                            (category,condition,sub_condition)
+#  effect                               (category,effect,sub_effect)
+#  full                                 (category,condition,effect,target)
+#  index_ability_effects_on_ability_id  (ability_id)
+#  target                               (category,target,sub_target)
 #
 
 # rubocop:disable Metrics/ClassLength, Metrics/MethodLength, Metrics/AbcSize
 class AbilityEffect < ApplicationRecord
-  belongs_to :ability
+  belongs_to :ability, inverse_of: :ability_effects
 
   CATEGORYS = {
     buff_self: {
@@ -87,8 +87,8 @@ class AbilityEffect < ApplicationRecord
         bullet_speedup: '弾速上昇',
         rapid_shoot: '弾数増加',
         barrier: 'バリアを張る',
-        skill_once: '一度だけスキルが使える',
-        mana_cost_down: 'スキルの消費マナ低下',
+        skill_once: '一度だけ必殺技が使える',
+        mana_cost_down: '必殺技の消費マナ低下',
         super_skill: '超必殺技使用可能',
         heal_action: '回復行動を取る',
         super_gauge_gain: '超必殺技ゲージ上昇',
@@ -249,11 +249,11 @@ class AbilityEffect < ApplicationRecord
         in_combo: '攻撃を一定回数当てた時',
         in_attacking: '攻撃を当てた時',
         in_invisible: '姿を消している時',
-        own_skill: '自分がスキルを使った時',
-        others_skill: '味方がスキルを使った時',
-        any_skill: '誰かがスキルを使った時',
-        job_skill: '特定の職がスキルを使った時',
-        skill_hit: 'スキルが当たる毎に',
+        own_skill: '自分が必殺技を使った時',
+        others_skill: '味方が必殺技を使った時',
+        any_skill: '誰かが必殺技を使った時',
+        job_skill: '特定の職が必殺技を使った時',
+        skill_hit: '必殺技が当たる毎に',
         in_chain: 'チェイン発動中',
         mana_charged: 'マナが多いほど',
         mana_lost: 'マナが少ないほど',
@@ -323,7 +323,7 @@ class AbilityEffect < ApplicationRecord
           job_m: '魔法使い'
         },
         kill: {
-          skill: 'スキル使用時'
+          skill: '必殺技使用時'
         },
         link: {
           with_f: '戦士',
@@ -373,8 +373,7 @@ class AbilityEffect < ApplicationRecord
           mana_ka: '騎/弓マナ'
         },
         use_mana: {
-          self: '自分',
-          self_once: '自分/一度だけ'
+          self: '自分'
         },
         own_skill: {
           with_mana_empty: 'マナが空で発動したとき'
@@ -449,10 +448,10 @@ class AbilityEffect < ApplicationRecord
         in_sub: 'サブパーティーにいる時',
         wave_start: '各WAVE開始時',
         boss_wave: 'BOSS WAVE時',
-        own_skill: '自分がスキルを使った時',
-        others_skill: '味方がスキルを使った時',
-        any_skill: '誰かがスキルを使った時',
-        job_skill: '特定の職がスキルを使った時',
+        own_skill: '自分が必殺技を使った時',
+        others_skill: '味方が必殺技を使った時',
+        any_skill: '誰かが必殺技を使った時',
+        job_skill: '特定の職が必殺技を使った時',
         dropout_self: '自身が脱落した時',
         dropout_member: '味方が脱落した時',
         mana_charged: 'マナが多いほど',
@@ -527,7 +526,7 @@ class AbilityEffect < ApplicationRecord
       condition: {
         any: 'いつでも',
         wave_start: '各WAVE開始時',
-        others_skill: '味方がスキルを使った時'
+        others_skill: '味方が必殺技を使った時'
       },
       sub_condition: {
         others_skill: {
@@ -613,8 +612,8 @@ class AbilityEffect < ApplicationRecord
         with_fkap: '戦＋騎＋弓＋僧がいる時',
         wave_start: '各WAVE開始時',
         in_sub: 'サブパーティーにいる時',
-        own_skill: '自分がスキルを使った時',
-        job_skill: '特定の職がスキルを使った時'
+        own_skill: '自分が必殺技を使った時',
+        job_skill: '特定の職が必殺技を使った時'
       },
       sub_condition: {
         with_f: {
@@ -969,13 +968,13 @@ class AbilityEffect < ApplicationRecord
       }
     },
     skillup: {
-      name: '自分のスキルを強化',
+      name: '自分の必殺技を強化',
       effect: {
-        skill_atkup: 'スキル威力上昇',
-        skill_boost: 'スキル強化',
+        skill_atkup: '必殺技威力上昇',
+        skill_boost: '必殺技強化',
         charge_reduce: '溜め時間減少',
-        skill_spread: 'スキル範囲拡大',
-        add_shield_break: 'スキルに盾破壊を追加'
+        skill_spread: '必殺技範囲拡大',
+        add_shield_break: '必殺技に盾破壊を追加'
       },
       sub_effect: {
         skill_atkup: {
@@ -987,9 +986,9 @@ class AbilityEffect < ApplicationRecord
       },
       condition: {
         any: 'いつでも',
-        skill: 'スキル使用時',
+        skill: '必殺技使用時',
         in_combo: '攻撃を一定回数当てた時',
-        others_skill: '味方がスキルを使った時',
+        others_skill: '味方が必殺技を使った時',
         mana_charged: 'マナが多いほど',
         mana_lost: 'マナが少ないほど',
         guard: 'ガードした時',
@@ -1013,7 +1012,7 @@ class AbilityEffect < ApplicationRecord
       },
       condition: {
         attack: '通常攻撃時',
-        skill: 'スキル使用時',
+        skill: '必殺技使用時',
         in_awakening: '覚醒ゲージがMAXの時'
       },
       sub_condition: {
@@ -1053,10 +1052,10 @@ class AbilityEffect < ApplicationRecord
         in_back: '一番後列にいる時',
         in_sub: 'サブパーティーにいる時',
         in_field: '特定のフィールドにいる時',
-        skill: 'スキル使用時',
-        others_skill: '味方がスキルを使った時',
-        job_skill: '特定の職がスキルを使った時',
-        any_skill: '誰かがスキルを使った時',
+        skill: '必殺技使用時',
+        others_skill: '味方が必殺技を使った時',
+        job_skill: '特定の職が必殺技を使った時',
+        any_skill: '誰かが必殺技を使った時',
         with_f: '戦士がいる時',
         with_k: '騎士がいる時',
         with_a: '弓使いがいる時',
@@ -1179,8 +1178,7 @@ class AbilityEffect < ApplicationRecord
         fulldown: '攻撃力/防御力/移動速度低下付与',
         delayup: '攻撃速度低下付与',
         shield_break: '盾を破壊する',
-        weak_element: '属性弱点付与',
-        element_defdown: '属性防御力低下付与'
+        weak_element: '属性弱点付与'
       },
       sub_effect: {
         weak_element: {
@@ -1191,7 +1189,7 @@ class AbilityEffect < ApplicationRecord
       condition: {
         attack: '通常攻撃時',
         critical: 'クリティカル時',
-        skill: 'スキル使用時',
+        skill: '必殺技使用時',
         counter: 'カウンター発生時',
         shoot: '遠距離攻撃時',
         combat: '近接攻撃時',
@@ -1310,7 +1308,7 @@ class AbilityEffect < ApplicationRecord
         cure_all: '状態異常解除'
       },
       condition: {
-        skill: 'スキル使用時',
+        skill: '必殺技使用時',
         wave_start: '各WAVE開始時',
         use_mana: 'マナが使用された時'
       },
@@ -1390,7 +1388,7 @@ class AbilityEffect < ApplicationRecord
           mana_pm: '僧＋魔',
           mana_fam: '戦＋弓＋魔',
           mana_all: '虹色',
-          compressed_mana_m: '圧縮魔マナ（任意スキル発動可）'
+          compressed_mana_m: '圧縮魔マナ（任意必殺技発動可）'
         },
         mana_boost: {
           mana_triple: '3つ出やすい'
@@ -1433,7 +1431,7 @@ class AbilityEffect < ApplicationRecord
         kill: '敵を倒した時',
         kill_count: '一定数の敵を倒した時',
         dropout_self: '自身が脱落した時',
-        own_skill: '自分がスキルを使った時',
+        own_skill: '自分が必殺技を使った時',
         in_chain: 'チェイン発動中',
         in_maxchain: 'MAXChain時'
       },
@@ -1449,10 +1447,10 @@ class AbilityEffect < ApplicationRecord
         },
         kill: {
           critical: 'クリティカル時',
-          skill: 'スキル使用時'
+          skill: '必殺技使用時'
         },
         kill_count: {
-          skill: 'スキル使用時'
+          skill: '必殺技使用時'
         },
         dropout_self: {
           mana_f: '戦マナ'
@@ -1490,9 +1488,10 @@ class AbilityEffect < ApplicationRecord
         in_battlefield: '戦場で戦闘時',
         in_beach: '砂浜で戦闘時',
         in_ship: '船上で戦闘時',
+        in_sea: '海中で戦闘時',
+        in_all_sea: '砂浜/船上/海中で戦闘時',
         in_upland: '高地で戦闘時',
         in_snow: '雪山で戦闘時',
-        in_sea: '海中で戦闘時',
         in_prison: '監獄で戦闘時',
         in_night: '夜間に戦闘時',
         in_dimension: '異空間で戦闘時'
@@ -1534,7 +1533,7 @@ class AbilityEffect < ApplicationRecord
       condition: {
         shoot: '遠距離攻撃時',
         kill: '敵を倒した時',
-        skill: 'スキル使用時',
+        skill: '必殺技使用時',
         in_combo: '攻撃を一定回数当てた時'
       },
       target: {
@@ -1786,6 +1785,12 @@ class AbilityEffect < ApplicationRecord
     end
     ret.flatten.uniq.compact.map(&:to_s)
   end.call.freeze
+
+  CONDITION_GROUP = {
+    in_beach: ['in_all_sea'],
+    in_ship:  ['in_all_sea'],
+    in_sea:  ['in_all_sea']
+  }.freeze
 
   EFFECT_GROUP = {
     aup: BUFF_TYPES.select { |s| s.match?(/a/) },

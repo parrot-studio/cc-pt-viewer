@@ -2,7 +2,7 @@
 #
 # Table name: arcanas
 #
-#  id              :integer          not null, primary key
+#  id              :bigint(8)        not null, primary key
 #  name            :string(100)      not null
 #  title           :string(100)      not null
 #  arcana_type     :string(20)       not null
@@ -25,7 +25,7 @@
 #  limit_hp        :integer
 #  voice_actor_id  :integer          default(0), not null
 #  illustrator_id  :integer          default(0), not null
-#  wiki_name       :string(50)       not null
+#  wiki_name       :string(50)
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #

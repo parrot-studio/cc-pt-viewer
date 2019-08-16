@@ -2,7 +2,7 @@
 #
 # Table name: abilities
 #
-#  id           :integer          not null, primary key
+#  id           :bigint(8)        not null, primary key
 #  arcana_id    :integer          not null
 #  job_code     :string(10)       not null
 #  ability_type :string(20)       not null

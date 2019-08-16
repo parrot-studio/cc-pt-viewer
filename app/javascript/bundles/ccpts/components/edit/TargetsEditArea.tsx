@@ -2,6 +2,8 @@ import * as _ from "lodash"
 
 import * as React from "react"
 import { Button, ButtonGroup } from "react-bootstrap"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSearch } from "@fortawesome/free-solid-svg-icons"
 
 import { ResultView, ResultViewProps } from "../concerns/ResultView"
 import PagerArea from "../concerns/PagerArea"
@@ -35,7 +37,7 @@ export default class TargetsEditArea extends ResultView<TargetsEditAreaProps> {
                     bsStyle="primary"
                     onClick={this.props.switchConditionMode}
                   >
-                    <i className="fa fa-search" /> 検索
+                    <FontAwesomeIcon icon={faSearch} /> 検索
                   </Button>
                   <SearchMenuButton />
                 </ButtonGroup>

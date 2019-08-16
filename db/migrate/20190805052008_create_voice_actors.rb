@@ -1,4 +1,4 @@
-class CreateVoiceActors < ActiveRecord::Migration[5.0]
+class CreateVoiceActors < ActiveRecord::Migration[6.0]
   def change
     create_table :voice_actors do |t|
       t.string  :name,  null: false, limit: 100
