@@ -437,7 +437,8 @@ class AbilityEffect < ApplicationRecord
       },
       sub_effect: {
         aup: {
-          defdown_all: '全体の防御力低下'
+          defdown_all: '全体の防御力低下',
+          gradually: '徐々に上昇'
         },
         asup: {
           defdown_all: '全体の防御力低下'
@@ -463,6 +464,7 @@ class AbilityEffect < ApplicationRecord
         super_gauge_max: '超必殺技ゲージがMAXの時',
         from_sub: 'サブから戦場に移動したとき',
         battle_start: '戦闘開始時',
+        in_heroic: '援軍として参戦した時',
         targeted_self: '自身を選択中'
       },
       sub_condition: {
@@ -501,6 +503,9 @@ class AbilityEffect < ApplicationRecord
         },
         battle_start: {
           in_sub: 'サブパーティーにいる時'
+        },
+        in_heroic: {
+          mana_charged: 'マナが多いほど'
         }
       },
       target: {
@@ -744,7 +749,8 @@ class AbilityEffect < ApplicationRecord
         with_slpu: '<<斬/拳>>がいる時',
         with_slblpu: '<<斬/打/拳>>がいる時',
         with_blpush: '<<打/銃/狙>>がいる時',
-        wave_start: '各WAVE開始時'
+        wave_start: '各WAVE開始時',
+        in_heroic: '援軍として参戦した時'
       },
       sub_condition: {
         with_slma: {
@@ -783,7 +789,8 @@ class AbilityEffect < ApplicationRecord
         weapon_blpush: '<<打/銃/狙>>',
         weapon_slblpipu: '<<斬/打/突/拳>>',
         weapon_exclude_sl: '<<斬>>以外',
-        weapon_exclude_ma: '<<魔>>以外'
+        weapon_exclude_ma: '<<魔>>以外',
+        shoot: '遠距離攻撃'
       }
     },
     buff_group: {
@@ -948,6 +955,7 @@ class AbilityEffect < ApplicationRecord
         dup: '防御力上昇',
         adup: '攻撃力/防御力上昇',
         acup: '攻撃力/クリティカル率上昇',
+        arup: '攻撃力/クリティカル威力上昇',
         dsup: '防御力/移動速度上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
         acrup: '攻撃力/クリティカル率/クリティカル威力上昇',
@@ -1065,6 +1073,7 @@ class AbilityEffect < ApplicationRecord
         with_gu: '<<銃>>がいる時',
         with_sh: '<<狙>>がいる時',
         with_holytown: '所属：聖都がいる時',
+        with_oasis: '所属：湖都がいる時',
         link: '複数で一緒に攻撃した時',
         dropout_self: '自身が脱落した時',
         dropout_member: '味方が脱落した時',
@@ -1433,7 +1442,8 @@ class AbilityEffect < ApplicationRecord
         dropout_self: '自身が脱落した時',
         own_skill: '自分が必殺技を使った時',
         in_chain: 'チェイン発動中',
-        in_maxchain: 'MAXChain時'
+        in_maxchain: 'MAXChain時',
+        in_heroic: '援軍として参戦した時'
       },
       sub_condition: {
         battle_start: {
@@ -1454,6 +1464,9 @@ class AbilityEffect < ApplicationRecord
         },
         dropout_self: {
           mana_f: '戦マナ'
+        },
+        in_heroic: {
+          in_chain: 'チェイン発動中'
         }
       },
       target: {
