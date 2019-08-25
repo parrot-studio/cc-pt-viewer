@@ -25,7 +25,6 @@
     "superagent": "^5.1.0"
   },
   "devDependencies": {
-    "@babel/preset-react": "^7.0.0",
     "@gfx/zopfli": "^1.0.14",
     "@types/bootstrap": "3.4.0",
     "@types/bootstrap-switch": "0.0.31",
