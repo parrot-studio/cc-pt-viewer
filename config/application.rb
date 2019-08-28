@@ -35,7 +35,7 @@ module Ccpts
     # i18n
     config.i18n.default_locale = :ja
 
-    # autoload
-    config.eager_load_paths += Dir["#{config.root}/lib"]
+    # eager_load
+    config.paths.add 'lib', eager_load: true
   end
 end

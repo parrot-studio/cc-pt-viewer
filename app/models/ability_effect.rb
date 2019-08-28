@@ -1801,8 +1801,8 @@ class AbilityEffect < ApplicationRecord
 
   CONDITION_GROUP = {
     in_beach: ['in_all_sea'],
-    in_ship:  ['in_all_sea'],
-    in_sea:  ['in_all_sea']
+    in_ship: ['in_all_sea'],
+    in_sea: ['in_all_sea']
   }.freeze
 
   EFFECT_GROUP = {

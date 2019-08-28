@@ -72,4 +72,3 @@ gem 'hiredis'
 gem 'redis', '>= 3.2.0', require: ['redis', 'redis/connection/hiredis']
 gem 'redis-namespace'
 gem 'oj'
-gem 'oj_mimic_json'

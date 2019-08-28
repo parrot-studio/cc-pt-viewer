@@ -1,17 +1,17 @@
-require: 
+require:
   - rubocop-rails
 
 AllCops:
   Exclude:
-    - 'db/**/*'
-    - 'bin/**/*'
-    - 'vendor/**/*'
-    - 'test/**/*'
-    - 'tmp/**/*'
-    - 'node_modules/**/*'
-    - 'config/deploy.rb'
-    - 'config/deploy/*'
-  TargetRubyVersion: 2.5
+    - "db/**/*"
+    - "bin/**/*"
+    - "vendor/**/*"
+    - "test/**/*"
+    - "tmp/**/*"
+    - "node_modules/**/*"
+    - "config/deploy.rb"
+    - "config/deploy/*"
+  TargetRubyVersion: 2.6
   DisplayCopNames: true
 
 Bundler/OrderedGems:
