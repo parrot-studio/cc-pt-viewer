@@ -94,6 +94,7 @@ class AbilityEffect < ApplicationRecord
         super_gauge_gain: '超必殺技ゲージ上昇',
         extra_attack: '追撃発生',
         blast_attack: '範囲攻撃化',
+        double_critical: 'クリティカル時二連撃',
         shoot_available: '遠距離攻撃可能',
         multi_gauge: '複数ゲージ所持',
         aup_m: '攻撃力上昇 / 一定時間',
@@ -115,6 +116,7 @@ class AbilityEffect < ApplicationRecord
         ascup_m: '攻撃力/移動速度/クリティカル率上昇 / 一定時間',
         asrup_m: '攻撃力/移動速度/クリティカル威力上昇 / 一定時間',
         acrup_m: '攻撃力/クリティカル率/クリティカル威力上昇 / 一定時間',
+        dscup_m: '防御力/移動速度/クリティカル率上昇 / 一定時間',
         dcrup_m: '防御力/クリティカル率/クリティカル威力上昇 / 一定時間',
         scrup_m: '移動速度/クリティカル率/クリティカル威力上昇 / 一定時間',
         adscup_m: '攻撃力/防御力/移動速度/クリティカル率上昇 / 一定時間',
@@ -232,6 +234,7 @@ class AbilityEffect < ApplicationRecord
         with_demon: '所属：魔神がいる時',
         with_others: '所属：旅人がいる時',
         with_volunteers: '所属：義勇軍がいる時',
+        with_many_forest: '所属：精霊島が多いほど',
         same_abilities: '同じアビリティを持った味方がいる時',
         kill: '敵を倒した時',
         kill_debuff: '状態異常の敵を倒した時',
@@ -321,6 +324,9 @@ class AbilityEffect < ApplicationRecord
         },
         with_volunteers: {
           job_m: '魔法使い'
+        },
+        with_many_forest: {
+          include_self: '自身を含む'
         },
         kill: {
           skill: '必殺技使用時'
@@ -921,6 +927,7 @@ class AbilityEffect < ApplicationRecord
         acrup: '攻撃力/クリティカル率/クリティカル威力上昇',
         scrup: '移動速度/クリティカル率/クリティカル威力上昇',
         adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
+        dscrup: '防御力/移動速度/クリティカル率/クリティカル威力上昇',
         barrier: 'バリアを張る',
         aup_m: '攻撃力上昇 / 一定時間',
         dup_m: '防御力上昇 / 一定時間',
@@ -1397,6 +1404,8 @@ class AbilityEffect < ApplicationRecord
           mana_pm: '僧＋魔',
           mana_fam: '戦＋弓＋魔',
           mana_all: '虹色',
+          compressed_mana_f: '圧縮戦マナ（任意必殺技発動可）',
+          compressed_mana_a: '圧縮弓マナ（任意必殺技発動可）',
           compressed_mana_m: '圧縮魔マナ（任意必殺技発動可）'
         },
         mana_boost: {
