@@ -159,6 +159,9 @@ class AbilityEffect < ApplicationRecord
         healareaup: {
           defdown_self: '自身の防御力低下'
         },
+        extra_attack: {
+          ice: '氷属性'
+        },
         aup_m: {
           boost_with_enemys: '敵が多いほど効果上昇',
           defdown_self: '自身の防御力低下'
@@ -497,6 +500,7 @@ class AbilityEffect < ApplicationRecord
           mana_k: '騎マナ',
           mana_p: '僧マナ',
           mana_m: '魔マナ',
+          mana_fa: '戦/弓マナ',
           mana_pm: '僧/魔マナ',
           mana_kapm: '戦マナ以外'
         },
@@ -793,6 +797,7 @@ class AbilityEffect < ApplicationRecord
         weapon_slblpu: '<<斬/打/拳>>',
         weapon_slmapu: '<<斬/魔/拳>>',
         weapon_blpush: '<<打/銃/狙>>',
+        weapon_pugush: '<<拳/銃/狙>>',
         weapon_slblpipu: '<<斬/打/突/拳>>',
         weapon_exclude_sl: '<<斬>>以外',
         weapon_exclude_ma: '<<魔>>以外',
@@ -1491,13 +1496,15 @@ class AbilityEffect < ApplicationRecord
         adup: '攻撃力/防御力上昇',
         asup: '攻撃力/移動速度上昇',
         acup: '攻撃力/クリティカル率上昇',
+        arup: '攻撃力/クリティカル威力上昇',
         dsup: '防御力/移動速度上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
         adcup: '攻撃力/防御力/クリティカル率上昇',
         ascup: '攻撃力/移動速度/クリティカル率上昇',
         acrup: '攻撃力/クリティカル率/クリティカル威力上昇',
         adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
-        adsrup: '攻撃力/防御力/移動速度/クリティカル威力上昇'
+        adsrup: '攻撃力/防御力/移動速度/クリティカル威力上昇',
+        delayoff: '攻撃速度上昇'
       },
       condition: {
         in_town: '市街で戦闘時',
