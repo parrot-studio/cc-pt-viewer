@@ -10,5 +10,3 @@ WORKDIR /home/ccpts
 COPY Gemfile /home/ccpts/Gemfile
 COPY Gemfile.lock /home/ccpts/Gemfile.lock
 RUN bundle install
-
-COPY . /home/ccpts
