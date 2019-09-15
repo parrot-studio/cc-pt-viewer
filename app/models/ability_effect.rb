@@ -964,6 +964,7 @@ class AbilityEffect < ApplicationRecord
     buff_area: {
       name: '範囲内を強化',
       effect: {
+        aup: '攻撃力上昇',
         dup: '防御力上昇',
         adup: '攻撃力/防御力上昇',
         acup: '攻撃力/クリティカル率上昇',
@@ -971,6 +972,7 @@ class AbilityEffect < ApplicationRecord
         dsup: '防御力/移動速度上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
         acrup: '攻撃力/クリティカル率/クリティカル威力上昇',
+        aup_m: '攻撃力上昇 / 一定時間',
         dup_m: '防御力上昇 / 一定時間',
         adup_m: '攻撃力/防御力上昇 / 一定時間',
         dsup_m: '防御力/移動速度上昇 / 一定時間',
@@ -1424,7 +1426,8 @@ class AbilityEffect < ApplicationRecord
           mana_m: '魔マナ',
           mana_fk: '戦＋騎',
           mana_fm: '戦＋魔',
-          mana_ka: '騎＋弓'
+          mana_ka: '騎＋弓',
+          mana_fkm: '戦＋騎＋魔'
         },
         composite: {
           mana_fk: '戦＋騎',
