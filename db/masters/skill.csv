@@ -1516,7 +1516,7 @@ SC-3000,F,254,1,,勇将明敏,2,,attack,one_short,add_push,,,,,
 ,,,2,,真エンジェルヒール,1,超必殺技ゲージMAX,heal,all_instant,super_skill,excess,adup,,,
 ,,,d,,イミテイト・エンジェルヒール,1,,heal,all_instant,adup,,,,,
 アイリ,M,215,1,d,禁呪・暗黒源流瞳術「黒夢」,1,,field,wasteland,,,,,,
-,,,2,,禁呪・暗黒源流呪術「竜幻」,1,地形が荒地,attack,range_line,add_curse,,,,,
+,,,2,,禁呪・暗黒源流呪術「竜幻」,1,地形が荒地,attack,range_line,add_push,add_curse,,,,
 ,,,,,,,,,,,,,,,
 # ファーブラ・デ・チョコラーテ,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
@@ -1822,8 +1822,8 @@ SC-3000,F,254,1,,勇将明敏,2,,attack,one_short,add_push,,,,,
 ,,,,,,,,,,,,,,,
 # レジェンドフェス8/31,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
-ロロ,F,341,1,d,超炎牙,2,敵陣にいる,attack,range_shortline,fire,add_push,,,,
-,,,2,,マイティフレア,1,自陣にいる,buff,all,add_fire,,,,,
+ロロ,F,341,1,d,超炎牙,1,敵陣にいる,attack,range_forward,fire,add_push,add_down,,,
+,,,2,,マイティフレア,1,自陣にいる,buff,all,aup,add_fire,,,,
 ヴィドック,A,179,1,d,フェイタルデッドアクション,1,,attack,range_jump,add_blind,,,,,一番遠い敵の目の前に飛ぶ
 クズノハ,P,106,1,,呪式・癒神,1,,heal,all_instant,cure_curse,aup,,,,
 ,,,2,d,呪式・祟神,1,最後列にいる,attack,summon,add_curse,,,,,
@@ -2868,6 +2868,15 @@ K・K,A,195,1,,FB‐202 ファイアブロウ,1,初回のみ,attack,summon,,,,,,
 ,,,,,,forward,,heal,all_instant,,,,,,
 ベルダッド改,A,232,1,,マナバスタービーム,0,,attack,laser,,,,,,
 ,,,,,,forward,,buff,self,aup,delayoff,,,,
+,,,,,,,,,,,,,,,
+# ぷよぷよコラボ,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+主人公,M,305,1,d,ぷよ連鎖・主人公,3,,attack,bombard,,,,,,MAXChainで効果上昇
+アルル,M,306,1,d,ぷよ連鎖・アルル,1,,attack,random,,,,,,1Chainごとに弾数増加/MAXChainで範囲攻撃化
+アミティ,M,307,1,d,ぷよ連鎖・アミティ,1,,attack,range_all,,,,,,1Chainごとに威力上昇/MAXChainでダウン付与
+りんご,M,308,1,d,ぷよ連鎖・りんご,1,,attack,range_drop,,,,,,1Chainごとに威力上昇/MAXChainで効果範囲拡大
+シグ,M,309,1,d,ぷよ連鎖・シグ,2,,attack,range_drop,,,,,,1Chainごとに威力上昇/MAXChainでスロウ付与
+ウィッチ,M,310,1,d,ぷよ連鎖・ウィッチ,2,,attack,range_all,,,,,,1Chainごとに威力上昇/MAXChainで弾き飛ばし付与
 ,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,

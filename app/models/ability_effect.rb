@@ -238,6 +238,7 @@ class AbilityEffect < ApplicationRecord
         with_others: '所属：旅人がいる時',
         with_volunteers: '所属：義勇軍がいる時',
         with_many_forest: '所属：精霊島が多いほど',
+        with_many_others: '所属：旅人が多いほど',
         same_abilities: '同じアビリティを持った味方がいる時',
         kill: '敵を倒した時',
         kill_debuff: '状態異常の敵を倒した時',
@@ -329,6 +330,9 @@ class AbilityEffect < ApplicationRecord
           job_m: '魔法使い'
         },
         with_many_forest: {
+          include_self: '自身を含む'
+        },
+        with_many_others: {
           include_self: '自身を含む'
         },
         kill: {
@@ -996,6 +1000,8 @@ class AbilityEffect < ApplicationRecord
         skill_boost: '必殺技強化',
         charge_reduce: '溜め時間減少',
         skill_spread: '必殺技範囲拡大',
+        add_slow: '必殺技にスロウ付与を追加',
+        add_down: '必殺技にダウン付与を追加',
         add_shield_break: '必殺技に盾破壊を追加'
       },
       sub_effect: {
@@ -1082,6 +1088,7 @@ class AbilityEffect < ApplicationRecord
         with_k: '騎士がいる時',
         with_a: '弓使いがいる時',
         with_p: '僧侶がいる時',
+        with_m: '魔法使いがいる時',
         with_kp: '騎＋僧がいる時',
         with_sl: '<<斬>>がいる時',
         with_gu: '<<銃>>がいる時',
@@ -1411,9 +1418,9 @@ class AbilityEffect < ApplicationRecord
           mana_pm: '僧＋魔',
           mana_fam: '戦＋弓＋魔',
           mana_all: '虹色',
-          compressed_mana_f: '圧縮戦マナ（任意必殺技発動可）',
-          compressed_mana_a: '圧縮弓マナ（任意必殺技発動可）',
-          compressed_mana_m: '圧縮魔マナ（任意必殺技発動可）'
+          compressed_mana_f: '圧縮戦マナ',
+          compressed_mana_a: '圧縮弓マナ',
+          compressed_mana_m: '圧縮魔マナ'
         },
         mana_boost: {
           mana_triple: '3つ出やすい'
@@ -1665,54 +1672,60 @@ class AbilityEffect < ApplicationRecord
 
   EFFECTS = lambda do
     ret = {}
-    CATEGORYS.each_value do |v|
-      ret.merge!(v.fetch(:effect, {}))
+    CATEGORYS.each do |k, v|
+      ret[k] = v.fetch(:effect, {})
     end
     ret
   end.call.freeze
 
   SUB_EFFECTS = lambda do
     ret = {}
-    CATEGORYS.each_value do |v|
-      v.fetch(:sub_effect, {}).values.each do |s|
-        ret.merge!(s)
+    CATEGORYS.each do |k, v|
+      sret = {}
+      v.fetch(:sub_effect, {}).each do |sk, sv|
+        sret[sk] = sv
       end
+      ret[k] = sret
     end
     ret
   end.call.freeze
 
   CONDITIONS = lambda do
     ret = {}
-    CATEGORYS.each_value do |v|
-      ret.merge!(v.fetch(:condition, {}))
+    CATEGORYS.each do |k, v|
+      ret[k] = v.fetch(:condition, {})
     end
     ret
   end.call.freeze
 
   SUB_CONDITIONS = lambda do
     ret = {}
-    CATEGORYS.each_value do |v|
-      v.fetch(:sub_condition, {}).values.each do |s|
-        ret.merge!(s)
+    CATEGORYS.each do |k, v|
+      sret = {}
+      v.fetch(:sub_condition, {}).each do |sk, sv|
+        sret[sk] = sv
       end
+      ret[k] = sret
     end
     ret
   end.call.freeze
 
   TARGETS = lambda do
     ret = {}
-    CATEGORYS.each_value do |v|
-      ret.merge!(v.fetch(:target, {}))
+    CATEGORYS.each do |k, v|
+      ret[k] = v.fetch(:target, {})
     end
     ret
   end.call.freeze
 
   SUB_TARGETS = lambda do
     ret = {}
-    CATEGORYS.each_value do |v|
-      v.fetch(:sub_target, {}).values.each do |s|
-        ret.merge!(s)
+    CATEGORYS.each do |k, v|
+      sret = {}
+      v.fetch(:sub_target, {}).each do |sk, sv|
+        sret[sk] = sv
       end
+      ret[k] = sret
     end
     ret
   end.call.freeze
@@ -1923,6 +1936,48 @@ class AbilityEffect < ApplicationRecord
       create_chain_sub_conds(:target)
     end
 
+    def valid_category?(cate)
+      return false if cate.blank?
+
+      CATEGORYS.key?(cate.to_sym)
+    end
+
+    def valid_condition?(cate, cond)
+      return false if cate.blank? || cond.blank?
+
+      CONDITIONS.dig(cate.to_sym, cond.to_sym).nil? ? false : true
+    end
+
+    def valid_sub_condition?(cate, cond, sub)
+      return false if cate.blank? || cond.blank? || sub.blank?
+
+      SUB_CONDITIONS.dig(cate.to_sym, cond.to_sym, sub.to_sym).nil? ? false : true
+    end
+
+    def valid_effect?(cate, effect)
+      return false if cate.blank? || effect.blank?
+
+      EFFECTS.dig(cate.to_sym, effect.to_sym).nil? ? false : true
+    end
+
+    def valid_sub_effect?(cate, effect, sub)
+      return false if cate.blank? || effect.blank? || sub.blank?
+
+      SUB_EFFECTS.dig(cate.to_sym, effect.to_sym, sub.to_sym).nil? ? false : true
+    end
+
+    def valid_target?(cate, target)
+      return false if cate.blank? || target.blank?
+
+      TARGETS.dig(cate.to_sym, target.to_sym).nil? ? false : true
+    end
+
+    def valid_sub_target?(cate, target, sub)
+      return false if cate.blank? || target.blank? || sub.blank?
+
+      SUB_TARGETS.dig(cate.to_sym, target.to_sym, sub.to_sym).nil? ? false : true
+    end
+
     private
 
     def create_chain_conds(key)
@@ -2015,14 +2070,20 @@ class AbilityEffect < ApplicationRecord
   def serialize
     ef = {}
     ef['category'] = CATEGORYS.fetch(self.category.to_sym, {}).fetch(:name, '')
-    ef['condition'] = CONDITIONS.fetch(self.condition.to_sym, '')
-    ef['sub_condition'] = SUB_CONDITIONS.fetch(self.sub_condition.to_sym, '')
+    ef['condition'] = CONDITIONS.dig(self.category.to_sym, self.condition.to_sym) || ''
+    ef['sub_condition'] = SUB_CONDITIONS.dig(
+      self.category.to_sym, self.condition.to_sym, self.sub_condition.to_sym
+    ) || ''
     ef['condition_note'] = self.condition_note.to_s
-    ef['effect'] = EFFECTS.fetch(self.effect.to_sym, '')
-    ef['sub_effect'] = SUB_EFFECTS.fetch(self.sub_effect.to_sym, '')
+    ef['effect'] = EFFECTS.dig(self.category.to_sym, self.effect.to_sym) || ''
+    ef['sub_effect'] = SUB_EFFECTS.dig(
+      self.category.to_sym, self.effect.to_sym, self.sub_effect.to_sym
+    ) || ''
     ef['effect_note'] = self.effect_note.to_s
-    ef['target'] = TARGETS.fetch(self.target.to_sym, '')
-    ef['sub_target'] = SUB_TARGETS.fetch(self.sub_target.to_sym, '')
+    ef['target'] = TARGETS.dig(self.category.to_sym, self.target.to_sym) || ''
+    ef['sub_target'] = SUB_TARGETS.dig(
+      self.category.to_sym, self.target.to_sym, self.sub_target.to_sym
+    ) || ''
     ef['target_note'] = self.target_note.to_s
     ef
   end

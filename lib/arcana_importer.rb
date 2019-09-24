@@ -389,39 +389,38 @@ class ArcanaImporter
         effect = efs.shift || AbilityEffect.new
         effect.order = eindex
         effect.category = data.shift.to_s
-        raise "category not found => #{abi.name} #{effect.category}" unless AbilityEffect::CATEGORYS.key?(effect.category.to_sym)
+        raise "category not found => #{abi.name} #{effect.category}" unless AbilityEffect.valid_category?(effect.category)
 
         effect.condition = data.shift.to_s
-        raise "condition not found => #{abi.name} #{effect.category}-#{effect.condition}" unless AbilityEffect::CONDITIONS.key?(effect.condition.to_sym)
+        raise "condition not found => #{abi.name} #{effect.category}-#{effect.condition}" unless AbilityEffect.valid_condition?(effect.category, effect.condition)
 
         effect.sub_condition = data.shift.to_s
-        if effect.sub_condition.present?
-          subcond = AbilityEffect::CATEGORYS.dig(effect.category.to_sym, :sub_condition, effect.condition.to_sym) || {}
-          raise "sub_condition not found => #{abi.name} #{effect.category}-#{effect.condition}-#{effect.sub_condition}" unless subcond.key?(effect.sub_condition.to_sym)
+        if effect.sub_condition.present? && !AbilityEffect.valid_sub_condition?(effect.category, effect.condition, effect.sub_condition)
+          raise "sub_condition not found => #{abi.name} #{effect.category}-#{effect.condition}-#{effect.sub_condition}"
         end
+
         effect.condition_note = data.shift.to_s
 
         effect.effect = data.shift.to_s
-        raise "effect not found => #{abi.name} #{effect.category}-#{effect.effect}" unless AbilityEffect::EFFECTS.key?(effect.effect.to_sym)
+        raise "effect not found => #{abi.name} #{effect.category}-#{effect.effect}" unless AbilityEffect.valid_effect?(effect.category, effect.effect)
 
         effect.sub_effect = data.shift.to_s
         if effect.sub_effect.present?
-          subeffect = AbilityEffect::CATEGORYS.dig(effect.category.to_sym, :sub_effect, effect.effect.to_sym) || {}
-          raise "sub_effect not found => #{abi.name} #{effect.category}-#{effect.effect}-#{effect.sub_effect}" unless subeffect.key?(effect.sub_effect.to_sym)
+          raise "sub_effect not found => #{abi.name} #{effect.category}-#{effect.effect}-#{effect.sub_effect}" unless AbilityEffect.valid_sub_effect?(effect.category, effect.effect, effect.sub_effect)
         elsif effect.effect == 'composite'
           raise "composite need mana_type => #{abi.name} #{effect.category}-#{effect.effect}-#{effect.sub_effect}"
         elsif effect.effect == 'mana_charge'
           effect.sub_effect = "mana_#{abi.job_code[0].downcase}" # 自身のマナ指定
         end
+
         effect.effect_note = data.shift.to_s
 
         effect.target = data.shift.to_s
-        raise "target not found => #{abi.name} #{effect.category}-#{effect.target}" unless AbilityEffect::TARGETS.key?(effect.target.to_sym)
+        raise "target not found => #{abi.name} #{effect.category}-#{effect.target}" unless AbilityEffect.valid_target?(effect.category, effect.target)
 
         effect.sub_target = data.shift.to_s
-        if effect.sub_target.present?
-          subtarget = AbilityEffect::CATEGORYS.dig(effect.category.to_sym, :sub_target, effect.target.to_sym) || {}
-          raise "sub_target not found => #{abi.name} #{effect.category}-#{effect.target}-#{effect.sub_target}" unless subtarget.key?(effect.sub_target.to_sym)
+        if effect.sub_target.present? && !AbilityEffect.valid_sub_target?(effect.category, effect.target, effect.sub_target)
+          raise "sub_target not found => #{abi.name} #{effect.category}-#{effect.target}-#{effect.sub_target}"
         end
         effect.target_note = data.shift.to_s
 
