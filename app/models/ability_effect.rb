@@ -71,6 +71,7 @@ class AbilityEffect < ApplicationRecord
         hp_excess: 'HP超過状態になる',
         guard_fire: '火属性を軽減する',
         guard_ice: '氷属性を軽減する',
+        guard_fireice: '炎/氷属性を軽減する',
         areaup: '回復範囲増加',
         healup: '回復効果上昇',
         healareaup: '回復範囲/効果上昇',
@@ -843,6 +844,8 @@ class AbilityEffect < ApplicationRecord
         any: 'いつでも',
         wave_start: '各WAVE開始時',
         battle_start: '戦闘開始時',
+        in_enemy_area: '敵陣にいる時',
+        in_base_area: '自陣にいる時',
         in_sub: 'サブパーティーにいる時',
         with_machine: '所属：鉄煙がいる時',
         hp_excess: 'HP超過状態の時'
@@ -1173,6 +1176,7 @@ class AbilityEffect < ApplicationRecord
         weapon_exclude_ma: '<<魔>>以外',
         group_guildtown: '副都所属',
         group_oasis: '湖都所属',
+        group_beasts: 'ケ者所属',
         group_demon: '魔神所属'
       },
       sub_target: {
