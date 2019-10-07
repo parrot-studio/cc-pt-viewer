@@ -1096,6 +1096,7 @@ class AbilityEffect < ApplicationRecord
         with_sl: '<<斬>>がいる時',
         with_gu: '<<銃>>がいる時',
         with_sh: '<<狙>>がいる時',
+        with_gush: '<<銃/狙>>がいる時',
         with_holytown: '所属：聖都がいる時',
         with_oasis: '所属：湖都がいる時',
         link: '複数で一緒に攻撃した時',
@@ -1452,6 +1453,7 @@ class AbilityEffect < ApplicationRecord
           mana_am: '弓＋魔',
           mana_pm: '僧＋魔',
           mana_fka: '戦＋騎＋弓',
+          mana_fkp: '戦＋騎＋僧',
           mana_fam: '戦＋弓＋魔'
         },
         recycle_scrap: {
