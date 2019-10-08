@@ -422,6 +422,7 @@ class ArcanaImporter
         if effect.sub_target.present? && !AbilityEffect.valid_sub_target?(effect.category, effect.target, effect.sub_target)
           raise "sub_target not found => #{abi.name} #{effect.category}-#{effect.target}-#{effect.sub_target}"
         end
+
         effect.target_note = data.shift.to_s
 
         effect.note = data.shift.to_s

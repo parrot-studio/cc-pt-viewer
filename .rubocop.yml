@@ -54,6 +54,9 @@ Style/FrozenStringLiteralComment:
 Style/RescueStandardError:
   Enabled: false
 
+Style/IfUnlessModifier:
+  Enabled: false
+
 Naming/UncommunicativeMethodParamName:
   Enabled: false
 
