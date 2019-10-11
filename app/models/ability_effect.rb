@@ -347,7 +347,8 @@ class AbilityEffect < ApplicationRecord
           with_k: '騎士',
           with_a: '弓使い',
           with_p: '僧侶',
-          with_m: '魔法使い'
+          with_m: '魔法使い',
+          with_fm: '戦/魔'
         },
         in_rear: {
           with_f: '戦士',
@@ -513,6 +514,7 @@ class AbilityEffect < ApplicationRecord
           self: '自身',
           other: '味方',
           mana_m: '魔マナ',
+          mana_fm: '戦/魔マナ',
           mana_fpm: '戦/僧/魔マナ',
           job_f: '戦士'
         },
