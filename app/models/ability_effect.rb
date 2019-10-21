@@ -69,9 +69,9 @@ class AbilityEffect < ApplicationRecord
         delayoff: '攻撃速度上昇',
         maxhpup: '最大HP増加',
         hp_excess: 'HP超過状態になる',
-        guard_fire: '火属性を軽減する',
-        guard_ice: '氷属性を軽減する',
-        guard_fireice: '炎/氷属性を軽減する',
+        guard_fire: '火属性を軽減',
+        guard_ice: '氷属性を軽減',
+        guard_fireice: '炎/氷属性を軽減',
         areaup: '回復範囲増加',
         healup: '回復効果上昇',
         healareaup: '回復範囲/効果上昇',
@@ -98,6 +98,7 @@ class AbilityEffect < ApplicationRecord
         double_critical: 'クリティカル時二連撃',
         shoot_available: '遠距離攻撃可能',
         multi_gauge: '複数ゲージ所持',
+        summon: '自動攻撃オブジェクトを召喚する',
         aup_m: '攻撃力上昇 / 一定時間',
         dup_m: '防御力上昇 / 一定時間',
         sup_m: '移動速度上昇 / 一定時間',
@@ -210,6 +211,7 @@ class AbilityEffect < ApplicationRecord
         with_p: '僧侶がいる時',
         with_m: '魔法使いがいる時',
         with_fa: '戦＋弓がいる時',
+        with_exclude_f: '戦士以外がいる時',
         with_various_jobs: '職の種類が多いほど',
         with_many_f: '戦士が多いほど',
         with_sl: '<<斬>>がいる時',
@@ -457,6 +459,9 @@ class AbilityEffect < ApplicationRecord
         },
         asup: {
           defdown_all: '全体の防御力低下'
+        },
+        barrier: {
+          guard_fireice: '炎/氷属性を軽減'
         }
       },
       condition: {
@@ -474,6 +479,7 @@ class AbilityEffect < ApplicationRecord
         mana_slot_many: 'マナスロットで多く獲得するほど',
         mana_droped: 'マナを獲得した時',
         use_mana: 'マナが使用された時',
+        has_mana: 'マナを保持している時',
         kill: '敵を倒した時',
         kill_debuff: '状態異常の敵を倒した時',
         super_gauge_max: '超必殺技ゲージがMAXの時',
@@ -518,6 +524,9 @@ class AbilityEffect < ApplicationRecord
           mana_fpm: '戦/僧/魔マナ',
           job_f: '戦士'
         },
+        has_mana: {
+          mana_all: '虹色マナ',
+        },
         battle_start: {
           in_sub: 'サブパーティーにいる時'
         },
@@ -548,6 +557,7 @@ class AbilityEffect < ApplicationRecord
       condition: {
         any: 'いつでも',
         wave_start: '各WAVE開始時',
+        own_skill: '自分が必殺技を使った時',
         others_skill: '味方が必殺技を使った時'
       },
       sub_condition: {
@@ -556,7 +566,7 @@ class AbilityEffect < ApplicationRecord
         }
       },
       target: {
-        all: '全員',
+        others: '自分以外全員',
         job_f: '戦士',
         job_k: '騎士',
         job_a: '弓使い',
@@ -796,6 +806,7 @@ class AbilityEffect < ApplicationRecord
         weapon_slma: '<<斬/魔>>',
         weapon_slpu: '<<斬/拳>>',
         weapon_blpi: '<<打/突>>',
+        weapon_pish: '<<突/狙>>',
         weapon_arpu: '<<弓/拳>>',
         weapon_argu: '<<弓/銃>>',
         weapon_mapu: '<<魔/拳>>',
@@ -1427,7 +1438,8 @@ class AbilityEffect < ApplicationRecord
           mana_all: '虹色',
           compressed_mana_f: '圧縮戦マナ',
           compressed_mana_a: '圧縮弓マナ',
-          compressed_mana_m: '圧縮魔マナ'
+          compressed_mana_m: '圧縮魔マナ',
+          compressed_mana_all: '圧縮虹色マナ'
         },
         mana_boost: {
           mana_triple: '3つ出やすい'

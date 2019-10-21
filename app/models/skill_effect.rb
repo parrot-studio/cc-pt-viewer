@@ -244,8 +244,9 @@ class SkillEffect < ApplicationRecord
         guard_down: 'ダウン耐性',
         guard_weaken: '衰弱耐性',
         guard_debuff: '状態異常耐性',
-        guard_fire: '火属性軽減',
+        guard_fire: '炎属性軽減',
         guard_ice: '氷属性軽減',
+        guard_fireice: '炎/氷属性軽減',
         invincible: '無敵',
         aup: '攻撃力上昇',
         reflect_attack: '攻撃反射',
@@ -337,6 +338,7 @@ class SkillEffect < ApplicationRecord
         wide_attack: '範囲攻撃',
         guard: '遠距離ガード可能',
         guardup: '遠距離ダメージカット上昇',
+        reflect_arrow_pierce: '遠距離反射（貫通）',
         destroy_scrap: 'スクラップ破壊',
         super_skill: '超必殺技'
       }
