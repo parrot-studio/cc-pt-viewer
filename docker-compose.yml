@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   db:
     image: mariadb:10.0
@@ -8,7 +8,6 @@ services:
       - mysql:/var/lib/mysql
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
-    restart: always
   redis:
     image: redis:5.0
     ports:
@@ -16,7 +15,6 @@ services:
     volumes:
       - redis:/data
     command: redis-server --appendonly yes
-    restart: always
   web:
     build: .
     command: /bin/sh -c "rm -f ./tmp/pids/server.pid && rails arcana:rebuild && foreman start"
@@ -38,7 +36,7 @@ services:
     stdin_open: true
     environment:
       RAILS_ENV: development
-      SECRET_KEY_BASE:  ${SECRET_KEY_BASE}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
       DATABASE_USER: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       DATABASE_HOST: db
