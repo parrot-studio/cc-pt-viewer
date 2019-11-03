@@ -242,6 +242,7 @@ class AbilityEffect < ApplicationRecord
         with_volunteers: '所属：義勇軍がいる時',
         with_many_forest: '所属：精霊島が多いほど',
         with_many_others: '所属：旅人が多いほど',
+        with_many_demons: '所属：魔神が多いほど',
         same_abilities: '同じアビリティを持った味方がいる時',
         kill: '敵を倒した時',
         kill_debuff: '状態異常の敵を倒した時',
@@ -368,7 +369,8 @@ class AbilityEffect < ApplicationRecord
           mana_fm: '戦/魔マナ',
           mana_ka: '騎/弓マナ',
           mana_pm: '僧/魔マナ',
-          mana_kapm: '戦マナ以外',
+          mana_all: '虹色マナ',
+          mana_exclude_f: '戦マナ以外',
           mana_fk_all: '戦＋騎マナ',
           mana_fm_all: '戦＋魔マナ'
         },
@@ -514,7 +516,7 @@ class AbilityEffect < ApplicationRecord
           mana_m: '魔マナ',
           mana_fa: '戦/弓マナ',
           mana_pm: '僧/魔マナ',
-          mana_kapm: '戦マナ以外'
+          mana_exclude_f: '戦マナ以外'
         },
         use_mana: {
           self: '自身',
@@ -525,7 +527,7 @@ class AbilityEffect < ApplicationRecord
           job_f: '戦士'
         },
         has_mana: {
-          mana_all: '虹色マナ',
+          mana_all: '虹色マナ'
         },
         battle_start: {
           in_sub: 'サブパーティーにいる時'
@@ -865,7 +867,8 @@ class AbilityEffect < ApplicationRecord
       },
       sub_condition: {
         battle_start: {
-          in_main: 'メインパーティーにいる時'
+          in_main: 'メインパーティーにいる時',
+          in_sub: 'サブパーティーにいる時'
         },
         with_machine: {
           include_self: '自身を含む'
@@ -1041,7 +1044,8 @@ class AbilityEffect < ApplicationRecord
       },
       sub_condition: {
         has_mana: {
-          mana_m: '魔マナ'
+          mana_m: '魔マナ',
+          mana_exclude_f: '戦マナ以外'
         }
       },
       target: {
@@ -1435,11 +1439,13 @@ class AbilityEffect < ApplicationRecord
           mana_ap: '弓＋僧',
           mana_pm: '僧＋魔',
           mana_fam: '戦＋弓＋魔',
-          mana_all: '虹色',
+          mana_all: '虹色マナ',
+          mana_demon: '魔神マナ',
           compressed_mana_f: '圧縮戦マナ',
           compressed_mana_a: '圧縮弓マナ',
           compressed_mana_m: '圧縮魔マナ',
-          compressed_mana_all: '圧縮虹色マナ'
+          compressed_mana_all: '圧縮虹色マナ',
+          compressed_mana_demon: '圧縮魔神マナ'
         },
         mana_boost: {
           mana_triple: '3つ出やすい'
@@ -1494,7 +1500,8 @@ class AbilityEffect < ApplicationRecord
           with_f: '戦士がいる特',
           with_k: '騎士がいる時',
           with_p: '僧侶がいる時',
-          with_m: '魔法使いがいる時'
+          with_m: '魔法使いがいる時',
+          in_sub: 'サブパーティーにいる時'
         },
         wave_start: {
           field: '特定のフィールド'
