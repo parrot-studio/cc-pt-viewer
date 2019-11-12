@@ -2917,5 +2917,13 @@ K・K,A,195,1,,FB‐202 ファイアブロウ,1,初回のみ,attack,summon,,,,,,
 ,,,,,,forward,,buff,self,aup,,,,,
 タリビク,A,233,1,d,テンポ・ルバート,1,,song_dance,asup,,,,,,
 ,,,,,,,,,,,,,,,
+# 魔神ニティカ戦,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+アダマス,K,226,1,,アブソルート・アダマス,3,,attack,range_forward,add_down,,,,,2Chain以上で効果上昇
+,,,,,,forward,,buff,self,aup,,,,,2Chain以上で効果上昇
+オストラ,K,227,1,,ヘヴィ・マリュースク,1,,attack,range_shortline_combo,,,,,,
+,,,,,,forward,,barrier,all,,,,,,
+ニティカ,M,313,1,,グリッタ・ジュエリア,1,,attack,range_forward,add_atkdown,,,,,
+,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 # end,,,,,,,,,,,,,,,

@@ -214,6 +214,7 @@ class AbilityEffect < ApplicationRecord
         with_exclude_f: '戦士以外がいる時',
         with_various_jobs: '職の種類が多いほど',
         with_many_f: '戦士が多いほど',
+        with_many_k: '騎士が多いほど',
         with_sl: '<<斬>>がいる時',
         with_bl: '<<打>>がいる時',
         with_pi: '<<突>>がいる時',
@@ -430,6 +431,7 @@ class AbilityEffect < ApplicationRecord
         crup: 'クリティカル率/クリティカル威力上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
         adcup: '攻撃力/防御力/クリティカル率上昇',
+        adrup: '攻撃力/防御力/クリティカル威力上昇',
         acrup: '攻撃力/クリティカル率/クリティカル威力上昇',
         adsrup: '攻撃力/防御力/移動速度/クリティカル威力上昇',
         barrier: 'バリアを張る',
@@ -486,6 +488,7 @@ class AbilityEffect < ApplicationRecord
         kill_debuff: '状態異常の敵を倒した時',
         super_gauge_max: '超必殺技ゲージがMAXの時',
         from_sub: 'サブから戦場に移動したとき',
+        with_k: '騎士がいる時',
         battle_start: '戦闘開始時',
         in_heroic: '援軍として参戦した時',
         targeted_self: '自身を選択中'
@@ -841,6 +844,7 @@ class AbilityEffect < ApplicationRecord
         adcup: '攻撃力/防御力/クリティカル率上昇',
         adrup: '攻撃力/防御力/クリティカル威力上昇',
         ascup: '攻撃力/移動速度/クリティカル率上昇',
+        acrup: '攻撃力/クリティカル率/クリティカル威力上昇',
         adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
         hp_excess: 'HP超過状態になる',
         add_down: '対象の攻撃にダウンを付与',
@@ -853,6 +857,7 @@ class AbilityEffect < ApplicationRecord
         adsup_m: '攻撃力/防御力/移動速度上昇 / 一定時間',
         adcup_m: '攻撃力/防御力/クリティカル率上昇 / 一定時間',
         adrup_m: '攻撃力/防御力/クリティカル威力上昇 / 一定時間',
+        acrup_m: '攻撃力/クリティカル率/クリティカル威力上昇 / 一定時間',
         adscup_m: '攻撃力/防御力/移動速度/クリティカル率上昇 / 一定時間'
       },
       condition: {
@@ -932,7 +937,9 @@ class AbilityEffect < ApplicationRecord
           weapon_argush: '<<弓/銃/狙>>'
         },
         group_demon: {
-          nearest: '一番近い対象'
+          nearest: '一番近い対象',
+          job_fk: '戦/騎',
+          job_apm: '弓/僧/魔'
         }
       }
     },
@@ -1420,6 +1427,7 @@ class AbilityEffect < ApplicationRecord
         mana_drop: 'マナを落とす',
         slot_slow: 'マナスロットが遅くなる',
         composite: '複合マナ出現',
+        limited_slot: 'スロットが特定のマナのみ',
         recycle_scrap: 'スクラップをマナに変換',
         destroy_scrap: 'スクラップを破壊'
       },
@@ -1476,6 +1484,9 @@ class AbilityEffect < ApplicationRecord
           mana_fkp: '戦＋騎＋僧',
           mana_fam: '戦＋弓＋魔'
         },
+        limited_slot: {
+          mana_demon: '魔神マナ'
+        },
         recycle_scrap: {
           mana_k: '騎マナ',
           mana_a: '弓マナ'
@@ -1493,7 +1504,8 @@ class AbilityEffect < ApplicationRecord
         own_skill: '自分が必殺技を使った時',
         in_chain: 'チェイン発動中',
         in_maxchain: 'MAXChain時',
-        in_heroic: '援軍として参戦した時'
+        in_heroic: '援軍として参戦した時',
+        with_demon: '所属：魔神がいる時'
       },
       sub_condition: {
         battle_start: {

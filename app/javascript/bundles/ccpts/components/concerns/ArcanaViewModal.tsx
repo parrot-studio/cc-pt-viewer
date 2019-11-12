@@ -326,6 +326,9 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
       case "demon":
         text = "魔神"
         break
+      case "demon_newgene":
+        text = "魔神（新世代）"
+        break
     }
 
     if (_.isEmpty(text)) {

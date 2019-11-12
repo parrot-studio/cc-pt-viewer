@@ -83,6 +83,7 @@ class Arcana < ApplicationRecord
     first: '旧世代（1部・2部）',
     third: '新世代（3部）',
     demon: '魔神',
+    demon_newgene: '魔神（新世代）',
     buddy: 'バディ',
     collaboration: 'コラボ',
     collabo_newgene: 'コラボ（新世代）'
@@ -299,7 +300,7 @@ class Arcana < ApplicationRecord
 
   SOURCE_GROUP_CATEGORYS = %i[first second].freeze
 
-  NOT_INHERITABLE_TYPES = %i[buddy third collabo_newgene].freeze
+  NOT_INHERITABLE_TYPES = %i[buddy third demon_newgene collabo_newgene].freeze
   NOT_INHERITABLE_ARCANAS = %w[F211 F156 M288].freeze # ミョルン, ホーク, リムル
   NOT_INHERITABLE_COLLABORATIONS = %w[
     magica taiko sakurawar falcom_sorasc brave monokuma
