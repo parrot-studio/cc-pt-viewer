@@ -254,6 +254,7 @@ class AbilityEffect < ApplicationRecord
         in_enemy_area: '敵陣にいる時',
         in_enemy_back: '敵陣の奥にいる時',
         in_base_area: '自陣にいる時',
+        after_enemy_area: '敵陣に一定時間いた時',
         after_base_area: '自陣に一定時間いた時',
         in_rear: '仲間より後ろにいる時',
         in_tail: '一番後ろにいる時',
@@ -530,6 +531,7 @@ class AbilityEffect < ApplicationRecord
           job_f: '戦士'
         },
         has_mana: {
+          mana_m: '魔マナ',
           mana_all: '虹色マナ'
         },
         battle_start: {
