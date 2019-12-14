@@ -57,7 +57,7 @@ Style/RescueStandardError:
 Style/IfUnlessModifier:
   Enabled: false
 
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   Enabled: false
 
 Rails:
@@ -65,6 +65,10 @@ Rails:
 
 Rails/HasManyOrHasOneDependent:
   Enabled: false
+
+# TODO: delete & apply
+Rails/FilePath:
+  EnforcedStyle: "arguments"
 
 # Metrics --------------------
 
