@@ -853,7 +853,7 @@ class AbilityEffect < ApplicationRecord
         add_down: '対象の攻撃にダウンを付与',
         add_slow: '対象の攻撃にスロウを付与',
         add_poison: '対象の攻撃に毒を付与',
-        add_shield_break: '盾破壊付与',
+        add_shield_break: '対象の攻撃に盾破壊付与',
         adup_m: '攻撃力/防御力上昇 / 一定時間',
         asup_m: '攻撃力/移動速度上昇 / 一定時間',
         scup_m: '移動速度/クリティカル率上昇 / 一定時間',
@@ -1269,6 +1269,7 @@ class AbilityEffect < ApplicationRecord
       sub_condition: {
         attack: {
           in_combo: 'コンボ中のみ',
+          super_gauge_max: '超必殺技ゲージがMAXの時',
           in_awakening: '覚醒ゲージがMAXの時'
         },
         skill: {
