@@ -132,7 +132,8 @@ class SkillEffect < ApplicationRecord
         one_self: '単体・自分',
         one_worst: '単体・一番HPが低い対象',
         one_random: '単体・ランダム',
-        one_owner: '単体・主人'
+        one_owner: '単体・主人',
+        area_cycle: '領域・徐々に回復'
       },
       effect: {
         cure_blind: '暗闇解除',
@@ -298,7 +299,6 @@ class SkillEffect < ApplicationRecord
         add_tumble: '転倒付与',
         fire: '火属性',
         ice: '氷属性',
-        heal_cycle: '徐々に回復',
         against_dropout: '戦闘不能にならない',
         kill_mana: '倒したらマナドロップ',
         create_scrap: 'スクラップ生成',
