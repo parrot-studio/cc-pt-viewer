@@ -91,8 +91,7 @@ export default class Arcana {
   public weaponAbility: Ability | null = null
   public chainAbility: Ability | null = null
   public partyAbility: Ability | null = null
-  public firstGunkiAbility: Ability | null = null
-  public secondGunkiAbility: Ability | null = null
+  public gunkiAbilities: Ability[] = []
 
   constructor(data: any) {
     this.name = data.name
@@ -159,12 +158,7 @@ export default class Arcana {
     if (!_.isEmpty(data.party_ability)) {
       this.partyAbility = new Ability(data.party_ability)
     }
-    if (!_.isEmpty(data.first_gunki_ability)) {
-      this.firstGunkiAbility = new Ability(data.first_gunki_ability)
-    }
-    if (!_.isEmpty(data.second_gunki_ability)) {
-      this.secondGunkiAbility = new Ability(data.second_gunki_ability)
-    }
+    this.gunkiAbilities = _.map(data.gunki_abilites || [], (ga) => new Ability(ga))
 
     if (_.isEmpty(this.wikiLinkName)) {
       this.wikiUrl = Arcana.WIKI_URL
@@ -200,11 +194,10 @@ export default class Arcana {
   }
 
   public hasGunkiAbility(): boolean {
-    if (this.firstGunkiAbility || this.secondGunkiAbility) {
-      return true
-    } else {
+    if (_.isEmpty(this.gunkiAbilities)) {
       return false
     }
+    return true
   }
 
   public isBuddy(): boolean {

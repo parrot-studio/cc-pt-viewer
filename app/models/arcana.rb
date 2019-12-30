@@ -461,10 +461,10 @@ class Arcana < ApplicationRecord
     ret['chain_ability'] = (chain_ability ? chain_ability.serialize : {})
     weapon_ability = ability_for('w')
     ret['weapon_ability'] = (weapon_ability ? weapon_ability.serialize : {})
-    first_gunki_ability = ability_for('g1')
-    ret['first_gunki_ability'] = (first_gunki_ability ? first_gunki_ability.serialize : {})
-    second_gunki_ability = ability_for('g2')
-    ret['second_gunki_ability'] = (second_gunki_ability ? second_gunki_ability.serialize : {})
+    ret['gunki_abilites'] = Ability::TYPE_GUNKI.map do |gc|
+      ga = ability_for(gc)
+      ga ? ga.serialize : nil
+    end.reject(&:blank?)
 
     linked = linked_arcana
     ret['linked_arcana'] = (!nolink && linked ? linked.serialize(nolink: true) : {})

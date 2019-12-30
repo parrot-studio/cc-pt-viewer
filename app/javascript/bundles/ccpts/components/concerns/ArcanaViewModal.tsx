@@ -240,7 +240,7 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
   }
 
   private renderGunkiAbility(a: Arcana): JSX.Element[] | null {
-    const abs: Ability[] = _.compact([a.firstGunkiAbility, a.secondGunkiAbility])
+    const abs: Ability[] = a.gunkiAbilities
     if (abs.length < 1) {
       return null
     }
