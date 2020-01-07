@@ -1,5 +1,5 @@
 # rubocop:disable Metrics/PerceivedComplexity, Metrics/AbcSize
-# rubocop:disable Metrics/CyclomaticComplexity, Metrics/LineLength
+# rubocop:disable Metrics/CyclomaticComplexity, Layout/LineLength
 # rubocop:disable Metrics/BlockLength, Metrics/MethodLength, Metrics/ClassLength
 class ArcanaSearcher
   QUERY_CONDITION_NAMES = %i[
@@ -532,5 +532,5 @@ class ArcanaSearcher
   end
 end
 # rubocop:enable Metrics/PerceivedComplexity, Metrics/AbcSize
-# rubocop:enable Metrics/CyclomaticComplexity, Metrics/LineLength
+# rubocop:enable Metrics/CyclomaticComplexity, Layout/LineLength
 # rubocop:enable Metrics/BlockLength, Metrics/MethodLength, Metrics/ClassLength

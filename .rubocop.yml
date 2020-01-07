@@ -72,7 +72,7 @@ Rails/FilePath:
 
 # Metrics --------------------
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 120
 
 Metrics/BlockLength:

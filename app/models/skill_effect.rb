@@ -194,6 +194,7 @@ class SkillEffect < ApplicationRecord
         self: '自身',
         all: '全体',
         others: '自分以外の全員',
+        group: '特定の所属',
         fighter: '戦士',
         knight: '騎士',
         archer: '弓使い',
@@ -227,6 +228,7 @@ class SkillEffect < ApplicationRecord
         create_scrap: 'スクラップ生成',
         destroy_scrap: 'スクラップ破壊',
         super_skill: '超必殺技',
+        add_decisive_skill: '決戦必殺付与',
         add_resurrection: '復活付与'
       }
     },

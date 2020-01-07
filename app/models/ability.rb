@@ -28,10 +28,12 @@ class Ability < ApplicationRecord
   TYPE_NORMAL = %w[1 2 p].freeze
   TYPE_CHAIN = 'c'.freeze
   TYPE_GUNKI = %w[g1 g2 g3].freeze
+  TYPE_PASSIVE = 'pa'.freeze
 
   scope :normal_abilities, -> { where(ability_type: TYPE_NORMAL) }
   scope :chain_abilities, -> { where(ability_type: TYPE_CHAIN) }
   scope :gunki_abilities, -> { where(ability_type: TYPE_GUNKI) }
+  scope :passive_abilities, -> { where(ability_type: TYPE_PASSIVE) }
 
   validates :job_code,
             presence: true,

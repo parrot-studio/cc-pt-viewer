@@ -853,6 +853,7 @@ class AbilityEffect < ApplicationRecord
         ascup: '攻撃力/移動速度/クリティカル率上昇',
         acrup: '攻撃力/クリティカル率/クリティカル威力上昇',
         adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
+        maxhpup: '最大HP増加',
         hp_excess: 'HP超過状態になる',
         add_down: '対象の攻撃にダウンを付与',
         add_slow: '対象の攻撃にスロウを付与',

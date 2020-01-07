@@ -1,5 +1,5 @@
 # rubocop:disable Metrics/PerceivedComplexity, Metrics/AbcSize, Rails/Output
-# rubocop:disable Metrics/CyclomaticComplexity, Metrics/LineLength
+# rubocop:disable Metrics/CyclomaticComplexity, Layout/LineLength
 # rubocop:disable Metrics/BlockLength, Metrics/MethodLength, Metrics/ClassLength
 class ArcanaImporter
   attr_writer :file_dir
@@ -367,7 +367,12 @@ class ArcanaImporter
       lines.each do |data|
         at = data.shift
         aname = data.shift
-        raise "ability: type or name not found => #{arcana.name}" if (at.present? && at != 'p' && aname.blank?) || (at.blank? && aname.present?)
+
+        if at.blank?
+          raise "ability: type not found => #{arcana.name}" if aname.present?
+        elsif aname.blank? && !%w[p pa].include?(at)
+          raise "ability: name not found => #{arcana.name}"
+        end
 
         eindex += 1
         if at.present? && at != atype
@@ -462,5 +467,5 @@ class ArcanaImporter
   end
 end
 # rubocop:enable Metrics/PerceivedComplexity, Metrics/AbcSize, Rails/Output
-# rubocop:enable Metrics/CyclomaticComplexity, Metrics/LineLength
+# rubocop:enable Metrics/CyclomaticComplexity, Layout/LineLength
 # rubocop:enable Metrics/BlockLength, Metrics/MethodLength, Metrics/ClassLength
