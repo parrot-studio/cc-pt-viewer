@@ -136,6 +136,28 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
     }
   }
 
+  private renderDecisiveOrder(a: Arcana): JSX.Element[] | null {
+    if (a.decisiveOrder) {
+      return ([
+        <dt key="isdt">決戦号令</dt>,
+        <dd key="isdd">{this.renderEachSkill(a.decisiveOrder, 1)}</dd>
+      ])
+    } else {
+      return null
+    }
+  }
+
+  private renderDecisiveSkill(a: Arcana): JSX.Element[] | null {
+    if (a.decisiveSkill) {
+      return ([
+        <dt key="isdt">決戦必殺</dt>,
+        <dd key="isdd">{this.renderEachSkill(a.decisiveSkill, 1)}</dd>
+      ])
+    } else {
+      return null
+    }
+  }
+
   private renderAbility(ab: Ability): JSX.Element {
     if (!ab || ab.name === "？") {
       return <li key={0}>{"？"}</li>
@@ -185,7 +207,7 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
   }
 
   private renderFirstAbility(a: Arcana): JSX.Element[] | null {
-    if (a.firstAbility && !_.isEmpty(a.firstAbility.effects)) {
+    if (a.firstAbility && a.firstAbility.effects.length > 0) {
       return ([
         <dt key="a1dt">アビリティ1</dt>,
         <dd key="a1dd">{this.renderAbility(a.firstAbility)}</dd>
@@ -196,7 +218,7 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
   }
 
   private renderSecondAbility(a: Arcana): JSX.Element[] | null {
-    if (a.secondAbility && !_.isEmpty(a.secondAbility.effects)) {
+    if (a.secondAbility && a.secondAbility.effects.length > 0) {
       return ([
         <dt key="a2dt">アビリティ2</dt>,
         <dd key="a2dd">{this.renderAbility(a.secondAbility)}</dd>
@@ -207,7 +229,7 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
   }
 
   private renderPartyAbility(a: Arcana): JSX.Element[] | null {
-    if (a.partyAbility && !_.isEmpty(a.partyAbility.effects)) {
+    if (a.partyAbility && a.partyAbility.effects.length > 0) {
       return ([
         <dt key="pdt">PTアビリティ</dt>,
         <dd key="pdd">{this.renderAbility(a.partyAbility)}</dd>
@@ -229,10 +251,21 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
   }
 
   private renderChainAbility(a: Arcana): JSX.Element[] | null {
-    if (a.chainAbility && !_.isEmpty(a.chainAbility.effects)) {
+    if (a.chainAbility && a.chainAbility.effects.length > 0) {
       return ([
         <dt key="cdt">絆アビリティ</dt>,
         <dd key="cdd">{this.renderAbility(a.chainAbility)}</dd>
+      ])
+    } else {
+      return null
+    }
+  }
+
+  private renderPassiveAbility(a: Arcana): JSX.Element[] | null {
+    if (a.passiveAbility && a.passiveAbility.effects.length > 0) {
+      return ([
+        <dt key="cdt">パッシブアビリティ</dt>,
+        <dd key="cdd">{this.renderAbility(a.passiveAbility)}</dd>
       ])
     } else {
       return null
@@ -369,25 +402,55 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
     )
   }
 
+  private renderKessenDerail(a: Arcana): JSX.Element {
+    return (
+      <dl className="small arcana-view-detail">
+        {this.renderDecisiveOrder(a)}
+        {this.renderDecisiveSkill(a)}
+        {this.renderPassiveAbility(a)}
+      </dl>
+    )
+  }
+
   private renderArcanaDetail(a: Arcana): JSX.Element {
-    if (!a.hasGunkiAbility()) {
+    if (!a.hasGunkiAbility() && !a.hasKessen()) {
       return this.renderNoramlDetail(a)
+    }
+
+    const small = [this.renderNoramlDetail(a)]
+    const normal = [
+      (
+        <Tab eventKey="normal" title="通常アビリティ" tabClassName="small">
+          {this.renderNoramlDetail(a)}
+        </Tab>
+      )
+    ]
+
+    if (a.hasGunkiAbility()) {
+      small.push(this.renderGunkiDetail(a))
+      normal.push(
+        <Tab eventKey="gunki" title="義勇軍記" tabClassName="small">
+          {this.renderGunkiDetail(a)}
+        </Tab>
+      )
+    }
+    if (a.hasKessen()) {
+      small.push(this.renderKessenDerail(a))
+      normal.push(
+        <Tab eventKey="kessen" title="決戦" tabClassName="small">
+          {this.renderKessenDerail(a)}
+        </Tab>
+      )
     }
 
     return (
       <div>
         <div className="hidden-sm hidden-md hidden-lg">
-          {this.renderNoramlDetail(a)}
-          {this.renderGunkiDetail(a)}
+          {small}
         </div>
         <div className="hidden-xs">
           <Tabs defaultActiveKey="normal" id="arcana-detail-tabs">
-            <Tab eventKey="normal" title="通常アビリティ" tabClassName="small">
-              {this.renderNoramlDetail(a)}
-            </Tab>
-            <Tab eventKey="gunki" title="義勇軍記" tabClassName="small">
-              {this.renderGunkiDetail(a)}
-            </Tab>
+            {normal}
           </Tabs>
         </div>
       </div>

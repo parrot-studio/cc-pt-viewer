@@ -92,8 +92,8 @@ export default class Searcher {
     if (_.isEmpty(targets)) {
       return Bacon.once(QueryResult.create([], ""))
     }
-    const unknowns = _.reject(targets, (c) => Arcana.forCode(c))
-    if (_.isEmpty(unknowns)) {
+    const unknowns = _.reject(targets, (c) => (Arcana.forCode(c) == null))
+    if (unknowns.length <= 0) {
       const as = _.chain(_.map(targets, (c) => Arcana.forCode(c))).compact().value()
       return Bacon.once(QueryResult.create(as, ""))
     }

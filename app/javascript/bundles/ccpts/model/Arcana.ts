@@ -85,12 +85,15 @@ export default class Arcana {
   public thirdSkill: Skill | null = null
   public inheritSkill: Skill | null = null
   public heroicSkill: Skill | null = null
+  public decisiveOrder: Skill | null = null
+  public decisiveSkill: Skill | null = null
 
   public firstAbility: Ability | null = null
   public secondAbility: Ability | null = null
   public weaponAbility: Ability | null = null
   public chainAbility: Ability | null = null
   public partyAbility: Ability | null = null
+  public passiveAbility: Ability | null = null
   public gunkiAbilities: Ability[] = []
 
   constructor(data: any) {
@@ -142,6 +145,12 @@ export default class Arcana {
     if (!_.isEmpty(data.heroic_skill)) {
       this.heroicSkill = new Skill(data.heroic_skill)
     }
+    if (!_.isEmpty(data.decisive_order)) {
+      this.decisiveOrder = new Skill(data.decisive_order)
+    }
+    if (!_.isEmpty(data.decisive_skill)) {
+      this.decisiveSkill = new Skill(data.decisive_skill)
+    }
 
     if (!_.isEmpty(data.first_ability)) {
       this.firstAbility = new Ability(data.first_ability)
@@ -157,6 +166,9 @@ export default class Arcana {
     }
     if (!_.isEmpty(data.party_ability)) {
       this.partyAbility = new Ability(data.party_ability)
+    }
+    if (!_.isEmpty(data.passive_ability)) {
+      this.passiveAbility = new Ability(data.passive_ability)
     }
     this.gunkiAbilities = _.map(data.gunki_abilites || [], (ga) => new Ability(ga))
 
@@ -194,10 +206,15 @@ export default class Arcana {
   }
 
   public hasGunkiAbility(): boolean {
-    if (_.isEmpty(this.gunkiAbilities)) {
-      return false
+    return (this.gunkiAbilities.length > 0)
+  }
+
+  public hasKessen(): boolean {
+    if (this.decisiveOrder || this.decisiveSkill || this.passiveAbility) {
+      return true
     }
-    return true
+
+    return false
   }
 
   public isBuddy(): boolean {

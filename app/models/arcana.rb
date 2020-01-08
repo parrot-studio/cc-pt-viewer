@@ -440,30 +440,23 @@ class Arcana < ApplicationRecord
     ret['illustrator'] = (illustrator ? illustrator.name : '')
     ret['wiki_link_name'] = wiki_link_name
 
-    first_skill = skill_for('1')
-    ret['first_skill'] = (first_skill ? first_skill.serialize : {})
-    second_skill = skill_for('2')
-    ret['second_skill'] = (second_skill ? second_skill.serialize : {})
-    third_skill = skill_for('3')
-    ret['third_skill'] = (third_skill ? third_skill.serialize : {})
-    inherit_skill = skill_for('d')
-    ret['inherit_skill'] = (inherit_skill ? inherit_skill.serialize : {})
-    heroic_skill = skill_for('h')
-    ret['heroic_skill'] = (heroic_skill ? heroic_skill.serialize : {})
+    ret['first_skill'] = skill_for('1')&.serialize || {}
+    ret['second_skill'] = skill_for('2')&.serialize || {}
+    ret['third_skill'] = skill_for('3')&.serialize || {}
+    ret['inherit_skill'] = skill_for('d')&.serialize || {}
+    ret['heroic_skill'] = skill_for('h')&.serialize || {}
+    ret['decisive_order'] = skill_for('kg')&.serialize || {}
+    ret['decisive_skill'] = skill_for('ks')&.serialize || {}
 
-    first_ability = ability_for('1')
-    ret['first_ability'] = (first_ability ? first_ability.serialize : {})
-    second_ability = ability_for('2')
-    ret['second_ability'] = (second_ability ? second_ability.serialize : {})
-    party_ability = ability_for('p')
-    ret['party_ability'] = (party_ability ? party_ability.serialize : {})
-    chain_ability = ability_for('c')
-    ret['chain_ability'] = (chain_ability ? chain_ability.serialize : {})
-    weapon_ability = ability_for('w')
-    ret['weapon_ability'] = (weapon_ability ? weapon_ability.serialize : {})
+    ret['first_ability'] = ability_for('1')&.serialize || {}
+    ret['second_ability'] = ability_for('2')&.serialize || {}
+    ret['party_ability'] = ability_for('p')&.serialize || {}
+    ret['chain_ability'] = ability_for('c')&.serialize || {}
+    ret['weapon_ability'] = ability_for('w')&.serialize || {}
+    ret['passive_ability'] = ability_for('pa')&.serialize || {}
+
     ret['gunki_abilites'] = Ability::TYPE_GUNKI.map do |gc|
-      ga = ability_for(gc)
-      ga ? ga.serialize : nil
+      ability_for(gc)&.serialize
     end.reject(&:blank?)
 
     linked = linked_arcana

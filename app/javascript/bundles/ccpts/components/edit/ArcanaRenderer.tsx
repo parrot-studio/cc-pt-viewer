@@ -30,7 +30,7 @@ export default abstract class ArcanaRenderer<T> extends React.Component<T> {
   }
 
   protected isSameArcana(ba: Arcana | null, na: Arcana | null) {
-    if (_.isEmpty(ba) && _.isEmpty(na)) {
+    if (ba == null && na == null) {
       return true
     }
 

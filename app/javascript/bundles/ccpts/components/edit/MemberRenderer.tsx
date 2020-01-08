@@ -16,7 +16,7 @@ export abstract class MemberRenderer<T extends MemberRendererProps> extends Arca
   }
 
   protected isSameMember(bm: Member | null, nm: Member | null) {
-    if (_.isEmpty(bm) && _.isEmpty(nm)) {
+    if (bm == null && nm == null) {
       return true
     }
 
