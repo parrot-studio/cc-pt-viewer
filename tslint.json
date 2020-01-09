@@ -22,6 +22,13 @@
       "as-needed"
     ],
     "trailing-comma": false,
-    "jsx-no-bind": false
+    "jsx-no-bind": false,
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-pascal-case",
+      "allow-leading-underscore"
+    ]
   }
 }
