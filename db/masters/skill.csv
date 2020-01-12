@@ -2988,6 +2988,23 @@ K・K,A,195,1,,FB‐202 ファイアブロウ,1,初回のみ,attack,summon,,,,,,
 ,,,,,,forward,,buff,all,asup,,,,,
 ,,,ks,,鬼神が如く,0,,attack,range_shortline,,,,,,
 ,,,,,,,,,,,,,,,
+# ケ者のネンシマイリ,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+ガジジナ,F,471,1,,犬鼻ノ宴・日輪,1,,buff,self,dup,,,,,敵陣だと効果上昇
+,,,,,,forward,,area,continual,,,,,,敵陣だと効果上昇
+,,,,,,forward,,song_dance,adsup,,,,,,敵陣だと効果上昇
+,,,d,,犬鼻ノ宴・日輪,1,,buff,self,dup,,,,,
+,,,,,,forward,,area,continual,,,,,,
+,,,,,,forward,,song_dance,adsup,,,,,,
+グララオ,F,472,1,,虎牙ノ宴・風月,1,,attack,range_self,add_push,,,,,敵陣だと効果上昇
+,,,,,,forward,,heal,area_cycle,excess,,,,,敵陣だと効果上昇/超越は敵陣のみ
+,,,d,,虎牙ノ宴・風月,1,,attack,range_self,add_push,,,,,
+,,,,,,forward,,heal,area_cycle,,,,,,
+ズィガガ,F,473,1,d,グランド・タイガースピア,2,,attack,range_dash,add_push,add_down,return_position,,,
+,,,,d,,forward,,heal,all_instant,excess,aup,,,,
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 # end,,,,,,,,,,,,,,,
