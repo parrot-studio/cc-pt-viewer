@@ -143,6 +143,6 @@ export default class Query {
 
   public createKey(): string {
     const query = _.omit((this.q || {}), "ver")
-    return ObjectHash(query)
+    return ObjectHash.sha1(query)
   }
 }
