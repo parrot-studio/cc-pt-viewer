@@ -207,6 +207,7 @@ class Arcana < ApplicationRecord
     collaboration: {
       name: 'コラボ',
       details: {
+        railgun: 'とある科学の超電磁砲T',
         puyo: 'ぷよぷよ',
         shield_hero: '盾の勇者の成り上がり',
         friends2: 'けものフレンズ2',

@@ -3010,5 +3010,18 @@ K・K,A,195,1,,FB‐202 ファイアブロウ,1,初回のみ,attack,summon,,,,,,
 ,,,,,,forward,,heal,all_instant,aup,,,,,
 ゾファス,A,235,1,,ディバイン・ペンタグラム,3,,attack,laser,add_push,,,,,
 ,,,,,,,,,,,,,,,
+# とある科学の超電磁砲Tコラボ,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+食蜂操祈,F,474,1,d,心理掌握,1,,attack,range_all,add_down,add_slow,add_blind,add_tumble,,
+,,,,d,,forward,,buff,all,adup,,,,,
+白井黒子,F,475,1,d,鉄矢転送,1,,attack,range_forward,add_fulldown,,,,,
+御坂美琴,A,236,1,,超電磁砲,3,,attack,laser,add_push,,,,,2Chain以上で威力上昇・範囲拡大
+,,,d,,超電磁砲,3,,attack,laser,add_push,,,,,
+御坂妹,A,237,1,,欠陥電気,1,,attack,range_drop,add_down,,,,,2Chain以上で威力上昇・ダウン追加
+,,,d,,欠陥電気,1,,attack,range_drop,,,,,,
+佐天涙子,F,476,1,,全力強振,3,,attack,range_forward,add_push,,,,,初回のみ1マナ
+,,,d,,全力強振,3,,attack,range_forward,add_push,,,,,
+初春飾利,P,135,1,d,応急手当,1,,heal,all_instant,,,,,,
+,,,,d,,forward,,heal,all_cycle,,,,,,
 ,,,,,,,,,,,,,,,
 # end,,,,,,,,,,,,,,,

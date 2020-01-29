@@ -1239,7 +1239,8 @@ class AbilityEffect < ApplicationRecord
         group_oasis: '湖都所属',
         group_beasts: 'ケ者所属',
         group_others: '旅人所属',
-        group_demon: '魔神所属'
+        group_demon: '魔神所属',
+        base_area_member: '自陣にいる味方'
       },
       sub_target: {
         job_f: {
@@ -1252,6 +1253,9 @@ class AbilityEffect < ApplicationRecord
         job_fk: {
           hp_worst: '一番ダメージが大きい対象',
           atk_best: '一番攻撃力が大きい対象'
+        },
+        base_area_member: {
+          group_others: '旅人所属'
         }
       }
     },
