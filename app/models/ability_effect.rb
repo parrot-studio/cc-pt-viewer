@@ -213,6 +213,7 @@ class AbilityEffect < ApplicationRecord
         with_m: '魔法使いがいる時',
         with_fk: '戦/騎がいる時',
         with_fa: '戦/弓がいる時',
+        with_fkpm: '戦/騎/弓/魔がいる時',
         with_exclude_f: '戦士以外がいる時',
         with_various_jobs: '職の種類が多いほど',
         with_many_f: '戦士が多いほど',
@@ -329,6 +330,9 @@ class AbilityEffect < ApplicationRecord
         with_pu: {
           group_beasts: 'ケ者所属',
           group_others: '旅人所属'
+        },
+        with_fkpm: {
+          group_demon: '魔神所属'
         },
         with_volcano: {
           job_f: '戦士'
@@ -537,8 +541,10 @@ class AbilityEffect < ApplicationRecord
           job_f: '戦士'
         },
         has_mana: {
+          mana_a: '弓マナ',
           mana_m: '魔マナ',
-          mana_all: '虹色マナ'
+          mana_all: '虹色マナ',
+          mana_exclude_a: '弓マナ以外'
         },
         battle_start: {
           in_sub: 'サブパーティーにいる時'
@@ -1200,7 +1206,8 @@ class AbilityEffect < ApplicationRecord
           mana_m: '魔マナ',
           mana_fm: '戦/魔マナ',
           mana_ka: '騎/弓マナ',
-          mana_pm: '僧/魔マナ'
+          mana_pm: '僧/魔マナ',
+          mana_exclude_a: '弓マナ以外'
         },
         mana_droped: {
           mana_f: '戦マナ',
