@@ -213,7 +213,7 @@ class AbilityEffect < ApplicationRecord
         with_m: '魔法使いがいる時',
         with_fk: '戦/騎がいる時',
         with_fa: '戦/弓がいる時',
-        with_fkpm: '戦/騎/弓/魔がいる時',
+        with_fkpm: '戦/騎/僧/魔がいる時',
         with_exclude_f: '戦士以外がいる時',
         with_various_jobs: '職の種類が多いほど',
         with_many_f: '戦士が多いほど',
