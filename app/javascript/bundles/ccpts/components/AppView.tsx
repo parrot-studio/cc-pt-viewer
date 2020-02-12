@@ -3,10 +3,10 @@ import * as React from "react"
 import { Alert, Modal } from "react-bootstrap"
 
 import Arcana from "../model/Arcana"
-import Query from "../model/Query"
-import QueryLogs, { QueryLog } from "../model/QueryLogs"
+import Query, { QueryLog } from "../model/Query"
+import QueryRepository from "../model/QueryRepository"
 import Favorites from "../model/Favorites"
-import { PartyLog } from "../model/Parties"
+import { PartyLog } from "../model/PartyRepositroy"
 import LatestInfo from "../model/LatestInfo"
 import Conditions, { ConditionParams } from "../model/Conditions"
 import MessageStream from "../lib/MessageStream"
@@ -67,7 +67,7 @@ export default class AppView extends React.Component<AppViewProps, AppViewState>
       this.showErrorArea.bind(this)
     )
     Conditions.init(this.props.conditions)
-    QueryLogs.init(this.props.queryLogs)
+    QueryRepository.init(this.props.queryLogs)
     Favorites.init(this.props.favorites)
 
     const recentlySize = 32

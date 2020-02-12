@@ -16,6 +16,6 @@ export default class MemberShareModal extends TwitterShareModal<MemberShareModal
     if (!this.props.party) {
       return ""
     }
-    return `${this.props.appPath}${this.props.party.createCode()}`
+    return `${this.props.appPath}${this.props.party.code}`
   }
 }

@@ -3,7 +3,7 @@ import * as React from "react"
 
 import Arcana from "../../model/Arcana"
 import Party from "../../model/Party"
-import Parties, { PartyLog } from "../../model/Parties"
+import PartyRepositroy, { PartyLog } from "../../model/PartyRepositroy"
 import LatestInfo from "../../model/LatestInfo"
 import MessageStream from "../../lib/MessageStream"
 import Searcher from "../../lib/Searcher"
@@ -53,11 +53,11 @@ export default class EditModeView extends React.Component<EditModeViewProps, Edi
     super(props)
 
     Party.ptver = this.props.ptver
-    Parties.init(this.props.parties, this.props.lastMembers)
+    PartyRepositroy.init(this.props.parties, this.props.lastMembers)
 
     MessageStream.partyStream.onValue((party) => {
-      Parties.setLastParty(party)
-      const code = party.createCode()
+      PartyRepositroy.setLastParty(party)
+      const code = party.code
       MessageStream.historyStream.push(code)
       this.setState({
         party,
@@ -90,7 +90,7 @@ export default class EditModeView extends React.Component<EditModeViewProps, Edi
     let lastHistory = ""
     let showHeader = true
     if (this.props.partyView) {
-      lastHistory = initPt.createCode()
+      lastHistory = initPt.code
       showHeader = false
     }
 
@@ -135,8 +135,8 @@ export default class EditModeView extends React.Component<EditModeViewProps, Edi
 
         Browser.changeTitle(this.props.originTitle)
       } else {
-        MessageStream.historyStream.push(Parties.lastParty)
-        this.setState({ lastHistory: Parties.lastParty })
+        MessageStream.historyStream.push(PartyRepositroy.lastParty)
+        this.setState({ lastHistory: PartyRepositroy.lastParty })
       }
     })
   }

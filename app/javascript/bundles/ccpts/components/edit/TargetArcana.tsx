@@ -2,14 +2,40 @@ import * as React from "react"
 
 import Arcana from "../../model/Arcana"
 import Favorites from "../../model/Favorites"
+
 import Browser from "../../lib/BrowserProxy"
+import MessageStream from "../../lib/MessageStream"
+
 import ArcanaRenderer from "./ArcanaRenderer"
 
-export interface TargetArcanaProps {
+interface TargetArcanaProps {
   arcana: Arcana
 }
 
-export default class TargetArcana extends ArcanaRenderer<TargetArcanaProps> {
+interface TargetArcanaState {
+  favorite: boolean,
+  switch: HTMLInputElement | null
+}
+
+export default class TargetArcana extends ArcanaRenderer<TargetArcanaProps, TargetArcanaState> {
+
+  constructor(props) {
+    super(props)
+
+    const code = this.props.arcana.jobCode
+
+    this.state = {
+      favorite: Favorites.stateFor(code),
+      switch: null
+    }
+
+    MessageStream.favoritesStream.onValue((fs) => {
+      const s = this.state.switch
+      if (s) {
+        Browser.updateSwitchState(s, fs[code])
+      }
+    })
+  }
 
   public shouldComponentUpdate(nextProps): boolean {
     return !this.isSameArcana(this.props.arcana, nextProps.arcana)
@@ -17,6 +43,7 @@ export default class TargetArcana extends ArcanaRenderer<TargetArcanaProps> {
 
   public render(): JSX.Element {
     const a = this.props.arcana
+    const fav = this.state.favorite
 
     return (
       <li
@@ -38,7 +65,7 @@ export default class TargetArcana extends ArcanaRenderer<TargetArcanaProps> {
                   type="checkbox"
                   id={`fav-${a.jobCode}`}
                   data-job-code={a.jobCode}
-                  ref={(inp) => { this.addFavHandler(inp, a) }}
+                  ref={(inp) => { this.addFavHandler(inp, fav) }}
                 />
                 {this.renderInfoButton(a)}
               </div>
@@ -62,23 +89,25 @@ export default class TargetArcana extends ArcanaRenderer<TargetArcanaProps> {
     )
   }
 
-  private addFavHandler(inp: HTMLInputElement | null, a: Arcana): void {
+  private addFavHandler(inp: HTMLInputElement | null, fav: boolean): void {
     if (!inp) {
       return
     }
 
-    Browser.addSwitchHandler(
-      inp,
-      Favorites.stateFor(a.jobCode),
-      this.hundleFavoriteSwitch.bind(this),
-      {
-        size: "mini",
-        onColor: "warning",
-        onText: "☆",
-        offText: "★",
-        labelWidth: "2"
-      }
-    )
+    this.setState({ switch: inp }, () => {
+      Browser.addSwitchHandler(
+        inp,
+        fav,
+        this.hundleFavoriteSwitch.bind(this),
+        {
+          size: "mini",
+          onColor: "warning",
+          onText: "☆",
+          offText: "★",
+          labelWidth: "2"
+        }
+      )
+    })
   }
 
   private hundleFavoriteSwitch(state: boolean): void {

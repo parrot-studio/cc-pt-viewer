@@ -1,6 +1,7 @@
 import * as _ from "lodash"
 import * as React from "react"
 
+import Member from "../../model/Member"
 import Party from "../../model/Party"
 
 import FullCharacter from "./FullCharacter"
@@ -32,8 +33,8 @@ export default class PartyView extends React.Component<PartyViewProps> {
       ["mem4", "4th"],
       ["sub1", "Sub1"],
       ["sub2", "Sub2"],
-      [Party.FRIEND_KEY, "Friend"],
-      [Party.HERO_KEY, "Heroic Skill"]
+      [Member.FRIEND_KEY, "Friend"],
+      [Member.HERO_KEY, "Heroic Skill"]
     ]
 
     const party = this.props.party
@@ -41,7 +42,7 @@ export default class PartyView extends React.Component<PartyViewProps> {
       const code = l[0]
 
       let body: JSX.Element | null = null
-      if (code !== Party.HERO_KEY) {
+      if (code !== Member.HERO_KEY) {
         body = <FullCharacter member={party.memberFor(code)} />
       } else {
         body = (

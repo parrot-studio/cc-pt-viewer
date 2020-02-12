@@ -6,7 +6,7 @@ import Arcana from "../../model/Arcana"
 import MessageStream from "../../lib/MessageStream"
 import Browser from "../../lib/BrowserProxy"
 
-export default abstract class ArcanaRenderer<T> extends React.Component<T> {
+export default abstract class ArcanaRenderer<T, S> extends React.Component<T, S> {
 
   protected div: HTMLDivElement | null = null
 

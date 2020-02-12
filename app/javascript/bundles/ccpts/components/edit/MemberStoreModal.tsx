@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSave, faTimes } from "@fortawesome/free-solid-svg-icons"
 
 import Party from "../../model/Party"
-import Parties from "../../model/Parties"
+import PartyRepositroy from "../../model/PartyRepositroy"
 
 interface MemberStoreModalProps {
   party: Party
@@ -64,7 +64,7 @@ export default class MemberStoreModal extends React.Component<MemberStoreModalPr
     if (!this.ptname || _.isEmpty(this.ptname.value)) {
       return
     }
-    Parties.addParty(this.props.party, this.ptname.value)
+    PartyRepositroy.addParty(this.props.party, this.ptname.value)
     this.props.closeModal()
   }
 }

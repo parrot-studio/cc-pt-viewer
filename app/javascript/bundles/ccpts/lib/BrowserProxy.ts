@@ -110,4 +110,10 @@ export default class BrowserProxy {
       Browser.addSwitchHandler(div, state, callback, params)
     }
   }
+
+  public static updateSwitchState(div: HTMLDivElement, state: boolean): void {
+    if (BrowserProxy.isWindowDefined) {
+      Browser.updateSwitchState(div, state)
+    }
+  }
 }

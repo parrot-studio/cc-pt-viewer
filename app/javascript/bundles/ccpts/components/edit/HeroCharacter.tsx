@@ -1,7 +1,7 @@
 import * as React from "react"
 
 import Arcana from "../../model/Arcana"
-import Party from "../../model/Party"
+import Member from "../../model/Member"
 
 import { MemberRenderer, MemberRendererProps } from "./MemberRenderer"
 
@@ -33,7 +33,7 @@ export default class HeroCharacter extends MemberRenderer<HeroCharacterProps> {
     return (
       <div
         className={`${a.jobClass} choice hero-size arcana`}
-        ref={(div) => { this.div = div; this.setDraggable(a.jobCode, Party.HERO_KEY) }}
+        ref={(div) => { this.div = div; this.setDraggable(a.jobCode, Member.HERO_KEY) }}
       >
         {this.renderBody(a)}
       </div>

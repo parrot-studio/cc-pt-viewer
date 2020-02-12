@@ -14,16 +14,16 @@ export interface AbilityEffect {
 }
 
 export default class Ability {
-  public name: string
-  public weaponName: string
-  public effects: AbilityEffect[]
+  private _name: string
+  private _weaponName: string
+  private _effects: AbilityEffect[]
 
   constructor(data: any) {
-    this.name = (data.name || "")
-    this.weaponName = (data.weapon_name || "")
-    this.effects = []
+    this._name = (data.name || "")
+    this._weaponName = (data.weapon_name || "")
+    this._effects = []
     if (!_.isEmpty(data.effects)) {
-      this.effects = _.map(data.effects, (e) => ({
+      this._effects = _.map(data.effects, (e) => ({
         category: e.category,
         condition: e.condition,
         subCondition: e.sub_condition,
@@ -36,5 +36,17 @@ export default class Ability {
         targetNote: e.target_note
       }))
     }
+  }
+
+  get name(): string {
+    return this._name
+  }
+
+  get weaponName(): string {
+    return this._weaponName
+  }
+
+  get effects(): AbilityEffect[] {
+    return this._effects
   }
 }

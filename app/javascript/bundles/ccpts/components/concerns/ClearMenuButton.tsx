@@ -2,7 +2,7 @@ import * as React from "react"
 import { DropdownButton, MenuItem } from "react-bootstrap"
 
 import Favorites from "../../model/Favorites"
-import QueryLogs from "../../model/QueryLogs"
+import QueryRepository from "../../model/QueryRepository"
 import Browser from "../../lib/BrowserProxy"
 
 export default class ClearMenuButton extends React.Component {
@@ -32,7 +32,7 @@ export default class ClearMenuButton extends React.Component {
 
   private clearLogs(): void {
     if (Browser.confirm("検索履歴を消去します。よろしいですか？")) {
-      QueryLogs.clear()
+      QueryRepository.clear()
       Browser.alert("検索履歴を消去しました。")
     }
   }
@@ -40,7 +40,7 @@ export default class ClearMenuButton extends React.Component {
   private clearAll(): void {
     if (Browser.confirm("全ての履歴（お気に入り/検索）を消去します。よろしいですか？")) {
       Favorites.clear()
-      QueryLogs.clear()
+      QueryRepository.clear()
       Browser.alert("全ての履歴を消去しました。")
     }
   }

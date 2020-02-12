@@ -3,7 +3,7 @@ import * as Bacon from "baconjs"
 import Query, { QueryParam } from "../model/Query"
 import QueryResult from "../model/QueryResult"
 import Party from "../model/Party"
-import { PartyLog } from "../model/Parties"
+import { PartyLog } from "../model/PartyRepositroy"
 import Arcana from "../model/Arcana"
 import { FavoritesParams } from "../model/Favorites"
 

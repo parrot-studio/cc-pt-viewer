@@ -2,10 +2,13 @@ import * as _ from "lodash"
 import * as ObjectHash from "object-hash"
 import Conditions from "./Conditions"
 
-import Browser from "../lib/BrowserProxy"
-
 export interface QueryParam {
   [key: string]: any
+}
+
+export interface QueryLog {
+  query: string,
+  detail: string
 }
 
 export default class Query {
@@ -14,36 +17,8 @@ export default class Query {
   }
 
   public static parse(q: string): Query {
-    const query = new Query({})
-    query.parse(q)
-    return query
-  }
-
-  public q: QueryParam = {}
-  public detail: string
-
-  constructor(q: QueryParam) {
-    this.q = (q || {})
-    this.detail = ""
-  }
-
-  public reset(): void {
-    this.q = {}
-    this.detail = ""
-  }
-
-  public params(): QueryParam {
-    return (this.q || {})
-  }
-
-  public isEmpty(): boolean {
-    return (Object.keys(this.q || {}).length <= 0)
-  }
-
-  public parse(q: string): QueryParam {
-    this.reset()
     if (_.isEmpty(q)) {
-      return {}
+      return new Query({})
     }
 
     let ret: QueryParam = {}
@@ -77,20 +52,78 @@ export default class Query {
       }
     })
     if (recently) {
-      return {}
+      return new Query({})
     }
     if (!_.isEmpty(name)) {
       ret = { name }
     }
-    this.q = ret
-    return this.q
+
+    return new Query(ret)
+  }
+
+  private _q: QueryParam = {}
+  private _detail: string
+  private _encode: string
+
+  private constructor(q: QueryParam) {
+    this._q = (q || {})
+    this._detail = ""
+    this._encode = this.encodeQuery(q)
+  }
+
+  public params(): QueryParam {
+    return this._q
+  }
+
+  get detail(): string {
+    return this._detail
   }
 
   public encode(): string {
-    if (!this.q || this.q.recently) {
+    return this._encode
+  }
+
+  public setDetail(detail: string): void {
+    this._detail = detail
+  }
+
+  public isEmpty(): boolean {
+    return (Object.keys(this._q).length <= 0)
+  }
+
+  public createKey(): string {
+    const query = _.omit((this._q || {}), "ver")
+    return ObjectHash.sha1(query)
+  }
+
+  public isQueryForRecently(): boolean {
+    if (!this._q) {
+      return false
+    }
+    if (this._q.recently) {
+      return true
+    }
+    return false
+  }
+
+  public isQueryForName(): boolean {
+    if (!this._q) {
+      return false
+    }
+    if (this._q.recently) {
+      return false
+    }
+    if (!_.isEmpty(this._q.name)) {
+      return true
+    }
+    return false
+  }
+
+  private encodeQuery(q: QueryParam): string {
+    if (!q || q.recently) {
       return ""
     }
-    let query: QueryParam = _.transform(this.q, (ret: QueryParam, v, n) => {
+    let query: QueryParam = _.transform(this._q, (ret: QueryParam, v, n) => {
       if (n === "ver") {
         return
       }
@@ -116,33 +149,5 @@ export default class Query {
       rs.push(`${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
     })
     return rs.join("&").replace(" ", "+")
-  }
-
-  public isQueryForRecently(): boolean {
-    if (!this.q) {
-      return false
-    }
-    if (this.q.recently) {
-      return true
-    }
-    return false
-  }
-
-  public isQueryForName(): boolean {
-    if (!this.q) {
-      return false
-    }
-    if (this.q.recently) {
-      return false
-    }
-    if (!_.isEmpty(this.q.name)) {
-      return true
-    }
-    return false
-  }
-
-  public createKey(): string {
-    const query = _.omit((this.q || {}), "ver")
-    return ObjectHash.sha1(query)
   }
 }

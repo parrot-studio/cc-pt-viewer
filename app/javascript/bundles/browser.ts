@@ -103,4 +103,8 @@ export default class Browser {
 
     $(div).bootstrapSwitch(Object.assign(base, (params || {})))
   }
+
+  public static updateSwitchState(div: HTMLDivElement, state: boolean): void {
+    $(div).bootstrapSwitch("state", state)
+  }
 }

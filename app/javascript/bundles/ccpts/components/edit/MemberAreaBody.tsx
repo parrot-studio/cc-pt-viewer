@@ -74,60 +74,60 @@ export default class MemberAreaBody extends React.Component<MemberAreaBodyProps,
     const party = this.props.party
 
     const swapKey = drag.data("memberKey")
-    if (swapKey && targetKey === swapKey) {
-      return
-    }
-
-    let swapMember: Member | null = null
+    let swapMember: Member | null = null // drop member
     if (swapKey) {
+      if (targetKey === swapKey) {
+        return
+      }
       swapMember = party.memberFor(swapKey)
     }
 
+    // target
     let jobCode = drag.data("jobCode")
-    // drop member
+    let arcana: Arcana | null = null
     if (swapMember) {
-      jobCode = swapMember.arcana.jobCode
-    }
-
-    let arcana = Arcana.forCode(jobCode)
-    if (!arcana) {
-      return
-    }
-
-    // drop buddy
-    if (arcana.hasOwner()) {
-      const owner = arcana.owner()
-      if (!owner) {
-        return
-      }
-      jobCode = owner.jobCode
+      arcana = swapMember.arcana
+    } else {
       arcana = Arcana.forCode(jobCode)
       if (!arcana) {
         return
       }
+
+      // drop buddy
+      if (arcana.hasOwner()) {
+        const owner = arcana.owner()
+        if (!owner) {
+          return
+        }
+        jobCode = owner.jobCode
+        arcana = Arcana.forCode(jobCode)
+        if (!arcana) {
+          return
+        }
+      }
     }
 
+    // for select view
     const orgMember = party.memberFor(targetKey)
-    const target = new Member(arcana)
+    let replaceMember: Member | null = null
     if (swapMember) {
-      target.memberKey = swapMember.memberKey
-      target.chainArcana = swapMember.chainArcana
+      replaceMember = swapMember
+    } else {
+      replaceMember = new Member(targetKey, arcana, null)
     }
 
-    if (!orgMember || Arcana.sameArcana(orgMember.arcana, target.arcana)) {
-      this.replaceMemberArea(targetKey, target)
+    if (!orgMember || Arcana.sameArcana(orgMember.arcana, replaceMember.arcana)) {
+      this.replaceMemberArea(targetKey, replaceMember)
       return
     }
 
-    const chainMember = new Member(orgMember.arcana)
-    chainMember.chainArcana = Arcana.forCode(jobCode)
-    chainMember.memberKey = targetKey
+    const chainMember = new Member(targetKey, orgMember.arcana, arcana)
 
     this.setState({
       showSelectModal: true,
       targetKey,
       chainMember,
-      replaceMember: target
+      replaceMember
     })
   }
 
@@ -141,15 +141,12 @@ export default class MemberAreaBody extends React.Component<MemberAreaBodyProps,
   }
 
   private selectChain(): void {
-    const targetKey = this.state.targetKey
-    if (!targetKey) {
-      return
+    const member = this.state.chainMember
+    if (member) {
+      const party = this.props.party
+      party.addMember(member)
+      MessageStream.partyStream.push(party)
     }
-
-    const chainMember = this.state.chainMember
-    const party = this.props.party
-    party.addMember(targetKey, chainMember)
-    MessageStream.partyStream.push(party)
     this.closeModal()
   }
 
@@ -166,10 +163,14 @@ export default class MemberAreaBody extends React.Component<MemberAreaBodyProps,
 
   private replaceMemberArea(targetKey: string, target: Member | null) {
     const party = this.props.party
-    if (target && target.memberKey && targetKey !== Party.FRIEND_KEY) {
-      party.swap(targetKey, target.memberKey)
+    if (target && target.position !== targetKey && targetKey !== Member.FRIEND_KEY) {
+      party.swap(targetKey, target.position)
     } else {
-      party.addMember(targetKey, target)
+      if (target) {
+        party.addMember(new Member(targetKey, target.arcana, target.chainArcana))
+      } else {
+        party.removeMember(targetKey)
+      }
     }
     MessageStream.partyStream.push(party)
   }
@@ -188,7 +189,8 @@ export default class MemberAreaBody extends React.Component<MemberAreaBodyProps,
 
   private changeHeroicSKill(e): void {
     const party = this.props.party
-    party.addHero(e.currentTarget.value)
+    const arcana = Arcana.forCode(e.currentTarget.value)
+    party.addHero(arcana)
     MessageStream.partyStream.push(party)
   }
 
@@ -200,7 +202,7 @@ export default class MemberAreaBody extends React.Component<MemberAreaBodyProps,
       ["mem4", "4th"],
       ["sub1", "Sub1"],
       ["sub2", "Sub2"],
-      [Party.FRIEND_KEY, "Friend"]
+      [Member.FRIEND_KEY, "Friend"]
     ]
 
     const party = this.props.party
@@ -224,7 +226,7 @@ export default class MemberAreaBody extends React.Component<MemberAreaBodyProps,
   }
 
   private renderHeroicArea(): JSX.Element {
-    const hero = this.props.party.memberFor(Party.HERO_KEY)
+    const hero = this.props.party.memberFor(Member.HERO_KEY)
     let hcode = ""
     if (hero) {
       hcode = hero.arcana.jobCode

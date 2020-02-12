@@ -642,7 +642,7 @@
 ,,,2,,ミラージュショット,2,地形が砂浜,attack,range_line2,,,,,,
 ラナ,M,113,1,d,シャイニーボルト,1,,attack,range_drop,add_slow,,,,,
 ,,,,d,,forward,マナ4つ以上,attack,one_nearest,add_slow,,,,,
-ザラ,M,114,1,,リミットフレイム,3,,attack,range_explosion,add_down,add_push,,,,HP30%以下で消費マナ2 / 状態異常はアビリティで付与
+ザラ,M,114,1,d,リミットフレイム,3,,attack,range_explosion,add_down,add_push,,,,HP30%以下で消費マナ2 / 状態異常はアビリティで付与
 トア,P,45,1,d,エクストラヒーリング,1,,heal,all_cycle,cure_poison,cure_blind,cure_slow,,,
 ,,,,,,,,,,,,,,,
 キリ,F,166,1,d,グランスラッシュ,2,,attack,range_jump,,,,,,
@@ -895,7 +895,7 @@
 ,,,,,,,,,,,,,,,
 # 2部7章,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
-セラフィー,F,209,1,,ブリリアントフェザー,1,,attack,range_jump,,,,,,
+セラフィー,F,209,1,d,ブリリアントフェザー,1,,attack,range_jump,,,,,,
 ,,,2,,セラフィックオーバードライブ,2,超必殺技ゲージMAX,attack,range_jump,super_skill,add_slow,add_push,,,
 クライン,F,210,1,,ランページマッスル,2,,metamorphose,self,adscrup,wide_attack,,,,攻撃間隔減少
 ,,,d,,グロウマッスル,2,,buff,self,adup,,,,,
@@ -905,7 +905,7 @@
 ,,,,,,forward,,field,battlefield,,,,,,
 レノ,A,106,1,,惨禍乃賽子,1,,attack,random,,,,,,効果が6種類
 ,,,d,,代打ち惨禍之賽子,1,,attack,random,,,,,,
-イシュチェル,A,107,1,,ランスショット,1,,attack,range_line,,,,,,
+イシュチェル,A,107,1,d,ランスショット,1,,attack,range_line,,,,,,
 ,,,2,,ビトイーン・アイズ,1,超必殺技ゲージMAX,attack,range_line,super_skill,add_push,,,,
 オデッセイア,M,149,1,,クリアオーシャン,1,最後列以外にいる,attack,range_line,ice,add_freeze,,,,凍結はアビリティで付与
 ,,,2,d,アクアフォース,1,最後列にいる,barrier,all,aup,guard_fire,guard_ice,,,
@@ -1009,7 +1009,7 @@
 ヴェルナー,M,155,1,d,ヴォルケーノヘイズ,2,,attack,range_line,fire,add_down,,,,
 ,,,2,,爆炎のヴォルケーノヘイズ,2,超必殺技ゲージMAX,attack,range_line,super_skill,fire,add_down,,,直線の周辺にもダメージ
 カティア,M,156,1,,グローリースペル,1,自陣にいる,buff,all,asup,,,,,
-,,,2,,セイバースペル,1,敵陣にいる,attack,range_self,,,,,,
+,,,2,d,セイバースペル,1,敵陣にいる,attack,range_self,,,,,,
 ユニ,M,157,1,d,アブソリュートゼロ・レギオン,2,,attack,range_dash,add_freeze,,,,,
 ,,,,,,forward,,area,continual,add_freeze,,,,,
 ,,,,,,,,,,,,,,,
@@ -1024,9 +1024,9 @@
 ,,,2,,インフリクト,1,超必殺技ゲージMAX,attack,one_short,super_skill,,,,,
 グール＝ヴール,A,118,1,d,ダークチェイン,1,,attack,one_line,chain,add_poison,add_blind,,,2体
 ,,,2,,ヒドゥンテラー,1,超必殺技ゲージMAX,attack,one_line,super_skill,chain,add_poison,add_blind,,4体
-マスカルウィン,M,158,1,,ネクロエリア,2,,area,buff,aup,against_dropout,,,,
+マスカルウィン,M,158,1,d,ネクロエリア,2,,area,buff,aup,against_dropout,,,,
 ,,,2,,霊魂召喚,1,超必殺技ゲージMAX,attack,summon,super_skill,add_down,,,,
-ペレキュデス,M,159,1,,タイムチェイン,2,,attack,one_line,chain,add_slow,,,,2体
+ペレキュデス,M,159,1,d,タイムチェイン,2,,attack,one_line,chain,add_slow,,,,2体
 ,,,2,,タイムパラドクス,1,超必殺技ゲージMAX,buff,front,super_skill,add_resurrection,,,,
 シヴァーニ,M,160,1,d,セブンカラーズ,2,,attack,summon,add_tumble,,,,,転倒はアビリティで付与
 ,,,2,,レインボースターゲイザー,2,超必殺技ゲージMAX,attack,range_all,super_skill,add_push,add_tumble,,,転倒はアビリティで付与
@@ -1066,15 +1066,15 @@
 ,,,,,,,,,,,,,,,
 # レムレス島,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
-カラミティ,F,228,1,,トラップエリア,3,,area,continual,,,,,,
-,,,,,,forward,,attack,range_dash,add_push,,,,,
-ブリジット,F,229,1,,ビッグ・アペタイト,1,,attack,one_combo,,,,,,HP50%以下で回数増加
+カラミティ,F,228,1,d,トラップエリア,3,,area,continual,,,,,,
+,,,,d,,forward,,attack,range_dash,add_push,,,,,
+ブリジット,F,229,1,d,ビッグ・アペタイト,1,,attack,one_combo,,,,,,HP50%以下で回数増加
 リズベル,K,130,1,,イージスブレイド,2,自陣にいる,attack,range_forward,add_push,,,,,
 ,,,2,d,ストライクブレイド,2,敵陣にいる,attack,one_combination,add_down,,,,,
-ダスク,A,121,1,,デッドリーバレット,2,,attack,one_line,shield_break,,,,,
-,,,,,,forward,,buff,self,aup,,,,,
+ダスク,A,121,1,d,デッドリーバレット,2,,attack,one_line,shield_break,,,,,
+,,,,d,,forward,,buff,self,aup,,,,,
 レイチェル・アナスタシア,M,163,1,d,トリック・マジック・トリガー,3,,attack,range_blast,,,,,,
-ストラッセ,M,164,1,,スタンプフォール,1,,attack,range_drop,,,,,,
+ストラッセ,M,164,1,d,スタンプフォール,1,,attack,range_drop,,,,,,
 ,,,,,,,,,,,,,,,
 キャロ,F,230,1,d,ヒーローラリアット,2,,attack,range_dash,add_push,,,,,
 カロラッカ,K,131,1,d,リジェクションセイバー,2,,attack,range_self,add_push,,,,,

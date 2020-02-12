@@ -9,7 +9,7 @@ export interface MemberRendererProps {
   member: Member | null
 }
 
-export abstract class MemberRenderer<T extends MemberRendererProps> extends ArcanaRenderer<T> {
+export abstract class MemberRenderer<T extends MemberRendererProps> extends ArcanaRenderer<T, {}> {
 
   public shouldComponentUpdate(nextProps: T): boolean {
     return !this.isSameMember(this.props.member, nextProps.member)

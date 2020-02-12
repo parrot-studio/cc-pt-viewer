@@ -5,7 +5,7 @@ import * as Agent from "superagent"
 import Arcana from "../model/Arcana"
 import Party from "../model/Party"
 import Query, { QueryParam } from "../model/Query"
-import QueryLogs from "../model/QueryLogs"
+import QueryRepository from "../model/QueryRepository"
 import QueryResult from "../model/QueryResult"
 
 interface SearchConfig {
@@ -55,8 +55,8 @@ export default class Searcher {
     if (cached) {
       const as = _.chain(_.map(cached, (c) => Arcana.forCode(c))).compact().value()
       const detail = Searcher.detailCache[key]
-      query.detail = detail
-      QueryLogs.add(query)
+      query.setDetail(detail)
+      QueryRepository.add(query)
       return Bacon.once(QueryResult.create(as, detail))
     }
 
@@ -68,8 +68,8 @@ export default class Searcher {
       const detail = data.detail || ""
       Searcher.resultCache[key] = cs
       Searcher.detailCache[key] = detail
-      query.detail = detail
-      QueryLogs.add(query)
+      query.setDetail(detail)
+      QueryRepository.add(query)
       return Bacon.once(QueryResult.create(as, detail))
     })
   }
@@ -130,8 +130,8 @@ export default class Searcher {
     const nameUrl = `${Searcher.config.apiPath}name`
     return Searcher.search(query.params(), nameUrl).flatMap((data) => {
       const as = _.chain(_.map(data.result, (d) => Arcana.build(d))).compact().value()
-      query.detail = data.detail || ""
-      QueryLogs.add(query)
+      query.setDetail(data.detail || "")
+      QueryRepository.add(query)
       return Bacon.once(QueryResult.create(as, query.detail))
     })
   }

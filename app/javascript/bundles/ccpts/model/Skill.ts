@@ -22,16 +22,16 @@ export default class Skill {
     return _.compact(arr)
   }
 
-  public name: string
-  public cost: number
-  public effects: SkillEffect[]
+  private _name: string
+  private _cost: number
+  private _effects: SkillEffect[]
 
   constructor(data: any) {
-    this.name = (!_.isEmpty(data.name) ? data.name : "？")
-    this.cost = (_.isInteger(data.cost) ? data.cost : -1)
-    this.effects = []
+    this._name = (!_.isEmpty(data.name) ? data.name : "？")
+    this._cost = (_.isInteger(data.cost) ? data.cost : -1)
+    this._effects = []
     if (!_.isEmpty(data.effects)) {
-      this.effects = _.map(data.effects, (e) => ({
+      this._effects = _.map(data.effects, (e) => ({
         category: e.category,
         subcategory: e.subcategory,
         multiType: (e.multi_type || ""),
@@ -44,6 +44,18 @@ export default class Skill {
         note: (e.note || "")
       }))
     }
+  }
+
+  get name() {
+    return this._name
+  }
+
+  get cost() {
+    return this._cost
+  }
+
+  get effects() {
+    return this._effects
   }
 
   public costForView(): string {

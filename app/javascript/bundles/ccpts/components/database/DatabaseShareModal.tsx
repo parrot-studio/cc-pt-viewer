@@ -1,6 +1,6 @@
 import * as _ from "lodash"
 
-import QueryLogs from "../../model/QueryLogs"
+import QueryRepository from "../../model/QueryRepository"
 
 import { TwitterShareModal, TwitterShareModalProps } from "../concerns/TwitterShareModal"
 
@@ -14,7 +14,7 @@ export default class DatabaseShareModal extends TwitterShareModal<DatabaseShareM
   }
 
   protected shareUrl(): string {
-    const query = QueryLogs.lastQuery
+    const query = QueryRepository.lastQuery
     const qs = (query ? query.encode() : "")
     let path = `${this.props.appPath}db`
     if (!_.isEmpty(qs)) {

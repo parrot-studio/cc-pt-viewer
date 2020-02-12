@@ -102,18 +102,6 @@ export default class RequestFormModal extends React.Component<RequestFormModalPr
             <h4>伝授必殺技の情報がないアルカナ</h4>
             <div className="well well-sm">
               <dl>
-                <dt>戦士</dt>
-                <dd className="small">
-                  セラフィー / カラミティ / ブリジット
-                </dd>
-                <dt>弓使い</dt>
-                <dd className="small">
-                  イシュチェル / ダスク
-                </dd>
-                <dt>魔法使い</dt>
-                <dd className="small">
-                  ザラ / カティア（ver.2） / マスカルウィン（ver.1） / ペレキュデス / ストラッセ
-                </dd>
                 <dt>コラボ（ギルティギア）</dt>
                 <dd className="small">
                   シン＝キスク / 梅喧 /  蔵土縁紗夢

@@ -7,25 +7,64 @@ export interface FavoritesParams {
 }
 
 export default class Favorites {
+  public static init(list: string[]): void {
+    let favs: FavoritesParams = {}
+    try {
+      favs = _.reduce(list, (f, c) => {
+        f[c] = true
+        return f
+      }, {})
+    } catch (e) {
+      favs = {}
+    }
+
+    this._instance = new Favorites(favs)
+  }
+
   public static stateFor(code: string): boolean {
+    return this._instance.stateFor(code)
+  }
+
+  public static setState(code: string, state: boolean): void {
+    this._instance.setState(code, state)
+  }
+
+  public static clear(): void {
+    this._instance.clear()
+  }
+
+  public static codes(): string[] {
+    return this._instance.codes()
+  }
+
+  private static readonly COOKIE_NAME: string = "fav-arcana"
+
+  private static _instance: Favorites = new Favorites({})
+
+  private _favorites: FavoritesParams
+
+  private constructor(params: FavoritesParams) {
+    this._favorites = params
+  }
+
+  private stateFor(code: string): boolean {
     if (!code) {
       return false
     }
-    if (Favorites.favorites[code]) {
+    if (this._favorites[code]) {
       return true
     }
     return false
   }
 
-  public static setState(code: string, state: boolean): boolean {
-    Favorites.favorites[code] = state
-    Favorites.store()
-    MessageStream.favoritesStream.push(Favorites.favorites)
-    return state
+  private setState(code: string, state: boolean): void {
+    this._favorites[code] = state
+    this.store()
+    MessageStream.favoritesStream.push(this._favorites)
   }
 
-  public static list(): string[] {
-    return _.chain(Favorites.favorites)
+  private codes(): string[] {
+    return _.chain(this._favorites)
       .map((s, c) => {
         if (s) {
           return c
@@ -34,34 +73,16 @@ export default class Favorites {
       }).compact().value().sort()
   }
 
-  public static clear(): FavoritesParams {
-    Favorites.favorites = {}
+  private clear(): void {
+    this._favorites = {}
     Cookie.delete(Favorites.COOKIE_NAME)
-    MessageStream.favoritesStream.push(Favorites.favorites)
-    return Favorites.favorites
+    MessageStream.favoritesStream.push({})
   }
 
-  public static store(): FavoritesParams {
-    const fl = Favorites.list()
+  private store(): void {
+    const cs = this.codes()
     const co: { [key: string]: string } = {}
-    co[Favorites.COOKIE_NAME] = fl.join("/")
+    co[Favorites.COOKIE_NAME] = cs.join("/")
     Cookie.set(co)
-    return Favorites.favorites
   }
-
-  public static init(list: string[]): void {
-    Favorites.favorites = {}
-    try {
-      Favorites.favorites = _.reduce(list, (f, c) => {
-        f[c] = true
-        return f
-      }, Favorites.favorites)
-    } catch (e) {
-      Favorites.favorites = {}
-    }
-  }
-
-  private static readonly COOKIE_NAME: string = "fav-arcana"
-
-  private static favorites: FavoritesParams = {}
 }

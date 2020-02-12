@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash, faSave, faFileDownload } from "@fortawesome/free-solid-svg-icons"
 
 import Party from "../../model/Party"
-import Parties, { PartyLog } from "../../model/Parties"
+import PartyRepositroy, { PartyLog } from "../../model/PartyRepositroy"
 import MessageStream from "../../lib/MessageStream"
 
 import MemberResetModal from "./MemberResetModal"
@@ -29,7 +29,7 @@ export default class MemberAreaHeader extends React.Component<MemberAreaHeaderPr
     this.state = {
       showResetModal: false,
       showStoreModal: false,
-      parties: Parties.parties
+      parties: PartyRepositroy.parties
     }
 
     MessageStream.partiesStream.onValue((parties) => {
@@ -110,7 +110,7 @@ export default class MemberAreaHeader extends React.Component<MemberAreaHeaderPr
   }
 
   private reloadLastMembers(): void {
-    this.reloadMembers(Parties.lastParty)
+    this.reloadMembers(PartyRepositroy.lastParty)
   }
 
   private reloadMembers(code: string): void {

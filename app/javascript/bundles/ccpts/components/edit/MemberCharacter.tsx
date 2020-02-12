@@ -32,7 +32,7 @@ export default class MemberCharacter extends MemberRenderer<MemberCharacterProps
     return (
       <div
         className={`${a.jobClass} summary-size arcana`}
-        ref={(div) => { this.div = div; this.setDraggable(a.jobCode, m.memberKey) }}
+        ref={(div) => { this.div = div; this.setDraggable(a.jobCode, m.position) }}
       >
         <div className={`${a.jobClass}-title arcana-title small`}>
           {`${a.jobNameShort}:${a.rarityStars}`}

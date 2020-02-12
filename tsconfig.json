@@ -20,7 +20,8 @@
     "**/*.spec.ts",
     "node_modules",
     "vendor",
-    "public"
+    "public",
+    "**/test/**/*.ts"
   ],
   "compileOnSave": false
 }

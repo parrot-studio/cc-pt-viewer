@@ -7,7 +7,7 @@ import { faRedo, faStar } from "@fortawesome/free-solid-svg-icons"
 import Searcher from "../../lib/Searcher"
 import Favorites from "../../model/Favorites"
 import Query, { QueryParam } from "../../model/Query"
-import QueryLogs from "../../model/QueryLogs"
+import QueryRepository from "../../model/QueryRepository"
 import MessageStream from "../../lib/MessageStream"
 
 interface SearchMenuButtonState {
@@ -19,7 +19,7 @@ export default class SearchMenuButton extends React.Component<{}, SearchMenuButt
   constructor(props) {
     super(props)
     this.state = {
-      querys: QueryLogs.querys
+      querys: QueryRepository.querys
     }
 
     MessageStream.queryLogsStream.onValue((querys) => {
@@ -52,7 +52,7 @@ export default class SearchMenuButton extends React.Component<{}, SearchMenuButt
   }
 
   private searchFavorite(): void {
-    Searcher.searchCodes(Favorites.list()).onValue((result) => {
+    Searcher.searchCodes(Favorites.codes()).onValue((result) => {
       result.detail = "お気に入り"
       MessageStream.resultStream.push(result)
     })
