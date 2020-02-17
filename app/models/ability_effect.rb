@@ -130,27 +130,16 @@ class AbilityEffect < ApplicationRecord
       },
       sub_effect: {
         aup: {
-          boost_with_enemys: '敵が多いほど効果上昇',
           defdown_self: '自身の防御力低下'
         },
         dup: {
-          boost_with_enemys: '敵が多いほど効果上昇',
           atkdown_self: '自身の攻撃力低下'
         },
         sup: {
           defdown_self: '自身の防御力低下'
         },
-        adup: {
-          boost_with_enemys: '敵が多いほど効果上昇'
-        },
         asup: {
           defdown_self: '自身の防御力低下'
-        },
-        adsup: {
-          boost_with_jobs: '職の数が多いほど効果上昇'
-        },
-        adrup: {
-          boost_with_groups: '所属の数が多いほど効果上昇'
         },
         delayoff: {
           momentary: '一定時間'
@@ -166,21 +155,13 @@ class AbilityEffect < ApplicationRecord
           ice: '氷属性'
         },
         aup_m: {
-          boost_with_enemys: '敵が多いほど効果上昇',
           defdown_self: '自身の防御力低下'
         },
-        dup_m: {
-          boost_with_enemys: '敵が多いほど効果上昇'
-        },
         adup_m: {
-          boost_with_enemys: '敵が多いほど効果上昇',
           speeddown_self: '自身の移動速度低下'
         },
         asup_m: {
           defdown_self: '自身の防御力低下'
-        },
-        adsup_m: {
-          boost_with_enemys: '敵が多いほど効果上昇'
         },
         ascup_m: {
           defdown_self: '自身の防御力低下'
@@ -294,6 +275,7 @@ class AbilityEffect < ApplicationRecord
         add_atkdown: '攻撃力低下を付与した時',
         add_defdown: '防御力低下を付与した時',
         add_atkdefdown: '攻撃力/防御力低下を付与した時',
+        add_atkspeeddown: '攻撃力/移動速度低下を付与した時',
         add_defspeeddown: '防御力/移動速度低下を付与した時',
         after_move: '一定距離を移動した時',
         from_sub: 'サブから戦場に移動したとき',
@@ -303,6 +285,15 @@ class AbilityEffect < ApplicationRecord
         in_heroic: '援軍として参戦した時'
       },
       sub_condition: {
+        any: {
+          boost_on_hp_upto: 'HPが一定以上で効果上昇',
+          boost_on_boss_wave: 'BOSS WAVEで効果上昇',
+          boost_on_front: '仲間より前にいると効果上昇',
+          boost_on_rear: '仲間より後ろにいると効果上昇',
+          boost_on_enemy_area: '敵陣にいると効果上昇',
+          boost_on_base_area: '自陣にいると効果上昇',
+          boost_on_debuff_enemy: '状態異常の敵がいると効果上昇'
+        },
         wave_start: {
           hp_upto: 'HPが一定以上',
           hp_downto: 'HPが一定以下',
@@ -312,13 +303,15 @@ class AbilityEffect < ApplicationRecord
           include_self: '自身を含む',
           group_oasis: '湖都所属',
           group_beasts: 'ケ者所属',
-          group_others: '旅人所属'
+          group_others: '旅人所属',
+          boost_on_union: '対象が特定の所属だと効果上昇'
         },
         with_k: {
           include_self: '自身を含む'
         },
         with_a: {
-          group_oasis: '湖都所属'
+          group_oasis: '湖都所属',
+          boost_on_union: '対象が特定の所属だと効果上昇'
         },
         with_m: {
           include_self: '自身を含む'
@@ -333,6 +326,9 @@ class AbilityEffect < ApplicationRecord
         },
         with_fkpm: {
           group_demon: '魔神所属'
+        },
+        with_various_jobs: {
+          boost_on_job_target: '対象が特定の職だと効果上昇'
         },
         with_volcano: {
           job_f: '戦士'
@@ -350,7 +346,8 @@ class AbilityEffect < ApplicationRecord
           include_self: '自身を含む'
         },
         kill: {
-          skill: '必殺技使用時'
+          skill: '必殺技使用時',
+          boost_on_debuff_enemy: '状態異常の敵がいると効果上昇'
         },
         link: {
           with_f: '戦士',
@@ -361,12 +358,14 @@ class AbilityEffect < ApplicationRecord
           with_a: '弓使い',
           with_p: '僧侶',
           with_m: '魔法使い',
-          with_fm: '戦/魔'
+          with_fm: '戦/魔',
+          boost_on_job_target: '対象が特定の職だと効果上昇'
         },
         in_rear: {
           with_f: '戦士',
           with_fa: '戦/弓',
-          with_fk: '戦/騎'
+          with_fk: '戦/騎',
+          boost_on_job_target: '対象が特定の職だと効果上昇'
         },
         has_mana: {
           mana_f: '戦マナ',
@@ -382,7 +381,8 @@ class AbilityEffect < ApplicationRecord
           mana_all: '虹色マナ',
           mana_exclude_f: '戦マナ以外',
           mana_fk_all: '戦＋騎マナ',
-          mana_fm_all: '戦＋魔マナ'
+          mana_fm_all: '戦＋魔マナ',
+          boost_on_mana: '特定のマナだと効果上昇'
         },
         mana_droped: {
           mana_f: '戦マナ',
@@ -393,30 +393,44 @@ class AbilityEffect < ApplicationRecord
           mana_fa: '戦/弓マナ',
           mana_fm: '戦/魔マナ',
           mana_ka: '騎/弓マナ',
-          mana_fkap: '魔マナ以外'
+          mana_fkap: '魔マナ以外',
+          boost_on_mana: 'boost_on_mana'
         },
         mana_charged: {
           mana_k: '騎マナ',
           mana_m: '魔マナ',
           mana_fm: '戦/魔マナ',
-          mana_ka: '騎/弓マナ'
+          mana_ka: '騎/弓マナ',
+          boost_on_mana: '特定のマナだと効果上昇'
         },
         use_mana: {
           self: '自分'
         },
         own_skill: {
-          with_mana_empty: 'マナが空で発動したとき'
+          with_mana_empty: 'マナが空で発動したとき',
+          boost_with_enemys: '敵が多いほど効果上昇'
         },
         others_skill: {
           job_a: '弓使い',
           job_p: '僧侶',
-          with_f: '戦士がいる時'
+          with_f: '戦士がいる時',
+          boost_with_enemys: '敵が多いほど効果上昇'
+        },
+        any_skill: {
+          boost_on_self: '自身が使用すると効果上昇',
+          boost_on_user: '特定の使用者だと効果上昇'
         },
         job_skill: {
           job_f: '戦士'
         },
         battle_start: {
           in_main: 'メインパーティーにいる時'
+        },
+        with_enemy_debuff: {
+          boost_on_debuff_enemy: '特定の状態異常の敵がいると効果上昇'
+        },
+        add_atkspeeddown: {
+          boost_on_skill: '必殺技だと効果上昇'
         }
       },
       target: {
@@ -512,12 +526,15 @@ class AbilityEffect < ApplicationRecord
           job_f: '戦士',
           job_k: '騎士',
           job_p: '僧侶',
-          job_m: '魔法使い'
+          job_m: '魔法使い',
+          boost_on_self: '自身が使用すると効果上昇',
+          boost_on_user: '特定の使用者だと効果上昇'
         },
         others_skill: {
           job_k: '騎士',
           job_m: '魔法使い',
-          job_fm: '戦/魔'
+          job_fm: '戦/魔',
+          boost_on_user: '特定の使用者だと効果上昇'
         },
         job_skill: {
           job_p: '僧侶',
@@ -538,9 +555,12 @@ class AbilityEffect < ApplicationRecord
           mana_m: '魔マナ',
           mana_fm: '戦/魔マナ',
           mana_fpm: '戦/僧/魔マナ',
-          job_f: '戦士'
+          job_f: '戦士',
+          boost_on_user: '特定の使用者だと効果上昇',
+          boost_on_mana: '特定のマナだと効果上昇'
         },
         has_mana: {
+          mana_f: '戦マナ',
           mana_a: '弓マナ',
           mana_m: '魔マナ',
           mana_all: '虹色マナ',
@@ -555,6 +575,13 @@ class AbilityEffect < ApplicationRecord
       },
       target: {
         all: '全員'
+      },
+      sub_target: {
+        all: {
+          boost_for_self: '自身は効果上昇',
+          boost_for_union: '特定の所属だと効果上昇',
+          boost_for_jobs: '特定の職業だと効果上昇'
+        }
       }
     },
     buff_others: {
@@ -1047,10 +1074,12 @@ class AbilityEffect < ApplicationRecord
       },
       sub_target: {
         base_area_member: {
-          group_others: '旅人所属'
+          group_others: '旅人所属',
+          boost_for_self: '自身は効果上昇'
         },
         enemy_area_member: {
-          group_others: '旅人所属'
+          group_others: '旅人所属',
+          boost_for_self: '自身は効果上昇'
         }
       }
     },
@@ -1177,12 +1206,23 @@ class AbilityEffect < ApplicationRecord
         targeted_self: '自身を選択中'
       },
       sub_condition: {
+        any: {
+          boost_on_enemy_area: '敵陣にいると効果上昇',
+          boost_on_base_area: '自陣にいると効果上昇',
+          boost_on_debuff_enemy: '状態異常の敵がいると効果上昇'
+        },
+        attack: {
+          boost_on_critical: 'クリティカルだと効果上昇',
+          boost_on_skill: '必殺技だと効果上昇',
+          boost_on_sp_attack: 'クリティカルか必殺技だと効果上昇'
+        },
         wave_start: {
           repeat: '繰り返し発動'
         },
         in_front: {
           with_p: '僧侶',
-          with_m: '魔法使い'
+          with_m: '魔法使い',
+          boost_on_job_target: '対象が特定の職だと効果上昇'
         },
         in_sub: {
           field: '特定のフィールド'
@@ -1190,6 +1230,9 @@ class AbilityEffect < ApplicationRecord
         others_skill: {
           job_f: '戦士',
           job_a: '弓使い'
+        },
+        any_skill: {
+          boost_on_user: '特定の使用者だと効果上昇'
         },
         with_f: {
           include_self: '自身を含む'
@@ -1222,6 +1265,9 @@ class AbilityEffect < ApplicationRecord
           job_f: '戦士',
           job_fm: '戦/魔',
           job_ka: '騎/弓'
+        },
+        kill: {
+          boost_on_debuff_enemy: '状態異常の敵がだと効果上昇'
         }
       },
       target: {
@@ -1244,12 +1290,17 @@ class AbilityEffect < ApplicationRecord
         weapon_exclude_ma: '<<魔>>以外',
         group_guildtown: '副都所属',
         group_oasis: '湖都所属',
+        group_volcano: '九領所属',
         group_beasts: 'ケ者所属',
         group_others: '旅人所属',
         group_demon: '魔神所属',
         base_area_member: '自陣にいる味方'
       },
       sub_target: {
+        all: {
+          boost_for_union: '対象が特定の所属だと効果上昇',
+          boost_for_jobs: '対象が特定の職業だと効果上昇'
+        },
         job_f: {
           nearest: '一番近い対象'
         },
@@ -1262,7 +1313,8 @@ class AbilityEffect < ApplicationRecord
           atk_best: '一番攻撃力が大きい対象'
         },
         base_area_member: {
-          group_others: '旅人所属'
+          group_others: '旅人所属',
+          boost_for_self: '自身は効果上昇'
         }
       }
     },
@@ -1314,7 +1366,14 @@ class AbilityEffect < ApplicationRecord
         attack: {
           in_combo: 'コンボ中のみ',
           super_gauge_max: '超必殺技ゲージがMAXの時',
-          in_awakening: '覚醒ゲージがMAXの時'
+          in_awakening: '覚醒ゲージがMAXの時',
+          boost_on_critical: 'クリティカルだと効果上昇',
+          boost_on_skill: '必殺技だと効果上昇',
+          boost_on_sp_attack: 'クリティカルか必殺技だと効果上昇',
+          boost_on_add_debuff: '状態異常を付与すると効果上昇'
+        },
+        shoot: {
+          boost_on_add_debuff: '状態異常を付与すると効果上昇'
         },
         skill: {
           in_combo: 'コンボ中のみ',
@@ -1566,11 +1625,16 @@ class AbilityEffect < ApplicationRecord
           in_sub: 'サブパーティーにいる時'
         },
         wave_start: {
-          field: '特定のフィールド'
+          field: '特定のフィールド',
+          boost_on_field: '特定のフィールドだと効果上昇'
         },
         kill: {
           critical: 'クリティカル時',
-          skill: '必殺技使用時'
+          skill: '必殺技使用時',
+          boost_on_critical: 'クリティカルだと確率上昇',
+          boost_on_sp_attack: 'クリティカルか必殺技だと確率上昇',
+          boost_on_skill: '必殺技だと確率上昇',
+          boost_on_field: '特定のフィールドだと確率上昇'
         },
         kill_count: {
           skill: '必殺技使用時'
