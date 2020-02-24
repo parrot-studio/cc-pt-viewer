@@ -181,6 +181,7 @@ class AbilityEffect < ApplicationRecord
         link: '複数で一緒に攻撃した時',
         guard: 'ガードした時',
         damaged: 'ダメージを受けた時',
+        heavily_damaged: '一定以上のダメージを受けた時',
         waiting: '何もしていない間',
         staying: '移動していない間',
         counter: 'カウンター発生時',
@@ -919,6 +920,7 @@ class AbilityEffect < ApplicationRecord
         in_base_area: '自陣にいる時',
         in_sub: 'サブパーティーにいる時',
         with_f: '戦士がいる時',
+        with_k: '騎士がいる時',
         with_sl: '<<斬>>がいる時',
         with_machine: '所属：鉄煙がいる時',
         hp_excess: 'HP超過状態の時'
@@ -1290,6 +1292,7 @@ class AbilityEffect < ApplicationRecord
         weapon_exclude_ma: '<<魔>>以外',
         group_guildtown: '副都所属',
         group_oasis: '湖都所属',
+        group_forest: '精霊島所属',
         group_volcano: '九領所属',
         group_beasts: 'ケ者所属',
         group_others: '旅人所属',
@@ -1670,6 +1673,7 @@ class AbilityEffect < ApplicationRecord
         acrup: '攻撃力/クリティカル率/クリティカル威力上昇',
         adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
         adsrup: '攻撃力/防御力/移動速度/クリティカル威力上昇',
+        adcrup: '攻撃力/防御力/クリティカル率/クリティカル威力上昇',
         delayoff: '攻撃速度上昇'
       },
       condition: {
