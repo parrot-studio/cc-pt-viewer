@@ -447,7 +447,8 @@ class ArcanaImporter
         effect.save!
 
         # 武器名
-        abi.weapon_name = data.shift.to_s
+        wname = data.shift.to_s
+        abi.weapon_name = wname if abi.weapon_name.blank? && wname.present?
 
         abi.save!
       end
