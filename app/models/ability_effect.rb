@@ -317,6 +317,9 @@ class AbilityEffect < ApplicationRecord
         with_m: {
           include_self: '自身を含む'
         },
+        with_fk: {
+          include_self: '自身を含む'
+        },
         with_fa: {
           include_self: '自身を含む',
           group_oasis: '湖都所属'
@@ -515,6 +518,7 @@ class AbilityEffect < ApplicationRecord
         super_gauge_max: '超必殺技ゲージがMAXの時',
         from_sub: 'サブから戦場に移動したとき',
         with_k: '騎士がいる時',
+        with_fk: '戦/騎がいる時',
         battle_start: '戦闘開始時',
         in_heroic: '援軍として参戦した時',
         targeted_self: '自身を選択中'
@@ -557,6 +561,7 @@ class AbilityEffect < ApplicationRecord
           mana_fm: '戦/魔マナ',
           mana_fpm: '戦/僧/魔マナ',
           job_f: '戦士',
+          job_fa: '戦/弓',
           boost_on_user: '特定の使用者だと効果上昇',
           boost_on_mana: '特定のマナだと効果上昇'
         },
@@ -566,6 +571,9 @@ class AbilityEffect < ApplicationRecord
           mana_m: '魔マナ',
           mana_all: '虹色マナ',
           mana_exclude_a: '弓マナ以外'
+        },
+        with_fk: {
+          include_self: '自身を含む'
         },
         battle_start: {
           in_sub: 'サブパーティーにいる時'
@@ -1239,6 +1247,9 @@ class AbilityEffect < ApplicationRecord
         with_f: {
           include_self: '自身を含む'
         },
+        with_fk: {
+          include_self: '自身を含む'
+        },
         with_kp: {
           include_self: '自身を含む'
         },
@@ -1579,7 +1590,8 @@ class AbilityEffect < ApplicationRecord
           mana_fk: '戦＋騎',
           mana_fm: '戦＋魔',
           mana_ka: '騎＋弓',
-          mana_fkm: '戦＋騎＋魔'
+          mana_fkm: '戦＋騎＋魔',
+          mana_fam: '戦＋弓＋魔'
         },
         composite: {
           mana_fk: '戦＋騎',

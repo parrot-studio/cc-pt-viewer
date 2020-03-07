@@ -165,6 +165,7 @@ class SkillEffect < ApplicationRecord
         sup: '移動速度上昇',
         adup: '攻撃力/防御力上昇',
         asup: '攻撃力/移動速度上昇',
+        acup: '攻撃力/クリティカル率上昇',
         dsup: '防御力/移動速度上昇',
         scup: '移動速度/クリティカル率上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
