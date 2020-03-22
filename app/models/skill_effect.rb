@@ -309,7 +309,7 @@ class SkillEffect < ApplicationRecord
       }
     },
     metamorphose: {
-      name: '変身',
+      name: '変身/強化',
       sub: {
         self: '自身'
       },

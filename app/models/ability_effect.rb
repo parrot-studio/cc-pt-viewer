@@ -289,6 +289,7 @@ class AbilityEffect < ApplicationRecord
       sub_condition: {
         any: {
           boost_on_hp_upto: 'HPが一定以上で効果上昇',
+          boost_on_hp_downto: 'HPが一定以下で効果上昇',
           boost_on_boss_wave: 'BOSS WAVEで効果上昇',
           boost_on_front: '仲間より前にいると効果上昇',
           boost_on_rear: '仲間より後ろにいると効果上昇',
@@ -671,6 +672,7 @@ class AbilityEffect < ApplicationRecord
         dsup_m: '防御力/移動速度上昇 / 一定時間',
         scup_m: '移動速度/クリティカル率上昇 / 一定時間',
         adsup_m: '攻撃力/防御力/移動速度上昇 / 一定時間',
+        adrup_m: '攻撃力/防御力/クリティカル威力上昇 / 一定時間',
         adcup_m: '攻撃力/防御力/クリティカル率上昇 / 一定時間',
         ascup_m: '攻撃力/移動速度/クリティカル率上昇 / 一定時間',
         acrup_m: '攻撃力/クリティカル率/クリティカル威力上昇 / 一定時間',
@@ -840,6 +842,7 @@ class AbilityEffect < ApplicationRecord
         with_slblpu: '<<斬/打/拳>>がいる時',
         with_blpipu: '<<打/突/拳>>がいる時',
         with_blpush: '<<打/銃/狙>>がいる時',
+        with_slpimapu: '<<斬/突/魔/拳>>がいる時',
         wave_start: '各WAVE開始時',
         in_heroic: '援軍として参戦した時'
       },
@@ -885,6 +888,8 @@ class AbilityEffect < ApplicationRecord
         weapon_blpipu: '<<打/突/拳>>',
         weapon_pugush: '<<拳/銃/狙>>',
         weapon_slblpipu: '<<斬/打/突/拳>>',
+        weapon_slpimapu: '<<斬/突/魔/拳>>',
+        weapon_slpiarmapu: '<<斬/突/弓/魔/拳>>',
         weapon_exclude_sl: '<<斬>>以外',
         weapon_exclude_ma: '<<魔>>以外',
         shoot: '遠距離攻撃'
@@ -1178,6 +1183,7 @@ class AbilityEffect < ApplicationRecord
         attack: '通常攻撃時',
         critical: 'クリティカル時',
         guard: 'ガードした時',
+        damaged: 'ダメージを受けた時',
         in_base_area: '自陣にいる時',
         in_enemy_area: '敵陣にいる時',
         in_enemy_back: '敵陣の奥にいる時',
@@ -1232,6 +1238,9 @@ class AbilityEffect < ApplicationRecord
           boost_on_critical: 'クリティカルだと効果上昇',
           boost_on_skill: '必殺技だと効果上昇',
           boost_on_sp_attack: 'クリティカルか必殺技だと効果上昇'
+        },
+        damaged: {
+          with_span: '連続では発動しない'
         },
         wave_start: {
           repeat: '繰り返し発動'
@@ -1772,7 +1781,8 @@ class AbilityEffect < ApplicationRecord
           ice: '氷属性'
         },
         counterattack_contact: {
-          fire: '火属性'
+          fire: '火属性',
+          ice: '氷属性'
         },
         reflect_arrow: {
           fire: '火属性',
