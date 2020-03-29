@@ -96,6 +96,7 @@ class AbilityEffect < ApplicationRecord
         super_gauge_gain: '超必殺技ゲージ上昇',
         extra_attack: '追撃発生',
         blast_attack: '範囲攻撃化',
+        combo_blast_attack: '連続範囲攻撃化',
         double_critical: 'クリティカル時二連撃',
         shoot_available: '遠距離攻撃可能',
         multi_gauge: '複数ゲージ所持',
@@ -514,6 +515,7 @@ class AbilityEffect < ApplicationRecord
         job_skill: '特定の職が必殺技を使った時',
         dropout_self: '自身が脱落した時',
         dropout_member: '味方が脱落した時',
+        hp_excess: 'HP超過状態の時',
         mana_charged: 'マナが多いほど',
         mana_slot_many: 'マナスロットで多く獲得するほど',
         mana_droped: 'マナを獲得した時',
@@ -582,6 +584,7 @@ class AbilityEffect < ApplicationRecord
           include_self: '自身を含む'
         },
         battle_start: {
+          in_main: 'メインパーティーにいる時',
           in_sub: 'サブパーティーにいる時'
         },
         in_heroic: {
@@ -1096,10 +1099,12 @@ class AbilityEffect < ApplicationRecord
       },
       sub_target: {
         base_area_member: {
+          job_f: '戦士',
           group_others: '旅人所属',
           boost_for_self: '自身は効果上昇'
         },
         enemy_area_member: {
+          job_f: '戦士',
           group_others: '旅人所属',
           boost_for_self: '自身は効果上昇'
         }
@@ -1175,6 +1180,11 @@ class AbilityEffect < ApplicationRecord
         heal_group: '特定の所属を回復',
         heal_all: '全員を回復',
         absorb: '与えたダメージを吸収'
+      },
+      sub_effect: {
+        heal_all: {
+          excess: 'HP超過'
+        }
       },
       condition: {
         any: 'いつでも',
