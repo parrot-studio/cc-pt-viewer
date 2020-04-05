@@ -299,6 +299,9 @@ class AbilityEffect < ApplicationRecord
           boost_on_debuff_enemy: '状態異常の敵がいると効果上昇',
           boost_on_mana: 'マナを持っていると効果上昇'
         },
+        hp_upto: {
+          boost_on_hp_excess: 'HP超過状態だと効果上昇',
+        },
         wave_start: {
           hp_upto: 'HPが一定以上',
           hp_downto: 'HPが一定以下',
