@@ -100,7 +100,6 @@ class AbilityEffect < ApplicationRecord
         double_critical: 'クリティカル時二連撃',
         shoot_available: '遠距離攻撃可能',
         multi_gauge: '複数ゲージ所持',
-        summon: '自動攻撃オブジェクトを召喚する',
         aup_m: '攻撃力上昇 / 一定時間',
         dup_m: '防御力上昇 / 一定時間',
         sup_m: '移動速度上昇 / 一定時間',
@@ -294,13 +293,14 @@ class AbilityEffect < ApplicationRecord
           boost_on_boss_wave: 'BOSS WAVEで効果上昇',
           boost_on_front: '仲間より前にいると効果上昇',
           boost_on_rear: '仲間より後ろにいると効果上昇',
+          boost_on_field: '特定のフィールドだと効果上昇',
           boost_on_enemy_area: '敵陣にいると効果上昇',
           boost_on_base_area: '自陣にいると効果上昇',
           boost_on_debuff_enemy: '状態異常の敵がいると効果上昇',
           boost_on_mana: 'マナを持っていると効果上昇'
         },
         hp_upto: {
-          boost_on_hp_excess: 'HP超過状態だと効果上昇',
+          boost_on_hp_excess: 'HP超過状態だと効果上昇'
         },
         wave_start: {
           hp_upto: 'HPが一定以上',
@@ -373,6 +373,7 @@ class AbilityEffect < ApplicationRecord
           with_p: '僧侶',
           with_m: '魔法使い',
           with_fm: '戦/魔',
+          boost_on_many_target: '対象の人数が多いほど効果上昇',
           boost_on_job_target: '対象が特定の職だと効果上昇'
         },
         in_rear: {
@@ -1710,6 +1711,7 @@ class AbilityEffect < ApplicationRecord
         dsup: '防御力/移動速度上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
         adcup: '攻撃力/防御力/クリティカル率上昇',
+        adrup: '攻撃力/防御力/クリティカル威力上昇',
         ascup: '攻撃力/移動速度/クリティカル率上昇',
         acrup: '攻撃力/クリティカル率/クリティカル威力上昇',
         adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
@@ -1844,6 +1846,25 @@ class AbilityEffect < ApplicationRecord
       },
       target: {
         resource: ''
+      }
+    },
+    start_skill: {
+      name: '戦闘開始時スキル発動',
+      effect: {
+        summon: '召喚',
+        field: 'フィールド変更'
+      },
+      sub_effect: {
+        field: {
+          ship: '船上'
+        }
+      },
+      condition: {
+        battle_start: '戦闘開始時'
+      },
+      target: {
+        self: '自身',
+        field: ''
       }
     },
     heroic: {
