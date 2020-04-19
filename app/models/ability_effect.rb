@@ -472,6 +472,7 @@ class AbilityEffect < ApplicationRecord
         adrup: '攻撃力/防御力/クリティカル威力上昇',
         ascup: '攻撃力/移動速度/クリティカル率上昇',
         acrup: '攻撃力/クリティカル率/クリティカル威力上昇',
+        adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
         adsrup: '攻撃力/防御力/移動速度/クリティカル威力上昇',
         barrier: 'バリアを張る',
         super_gauge_gain: '超必殺技ゲージ上昇',
@@ -494,6 +495,7 @@ class AbilityEffect < ApplicationRecord
         adcup_m: '攻撃力/防御力/クリティカル率上昇 / 一定時間',
         ascup_m: '攻撃力/移動速度/クリティカル率上昇 / 一定時間',
         acrup_m: '攻撃力/クリティカル率/クリティカル威力上昇 / 一定時間',
+        adscup_m: '攻撃力/防御力/移動速度/クリティカル率上昇 / 一定時間',
         adsrup_m: '攻撃力/防御力/移動速度/クリティカル威力上昇 / 一定時間'
       },
       sub_effect: {
@@ -537,7 +539,9 @@ class AbilityEffect < ApplicationRecord
       },
       sub_condition: {
         in_sub: {
-          field: '特定のフィールド'
+          field: '特定のフィールド',
+          boost_on_union: '対象が特定の所属だと効果上昇',
+          boost_on_job_target: '対象が特定の職だと効果上昇'
         },
         any_skill: {
           job_f: '戦士',
@@ -1265,7 +1269,8 @@ class AbilityEffect < ApplicationRecord
           boost_on_job_target: '対象が特定の職だと効果上昇'
         },
         in_sub: {
-          field: '特定のフィールド'
+          field: '特定のフィールド',
+          boost_on_union: '対象が特定の所属だと効果上昇'
         },
         others_skill: {
           job_f: '戦士',
@@ -1598,7 +1603,9 @@ class AbilityEffect < ApplicationRecord
           mana_kp: '騎＋僧',
           mana_ap: '弓＋僧',
           mana_pm: '僧＋魔',
+          mana_fap: '戦＋弓＋僧',
           mana_fam: '戦＋弓＋魔',
+          mana_kap: '騎＋弓＋僧',
           mana_all: '虹色マナ',
           mana_demon: '魔神マナ',
           compressed_mana_f: '圧縮戦マナ',
@@ -1636,7 +1643,9 @@ class AbilityEffect < ApplicationRecord
           mana_pm: '僧＋魔',
           mana_fka: '戦＋騎＋弓',
           mana_fkp: '戦＋騎＋僧',
-          mana_fam: '戦＋弓＋魔'
+          mana_fap: '戦＋弓＋僧',
+          mana_fam: '戦＋弓＋魔',
+          mana_kap: '騎＋弓＋僧'
         },
         limited_slot: {
           mana_demon: '魔神マナ'

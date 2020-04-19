@@ -2310,5 +2310,12 @@ K・K,A,195,collaboration,,隻眼の狙撃手,5,20,4,Sh,collaboration,bloodbeyond,折笠 
 ミシマ,F,486,first,F487,海炎の絆,5,20,4,Sl,event,festival,緑川 光,lack,volunteers,Combination,7600,7600,9600,9600,海炎の絆ミシマwithアマツ
 アマツ,F,487,buddy,F486,（ミシマのバディ）,5,0,0,Sl,event,festival,中村 悠一,lack,volunteers,Buddy,6700,6800,8980,9160,海炎の絆ミシマwithアマツ
 ,,,,,,,,,,,,,,,,,,,,
+# 宿命と未来,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,
+アル,M,320,first,,生きていく探求者の少年,5,20,4,Sl,event,festival,緑川 光,ひと和,life,Detect,8200,6800,10200,8800,
+ルマ,M,321,third,,成し遂げし少女,5,18,4,Ma,event,festival,渕上 舞,卵の黄身,life,Detect,7500,5500,9500,7500,
+リニ,P,137,third,,夢多き少女,5,18,4,He,event,hunting,水橋 かおり,ネム,life,Accept,7500,5500,9500,7500,
+ホパ,M,322,third,,虫愛づる少女,5,18,4,Ma,event,hunting,野中 藍,まるえ,life,Accept,7800,4700,9800,6700,
+,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,
 #end,,,,,,,,,,,,,,,,,,,,
