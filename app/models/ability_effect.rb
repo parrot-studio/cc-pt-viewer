@@ -1835,8 +1835,8 @@ class AbilityEffect < ApplicationRecord
     auto_skill: {
       name: '自動スキル発動',
       effect: {
-        attack: '攻撃',
-        field: 'フィールド変更'
+        attack: '攻撃スキル発動',
+        field: 'フィールド変更スキル発動'
       },
       sub_effect: {
         attack: {
