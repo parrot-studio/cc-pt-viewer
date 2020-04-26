@@ -585,6 +585,7 @@ class AbilityEffect < ApplicationRecord
           mana_f: '戦マナ',
           mana_a: '弓マナ',
           mana_m: '魔マナ',
+          mana_fka: '戦/騎/弓マナ',
           mana_all: '虹色マナ',
           mana_exclude_a: '弓マナ以外'
         },
@@ -1298,6 +1299,7 @@ class AbilityEffect < ApplicationRecord
           mana_fm: '戦/魔マナ',
           mana_ka: '騎/弓マナ',
           mana_pm: '僧/魔マナ',
+          mana_fka: '戦/騎/弓マナ',
           mana_exclude_a: '弓マナ以外'
         },
         mana_droped: {
@@ -1606,6 +1608,7 @@ class AbilityEffect < ApplicationRecord
           mana_fap: '戦＋弓＋僧',
           mana_fam: '戦＋弓＋魔',
           mana_kap: '騎＋弓＋僧',
+          mana_fkam: '戦＋騎＋弓＋魔',
           mana_all: '虹色マナ',
           mana_demon: '魔神マナ',
           compressed_mana_f: '圧縮戦マナ',
@@ -1628,7 +1631,8 @@ class AbilityEffect < ApplicationRecord
           mana_fm: '戦＋魔',
           mana_ka: '騎＋弓',
           mana_fkm: '戦＋騎＋魔',
-          mana_fam: '戦＋弓＋魔'
+          mana_fam: '戦＋弓＋魔',
+          mana_fkam: '戦＋騎＋弓＋魔'
         },
         composite: {
           mana_fk: '戦＋騎',
@@ -1828,6 +1832,29 @@ class AbilityEffect < ApplicationRecord
         enemy: '敵'
       }
     },
+    auto_skill: {
+      name: '自動スキル発動',
+      effect: {
+        attack: '攻撃',
+        field: 'フィールド変更'
+      },
+      sub_effect: {
+        attack: {
+          range_random_blast: '範囲・ランダム/爆発',
+          summon: '召喚'
+        },
+        field: {
+          ship: '船上'
+        }
+      },
+      condition: {
+        battle_start: '戦闘開始時',
+        boss_wave: 'BOSS WAVE時'
+      },
+      target: {
+        self: ''
+      }
+    },
     invincible: {
       name: '無敵',
       effect: {
@@ -1855,25 +1882,6 @@ class AbilityEffect < ApplicationRecord
       },
       target: {
         resource: ''
-      }
-    },
-    start_skill: {
-      name: '戦闘開始時スキル発動',
-      effect: {
-        summon: '召喚',
-        field: 'フィールド変更'
-      },
-      sub_effect: {
-        field: {
-          ship: '船上'
-        }
-      },
-      condition: {
-        battle_start: '戦闘開始時'
-      },
-      target: {
-        self: '自身',
-        field: ''
       }
     },
     heroic: {
