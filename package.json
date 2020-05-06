@@ -10,7 +10,7 @@
     "bootstrap": "3.4.1",
     "bootstrap-switch": "3.3.4",
     "fastclick": "^1.0.6",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.1",
     "jquery-touchswipe": "^1.6.19",
     "jquery-ui": "^1.12.1",
     "jquery-ui-dist": "^1.12.1",
