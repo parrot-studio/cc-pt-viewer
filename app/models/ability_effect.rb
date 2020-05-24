@@ -1840,6 +1840,7 @@ class AbilityEffect < ApplicationRecord
       },
       sub_effect: {
         attack: {
+          range_dash: '範囲・ダッシュ',
           range_random_blast: '範囲・ランダム/爆発',
           summon: '召喚'
         },

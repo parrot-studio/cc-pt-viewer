@@ -3176,5 +3176,11 @@ K・K,A,195,1,,FB‐202 ファイアブロウ,1,初回のみ,attack,summon,,,,,,
 ,,,,,,forward,,attack,range_forward_combo,,,,,,
 ,,,,,,forward,,heal,area_cycle,aup,,,,,
 ,,,,,,,,,,,,,,,
+# ヒロイックフェス5/19,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+アグダラ,F,488,1,,ソフィスティカート・スパーダ,1,,attack,range_self_combo,add_push,,,,,マナが多いほどダメージ上昇
+,,,h,,デフィニティーヴォ・スパーダ,0,,attack,range_jump,add_push,add_down,,,,マナが多いほどダメージ上昇
+,,,d,,デフィニティーヴォ・スパーダ,3,,attack,range_jump,add_push,add_down,,,,マナが多いほどダメージ上昇
+,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 # end,,,,,,,,,,,,,,,
