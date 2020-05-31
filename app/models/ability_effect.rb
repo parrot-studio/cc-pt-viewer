@@ -244,8 +244,8 @@ class AbilityEffect < ApplicationRecord
         after_enemy_area: '敵陣に一定時間いた時',
         after_base_area: '自陣に一定時間いた時',
         in_rear: '仲間より後ろにいる時',
-        in_tail: '一番後ろにいる時',
-        in_back: '一番後列にいる時',
+        in_tail: '最も後ろにいる時',
+        in_back: '最も後列にいる時',
         in_combo: '攻撃を一定回数当てた時',
         in_attacking: '攻撃を当てた時',
         in_invisible: '姿を消している時',
@@ -382,6 +382,9 @@ class AbilityEffect < ApplicationRecord
           with_fk: '戦/騎',
           boost_on_job_target: '対象が特定の職だと効果上昇'
         },
+        in_combo: {
+          combat: '近接戦闘時'
+        },
         has_mana: {
           mana_f: '戦マナ',
           mana_k: '騎マナ',
@@ -428,6 +431,7 @@ class AbilityEffect < ApplicationRecord
         others_skill: {
           job_a: '弓使い',
           job_p: '僧侶',
+          job_kam: '騎/弓/魔',
           with_f: '戦士がいる時',
           boost_with_enemys: '敵が多いほど効果上昇'
         },
@@ -716,6 +720,7 @@ class AbilityEffect < ApplicationRecord
         with_fka: '戦/騎/弓がいる時',
         with_fkm: '戦/騎/魔がいる時',
         with_fpm: '戦/僧/魔がいる時',
+        with_kam: '騎/弓/魔がいる時',
         with_fkap: '戦/騎/弓/僧がいる時',
         wave_start: '各WAVE開始時',
         in_sub: 'サブパーティーにいる時',
@@ -790,34 +795,35 @@ class AbilityEffect < ApplicationRecord
         job_fkm: '戦/騎/魔',
         job_fap: '戦/弓/僧',
         job_fpm: '戦/僧/魔',
+        job_kam: '騎/弓/魔',
         job_apm: '弓/僧/魔',
         job_fkap: '戦/騎/弓/僧'
       },
       sub_target: {
         job_f: {
-          nearest: '一番近い対象',
-          hp_best: '一番HPが大きい対象',
-          atk_best: '一番攻撃力が大きい対象'
+          nearest: '最も近い対象',
+          hp_best: '最もHPが大きい対象',
+          atk_best: '最も攻撃力が大きい対象'
         },
         job_k: {
-          nearest: '一番近い対象',
-          hp_worst: '一番ダメージが大きい対象'
+          nearest: '最も近い対象',
+          hp_worst: '最もHPの低い対象'
         },
         job_a: {
-          nearest: '一番近い対象',
-          farthest: '一番遠い対象',
-          hp_worst: '一番ダメージが大きい対象'
+          nearest: '最も近い対象',
+          farthest: '最も遠い対象',
+          hp_worst: '最もHPの低い対象'
         },
         job_m: {
-          nearest: '一番近い対象',
-          farthest: '一番遠い対象',
-          atk_best: '一番攻撃力が大きい対象'
+          nearest: '最も近い対象',
+          farthest: '最も遠い対象',
+          atk_best: '最も攻撃力が大きい対象'
         },
         job_fk: {
-          nearest: '一番近い対象',
-          hp_best: '一番HPが大きい対象',
-          hp_worst: '一番ダメージが大きい対象',
-          atk_best: '一番攻撃力が大きい対象'
+          nearest: '最も近い対象',
+          hp_best: '最もHPが大きい対象',
+          hp_worst: '最もHPの低い対象',
+          atk_best: '最も攻撃力が大きい対象'
         },
         job_fa: {
           random: 'ランダム'
@@ -855,6 +861,7 @@ class AbilityEffect < ApplicationRecord
         with_blpipu: '<<打/突/拳>>がいる時',
         with_blpush: '<<打/銃/狙>>がいる時',
         with_slpimapu: '<<斬/突/魔/拳>>がいる時',
+        with_dawnsea: '所属：大海がいる時',
         wave_start: '各WAVE開始時',
         in_heroic: '援軍として参戦した時'
       },
@@ -904,6 +911,7 @@ class AbilityEffect < ApplicationRecord
         weapon_slpiarmapu: '<<斬/突/弓/魔/拳>>',
         weapon_exclude_sl: '<<斬>>以外',
         weapon_exclude_ma: '<<魔>>以外',
+        weapon_exclude_gu: '<<銃>>以外',
         shoot: '遠距離攻撃'
       }
     },
@@ -1020,11 +1028,11 @@ class AbilityEffect < ApplicationRecord
           job_fa: '戦/弓'
         },
         group_machine: {
-          nearest: '一番近い対象',
+          nearest: '最も近い対象',
           weapon_argush: '<<弓/銃/狙>>'
         },
         group_demon: {
-          nearest: '一番近い対象',
+          nearest: '最も近い対象',
           job_fk: '戦/騎',
           job_apm: '弓/僧/魔'
         }
@@ -1071,8 +1079,8 @@ class AbilityEffect < ApplicationRecord
         with_volcano: '所属：九領がいる時'
       },
       target: {
-        nearest: '一番近い対象',
-        hp_worst: '一番ダメージが大きい対象',
+        nearest: '最も近い対象',
+        hp_worst: '最もHPの低い対象',
         owner: '主人',
         buddy: 'バディ',
         random: 'ランダム'
@@ -1210,7 +1218,7 @@ class AbilityEffect < ApplicationRecord
         in_front: '仲間より前にいる時',
         in_rear: '仲間より後ろにいる時',
         in_tail: '後ろに仲間がいない時',
-        in_back: '一番後列にいる時',
+        in_back: '最も後列にいる時',
         in_sub: 'サブパーティーにいる時',
         in_field: '特定のフィールドにいる時',
         skill: '必殺技使用時',
@@ -1244,6 +1252,7 @@ class AbilityEffect < ApplicationRecord
         use_mana: 'マナが使用された時',
         mana_droped: 'マナを獲得した時',
         kill: '敵を倒した時',
+        kill_debuff: '状態異常の敵を倒した時',
         super_gauge_max: '超必殺技ゲージがMAXの時',
         targeted_self: '自身を選択中'
       },
@@ -1275,7 +1284,8 @@ class AbilityEffect < ApplicationRecord
         },
         others_skill: {
           job_f: '戦士',
-          job_a: '弓使い'
+          job_a: '弓使い',
+          job_kam: '騎/弓/魔'
         },
         any_skill: {
           boost_on_user: '特定の使用者だと効果上昇'
@@ -1323,9 +1333,9 @@ class AbilityEffect < ApplicationRecord
       target: {
         self: '自分',
         all: '全員',
-        nearest: '一番近い対象',
-        hp_worst: '一番ダメージが大きい対象',
-        lv_worst: '一番レベルが低い対象',
+        nearest: '最も近い対象',
+        hp_worst: '最もHPの低い対象',
+        lv_worst: '最もレベルが低い対象',
         owner: '主人',
         job_f: '戦士',
         job_k: '騎士',
@@ -1353,15 +1363,15 @@ class AbilityEffect < ApplicationRecord
           boost_for_jobs: '対象が特定の職業だと効果上昇'
         },
         job_f: {
-          nearest: '一番近い対象'
+          nearest: '最も近い対象'
         },
         job_k: {
-          nearest: '一番近い対象',
-          hp_worst: '一番ダメージが大きい対象'
+          nearest: '最も近い対象',
+          hp_worst: '最もHPの低い対象'
         },
         job_fk: {
-          hp_worst: '一番ダメージが大きい対象',
-          atk_best: '一番攻撃力が大きい対象'
+          hp_worst: '最もHPの低い対象',
+          atk_best: '最も攻撃力が大きい対象'
         },
         base_area_member: {
           group_others: '旅人所属',
@@ -1544,7 +1554,7 @@ class AbilityEffect < ApplicationRecord
       },
       sub_target: {
         job_k: {
-          nearest: '一番近い対象'
+          nearest: '最も近い対象'
         }
       }
     },
@@ -1649,7 +1659,8 @@ class AbilityEffect < ApplicationRecord
           mana_fkp: '戦＋騎＋僧',
           mana_fap: '戦＋弓＋僧',
           mana_fam: '戦＋弓＋魔',
-          mana_kap: '騎＋弓＋僧'
+          mana_kap: '騎＋弓＋僧',
+          mana_kam: '騎＋弓＋魔'
         },
         limited_slot: {
           mana_demon: '魔神マナ'
@@ -1790,6 +1801,11 @@ class AbilityEffect < ApplicationRecord
         kill: '敵を倒した時',
         skill: '必殺技使用時',
         in_combo: '攻撃を一定回数当てた時'
+      },
+      sub_condition: {
+        in_combo: {
+          shoot: '遠距離攻撃時'
+        }
       },
       target: {
         enemy: '敵'
