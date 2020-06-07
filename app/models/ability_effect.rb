@@ -226,6 +226,7 @@ class AbilityEffect < ApplicationRecord
         with_demon: '所属：魔神がいる時',
         with_others: '所属：旅人がいる時',
         with_volunteers: '所属：義勇軍がいる時',
+        with_many_academy: '所属：賢者の塔が多いほど',
         with_many_oasis: '所属：湖都が多いほど',
         with_many_forest: '所属：精霊島が多いほど',
         with_many_volcano: '所属：九領が多いほど',
@@ -297,7 +298,8 @@ class AbilityEffect < ApplicationRecord
           boost_on_enemy_area: '敵陣にいると効果上昇',
           boost_on_base_area: '自陣にいると効果上昇',
           boost_on_debuff_enemy: '状態異常の敵がいると効果上昇',
-          boost_on_mana: 'マナを持っていると効果上昇'
+          boost_on_mana: 'マナを持っていると効果上昇',
+          boost_on_combo: '攻撃を一定回数当てると効果上昇'
         },
         hp_upto: {
           boost_on_hp_excess: 'HP超過状態だと効果上昇'
@@ -349,6 +351,9 @@ class AbilityEffect < ApplicationRecord
         },
         with_volunteers: {
           job_m: '魔法使い'
+        },
+        with_many_academy: {
+          include_self: '自身を含む'
         },
         with_many_oasis: {
           include_self: '自身を含む'
@@ -960,8 +965,10 @@ class AbilityEffect < ApplicationRecord
         with_f: '戦士がいる時',
         with_k: '騎士がいる時',
         with_a: '弓使いがいる時',
+        with_m: '魔法使いがいる時',
         with_sl: '<<斬>>がいる時',
         with_ar: '<<弓>>がいる時',
+        with_ma: '<<魔>>がいる時',
         with_machine: '所属：鉄煙がいる時',
         hp_excess: 'HP超過状態の時'
       },
