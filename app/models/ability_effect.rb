@@ -1545,7 +1545,8 @@ class AbilityEffect < ApplicationRecord
       condition: {
         skill: '必殺技使用時',
         wave_start: '各WAVE開始時',
-        use_mana: 'マナが使用された時'
+        use_mana: 'マナが使用された時',
+        any_skill: '誰かが必殺技を使った時'
       },
       sub_condition: {
         skill: {
