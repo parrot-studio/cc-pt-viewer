@@ -291,6 +291,7 @@ class AbilityEffect < ApplicationRecord
         any: {
           boost_on_hp_upto: 'HPが一定以上で効果上昇',
           boost_on_hp_downto: 'HPが一定以下で効果上昇',
+          boost_on_hp_excess: 'HP超過状態だと効果上昇',
           boost_on_boss_wave: 'BOSS WAVEで効果上昇',
           boost_on_front: '仲間より前にいると効果上昇',
           boost_on_rear: '仲間より後ろにいると効果上昇',
@@ -300,6 +301,9 @@ class AbilityEffect < ApplicationRecord
           boost_on_debuff_enemy: '状態異常の敵がいると効果上昇',
           boost_on_mana: 'マナを持っていると効果上昇',
           boost_on_combo: '攻撃を一定回数当てると効果上昇'
+        },
+        critical: {
+          with_span: '連続では発動しない'
         },
         hp_upto: {
           boost_on_hp_excess: 'HP超過状態だと効果上昇'
@@ -547,6 +551,9 @@ class AbilityEffect < ApplicationRecord
         targeted_self: '自身を選択中'
       },
       sub_condition: {
+        any: {
+          boost_on_job_target: '対象が特定の職だと効果上昇'
+        },
         in_sub: {
           field: '特定のフィールド',
           boost_on_union: '対象が特定の所属だと効果上昇',
@@ -587,6 +594,7 @@ class AbilityEffect < ApplicationRecord
           mana_fpm: '戦/僧/魔マナ',
           job_f: '戦士',
           job_fa: '戦/弓',
+          job_fm: '戦/魔',
           boost_on_user: '特定の使用者だと効果上昇',
           boost_on_mana: '特定のマナだと効果上昇'
         },
@@ -724,6 +732,7 @@ class AbilityEffect < ApplicationRecord
         with_ap: '弓/僧がいる時',
         with_fka: '戦/騎/弓がいる時',
         with_fkm: '戦/騎/魔がいる時',
+        with_fam: '戦/弓/魔がいる時',
         with_fpm: '戦/僧/魔がいる時',
         with_kam: '騎/弓/魔がいる時',
         with_fkap: '戦/騎/弓/僧がいる時',
@@ -766,6 +775,9 @@ class AbilityEffect < ApplicationRecord
         with_fka: {
           include_self: '自身を含む'
         },
+        with_fam: {
+          include_self: '自身を含む'
+        },
         with_fpm: {
           include_self: '自身を含む'
         },
@@ -799,6 +811,7 @@ class AbilityEffect < ApplicationRecord
         job_fkp: '戦/騎/僧',
         job_fkm: '戦/騎/魔',
         job_fap: '戦/弓/僧',
+        job_fam: '戦/弓/魔',
         job_fpm: '戦/僧/魔',
         job_kam: '騎/弓/魔',
         job_apm: '弓/僧/魔',
@@ -1206,6 +1219,9 @@ class AbilityEffect < ApplicationRecord
         absorb: '与えたダメージを吸収'
       },
       sub_effect: {
+        heal_self: {
+          excess: 'HP超過'
+        },
         heal_all: {
           excess: 'HP超過'
         }
@@ -1546,7 +1562,8 @@ class AbilityEffect < ApplicationRecord
         skill: '必殺技使用時',
         wave_start: '各WAVE開始時',
         use_mana: 'マナが使用された時',
-        any_skill: '誰かが必殺技を使った時'
+        any_skill: '誰かが必殺技を使った時',
+        own_skill: '自分が必殺技を使った時'
       },
       sub_condition: {
         skill: {

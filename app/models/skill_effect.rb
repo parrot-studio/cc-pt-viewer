@@ -342,6 +342,7 @@ class SkillEffect < ApplicationRecord
         guard: '遠距離ガード可能',
         guardup: '遠距離ダメージカット上昇',
         reflect_arrow_pierce: '遠距離反射（貫通）',
+        add_slow: '攻撃時スロウ追加',
         destroy_scrap: 'スクラップ破壊',
         super_skill: '超必殺技'
       }
