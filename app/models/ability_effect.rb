@@ -300,7 +300,8 @@ class AbilityEffect < ApplicationRecord
           boost_on_base_area: '自陣にいると効果上昇',
           boost_on_debuff_enemy: '状態異常の敵がいると効果上昇',
           boost_on_mana: 'マナを持っていると効果上昇',
-          boost_on_combo: '攻撃を一定回数当てると効果上昇'
+          boost_on_combo: '攻撃を一定回数当てると効果上昇',
+          boost_on_with_jobs: '特定の職がいると効果上昇'
         },
         critical: {
           with_span: '連続では発動しない'
@@ -602,6 +603,7 @@ class AbilityEffect < ApplicationRecord
           mana_f: '戦マナ',
           mana_a: '弓マナ',
           mana_m: '魔マナ',
+          mana_fm: '戦/魔マナ',
           mana_fka: '戦/騎/弓マナ',
           mana_all: '虹色マナ',
           mana_exclude_a: '弓マナ以外'
