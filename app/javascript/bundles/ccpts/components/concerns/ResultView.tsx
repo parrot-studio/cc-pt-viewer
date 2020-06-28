@@ -8,6 +8,7 @@ import QueryResult from "../../model/QueryResult"
 
 export interface ResultViewProps {
   pagerSize: number
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   firstResults: any
 }
 

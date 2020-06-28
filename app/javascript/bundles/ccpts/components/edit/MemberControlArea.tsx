@@ -26,7 +26,7 @@ interface MemberControlAreaState {
 
 export default class MemberControlArea extends React.Component<MemberControlAreaProps, MemberControlAreaState> {
 
-  constructor(props) {
+  constructor(props: Readonly<MemberControlAreaProps>) {
     super(props)
 
     this.state = {

@@ -1,7 +1,7 @@
-declare var window
-declare var document
-declare var history
-declare var $
+declare let window
+declare let document
+declare let history
+declare let $
 
 // ブラウザ代理オブジェクト（クライアント）
 export default class Browser {
@@ -59,7 +59,8 @@ export default class Browser {
     })
   }
 
-  public static addDropHandler(div: HTMLDivElement, code: string, callback): void {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public static addDropHandler(div: HTMLLIElement | HTMLDivElement | null, code: string, callback): void {
     if (!div) {
       return
     }
@@ -72,6 +73,7 @@ export default class Browser {
     })
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public static addSwipeHandler(div: HTMLDivElement, callbackLeft, callbackRight): void {
     if (!div) {
       return
@@ -89,7 +91,8 @@ export default class Browser {
     })
   }
 
-  public static addSwitchHandler(div: HTMLDivElement, state: boolean, callback, params: any): void {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public static addSwitchHandler(div: HTMLDivElement, state: boolean, callback, params): void {
     if (!div) {
       return
     }

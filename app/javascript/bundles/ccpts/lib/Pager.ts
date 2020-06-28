@@ -81,7 +81,7 @@ export default class Pager<T extends Arcana> {
     return this.page
   }
 
-  public sort(col: string, order: string = "desc"): T[] {
+  public sort(col: string, order = "desc"): T[] {
     this.all.sort((a, b) => {
       if (a.jobCode === b.jobCode) {
         return 0

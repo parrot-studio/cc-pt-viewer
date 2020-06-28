@@ -33,7 +33,7 @@ export interface ConditionParams {
 }
 
 export default class Conditions {
-  public static init(cs: ConditionParams) {
+  public static init(cs: ConditionParams): void {
     Conditions.conditions = cs
   }
 
@@ -136,7 +136,7 @@ export default class Conditions {
     if (!id) {
       return ""
     }
-    let num: number = 0
+    let num = 0
     if (typeof id === "number") {
       num = id
     } else {
@@ -168,7 +168,7 @@ export default class Conditions {
     if (!id) {
       return ""
     }
-    let num: number = 0
+    let num = 0
     if (typeof id === "number") {
       num = id
     } else {

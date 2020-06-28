@@ -14,6 +14,7 @@ import Browser from "../../lib/BrowserProxy"
 
 interface MemberAreaBodyProps {
   party: Party
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   heroes: any[]
 }
 
@@ -26,7 +27,7 @@ interface MemberAreaBodyState {
 
 export default class MemberAreaBody extends React.Component<MemberAreaBodyProps, MemberAreaBodyState> {
 
-  constructor(props) {
+  constructor(props: Readonly<MemberAreaBodyProps>) {
     super(props)
 
     this.state = {
@@ -63,7 +64,7 @@ export default class MemberAreaBody extends React.Component<MemberAreaBodyProps,
     )
   }
 
-  private addDropHandler(div: HTMLLIElement | null, code: string): void {
+  private addDropHandler(div: HTMLLIElement | HTMLDivElement | null, code: string): void {
     if (!div) {
       return
     }

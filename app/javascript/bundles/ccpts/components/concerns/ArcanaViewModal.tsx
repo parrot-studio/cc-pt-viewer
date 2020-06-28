@@ -29,7 +29,7 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
     }
   }
 
-  private addFavHandler(inp: HTMLElement | null, a: Arcana): void {
+  private addFavHandler(inp: HTMLDivElement | null, a: Arcana): void {
     if (!inp) {
       return
     }
@@ -420,7 +420,7 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
     const small = [this.renderNoramlDetail(a)]
     const normal = [
       (
-        <Tab eventKey="normal" title="通常アビリティ" tabClassName="small">
+        <Tab eventKey="normal" key="normal" title="通常アビリティ" tabClassName="small">
           {this.renderNoramlDetail(a)}
         </Tab>
       )

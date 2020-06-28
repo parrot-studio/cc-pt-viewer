@@ -1,4 +1,5 @@
-declare var window
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare let window: any
 
 // NOTE: SSRするなら切り離す
 import Browser from "../../browser"
@@ -54,7 +55,7 @@ export default class BrowserProxy {
     }
   }
 
-  public static fadeIn(el): void {
+  public static fadeIn(el: HTMLDivElement): void {
     if (!el) {
       return
     }
@@ -63,7 +64,7 @@ export default class BrowserProxy {
     el.style.display = ""
   }
 
-  public static show(el): void {
+  public static show(el: HTMLDivElement): void {
     if (!el) {
       return
     }
@@ -71,7 +72,7 @@ export default class BrowserProxy {
     el.style.display = ""
   }
 
-  public static hide(el): void {
+  public static hide(el: HTMLDivElement): void {
     if (!el) {
       return
     }
@@ -80,13 +81,14 @@ export default class BrowserProxy {
     el.style.display = ""
   }
 
-  public static setDraggable(div, code: string, memkey?: string | null): void {
+  public static setDraggable(div: HTMLDivElement, code: string, memkey?: string | null): void {
     if (BrowserProxy.isWindowDefined) {
       Browser.setDraggable(div, code, memkey)
     }
   }
 
-  public static addDropHandler(div, code: string, callback): void {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public static addDropHandler(div: HTMLLIElement | HTMLDivElement | null, code: string, callback: (targetKey: string, drag: any) => void): void {
     if (BrowserProxy.isWindowDefined) {
       Browser.addDropHandler(div, code, callback)
     }
@@ -99,13 +101,14 @@ export default class BrowserProxy {
     return ""
   }
 
-  public static addSwipeHandler(div, callbackLeft, callbackRight): void {
-    if (BrowserProxy.isWindowDefined && BrowserProxy.isPhoneDevice()) {
+  public static addSwipeHandler(div: HTMLDivElement | null, callbackLeft: () => void, callbackRight: () => void): void {
+    if (BrowserProxy.isWindowDefined && BrowserProxy.isPhoneDevice() && div) {
       Browser.addSwipeHandler(div, callbackLeft, callbackRight)
     }
   }
 
-  public static addSwitchHandler(div, state: boolean, callback, params): void {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public static addSwitchHandler(div: HTMLDivElement, state: boolean, callback, params): void {
     if (BrowserProxy.isWindowDefined) {
       Browser.addSwitchHandler(div, state, callback, params)
     }

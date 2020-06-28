@@ -11,6 +11,7 @@ interface PagerAreaProps {
 
 export default class PagerArea extends React.Component<PagerAreaProps> {
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public render() {
     const pager = this.props.pager
 

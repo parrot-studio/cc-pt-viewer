@@ -19,7 +19,7 @@ interface DatabaseAreaHeaderState {
 
 export default class DatabaseAreaHeader extends React.Component<DatabaseAreaHeaderProps, DatabaseAreaHeaderState> {
 
-  constructor(props) {
+  constructor(props: Readonly<DatabaseAreaHeaderProps>) {
     super(props)
     this.state = {
       showShareModal: false,

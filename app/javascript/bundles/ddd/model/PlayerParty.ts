@@ -16,7 +16,8 @@ export default class PlayerParty {
 
   get cost(): number {
     return _.chain(this._members)
-      .flatMap((mem, _pos) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      .flatMap((mem, pos) => {
         if (!mem) {
           return 0
         }

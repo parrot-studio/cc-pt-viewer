@@ -5,9 +5,9 @@ import FastClick from "fastclick"
 import AppView from "./ccpts/components/AppView"
 import Browser from "./ccpts/lib/BrowserProxy"
 
-declare var document
-declare var window
-declare var FastClick
+declare let document
+declare let window
+declare let FastClick
 
 document.addEventListener("DOMContentLoaded", () => {
   // init

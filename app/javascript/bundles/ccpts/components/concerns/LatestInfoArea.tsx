@@ -1,4 +1,3 @@
-import * as _ from "lodash"
 import * as React from "react"
 import { Alert } from "react-bootstrap"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -25,7 +24,7 @@ export default class LatestInfoArea extends React.Component<LatestInfoAreaProps,
     let visible = false
     if (this.props.latestInfo) {
       const ver = String(this.props.latestInfo.version) || ""
-      const cs: any = {}
+      const cs = {}
       cs[LatestInfoArea.COOKIE_NAME] = ver
       Cookie.set(cs)
       visible = true

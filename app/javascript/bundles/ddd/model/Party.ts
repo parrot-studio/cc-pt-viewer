@@ -22,7 +22,7 @@ export default class Party {
     return this._playerParty.cost
   }
 
-  get code() {
+  get code(): string {
     return `${this._playerParty.code}${this._friendMember.code}`
   }
 
@@ -79,7 +79,7 @@ export default class Party {
   }
 
   // 位置を指定してメンバーを削除する
-  public removeMember(pos): void {
+  public removeMember(pos: string): void {
     if (this.isFriendPosition(pos)) {
       this.removeFriend()
     }

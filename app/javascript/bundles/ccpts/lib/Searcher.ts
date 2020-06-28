@@ -21,6 +21,7 @@ interface SearchResultCache {
 }
 
 interface SearchMemberCache {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any
 }
 
@@ -108,6 +109,7 @@ export default class Searcher {
     })
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public static request(text: string): Bacon.EventStream<any> {
     Searcher.showError(false)
     Searcher.showModal(true)
@@ -143,6 +145,7 @@ export default class Searcher {
   private static showModal: (state: boolean) => void
   private static showError: (state: boolean) => void
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private static search(params: any, url: string): Bacon.EventStream<any> {
     Searcher.showError(false)
 

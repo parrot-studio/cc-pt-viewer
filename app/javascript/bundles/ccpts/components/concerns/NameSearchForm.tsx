@@ -8,11 +8,13 @@ interface NameSearchFormState {
   name: string
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export default class NameSearchForm extends React.Component<{}, NameSearchFormState> {
 
   private nameStream: Bacon.Bus<QueryParam> = new Bacon.Bus()
 
-  constructor(props) {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  constructor(props: Readonly<{}>) {
     super(props)
 
     this.state = {

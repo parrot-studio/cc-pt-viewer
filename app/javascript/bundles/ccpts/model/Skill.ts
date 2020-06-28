@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import * as _ from "lodash"
 
 export interface SkillEffect {
@@ -46,15 +48,15 @@ export default class Skill {
     }
   }
 
-  get name() {
+  get name(): string {
     return this._name
   }
 
-  get cost() {
+  get cost(): number {
     return this._cost
   }
 
-  get effects() {
+  get effects(): SkillEffect[] {
     return this._effects
   }
 

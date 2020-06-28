@@ -29,7 +29,7 @@ export default abstract class ArcanaRenderer<T, S> extends React.Component<T, S>
     }
   }
 
-  protected isSameArcana(ba: Arcana | null, na: Arcana | null) {
+  protected isSameArcana(ba: Arcana | null, na: Arcana | null): boolean {
     if (ba == null && na == null) {
       return true
     }
@@ -40,12 +40,13 @@ export default abstract class ArcanaRenderer<T, S> extends React.Component<T, S>
     return false
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   protected openArcanaViewModal(a: Arcana, e): void {
     e.preventDefault()
     MessageStream.arcanaViewStream.push(a)
   }
 
-  protected setDraggable(code: string, memkey?: string | null) {
+  protected setDraggable(code: string, memkey?: string | null): void {
     if (!this.div) {
       return
     }

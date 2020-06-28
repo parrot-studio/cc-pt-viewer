@@ -58,7 +58,7 @@ export default class ConditionView extends React.Component<ConditionViewProps, C
 
   private notifier: Bacon.Bus<QueryParam>
 
-  constructor(props) {
+  constructor(props: Readonly<ConditionViewProps>) {
     super(props)
     let q = {}
     if (this.props.query) {

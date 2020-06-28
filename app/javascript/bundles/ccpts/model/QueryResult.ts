@@ -1,7 +1,7 @@
 import Arcana from "./Arcana"
 
 export default class QueryResult {
-  public static create(arcanas: Arcana[], detail: string) {
+  public static create(arcanas: Arcana[], detail: string): QueryResult {
     return new QueryResult(arcanas, detail)
   }
 

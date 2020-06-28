@@ -16,6 +16,7 @@ export default class Party {
     return pt
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public static build(data: { [key: string]: any }): Party {
     const as = _.mapValues(data, (d) => Arcana.build(d))
     const pt = new Party()

@@ -16,6 +16,7 @@ interface DatabaseModeViewProps {
   pagerSize: number
   latestInfo: LatestInfo | null
   firstQuery: Query | null
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   firstResults: any
   switchConditionMode(): void
 }
@@ -27,7 +28,7 @@ interface DatabaseModeViewState {
 
 export default class DatabaseModeView extends React.Component<DatabaseModeViewProps, DatabaseModeViewState> {
 
-  constructor(props) {
+  constructor(props: Readonly<DatabaseModeViewProps>) {
     super(props)
 
     let showHeader = true

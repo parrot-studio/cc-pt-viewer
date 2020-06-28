@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as _ from "lodash"
 import * as React from "react"
 import { Alert, Modal } from "react-bootstrap"

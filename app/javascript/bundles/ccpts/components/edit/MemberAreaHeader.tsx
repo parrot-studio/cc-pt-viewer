@@ -23,7 +23,7 @@ interface MemberAreaHeaderState {
 
 export default class MemberAreaHeader extends React.Component<MemberAreaHeaderProps, MemberAreaHeaderState> {
 
-  constructor(props) {
+  constructor(props: Readonly<MemberAreaHeaderProps>) {
     super(props)
 
     this.state = {

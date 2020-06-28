@@ -3,6 +3,7 @@ import * as ObjectHash from "object-hash"
 import Conditions from "./Conditions"
 
 export interface QueryParam {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any
 }
 
@@ -23,7 +24,7 @@ export default class Query {
 
     let ret: QueryParam = {}
     let recently = false
-    let name: string = ""
+    let name = ""
     const r = /\+/g
     _.forEach(q.split("&"), (qs) => {
       const ss = qs.split("=")

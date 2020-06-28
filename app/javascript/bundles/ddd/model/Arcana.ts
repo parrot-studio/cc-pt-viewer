@@ -22,7 +22,7 @@ export default class Arcana {
   }
 
   // 等価性判定
-  public isEqual(other: Arcana | null) {
+  public isEqual(other: Arcana | null): boolean {
     if (!other) {
       return false
     }

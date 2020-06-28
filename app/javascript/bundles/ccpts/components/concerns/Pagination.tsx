@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import * as React from "react"
 import { Pagination } from "react-bootstrap"
 import { createUltimatePagination, ITEM_TYPES } from "react-ultimate-pagination"

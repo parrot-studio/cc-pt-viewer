@@ -14,9 +14,11 @@ interface SearchMenuButtonState {
   querys: Query[]
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export default class SearchMenuButton extends React.Component<{}, SearchMenuButtonState> {
 
-  constructor(props) {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  constructor(props: Readonly<{}>) {
     super(props)
     this.state = {
       querys: QueryRepository.querys

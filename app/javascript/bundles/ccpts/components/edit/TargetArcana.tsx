@@ -19,7 +19,7 @@ interface TargetArcanaState {
 
 export default class TargetArcana extends ArcanaRenderer<TargetArcanaProps, TargetArcanaState> {
 
-  constructor(props) {
+  constructor(props: Readonly<TargetArcanaProps>) {
     super(props)
 
     const code = this.props.arcana.jobCode
@@ -37,7 +37,7 @@ export default class TargetArcana extends ArcanaRenderer<TargetArcanaProps, Targ
     })
   }
 
-  public shouldComponentUpdate(nextProps): boolean {
+  public shouldComponentUpdate(nextProps: { arcana: Arcana | null }): boolean {
     return !this.isSameArcana(this.props.arcana, nextProps.arcana)
   }
 

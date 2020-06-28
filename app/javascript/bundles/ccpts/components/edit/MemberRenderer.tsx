@@ -1,4 +1,3 @@
-import * as _ from "lodash"
 import * as React from "react"
 
 import Member from "../../model/Member"
@@ -9,13 +8,14 @@ export interface MemberRendererProps {
   member: Member | null
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export abstract class MemberRenderer<T extends MemberRendererProps> extends ArcanaRenderer<T, {}> {
 
   public shouldComponentUpdate(nextProps: T): boolean {
     return !this.isSameMember(this.props.member, nextProps.member)
   }
 
-  protected isSameMember(bm: Member | null, nm: Member | null) {
+  protected isSameMember(bm: Member | null, nm: Member | null): boolean {
     if (bm == null && nm == null) {
       return true
     }

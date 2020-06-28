@@ -7,9 +7,11 @@ interface EditTutorialAreaState {
   visible: boolean
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export default class EditTutorialArea extends React.Component<{}, EditTutorialAreaState> {
 
-  constructor(props) {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  constructor(props: Readonly<{}>) {
     super(props)
     Cookie.set({ tutorial: true })
     this.state = { visible: true }

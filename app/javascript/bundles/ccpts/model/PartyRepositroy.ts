@@ -44,7 +44,7 @@ export default class PartyRepositroy {
 
   private static _instance: PartyRepositroy = new PartyRepositroy("", [])
 
-  private _lastParty: string = ""
+  private _lastParty = ""
   private _parties: PartyLog[] = []
 
   private constructor(lastPatry: string, pts: PartyLog[]) {
@@ -94,13 +94,13 @@ export default class PartyRepositroy {
   }
 
   private setListCookie(code: string): void {
-    const cs: any = {}
+    const cs = {}
     cs[PartyRepositroy.COOKIE_NAME_LIST] = code
     Cookie.set(cs)
   }
 
   private setLastCookie(code: string): void {
-    const cs: any = {}
+    const cs = {}
     cs[PartyRepositroy.COOKIE_NAME_LAST] = code
     Cookie.set(cs)
   }

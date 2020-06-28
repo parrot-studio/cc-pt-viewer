@@ -42,7 +42,7 @@ describe("Skill", () => {
 
     it("<<必殺技効果>>は最低一つ必要", () => {
       expect(() => {
-        // tslint:disable-next-line:no-unused-variable
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const skill = new Skill(skillName, skillCost, cond, [])
       }).toThrow()
     })

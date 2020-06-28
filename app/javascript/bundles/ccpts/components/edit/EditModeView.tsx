@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as _ from "lodash"
 import * as React from "react"
 
-import Arcana from "../../model/Arcana"
 import Party from "../../model/Party"
 import PartyRepositroy, { PartyLog } from "../../model/PartyRepositroy"
 import LatestInfo from "../../model/LatestInfo"
@@ -49,7 +49,7 @@ export default class EditModeView extends React.Component<EditModeViewProps, Edi
   private editArea: HTMLDivElement | null = null
   private partyArea: HTMLDivElement | null = null
 
-  constructor(props) {
+  constructor(props: Readonly<EditModeViewProps>) {
     super(props)
 
     Party.ptver = this.props.ptver
