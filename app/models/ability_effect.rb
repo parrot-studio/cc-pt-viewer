@@ -226,6 +226,7 @@ class AbilityEffect < ApplicationRecord
         with_demon: '所属：魔神がいる時',
         with_others: '所属：旅人がいる時',
         with_volunteers: '所属：義勇軍がいる時',
+        with_many_holytown: '所属：聖都が多いほど',
         with_many_academy: '所属：賢者の塔が多いほど',
         with_many_oasis: '所属：湖都が多いほど',
         with_many_forest: '所属：精霊島が多いほど',
@@ -356,6 +357,9 @@ class AbilityEffect < ApplicationRecord
         },
         with_volunteers: {
           job_m: '魔法使い'
+        },
+        with_many_holytown: {
+          include_self: '自身を含む'
         },
         with_many_academy: {
           include_self: '自身を含む'
