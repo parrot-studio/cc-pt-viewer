@@ -213,6 +213,7 @@ class AbilityEffect < ApplicationRecord
         with_blpi: '<<打/突>>がいる時',
         with_armahe: '<<弓/魔/聖>>がいる時',
         with_gush: '<<銃/狙>>がいる時',
+        with_many_slbl: '<<斬/打>>が多いほど',
         with_guildtown: '所属：副都がいる時',
         with_holytown: '所属：聖都がいる時',
         with_academy: '所属：賢者の塔がいる時',
@@ -1491,7 +1492,7 @@ class AbilityEffect < ApplicationRecord
         guard_slow: 'スロウを防ぐ',
         guard_undead: '白骨化を防ぐ',
         guard_weaken: '衰弱を防ぐ',
-        guard_all: '全ての状態異常を防ぐ',
+        guard_all: '全ての状態異常を防止',
         guard_hitstop: '遠距離でのけぞらない',
         reduce_poison: '毒のダメージを減らす',
         reduce_weaken: '衰弱のダメージを減らす',
@@ -1790,7 +1791,7 @@ class AbilityEffect < ApplicationRecord
         in_upland: '高地で戦闘時',
         in_snow: '雪山で戦闘時',
         in_prison: '監獄で戦闘時',
-        in_night: '夜間に戦闘時',
+        in_night: '夜に戦闘時',
         in_dimension: '異空間で戦闘時'
       },
       target: {
@@ -1883,7 +1884,9 @@ class AbilityEffect < ApplicationRecord
       name: '自動スキル発動',
       effect: {
         attack: '攻撃スキル発動',
-        field: 'フィールド変更スキル発動'
+        field: 'フィールド変更スキル発動',
+        area: '領域展開/設置スキル発動',
+        enchant: '付与スキル発動'
       },
       sub_effect: {
         attack: {
@@ -1892,7 +1895,14 @@ class AbilityEffect < ApplicationRecord
           summon: '召喚'
         },
         field: {
-          ship: '船上'
+          ship: '船上',
+          night: '夜'
+        },
+        area: {
+          echo: '[領域] 反響'
+        },
+        enchant: {
+          all: '全体'
         }
       },
       condition: {

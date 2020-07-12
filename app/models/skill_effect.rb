@@ -226,6 +226,7 @@ class SkillEffect < ApplicationRecord
         defdown: '防御力低下',
         add_fire: '炎属性付与',
         add_ice: '氷属性付与',
+        guard_all: '全ての状態異常を防止',
         create_scrap: 'スクラップ生成',
         destroy_scrap: 'スクラップ破壊',
         super_skill: '超必殺技',
