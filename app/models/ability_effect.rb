@@ -227,6 +227,7 @@ class AbilityEffect < ApplicationRecord
         with_demon: '所属：魔神がいる時',
         with_others: '所属：旅人がいる時',
         with_volunteers: '所属：義勇軍がいる時',
+        with_many_guildtown: '所属：副都が多いほど',
         with_many_holytown: '所属：聖都が多いほど',
         with_many_academy: '所属：賢者の塔が多いほど',
         with_many_oasis: '所属：湖都が多いほど',
@@ -358,6 +359,9 @@ class AbilityEffect < ApplicationRecord
         },
         with_volunteers: {
           job_m: '魔法使い'
+        },
+        with_many_guildtown: {
+          include_self: '自身を含む'
         },
         with_many_holytown: {
           include_self: '自身を含む'
@@ -954,6 +958,7 @@ class AbilityEffect < ApplicationRecord
         dsup: '防御力/移動速度上昇',
         dcup: '防御力/クリティカル率上昇',
         scup: '移動速度/クリティカル率上昇',
+        crup: 'クリティカル率/クリティカル威力上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
         adcup: '攻撃力/防御力/クリティカル率上昇',
         adrup: '攻撃力/防御力/クリティカル威力上昇',
