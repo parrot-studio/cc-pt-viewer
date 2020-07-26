@@ -305,7 +305,7 @@ class Arcana < ApplicationRecord
   SOURCE_GROUP_CATEGORYS = %i[first second].freeze
 
   NOT_INHERITABLE_TYPES = %i[buddy third demon_newgene collabo_newgene].freeze
-  NOT_INHERITABLE_ARCANAS = %w[F211 F156 M288 F484].freeze # ミョルン, ホーク, リムル, ソニック
+  NOT_INHERITABLE_ARCANAS = %w[F211 F156 M288 F484 F494].freeze # ミョルン, ホーク, リムル, ソニック
   NOT_INHERITABLE_COLLABORATIONS = %w[
     sakurawar_new magica taiko sakurawar falcom_sorasc brave monokuma
     atelier_twilight hardgirls trefle shiningblade other

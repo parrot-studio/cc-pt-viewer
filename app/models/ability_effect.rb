@@ -195,6 +195,7 @@ class AbilityEffect < ApplicationRecord
         with_m: '魔法使いがいる時',
         with_fk: '戦/騎がいる時',
         with_fa: '戦/弓がいる時',
+        with_kp: '騎/僧がいる時',
         with_fkpm: '戦/騎/僧/魔がいる時',
         with_exclude_f: '戦士以外がいる時',
         with_various_jobs: '職の種類が多いほど',
@@ -340,6 +341,9 @@ class AbilityEffect < ApplicationRecord
         with_fa: {
           include_self: '自身を含む',
           group_oasis: '湖都所属'
+        },
+        with_kp: {
+          group_holytown: '聖都所属'
         },
         with_pu: {
           group_beasts: 'ケ者所属',
@@ -1388,6 +1392,7 @@ class AbilityEffect < ApplicationRecord
         group_forest: '精霊島所属',
         group_volcano: '九領所属',
         group_beasts: 'ケ者所属',
+        group_chronicle: '年代記所属',
         group_others: '旅人所属',
         group_demon: '魔神所属',
         base_area_member: '自陣にいる味方'
@@ -1677,6 +1682,7 @@ class AbilityEffect < ApplicationRecord
           mana_fk: '戦＋騎',
           mana_fm: '戦＋魔',
           mana_ka: '騎＋弓',
+          mana_kp: '騎＋僧',
           mana_fkm: '戦＋騎＋魔',
           mana_fam: '戦＋弓＋魔',
           mana_fkam: '戦＋騎＋弓＋魔'
