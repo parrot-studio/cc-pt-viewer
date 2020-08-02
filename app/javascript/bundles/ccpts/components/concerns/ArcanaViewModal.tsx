@@ -239,6 +239,17 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
     }
   }
 
+  private renderExtraAbility(a: Arcana): JSX.Element[] | null {
+    if (a.extraAbility && a.extraAbility.effects.length > 0) {
+      return ([
+        <dt key="cdt">EXアビリティ</dt>,
+        <dd key="cdd">{this.renderAbility(a.extraAbility)}</dd>
+      ])
+    } else {
+      return null
+    }
+  }
+
   private renderWeaponAbility(a: Arcana): JSX.Element[] | null {
     if (a.weaponAbility && !_.isEmpty(a.weaponAbility.name)) {
       return ([
@@ -387,6 +398,7 @@ export default class ArcanaViewModal extends React.Component<ArcanaViewModalProp
         {this.renderFirstAbility(a)}
         {this.renderSecondAbility(a)}
         {this.renderPartyAbility(a)}
+        {this.renderExtraAbility(a)}
         {this.renderWeaponAbility(a)}
         {this.renderChainAbility(a)}
       </dl>

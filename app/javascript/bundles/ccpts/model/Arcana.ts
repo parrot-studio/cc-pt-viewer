@@ -105,6 +105,7 @@ export default class Arcana {
   private _partyAbility: Ability | null = null
   private _passiveAbility: Ability | null = null
   private _gunkiAbilities: Ability[] = []
+  private _extraAbility: Ability | null = null
 
   get name(): string {
     return this._name
@@ -231,6 +232,9 @@ export default class Arcana {
   get passiveAbility(): Ability | null {
     return this._passiveAbility
   }
+  get extraAbility(): Ability | null {
+    return this._extraAbility
+  }
   get gunkiAbilities(): Ability[] {
     return this._gunkiAbilities
   }
@@ -316,6 +320,9 @@ export default class Arcana {
     }
     if (!_.isEmpty(data.passive_ability)) {
       this._passiveAbility = new Ability(data.passive_ability)
+    }
+    if (!_.isEmpty(data.extra_ability)) {
+      this._extraAbility = new Ability(data.extra_ability)
     }
     this._gunkiAbilities = _.map(data.gunki_abilites || [], (ga) => new Ability(ga))
   }

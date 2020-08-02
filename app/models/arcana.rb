@@ -458,6 +458,7 @@ class Arcana < ApplicationRecord
     ret['chain_ability'] = ability_for('c')&.serialize || {}
     ret['weapon_ability'] = ability_for('w')&.serialize || {}
     ret['passive_ability'] = ability_for('pa')&.serialize || {}
+    ret['extra_ability'] = ability_for('e')&.serialize || {}
 
     ret['gunki_abilites'] = Ability::TYPE_GUNKI.map do |gc|
       ability_for(gc)&.serialize

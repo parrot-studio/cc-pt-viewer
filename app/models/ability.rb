@@ -29,11 +29,13 @@ class Ability < ApplicationRecord
   TYPE_CHAIN = 'c'.freeze
   TYPE_GUNKI = (1..7).map { |n| "g#{n}" }.freeze # デフォルト2＋各ルートクリア5
   TYPE_PASSIVE = 'pa'.freeze
+  TYPE_EXTRA = 'e'.freeze
 
   scope :normal_abilities, -> { where(ability_type: TYPE_NORMAL) }
   scope :chain_abilities, -> { where(ability_type: TYPE_CHAIN) }
   scope :gunki_abilities, -> { where(ability_type: TYPE_GUNKI) }
   scope :passive_abilities, -> { where(ability_type: TYPE_PASSIVE) }
+  scope :extra_abilities, -> { where(ability_type: TYPE_EXTRA) }
 
   validates :job_code,
             presence: true,

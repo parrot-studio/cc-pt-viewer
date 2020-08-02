@@ -27,8 +27,6 @@
 #  index_ability_effects_on_ability_id  (ability_id)
 #  target                               (category,target,sub_target)
 #
-
-# rubocop:disable Metrics/ClassLength, Metrics/MethodLength, Metrics/AbcSize
 class AbilityEffect < ApplicationRecord
   belongs_to :ability, inverse_of: :ability_effects
 
@@ -894,6 +892,7 @@ class AbilityEffect < ApplicationRecord
         with_blpipu: '<<打/突/拳>>がいる時',
         with_blpush: '<<打/銃/狙>>がいる時',
         with_slpimapu: '<<斬/突/魔/拳>>がいる時',
+        with_guildtown: '所属：副都がいる時',
         with_dawnsea: '所属：大海がいる時',
         wave_start: '各WAVE開始時',
         in_heroic: '援軍として参戦した時'
@@ -1400,7 +1399,8 @@ class AbilityEffect < ApplicationRecord
       sub_target: {
         all: {
           boost_for_union: '対象が特定の所属だと効果上昇',
-          boost_for_jobs: '対象が特定の職業だと効果上昇'
+          boost_for_jobs: '対象が特定の職業だと効果上昇',
+          boost_for_self: '自身は効果上昇'
         },
         job_f: {
           nearest: '最も近い対象'

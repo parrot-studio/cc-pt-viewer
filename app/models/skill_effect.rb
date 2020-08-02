@@ -221,6 +221,7 @@ class SkillEffect < ApplicationRecord
         adsup: '攻撃力/防御力/移動速度上昇',
         adcup: '攻撃力/防御力/クリティカル率上昇',
         acrup: '攻撃力/クリティカル率/クリティカル威力上昇',
+        adcrup: '攻撃力/防御力/クリティカル率/クリティカル威力上昇',
         delayoff: '攻撃速度上昇',
         atkdown: '攻撃力低下',
         defdown: '防御力低下',
