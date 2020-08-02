@@ -147,7 +147,8 @@ class AbilityEffect < ApplicationRecord
           defdown_self: '自身の防御力低下'
         },
         healareaup: {
-          defdown_self: '自身の防御力低下'
+          defdown_self: '自身の防御力低下',
+          excess: '超過'
         },
         extra_attack: {
           ice: '氷属性'
@@ -619,6 +620,9 @@ class AbilityEffect < ApplicationRecord
           mana_all: '虹色マナ',
           mana_exclude_a: '弓マナ以外'
         },
+        kill: {
+          boost_on_debuff_enemy: '状態異常の敵がだと効果上昇'
+        },
         with_fk: {
           include_self: '自身を含む'
         },
@@ -749,6 +753,7 @@ class AbilityEffect < ApplicationRecord
         with_fpm: '戦/僧/魔がいる時',
         with_kam: '騎/弓/魔がいる時',
         with_fkap: '戦/騎/弓/僧がいる時',
+        with_kapm: '騎/弓/僧/魔がいる時',
         wave_start: '各WAVE開始時',
         in_sub: 'サブパーティーにいる時',
         own_skill: '自分が必殺技を使った時',
@@ -828,7 +833,8 @@ class AbilityEffect < ApplicationRecord
         job_fpm: '戦/僧/魔',
         job_kam: '騎/弓/魔',
         job_apm: '弓/僧/魔',
-        job_fkap: '戦/騎/弓/僧'
+        job_fkap: '戦/騎/弓/僧',
+        job_kapm: '騎/弓/僧/魔'
       },
       sub_target: {
         job_f: {
@@ -1093,6 +1099,7 @@ class AbilityEffect < ApplicationRecord
         scrup: '移動速度/クリティカル率/クリティカル威力上昇',
         adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
         dscrup: '防御力/移動速度/クリティカル率/クリティカル威力上昇',
+        maxhpup: '最大HP増加',
         barrier: 'バリアを張る',
         aup_m: '攻撃力上昇 / 一定時間',
         dup_m: '防御力上昇 / 一定時間',
@@ -1108,6 +1115,7 @@ class AbilityEffect < ApplicationRecord
         adscup_m: '攻撃力/防御力/移動速度/クリティカル率上昇 / 一定時間'
       },
       condition: {
+        any: 'いつでも',
         wave_start: '各WAVE開始時',
         in_sub: 'サブパーティーにいる時',
         in_combo: '攻撃を一定回数当てた時',
@@ -1118,7 +1126,8 @@ class AbilityEffect < ApplicationRecord
         hp_worst: '最もHPの低い対象',
         owner: '主人',
         buddy: 'バディ',
-        random: 'ランダム'
+        random: 'ランダム',
+        leader: 'リーダー'
       }
     },
     buff_area: {
@@ -1235,6 +1244,9 @@ class AbilityEffect < ApplicationRecord
       },
       sub_effect: {
         heal_self: {
+          excess: 'HP超過'
+        },
+        heal_one: {
           excess: 'HP超過'
         },
         heal_all: {
@@ -2397,4 +2409,4 @@ class AbilityEffect < ApplicationRecord
     ef
   end
 end
-# rubocop:enable Metrics/ClassLength, Metrics/MethodLength, Metrics/AbcSize
+# rubocop:enable
