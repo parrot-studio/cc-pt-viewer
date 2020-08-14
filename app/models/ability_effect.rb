@@ -565,7 +565,8 @@ class AbilityEffect < ApplicationRecord
       },
       sub_condition: {
         any: {
-          boost_on_job_target: '対象が特定の職だと効果上昇'
+          boost_on_job_target: '対象が特定の職だと効果上昇',
+          boost_on_field: '特定のフィールドだと効果上昇'
         },
         in_sub: {
           field: '特定のフィールド',
@@ -1796,6 +1797,7 @@ class AbilityEffect < ApplicationRecord
         adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
         adsrup: '攻撃力/防御力/移動速度/クリティカル威力上昇',
         adcrup: '攻撃力/防御力/クリティカル率/クリティカル威力上昇',
+        adscrup: '攻撃力/防御力/移動速度/クリティカル率/クリティカル威力上昇',
         delayoff: '攻撃速度上昇'
       },
       condition: {
@@ -1919,6 +1921,8 @@ class AbilityEffect < ApplicationRecord
         },
         field: {
           ship: '船上',
+          beach: '砂浜',
+          sea: '海中',
           night: '夜'
         },
         area: {
