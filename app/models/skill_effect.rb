@@ -77,6 +77,7 @@ class SkillEffect < ApplicationRecord
         laser: 'レーザー',
         summon: '召喚',
         cycle_shoot: '定期的に射撃',
+        cycle_shoot_blast: '定期的に射撃/爆発',
         bullets: '連射',
         chain: '周囲に連鎖',
         bombard: '砲撃',

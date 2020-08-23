@@ -3328,5 +3328,19 @@ K・K,A,195,1,,FB‐202 ファイアブロウ,1,初回のみ,attack,summon,,,,,,
 エチゴ,F,500,1,,鬼式水戦術・大喰い,1,,attack,range_forward,add_push,add_down,,,,マナ4個以下で効果上昇
 ,,,,,,forward,,heal,one_self,excess,,,,,マナ4個以下で効果上昇
 ,,,,,,,,,,,,,,,
+# レジェンドフェス（8/19）,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+エレメンガルト,K,244,1,,レゾナンツ・シュトーセン,1,,area,echo,,,,,,
+,,,,,,forward,,attack,range_forward,create_scrap,,,,,2個
+,,,2,,エクスプロズ・シュトロム,1,超必殺技ゲージMAX,attack,range_random_blast,super_skill,,,,,
+,,,,,,forward,,attack,range_forward,super_skill,add_down,,,,
+,,,,,,forward,,buff,all,super_skill,adup,,,,スクラップを所持していると効果上昇
+,,,d,,イミテイト・シュトロム,1,,attack,range_random_blast,,,,,,
+,,,,,,forward,,attack,range_forward,add_down,,,,,
+,,,,,,forward,,buff,all,adup,,,,,
+アシュリー,A,245,1,d,スターダスト・レイン,1,,attack,cycle_shoot_blast,add_fulldown,,,,,
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 # end,,,,,,,,,,,,,,,
