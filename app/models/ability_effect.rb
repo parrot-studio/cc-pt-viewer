@@ -559,6 +559,7 @@ class AbilityEffect < ApplicationRecord
         from_sub: 'サブから戦場に移動したとき',
         with_k: '騎士がいる時',
         with_fk: '戦/騎がいる時',
+        with_ka: '騎/弓がいる時',
         battle_start: '戦闘開始時',
         in_heroic: '援軍として参戦した時',
         targeted_self: '自身を選択中'
@@ -625,6 +626,9 @@ class AbilityEffect < ApplicationRecord
           boost_on_debuff_enemy: '状態異常の敵がだと効果上昇'
         },
         with_fk: {
+          include_self: '自身を含む'
+        },
+        with_ka: {
           include_self: '自身を含む'
         },
         battle_start: {
@@ -1140,6 +1144,7 @@ class AbilityEffect < ApplicationRecord
         acup: '攻撃力/クリティカル率上昇',
         arup: '攻撃力/クリティカル威力上昇',
         dsup: '防御力/移動速度上昇',
+        crup: 'クリティカル率/クリティカル威力上昇',
         adsup: '攻撃力/防御力/移動速度上昇',
         acrup: '攻撃力/クリティカル率/クリティカル威力上昇',
         super_gauge_gain: '超必殺技ゲージ上昇',
@@ -1147,6 +1152,7 @@ class AbilityEffect < ApplicationRecord
         dup_m: '防御力上昇 / 一定時間',
         adup_m: '攻撃力/防御力上昇 / 一定時間',
         dsup_m: '防御力/移動速度上昇 / 一定時間',
+        crup_m: 'クリティカル率/クリティカル威力上昇 / 一定時間',
         adsup_m: '攻撃力/防御力/移動速度上昇 / 一定時間',
         acrup_m: '攻撃力/クリティカル率/クリティカル威力上昇 / 一定時間'
       },
@@ -1698,6 +1704,7 @@ class AbilityEffect < ApplicationRecord
           mana_kp: '騎＋僧',
           mana_fkm: '戦＋騎＋魔',
           mana_fam: '戦＋弓＋魔',
+          mana_kap: '騎＋弓＋僧',
           mana_fkam: '戦＋騎＋弓＋魔'
         },
         composite: {
@@ -1909,6 +1916,7 @@ class AbilityEffect < ApplicationRecord
       name: '自動スキル発動',
       effect: {
         attack: '攻撃スキル発動',
+        buff: '強化スキル発動',
         field: 'フィールド変更スキル発動',
         area: '領域展開/設置スキル発動',
         enchant: '付与スキル発動'
@@ -1918,6 +1926,9 @@ class AbilityEffect < ApplicationRecord
           range_dash: '範囲・ダッシュ',
           range_random_blast: '範囲・ランダム/爆発',
           summon: '召喚'
+        },
+        buff: {
+          adup: '攻撃力/防御力上昇'
         },
         field: {
           ship: '船上',
@@ -1934,7 +1945,8 @@ class AbilityEffect < ApplicationRecord
       },
       condition: {
         battle_start: '戦闘開始時',
-        boss_wave: 'BOSS WAVE時'
+        boss_wave: 'BOSS WAVE時',
+        wave_span: '一定WAVE進むごとに'
       },
       target: {
         self: ''

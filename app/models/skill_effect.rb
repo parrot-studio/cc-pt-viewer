@@ -257,6 +257,7 @@ class SkillEffect < ApplicationRecord
         invincible: '無敵',
         aup: '攻撃力上昇',
         reflect_attack: '攻撃反射',
+        destroy_scrap: 'スクラップ破壊',
         super_skill: '超必殺技'
       }
     },

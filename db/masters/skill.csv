@@ -3340,7 +3340,15 @@ K・K,A,195,1,,FB‐202 ファイアブロウ,1,初回のみ,attack,summon,,,,,,
 ,,,,,,forward,,buff,all,adup,,,,,
 アシュリー,A,245,1,d,スターダスト・レイン,1,,attack,cycle_shoot_blast,add_fulldown,,,,,
 ,,,,,,,,,,,,,,,
+# 思い出リサイクル,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
+クルト,K,245,1,d,フォルンラディーレン,1,,attack,range_forward_combo,add_tumble,,,,,
+,,,,d,,forward,,buff,all,adup,create_scrap,,,,1個
+,,,2,,ハイスラディーレ,1,スクラップ2個以上,attack,range_forward_combo,add_tumble,kill_mana,,,,
+,,,,,,forward,,buff,all,adsup,destroy_scrap,,,,2個
+ビアンカ,P,139,1,d,コンティネントクーア,1,,heal,all_instant,asup,create_scrap,,,,2個
+,,,2,,コンティネントリフォーム,1,スクラップ2個以上,heal,all_instant,excess,asup,,,,
+,,,,,,forward,,barrier,all,destroy_scrap,,,,,2個
 ,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 # end,,,,,,,,,,,,,,,
