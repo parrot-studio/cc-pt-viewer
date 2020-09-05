@@ -1253,6 +1253,9 @@ class AbilityEffect < ApplicationRecord
         heal_self: {
           excess: 'HP超過'
         },
+        heal_cycle: {
+          excess: 'HP超過'
+        },
         heal_one: {
           excess: 'HP超過'
         },
@@ -1916,6 +1919,7 @@ class AbilityEffect < ApplicationRecord
       name: '自動スキル発動',
       effect: {
         attack: '攻撃スキル発動',
+        heal: '回復スキル発動',
         buff: '強化スキル発動',
         field: 'フィールド変更スキル発動',
         area: '領域展開/設置スキル発動',
@@ -1926,6 +1930,9 @@ class AbilityEffect < ApplicationRecord
           range_dash: '範囲・ダッシュ',
           range_random_blast: '範囲・ランダム/爆発',
           summon: '召喚'
+        },
+        heal: {
+          all_cycle: '全体・徐々に回復'
         },
         buff: {
           adup: '攻撃力/防御力上昇'
@@ -1946,7 +1953,8 @@ class AbilityEffect < ApplicationRecord
       condition: {
         battle_start: '戦闘開始時',
         boss_wave: 'BOSS WAVE時',
-        wave_span: '一定WAVE進むごとに'
+        wave_span: '一定WAVE進むごとに',
+        in_heroic: '援軍として参戦した時'
       },
       target: {
         self: ''
