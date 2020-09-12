@@ -303,6 +303,7 @@ class SkillEffect < ApplicationRecord
         add_slow: 'スロウ追加',
         add_down: 'ダウン追加',
         add_freeze: '凍結追加',
+        add_push: '弾き飛ばし',
         add_tumble: '転倒付与',
         fire: '火属性',
         ice: '氷属性',

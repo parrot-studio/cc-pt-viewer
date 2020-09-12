@@ -3356,6 +3356,17 @@ K・K,A,195,1,,FB‐202 ファイアブロウ,1,初回のみ,attack,summon,,,,,,
 ,,,,,,forward,,buff,all,adup,,,,,
 ,,,h,,クロノス・バースト,0,,attack,range_random_blast,,,,,,
 ,,,,,,,,,,,,,,,
+# 白と黒と願いと未来,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+ガブリエラ,F,501,1,,なんちゃらブレイズ！！,1,,attack,range_drop,add_down,,,,,一番HPが高い対象
+,,,2,,パパっぽい必殺剣！！,1,覚醒ゲージMAX,attack,range_forward,add_push,,,,,
+,,,,,,forward,,area,buff,adup,,,,,
+シース,F,502,1,d,リレイズ・ストライク,3,,attack,range_forward_combo,,,,,,効果がランダムに上昇
+,,,,d,,forward,,buff,self,asup,,,,,効果がランダムに上昇
+パルヴィ,M,333,1,,ビッグゲーム・ハント,1,,area,trap,add_push,,,,,
+,,,,,,forward,,area,trap,add_tumble,,,,,
+タルヴィ,M,334,1,,ドロップ・ハント,0,,attack,range_forward,add_curse,,,,,
+,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,
 # end,,,,,,,,,,,,,,,

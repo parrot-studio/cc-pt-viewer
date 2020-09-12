@@ -560,6 +560,7 @@ class AbilityEffect < ApplicationRecord
         with_k: '騎士がいる時',
         with_fk: '戦/騎がいる時',
         with_ka: '騎/弓がいる時',
+        with_slpu: '<<斬/拳>>がいる時',
         battle_start: '戦闘開始時',
         in_heroic: '援軍として参戦した時',
         targeted_self: '自身を選択中'
@@ -629,6 +630,9 @@ class AbilityEffect < ApplicationRecord
           include_self: '自身を含む'
         },
         with_ka: {
+          include_self: '自身を含む'
+        },
+        with_slpu: {
           include_self: '自身を含む'
         },
         battle_start: {
@@ -1928,6 +1932,8 @@ class AbilityEffect < ApplicationRecord
       sub_effect: {
         attack: {
           range_dash: '範囲・ダッシュ',
+          range_drop: '範囲・落下物',
+          range_random: '範囲・ランダム',
           range_random_blast: '範囲・ランダム/爆発',
           summon: '召喚'
         },
@@ -1944,7 +1950,8 @@ class AbilityEffect < ApplicationRecord
           night: '夜'
         },
         area: {
-          echo: '[領域] 反響'
+          echo: '[領域] 反響',
+          trap: '[設置] 罠'
         },
         enchant: {
           all: '全体'
