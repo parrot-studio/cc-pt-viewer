@@ -232,8 +232,9 @@ class SkillEffect < ApplicationRecord
         create_scrap: 'スクラップ生成',
         destroy_scrap: 'スクラップ破壊',
         super_skill: '超必殺技',
-        add_decisive_skill: '決戦必殺付与',
-        add_resurrection: '復活付与'
+        add_resurrection: '復活付与',
+        add_invincible: '無敵付与',
+        add_decisive_skill: '決戦必殺付与'
       }
     },
     barrier: {

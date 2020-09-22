@@ -233,6 +233,7 @@ class AbilityEffect < ApplicationRecord
         with_many_oasis: '所属：湖都が多いほど',
         with_many_forest: '所属：精霊島が多いほど',
         with_many_volcano: '所属：九領が多いほど',
+        with_many_chronicle: '所属：年代記が多いほど',
         with_many_others: '所属：旅人が多いほど',
         with_many_demons: '所属：魔神が多いほど',
         same_abilities: '同じアビリティを持った味方がいる時',
@@ -378,7 +379,13 @@ class AbilityEffect < ApplicationRecord
         with_many_forest: {
           include_self: '自身を含む'
         },
+        with_many_chronicle: {
+          include_self: '自身を含む'
+        },
         with_many_others: {
+          include_self: '自身を含む'
+        },
+        with_many_demons: {
           include_self: '自身を含む'
         },
         kill: {
