@@ -230,6 +230,7 @@ class AbilityEffect < ApplicationRecord
         with_many_guildtown: '所属：副都が多いほど',
         with_many_holytown: '所属：聖都が多いほど',
         with_many_academy: '所属：賢者の塔が多いほど',
+        with_many_mountain: '所属：迷宮山脈が多いほど',
         with_many_oasis: '所属：湖都が多いほど',
         with_many_forest: '所属：精霊島が多いほど',
         with_many_volcano: '所属：九領が多いほど',
@@ -371,6 +372,9 @@ class AbilityEffect < ApplicationRecord
           include_self: '自身を含む'
         },
         with_many_academy: {
+          include_self: '自身を含む'
+        },
+        with_many_mountain: {
           include_self: '自身を含む'
         },
         with_many_oasis: {
@@ -770,6 +774,7 @@ class AbilityEffect < ApplicationRecord
         with_kam: '騎/弓/魔がいる時',
         with_fkap: '戦/騎/弓/僧がいる時',
         with_kapm: '騎/弓/僧/魔がいる時',
+        with_chronicle: '所属：年代記がいる時',
         wave_start: '各WAVE開始時',
         in_sub: 'サブパーティーにいる時',
         own_skill: '自分が必殺技を使った時',
@@ -850,6 +855,7 @@ class AbilityEffect < ApplicationRecord
         job_kam: '騎/弓/魔',
         job_apm: '弓/僧/魔',
         job_fkap: '戦/騎/弓/僧',
+        job_fkpm: '戦/騎/僧/魔',
         job_kapm: '騎/弓/僧/魔'
       },
       sub_target: {
@@ -1017,6 +1023,7 @@ class AbilityEffect < ApplicationRecord
         with_a: '弓使いがいる時',
         with_m: '魔法使いがいる時',
         with_sl: '<<斬>>がいる時',
+        with_bl: '<<打>>がいる時',
         with_ar: '<<弓>>がいる時',
         with_ma: '<<魔>>がいる時',
         with_machine: '所属：鉄煙がいる時',

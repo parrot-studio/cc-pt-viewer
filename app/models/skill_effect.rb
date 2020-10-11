@@ -367,6 +367,7 @@ class SkillEffect < ApplicationRecord
         add_freeze: '凍結追加',
         add_poison: '毒追加',
         add_blind: '暗闇追加',
+        add_down: 'ダウン追加',
         shield_break: '盾破壊',
         super_skill: '超必殺技'
       }
