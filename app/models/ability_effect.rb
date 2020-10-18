@@ -306,7 +306,8 @@ class AbilityEffect < ApplicationRecord
           boost_on_debuff_enemy: '状態異常の敵がいると効果上昇',
           boost_on_mana: 'マナを持っていると効果上昇',
           boost_on_combo: '攻撃を一定回数当てると効果上昇',
-          boost_on_with_jobs: '特定の職がいると効果上昇'
+          boost_on_with_jobs: '特定の職がいると効果上昇',
+          boost_on_with_union: '特定の所属がいると効果上昇'
         },
         critical: {
           with_span: '連続では発動しない'
@@ -579,10 +580,12 @@ class AbilityEffect < ApplicationRecord
       sub_condition: {
         any: {
           boost_on_job_target: '対象が特定の職だと効果上昇',
-          boost_on_field: '特定のフィールドだと効果上昇'
+          boost_on_field: '特定のフィールドだと効果上昇',
+          boost_on_union: '対象が特定の所属だと効果上昇'
         },
         in_sub: {
           field: '特定のフィールド',
+          wave_start: '各WAVE開始時',
           boost_on_union: '対象が特定の所属だと効果上昇',
           boost_on_job_target: '対象が特定の職だと効果上昇'
         },
