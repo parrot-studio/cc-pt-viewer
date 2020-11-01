@@ -207,6 +207,7 @@ class Arcana < ApplicationRecord
     collaboration: {
       name: 'コラボ',
       details: {
+        ojisan: '異世界おじさん',
         sakurawar_new: '新サクラ大戦',
         sonic_movie: 'ソニック・ザ・ムービー',
         utaware_hakuoro: 'うたわれるもの・二人の白皇',
