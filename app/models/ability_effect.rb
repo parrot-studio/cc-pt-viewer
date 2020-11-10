@@ -306,6 +306,7 @@ class AbilityEffect < ApplicationRecord
           boost_on_debuff_enemy: '状態異常の敵がいると効果上昇',
           boost_on_mana: 'マナを持っていると効果上昇',
           boost_on_combo: '攻撃を一定回数当てると効果上昇',
+          boost_on_link: '複数で一緒に攻撃すると効果上昇',
           boost_on_with_jobs: '特定の職がいると効果上昇',
           boost_on_with_union: '特定の所属がいると効果上昇'
         },
@@ -512,6 +513,7 @@ class AbilityEffect < ApplicationRecord
         acrup: '攻撃力/クリティカル率/クリティカル威力上昇',
         adscup: '攻撃力/防御力/移動速度/クリティカル率上昇',
         adsrup: '攻撃力/防御力/移動速度/クリティカル威力上昇',
+        adscrup: '攻撃力/防御力/移動速度/クリティカル率/クリティカル威力上昇',
         barrier: 'バリアを張る',
         super_gauge_gain: '超必殺技ゲージ上昇',
         extend_chain: 'チェイン受け付け時間延長',
@@ -1348,7 +1350,8 @@ class AbilityEffect < ApplicationRecord
         attack: {
           boost_on_critical: 'クリティカルだと効果上昇',
           boost_on_skill: '必殺技だと効果上昇',
-          boost_on_sp_attack: 'クリティカルか必殺技だと効果上昇'
+          boost_on_sp_attack: 'クリティカルか必殺技だと効果上昇',
+          boost_on_link: '複数で一緒に攻撃すると効果上昇'
         },
         damaged: {
           with_span: '連続では発動しない'
