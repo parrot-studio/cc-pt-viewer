@@ -571,8 +571,10 @@ class AbilityEffect < ApplicationRecord
         kill_debuff: '状態異常の敵を倒した時',
         super_gauge_max: '超必殺技ゲージがMAXの時',
         from_sub: 'サブから戦場に移動したとき',
+        with_f: '戦士がいる時',
         with_k: '騎士がいる時',
         with_fk: '戦/騎がいる時',
+        with_fa: '戦/弓がいる時',
         with_ka: '騎/弓がいる時',
         with_slpu: '<<斬/拳>>がいる時',
         battle_start: '戦闘開始時',
@@ -642,7 +644,13 @@ class AbilityEffect < ApplicationRecord
         kill: {
           boost_on_debuff_enemy: '状態異常の敵がだと効果上昇'
         },
+        with_f: {
+          include_self: '自身を含む'
+        },
         with_fk: {
+          include_self: '自身を含む'
+        },
+        with_fa: {
           include_self: '自身を含む'
         },
         with_ka: {
