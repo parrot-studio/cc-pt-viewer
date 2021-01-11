@@ -111,6 +111,7 @@ export default class AppView extends React.Component<AppViewProps, AppViewState>
           appPath={this.props.appPath}
           mode={this.props.mode}
         />
+        {this.renderCloseInfoArea()}
         {this.renderErrorArea()}
         {this.renderWarning()}
         <div id="main-area" ref={(d) => { this.mainArea = d }}>
@@ -255,6 +256,20 @@ export default class AppView extends React.Component<AppViewProps, AppViewState>
               </p>
             </Alert>
           </div>
+        </div>
+      </div>
+    )
+  }
+
+  private renderCloseInfoArea(): JSX.Element {
+    return (
+      <div className="row">
+        <div className="col-xs-12 col-sm-12 col-md-12">
+          <Alert bsStyle="warning">
+            <p>
+              <strong>当サイトは2月末を目処に閉鎖予定です。</strong>長い間のご利用ありがとうございました。
+            </p>
+          </Alert>
         </div>
       </div>
     )
